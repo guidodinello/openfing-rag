@@ -1,0 +1,5561 @@
+WEBVTT
+
+00:00.000 --> 00:28.480
+Vamos a la clase de hoy. En la clase de hoy seguimos avanzando en nuestro análisis
+
+00:28.480 --> 00:57.560
+del texto. Acá se pasaba si se acuerdan. En la clase pasada hablamos de engramas.
+
+00:57.560 --> 01:10.680
+Fernando era tu nombre ¿verdad? Más uno. Tiene más uno de los que vinieron el otro día con la
+
+01:10.680 --> 01:21.760
+lluvia también. Hablamos de engramas que es el repaso rápidamente de que ustedes lo pueden
+
+01:21.760 --> 01:28.400
+ver en OpenFing los que nos vinieron. Cuando hablamos de engramas lo que tratamos de hacer es
+
+01:28.400 --> 01:34.080
+identificar la probabilidad de una oración. Eso es lo que se llama un modelo de lenguaje. Trato
+
+01:34.080 --> 01:42.400
+de asignarle una probabilidad de una oración con el objetivo de generalmente con el objetivo de
+
+01:42.400 --> 01:47.840
+utilizar eso en un contexto más amplio de análisis. Por dar un ejemplo, si yo tengo dos
+
+01:47.840 --> 02:08.520
+candidatos a traducción de una oración y mis dos candidatos son uno es este y el otro es este.
+
+02:10.720 --> 02:15.080
+Esto es muy común que surjan las traducciones porque el orden de la palabra entre idiomas
+
+02:15.800 --> 02:25.080
+realmente difiere. Yo puedo tener estos dos candidatos a traducción, pero seguramente esta
+
+02:25.080 --> 02:35.440
+oración tenga una probabilidad más alta que la segunda ¿de acuerdo? ¿Por qué? Porque nosotros nos
+
+02:35.440 --> 02:44.560
+decimos los comen perros huesos y entonces yo, si bien mi sugerencia por mi método de
+
+02:44.560 --> 02:50.120
+reconocimiento de traducción podría decir que la mejor candidata es esta, yo al combinarlo
+
+02:50.120 --> 02:57.320
+vía regla de valles como vimos la otra vez con la probabilidad de la oración puedo mejorar mi
+
+02:57.320 --> 03:03.120
+predicción. Entonces los modelos engramas esencialmente lo que tratan de hacer es eso,
+
+03:03.120 --> 03:12.000
+de calcular la probabilidad de una oración y para eso lo que hacen es basarse en las
+
+03:12.000 --> 03:16.800
+ocurrencias que hubo en un corpus y hablamos un poco de la que hace pasada de corpus, digamos,
+
+03:16.800 --> 03:24.080
+no decir yo tengo grandes cantidades de texto y quiero ver qué tan comunes decir comen perros y
+
+03:24.080 --> 03:30.280
+los perros ¿de acuerdo? Y a partir de la probabilidad, yo calculo la probabilidad de la primera,
+
+03:31.160 --> 03:37.720
+la probabilidad de la segunda, la primera, la probabilidad de la tercera dada, la primera y la
+
+03:37.720 --> 03:44.320
+segunda y así y voy calculando utilizando la regla de la cadena la probabilidad de toda la oración.
+
+03:44.320 --> 03:49.280
+Un poco eso de la idea de los engramas, la que hace pasada de lo que vimos fue cómo calcular
+
+03:49.280 --> 03:55.880
+todas estas probabilidades a partir de conteos de frecuencia de los corpus utilizando usualmente
+
+03:55.880 --> 04:03.400
+principio de máxima verosimilitud. Bueno, en la clase de hoy vamos a pasar a algo un poquito más,
+
+04:04.400 --> 04:08.800
+vamos a agregar un poco más de análisis. ¿Cómo hago para chicar esto?
+
+04:13.200 --> 04:17.680
+Vamos a hablar de una siguiente tarea, vamos a enriquecer un poco más el texto. Hasta ahora
+
+04:17.680 --> 04:23.440
+nosotros no habíamos agregado información adicional en el texto, es decir, teníamos todo
+
+04:23.440 --> 04:31.920
+el texto, lo que hicimos separarlo por oraciones, separar las palabras. Sí, claro, cuando hicimos
+
+04:31.960 --> 04:35.720
+análisis morfológico le dimos una estructura a cada palabra, ahí sí se puede decir que hay,
+
+04:35.720 --> 04:42.120
+hay una, pero no a nivel de todo el texto, es decir, nosotros empezamos ahora a subir nuestro
+
+04:42.120 --> 04:48.800
+nivel de análisis y agregar más información. Y una de las primeras tareas medio cantadas para
+
+04:48.800 --> 04:57.600
+hacer es la de análisis léxico. La análisis léxico consiste esencialmente en, se acuerdan
+
+04:57.600 --> 05:03.960
+la categoría gramatical de las palabras, que una palabra es un subactivo, un determinante,
+
+05:03.960 --> 05:11.480
+un adjetivo o lo que sea. Bueno, el proceso de asignarle a una palabra su,
+
+05:16.040 --> 05:23.520
+lo que se llama part of speech, esto, se le llama también, nosotros le llamamos
+
+05:23.520 --> 05:33.200
+categoría gramatical pero es muy usual llamarlas así, post tag. Sí, post tag es la marca de part
+
+05:33.200 --> 05:50.160
+of speech de una, de una palabra. Sí, los perros comen huesos. ¿De acuerdo?
+
+05:50.160 --> 05:56.720
+Esa marca es la categoría gramatical principal. ¿Por qué nos interesa? Ahora vamos a ver
+
+05:56.720 --> 06:12.960
+por qué nos interesa. Sí, eso es un poco la idea de, lo que hablábamos recién. ¿De acuerdo? Bueno,
+
+06:12.960 --> 06:17.480
+¿y cómo podemos, cómo podemos automatizar esta tarea? ¿Cómo se les ocurre enfrentar esta tarea
+
+06:17.480 --> 06:24.000
+a ustedes? Yo tengo un texto y quiero asignarle una categoría gramatical. ¿Qué, qué es lo que
+
+06:24.000 --> 06:34.800
+haríamos? ¿Qué tenemos que empezar por hacer? Identificar una serie de categorías que existen.
+
+06:34.800 --> 06:43.440
+Eso no es trivial. Cada vez que se ponen a discutir eso hay mil teorías diferentes,
+
+06:43.600 --> 06:48.400
+teorías lingüísticas diferentes, sobre todo cuando vamos a afinando, pues está claro que es un
+
+06:48.400 --> 06:52.600
+sustantivo, no sé qué, pero cuando uno empieza a hablar del qué y del rol que cumple el qué hay
+
+06:52.600 --> 06:58.400
+como ocho qué diferentes y no sé qué. Porque cumplen diferentes roles y no sé qué y no se ponen
+
+06:58.400 --> 07:02.760
+de acuerdo de los lingüístas sobre qué. Al final, lo informático lo terminamos poniendo qué,
+
+07:02.760 --> 07:08.280
+barra qué. O sea, le ponemos una categoría gramatical propia y otra cosa. No sé si es lo más serio,
+
+07:08.280 --> 07:18.840
+pero tal. Este, porque, porque no es lo mismo el qué de, porque bueno,
+
+07:18.840 --> 07:22.720
+además que tiene tilde ese qué, o sea que es otro qué, el qué sin tilde, el qué sin.
+
+07:24.720 --> 07:34.040
+Además, el quiero qué me digas es un qué y dijo qué y ahí introduce una oración subordinada,
+
+07:34.040 --> 07:40.000
+dijo qué iba a ir otro lado, es otro qué, me importa, me importa. Cuestión qué, hay que definir
+
+07:40.000 --> 07:51.800
+un conjunto de tas, ¿de acuerdo? Y luego, por ejemplo, ¿cómo?
+
+07:55.800 --> 08:00.240
+Tengo que tener un diccionario, esencialmente, ¿no? Decisionario es una cosa que tenemos en general.
+
+08:00.240 --> 08:08.560
+También, claro, el que no, tenemos nuestro problema de morfología, supongamos que nos
+
+08:08.560 --> 08:12.840
+queda aunque sabemos el lema. Pero además, ¿qué otro problema tenemos?
+
+08:16.720 --> 08:17.520
+Justo ahí,
+
+08:20.640 --> 08:28.160
+justo ahí no tengo grandes problemas. Pero si por ejemplo aparece Banco,
+
+08:29.160 --> 08:35.800
+¿qué pasa con Banco? Puede ser un sustantivo, un verbo, ¿no? Banco de sentarse, no te banco.
+
+08:37.040 --> 08:43.240
+Las palabras son ambigüas, y las que son ambigüas son las que nos traen nuestro problema,
+
+08:43.240 --> 08:46.400
+porque sino nosotros simplemente buscaríamos la palabra en un diccionario y le ponemos
+
+08:46.400 --> 08:50.560
+a un categoría otra cosa más hipos. El gran problema que surge, como en todas las tareas,
+
+08:50.560 --> 08:56.480
+de la cual en la primera clase, es que tenemos ambigüedad. ¿Y cómo podríamos llegar a resolver
+
+08:56.480 --> 09:07.760
+esa ambigüedad? ¿Cómo se les ocurre que yo pueda saber si estoy hablando de Banco con...
+
+09:10.160 --> 09:11.520
+Tengo borrador.
+
+09:11.520 --> 09:21.360
+Pero si tienes un borrador, ya caes en los patológicos.
+
+09:23.360 --> 09:27.920
+Pero borrador, borrador ahí nos salió, ¿no?
+
+09:28.880 --> 09:43.200
+Ah, sí, y había marca Breta, ¿eh? En serio, ella trae. Bueno, ¿y cómo sabemos lo de qué pasa con Banco?
+
+09:45.440 --> 09:51.280
+El contexto. ¿Qué es el contexto? ¿Qué es el contexto? ¿Contesto? ¿Tienes a lo que es contexto?
+
+09:52.240 --> 09:58.400
+Las palabras que rodean a la palabra, a mi palabra, el contexto son las palabras que están antes o después,
+
+09:58.400 --> 10:16.880
+es decir, el contexto, ¿sí? Entonces, yo sé que si dice antes, T, esto que probablemente que es un verbo, ¿por qué?
+
+10:21.280 --> 10:23.280
+Porque sí.
+
+10:31.280 --> 10:33.280
+¿Por qué te...?
+
+10:36.480 --> 10:39.280
+Sí. Sí.
+
+10:40.480 --> 10:43.840
+Pero ¿por qué este tema dice que esto es un verbo?
+
+10:44.240 --> 10:56.400
+Puede haber dos respuestas. Una es porque si nosotros logramos armar la estructura de cómo hablamos cuando yo digo T, que me refiero a vos,
+
+10:56.400 --> 11:10.400
+no sé qué es este, este que es un clítico. Cuando hay un clítico antes, el verbo que viene, el verbo asociado a eso, asociado a eso tiene que haber un verbo, quiero decir.
+
+11:11.360 --> 11:18.160
+Esta es una explicación de si logra armar la estructura, pero además porque usualmente, la clase pasada ya lo vimos con los enegramas,
+
+11:18.160 --> 11:28.400
+porque usualmente o ha ocurrido que en los corpus que yo miré todas las veces que aparecía T y después banco,
+
+11:28.400 --> 11:39.360
+o muchas veces o muy frecuentemente sucedía que este banco era un verbo, o sea, yo aprendo de corpus anotados, ¿sí?
+
+11:40.320 --> 11:50.320
+No sé por qué sucede bien, pero de hecho sucede mucho, entonces yo digo, bueno, entonces este verbo, este debe ser un verbo porque este T,
+
+11:50.320 --> 11:59.360
+porque hay un T antes, ¿de acuerdo? No es mayor misterio en esto y los métodos que vamos a ver de análisis se basan en eso justamente,
+
+11:59.360 --> 12:07.360
+en deducir a partir del contexto cuál es la categoría, levantar la ambigüedad. ¿Sí?
+
+12:09.360 --> 12:16.360
+Pero podemos creer más información además, esto es el análisis del gato como he pescado hecho con Freelink, ¿sí?
+
+12:16.360 --> 12:30.360
+Y acá Freelink cuando analiza un texto nos devuelve, no sólo el lema de la palabra, esto se llama en etiquetas Eagle,
+
+12:31.360 --> 12:45.360
+que es un formato para justamente anotar part of pitch, pero no sólo part of pitch, sino agregarle nuevos atributos.
+
+12:45.360 --> 12:55.360
+Acá es un determinante, está, si no me equivoco, quiere decir que es un artículo, pero además es masculino y singular.
+
+12:56.360 --> 13:04.360
+Las marcas que van apareciendo dependen de la primera, o sea, gato es un nombre común, masculino y singular, y los otros tres pasiones los uso.
+
+13:04.360 --> 13:15.360
+Y así yo lo voy especificando, ¿de acuerdo? Comer es un verbo masculino e imperativo, ¿sí?
+
+13:15.360 --> 13:30.360
+No, no, género, no, es masculino, verbo, no sé qué es esta M, no, pues esta M tiene que decir algo.
+
+13:30.360 --> 13:35.360
+Bueno, revisen después la etiqueta Eagle, podemos buscarla si quieren acá.
+
+13:36.360 --> 13:41.360
+No, no, tercera persona en singular, presente tercera persona en singular.
+
+13:43.360 --> 13:49.360
+Y este es el come de la orden, el imperativo, la M creo que es imperativo y este es indicativo, si no me equivoco.
+
+13:53.360 --> 13:56.360
+No, pero no sé, porque estamos hablando de come, ¿no? Come es el lema.
+
+13:57.360 --> 14:05.360
+Esto es indicativo, esta M no me acuerdo, ¿verdad? Pero, digamos, uno tiene una codificación que le asocia.
+
+14:05.360 --> 14:11.360
+Se imaginarán que es mucho más difícil anotar un corp, solo el postal, que toda la...
+
+14:11.360 --> 14:15.360
+Necesito mayor cantidad de información, pero los principios son más o menos los mismos.
+
+14:15.360 --> 14:23.360
+Le decía, acá yo lo que estoy haciendo es al mismo tiempo, part of the, part of the time y análisis morfológico, ¿de acuerdo?
+
+14:24.360 --> 14:30.360
+Justamente en el laboratorio, una de las cosas que van a tener que hacer es correr este análisis y mapearlo a las otras fituras, a las universales.
+
+14:30.360 --> 14:41.360
+Las universales, part of the time, son justamente el intento, porque hay casi tanto formato como gente que se puso a hacer herramientas.
+
+14:41.360 --> 14:47.360
+La historia del pensamiento en el hogar natural está en una etapa en la que están convergiendo cosas, digamos.
+
+14:47.360 --> 14:54.360
+Cómo ocurre casi toda la disciplina. Se abrieron muchas, pues ya hay cada uno hacía su codificación de cómo codificar un texto, cómo codificar un...
+
+14:54.360 --> 14:58.360
+Porque hasta ahora veníamos lindos, separación en palabra, todo bien.
+
+14:58.360 --> 15:07.360
+Si bien cada uno podía toquenizar un poquito diferente, ya cuando empezaban a ponerle las marcas, como no hay un criterio estándar,
+
+15:07.360 --> 15:16.360
+y más, yo estoy seguro que muchos lingüistas deben estar en desacuerdo con el universal part of pitch,
+
+15:16.360 --> 15:24.360
+porque está restringiendo la junto categoría y claramente hay cosas que no va a resolver, digamos.
+
+15:24.360 --> 15:30.360
+Es una solución más computacional que otra cosa, para poder decir, bueno, pues yo tengo que anotar mucho texto y tengo que tener un criterio, ¿se entiende?
+
+15:33.360 --> 15:35.360
+Y este es un signo de computación.
+
+15:35.360 --> 15:42.360
+Como ven acá, lo que sucedió fue que acá no sólo me dio el análisis, sino que me dio las candidatas.
+
+15:42.360 --> 15:45.360
+Y no me está diciendo acá...
+
+15:48.360 --> 15:54.360
+Me está asignando una probabilidad, o sea, me está dando una distribución. No me está diciendo cuál de la dos más probable.
+
+15:55.360 --> 16:05.360
+Bueno, sumamos por orden bien acá arriba, pero... porque yo acá podría tener muchas combinaciones, ¿no?
+
+16:08.360 --> 16:15.360
+Y guarda, y acá me parece muy importante, el hecho de que ésta sea más probable que ésta,
+
+16:15.360 --> 16:23.360
+que esto sea un 0.75, tengo miedo de estar diciendo algo mal porque depende cómo esté hecho el análisis, ¿no?
+
+16:23.360 --> 16:32.360
+Este 0.75 hay que ver si se corresponde a... seguramente se corresponde a la probabilidad en este lugar, ¿tá?
+
+16:32.360 --> 16:41.360
+Pero yo... o sea, que si yo pusiera acá la probabilidad de que sea esta excepción versus ésta, en general,
+
+16:41.360 --> 16:46.360
+no me sirve de mucho la probabilidad, porque cuando aparece en este contexto debería ser esta probabilidad.
+
+16:46.360 --> 16:48.360
+Y eso yo tengo que tenerlo en cuenta.
+
+16:48.360 --> 16:54.360
+Cuando yo hago partos pitagin, a mí lo que me interesa es conocer la probabilidad,
+
+16:54.360 --> 16:59.360
+la asignación de tags con mayor probabilidad para toda la oración.
+
+16:59.360 --> 17:02.360
+Creo que me enredé un poco en decirlo, pero el concepto es éste.
+
+17:02.360 --> 17:07.360
+Yo no me interesa solamente cuál es la excepción más probable para cada palabra,
+
+17:07.360 --> 17:13.360
+sino que yo necesito tener una visión global de la oración. ¿Se entiende?
+
+17:13.360 --> 17:18.360
+Por eso es un problema de clasificación secuencial.
+
+17:18.360 --> 17:20.360
+Eso es lo que se llama un problema de clasificación secuencial.
+
+17:20.360 --> 17:26.360
+Un problema de clasificación, la clase que viene lo vamos a ver, es yo tomo un objeto,
+
+17:26.360 --> 17:29.360
+para el caso una palabra, y le asigno una categoría.
+
+17:29.360 --> 17:33.360
+Es un problema de clasificación. Tengo un conjunto de categorías discreto y le tengo que poner uno.
+
+17:33.360 --> 17:37.360
+O hacer una distribución de probabilidad entre las categorías que existen.
+
+17:37.360 --> 17:45.360
+En un problema de clasificación secuencial, yo tengo que asignarle una asignación
+
+17:45.360 --> 17:48.360
+de categorías que maximice la probabilidad de toda la oración.
+
+17:48.360 --> 17:51.360
+Eso es un problema de clasificación secuencial, que es lo que vamos a ver ahora.
+
+17:51.360 --> 17:56.360
+El problema de análisis léxico es un problema de clasificación secuencial. ¿De acuerdo?
+
+18:00.360 --> 18:03.360
+Bueno, un poco ya hemos mencionado algunos, pero tenemos, ¿no?
+
+18:03.360 --> 18:08.360
+Acá tenemos bajo, que es un verbo, con el nombre bajo, que es un adjetivo,
+
+18:08.360 --> 18:13.360
+a tocar el bajo, que es un nombre, y bajo la escalera, este bajo es una preposición.
+
+18:14.360 --> 18:17.360
+El señor mesa se mesa la barra al lado de la mesa.
+
+18:19.360 --> 18:24.360
+Fíjese que este mesa es un nombre propio y este mesa es un nombre común.
+
+18:25.360 --> 18:31.360
+Dejan la barra la barra de pan. Acá barra y barra estos dos son sustantivos.
+
+18:32.360 --> 18:36.360
+Aunque tienen diferentes significados, desde el punto de vista de la análisis léxico es lo mismo.
+
+18:36.360 --> 18:39.360
+La distinción se da a un nivel posterior, a un nivel semántico.
+
+18:40.360 --> 18:46.360
+Para que el mozo barra, este barra no, porque este barra es este, es un verbo.
+
+18:48.360 --> 18:52.360
+Y acá, este es interesante porque y es una conjunción,
+
+18:53.360 --> 18:58.360
+pero acá funciona todo dentro de un nombre propio.
+
+18:58.360 --> 19:04.360
+Es decir, acá hay que identificar toda la entidad con nombre red, es decir, el rol es diferente.
+
+19:10.360 --> 19:15.360
+¿Por qué nos puede interesar hacer análisis léxico?
+
+19:15.360 --> 19:19.360
+Bueno, el ejemplo más obvio es para poder seguir analizando después.
+
+19:19.360 --> 19:23.360
+Si yo quiero armar la estructura de una oración, necesito saber las categorías,
+
+19:23.360 --> 19:27.360
+porque hay cosas que no se combinan con otras en el análisis sintáctico.
+
+19:28.360 --> 19:32.360
+Vamos a ver, cuando veamos análisis sintáctico, que yo, para armar la estructura de una oración,
+
+19:32.360 --> 19:35.360
+me baso en las clases de las palabras, más que las palabras en sí.
+
+19:37.360 --> 19:43.360
+Quiero decir, uno, cuando dice el perro, ese perro, puede ir cualquier nombre,
+
+19:43.360 --> 19:49.360
+pero no puede ir un verbo, el saltar, el salta.
+
+19:51.360 --> 19:55.360
+También hay algunas motivaciones adicionales que en español no pasa,
+
+19:55.360 --> 20:02.360
+pero en inglés sí, por ejemplo, hay palabras que se pronuncian diferente según su categoría.
+
+20:02.360 --> 20:09.360
+Discount, cuando funciona como sustantivo, discount, cuando funciona como un verbo.
+
+20:09.360 --> 20:15.360
+O object, objeto, object de objetar.
+
+20:15.360 --> 20:20.360
+La pronunciación es diferente, eso por supuesto en el español no se da.
+
+20:21.360 --> 20:25.360
+También, claro, hacer lematización, que ya vimos un poco cuando yo quiero recuperar algo,
+
+20:25.360 --> 20:28.360
+me quedo con el lema.
+
+20:28.360 --> 20:32.360
+Y si yo estoy haciendo, por ejemplo, resumen automático,
+
+20:32.360 --> 20:36.360
+un texto puede interesarme, ponderar más, por decir algo,
+
+20:36.360 --> 20:42.360
+los párrafos que incluyan más sustantivos o verbos o así, explico.
+
+20:42.360 --> 20:46.360
+Es decir, quiero destacar las partes del texto que tiene más contenido,
+
+20:46.360 --> 20:49.360
+entonces quiero saber dónde están los verbos y dónde están los sustantivos.
+
+20:49.360 --> 20:52.360
+Nunca funciona, pero igual.
+
+20:55.360 --> 20:59.360
+Bueno, también, por supuesto, para estudiar fenómenos lingüísticos.
+
+20:59.360 --> 21:04.360
+Es decir, ¿qué pasa? ¿cuántas veces en el español aparece un nombre propio?
+
+21:04.360 --> 21:07.360
+Entre dos.
+
+21:07.360 --> 21:11.360
+Dos nombres propios separados por una I, para alguien que está estudiando los fenómenos.
+
+21:11.360 --> 21:17.360
+Hay un... los invito a pasar después por acá, el Corpudo del Español, el Punto Org,
+
+21:17.360 --> 21:22.360
+se puede hacer este tipo de consultas, se puede consultar este tipo de ocurrencias
+
+21:22.360 --> 21:26.360
+para ver cómo funciona y te las muestra en un contexto.
+
+21:26.360 --> 21:30.360
+Entonces lo pruebo acá porque la interfaz es tan rara que se nunca logra solo andar bien,
+
+21:30.360 --> 21:34.360
+pero un poco de esfuerzo uno lo hace y muestra el contexto en el que aparece,
+
+21:34.360 --> 21:39.360
+entonces nos permite estudiar ese fenómeno, lo que se llama estudio de corpo.
+
+21:40.360 --> 21:47.360
+Por ejemplo, acá había una prueba que era formas del verbo servir, más una preposición.
+
+21:47.360 --> 21:52.360
+Acá siempre uno cuando habla de un corpo acuerden sí tiene que aclarar de qué corpo está hablando,
+
+21:52.360 --> 21:54.360
+una breve descripción del corpus.
+
+21:54.360 --> 22:00.360
+No es lo mismo un corpus de sentencia que un corpus de texto periodístico del siglo XX.
+
+22:00.360 --> 22:07.360
+Bueno, ahí tenemos 387 ocurrencias de servir de, servía de tren de aterrizaje,
+
+22:07.360 --> 22:15.360
+servir para, servía para transformar, servir a, servir en, servir con, servir con el red y tal, ¿no?
+
+22:17.360 --> 22:19.360
+Y bueno, y esta es la gran motivación.
+
+22:19.360 --> 22:25.360
+Allá en el Camino Perú, en el Camino Perú, en el Camino Perú,
+
+22:26.360 --> 22:28.360
+y bueno, y esta es la gran motivación.
+
+22:28.360 --> 22:31.360
+Allá en el Camino para poder hacer un análisis sintáctico.
+
+22:35.360 --> 22:37.360
+Bueno, el etiquetado eléxico es eso que está ahí.
+
+22:37.360 --> 22:42.360
+Yo tengo un texto, ahora lo vemos desde el punto de vista de la tarea computación, ¿no?
+
+22:42.360 --> 22:47.360
+Yo tengo un texto, tengo el conjunto de etiquetas y devuelvo el texto etiquetado.
+
+22:48.360 --> 22:53.360
+Recordamos algunas de las principales categorías gramaticales que ustedes vieron en la segunda clase.
+
+22:55.360 --> 22:59.360
+¿Sí? Terminantes, preposiciones, etcétera, etcétera.
+
+23:01.360 --> 23:04.360
+Ustedes ya lo vieron en la clase, no me voy a comentar mucho.
+
+23:04.360 --> 23:07.360
+Y él muestra unas cuantas categorías que están ahí.
+
+23:07.360 --> 23:11.360
+Como le decía, siempre hay mucha discusión entre cuáles son las categorías postas.
+
+23:11.360 --> 23:15.360
+Esencialmente no hay categorías postas. Depende un poco de la teoría.
+
+23:15.360 --> 23:20.360
+Porque, por ejemplo, no está bien claro que la cifra tenga que ser una categoría.
+
+23:20.360 --> 23:22.360
+O las fechas y las obras.
+
+23:22.360 --> 23:27.360
+Pero también tenerlas todas por separado parece ser un problema, digamos, no para el análisis.
+
+23:29.360 --> 23:32.360
+Como le decía, a veces acá tenemos más preguntas que respuestas.
+
+23:32.360 --> 23:35.360
+De eso se trata la investigación.
+
+23:35.360 --> 23:37.360
+Bueno, esas son las categorías IGEL.
+
+23:37.360 --> 23:40.360
+Como yo le decía, esto es un poco las que vimos en Freelance, ¿no?
+
+23:40.360 --> 23:43.360
+Lo primero es el postag, la categoría.
+
+23:43.360 --> 23:46.360
+Y dependiendo de lo que haya acá, lo que hay después.
+
+23:47.360 --> 23:52.360
+Por ejemplo, para nombres tenemos común y propio, género, masculino, femenino.
+
+23:52.360 --> 23:56.360
+O común, número singular, plural o invariable.
+
+23:56.360 --> 23:59.360
+La clasificación semántida que no se usa.
+
+23:59.360 --> 24:02.360
+Y el grado apreciativo que no tengo en la menor idea de lo que es.
+
+24:06.360 --> 24:07.360
+Pueden averiguarlo.
+
+24:07.360 --> 24:10.360
+Otro corpus es el famoso Brown.
+
+24:10.360 --> 24:13.360
+El corpus Brown es el primer corpus anotado en inglés.
+
+24:13.360 --> 24:15.360
+Es un corpus de un millón de palabras.
+
+24:15.360 --> 24:19.360
+Y mal no recuerdo que tiene diferentes formas de anotar.
+
+24:19.360 --> 24:22.360
+Completamente diferentes.
+
+24:22.360 --> 24:24.360
+¿Sí?
+
+24:24.360 --> 24:28.360
+Si se fijan acá, tiene, por ejemplo, marcados con diferentes talos,
+
+24:28.360 --> 24:32.360
+a los verbos según el tiempo que fue expresado.
+
+24:36.360 --> 24:38.360
+¿Por qué me interesa tener estos corpus a mí?
+
+24:38.360 --> 24:40.360
+¿Por qué me interesa tener corpus anotado?
+
+24:42.360 --> 24:44.360
+¿Para qué quiero tener corpus anotado?
+
+24:44.360 --> 24:46.360
+Por el aspecto vaso.
+
+24:46.360 --> 24:48.360
+Por el aspecto vaso.
+
+24:48.360 --> 24:50.360
+Por el aspecto vaso.
+
+24:50.360 --> 24:52.360
+¿Para qué quiero tener corpus anotado?
+
+24:52.360 --> 24:54.360
+Por el aspecto vaso.
+
+24:56.360 --> 24:57.360
+Es muy importante, ¿no?
+
+24:57.360 --> 25:00.360
+Yo tengo corpus anotado porque la forma que tengo de contar,
+
+25:00.360 --> 25:02.360
+todo lo que aprendo, lo aprendo del corpus.
+
+25:06.360 --> 25:08.360
+Es un esfuerzo, digamos,
+
+25:10.360 --> 25:15.360
+ahora con todo el humo que hay con la inteligencia artificial,
+
+25:15.360 --> 25:17.360
+la prensa automática, todas esas cosas,
+
+25:18.360 --> 25:22.360
+a veces se transmite la idea como que yo tengo grandes volúmenes de datos
+
+25:22.360 --> 25:25.360
+y con eso estoy cambiando el mundo,
+
+25:25.360 --> 25:26.360
+y en realidad no es tan así,
+
+25:26.360 --> 25:29.360
+yo necesito grandes volúmenes de datos anotados.
+
+25:29.360 --> 25:31.360
+Y la parte de grandes volúmenes,
+
+25:31.360 --> 25:33.360
+cuando vienen los de anotados ya se relativizan.
+
+25:33.360 --> 25:36.360
+Me sigue mi compañero y festejaba que tenía 2.000 tweets anotados,
+
+25:38.360 --> 25:40.360
+y hoy todo el mundo habla de millones y dos millones,
+
+25:40.360 --> 25:45.360
+pero no es que haya mucha gente que tenga 100.000 tweets anotados,
+
+25:45.360 --> 25:50.360
+porque 100.000 quiere decir 100.000 personas mirando el tweet
+
+25:50.360 --> 25:52.360
+y anotando esto,
+
+25:52.360 --> 25:56.360
+esto tiene tal aspecto que quiero estudiar,
+
+25:58.360 --> 26:03.360
+y no siempre la tarea de anotación del cuerpo es una tarea muy costosa, típicamente,
+
+26:03.360 --> 26:07.360
+porque imagínense que ustedes tienen que elegir entre todas estas categorías
+
+26:07.360 --> 26:09.360
+para ponerla a cada palabra,
+
+26:09.360 --> 26:11.360
+y con perro es fácil,
+
+26:11.360 --> 26:13.360
+pero con que ella se complica
+
+26:13.360 --> 26:16.360
+y se empiezan a generar discusión y que los criterios,
+
+26:16.360 --> 26:20.360
+cuando el proceso de anotar un cuerpo es todo un proceso muy interesante,
+
+26:20.360 --> 26:22.360
+porque generalmente, por ejemplo, para anotar el cuerpo,
+
+26:22.360 --> 26:25.360
+por lo menos se utilizan dos anotadores,
+
+26:25.360 --> 26:28.360
+para ver qué tan de acuerdo se ponen entre ellos,
+
+26:28.360 --> 26:31.360
+y cuando entramos a,
+
+26:31.360 --> 26:34.360
+por ejemplo, por el rol que cumple una palabra,
+
+26:34.360 --> 26:36.360
+entonces generalmente cuando se anota un cuerpo,
+
+26:36.360 --> 26:39.360
+lo que se hace es que se definen los criterios de anotación,
+
+26:39.360 --> 26:41.360
+y se, bueno, vamos a anotar de esta forma, de esta forma,
+
+26:41.360 --> 26:44.360
+esta forma, en tal caso vamos a tomarte el criterio,
+
+26:44.360 --> 26:46.360
+y se lo da por lo menos a dos anotadores,
+
+26:46.360 --> 26:49.360
+que son expertos en el tema,
+
+26:49.360 --> 26:52.360
+o sea que esencialmente cobran bastante bien, digamos,
+
+26:52.360 --> 26:54.360
+porque es una tarea muy difícil,
+
+26:54.360 --> 26:59.360
+y luego se comparan sus resultados,
+
+26:59.360 --> 27:05.360
+y se llega a un valor que es lo que se llama el interanoteitor agreement,
+
+27:05.360 --> 27:10.360
+que es, a ver, si dos seres humanos se pusieron en el cuerpo en el 95% de los tags,
+
+27:10.360 --> 27:14.360
+un método que llegue al 98% sí para nada,
+
+27:14.360 --> 27:21.360
+está claro, porque está haciendo algo mejor que la mejor anotación,
+
+27:21.360 --> 27:23.360
+¿se entiende?
+
+27:23.360 --> 27:25.360
+va a estar de acuerdo con uno, porque yo, a ver,
+
+27:25.360 --> 27:27.360
+cuando tengo los dos anotadores,
+
+27:27.360 --> 27:30.360
+yo al final tengo que llegar a un gol de estándares,
+
+27:30.360 --> 27:32.360
+llegar a una definición, pero,
+
+27:32.360 --> 27:35.360
+esa definición a veces puede ser un poco forzada, digamos,
+
+27:35.360 --> 27:39.360
+porque tengo que elegir entre uno de los dos, ¿se entiende?
+
+27:39.360 --> 27:42.360
+ese interanoteitor agreement es un valor que es muy interesante,
+
+27:42.360 --> 27:44.360
+porque nos da un techo para lo que los métodos hacen,
+
+27:44.360 --> 27:48.360
+entonces cualquier método que diga que está arriba del interanoteitor agreement,
+
+27:48.360 --> 27:52.360
+en realidad es muy relativo su utilidad, ¿de acuerdo?
+
+27:52.360 --> 27:55.360
+porque no hay un gol de estándar contra el cual comparar,
+
+27:55.360 --> 27:57.360
+todos los métodos y todas las evaluaciones que hacemos,
+
+27:57.360 --> 27:59.360
+la clase de clasificación lo vamos a ver también,
+
+27:59.360 --> 28:01.360
+todos los cosas que nosotros hacemos,
+
+28:01.360 --> 28:03.360
+las evaluamos contra un cuerpo anotado,
+
+28:03.360 --> 28:05.360
+que nos sirve de referencia,
+
+28:05.360 --> 28:13.360
+y esa medida va a depender mucho de ese gol de estándar,
+
+28:13.360 --> 28:17.360
+asumiendo que ese gol de estándar siempre está bien,
+
+28:17.360 --> 28:20.360
+por eso, al armar el cuerpo de gol de estándar,
+
+28:20.360 --> 28:22.360
+el cuerpo donde voy a evaluar,
+
+28:22.360 --> 28:24.360
+tengo que ser muy cuidadoso,
+
+28:24.360 --> 28:27.360
+no puede ser un cuerpo anotado automáticamente, juzgamente,
+
+28:27.360 --> 28:29.360
+tiene que ser hecho a mano,
+
+28:29.360 --> 28:31.360
+tiene que haber un ser humano que diga,
+
+28:31.360 --> 28:33.360
+esto vale tanto,
+
+28:33.360 --> 28:36.360
+me parece muy interesante,
+
+28:36.360 --> 28:40.360
+y que hace tiempo que vengo proponiendo sin éxito,
+
+28:40.360 --> 28:43.360
+una tesis anotada al respecto,
+
+28:43.360 --> 28:45.360
+sin éxito porque no tengo alumno,
+
+28:45.360 --> 28:52.360
+este es todos los procesos que nosotros conocemos de evaluación,
+
+28:52.360 --> 28:55.360
+asumen que el estándar es fijo,
+
+28:55.360 --> 29:02.360
+es decir, que hay una verdadera categoría para esta palabra,
+
+29:03.360 --> 29:10.360
+que acá yo puedo equivocarme en ponerle nombre a gato,
+
+29:10.360 --> 29:14.360
+pero que de última sé lo que el algoritmo tiene que darme,
+
+29:14.360 --> 29:17.360
+ahora hay casos donde eso no es tan claro,
+
+29:17.360 --> 29:20.360
+porque, por ejemplo, si yo tengo un tuit
+
+29:20.360 --> 29:25.360
+y quiero decir si es gracioso o no,
+
+29:25.360 --> 29:27.360
+es una opinión subjetiva,
+
+29:27.360 --> 29:30.360
+entonces, yo puedo hacer un corpus,
+
+29:30.360 --> 29:32.360
+donde diga, bueno,
+
+29:32.360 --> 29:35.360
+la mayoría de las personas dijeron que era gracioso,
+
+29:35.360 --> 29:37.360
+entonces, por lo tanto, lo declaro como gracioso,
+
+29:37.360 --> 29:40.360
+y un algoritmo que dice que no es gracioso se equivoca,
+
+29:40.360 --> 29:42.360
+o en realidad, de alguna forma,
+
+29:42.360 --> 29:46.360
+tendría que incorporar en el corpus esa distribución,
+
+29:46.360 --> 29:49.360
+eso no he visto que esté hecho,
+
+29:49.360 --> 29:51.360
+para mí hay un campo de investigación ahí,
+
+29:51.360 --> 29:53.360
+perdón, me debió un poco,
+
+29:53.360 --> 29:58.360
+cuestión que teníamos, ya no sé qué estaba hablando,
+
+29:58.360 --> 30:00.360
+ah, las categorías del corpus gran,
+
+30:00.360 --> 30:02.360
+y esto es nuevo,
+
+30:02.360 --> 30:05.360
+esto es nuevo, lo agregué para este año,
+
+30:05.360 --> 30:07.360
+porque me pareció muy interesante,
+
+30:07.360 --> 30:11.360
+hay un proyecto que se llama Dependencias Universales,
+
+30:11.360 --> 30:13.360
+que es ese que hoy les mostré allá encima,
+
+30:13.360 --> 30:15.360
+en el tema del laboratorio,
+
+30:15.360 --> 30:18.360
+que lo que trata de hacer es tener un formato consistente
+
+30:18.360 --> 30:20.360
+para anotación de tribancas,
+
+30:20.360 --> 30:22.360
+los tribancas son cosas que tienen anotados
+
+30:22.360 --> 30:24.360
+los partos hospitales y más cosas,
+
+30:24.360 --> 30:27.360
+información sintáctica y tal,
+
+30:27.360 --> 30:31.360
+pero lo que busca es tener una forma de anotar
+
+30:31.360 --> 30:34.360
+que sea universal, que pueda atravesar los idiomas,
+
+30:34.360 --> 30:36.360
+con todo lo que tengan en común,
+
+30:36.360 --> 30:39.360
+y dejando las especificidades de cada idioma
+
+30:39.360 --> 30:42.360
+para el costado, digamos, en un campo específico,
+
+30:42.360 --> 30:43.360
+¿de acuerdo?
+
+30:43.360 --> 30:45.360
+Este proyecto está avanzando mucho,
+
+30:45.360 --> 30:47.360
+está basado en las dependencias
+
+30:47.360 --> 30:49.360
+que se definieron en Stanford
+
+30:49.360 --> 30:51.360
+y una propuesta de postage universal
+
+30:51.360 --> 30:53.360
+que Google había hecho en un momento,
+
+30:53.360 --> 30:56.360
+pero es un proyecto de colaboración abierta,
+
+30:56.360 --> 30:59.360
+porque hay gente muy pesada, digamos,
+
+30:59.360 --> 31:04.360
+que ha trabajado mucho en el parcing de dependencias,
+
+31:04.360 --> 31:06.360
+yo creo que va a andar bien
+
+31:06.360 --> 31:08.360
+y por eso les estamos pidiendo que transformen
+
+31:08.360 --> 31:10.360
+eso en el formato este.
+
+31:12.360 --> 31:15.360
+En los postage tienen ciertas etiquetas universales de postage,
+
+31:15.360 --> 31:17.360
+son muy sencillas, son muy poquitas,
+
+31:17.360 --> 31:21.360
+fíjense que tiene una posición muy conservadora,
+
+31:21.360 --> 31:23.360
+no se pone muy...
+
+31:24.360 --> 31:26.360
+Esto va a abrir el...
+
+31:29.360 --> 31:32.360
+Ven, acá tienen unas poquitas categorías,
+
+31:32.360 --> 31:35.360
+clases abiertas, ¿acuerdan lo que era clases abiertas
+
+31:35.360 --> 31:37.360
+y cerradas de palabras no abiertas?
+
+31:37.360 --> 31:40.360
+Son las que admiten nuevos elementos
+
+31:40.360 --> 31:43.360
+y las cerradas son como las preposiciones,
+
+31:43.360 --> 31:45.360
+por ejemplo, que son fijas.
+
+31:47.360 --> 31:49.360
+O sea, tratan de humildemente
+
+31:49.360 --> 31:52.360
+poner una notación muy básica,
+
+31:54.360 --> 31:58.360
+pero que pueda servir para generar intercambio
+
+31:58.360 --> 32:01.360
+entre diferentes investigadores, digamos.
+
+32:04.360 --> 32:06.360
+Y luego tienen otras características
+
+32:06.360 --> 32:08.360
+que son características universales,
+
+32:08.360 --> 32:11.360
+como género, número, forma verbal
+
+32:11.360 --> 32:14.360
+y algunas específicas para algunos idiomas
+
+32:14.360 --> 32:16.360
+que solo aparecen en algunos idiomas.
+
+32:17.360 --> 32:21.360
+Fenómenos lingüísticos que no se enganen en todos los idiomas.
+
+32:21.360 --> 32:26.360
+Bueno, para realizar este análisis eléxico,
+
+32:26.360 --> 32:29.360
+nosotros tenemos dos categorías principales.
+
+32:29.360 --> 32:32.360
+Una es, como casi todas estas cosas que hemos estado hablando,
+
+32:32.360 --> 32:34.360
+una es un enfoque por relas,
+
+32:36.360 --> 32:39.360
+que es la aproximación más clásica,
+
+32:39.360 --> 32:42.360
+que es, bueno, esto que decíamos hoy,
+
+32:42.360 --> 32:44.360
+después de alguien se pone a estudiar
+
+32:44.360 --> 32:47.360
+y dice, bueno, si aparece T banco,
+
+32:48.360 --> 32:51.360
+entonces banco, toda la palabra banco
+
+32:51.360 --> 32:53.360
+que aparezca después de T
+
+32:53.360 --> 32:56.360
+es un verbo, regla número 1.
+
+33:05.360 --> 33:07.360
+Se robó un banco.
+
+33:11.360 --> 33:13.360
+Este banco aparece después de un,
+
+33:13.360 --> 33:16.360
+entonces yo lo voy a notar como un nombre.
+
+33:18.360 --> 33:19.360
+Sí.
+
+33:22.360 --> 33:27.360
+Pero acá yo digo no banco a
+
+33:27.360 --> 33:28.360
+Juan.
+
+33:30.360 --> 33:35.360
+Y acá no banco a,
+
+33:35.360 --> 33:37.360
+a mí me gusta más el contexto de la derecha.
+
+33:37.360 --> 33:41.360
+Bueno, todo esto y casos más complicados pueden haber.
+
+33:41.360 --> 33:43.360
+Por supuesto, si uno se pone a mirar los corpos,
+
+33:43.360 --> 33:45.360
+entonces lo que hace es
+
+33:46.360 --> 33:49.360
+empieza a mirar todas las posibilidades que hay,
+
+33:49.360 --> 33:51.360
+trabaja durante años
+
+33:51.360 --> 33:53.360
+y genera una lista de reglas
+
+33:53.360 --> 33:55.360
+para este,
+
+33:56.360 --> 33:57.360
+desamiguar.
+
+33:57.360 --> 33:58.360
+Es el enfoque tradicional,
+
+33:58.360 --> 34:00.360
+es muy, muy costoso,
+
+34:00.360 --> 34:02.360
+porque necesito lingüistas estudiando,
+
+34:04.360 --> 34:05.360
+pero este aquí,
+
+34:05.360 --> 34:07.360
+que este tipo de métodos
+
+34:10.360 --> 34:12.360
+funciona muy bien en esta tarea
+
+34:12.360 --> 34:14.360
+y por acá
+
+34:16.360 --> 34:20.360
+no lo tengo notado a,
+
+34:20.360 --> 34:21.360
+pero hay un,
+
+34:21.360 --> 34:22.360
+un, un tagger en inglés
+
+34:22.360 --> 34:24.360
+que utiliza este tipo métodos,
+
+34:24.360 --> 34:25.360
+ahora lo vamos a ver
+
+34:25.360 --> 34:28.360
+y que llega a un 99,5% de accuracy.
+
+34:28.360 --> 34:30.360
+Es decir, que etiqueta muy bien.
+
+34:30.360 --> 34:32.360
+Es una tarea que con mucho trabajo
+
+34:32.360 --> 34:33.360
+y muchas reglas
+
+34:33.360 --> 34:35.360
+se puede resolver así.
+
+34:38.360 --> 34:39.360
+La otra aproximación,
+
+34:39.360 --> 34:41.360
+ahora vamos a dar los detalles,
+
+34:41.360 --> 34:42.360
+pero la otra aproximación
+
+34:42.360 --> 34:44.360
+es el enfoque estadístico.
+
+34:44.360 --> 34:46.360
+Bueno, a partir de los grandes corpos
+
+34:46.360 --> 34:47.360
+que tenemos,
+
+34:48.360 --> 34:49.360
+grandes entre comillas,
+
+34:49.360 --> 34:50.360
+son corpos anotados,
+
+34:50.360 --> 34:51.360
+no es que tenemos
+
+34:51.360 --> 34:53.360
+miles de millones de palabras, no?
+
+34:56.360 --> 34:58.360
+Entreno modelos a partir de grandes,
+
+34:58.360 --> 34:59.360
+grandes corpos.
+
+35:02.360 --> 35:04.360
+Y estimó la probabilidad
+
+35:04.360 --> 35:05.360
+de la palabra,
+
+35:05.360 --> 35:07.360
+de la categoría según el contexto.
+
+35:07.360 --> 35:09.360
+Y también hay enfoques híbridos
+
+35:09.360 --> 35:11.360
+que son, por ejemplo,
+
+35:11.360 --> 35:12.360
+el tagger de Bril,
+
+35:12.360 --> 35:14.360
+que lo vamos a ver un poquito después.
+
+35:17.360 --> 35:18.360
+Como acá hemos
+
+35:18.360 --> 35:20.360
+virado para lo estadístico,
+
+35:20.360 --> 35:22.360
+veí rápidamente por el tema de los derrelas,
+
+35:22.360 --> 35:24.360
+pero esencialmente en los años 60
+
+35:24.360 --> 35:26.360
+el análisis léxico se empieza haciendo así,
+
+35:29.360 --> 35:30.360
+una arquitectura de dos capas.
+
+35:30.360 --> 35:32.360
+Le asignó categorías potenciales
+
+35:32.360 --> 35:33.360
+a partir de un diccionario.
+
+35:33.360 --> 35:34.360
+Es decir, qué cosas puede tener.
+
+35:34.360 --> 35:35.360
+Esto es lo primero que toca hacer.
+
+35:35.360 --> 35:37.360
+Era lo que hablamos al principio de la clase, no?
+
+35:37.360 --> 35:39.360
+Banco puede ser o un verbo o un nombre.
+
+35:39.360 --> 35:41.360
+No puede ser una preposición.
+
+35:42.360 --> 35:44.360
+Porque no está en la lista de preposición.
+
+35:44.360 --> 35:46.360
+Si fuera bajo, sí.
+
+35:46.360 --> 35:48.360
+Y el acabado se utiliza reglas
+
+35:48.360 --> 35:50.360
+de desambiguación
+
+35:50.360 --> 35:51.360
+para eliminar categorías.
+
+35:51.360 --> 35:53.360
+Es lo que nos imaginaríamos,
+
+35:53.360 --> 35:55.360
+que haríamos de análisis, no?
+
+35:57.360 --> 35:58.360
+Por ejemplo,
+
+36:00.360 --> 36:02.360
+en Siji Tiger,
+
+36:03.360 --> 36:04.360
+que hace una cosa así,
+
+36:07.360 --> 36:09.360
+para cada palabra,
+
+36:10.360 --> 36:12.360
+le asignan partos pitch y alguna cosa adicional.
+
+36:16.360 --> 36:17.360
+No, miento.
+
+36:17.360 --> 36:19.360
+Esto es el lexicón.
+
+36:20.360 --> 36:22.360
+Tiene 56.000 palabras,
+
+36:23.360 --> 36:25.360
+con morfología a dos niveles,
+
+36:25.360 --> 36:28.360
+como vimos en la clase de morfología,
+
+36:30.360 --> 36:33.360
+con un postag y además
+
+36:33.360 --> 36:36.360
+con ciertas características lingüísticas.
+
+36:40.360 --> 36:41.360
+Por ejemplo,
+
+36:41.360 --> 36:43.360
+all es un determinante,
+
+36:43.360 --> 36:45.360
+pero además es un cuantificador.
+
+36:45.360 --> 36:48.360
+Algo que es un predeterminador,
+
+36:48.360 --> 36:50.360
+que yo no sé lo que es, etcétera, no?
+
+36:52.360 --> 36:54.360
+Reglas hechas a mano.
+
+36:54.360 --> 36:55.360
+Esto está hecho a mano.
+
+36:56.360 --> 36:57.360
+Entonces,
+
+36:59.360 --> 37:01.360
+yo tengo la grabación Pablo,
+
+37:01.360 --> 37:03.360
+John Dutt, Salivation,
+
+37:03.360 --> 37:05.360
+y tengo todas las categorías posibles.
+
+37:05.360 --> 37:07.360
+Tengo Pablo,
+
+37:07.360 --> 37:09.360
+que es un hombre singular propio,
+
+37:09.360 --> 37:10.360
+Jav,
+
+37:10.360 --> 37:12.360
+que tiene dos posibilidades.
+
+37:14.360 --> 37:15.360
+Jav, perdón.
+
+37:16.360 --> 37:17.360
+John, Dutt,
+
+37:17.360 --> 37:18.360
+y Dutt, que tiene cuatro.
+
+37:19.360 --> 37:20.360
+Dutt es complicado.
+
+37:20.360 --> 37:21.360
+Dutt es qué?
+
+37:22.360 --> 37:23.360
+Tiene cuatro candidaturas, no?
+
+37:23.360 --> 37:25.360
+Entonces, yo tengo que desambiguar
+
+37:27.360 --> 37:29.360
+en esta oración lo que pasa.
+
+37:29.360 --> 37:30.360
+¿Y cómo desambigúo?
+
+37:30.360 --> 37:31.360
+Uo.
+
+37:31.360 --> 37:32.360
+Diguo.
+
+37:33.360 --> 37:34.360
+Con reglas.
+
+37:34.360 --> 37:38.360
+3.744 reglas para quitar las etiquetas incorrectas.
+
+37:38.360 --> 37:40.360
+Un laburo de la hostia, no?
+
+37:40.360 --> 37:41.360
+Porque digamos,
+
+37:41.360 --> 37:43.360
+cada regla puede romper otra, además, no?
+
+37:43.360 --> 37:45.360
+Porque la regla es lo que dice,
+
+37:45.360 --> 37:47.360
+bueno, Dutt, que tengo Dutt,
+
+37:47.360 --> 37:49.360
+si la siguiente palabra es un adjetivo,
+
+37:49.360 --> 37:51.360
+un adverbio, un cuantificador,
+
+37:56.360 --> 37:59.360
+elimino los que no sean adverbios.
+
+37:59.360 --> 38:01.360
+O sea, lo estoy calificando como adverbio.
+
+38:01.360 --> 38:04.360
+O, y además, no, perdón,
+
+38:04.360 --> 38:06.360
+si la siguiente palabra y la demás
+
+38:06.360 --> 38:08.360
+aparecen al final de una oración,
+
+38:09.360 --> 38:11.360
+y la palabra siguiente no es un,
+
+38:11.360 --> 38:13.360
+anterior no es un verbo,
+
+38:13.360 --> 38:16.360
+como consider que permite adjetivo.
+
+38:18.360 --> 38:21.360
+Esto es un lenguaje para especificar este tipo de reglas.
+
+38:21.360 --> 38:23.360
+Entonces, eliminarlo y dejarlo como adverbio.
+
+38:24.360 --> 38:25.360
+¿Se entiende?
+
+38:26.360 --> 38:27.360
+Son reglas.
+
+38:27.360 --> 38:29.360
+Mucho trabajo, pero con buenos resultados.
+
+38:30.360 --> 38:32.360
+Generalmente, lo que sucede con los métodos de regla,
+
+38:32.360 --> 38:34.360
+lo que han demostrado los métodos de regla,
+
+38:34.360 --> 38:35.360
+es que vos,
+
+38:37.360 --> 38:39.360
+tu accuracy, que es la,
+
+38:39.360 --> 38:41.360
+se acuerdan, no sé si lo hablamos,
+
+38:41.360 --> 38:43.360
+pero la accuracy es la capacidad de clasificar bien
+
+38:43.360 --> 38:45.360
+en un problema de clasificación,
+
+38:45.360 --> 38:47.360
+de si en que hay, cuántas clasifico bien.
+
+38:48.360 --> 38:50.360
+La accuracy va creciendo,
+
+38:52.360 --> 38:54.360
+con el método va mejorando,
+
+38:54.360 --> 38:56.360
+pero sigan a un techo.
+
+38:57.360 --> 39:00.360
+Crece rápidamente, pero crea un techo.
+
+39:00.360 --> 39:02.360
+Los métodos de aprendizaje automático general,
+
+39:02.360 --> 39:04.360
+o general no,
+
+39:04.360 --> 39:06.360
+pueden crecer más despacio,
+
+39:06.360 --> 39:10.360
+pero tienen más alto el, el, el techo.
+
+39:12.360 --> 39:13.360
+Sí, y lo que ha pasado últimamente,
+
+39:13.360 --> 39:16.360
+es que las redes neuronales son un poquito más altos.
+
+39:17.360 --> 39:19.360
+Entonces, estos pasaron los últimos cinco años,
+
+39:19.360 --> 39:20.360
+últimos cinco.
+
+39:20.360 --> 39:25.360
+Yo, yo vi,
+
+39:25.360 --> 39:26.360
+una de las señales de que,
+
+39:26.360 --> 39:27.360
+de que esto progresa,
+
+39:27.360 --> 39:28.360
+o de que yo estoy viejo,
+
+39:28.360 --> 39:29.360
+una de las dos,
+
+39:29.360 --> 39:31.360
+es que yo vi este fenómeno,
+
+39:31.360 --> 39:33.360
+los métodos que estaban por regla,
+
+39:33.360 --> 39:35.360
+cómo los métodos de aprendizaje automáticos,
+
+39:35.360 --> 39:38.360
+tomaron el estado del arte en diferentes tareas,
+
+39:38.360 --> 39:40.360
+y ahora estamos viendo
+
+39:40.360 --> 39:43.360
+cómo los métodos del redes neuronales
+
+39:43.360 --> 39:45.360
+de deep learning están superando los.
+
+39:45.360 --> 39:47.360
+Es más,
+
+39:47.360 --> 39:48.360
+recuerdo que,
+
+39:48.360 --> 39:50.360
+cuando se hacía el chiste de bueno,
+
+39:50.360 --> 39:51.360
+a ver,
+
+39:51.360 --> 39:53.360
+vamos a, vamos a hacer que las conferencias
+
+39:53.360 --> 39:54.360
+dejen de ser,
+
+39:54.360 --> 39:56.360
+miren este, miren esta tarea
+
+39:56.360 --> 39:57.360
+que antes se resolvía con regla,
+
+39:57.360 --> 39:59.360
+cómo la resolvo con aprendizaje automático,
+
+39:59.360 --> 40:01.360
+y, y me mejoró.
+
+40:01.360 --> 40:02.360
+Y ahora el chiste,
+
+40:02.360 --> 40:03.360
+bueno, vamos a dejar de,
+
+40:03.360 --> 40:05.360
+ah, miren esta tarea que antes la resolvía bien
+
+40:05.360 --> 40:06.360
+con aprendizaje automático,
+
+40:06.360 --> 40:07.360
+la resolvo con deep learning,
+
+40:07.360 --> 40:08.360
+y también mejoró,
+
+40:08.360 --> 40:10.360
+aplicando los mismos métodos.
+
+40:10.360 --> 40:12.360
+Estamos viviendo este momento.
+
+40:14.360 --> 40:15.360
+Pero,
+
+40:15.360 --> 40:16.360
+esencialmente,
+
+40:16.360 --> 40:18.360
+la información de base
+
+40:18.360 --> 40:20.360
+de la que se prende la misma.
+
+40:20.360 --> 40:21.360
+Bueno,
+
+40:21.360 --> 40:22.360
+la otra alternativa,
+
+40:22.360 --> 40:23.360
+¿Cómo estamos ahora?
+
+40:23.360 --> 40:24.360
+¿Qué hora es?
+
+40:24.360 --> 40:26.360
+No hay cinco.
+
+40:26.360 --> 40:27.360
+No hay cinco,
+
+40:27.360 --> 40:28.360
+está muy bien.
+
+40:28.360 --> 40:30.360
+La otra alternativa,
+
+40:30.360 --> 40:32.360
+es,
+
+40:32.360 --> 40:34.360
+hacer part hospital
+
+40:34.360 --> 40:36.360
+con un modelo de clasificación secuencial.
+
+40:36.360 --> 40:38.360
+¿Tá?
+
+40:38.360 --> 40:40.360
+El modelo de clasificación secuencial
+
+40:40.360 --> 40:42.360
+en el que vamos a poner énfasis,
+
+40:42.360 --> 40:44.360
+y que vamos a presentar acá,
+
+40:44.360 --> 40:46.360
+los Hiedemarco Models.
+
+40:46.360 --> 40:47.360
+¿Tá?
+
+40:49.360 --> 40:51.360
+Hoy en día,
+
+40:54.360 --> 40:55.360
+los Hiedemarco Models
+
+40:55.360 --> 40:57.360
+no son el método más
+
+40:57.360 --> 40:59.360
+utilizado
+
+40:59.360 --> 41:02.360
+para las tareas de clasificación secuencial.
+
+41:03.360 --> 41:05.360
+Los Hiedemarco Models
+
+41:07.360 --> 41:09.360
+nacieron en los años 60,
+
+41:10.360 --> 41:12.360
+tomaron fuerza en los años 90,
+
+41:12.360 --> 41:14.360
+son un modelo de clasificación secuencial.
+
+41:14.360 --> 41:16.360
+En la primera década del siglo XXI,
+
+41:16.360 --> 41:18.360
+fueron sustituidos,
+
+41:18.360 --> 41:20.360
+estoy hablando en general,
+
+41:20.360 --> 41:22.360
+por métodos
+
+41:22.360 --> 41:24.360
+que se basan en otros
+
+41:24.360 --> 41:25.360
+principios,
+
+41:25.360 --> 41:27.360
+que son discriminativos y no generativos,
+
+41:27.360 --> 41:29.360
+capaz que en un par de clases lo vemos,
+
+41:29.360 --> 41:31.360
+y ahora están
+
+41:31.360 --> 41:33.360
+de moda las redes neuronales,
+
+41:33.360 --> 41:35.360
+pero me parece que son muy interesantes,
+
+41:35.360 --> 41:37.360
+porque muestra,
+
+41:37.360 --> 41:39.360
+permiten ver el problema
+
+41:39.360 --> 41:41.360
+que estamos resolviendo,
+
+41:41.360 --> 41:43.360
+y una forma de aproximarse a él.
+
+41:43.360 --> 41:45.360
+Y realmente funciona bastante bien,
+
+41:45.360 --> 41:47.360
+digamos, además, ¿no?
+
+41:48.360 --> 41:50.360
+Entonces, por eso,
+
+41:50.360 --> 41:51.360
+me parece que es muy interesante,
+
+41:51.360 --> 41:53.360
+ah, y además se aplican a una cantidad de problemas.
+
+41:53.360 --> 41:55.360
+Son un modelo.
+
+41:55.360 --> 41:57.360
+En particular,
+
+41:57.360 --> 41:59.360
+los otros los hemos ver aplicados al Parto Hospital.
+
+42:01.360 --> 42:03.360
+Entonces,
+
+42:03.360 --> 42:05.360
+los modelos de Marco, de estados ocultos,
+
+42:05.360 --> 42:07.360
+son un caso particular
+
+42:07.360 --> 42:09.360
+de la inferencia vallesiana, de la inferencia que vimos,
+
+42:09.360 --> 42:11.360
+se acuerdan cuando hablamos de la clasificación de errores,
+
+42:11.360 --> 42:13.360
+que vimos de cómo clasificar una palabra,
+
+42:13.360 --> 42:15.360
+cómo buscar la candidata
+
+42:15.360 --> 42:17.360
+y la regla de valles y demás.
+
+42:17.360 --> 42:19.360
+Bueno, esto es,
+
+42:19.360 --> 42:21.360
+los modelos de Marco, de estados ocultos,
+
+42:21.360 --> 42:23.360
+son como una versión
+
+42:23.360 --> 42:25.360
+secuencial
+
+42:25.360 --> 42:27.360
+donde aplicamos la regla de valles.
+
+42:30.360 --> 42:32.360
+Lo que decíamos hoy,
+
+42:32.360 --> 42:35.360
+el post-haggin se puede ver como una tarea de clasificación de secuencias,
+
+42:35.360 --> 42:37.360
+dado una secuencia de palabra,
+
+42:37.360 --> 42:39.360
+una secuencia apropiada de categorías gramaticales.
+
+42:39.360 --> 42:41.360
+Para toda la secuencia.
+
+42:41.360 --> 42:43.360
+No solo para cada palabra.
+
+42:43.360 --> 42:45.360
+No es que yo clasifico la primera, la segunda,
+
+42:45.360 --> 42:47.360
+sino clasifico toda a la vez.
+
+42:47.360 --> 42:49.360
+Eso es un problema de clasificación secuencial.
+
+42:49.360 --> 42:51.360
+Un problema de clasificaciones,
+
+42:51.360 --> 42:53.360
+dado una observación, se intenta terminar
+
+42:53.360 --> 42:55.360
+a cuál conjunto de clases pertenece.
+
+42:55.360 --> 42:57.360
+No.
+
+42:57.360 --> 42:59.360
+¿A cuál clase de un conjunto pertenece?
+
+42:59.360 --> 43:01.360
+¿Tá?
+
+43:01.360 --> 43:03.360
+Un problema de clasificaciones,
+
+43:03.360 --> 43:05.360
+es un problema de que tengo un conjunto discreto de valores
+
+43:05.360 --> 43:07.360
+y un objeto a la que le quiero asignar una categoría.
+
+43:07.360 --> 43:09.360
+Eso se llama clasificación.
+
+43:15.360 --> 43:17.360
+¿De acuerdo?
+
+43:19.360 --> 43:21.360
+Si yo aquí veo un animal
+
+43:21.360 --> 43:23.360
+y me dan la cantidad de patas que tiene
+
+43:23.360 --> 43:25.360
+o la foto
+
+43:25.360 --> 43:27.360
+si quieren hacer lo más complicado,
+
+43:27.360 --> 43:29.360
+yo tengo que decidir si es un perro, un gato,
+
+43:29.360 --> 43:31.360
+un camecho, un león.
+
+43:31.360 --> 43:33.360
+Eso es un problema de clasificación.
+
+43:34.360 --> 43:36.360
+Si yo quiero saber cuánto me puede ese animal,
+
+43:36.360 --> 43:39.360
+cuánto lo puedo llegar a vender en el mercado libre,
+
+43:39.360 --> 43:41.360
+eso es un problema de regresión,
+
+43:41.360 --> 43:43.360
+porque lo estoy asignando una,
+
+43:43.360 --> 43:45.360
+un valor real, la veo contigo.
+
+43:45.360 --> 43:47.360
+¿De acuerdo?
+
+43:47.360 --> 43:49.360
+Acá, en el negocio, en el pensamiento y en el juego natural,
+
+43:49.360 --> 43:51.360
+típicamente se habla de problemas de clasificación.
+
+43:51.360 --> 43:53.360
+Nosotros hemos visto una cantidad de problemas ya de clasificación.
+
+43:53.360 --> 43:55.360
+Por ejemplo, el primero que vimos
+
+43:55.360 --> 43:57.360
+fue el de la separación de oraciones,
+
+43:57.360 --> 43:59.360
+que esencialmente consiste en clasificar
+
+43:59.360 --> 44:01.360
+cada punto en punto final
+
+44:01.360 --> 44:03.360
+o otra cosa.
+
+44:09.360 --> 44:11.360
+Por ejemplo,
+
+44:11.360 --> 44:13.360
+voy a usar este ejemplo del libro,
+
+44:13.360 --> 44:15.360
+cada año me propongo
+
+44:15.360 --> 44:17.360
+hacer la versión español, pero nunca...
+
+44:19.360 --> 44:21.360
+Yo tengo este ejemplo, ¿no?
+
+44:27.360 --> 44:29.360
+Secretariat
+
+44:29.360 --> 44:31.360
+que es un caballo.
+
+44:33.360 --> 44:35.360
+Se espera que corra mañana.
+
+44:37.360 --> 44:39.360
+Y yo tengo que asignarle
+
+44:39.360 --> 44:41.360
+su parto espiritual.
+
+44:41.360 --> 44:43.360
+¿Verdad?
+
+44:43.360 --> 44:45.360
+Una nueva versión simplificada,
+
+44:45.360 --> 44:47.360
+tenemos las categorías que son poquitas
+
+44:47.360 --> 44:49.360
+y solo los post-arts.
+
+44:51.360 --> 44:53.360
+La idea cuál es,
+
+44:53.360 --> 44:55.360
+bueno, de todas las posibles
+
+44:55.360 --> 44:57.360
+secuencias de etiqueta que tengo,
+
+44:59.360 --> 45:01.360
+dijo la secuencia de etiqueta que es la más probable
+
+45:01.360 --> 45:03.360
+para la secuencia de observación
+
+45:03.360 --> 45:05.360
+de las n palabras.
+
+45:05.360 --> 45:07.360
+¿De acuerdo?
+
+45:09.360 --> 45:11.360
+¿Cómo puedo hacer eso yo pensando
+
+45:11.360 --> 45:13.360
+lo de pensando como en la clase pasada?
+
+45:15.360 --> 45:17.360
+¿Cómo podría llegar a hacer eso yo?
+
+45:25.360 --> 45:27.360
+¿Cómo se le ocurre que pueda hacer eso?
+
+45:29.360 --> 45:31.360
+¿Cómo?
+
+45:35.360 --> 45:37.360
+Contando, ¿no?
+
+45:37.360 --> 45:39.360
+Cuento todas las veces que apareció de una forma
+
+45:39.360 --> 45:41.360
+y cual todas las veces que apareció
+
+45:41.360 --> 45:43.360
+de la otra
+
+45:43.360 --> 45:45.360
+y me quedo con la más común.
+
+45:47.360 --> 45:49.360
+¿Qué problema tiene eso?
+
+45:53.360 --> 45:55.360
+No, pero yo digo toda la oración.
+
+45:55.360 --> 45:57.360
+¿Qué problema tiene eso?
+
+45:57.360 --> 45:59.360
+Tiene dos problemas.
+
+45:59.360 --> 46:01.360
+Tirando a imposible, ¿no?
+
+46:01.360 --> 46:03.360
+Es poco probable que esto haya aparecido
+
+46:03.360 --> 46:05.360
+ya en el cuerpo antes
+
+46:05.360 --> 46:07.360
+y se apareció una vez,
+
+46:07.360 --> 46:09.360
+no suficientemente cantidad de veces
+
+46:09.360 --> 46:11.360
+que va a pastimar su probabilidad.
+
+46:11.360 --> 46:13.360
+Problema número 1.
+
+46:15.360 --> 46:17.360
+Problema número 2, no me acuerdo cuál.
+
+46:19.360 --> 46:21.360
+Este, me olvidé cuál era la otra
+
+46:21.360 --> 46:23.360
+característica que iba a mencionar,
+
+46:23.360 --> 46:25.360
+no importa, ya me voy a acordar.
+
+46:25.360 --> 46:27.360
+El problema es que no tengo forma
+
+46:27.360 --> 46:29.360
+de estimar así contando
+
+46:33.360 --> 46:35.360
+Entonces,
+
+46:35.360 --> 46:37.360
+pero observemos
+
+46:37.360 --> 46:39.360
+que lo que nosotros tenemos es una secuencia
+
+46:39.360 --> 46:41.360
+de palabras.
+
+46:43.360 --> 46:45.360
+Y queremos saber
+
+46:45.360 --> 46:47.360
+sus ciertos tags.
+
+46:49.360 --> 46:51.360
+¿De acuerdo?
+
+46:55.360 --> 46:57.360
+Esencialmente, en nosotros,
+
+46:57.360 --> 46:59.360
+lo que queremos es esto.
+
+46:59.360 --> 47:01.360
+Una estimación
+
+47:03.360 --> 47:05.360
+de alguna forma
+
+47:07.360 --> 47:09.360
+de la probabilidad
+
+47:09.360 --> 47:11.360
+de la secuencia,
+
+47:11.360 --> 47:13.360
+este 1 a la n
+
+47:13.360 --> 47:15.360
+dado que tengo las palabras.
+
+47:15.360 --> 47:17.360
+¿De acuerdo?
+
+47:17.360 --> 47:19.360
+Esto, si les parece parecido
+
+47:19.360 --> 47:21.360
+a lo que vimos para la...
+
+47:21.360 --> 47:23.360
+para el candidato
+
+47:23.360 --> 47:25.360
+a mejores palabras
+
+47:25.360 --> 47:27.360
+para la corrección, es porque es lo mismo.
+
+47:27.360 --> 47:29.360
+Esencialmente, es lo mismo una más consecuencia.
+
+47:29.360 --> 47:31.360
+Yo tengo una secuencia de palabras
+
+47:31.360 --> 47:33.360
+y quiero
+
+47:33.360 --> 47:35.360
+el argumento
+
+47:35.360 --> 47:37.360
+que maximiza
+
+47:37.360 --> 47:39.360
+esta probabilidad.
+
+47:39.360 --> 47:41.360
+¿De acuerdo?
+
+47:41.360 --> 47:43.360
+Yo quiero
+
+47:43.360 --> 47:45.360
+no la probabilidad de esto, sino la que maximiza
+
+47:45.360 --> 47:47.360
+esa probabilidad.
+
+47:47.360 --> 47:49.360
+Esencialmente acá,
+
+47:49.360 --> 47:51.360
+en este ejemplo nuestro
+
+47:51.360 --> 47:53.360
+si se fijan,
+
+47:53.360 --> 47:55.360
+sólo tengo 2...
+
+47:55.360 --> 47:57.360
+Ah, ese era el otro problema.
+
+47:57.360 --> 47:59.360
+Que en este ejemplo, yo sólo tengo 2 posibilidades.
+
+47:59.360 --> 48:01.360
+Porque estas no son ambigüas,
+
+48:01.360 --> 48:03.360
+según mi dicionario.
+
+48:03.360 --> 48:05.360
+La unidad de esa ambigüa es RACE
+
+48:05.360 --> 48:07.360
+que puede ser un verbo o un nombre.
+
+48:09.360 --> 48:11.360
+RACE, la carrera
+
+48:11.360 --> 48:13.360
+y RACE correr.
+
+48:13.360 --> 48:15.360
+Entonces, yo sólo tengo 2 secuencias.
+
+48:15.360 --> 48:17.360
+El otro problema que yo les digo hoy es que además
+
+48:17.360 --> 48:19.360
+la combinación de palabras
+
+48:19.360 --> 48:21.360
+de categorías explota.
+
+48:21.360 --> 48:23.360
+Para oraciones muy largas
+
+48:23.360 --> 48:25.360
+tengo muchísimas combinaciones
+
+48:25.360 --> 48:27.360
+porque yo acá tengo 2, pero la otra porque son los 1.
+
+48:27.360 --> 48:29.360
+Donde se empiecen a multiplicar
+
+48:29.360 --> 48:31.360
+tengo N1 por N2 por N3 por N4
+
+48:31.360 --> 48:33.360
+según la cantidad de categorías que tenga cada palabra.
+
+48:33.360 --> 48:35.360
+O sea que tampoco puedo
+
+48:35.360 --> 48:37.360
+si quiera probarlas todas.
+
+48:37.360 --> 48:39.360
+Cuanto menos contar.
+
+48:39.360 --> 48:41.360
+Poder podría, pero sería
+
+48:41.360 --> 48:43.360
+computacionalmente muy costoso.
+
+48:43.360 --> 48:45.360
+Podría probar todas las combinaciones, generarlas
+
+48:45.360 --> 48:47.360
+y contar en cada uno.
+
+48:53.360 --> 48:55.360
+Dijimos, esa es nuestra tarea.
+
+48:55.360 --> 48:57.360
+Nosotros queremos la secuencia
+
+48:57.360 --> 48:59.360
+de TAQ que maximice esa probabilidad.
+
+49:05.360 --> 49:07.360
+Bueno, pero como computo
+
+49:07.360 --> 49:09.360
+esta fórmula?
+
+49:09.360 --> 49:11.360
+Si les parece que ya lo vieron es porque ya lo vieron.
+
+49:11.360 --> 49:13.360
+Lo vimos para clasificación.
+
+49:13.360 --> 49:15.360
+Aplico la regla de valles
+
+49:15.360 --> 49:17.360
+para llevarlo a otras probabilidades
+
+49:17.360 --> 49:19.360
+que son más fáciles de computar.
+
+49:19.360 --> 49:21.360
+Entonces, damos vuelta
+
+49:21.360 --> 49:23.360
+la fórmula
+
+49:23.360 --> 49:25.360
+y como nos va a quedar?
+
+49:25.360 --> 49:27.360
+Nos va a quedar
+
+49:27.360 --> 49:29.360
+la probabilidad
+
+49:29.360 --> 49:31.360
+de la secuencia
+
+49:31.360 --> 49:33.360
+de TAQs dada la secuencia
+
+49:33.360 --> 49:35.360
+de palabras
+
+49:35.360 --> 49:37.360
+es igual a la probabilidad
+
+49:37.360 --> 49:39.360
+de la secuencia de palabras
+
+49:39.360 --> 49:41.360
+dada la secuencia
+
+49:41.360 --> 49:43.360
+de TAQs
+
+49:43.360 --> 49:45.360
+por la probabilidad de la secuencia de TAQs
+
+49:45.360 --> 49:47.360
+dividida la secuencia de palabras.
+
+49:49.360 --> 49:51.360
+Y fíjense
+
+49:51.360 --> 49:53.360
+que lo que me queda acá es
+
+49:57.360 --> 49:59.360
+Parece como un problema más complicado todavía
+
+49:59.360 --> 50:01.360
+porque es
+
+50:01.360 --> 50:03.360
+dada una secuencia de TAQs
+
+50:03.360 --> 50:05.360
+¿Qué tan probable es
+
+50:05.360 --> 50:07.360
+que esos TAQs sean esas palabras?
+
+50:07.360 --> 50:09.360
+¿Qué tan probable son que esos TAQs
+
+50:09.360 --> 50:11.360
+sean las palabras?
+
+50:11.360 --> 50:13.360
+¿De acuerdo?
+
+50:13.360 --> 50:15.360
+O sea, de todas las veces
+
+50:15.360 --> 50:17.360
+que aparecieron estas secuencias de TAQs
+
+50:17.360 --> 50:19.360
+¿Cuántas veces eran esas las palabras?
+
+50:19.360 --> 50:21.360
+Seguimos teniendo un problema de decir
+
+50:21.360 --> 50:23.360
+porque está claro que no podemos contar eso, ¿no?
+
+50:23.360 --> 50:25.360
+Pero además lo vimos vuelta
+
+50:25.360 --> 50:27.360
+y por otra parte la secuencia de TAQs
+
+50:27.360 --> 50:29.360
+¿Qué tan común es la secuencia de TAQs?
+
+50:29.360 --> 50:31.360
+Esto parece un poco más razonable.
+
+50:31.360 --> 50:33.360
+Es más parecido a lo que vimos
+
+50:33.360 --> 50:35.360
+en la enigrama de la clase pasada.
+
+50:39.360 --> 50:41.360
+¿Por qué desaparece este de acá abajo?
+
+50:41.360 --> 50:43.360
+A ver si se acuerdan.
+
+50:49.360 --> 50:51.360
+¿Por qué no depende
+
+50:51.360 --> 50:53.360
+de mi argumento?
+
+50:53.360 --> 50:55.360
+Si yo
+
+50:55.360 --> 50:57.360
+quiero maximizar esta probabilidad
+
+50:57.360 --> 50:59.360
+es lo mismo que maximizar esta.
+
+50:59.360 --> 51:01.360
+Entonces ahora sí, me quedo con estas dos
+
+51:01.360 --> 51:03.360
+la probabilidad de los TAQs
+
+51:03.360 --> 51:05.360
+por la probabilidad de las palabras.
+
+51:05.360 --> 51:07.360
+¿De acuerdo?
+
+51:08.360 --> 51:10.360
+Eso es lo que vamos a querer calcular.
+
+51:19.360 --> 51:21.360
+Igual sigue teniendo muchos problemas
+
+51:21.360 --> 51:23.360
+como decíamos, ¿no?
+
+51:23.360 --> 51:25.360
+Porque yo tengo que ver todas las combinaciones posibles.
+
+51:25.360 --> 51:27.360
+Yo podría llegar a contar en un corpus
+
+51:27.360 --> 51:29.360
+de todas las veces que apareció T1 o TN
+
+51:29.360 --> 51:31.360
+o sea, todas las veces que apareció
+
+51:31.360 --> 51:33.360
+determinante nombre
+
+51:33.360 --> 51:35.360
+por ejemplo, determinante
+
+51:35.360 --> 51:37.360
+adjetivo, nombre, verbo.
+
+51:39.360 --> 51:41.360
+¿Cuál de todas esas veces
+
+51:45.360 --> 51:47.360
+¿Cuál de todas esas veces
+
+51:47.360 --> 51:49.360
+esto generó
+
+51:49.360 --> 51:51.360
+el lindo perro
+
+51:51.360 --> 51:53.360
+conmigo la comida?
+
+51:55.360 --> 51:57.360
+Es eso lo que estoy contando.
+
+51:57.360 --> 51:59.360
+Multiplicado el mapa
+
+51:59.360 --> 52:01.360
+por la probabilidad de que esa secuencia de TAQ
+
+52:01.360 --> 52:03.360
+se haya dado en el corpus.
+
+52:05.360 --> 52:07.360
+¿Sí?
+
+52:07.360 --> 52:09.360
+Y usted fíjense
+
+52:11.360 --> 52:13.360
+que nosotros lo que vemos
+
+52:13.360 --> 52:15.360
+son las observaciones.
+
+52:15.360 --> 52:17.360
+No vemos los TAQs, obviamente.
+
+52:17.360 --> 52:19.360
+Por eso se llama modelos tabulos
+
+52:19.360 --> 52:21.360
+porque se llama modelos tabulos.
+
+52:25.360 --> 52:27.360
+Para solucionar este problema
+
+52:27.360 --> 52:29.360
+los GDMarco model
+
+52:29.360 --> 52:31.360
+¿Se acuerdan que
+
+52:31.360 --> 52:33.360
+los modelos vallesianos
+
+52:33.360 --> 52:35.360
+como
+
+52:35.360 --> 52:37.360
+simplificación que los TAQs
+
+52:37.360 --> 52:39.360
+eran independientes entre ellos?
+
+52:39.360 --> 52:41.360
+¿Se acuerdan?
+
+52:41.360 --> 52:43.360
+Bueno, los GDMarco model hacen
+
+52:43.360 --> 52:45.360
+dos simplificaciones que son bestiales
+
+52:45.360 --> 52:47.360
+que es increíble que funcionen
+
+52:47.360 --> 52:49.360
+y es. La primera
+
+52:49.360 --> 52:51.360
+dicen bueno
+
+52:51.360 --> 52:53.360
+yo para simplificar digo que
+
+52:53.360 --> 52:55.360
+la probabilidad de que
+
+52:55.360 --> 52:57.360
+una palabra ocurra
+
+52:57.360 --> 52:59.360
+de que se emita
+
+52:59.360 --> 53:01.360
+solo depende de la etiqueta.
+
+53:01.360 --> 53:03.360
+¿Sí?
+
+53:03.360 --> 53:05.360
+Es decir
+
+53:05.360 --> 53:07.360
+que esto sea la o el
+
+53:07.360 --> 53:09.360
+no depende del contexto.
+
+53:11.360 --> 53:13.360
+¿Aguardo?
+
+53:13.360 --> 53:15.360
+Es una simplificación muy fuerte ¿no?
+
+53:17.360 --> 53:19.360
+Entonces esta probabilidad
+
+53:19.360 --> 53:21.360
+es mucho más sencilla
+
+53:23.360 --> 53:25.360
+porque es la probabilidad
+
+53:25.360 --> 53:27.360
+de cada palabra dado su contexto
+
+53:27.360 --> 53:29.360
+dado su TAQ
+
+53:31.360 --> 53:33.360
+¿Sí? ¿De acuerdo?
+
+53:35.360 --> 53:37.360
+¿Por qué?
+
+53:37.360 --> 53:39.360
+Porque esto es probabilidad
+
+53:39.360 --> 53:41.360
+W1n
+
+53:41.360 --> 53:43.360
+dado T1n
+
+53:43.360 --> 53:45.360
+es igual como son independientes
+
+53:45.360 --> 53:47.360
+la probabilidad de W1n
+
+53:47.360 --> 53:49.360
+es dado
+
+53:53.360 --> 53:55.360
+perdón
+
+53:55.360 --> 53:57.360
+la probabilidad de W1 dado T1n
+
+54:01.360 --> 54:03.360
+pero como cada palabra
+
+54:03.360 --> 54:05.360
+depende
+
+54:05.360 --> 54:07.360
+porque las palabras
+
+54:07.360 --> 54:09.360
+son independientes entre ciertas
+
+54:09.360 --> 54:11.360
+¿Cómo es diciendo?
+
+54:31.360 --> 54:33.360
+Esto
+
+54:33.360 --> 54:35.360
+yo lo asumo
+
+54:35.360 --> 54:37.360
+por la segunda regla
+
+54:37.360 --> 54:39.360
+porque las etiquetas
+
+54:39.360 --> 54:41.360
+las categorías solo dependen entre ellas
+
+54:41.360 --> 54:43.360
+las palabras son independientes entre sí
+
+54:43.360 --> 54:45.360
+entonces
+
+54:45.360 --> 54:47.360
+y además la otra
+
+54:47.360 --> 54:49.360
+es que
+
+54:49.360 --> 54:51.360
+esto de lo que se llama
+
+54:51.360 --> 54:53.360
+hipótesis marcoviana
+
+54:53.360 --> 54:55.360
+que es
+
+54:55.360 --> 54:57.360
+la probabilidad de que una etiqueta ocurra
+
+54:57.360 --> 54:59.360
+depende solo de la previa
+
+54:59.360 --> 55:01.360
+es muy simplificador
+
+55:01.360 --> 55:03.360
+lo único que me condiciona
+
+55:03.360 --> 55:05.360
+que acá hay un adjetivo
+
+55:05.360 --> 55:07.360
+es que
+
+55:07.360 --> 55:09.360
+antes hubo un determinante
+
+55:09.360 --> 55:11.360
+si bien
+
+55:11.360 --> 55:13.360
+yo estoy generando una cadena
+
+55:13.360 --> 55:15.360
+es una cadena como muy sencilla
+
+55:17.360 --> 55:19.360
+que tiene muy fuerte simplificación
+
+55:21.360 --> 55:23.360
+¿Por qué hacemos eso y bueno
+
+55:23.360 --> 55:25.360
+para volverlo computacionalmente posible?
+
+55:25.360 --> 55:27.360
+simplemente
+
+55:29.360 --> 55:31.360
+porque yo teniendo eso puedo empezar a contar
+
+55:31.360 --> 55:33.360
+porque
+
+55:33.360 --> 55:35.360
+es mucho más fácil saber decir
+
+55:35.360 --> 55:37.360
+cuántas veces untaba parecido después de otro
+
+55:37.360 --> 55:39.360
+es un número
+
+55:39.360 --> 55:41.360
+que es mucho más contable en un cuerpo
+
+55:41.360 --> 55:43.360
+y lo mismo cuántas veces
+
+55:43.360 --> 55:45.360
+emitió la palabra porque yo quiero saber
+
+55:45.360 --> 55:47.360
+esta pregunta
+
+55:47.360 --> 55:49.360
+el determinante gelo la es más fácil
+
+55:49.360 --> 55:51.360
+puedo contar y tengo
+
+55:51.360 --> 55:53.360
+10.000 veces fue el
+
+55:53.360 --> 55:55.360
+8.500 fue la y etc
+
+55:55.360 --> 55:57.360
+3.200 fue
+
+55:57.360 --> 55:59.360
+un y así
+
+55:59.360 --> 56:01.360
+entonces
+
+56:01.360 --> 56:03.360
+lo que llegamos acá
+
+56:03.360 --> 56:05.360
+el modelo de Markov de estado oculto es
+
+56:07.360 --> 56:09.360
+la secuencia de tags es la que maximiza
+
+56:09.360 --> 56:11.360
+esto
+
+56:11.360 --> 56:13.360
+que es más o menos
+
+56:13.360 --> 56:15.360
+porque dice estas simplificaciones
+
+56:17.360 --> 56:19.360
+maximiza
+
+56:19.360 --> 56:21.360
+la probabilidad de la palabra
+
+56:21.360 --> 56:23.360
+por el tag de la dotar anterior
+
+56:23.360 --> 56:25.360
+esto es el modelo de Markov de estado oculto
+
+56:27.360 --> 56:29.360
+aplicado al análisis lexy
+
+56:33.360 --> 56:35.360
+se entiende más o menos
+
+56:41.360 --> 56:43.360
+y cómo calculamos
+
+56:43.360 --> 56:45.360
+la probabilidad de transición
+
+56:45.360 --> 56:47.360
+y bueno
+
+56:47.360 --> 56:49.360
+contando
+
+56:49.360 --> 56:51.360
+la probabilidad
+
+56:53.360 --> 56:55.360
+dado que tenga un tag
+
+56:55.360 --> 56:57.360
+otro por ejemplo la probabilidad de que
+
+56:57.360 --> 56:59.360
+dado un determinante venga un verbo
+
+57:05.360 --> 57:07.360
+es simplemente contar
+
+57:07.360 --> 57:09.360
+la cantidad de veces que apareció
+
+57:09.360 --> 57:11.360
+un determinante y un verbo
+
+57:11.360 --> 57:13.360
+dividido la cantidad de veces que apareció un determinante
+
+57:13.360 --> 57:15.360
+cuántas veces
+
+57:15.360 --> 57:17.360
+el determinante
+
+57:17.360 --> 57:19.360
+estuvo seguido un verbo
+
+57:19.360 --> 57:21.360
+¿se acuerdan cómo se llamaba esto?
+
+57:21.360 --> 57:23.360
+estimar esto
+
+57:24.360 --> 57:26.360
+se llamaba estimar
+
+57:26.360 --> 57:28.360
+por medio del principio
+
+57:28.360 --> 57:30.360
+de máxima verosimilitud
+
+57:30.360 --> 57:32.360
+y eso se llama un estimador de máxima
+
+57:32.360 --> 57:34.360
+verosimilitud
+
+57:41.360 --> 57:43.360
+maximum likelihood
+
+57:43.360 --> 57:45.360
+en inglés
+
+57:47.360 --> 57:48.360
+bueno entonces
+
+57:48.360 --> 57:50.360
+acá hicimos la cuenta y dijimos
+
+57:50.360 --> 57:52.360
+¿qué pasa con Reis?
+
+57:53.360 --> 57:55.360
+Reis
+
+57:55.360 --> 57:57.360
+yo puedo calcular la probabilidad
+
+57:57.360 --> 57:59.360
+que sea un nombre
+
+57:59.360 --> 58:01.360
+dado que antes había un determinante
+
+58:01.360 --> 58:03.360
+¿se acuerda?
+
+58:07.360 --> 58:09.360
+antes hay un tú
+
+58:13.360 --> 58:15.360
+acá esto es una cuenta
+
+58:15.360 --> 58:17.360
+no, perdón, no tiene que ver con la solución
+
+58:17.360 --> 58:19.360
+yo
+
+58:19.360 --> 58:21.360
+también ¿cómo aplico esto
+
+58:21.360 --> 58:23.360
+a una intuición que yo tengo?
+
+58:23.360 --> 58:25.360
+bueno, los determinantes suelen presentar
+
+58:25.360 --> 58:27.360
+adjetivos y nombres, entonces la probabilidad
+
+58:27.360 --> 58:29.360
+de que haya un nombre después de un determinante
+
+58:29.360 --> 58:31.360
+o un adjetivo deberían ser altas
+
+58:31.360 --> 58:33.360
+y efectivamente en el Corpus Brown
+
+58:33.360 --> 58:35.360
+la mitad de las veces después
+
+58:35.360 --> 58:37.360
+de un determinante viene un nombre
+
+58:37.360 --> 58:39.360
+y acá
+
+58:47.360 --> 58:49.360
+y acá tenemos la probabilidad
+
+58:49.360 --> 58:51.360
+de que
+
+58:53.360 --> 58:55.360
+por ejemplo
+
+58:55.360 --> 58:57.360
+dado que hay un verbo
+
+58:57.360 --> 58:59.360
+bbz creo que era conjugado
+
+58:59.360 --> 59:01.360
+sea is
+
+59:01.360 --> 59:03.360
+el verbo de esta la probabilidad de misión
+
+59:03.360 --> 59:05.360
+y es 047
+
+59:05.360 --> 59:07.360
+la mayoría de las veces el verbo
+
+59:07.360 --> 59:09.360
+de ser en inglés
+
+59:09.360 --> 59:11.360
+empiezo a sacar conclusión a partir
+
+59:11.360 --> 59:13.360
+del corpus anotado
+
+59:15.360 --> 59:17.360
+entonces, yo quiero resolver
+
+59:17.360 --> 59:19.360
+este problema
+
+59:19.360 --> 59:21.360
+yo podría llegar a modelarlo
+
+59:21.360 --> 59:23.360
+a esto
+
+59:23.360 --> 59:25.360
+como un
+
+59:25.360 --> 59:27.360
+como un modelo
+
+59:27.360 --> 59:29.360
+que marcó de estado oculto, es decir
+
+59:29.360 --> 59:31.360
+como lo que se llama un gráfico del modelo
+
+59:31.360 --> 59:33.360
+un grafo que modela las probabilidades
+
+59:33.360 --> 59:35.360
+acá lo que estamos diciendo
+
+59:35.360 --> 59:37.360
+es que
+
+59:37.360 --> 59:39.360
+la palabra
+
+59:39.360 --> 59:41.360
+solo depende del tag
+
+59:41.360 --> 59:43.360
+y que cada tag depende del anterior
+
+59:43.360 --> 59:45.360
+esta es una forma gráfica a través de grafos
+
+59:45.360 --> 59:47.360
+de modelar y toda una teoría
+
+59:47.360 --> 59:49.360
+que se llama graphical models
+
+59:49.360 --> 59:51.360
+que estudia
+
+59:51.360 --> 59:53.360
+cómo representar probabilidades a través de grafos
+
+59:55.360 --> 59:57.360
+y acá lo que tenemos es
+
+59:57.360 --> 59:59.360
+lo que estamos diciendo es
+
+59:59.360 --> 01:00:01.360
+lo único que incide en esto
+
+01:00:01.360 --> 01:00:03.360
+es la categoría armatical
+
+01:00:03.360 --> 01:00:05.360
+y lo único que incide
+
+01:00:05.360 --> 01:00:07.360
+en cada categoría armatical es el anterior
+
+01:00:07.360 --> 01:00:09.360
+y yo lo que trato de hacer
+
+01:00:09.360 --> 01:00:11.360
+es buscar
+
+01:00:11.360 --> 01:00:13.360
+cuál de estas dos es la mejor
+
+01:00:13.360 --> 01:00:15.360
+para esta
+
+01:00:15.360 --> 01:00:17.360
+secuencia
+
+01:00:17.360 --> 01:00:19.360
+¿de acuerdo?
+
+01:00:19.360 --> 01:00:21.360
+lo estoy pensando como un proceso donde yo tengo estados
+
+01:00:21.360 --> 01:00:23.360
+que están ocultos, que son estos
+
+01:00:23.360 --> 01:00:25.360
+yo quiero calcular
+
+01:00:25.360 --> 01:00:27.360
+probabilidades de transición entre ellos
+
+01:00:27.360 --> 01:00:29.360
+yo quiero sacar la probabilidad de transición acá
+
+01:00:31.360 --> 01:00:33.360
+pero lo que yo veo son las palabras
+
+01:00:33.360 --> 01:00:35.360
+no veo los estados
+
+01:00:35.360 --> 01:00:37.360
+¿de acuerdo?
+
+01:00:37.360 --> 01:00:39.360
+entonces yo a partir
+
+01:00:39.360 --> 01:00:41.360
+de lo que veo
+
+01:00:41.360 --> 01:00:43.360
+con el tag asociado
+
+01:00:43.360 --> 01:00:45.360
+necesito inferir
+
+01:00:45.360 --> 01:00:47.360
+cuál es el mejor cual es
+
+01:00:47.360 --> 01:00:49.360
+la probabilidad de tocar arriba
+
+01:00:55.360 --> 01:00:57.360
+entonces
+
+01:00:57.360 --> 01:00:59.360
+si queremos desambiguar reis
+
+01:00:59.360 --> 01:01:01.360
+necesitamos saber
+
+01:01:03.360 --> 01:01:05.360
+la probabilidad
+
+01:01:07.360 --> 01:01:09.360
+fíjense que las probabilidades
+
+01:01:09.360 --> 01:01:11.360
+que me interesan a mí en este caso
+
+01:01:11.360 --> 01:01:13.360
+son
+
+01:01:15.360 --> 01:01:17.360
+estas que están marcadas negritas
+
+01:01:17.360 --> 01:01:19.360
+esta
+
+01:01:19.360 --> 01:01:21.360
+esta
+
+01:01:21.360 --> 01:01:23.360
+y esta
+
+01:01:23.360 --> 01:01:25.360
+las otras son comunes
+
+01:01:25.360 --> 01:01:27.360
+o sea que no me importan
+
+01:01:27.360 --> 01:01:29.360
+me van a dar lo mismo
+
+01:01:31.360 --> 01:01:33.360
+entonces yo voy a calcular estas probabilidades
+
+01:01:37.360 --> 01:01:39.360
+y ahí están
+
+01:01:39.360 --> 01:01:41.360
+la probabilidad que sea un nombre
+
+01:01:41.360 --> 01:01:43.360
+que después de tu
+
+01:01:43.360 --> 01:01:45.360
+venga un nombre que es muy baja
+
+01:01:45.360 --> 01:01:47.360
+y que venga un verbo muy alta
+
+01:01:51.360 --> 01:01:53.360
+pero en cambio
+
+01:01:53.360 --> 01:01:55.360
+reis como nombre
+
+01:01:55.360 --> 01:01:57.360
+es mucho más común
+
+01:01:57.360 --> 01:01:59.360
+que reis como verbo
+
+01:02:01.360 --> 01:02:03.360
+¿sí?
+
+01:02:05.360 --> 01:02:07.360
+nr lo mejor que es adjetivo
+
+01:02:07.360 --> 01:02:09.360
+no que es nr
+
+01:02:15.360 --> 01:02:17.360
+que después venga
+
+01:02:17.360 --> 01:02:19.360
+un adverbio
+
+01:02:19.360 --> 01:02:21.360
+después de un verbo
+
+01:02:21.360 --> 01:02:23.360
+venga un adverbio es mucho menos probable
+
+01:02:23.360 --> 01:02:25.360
+que venga después de un nombre
+
+01:02:27.360 --> 01:02:29.360
+es el doble probable
+
+01:02:29.360 --> 01:02:31.360
+entonces yo tengo que combinar esa probabilidad
+
+01:02:31.360 --> 01:02:33.360
+para ver cuál es la mejor que me da para la secuencia
+
+01:02:33.360 --> 01:02:35.360
+lo que decíamos al principio, yo tengo que tener en cuenta toda la secuencia
+
+01:02:43.360 --> 01:02:45.360
+y entonces acá nos da que esto es mucho más probable
+
+01:02:45.360 --> 01:02:47.360
+que reis, según esta cuenta
+
+01:02:47.360 --> 01:02:49.360
+sea un
+
+01:02:49.360 --> 01:02:51.360
+verbo
+
+01:02:51.360 --> 01:02:53.360
+y en bocán, en este caso le pegamos
+
+01:02:53.360 --> 01:02:55.360
+me dio mucho más probable
+
+01:02:55.360 --> 01:02:57.360
+fíjense
+
+01:02:57.360 --> 01:02:59.360
+sobre todo por esto
+
+01:02:59.360 --> 01:03:01.360
+por el peso de esto
+
+01:03:05.360 --> 01:03:07.360
+un problema que tenemos con esto cuál es
+
+01:03:07.360 --> 01:03:09.360
+o sea resolvimos uno de los problemas
+
+01:03:11.360 --> 01:03:13.360
+que es
+
+01:03:13.360 --> 01:03:15.360
+que desde el punto de vista de las cuentas
+
+01:03:15.360 --> 01:03:17.360
+digamos ¿no? del conteo
+
+01:03:17.360 --> 01:03:19.360
+resolvimos uno de los problemas
+
+01:03:19.360 --> 01:03:21.360
+cómo estimar a partir del conteo
+
+01:03:21.360 --> 01:03:23.360
+lo que no resolvimos acá
+
+01:03:23.360 --> 01:03:25.360
+es que ¿qué pasa con la explosión
+
+01:03:25.360 --> 01:03:27.360
+de combinaciones?
+
+01:03:27.360 --> 01:03:29.360
+porque acá solo teníamos dos combinaciones posibles
+
+01:03:29.360 --> 01:03:31.360
+pero si yo acá hubiera tenido varios candidatos
+
+01:03:31.360 --> 01:03:33.360
+en cada palabra
+
+01:03:33.360 --> 01:03:35.360
+tenía que probar todas las combinaciones posibles
+
+01:03:35.360 --> 01:03:37.360
+entre ellas
+
+01:03:37.360 --> 01:03:39.360
+¿de acuerdo? si acá
+
+01:03:39.360 --> 01:03:41.360
+yo hubiera tenido que calcular
+
+01:03:41.360 --> 01:03:43.360
+si hubiera más de un candidato acá
+
+01:03:43.360 --> 01:03:45.360
+se abre la lista
+
+01:03:45.360 --> 01:03:47.360
+exponencialmente ¿no?
+
+01:03:47.360 --> 01:03:49.360
+¿tiene?
+
+01:03:49.360 --> 01:03:51.360
+entonces ese problema no lo hemos resuelto
+
+01:03:53.360 --> 01:03:55.360
+pero si ustedes se fijan
+
+01:03:55.360 --> 01:03:57.360
+lo que parece un problema muy difícil
+
+01:03:57.360 --> 01:03:59.360
+no lo es tanto
+
+01:03:59.360 --> 01:04:01.360
+porque las mismas restricciones que pusimos nos permite
+
+01:04:01.360 --> 01:04:03.360
+facilitar la cosa
+
+01:04:03.360 --> 01:04:05.360
+porque nosotros como sabemos que cada palabra
+
+01:04:05.360 --> 01:04:07.360
+solo depende del anterior
+
+01:04:09.360 --> 01:04:11.360
+el mejor camino hasta acá
+
+01:04:13.360 --> 01:04:15.360
+digamos el mejor camino total
+
+01:04:15.360 --> 01:04:17.360
+que va a estar compuesto por caminos más cortos
+
+01:04:17.360 --> 01:04:19.360
+óptimos
+
+01:04:19.360 --> 01:04:21.360
+porque
+
+01:04:21.360 --> 01:04:23.360
+para llegar acá solo tengo que saber
+
+01:04:23.360 --> 01:04:25.360
+el mejor hasta acá y la transición
+
+01:04:25.360 --> 01:04:27.360
+¿se entiende?
+
+01:04:27.360 --> 01:04:29.360
+porque si hubiera uno mejor
+
+01:04:29.360 --> 01:04:31.360
+ya lo hubiera procesado antes
+
+01:04:33.360 --> 01:04:35.360
+¿se acuerdan alguna cosa que ya hemos hecho
+
+01:04:35.360 --> 01:04:37.360
+parecida a esa?
+
+01:04:37.360 --> 01:04:39.360
+la distancia de edición
+
+01:04:39.360 --> 01:04:41.360
+lo que vamos a usar es una agorimoprogramación dinámica
+
+01:04:41.360 --> 01:04:43.360
+para resolver este tema
+
+01:04:43.360 --> 01:04:45.360
+el tema de que yo puedo tener muchas combinaciones
+
+01:04:45.360 --> 01:04:47.360
+pero que yo solo llego hasta cierto lugar
+
+01:04:47.360 --> 01:04:49.360
+¿por qué?
+
+01:04:49.360 --> 01:04:51.360
+porque yo tengo mi hipótesis marcoviana que dice
+
+01:04:51.360 --> 01:04:53.360
+mi futuro solo depende de este estado en el que estoy
+
+01:04:55.360 --> 01:04:57.360
+¿de acuerdo?
+
+01:04:57.360 --> 01:04:59.360
+entonces
+
+01:05:03.360 --> 01:05:05.360
+vamos a primero a caracterizar
+
+01:05:05.360 --> 01:05:07.360
+el modelo general
+
+01:05:07.360 --> 01:05:09.360
+de hidden mark on models
+
+01:05:09.360 --> 01:05:11.360
+porque esto se utiliza para muchas cosas
+
+01:05:11.360 --> 01:05:13.360
+pero el hidden mark on model es como una extensión
+
+01:05:13.360 --> 01:05:15.360
+de un automata finito
+
+01:05:15.360 --> 01:05:17.360
+donde yo le voy a asignar probabilidades
+
+01:05:21.360 --> 01:05:23.360
+voy a tener estados
+
+01:05:27.360 --> 01:05:29.360
+voy a tener probabilidades de transición
+
+01:05:41.360 --> 01:05:43.360
+¿si?
+
+01:05:45.360 --> 01:05:47.360
+y
+
+01:05:47.360 --> 01:05:49.360
+observaciones
+
+01:05:51.360 --> 01:05:53.360
+asociadas a cada estado
+
+01:05:55.360 --> 01:05:57.360
+perdón
+
+01:06:03.360 --> 01:06:05.360
+pasa que le puse n a las observaciones
+
+01:06:05.360 --> 01:06:07.360
+y no está bien
+
+01:06:11.360 --> 01:06:13.360
+voy a tener un conjunto de observaciones
+
+01:06:13.360 --> 01:06:15.360
+y voy a tener la probabilidad de emitir
+
+01:06:27.360 --> 01:06:29.360
+para cada
+
+01:06:29.360 --> 01:06:31.360
+observación posible
+
+01:06:31.360 --> 01:06:33.360
+la probabilidad de emitirla en cierto estado dado
+
+01:06:35.360 --> 01:06:37.360
+¿de acuerdo?
+
+01:06:41.360 --> 01:06:43.360
+no
+
+01:06:43.360 --> 01:06:45.360
+perdón
+
+01:06:45.360 --> 01:06:47.360
+dije mal
+
+01:06:47.360 --> 01:06:49.360
+la probabilidad de emisión
+
+01:06:49.360 --> 01:06:51.360
+depende de las observaciones posibles
+
+01:06:51.360 --> 01:06:53.360
+no del estado en el que estamos
+
+01:06:53.360 --> 01:06:55.360
+es independiente del estado
+
+01:06:55.360 --> 01:06:57.360
+¿si?
+
+01:06:57.360 --> 01:06:59.360
+no, está bien
+
+01:06:59.360 --> 01:07:01.360
+depende del estado
+
+01:07:01.360 --> 01:07:03.360
+para cada observación
+
+01:07:03.360 --> 01:07:05.360
+yo voy a tener de 0 1
+
+01:07:05.360 --> 01:07:07.360
+de 0 2 de 0 3
+
+01:07:07.360 --> 01:07:09.360
+perdón de 1 2 3 la posibilidad de emitir
+
+01:07:09.360 --> 01:07:11.360
+lo vamos a ver bien
+
+01:07:11.360 --> 01:07:13.360
+y estados finales
+
+01:07:13.360 --> 01:07:15.360
+iniciales y finales
+
+01:07:19.360 --> 01:07:21.360
+entonces
+
+01:07:21.360 --> 01:07:23.360
+vamos a...
+
+01:07:23.360 --> 01:07:25.360
+voy a bajar otra cosa
+
+01:07:27.360 --> 01:07:29.360
+esto es en general
+
+01:07:29.360 --> 01:07:31.360
+lo que es un modelo de marco
+
+01:07:31.360 --> 01:07:33.360
+yo tengo un conjunto de estados ocultos
+
+01:07:33.360 --> 01:07:35.360
+que no sé dónde están
+
+01:07:35.360 --> 01:07:37.360
+y tengo observaciones
+
+01:07:37.360 --> 01:07:39.360
+que ocurren en cada estado
+
+01:07:39.360 --> 01:07:41.360
+yo en cada estado emito algo
+
+01:07:41.360 --> 01:07:43.360
+si lo vemos
+
+01:07:43.360 --> 01:07:45.360
+desde el punto de vista del postal
+
+01:07:45.360 --> 01:07:47.360
+nuestros estados ocultos que son
+
+01:07:47.360 --> 01:07:49.360
+son los postals
+
+01:07:49.360 --> 01:07:51.360
+las posibles
+
+01:07:51.360 --> 01:07:53.360
+etiquetas gramaticales
+
+01:07:53.360 --> 01:07:55.360
+y lo que emitimos
+
+01:07:55.360 --> 01:07:57.360
+es la palabra
+
+01:07:57.360 --> 01:07:59.360
+y este a de 0 1 y a 0 2
+
+01:07:59.360 --> 01:08:01.360
+es la probabilidad de transición entre estados
+
+01:08:01.360 --> 01:08:03.360
+ya que todo de sumar 1
+
+01:08:03.360 --> 01:08:05.360
+¿de acuerdo?
+
+01:08:05.360 --> 01:08:07.360
+si yo lo veo
+
+01:08:07.360 --> 01:08:09.360
+desde el punto de vista de
+
+01:08:09.360 --> 01:08:11.360
+esto lo estoy sacando
+
+01:08:11.360 --> 01:08:13.360
+estas tramparecias
+
+01:08:13.360 --> 01:08:15.360
+la estoy sacando de un curso que dio
+
+01:08:15.360 --> 01:08:17.360
+un profesor
+
+01:08:17.360 --> 01:08:19.360
+de Oregón
+
+01:08:19.360 --> 01:08:21.360
+que se llama Brian Rohr
+
+01:08:21.360 --> 01:08:23.360
+que vino a dar un curso acá
+
+01:08:23.360 --> 01:08:25.360
+y me quedé con las presentaciones
+
+01:08:25.360 --> 01:08:27.360
+de esto porque me parece que estaba muy clara
+
+01:08:29.360 --> 01:08:31.360
+yo tengo una secuencia de palabras
+
+01:08:31.360 --> 01:08:33.360
+si
+
+01:08:33.360 --> 01:08:35.360
+en tiempos unos n
+
+01:08:35.360 --> 01:08:37.360
+primera, segunda, tercera
+
+01:08:37.360 --> 01:08:39.360
+que discretizamos el tiempo
+
+01:08:39.360 --> 01:08:41.360
+vocabulario
+
+01:08:41.360 --> 01:08:43.360
+y los tags
+
+01:08:43.360 --> 01:08:45.360
+y yo digo bueno
+
+01:08:51.360 --> 01:08:53.360
+la probabilidad de emitir
+
+01:08:57.360 --> 01:08:59.360
+la palabra tal
+
+01:08:59.360 --> 01:09:01.360
+va a depender solamente
+
+01:09:01.360 --> 01:09:03.360
+del tag que ya estaba
+
+01:09:03.360 --> 01:09:05.360
+solo depende del tag J
+
+01:09:05.360 --> 01:09:07.360
+si en el momento J
+
+01:09:07.360 --> 01:09:09.360
+va a depender del tag que tengo en la posición J
+
+01:09:11.360 --> 01:09:13.360
+J acá es la posición
+
+01:09:13.360 --> 01:09:15.360
+y es la palabra
+
+01:09:19.360 --> 01:09:21.360
+y las probabilidades de transición van a ser
+
+01:09:21.360 --> 01:09:23.360
+la probabilidad de pasar de un tag al otro
+
+01:09:25.360 --> 01:09:27.360
+¿de acuerdo?
+
+01:09:27.360 --> 01:09:29.360
+y al principio tengo unas ciertas probabilidades
+
+01:09:29.360 --> 01:09:31.360
+que son
+
+01:09:31.360 --> 01:09:33.360
+la probabilidad de arrancar con un tag
+
+01:09:33.360 --> 01:09:35.360
+es la distribución inicial
+
+01:09:35.360 --> 01:09:37.360
+la probabilidad de arrancar
+
+01:09:37.360 --> 01:09:39.360
+con un tag
+
+01:09:39.360 --> 01:09:41.360
+y la probabilidad de terminar
+
+01:09:43.360 --> 01:09:45.360
+con un tag
+
+01:09:45.360 --> 01:09:47.360
+que son las que necesito para completar
+
+01:09:47.360 --> 01:09:49.360
+para que me quede consistente
+
+01:09:49.360 --> 01:09:51.360
+al principio tengo que establecer una distribución
+
+01:09:51.360 --> 01:09:53.360
+de probabilidad entre las que comienzan
+
+01:09:53.360 --> 01:09:55.360
+yo para eso meto un tag adicional
+
+01:09:55.360 --> 01:09:57.360
+y acá son los conteos simplemente
+
+01:09:59.360 --> 01:10:01.360
+acá lo que hicimos fue
+
+01:10:01.360 --> 01:10:03.360
+suavizarlo con la técnica Laplace
+
+01:10:05.360 --> 01:10:07.360
+y esta forma
+
+01:10:07.360 --> 01:10:09.360
+una toda complicada es
+
+01:10:13.360 --> 01:10:15.360
+la probabilidad en el tiempo
+
+01:10:15.360 --> 01:10:17.360
+T estar en el estado J
+
+01:10:19.360 --> 01:10:21.360
+habiendo visto toda la secuencia
+
+01:10:21.360 --> 01:10:23.360
+que tuve hasta el momento
+
+01:10:23.360 --> 01:10:25.360
+es decir yo voy avanzando
+
+01:10:25.360 --> 01:10:27.360
+por mi secuencia de palabra ahora voy a mover un ejemplo
+
+01:10:27.360 --> 01:10:29.360
+y el alfa
+
+01:10:29.360 --> 01:10:31.360
+me dice
+
+01:10:31.360 --> 01:10:33.360
+la probabilidad de que
+
+01:10:33.360 --> 01:10:35.360
+al principio estoy en uno ¿no? la probabilidad que estar en el principio es uno
+
+01:10:37.360 --> 01:10:39.360
+en el tiempo T es
+
+01:10:39.360 --> 01:10:41.360
+el alfa
+
+01:10:41.360 --> 01:10:43.360
+de T-1
+
+01:10:43.360 --> 01:10:45.360
+el tiempo anterior
+
+01:10:45.360 --> 01:10:47.360
+por la probabilidad de transición
+
+01:10:47.360 --> 01:10:49.360
+por la probabilidad de emitir
+
+01:10:49.360 --> 01:10:51.360
+y me quedo con el máximo
+
+01:10:51.360 --> 01:10:53.360
+de todos esos
+
+01:10:53.360 --> 01:10:55.360
+mi mejor probabilidad
+
+01:10:55.360 --> 01:10:57.360
+es el máximo de todos esos
+
+01:10:57.360 --> 01:10:59.360
+la más probable es eso
+
+01:10:59.360 --> 01:11:01.360
+y como ven en cada paso
+
+01:11:01.360 --> 01:11:03.360
+T yo solo dependo del alfa anterior
+
+01:11:05.360 --> 01:11:07.360
+la mejor secuencia
+
+01:11:09.360 --> 01:11:11.360
+en el tiempo T
+
+01:11:11.360 --> 01:11:13.360
+va a estar formado por la mejor secuencia
+
+01:11:13.360 --> 01:11:15.360
+del tiempo T-1
+
+01:11:15.360 --> 01:11:17.360
+si
+
+01:11:17.360 --> 01:11:19.360
+mejor dicho
+
+01:11:19.360 --> 01:11:21.360
+va a estar formado por
+
+01:11:21.360 --> 01:11:23.360
+lo que me maximice la mejor secuencia
+
+01:11:23.360 --> 01:11:25.360
+de T-1 multiplicada por la emisión
+
+01:11:27.360 --> 01:11:29.360
+yo voy a tener una mejor secuencia
+
+01:11:29.360 --> 01:11:31.360
+para el TAG 1, 2, 3 y 4
+
+01:11:31.360 --> 01:11:33.360
+yo para los 4 hago la cuenta
+
+01:11:33.360 --> 01:11:35.360
+digo bueno
+
+01:11:35.360 --> 01:11:37.360
+la mejor secuencia para que estuviera
+
+01:11:37.360 --> 01:11:39.360
+en un adjetivo
+
+01:11:39.360 --> 01:11:41.360
+en la posición T-1
+
+01:11:41.360 --> 01:11:43.360
+era tal
+
+01:11:43.360 --> 01:11:45.360
+un nombre
+
+01:11:45.360 --> 01:11:47.360
+mi mejor secuencia es la que más inmice
+
+01:11:47.360 --> 01:11:49.360
+la mejor secuencia para el TAG T-1
+
+01:11:49.360 --> 01:11:51.360
+adjetivo multiplicada por la transición
+
+01:11:51.360 --> 01:11:53.360
+de un adjetivo, un nombre
+
+01:11:53.360 --> 01:11:55.360
+multiplicada por la probabilidad de emitir
+
+01:11:55.360 --> 01:11:57.360
+y eso lo hago para todos los TAG anteriores posibles
+
+01:11:57.360 --> 01:11:59.360
+y me quedo con el mejor
+
+01:11:59.360 --> 01:12:01.360
+ahora lo voy a mover en un ejemplo
+
+01:12:01.360 --> 01:12:03.360
+pero le des esa
+
+01:12:03.360 --> 01:12:05.360
+y además guardo cuál fue el estado del que vine
+
+01:12:05.360 --> 01:12:07.360
+para saber cuál es la secuencia
+
+01:12:07.360 --> 01:12:09.360
+yo todo eso lo puedo resolver
+
+01:12:09.360 --> 01:12:11.360
+como yo dependo solo
+
+01:12:11.360 --> 01:12:13.360
+de la posición en la que estoy
+
+01:12:15.360 --> 01:12:17.360
+puedo resolverlo con una tablita
+
+01:12:17.360 --> 01:12:19.360
+y eso es lo que voy a hacer
+
+01:12:19.360 --> 01:12:21.360
+hacer lo que se llama un trellis, una tabla
+
+01:12:21.360 --> 01:12:23.360
+donde yo voy guardando esas probabilidades
+
+01:12:25.360 --> 01:12:27.360
+supongamos que nosotros
+
+01:12:27.360 --> 01:12:29.360
+tenemos este ejemplo
+
+01:12:29.360 --> 01:12:31.360
+que
+
+01:12:31.360 --> 01:12:33.360
+fruit flies fast
+
+01:12:35.360 --> 01:12:37.360
+quiere decir
+
+01:12:37.360 --> 01:12:39.360
+las frutas vuelan rápido
+
+01:12:39.360 --> 01:12:41.360
+las
+
+01:12:43.360 --> 01:12:45.360
+fast
+
+01:12:47.360 --> 01:12:49.360
+no pero es este
+
+01:12:51.360 --> 01:12:53.360
+es una gente
+
+01:12:55.360 --> 01:12:57.360
+esto se puede leer como la fruta
+
+01:12:57.360 --> 01:12:59.360
+frut flies fast
+
+01:13:03.360 --> 01:13:05.360
+ahi va
+
+01:13:05.360 --> 01:13:07.360
+claro
+
+01:13:07.360 --> 01:13:09.360
+es la que buscamos
+
+01:13:13.360 --> 01:13:15.360
+vamos a ver si nos va
+
+01:13:15.360 --> 01:13:17.360
+pero si se fijan
+
+01:13:17.360 --> 01:13:19.360
+fruit no es ambigua
+
+01:13:19.360 --> 01:13:21.360
+pero flies si
+
+01:13:21.360 --> 01:13:23.360
+puede ser las
+
+01:13:23.360 --> 01:13:25.360
+las moscas o el verbo volar
+
+01:13:25.360 --> 01:13:27.360
+y fast es este verbo
+
+01:13:27.360 --> 01:13:29.360
+que es eso
+
+01:13:29.360 --> 01:13:31.360
+de ayunar
+
+01:13:31.360 --> 01:13:33.360
+un adverbio
+
+01:13:33.360 --> 01:13:35.360
+o un adjetivo
+
+01:13:35.360 --> 01:13:37.360
+si
+
+01:13:37.360 --> 01:13:39.360
+entonces yo voy a tener que calcular
+
+01:13:39.360 --> 01:13:41.360
+todas las combinaciones posibles
+
+01:13:41.360 --> 01:13:43.360
+que son 3 por 2
+
+01:13:43.360 --> 01:13:45.360
+6 posibles
+
+01:13:47.360 --> 01:13:49.360
+y acá tengo la probabilidad
+
+01:13:49.360 --> 01:13:51.360
+de transición entre tags
+
+01:13:51.360 --> 01:13:53.360
+no acá lo que estoy diciendo es
+
+01:13:53.360 --> 01:13:55.360
+la probabilidad
+
+01:13:57.360 --> 01:13:59.360
+de que un adjetivo
+
+01:13:59.360 --> 01:14:01.360
+venga despues de otro adjetivo
+
+01:14:01.360 --> 01:14:03.360
+es 0 1
+
+01:14:05.360 --> 01:14:07.360
+todo esto lo hice contando en el corpus
+
+01:14:07.360 --> 01:14:09.360
+se entiende
+
+01:14:09.360 --> 01:14:11.360
+conté todas las veces que en el corpus
+
+01:14:11.360 --> 01:14:13.360
+un adjetivo y otro adjetivo
+
+01:14:13.360 --> 01:14:15.360
+la probabilidad de que despues
+
+01:14:15.360 --> 01:14:17.360
+de un adjetivo venga
+
+01:14:17.360 --> 01:14:19.360
+siempre tengo que mirar la jota
+
+01:14:19.360 --> 01:14:21.360
+venga un nombre es 0 3
+
+01:14:21.360 --> 01:14:23.360
+y asi
+
+01:14:23.360 --> 01:14:25.360
+acá lo que estamos diciendo es imposible
+
+01:14:25.360 --> 01:14:27.360
+que despues de un verbo verga otro verbo
+
+01:14:29.360 --> 01:14:31.360
+por supuesto esto no
+
+01:14:31.360 --> 01:14:33.360
+acá solo tengo la tabla
+
+01:14:33.360 --> 01:14:35.360
+que son todos los que me interesan a mi
+
+01:14:35.360 --> 01:14:37.360
+pero esto seria una tabla
+
+01:14:37.360 --> 01:14:39.360
+fiquese que no es tan grande esta tabla
+
+01:14:39.360 --> 01:14:41.360
+son todas las combinaciones
+
+01:14:41.360 --> 01:14:43.360
+es n por n donde n son mis tags posibles
+
+01:14:45.360 --> 01:14:47.360
+y despues tengo la probabilidad de emisión
+
+01:14:49.360 --> 01:14:51.360
+la probabilidad de emitir
+
+01:14:51.360 --> 01:14:53.360
+frut
+
+01:14:53.360 --> 01:14:55.360
+en el tag 2
+
+01:14:55.360 --> 01:14:57.360
+se acuerda de lo que la duda de si tenian si el estado es
+
+01:14:57.360 --> 01:14:59.360
+dado que es un nombre
+
+01:14:59.360 --> 01:15:01.360
+la probabilidad que sea fruta es 0 1
+
+01:15:01.360 --> 01:15:03.360
+por supuesto que esta probabilidad es un juguete
+
+01:15:03.360 --> 01:15:05.360
+lo que estoy diciendo de una de cada 10 veces
+
+01:15:05.360 --> 01:15:07.360
+que aparece un sustantivo en el corpus es fruto
+
+01:15:09.360 --> 01:15:11.360
+que a mi de acá
+
+01:15:11.360 --> 01:15:13.360
+nosotros vamos a dejar su probabilidad muy pequeña
+
+01:15:13.360 --> 01:15:15.360
+y por eso usualmente lo que hacemos en la realidad
+
+01:15:15.360 --> 01:15:17.360
+es sumarlo a ritmo
+
+01:15:17.360 --> 01:15:19.360
+multiplicar porque si no tenemos problemas
+
+01:15:19.360 --> 01:15:21.360
+de underflow o horribles
+
+01:15:23.360 --> 01:15:25.360
+bueno y asi
+
+01:15:25.360 --> 01:15:27.360
+la probabilidad de emitir para cada una de ellas
+
+01:15:27.360 --> 01:15:29.360
+con las posibles categorias
+
+01:15:29.360 --> 01:15:31.360
+es 1
+
+01:15:33.360 --> 01:15:35.360
+entonces
+
+01:15:37.360 --> 01:15:39.360
+lo que yo quiero saber es cuál es la probabilidad
+
+01:15:39.360 --> 01:15:41.360
+de cada oración
+
+01:15:41.360 --> 01:15:43.360
+de cada secuencia
+
+01:15:43.360 --> 01:15:45.360
+digamos
+
+01:15:45.360 --> 01:15:47.360
+mejor dicho
+
+01:15:47.360 --> 01:15:49.360
+en
+
+01:15:51.360 --> 01:15:53.360
+para viterbi
+
+01:15:53.360 --> 01:15:55.360
+nosotros tenemos tres grandes problemas
+
+01:15:55.360 --> 01:15:57.360
+a resolver
+
+01:15:57.360 --> 01:15:59.360
+hay tres problemas fundamentales
+
+01:15:59.360 --> 01:16:01.360
+en los modelos de los hedemarco model
+
+01:16:01.360 --> 01:16:03.360
+que es
+
+01:16:03.360 --> 01:16:05.360
+dado a un hedemarco model este modelo que tenemos acá
+
+01:16:05.360 --> 01:16:07.360
+yo ya con estas
+
+01:16:07.360 --> 01:16:09.360
+transiciones tengo
+
+01:16:09.360 --> 01:16:11.360
+el modelo no tengo los tags
+
+01:16:11.360 --> 01:16:13.360
+que son los de tag oculto
+
+01:16:13.360 --> 01:16:15.360
+las palabras
+
+01:16:15.360 --> 01:16:17.360
+la probabilidad de transición y la probabilidad de emisión
+
+01:16:17.360 --> 01:16:19.360
+en el estado inicial en el final
+
+01:16:19.360 --> 01:16:21.360
+tengo un modelo de marcó
+
+01:16:21.360 --> 01:16:23.360
+cuál es mi problema bueno uno de los problemas es
+
+01:16:23.360 --> 01:16:25.360
+calcular la verosimilitud es decir dado un hedemarco model
+
+01:16:25.360 --> 01:16:27.360
+y una secuencia
+
+01:16:27.360 --> 01:16:29.360
+o de palabras quiero calcular la probabilidad
+
+01:16:31.360 --> 01:16:33.360
+esto es ni más ni menos un modelo de lenguaje
+
+01:16:35.360 --> 01:16:37.360
+otra tarea es la de decodificar
+
+01:16:37.360 --> 01:16:39.360
+que es
+
+01:16:39.360 --> 01:16:41.360
+dado un hedemarco model y una secuencia
+
+01:16:41.360 --> 01:16:43.360
+calcular la mejor secuencia de estado oculto
+
+01:16:43.360 --> 01:16:45.360
+en el parto hospital lo que hacemos
+
+01:16:45.360 --> 01:16:47.360
+es esto decodificar
+
+01:16:47.360 --> 01:16:49.360
+y hay otra tercera tarea
+
+01:16:49.360 --> 01:16:51.360
+que es la de aprender
+
+01:16:51.360 --> 01:16:53.360
+que es
+
+01:16:53.360 --> 01:16:55.360
+aprender las probabilidades de transición a partir
+
+01:16:55.360 --> 01:16:57.360
+de texto arbitrario
+
+01:16:57.360 --> 01:16:59.360
+que es algo que en esta clase
+
+01:16:59.360 --> 01:17:01.360
+en este curso no lo vemos
+
+01:17:03.360 --> 01:17:05.360
+entonces yo voy a tratar de resolverla
+
+01:17:05.360 --> 01:17:07.360
+segunda tarea
+
+01:17:09.360 --> 01:17:11.360
+no, ¿quiere que tiene que ser yo?
+
+01:17:19.360 --> 01:17:21.360
+muy difícil esto
+
+01:17:21.360 --> 01:17:23.360
+bueno
+
+01:17:23.360 --> 01:17:25.360
+entonces nosotros hemos tratado de resolver la segunda tarea
+
+01:17:25.360 --> 01:17:27.360
+la tarea es de decodificar, asignarla a mejor secuencia
+
+01:17:31.360 --> 01:17:33.360
+entonces arrancamos con una tablita así
+
+01:17:33.360 --> 01:17:35.360
+que dice bueno
+
+01:17:35.360 --> 01:17:37.360
+acá yo tengo la posible categoría
+
+01:17:41.360 --> 01:17:43.360
+y acá tengo las posibles palabras
+
+01:17:43.360 --> 01:17:45.360
+fíjense que ahí
+
+01:17:45.360 --> 01:17:47.360
+uno es fruit
+
+01:17:47.360 --> 01:17:49.360
+flies
+
+01:17:49.360 --> 01:17:51.360
+fast
+
+01:17:51.360 --> 01:17:53.360
+¿tá?
+
+01:17:57.360 --> 01:17:59.360
+al principio y hay bueno tenemos la categoría
+
+01:17:59.360 --> 01:18:01.360
+cero que es el tag de comienzo de la eración
+
+01:18:01.360 --> 01:18:03.360
+¿tá?
+
+01:18:03.360 --> 01:18:05.360
+al principio de mi algoritmo
+
+01:18:07.360 --> 01:18:09.360
+la probabilidad es uno de estar en el estado cero
+
+01:18:11.360 --> 01:18:13.360
+el estado cero es el
+
+01:18:13.360 --> 01:18:15.360
+s ¿no?
+
+01:18:15.360 --> 01:18:17.360
+¿de acuerdo?
+
+01:18:17.360 --> 01:18:19.360
+no, no dije nada
+
+01:18:19.360 --> 01:18:21.360
+la probabilidad es uno acá
+
+01:18:21.360 --> 01:18:23.360
+y no puede estar nunca
+
+01:18:23.360 --> 01:18:25.360
+en el estado cero
+
+01:18:25.360 --> 01:18:27.360
+al lado a la 3
+
+01:18:27.360 --> 01:18:29.360
+en la 4 lo voy a reutilizar
+
+01:18:29.360 --> 01:18:31.360
+el cero para el final
+
+01:18:31.360 --> 01:18:33.360
+por eso no lo puse acá
+
+01:18:33.360 --> 01:18:35.360
+eso es lo que sabemos, que al principio necesariamente
+
+01:18:35.360 --> 01:18:37.360
+esto toca
+
+01:18:37.360 --> 01:18:39.360
+¿tá?
+
+01:18:39.360 --> 01:18:41.360
+luego
+
+01:18:41.360 --> 01:18:43.360
+tenemos que calcular
+
+01:18:43.360 --> 01:18:45.360
+viene la primera palabra
+
+01:18:45.360 --> 01:18:47.360
+que es fruit
+
+01:18:47.360 --> 01:18:49.360
+¿sí?
+
+01:18:49.360 --> 01:18:51.360
+frut, dijimos que podía ser según nuestras
+
+01:18:53.360 --> 01:18:55.360
+probabilidad de transición
+
+01:18:55.360 --> 01:18:57.360
+siempre tengo todos los años tengo un problema
+
+01:18:57.360 --> 01:18:59.360
+puede ser un nombre
+
+01:18:59.360 --> 01:19:01.360
+solamente un nombre
+
+01:19:01.360 --> 01:19:03.360
+¿sí?
+
+01:19:11.360 --> 01:19:13.360
+entonces yo acá que tengo que calcular
+
+01:19:13.360 --> 01:19:15.360
+yo sé que esto acaba a haber cero
+
+01:19:15.360 --> 01:19:17.360
+porque no puedo estar en este estado acá
+
+01:19:17.360 --> 01:19:19.360
+solo voy a poder estar acá
+
+01:19:21.360 --> 01:19:23.360
+y yo tengo que calcular la probabilidad de estar acá
+
+01:19:25.360 --> 01:19:27.360
+que no es uno
+
+01:19:27.360 --> 01:19:29.360
+es uno por la probabilidad de que sea frutado
+
+01:19:31.360 --> 01:19:33.360
+exactamente es uno
+
+01:19:33.360 --> 01:19:35.360
+por la probabilidad de que sea fruta
+
+01:19:35.360 --> 01:19:37.360
+perdón
+
+01:19:37.360 --> 01:19:39.360
+por la probabilidad de que venga un nombre
+
+01:19:39.360 --> 01:19:41.360
+después del comienzo
+
+01:19:41.360 --> 01:19:43.360
+por la probabilidad de que sea
+
+01:19:43.360 --> 01:19:45.360
+frutado a un nombre
+
+01:19:45.360 --> 01:19:47.360
+¿de acuerdo?
+
+01:19:47.360 --> 01:19:49.360
+la dos probabilidades que tengo siempre
+
+01:19:49.360 --> 01:19:51.360
+la de transición y la de misión
+
+01:19:57.360 --> 01:19:59.360
+si verifican eso
+
+01:19:59.360 --> 01:20:01.360
+es 002
+
+01:20:13.360 --> 01:20:15.360
+001
+
+01:20:17.360 --> 01:20:19.360
+probabilidad de
+
+01:20:19.360 --> 01:20:21.360
+perdón, probabilidad de nombre
+
+01:20:21.360 --> 01:20:23.360
+al comienzo 002
+
+01:20:23.360 --> 01:20:25.360
+¿sí?
+
+01:20:25.360 --> 01:20:27.360
+que sea fruta o que es un nombre
+
+01:20:27.360 --> 01:20:29.360
+001
+
+01:20:29.360 --> 01:20:31.360
+o sea que debería ser 002
+
+01:20:33.360 --> 01:20:35.360
+002
+
+01:20:35.360 --> 01:20:37.360
+¿de acuerdo?
+
+01:20:37.360 --> 01:20:39.360
+y le indico acá que vengo del estado 0
+
+01:20:39.360 --> 01:20:41.360
+obviamente
+
+01:20:41.360 --> 01:20:43.360
+esto no tiene sentido
+
+01:20:45.360 --> 01:20:47.360
+ahora voy a ir al segundo
+
+01:20:47.360 --> 01:20:49.360
+que es flies
+
+01:20:49.360 --> 01:20:51.360
+que dijimos que tenemos
+
+01:20:51.360 --> 01:20:53.360
+nombres
+
+01:20:53.360 --> 01:20:55.360
+o verbos
+
+01:20:55.360 --> 01:20:57.360
+si
+
+01:21:01.360 --> 01:21:03.360
+entonces
+
+01:21:03.360 --> 01:21:05.360
+¿de dónde puedo venir acá?
+
+01:21:07.360 --> 01:21:09.360
+¿de cuál puedo venir acá?
+
+01:21:15.360 --> 01:21:17.360
+¿de cuál de esta categoría puedo venir?
+
+01:21:21.360 --> 01:21:23.360
+para mi cálculo
+
+01:21:27.360 --> 01:21:29.360
+¿cuál puede ser la anterior a ésta?
+
+01:21:31.360 --> 01:21:33.360
+solo nombre, porque las otras tienen probabilidad 0
+
+01:21:33.360 --> 01:21:35.360
+no es posible que hubiera otra cosa
+
+01:21:35.360 --> 01:21:37.360
+que nombre al principio, lo cual tiene sentido
+
+01:21:37.360 --> 01:21:39.360
+porque es la única teoría posible
+
+01:21:39.360 --> 01:21:41.360
+entonces yo voy a calcular
+
+01:21:41.360 --> 01:21:43.360
+pero
+
+01:21:43.360 --> 01:21:45.360
+podría ser cualquiera de estas 5
+
+01:21:45.360 --> 01:21:47.360
+¿de acuerdo?
+
+01:21:47.360 --> 01:21:49.360
+yo tengo que calcular la probabilidad de ir de nombre
+
+01:21:49.360 --> 01:21:51.360
+adjetivo
+
+01:21:51.360 --> 01:21:53.360
+de nombre a nombre
+
+01:21:53.360 --> 01:21:55.360
+plural
+
+01:21:57.360 --> 01:21:59.360
+de nombre a verbo
+
+01:21:59.360 --> 01:22:01.360
+de nombre a verbo
+
+01:22:01.360 --> 01:22:03.360
+para eso voy a multiplicar
+
+01:22:03.360 --> 01:22:05.360
+la probabilidad que tengo acá
+
+01:22:05.360 --> 01:22:07.360
+002, el alfa
+
+01:22:07.360 --> 01:22:09.360
+este es el alfa
+
+01:22:09.360 --> 01:22:11.360
+multiplicado por la probabilidad de transición
+
+01:22:11.360 --> 01:22:13.360
+multiplicado por la probabilidad de emisión
+
+01:22:13.360 --> 01:22:15.360
+en realidad la probabilidad de emisión es común para todos
+
+01:22:15.360 --> 01:22:17.360
+¿por qué no depende del estado?
+
+01:22:17.360 --> 01:22:19.360
+no, no es como
+
+01:22:19.360 --> 01:22:21.360
+sigo cometiendo el mismo error
+
+01:22:27.360 --> 01:22:29.360
+entonces fíjense que acá
+
+01:22:33.360 --> 01:22:35.360
+aparecen estas dos porque son las únicas
+
+01:22:35.360 --> 01:22:37.360
+dos que pueden tener emisión
+
+01:22:39.360 --> 01:22:41.360
+puede haber emisión
+
+01:22:43.360 --> 01:22:45.360
+dijimos que flies puede ser un nombre o un verbo
+
+01:22:47.360 --> 01:22:49.360
+¿de acuerdo?
+
+01:22:53.360 --> 01:22:55.360
+y solo pueden venir de acá
+
+01:22:57.360 --> 01:22:59.360
+o sea que necesariamente
+
+01:22:59.360 --> 01:23:01.360
+este nombre
+
+01:23:01.360 --> 01:23:03.360
+la única forma a calcularlo
+
+01:23:03.360 --> 01:23:05.360
+es la probabilidad de esto, el alfa
+
+01:23:05.360 --> 01:23:07.360
+por la probabilidad de transición
+
+01:23:07.360 --> 01:23:09.360
+entre nombre y nombre en NS
+
+01:23:09.360 --> 01:23:11.360
+por la probabilidad de emisión
+
+01:23:11.360 --> 01:23:13.360
+de
+
+01:23:13.360 --> 01:23:15.360
+flies dado en NS
+
+01:23:15.360 --> 01:23:17.360
+acá no hago máximo, sigo teniendo una sola
+
+01:23:19.360 --> 01:23:21.360
+¿de acuerdo? porque solo pueden venir acá
+
+01:23:23.360 --> 01:23:25.360
+¿de acuerdo? y lo mismo para acá abajo
+
+01:23:27.360 --> 01:23:29.360
+¿sí?
+
+01:23:29.360 --> 01:23:31.360
+y lo que estoy diciendo es que en ambos casos
+
+01:23:31.360 --> 01:23:33.360
+vienen de nombre
+
+01:23:33.360 --> 01:23:35.360
+lo cual tiene sentido porque es lo único que había
+
+01:23:37.360 --> 01:23:39.360
+¿de acuerdo? porque yo tengo que recordar de donde viene
+
+01:23:39.360 --> 01:23:41.360
+porque ahora voy a tener el problema
+
+01:23:45.360 --> 01:23:47.360
+porque ahora en la columna 3
+
+01:23:47.360 --> 01:23:49.360
+que tiene
+
+01:23:49.360 --> 01:23:51.360
+nuestro gran problema viene ahora
+
+01:23:55.360 --> 01:23:57.360
+porque acá yo tengo 3 candidatas
+
+01:24:03.360 --> 01:24:05.360
+tengo 3 candidatas
+
+01:24:05.360 --> 01:24:07.360
+y 2 candidatas de previa
+
+01:24:09.360 --> 01:24:11.360
+entonces
+
+01:24:11.360 --> 01:24:13.360
+yo tengo que calcular
+
+01:24:15.360 --> 01:24:17.360
+empiezo con un adjetivo acá
+
+01:24:21.360 --> 01:24:23.360
+quiero saber
+
+01:24:23.360 --> 01:24:25.360
+¿puedo venir de acá o de acá?
+
+01:24:25.360 --> 01:24:27.360
+si viene de acá
+
+01:24:27.360 --> 01:24:29.360
+el alfa es la probabilidad
+
+01:24:29.360 --> 01:24:31.360
+esta 004
+
+01:24:33.360 --> 01:24:35.360
+por la probabilidad de transición para acá
+
+01:24:35.360 --> 01:24:37.360
+por la probabilidad de emisión
+
+01:24:39.360 --> 01:24:41.360
+de la palabra
+
+01:24:41.360 --> 01:24:43.360
+flies dado
+
+01:24:45.360 --> 01:24:47.360
+que es un adjetivo
+
+01:24:49.360 --> 01:24:51.360
+o esa es una posibilidad
+
+01:24:51.360 --> 01:24:53.360
+o la otra posibilidad que sea esta
+
+01:24:53.360 --> 01:24:55.360
+por la probabilidad de transición
+
+01:24:57.360 --> 01:24:59.360
+por la probabilidad de emisión otra vez la misma
+
+01:24:59.360 --> 01:25:01.360
+pero eso fue con lo que me confundí hoy
+
+01:25:01.360 --> 01:25:03.360
+¿de acuerdo?
+
+01:25:03.360 --> 01:25:05.360
+¿se entiende?
+
+01:25:05.360 --> 01:25:07.360
+entonces yo
+
+01:25:07.360 --> 01:25:09.360
+de estas dos
+
+01:25:09.360 --> 01:25:11.360
+acá es donde aplico
+
+01:25:11.360 --> 01:25:13.360
+mi condición de Marco Vial
+
+01:25:13.360 --> 01:25:15.360
+porque
+
+01:25:15.360 --> 01:25:17.360
+si es la mayor
+
+01:25:17.360 --> 01:25:19.360
+para llegar acá no es posible
+
+01:25:19.360 --> 01:25:21.360
+que sea otra esta
+
+01:25:21.360 --> 01:25:23.360
+por como yo tengo definido mi proceso
+
+01:25:23.360 --> 01:25:25.360
+que solo dependo de la anterior
+
+01:25:25.360 --> 01:25:27.360
+¿de acuerdo?
+
+01:25:27.360 --> 01:25:29.360
+entonces yo voy a hacer
+
+01:25:29.360 --> 01:25:31.360
+la cuenta de transición
+
+01:25:31.360 --> 01:25:33.360
+esto por esto
+
+01:25:33.360 --> 01:25:35.360
+esto por la transición
+
+01:25:35.360 --> 01:25:37.360
+por la emisión
+
+01:25:37.360 --> 01:25:39.360
+y me voy a quedar con el mayor de las dos
+
+01:25:39.360 --> 01:25:41.360
+y lo voy a poner acá
+
+01:25:41.360 --> 01:25:43.360
+ahí es el único lugar donde yo hago máximo
+
+01:25:45.360 --> 01:25:47.360
+esto no quiere decir que va a ser un adjetivo
+
+01:25:47.360 --> 01:25:49.360
+quiero decir que mi probabilidad
+
+01:25:49.360 --> 01:25:51.360
+de un adjetivo es esta
+
+01:25:51.360 --> 01:25:53.360
+hasta el momento
+
+01:25:53.360 --> 01:25:55.360
+es mi probabilidad de que esto sea un adjetivo
+
+01:25:55.360 --> 01:25:57.360
+dado que se dio esta secuencia de observaciones
+
+01:25:59.360 --> 01:26:01.360
+no quiere decir tampoco que termino el partido
+
+01:26:01.360 --> 01:26:03.360
+mi partido termina solamente cuando yo llevo al final
+
+01:26:03.360 --> 01:26:05.360
+por eso estoy guardando los estados de los que venía
+
+01:26:05.360 --> 01:26:07.360
+porque si ustedes ven yo sigo multiplicando
+
+01:26:07.360 --> 01:26:09.360
+para avanzar
+
+01:26:09.360 --> 01:26:11.360
+y puede haber una probabilidad muy pequeña
+
+01:26:11.360 --> 01:26:13.360
+que me mate un camino
+
+01:26:13.360 --> 01:26:15.360
+¿de acuerdo?
+
+01:26:15.360 --> 01:26:17.360
+entonces
+
+01:26:21.360 --> 01:26:23.360
+acá puede ser
+
+01:26:23.360 --> 01:26:25.360
+adjetivo, verbo
+
+01:26:25.360 --> 01:26:27.360
+o adverbo
+
+01:26:27.360 --> 01:26:29.360
+y si se fijan
+
+01:26:29.360 --> 01:26:31.360
+si es un adjetivo
+
+01:26:31.360 --> 01:26:33.360
+el alfa más probable
+
+01:26:33.360 --> 01:26:35.360
+viene de 4, viene de verbo
+
+01:26:35.360 --> 01:26:37.360
+pero si es
+
+01:26:37.360 --> 01:26:39.360
+un
+
+01:26:39.360 --> 01:26:41.360
+verbo
+
+01:26:41.360 --> 01:26:43.360
+lo más probable es que el anterior fuera un nombre
+
+01:26:45.360 --> 01:26:47.360
+¿se entiende?
+
+01:26:47.360 --> 01:26:49.360
+dependiendo de donde yo estoy es el camino mejor
+
+01:26:49.360 --> 01:26:51.360
+como que hasta el momento
+
+01:26:51.360 --> 01:26:53.360
+yo tengo el camino
+
+01:26:57.360 --> 01:26:59.360
+bueno, comienzo obviamente
+
+01:26:59.360 --> 01:27:01.360
+perdón
+
+01:27:01.360 --> 01:27:03.360
+al revés ¿no?
+
+01:27:03.360 --> 01:27:05.360
+lo tengo que hacer
+
+01:27:05.360 --> 01:27:07.360
+es
+
+01:27:07.360 --> 01:27:09.360
+adjetivo
+
+01:27:09.360 --> 01:27:11.360
+precedido por un
+
+01:27:11.360 --> 01:27:13.360
+verbo
+
+01:27:13.360 --> 01:27:15.360
+precedido por un nombre
+
+01:27:17.360 --> 01:27:19.360
+la otra es un verbo
+
+01:27:19.360 --> 01:27:21.360
+precedido por un
+
+01:27:21.360 --> 01:27:23.360
+nns, precedido por un nombre
+
+01:27:25.360 --> 01:27:27.360
+y el último es un adverbio
+
+01:27:27.360 --> 01:27:29.360
+precedido por
+
+01:27:29.360 --> 01:27:31.360
+un verbo
+
+01:27:31.360 --> 01:27:33.360
+precedido por un nombre
+
+01:27:33.360 --> 01:27:35.360
+¿se entiende?
+
+01:27:35.360 --> 01:27:37.360
+según mis cuentas
+
+01:27:37.360 --> 01:27:39.360
+si acá llega un adjetivo
+
+01:27:39.360 --> 01:27:41.360
+no es lo mismo que si acá llega un verbo
+
+01:27:41.360 --> 01:27:43.360
+mi secuencia
+
+01:27:43.360 --> 01:27:45.360
+y todavía no tengo el partido ganado
+
+01:27:45.360 --> 01:27:47.360
+porque tengo que hacer la última
+
+01:27:47.360 --> 01:27:49.360
+contar qué pasa con la última transición
+
+01:27:49.360 --> 01:27:51.360
+en la última transición
+
+01:27:51.360 --> 01:27:53.360
+lo que tiene de bueno entre comillas
+
+01:27:53.360 --> 01:27:55.360
+es que eso solo tengo que calcular acá
+
+01:27:55.360 --> 01:27:57.360
+porque los otros no son posibles
+
+01:27:57.360 --> 01:27:59.360
+pero tengo que hacer las tres cuentas
+
+01:27:59.360 --> 01:28:01.360
+qué pasa si viene este al final
+
+01:28:01.360 --> 01:28:03.360
+este al final o este al final
+
+01:28:03.360 --> 01:28:05.360
+y quedarme con el máximo
+
+01:28:07.360 --> 01:28:09.360
+si?
+
+01:28:09.360 --> 01:28:11.360
+entonces
+
+01:28:11.360 --> 01:28:13.360
+lo que me dice es que
+
+01:28:13.360 --> 01:28:15.360
+mi mejor
+
+01:28:15.360 --> 01:28:17.360
+opción es venir desde acá
+
+01:28:17.360 --> 01:28:19.360
+por cómo dan las cuentas
+
+01:28:19.360 --> 01:28:21.360
+en cuenta
+
+01:28:23.360 --> 01:28:25.360
+y entonces la secuencia que yo voy a elegir
+
+01:28:25.360 --> 01:28:27.360
+es esta
+
+01:28:27.360 --> 01:28:29.360
+creo que está mal
+
+01:28:29.360 --> 01:28:31.360
+si el eligió la fruta
+
+01:28:31.360 --> 01:28:33.360
+abuela en rápido
+
+01:28:33.360 --> 01:28:35.360
+¿no?
+
+01:28:37.360 --> 01:28:39.360
+así la vía
+
+01:28:39.360 --> 01:28:41.360
+este es
+
+01:28:41.360 --> 01:28:43.360
+bueno en realidad
+
+01:28:43.360 --> 01:28:45.360
+y la de la
+
+01:28:45.360 --> 01:28:47.360
+si tenés razón
+
+01:28:47.360 --> 01:28:49.360
+tenés razón
+
+01:28:53.360 --> 01:28:55.360
+¿se entendió?
+
+01:28:55.360 --> 01:28:57.360
+¿entendió?
+
+01:28:59.360 --> 01:29:01.360
+si
+
+01:29:01.360 --> 01:29:03.360
+porque acá tengo
+
+01:29:07.360 --> 01:29:09.360
+la probabilidad de
+
+01:29:09.360 --> 01:29:11.360
+barra S
+
+01:29:11.360 --> 01:29:13.360
+dada la categoría última
+
+01:29:13.360 --> 01:29:15.360
+tiene medio trampa
+
+01:29:15.360 --> 01:29:17.360
+esta categoría es
+
+01:29:17.360 --> 01:29:19.360
+como la estoy reutilizando
+
+01:29:19.360 --> 01:29:21.360
+dejamela así
+
+01:29:21.360 --> 01:29:23.360
+pero acá lo que dijimos fue que es
+
+01:29:23.360 --> 01:29:25.360
+improbable
+
+01:29:25.360 --> 01:29:27.360
+cualquiera me sirve igual
+
+01:29:27.360 --> 01:29:29.360
+contando el corpo
+
+01:29:29.360 --> 01:29:31.360
+¿cuántas veces terminaste la oración?
+
+01:29:31.360 --> 01:29:33.360
+si
+
+01:29:39.360 --> 01:29:41.360
+que como son equiprobables
+
+01:29:41.360 --> 01:29:43.360
+ganó esta
+
+01:29:43.360 --> 01:29:45.360
+no que era la que venía con mayor probabilidad
+
+01:29:45.360 --> 01:29:47.360
+pero eso podría haber cambiado
+
+01:29:47.360 --> 01:29:49.360
+si fuera mucho menos probable
+
+01:29:49.360 --> 01:29:51.360
+que algo terminar en adverbio por ejemplo
+
+01:29:51.360 --> 01:29:53.360
+si yo
+
+01:29:53.360 --> 01:29:55.360
+mi cuerpo me dice que lo más probable
+
+01:29:55.360 --> 01:29:57.360
+que termine en adjetivo
+
+01:29:57.360 --> 01:29:59.360
+en verbo podía cambiarme el resultado
+
+01:29:59.360 --> 01:30:01.360
+y cambiarme toda la cadena para atrás
+
+01:30:01.360 --> 01:30:03.360
+lo que me importa transmitir es eso
+
+01:30:03.360 --> 01:30:05.360
+uno maximiza la probabilidad de toda la oración
+
+01:30:05.360 --> 01:30:07.360
+no de uno
+
+01:30:07.360 --> 01:30:09.360
+bueno y los otros son las cuentas
+
+01:30:09.360 --> 01:30:11.360
+para calcular para atrás
+
+01:30:11.360 --> 01:30:13.360
+los adverbios
+
+01:30:13.360 --> 01:30:15.360
+las clases
+
+01:30:23.360 --> 01:30:25.360
+bueno ya terminamos
+
+01:30:25.360 --> 01:30:27.360
+espero un poquito
+
+01:30:27.360 --> 01:30:29.360
+estoy haciendo lo mismo 40 veces
+
+01:30:29.360 --> 01:30:31.360
+si se fijan yo calcule
+
+01:30:31.360 --> 01:30:33.360
+la secuencia
+
+01:30:33.360 --> 01:30:35.360
+de
+
+01:30:35.360 --> 01:30:37.360
+la secuencia de estados ocultos
+
+01:30:37.360 --> 01:30:39.360
+que maximiza la probabilidad
+
+01:30:39.360 --> 01:30:41.360
+¿tamo acuerdo?
+
+01:30:41.360 --> 01:30:43.360
+hay otra tarea
+
+01:30:43.360 --> 01:30:45.360
+que es la de
+
+01:30:45.360 --> 01:30:47.360
+calcular la verosimilitud
+
+01:30:47.360 --> 01:30:49.360
+es decir
+
+01:30:49.360 --> 01:30:51.360
+da uje de marco modo
+
+01:30:51.360 --> 01:30:53.360
+de la oje de marco modo
+
+01:30:53.360 --> 01:30:55.360
+de la oje de marco modo
+
+01:30:55.360 --> 01:30:57.360
+de la oje de marco modo
+
+01:30:57.360 --> 01:30:59.360
+es decir
+
+01:30:59.360 --> 01:31:01.360
+da uje de marco modo de una secuencia
+
+01:31:01.360 --> 01:31:03.360
+a calcular la probabilidad
+
+01:31:03.360 --> 01:31:05.360
+de la secuencia
+
+01:31:05.360 --> 01:31:07.360
+bueno este algoritmo que acabamos de ver
+
+01:31:07.360 --> 01:31:09.360
+se llama algoritmo de viterbi
+
+01:31:11.360 --> 01:31:13.360
+y tiene una muy linda
+
+01:31:13.360 --> 01:31:15.360
+y larga historia
+
+01:31:15.360 --> 01:31:17.360
+porque lo han usado todos
+
+01:31:17.360 --> 01:31:19.360
+lo han descubierto independientemente
+
+01:31:19.360 --> 01:31:21.360
+de los años 60 o 50 para acá
+
+01:31:23.360 --> 01:31:25.360
+el otro algoritmo
+
+01:31:25.360 --> 01:31:27.360
+que tenemos para verlo queda un algoritmo más
+
+01:31:27.360 --> 01:31:29.360
+todavía, que saben que son las 10
+
+01:31:29.360 --> 01:31:31.360
+que es el algoritmo forward el que calcula la verosimilitud
+
+01:31:31.360 --> 01:31:33.360
+es decir calcular la probabilidad de la secuencia
+
+01:31:37.360 --> 01:31:39.360
+la buena noticia es que hay
+
+01:31:39.360 --> 01:31:41.360
+que hacerle solo un cambio muy menor
+
+01:31:41.360 --> 01:31:43.360
+al algoritmo de viterbi para obtener
+
+01:31:43.360 --> 01:31:45.360
+el algoritmo de forward
+
+01:31:45.360 --> 01:31:47.360
+porque si ustedes se fijan
+
+01:31:47.360 --> 01:31:49.360
+nosotros acá
+
+01:31:51.360 --> 01:31:53.360
+vamos calculando la probabilidad
+
+01:31:55.360 --> 01:31:57.360
+desde donde venimos
+
+01:31:59.360 --> 01:32:01.360
+y ante la dudada hacemos el máximo
+
+01:32:03.360 --> 01:32:05.360
+si yo quisiera saber la probabilidad
+
+01:32:05.360 --> 01:32:07.360
+de todos los caminos acá
+
+01:32:07.360 --> 01:32:09.360
+que tendría que hacer
+
+01:32:11.360 --> 01:32:13.360
+sumar las probabilidades
+
+01:32:13.360 --> 01:32:15.360
+en lugar de calcular el máximo sumo las probabilidades
+
+01:32:17.360 --> 01:32:19.360
+nuevamente
+
+01:32:19.360 --> 01:32:21.360
+mi modelo dice que solo depende
+
+01:32:21.360 --> 01:32:23.360
+del estado anterior
+
+01:32:23.360 --> 01:32:25.360
+y tengo las probabilidades en el estado que estoy
+
+01:32:25.360 --> 01:32:27.360
+y tengo todos los posibles
+
+01:32:29.360 --> 01:32:31.360
+para las que maximizan
+
+01:32:33.360 --> 01:32:35.360
+entonces el algoritmo forward es igual
+
+01:32:35.360 --> 01:32:37.360
+que el viterbi nada más que en lugar de calcular
+
+01:32:37.360 --> 01:32:39.360
+máximo sumamos
+
+01:32:39.360 --> 01:32:41.360
+y eso nos permite la probabilidad de una eración
+
+01:32:43.360 --> 01:32:45.360
+dado al modelo
+
+01:32:45.360 --> 01:32:47.360
+la probabilidad de la eración es un modelo de lenguaje
+
+01:32:47.360 --> 01:32:49.360
+si se acuerdan de la clase pasada
+
+01:32:49.360 --> 01:32:51.360
+o sea que esa es una forma alternativa
+
+01:32:51.360 --> 01:32:53.360
+para el modelo de lenguaje
+
+01:32:53.360 --> 01:32:55.360
+y hay una tercera tarea
+
+01:32:55.360 --> 01:32:57.360
+que es la de
+
+01:32:59.360 --> 01:33:01.360
+aprender
+
+01:33:01.360 --> 01:33:03.360
+esto es como muy raro
+
+01:33:03.360 --> 01:33:05.360
+yo tengo solo texto
+
+01:33:05.360 --> 01:33:07.360
+y los estados
+
+01:33:07.360 --> 01:33:09.360
+del key de marco model
+
+01:33:09.360 --> 01:33:11.360
+o sea
+
+01:33:11.360 --> 01:33:13.360
+las clases posibles
+
+01:33:13.360 --> 01:33:15.360
+y aprendo
+
+01:33:17.360 --> 01:33:19.360
+de texto sin anotar
+
+01:33:19.360 --> 01:33:21.360
+que es clasificación
+
+01:33:21.360 --> 01:33:23.360
+aprendizaje no supervisado
+
+01:33:23.360 --> 01:33:25.360
+aprendo las transiciones
+
+01:33:25.360 --> 01:33:27.360
+ese algoritmo se llama
+
+01:33:29.360 --> 01:33:31.360
+forward-backward
+
+01:33:31.360 --> 01:33:33.360
+o bound-welch
+
+01:33:33.360 --> 01:33:35.360
+y no logro entender nunca cómo funciona
+
+01:33:35.360 --> 01:33:37.360
+digo sé cómo funciona pero
+
+01:33:37.360 --> 01:33:39.360
+es como increíble porque lo que hace es
+
+01:33:39.360 --> 01:33:41.360
+a partir de grandes volúmenes de texto
+
+01:33:41.360 --> 01:33:43.360
+hace una estimación
+
+01:33:43.360 --> 01:33:45.360
+de las probabilidades de transición
+
+01:33:45.360 --> 01:33:47.360
+y con esas probabilidades
+
+01:33:47.360 --> 01:33:49.360
+de transición recalculas
+
+01:33:51.360 --> 01:33:53.360
+es una versión específica
+
+01:33:53.360 --> 01:33:55.360
+de un algoritmo más general
+
+01:33:55.360 --> 01:33:57.360
+que se llama expectation maximization
+
+01:33:57.360 --> 01:33:59.360
+donde yo
+
+01:33:59.360 --> 01:34:01.360
+tengo algo a la que quiero ver
+
+01:34:01.360 --> 01:34:03.360
+cuál estructura tiene que calcularla
+
+01:34:03.360 --> 01:34:05.360
+estimar sus parámetros
+
+01:34:05.360 --> 01:34:07.360
+y lo que hago es
+
+01:34:07.360 --> 01:34:09.360
+tiro una aproximación primera
+
+01:34:09.360 --> 01:34:11.360
+y hago cuentas en base al modelo
+
+01:34:11.360 --> 01:34:13.360
+y me devuelvo un ajuste de esos parámetros
+
+01:34:13.360 --> 01:34:15.360
+no lo vamos a ver en detalle
+
+01:34:15.360 --> 01:34:17.360
+pero lo importante
+
+01:34:17.360 --> 01:34:19.360
+es que eso nos permite
+
+01:34:19.360 --> 01:34:21.360
+estimar probabilidades
+
+01:34:21.360 --> 01:34:23.360
+a partir de texto irrestricto
+
+01:34:23.360 --> 01:34:25.360
+si yo podía tener grandes volúmenes de texto
+
+01:34:25.360 --> 01:34:27.360
+que son mucho más fáciles de conseguir
+
+01:34:27.360 --> 01:34:29.360
+y estimar probabilidades
+
+01:34:29.360 --> 01:34:31.360
+en los hechos igual depende mucho
+
+01:34:31.360 --> 01:34:33.360
+de cómo inicias
+
+01:34:33.360 --> 01:34:35.360
+bueno
+
+01:34:35.360 --> 01:34:37.360
+y por acá quedamos
+
+01:34:37.360 --> 01:34:39.360
+hoy avanzamos mucho
+
+01:34:39.360 --> 01:34:41.360
+nos pusimos al día
+

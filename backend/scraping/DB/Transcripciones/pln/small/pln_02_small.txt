@@ -1,0 +1,664 @@
+Bienvenidos a la segunda clase de Introducción al Procesamiento del Lenguaje Natural de esta
+edición 2016. Hoy vamos a hablar de el idioma español. Vamos a ver algunas cosas que no
+vende desde el liceo. Algunas cosas que probablemente nunca vieron. Y bueno, va a ser un poco como
+repaso en parte de lo que fue idioma español del liceo. Y probablemente algunos de ustedes
+digan que embole idioma español del liceo, no me gustaba nada, me embolaba. Entonces bueno,
+vamos a tratar de ver que si bien desde un punto de vista ingenieril, yo que sé, no
+están solos, hay mucha gente que piensa igual. En realidad, hay algunas cosas que son un
+poco arbitrarias en el idioma, pero hay muchas otras cosas que desde un punto de vista ingenieril
+se pueden analizar bien y se pueden formalizar y se pueden construir modelos y teorías que
+funcionan bien. Entonces claro, lo que pasa con el idioma es que es una herramienta cultural,
+es algo que es compartido por un grupo de gente. Entonces ese grupo de gente se pone de acuerdo
+de alguna manera en cómo se comunican, establecen un protocolo, establecen mensajes que tienen que
+intercambiar entre ellos. Y por el hecho de que es cultural, entonces esto ha ido evolucionando a
+lo largo de la historia. Entonces lo que pasa es que el idioma siempre tiene una parte lógica,
+porque se necesita para describir el universo, se necesita para poder comunicarse y todo eso
+obedece a ciertas reglas lógicas. Y tiene otra parte histórica, que bueno, la gente decidió
+hablar de esa manera y además fue evolucionando a lo largo del tiempo, entonces hay cosas que
+hoy nos parecen raras como funcionan, pero porque históricamente tenían un sentido. Entonces por
+eso es como que tiene las dos partes. En la parte lógica los ingenieros en general nos sentimos
+bastante bien, porque bueno, tiene reglas, es más o menos estable, lo podemos predecir. La otra parte,
+no tanto, la otra parte como que se escapa un poco y hay cosas que parecen un poco arbitrarias. Pero
+vamos a ver que en realidad todo es igual, se puede formalizar o gran parte de eso se puede
+formalizar y se puede ver bien desde un punto de vista de la ingeniería. Entonces bueno, un poco la
+idea detrás de esta clase, la de hoy y la clase que viene, es tratar de nivelarnos a todos en un
+nivel mínimo del conocimiento necesario que necesitan de tener para el idioma español,
+porque después, al final de estas dos clases, después ya va a empezar el resto del curso de
+procesamiento del lenguaje natural y bueno, ya se asume que ustedes ya van a conocer que es un
+nombre, que es un verbo, que es un grupo nominal, que es un sujeto, etcétera, todo ese tipo de cosas,
+se asume que ya lo van a saber, entonces no lo vamos a estar explicando de vuelta. Así que bueno,
+al final de estas dos clases deberían tener todo ese conocimiento incorporado.
+Bueno, vamos a ver, viendo un poco el resumen de los temas que vamos a tratar en estas dos
+clases, primero vamos a ver cuál es, digamos, la gramática, o sea qué significa gramática y
+cuál es su objeto de estudio, en particular nos vamos a concentrar en qué es una oración. Después
+vamos a hablar un poco de las palabras y cómo se catalogan las palabras del lenguaje y después
+las estructuras más grandes que la palabra, yo puedo agrupar palabras de distintas maneras en
+cosas que se llaman sintagmas y bueno, esos también tienen categorías y después vamos a ver un
+poco cómo esos sintagmas actúan dentro de una oración, pueden tener cierta función,
+pueden tener cierto rol y bueno, vamos a ver un poco de la estructura argumental de los verbo,
+esto va a ser en esta clase y la que viene. Bueno, ¿qué es la gramática?
+Ustedes vieron ya en la carrera gramáticas en alguna materia, ¿no?, ¿en qué materia
+veron gramáticas? ¿Se acuerdan? En teoría del lenguaje, ¿qué veían ahí?
+Entre el lenguaje veían una cosa que se llamaba gramática libre de contexto,
+no sé si le suena de algo. Bien, las gramáticas libres de contexto son un tipo de gramática
+formal que sirve para describir cierto tipo de lenguajes, lenguajes formales,
+en particular lenguajes libres de contexto. También se utilizan para modelar el lenguaje
+natural pero no son las mejores, digamos en este curso vamos a ver ejemplos de gramática
+libre de contexto usadas para modelar el lenguaje natural, pero bueno, no son lo ideal.
+Igual, lo que se refiere en esta slide sobre gramática no se refiere tanto a la gramática
+como formalización, como una descripción del lenguaje, sino que es qué es la gramática en el
+estudio, o sea qué estudia la gramática en general. La gramática en general es una disciplina que
+estudia cuáles son las unidades del lenguaje, agarra un lenguaje natural, estudia sus unidades
+como por ejemplo las palabras, las oraciones y cómo se combinan esas unidades para formar
+bueno, todo el lenguaje, digamos. Entonces estudia las unidades significativas del lenguaje y su
+combinatoria. Hay otras definiciones que además incluyen la semántica, o sea el estudio del
+significado, nosotros no vamos a entrar en esas definiciones, no vamos a quedar más que nada en
+la definición que es más bien sintáctica. Entonces la gramática como disciplina compone
+estas dos partes que están acá, que son la morfología y la sintaxis. La morfología estudia la
+formación de las palabras, digamos tiene comunidad de estudio las palabras, va desde los morphemas
+que son unidades más pequeñas hasta palabras y después la sintaxis estudia las palabras y la
+forma en que se combinan para generar oraciones. Entonces la morfología tiene comunidad mínima,
+el morfema y allá aparece una palabra separada de morfemas, la palabra prehistóricos que está
+compuesto por el morfema histor, digamos tiene esa raíz, que se refiere a algo de historia,
+después le agregamos un prefijo pre que significa que voy a hablar algo que está antes de la
+historia y después le agrego sus fijos ICO y S y lo transformo en un sustantivo plural. Entonces
+esa descomposición en morfemas de la palabra ya me está dando un montón de información acerca
+de qué es esa palabra. Entonces la morfología estudia eso, estudia cómo descomponer las
+palabras en morfemas y la unidad máxima de estudio es la palabra. Un caso interesante de esto es,
+por ejemplo, cuando yo tengo una palabra en español como perro, la morfología en general la
+descompone como para decir yo tengo una raíz que es perr y le agrego un sufijo O y eso lo que hace
+es transformarlo en algo que es masculino singular pero además yo puedo tener algo similar que es
+esa misma raíz pero con una A y se transforma en femenino singular o si no le puedo agregar a
+cualquiera de las dos le puedo agregar una S y lo transformo en plurales. Esa descomposición en
+morfemas es algo que estudia la morfología y bueno y el conjunto de todas estas palabras,
+digamos todas las que salen de la misma raíz y yo les agrego las puedo transformar en masculino o en
+femenino y las puedo transformar en plural o en singular. Este efecto de agarrar una palabra y
+poder transformarla a plural y a singular o transformarla masculino femenino se llama flexión de la
+palabra o sea yo digo que tengo una palabra base yo tengo una palabra base como perro y la puedo
+flexionar de manera de transformarla en femenino transformarla en plural o transformarla en femenino
+plural entonces todo esto se conoce como el paradigma flexivo de una palabra.
+¿Por qué les digo esto ahora? Porque lo vamos a necesitar un poquito después en esta clase un
+poco alguna idea esa de que las palabras se flexionan para tener distintos atributos pero en
+realidad en esta clase no vamos a hablar mucho más de morfología sino que solamente es un
+breve pantalla eso más adelante en el curso se va a dar nociones bastante más profundas.
+Lo que sí nos vamos a concentrar es en la segunda parte la parte de sintaxis. La sintaxis no se
+concentra en los morfemas sino que asume que ya tengo palabras el idioma ya está compuesto por
+palabras y estudia desde la palabra cómo se combina hasta formar una oración y en el medio las cosas
+que están las estructuras intermedias que aparecen se denominan sintagmas son cosas que no llegan a
+ser oraciones sino que son grupos de palabras que se quedan en el medio y bueno vamos a ver un
+poco de qué se trata todo esto. Bueno este diagrama parece lo que les decía la morfología
+estudia desde el morfema hasta la palabra y la palabra digamos es como la unidad base de
+las sintaxis que estudia desde la palabra hasta la oración bueno y todo eso compone la gramática
+que es bueno el estudio de todo esto de las unidades del lenguaje y cómo se combinan.
+Bueno lo que les decía lo que vamos a ver ahora son algunos elementos de sintaxis la
+morfología se va a ver más adelante en otras partes del curso bueno
+entonces empecemos definiendo lo que es una oración todos tenemos una idea media
+intuitiva que es una oración no alguien me puede dar un ejemplo de oración
+oración cualquiera el perro va a pasear es una oración válida o sea como sabemos que
+eso es una oración si yo tengo un texto en español digamos tengo un montón de palabras
+en español tiradas y quiero separarlas en oraciones como puedo hacer a quién se le ocurre una forma
+con un punto o sea una forma puede ser entonces este criterio que es el criterio
+lexicográfico agarro las secuencias que empiezan en una mayoscula termina en un punto
+bien es un criterio entonces yo tengo una secuencia de texto empiezo buscando mayoscula
+llegó hasta el punto después siguiente mayoscula llegó hasta el punto etcétera y con eso
+parto en oraciones qué problemas puede tener esto
+claro bien y además o sea hay hay problemas o sea hay problemas por todos lados
+claro porque si solamente nos guiamos por el criterio lexicográfico hay quien puede
+venir a escribir algo como esto de acá el doctor foster visitó la ONU esta es otra
+oración nueva y ahí aparecen puntos en el medio y aparecen mayosculas que no son inicios de oraciones
+entonces es como que rápidamente se nos rompe directamente podemos este o sea si utilizáramos
+esta estrategia para parcer ahí para cortar ese texto en oraciones nos quedaría una oración el
+doctor y después foster visitó la o y después otra oración que sene y otra oración que su
+entonces como que ya rápidamente se rompe y no estaría funcionando ese criterio entonces vamos
+a tratar de dar otras definiciones vamos a dar una que es el criterio gramatical de cómo reconocer
+oraciones decimos que una porción de texto un conjunto de palabras es una oración si es un
+verbo conjugado y además esa porción de texto tiene independencia sintáctica entonces esa
+definición es bárbara porque ahora no sabemos qué es independencia sintáctica en realidad les
+cambia una definición por otra pero bueno vamos a tratar de primero vamos a dar una idea un poco
+intuitiva de que se trata eso y después vamos a tratar de verlo un poco más formalmente en
+esta clase en la que viene pero bueno hay algo que sí sabemos reconocer que son los verbos
+conjugados los verbos conjugados son palabras de ese estilo como corremos cantan estábamos
+existen otro tipo de verbos que son los verbos no conjugados formas verbales no
+personales como por ejemplo correr corriendo y corrido que son bueno el infinitivo el
+gerundio y el participio digamos que si una oración contiene uno de esos verbos y no
+contiene un verbo conjugado entonces no diríamos que es una oración y tal y vamos a ver un poco
+en realidad de qué otro tipo de estructura se trata
+bueno hay otro criterio más que se llama criterio semántico que decimos que una porción de texto
+es una oración si es una unidad de sentido o sea si yo puedo agarrar esa porción de texto
+testearla contra el universo y eso me puede volver proposicionalmente si es verdadero falso
+entonces si yo tengo una oración como el perro está ladrando yo puedo agarrar esa oración y
+tratar de buscar una situación del universo decir bueno hay un perro ese perro está ladrando
+entonces me devuelvo verdadero y ahí yo digo bueno eso que tenía es una oración en cambio si
+yo tengo una porción de texto que solamente dice el perro entonces yo puedo tratar de
+testearlo contra el universo pero no voy a encontrar algo que me devuelvo a verdadero falso o
+sea yo puedo encontrar una instancia de perro por ejemplo pero no es una proposición que pueda
+ser verdadero falso entonces ahí digo que eso con lo que yo estaba trabajando no era una oración
+en realidad nos vamos a concentrar más en el criterio gramatical pero bueno sepan que hay
+diferentes formas de definir oración todas son más o menos complementarias o sea todas más
+o menos llegan a lo mismo pero bueno hay como distintos criterios bueno tenemos un ejemplo
+de texto sabiendo lo que sabemos ahora podemos separar ese texto en oraciones tenemos un texto
+que dice los artistas ofrecieron a colaborar desde el principio mucho sólo para ser pinta
+otros sinceramente se quedaron a trabajar siempre que se necesitó como lo separan oraciones
+ahí mayúscula de punto podrían dar bien a ver entonces te quedaría los artistas ofrecieron
+a colaborar desde el principio te quedaría una después te quedaría mucho sólo para ser pinta
+y después te quedaría otros sinceramente se quedaron a trabajar siempre que se necesitó
+bien de la otra definición que vimos de oración
+no estoy tan seguro que no pasa en el criterio semántico pero que no puedes encontrar ese
+criterio gramatical porque esa oración mucho sólo para ser pinta no tiene ningún verbo
+conjugado el único algo que hay en esa oración es hacer y está infinitivo o sea en definitiva
+eso no sería una oración propia según la oración la definición que nosotros tenemos la
+primera sí la primera tiene un verbo conjugado que cuál es ofrecieron la última también tiene
+verbo conjugado cuál es quedaron de hecho hay otro que es necesitó pero bueno en realidad ese
+no sería el principal y después vamos a ver un poco porque sí sí está lidido o sea es como
+una cosa más rara todavía y en realidad no lo vamos a considerar oración por lo menos en esta
+primera instancia entonces claro lo que está pasando es lo que lo que dice la compañera
+tiene razón es que mucho sólo para ser pinta ahí hay un pedazo de oración que falta y uno
+tiene que ir a buscarlo antes entonces dice los artistas ofrecieron a colaborar desde el principio
+y en mucho sólo para ser pinta quiere lo que está queriendo decir es mucho se ofrecieron
+a colaborar sólo para ser pinta y hay un to un pedazo que está este oculto digamos que no se
+menciona de vuelta y se necesitaría ese pedazo para poder completar la oración pero en definitiva
+si solamente tenemos ese fragmento de texto ya no sería una oración por lo menos según este
+criterio entonces para tratar de resolver esto no resolver pero para tratar de dar una idea de
+cómo funciona esto vamos a tratar de definir que hay dos tipos de objetos distintos en nuestro texto
+vamos a definir cuál es el concepto denunciado y vamos a darlo como algo separado del concepto
+de oración entonces cuando yo tengo un texto un texto físico así que es una secuencia de
+palabras escritas yo voy a decir que contengo anunciados y los anunciados más o menos se
+corresponden con el criterio lexicográfico van desde una mayúscula hasta un punto más o menos o
+sea como en el ejemplo anterior servía ese criterio de estos anunciados algunos algunos que contienen
+un vero conjugado van a hacer cosas que son oraciones van a tener forma de oración y hay
+otros que no hay otros que simplemente van a ser anunciados entonces lo que queremos decir
+acá es que la oración es un objeto teórico es un objeto que la gramática puede estudiar puede
+analizar puede encontrarle una estructura dentro el enunciado es en vez de eso es un objeto que
+está dentro de un texto dentro de un texto yo tengo una secuencia de palabras agarro la islo y
+digo que eso es un enunciado algunos de esos anunciados van a ser oraciones y otros no entonces
+vamos a tratar de reconocer cuáles esos anunciados son oraciones bueno y acá está marcado como era
+digamos el ejemplo anterior como se resolvería decíamos que los anunciados están entre corchetes
+y los que están subrayados son anunciados que además son oraciones los artistas ofrecían a
+colaborar desde el principio es una oración otros sinceramente se quedaron a trabajar siempre
+que se necesitó es otra oración y mucho sólo para ser pinta sería un enunciado que no es oración
+por lo menos en esta definición que tenemos claro eso es un problema que es digamos complicado para
+resolver automáticamente no es el problema más complicado de todos pero hay este digamos es el
+problema de tokenización que se va a dar más adelante en el curso como se para reconocer
+cuáles de esas de esos puntos están siendo parte de una sigla por ejemplo entonces tenés que
+reconocer toda la sigla entera cuál punto es un punto final y cuál por ejemplo es el punto de
+doctor pero en realidad no es un punto final sino que tienes que seguir ese es un problema que bueno
+hay técnicas para resolverlo bueno se va a dar más adelante entonces en este en este caso estamos
+diciendo bueno la oración va hasta un punto que realmente es el punto final
+suponiendo que lo puedes resolver de otra manera bueno entonces ahora hablemos un poco
+de las palabras vamos a empezar hablando las palabras y después vamos a ver cómo se combinan
+esas palabras para generar unidades más grandes bueno entonces vamos a hablar de categorías
+gramaticales para las palabras las palabras del idioma se pueden clasificar se pueden separar
+en grupos según sus propiedades combinatorias según cómo yo puedo poner esas palabras junto con
+otras palabras bueno esas clases en las cuales esas clases equivalencias las cuales yo se
+separo se llaman categorías léxicas además las palabras se van combinando en unidades un
+poco más grandes que se denominan sintagmas y esos sintagmas también se pueden categorizar en lo
+que se llama categorías sintagmáticas bueno del conjunto de todas esas categorías le llamamos
+categorías gramaticales entonces empecemos por cuáles son las categorías léxicas las
+categorías de las palabras y estas sí las conocen probablemente desde las cuales al liceo
+las categorías léxicas son cosas como nombres verbos adjetivos adverbios etcétera un nombre o
+sustantivo en el liceo probablemente le llamaban sustantivo pero en este curso le vamos a llamar
+nombre es bueno las palabras que son nombres representan objetos del mundo como por ejemplo
+casa casa felicidad digamos cosas de estilo objetos dentro del universo los verbos representan
+acciones representan eventos representan bueno ese tipo de cosas como por ejemplo cantar cantando
+cantaremos sabe c etcétera los adjetivos son palabras que se utilizan para modificar a los
+nombres y lo que hacen es como dar más descripción acerca de los nombres y le agregan características
+como por ejemplo alto alta lindos inteligente solo los adverbios también son modificadores pero en
+vez modificar nombres modifican tanto a los o sea modifican el resto de las cosas modifican a
+los verbos a los adjetivos o a otros adverbios como por ejemplo medios simplemente solo ayer esas
+cuatro categorías que les acabo de decir nombre verbo adjetivo y adverbio son categorías abiertas
+son clases abiertas porque todos los días se están inventando palabras nuevas el lenguaje
+como muy productivo y la gente empieza a inventar palabras todos los días entonces las palabras
+casi todo el tiempo van a parar en una de esas cuatro categorías en cambio las de abajo son
+clases cerradas son clases que o bien no cambian digamos yo puedo escribir una lista con todas las
+palabras o bien cambian muy lentamente en el tiempo y bueno una de esas categorías son los
+determinantes los determinantes incluyen a los artículos como el una unos e incluyen algunas
+otras cosas como los cuantificadores muchos alguno etcétera bueno esa es la categoría de
+los determinantes después las preposiciones que para la preposiciones también puedo escribir
+una lista de ad por contragasia desde y otras más las preposiciones tienen una característica en
+español que en español y en otras lenguas romances como el francés de que yo no puedo
+terminar una oración en una preposición o sea me parece que no hay ejemplos de oraciones que
+también en preposición sino que la preposición siempre va antes de otro grupo de palabras
+y bueno con la preposición se arman estructuras más grandes que sirven como por ejemplo para
+poner los argumentos a un verbo digamos en contra estoy en contra de algo y estás
+claro que estás elidiendo estás omitiendo la parte de la que estás en contra
+bien o sea venías hablando de algo lo que hiciste fue sacar el no venimos hablando de algo te
+estás en contra estás omitiendo
+no se ve ahí en contra ese contra sería preposición también
+ese contra no sé si es una preposición capaz de sí capaz no estaría a averiguarlo el en seguro
+es una preposición pero el contra no sé bien
+ok claro porque contra puede ser una preposición pero el en contra y ya no estoy tan seguro
+es preposición a
+claro pero cuando estás en contra de ahí no sé capaz que contra está actuando como otra cosa
+claro pero el contra está actuando también como como preposición bien es un ejemplo interesante
+igual es bastante raro
+sí pero bueno pero en inglés por ejemplo es perfectamente válido terminar una una
+oración en una preposición pero claro en las lenguas romances que vienen de latín no no terminás
+nunca en una preposición oración entonces por eso es raro decirlo en contra y habría que ver
+porque capaz que no está actuando como preposición o es un caso medio particular pero bueno como les
+decía el lenguaje tiene eso tiene cosas que son muy lógicas porque se usa para describir situaciones
+lógicas y tiene cosas que van evolucionando a largo de la historia hoy las miramos y decimos
+pa que raro esto que extraño pero probablemente tuvo su historia y de alguna manera la gente se
+puso de acuerdo que se decía así y se utilizaba el protocolo de esa manera bueno después la otra
+categoría son los pronombres como los pronombres personales yo vos nosotros ellos etcétera o
+pronombres posesivos o algunos otros pronombres bueno después las conjunciones las conjunciones
+como yo sí que pero alguna más son palabras que me permiten agarrar dos pedacitos de de oración
+y pegarlos juntos y construir una estructura más grande como por ejemplo y que es una conjunción
+coordinante me permite agarrar dos cosas de la misma clase pegarlas y generar otra cosa de que
+también es de la misma clase que esas dos y bueno más o menos esas son las categorías
+cátedorías léxicas que vamos a considerar existen algunas más y dependiendo de la fuente
+que le dan puede que agregue diferentes como por ejemplo las interjecciones son otra otra
+categoría que no están está en esta slide pero la también es una clase de palabras bastante
+común como hay ui opa y todo ese tipo de cosas ese tipo de palabras como que no entra en ninguna
+en ninguna de estas categorías y bueno hay una nueva que es interjección y bueno dependiendo de
+a quien le dan puede que haya otras pero estas como son las más importantes y las más comunes
+que vamos a considerar bueno lo que les decía hace un ratito hay categorías que son abiertas y
+categorías que son cerradas clases abiertas y clases cerradas las clases abiertas como nombres
+verbos adjetivos y algunos advergios en particular los advergios que vienen de adjetivos y terminan
+el mente entran ahí bueno son clases en las cuales todos los días se están inventando
+palabras nuevas y se van agregando palabras nuevas a esas clases y las categorías cerradas son
+categorías en las cuales normalmente no se agregan palabras nuevas sino que yo puedo escribir
+una lista con todas las que existen por ejemplo una lista con todos los determinantes con todos
+los pronombres con todas las preposiciones y bueno hay algunos advergios particulares también
+yo podría escribir una lista y listarlos todos pero claro esto no quiere decir que esté escrito
+en piedra y que nunca cambie sino que a lo largo del tiempo a lo largo de los siglos y la historia
+hay palabras que empiezan a moverse a mutar su significado y se empiezan a aparecer más a
+preposiciones por ejemplo entonces al final se le agrega la lista de preposiciones como que es una
+preposición nueva pero claro eso es algo que pasa después de muchos años entonces como que en el
+análisis de texto del día a día no nos va a molestar demasiado bueno veamos ejemplos entonces
+tenemos un texto que es no sé si llega a ver las palabras que están en negrita de su padre aprendió
+desde niño de su padre aprendió desde muy niño el dominio de las armas de fuego el amor por los
+caballos y la maestranza de las aves de presas altas pero él aprendió también las buenas artes
+del valor y la prudencia y algunas palabras ahí que están en negrita como por ejemplo la palabra
+su cuál es la clase la categoría eléctrica de la palabra su cual es un determinante exacto es un
+determinante posesivo bueno que otras tenemos aprendió verbo bien desde es una preposición
+maestranza maestranza es un nombre claro sustantivo o nombre altas
+un adjetivo pero
+es una conjunción exactamente el que es él es un pronombre y también
+exactamente la que falta y un poco pasa eso en general cuando uno no no logra encontrar que
+es una palabra probablemente sea un aduario o sea empezó a decir no no es preposición no
+es pronómico y tal termina siendo un aduario pero bueno si los aduario son como una clase un poco
+un poco extraña todo lo que no puede estar en otro lado termina parando ahí y entonces como que tiene
+distintas propiedades combinatorias y son son un poco raros tiene algunas propiedades comunes pero
+bueno también si es un aduario y es este uno de esos aduarios que les decía que que no cambia
+digamos pertenece a la clase de aduario que no es digamos que cerrada bueno entonces muy bien
+este tuvieron bien todas las respuestas sube es un determinante posesivo aprendió es un verbo
+desde su una preposición maestranza es un nombre alta es un adjetivo pero es una conjunción él
+es un pronombre y también es un aduario qué pasa con estas palabras de qué categoría es la palabra
+sobre depende del contexto que puede ser sobre
+puede ser un sustantivo como
+eso es eso es un sustantivo
+ahí está el sobre de carta el sobre donde pongo una carta es un nombre es un sustantivo bien
+qué otro sobre puede haber entonces preposición ahí está está sobre la mesa es una preposición y
+hay otro más
+quien dijo bien que algún ejemplo
+lo sobre ese tiene tilde pero pero me comí la comida para que no sobre o algo así ahí sí ahí
+es el verbo del verbo sobrar y bueno esas son las tres categorías no sé si pueden alguna otra
+supongo joven que de qué categoría es sustantivo adjetivo a ver ejemplos
+el joven es ahí que es sí pues una es un sustantivo está y el otro
+el joven ahí está el adjetivo bien y cómo
+puede ser un verbo de comer como manzanas o qué otra cosa
+ahí es una precaución es una conjunción a ese es un adorio también puede ser una
+conjunción subordinante pero no me relativo no tengo muy claro cuál es la diferencia cuando
+cuando dice como nunca va no lo invitan por ejemplo ese como que vendría a ser adorio
+ahí está bien o sea el como es medio es medio complicado y puede tener con muchas categorías
+pero bueno como ven hay palabras que puede pertenecer a más de una categoría y eso
+significa que hay ambigüedad y la ambigüedad ocurre en todo nivel en el lenguaje natural
+y bueno ya empezamos desde lo más abajo las palabras son ambigüas las categorías lexicas
+que tienen las palabras son ambigüas entonces bueno necesitamos poder desambiguar las necesitamos
+poder sacar es levantar esa ambigüedad de alguna manera a saber si cuando dice sobre está hablando
+de un nombre está hablando de un sobre de una carta o está hablando de una preposición o está
+hablando de un verbo como hacemos alguien había dicho hoy que es lo que hacemos para podernos
+nos cuenta cuál es la categoría correcta miramos con texto entonces nosotros agarramos y miramos
+la oración donde está dice este no se me comí la comida para que nos sobre entonces me doy cuenta
+de que es un verbo y bueno que podría ser una computadora en este caso si quisiéramos
+hacerlo automáticamente en realidad la computadora también utiliza contexto también los métodos que
+existen para poder desambigüedad estas cosas se basan en el contexto y que hay palabras
+alrededor que me van a dar información importante acerca de cuál es la categoría esa palabra
+entonces existen métodos que son basados en reglas los primeros que se inventaron digamos
+son métodos basados en reglas donde personas hablantes del lenguaje que tienen mucho conocimiento
+acerca de la lengua empiezan a decir bueno si sobre está cerca de carta entonces digo que es un
+sustantivo y si sobre está cerca de no sé alguna otra cosa entonces digo que es una preposición
+etcétera entonces se armaban como grandes compilaciones de reglas con muchísimas reglas y
+muchísima información y bueno eso sean los primeros métodos para poder reconocer para poder
+identificar cuál es la categoría gramática de una palabra que es ambigua pero otro gran otro
+gran este grupo de técnicas en vez de digamos de utilizar personas para que escriban esas
+reglas tratan de inferirlas automáticamente agarran un montón de texto que tiene ya etiquetado
+cuáles son las categorías correctas y tratan de inferir las reglas mediante aprendizaje automático
+entonces inicialmente los métodos más exitosos eran basados en reglas o sea había lingüistas que
+escribían un montón de reglas con un montón de conocimiento pero aún así digamos es bastante
+complejo y se vuelve como bastante intratable entonces lo después de cierto momento de la
+historia empezaron a ser más precisos los métodos automáticos basándome en una gran colección de
+texto que ya está etiquetado yo puedo entrenar algo que aprende a reconocer cualquier texto que
+a mí se me ocurra eso lo vamos a ver más adelante en el curso cómo es que funcionan estos métodos
+bien entonces por ejemplo la palabra medio es una palabra que tiene dos posibles
+categorías léxicas medio puede ser un adjetivo o medio puede ser un adverbio y acá yo puedo
+ver una diferencia interesante entre adjetivo y adverbio cuando yo digo estoy hablando de un
+tomate digo que quiero medio tomate si estoy hablando un naranja naranja digo que quiero
+media naranja y ahí la palabra medio cambio en realidad cambio porque tomate es porque cambió
+no es el artículo no estamos hablando del nombre el nombre tomate es un nombre masculino
+claro pero en realidad artículo también cambia por lo mismo cambia porque el artículo se adapta
+a que el nombre es masculino entonces el artículo va a pasar a ser masculino si el nombre femenino
+el artículo también entonces eso se llama concordancia en español existe concordancia entre
+un determinante y el sustantivo que está determinando y el nombre que está determinando
+y también entre un adjetivo y el nombre que está modificando entonces eso es lo que pasa con
+medio en este caso cuando yo digo tomate que es un nombre masculino entonces el adjetivo que lo
+está modificando también tiene que ser masculino cuando digo naranja que es un nombre femenino el
+adjetivo lo está modificando también pasa a ser femenino y eso es parte de lo que decíamos el
+paradigma flexivo la palabra medio puede flexionarse de manera de volverse femenina o puede también
+flexionarse de manera de volverse plural y va a tener la misma las mismas categorías digamos la
+misma flexión que va a tener el sustantivo que está acompañando en cambio en los ejemplos
+abajo cuando se trata de un adverbio esto no ocurre yo digo están medio cansadas y no digo
+están medias cansadas cómo le suena están medias cansadas
+es una raro
+si suena un poco como las medias están cansadas pero qué pasa si digo mi vecina está medio
+ahí cómo le suena
+ahí suena bien no suena menos mal pero lo correcto es decir mi vecina está medio loca que de alguna
+manera suena bien también pero capaz que media loca no suena más natural y eso raro en realidad
+porque lo normal es que a ese medio que estoy diciendo ahí es un adverbio y los adverbios nunca
+cambian los adverbios no tienen flexión sino que simple siempre se comportan de la misma manera
+pero por algún motivo por lo menos en uruguay no sé si pasa en el resto del mundo para para decir
+medio para utilizar el adorio medio este nosotros solemos flexionarlo y decir esta media loca o están
+medias locas o lo que sea y no sé si eso es universal en todo el español pero por lo menos en uruguay
+nos suena bastante natural decir eso entonces esto es otro ejemplo de una cosa que es histórica
+probablemente nosotros nos pusimos de acuerdo todos como sociedad de que sonaba mejor decir
+esta media loca que está medio loca y eso trae problemas al analizar las cosas este
+mediante reglas porque yo digo bueno la regla correcta es decir está medio loca y si digo
+cualquier otra cosa está mal no lo puedo reconocer porque es incorrecto pero probablemente alguien se
+le ocurre escribirlo porque alguien le suena natural y lo escribe de esa manera entonces
+pues mi procedimiento va a fallar porque tenía un error lo que yo considero que es un error pero
+esa persona le sonaba natural y bueno ese es uno de los problemas grandes digamos que tiene el
+procesamiento de lenguaje o sea uno tiene que ser tolerante ante ese tipo de errores porque capaz
+que en realidad no está tan mal capaz que hay que ser un subconjunto de personas que hablan de esa
+manera y eso entonces los errores son un problema y lo vamos a ver a lo largo del curso cuando hay
+errores digamos de análisis de una oración uno puede directamente decir bueno este corto a
+cambio análisis y no no sigo analizando porque esta oración tiene errores o puede decir bueno hay
+errores pero con cierta probabilidad en realidad quiso decir esta otra cosa y bueno está ese es
+otro problema que está bueno para es complicado y está bueno para analizarlo después bien que otro
+problema tengo cuando quiero identificar la categoría lexica de una palabra hay palabras
+desconocidas o sea como decíamos hay clases abiertas todos los días se están inventando
+palabras y si bien yo puedo tener un diccionario que tiene un montón de palabras y decirme para cada
+una cuál es su categoría lexica es muy probable que alguien venga mañana y me envente una palabra
+nueva como en este que dice digo 20 diría 50 porque esos eran los que representaba con su
+desgunfiamiento de mascarón chino y sus ojos enturbiados como los de un antiguo lavabatos
+es un fiamiento alguien sabe lo que es un confiamiento no probablemente art inventó esa
+palabra en ese momento pero más o menos podemos saber de qué categoría es que se les ocurre que
+ese es un fiamiento una adverbio porque por miento los adorios te está confundiendo en
+mente no hay determinante entonces es un nombre exacto el confiamiento es un nombre y las dos
+pautas que me lo dicen es por la terminación miento que se utiliza para en muchas ocasiones para
+pasar de vergo a nombre como en entrenamiento casamiento cuestionamiento cosas de estilo y
+además porque está precedido por un determinante y el determinante se aplica a nombres
+como sustantivo nombre y sustantigo sí es lo mismo bien acá tenemos otro ejemplo en las
+mediciones de transaminazas o aminotranferazas son exámenes que indican inflamación hepática
+etcétera etcétera transaminazas o aminotranferazas esas dos palabras que son
+también son nombres o sustantivos porque qué es lo que nos da la pauta porque conocemos
+mucho de química y sabemos cómo funciona son exámenes o sea en realidad lo que son
+exámenes no son las transaminazas o aminotranferazas sino las mediciones de eso y qué pasa cuando
+yo digo medición de algo en realidad ese algo que estoy midiendo probablemente sea un nombre
+porque yo no no no a una medición de leer o a una medición de no sé o sea en general lo que lo que
+va después de una medición de algo es es un nombre es un objeto también si conociera acerca
+de cómo funciona el la morfología de las de las palabras que son sustancias químicas vería
+que las que terminan en asa también son siempre nombres entonces en definitiva siempre utilizo
+este tipo de técnicas para reconocer que hay un nombre cuando tenga una palabra desconocida
+entonces el tipo de evidencia que yo puedo sacar para saber que un fiamento es un nombre es por
+su terminación porque está precedido en determinante y bueno transaminazas y aminotranferazas más
+o menos lo mismo bueno otro problema que hay al reconocer categorías lexicas es la existencia
+de este tipo de cosas que se llaman locuciones o palabras compuestas o expresiones multipalabras
+son como conceptos similares que se refieren más o menos a la misma cosa y son secuencias de
+palabras que siempre van juntas o sea son secuencias de palabras que no actúan como si fuera cada
+palabra por separado sino que tienen una sola unidad de sentido entonces acá hay un ejemplo que es
+a partir de lo invitaron a partir de que demostró estar interesado en el tema ese a partir de no
+es este o sea no estoy utilizando luego partir para nada sino que no o sea no hay nadie que vaya a
+partir sino que lo estoy usando como una expresión multipalabra que es funciona como una especie de
+preposición una especie de macro preposición que funciona para decir lo que viene después lo
+invitaron a partir de que demostró estar interesado en el tema en cambio hay otros casos en los cuales
+yo voy a encontrar el string a partir de y va a querer decir explícitamente que está el verbo
+partir y que hay otras cosas alrededor por ejemplo en lo obligaron a partir de aquel lugar
+inmediatamente en ese caso no estoy usando la esa locución prepositiva a partir de sino que
+estoy diciendo hay una persona que tenía que partir entonces lo obligaron a partir de aquel
+lugar inmediatamente en ese caso estoy haciendo el análisis explícito y es complicado para un
+analizador automático saber cuándo tiene que usar uno de los casos y cuándo tiene que usar el otro
+y locuciones de este estilo hay de para todos los gustos digamos en todas las categorías tenemos
+locuciones que son nominales como por ejemplo ojo de wey logo de mar otras que son verbales como dar
+un beso dar la mano dar las gracias tomar el pelo otras más entonces por ejemplo ojo de wey que es
+un ojo de wey es una ventanita redonda que se pone los barcos digamos ahí no hay ningún ningún
+buen ningún este ganado vacuno y nos está hablando de ningún ojo en cambio si yo tengo un
+texto digamos y me aparece ojo de wey como reconozco si está hablando de de weyes o está hablando de
+barcos bueno yo podría mirar alrededor y veo si hay un contexto marítimo donde habla de barcos y
+habla de mar y etcétera entonces digo bueno acá se refiere al ojo de wey marino y si habla de vacas
+y habla de cabezas de ganado etcétera entonces digo se está refiriendo al otro ojo de wey puedo
+separarlo entonces bueno usando el contexto también se puede llegar a distinguir este tipo de cosas
+bueno entonces estos son
+tres tipos de problemas tres fuentes de problemas que tenemos al identificar categorías léxicas
+dentro de un texto uno es el principal es la ambigüedad o sea de palabras que tienen más de
+una categoría yo tengo que poder distinguirlo otro es cómo hago para encontrar una la categoría
+léxica de una palabra desconocida y el otro es la identificación de palabras compuestas o expresiones
+multipalabra y bueno estos problemas y otros muchos estos son algunos ejemplos son problemas que
+se enfrenta el procesamiento del lenguaje y bueno en el curso vamos a estar viendo algunos de estos
+bueno vamos a abandonar las palabras entonces que la unidad mínima que estudiaba la sintaxis
+y vamos a pasar a estructuras un poco más grandes que las palabras vamos a hablar de los
+intactos los intactos son grupos de palabras dentro del texto grupos de palabras que siempre
+tienen un núcleo y siempre tiene una estructura interna y esa estructura es como son es una palabra
+rodeada de otras palabras que siempre están de alguna manera vinculadas al núcleo y bueno
+los intactos pueden cumplir diversas funciones dentro de la vibración y ahora vamos a ver
+ejemplos de qué son los intactos el sintagma es una de las formas de decirles en español otra forma
+de decirles grupo y otra forma de decirle frase y en inglés se dice phrase y pueden usar esa o sea
+pueden ver esa nomenclatura en muchos lados y ahora vamos a ver ejemplos de eso el estudiante de letras
+de montevideo es un ejemplo de sintagma lo que está en estos ejemplos lo que está marcado en
+negrita es el núcleo el estudiante de letras de montevideo tiene como núcleo estudiante entonces
+decimos que estudiante de qué categoría es estudiante es un nombre entonces decimos que el
+estudiante de letras de montevideo es un grupo nominal el siguiente es muy propenso a las infecciones
+respiratorias en primavera el núcleo de ese es propenso que es propenso propenso son adjetivos
+y que esto es un grupo adjetival o sintagma adjetiva el siguiente es casi compra otro libro por
+equivocación que sería ese sería verbal esto es un sintagma verbal el siguiente es bastante
+cerca de la escuela y en ese caso cerca es un adverbio en realidad entonces esto sería un
+sintagma adverbial y después más hacia la derecha que les parece es una preposición así
+que esto es un sintagma preposicional y ahí están estos mirad y cambié letras por ingeniería
+porque era más apropiado para acá el estudiante de ingeniería de montevideo es un sintagma
+nominal muy propenso a las infecciones respiratorias en primavera es un sintagma adjetival sintagma
+nominal grupo nominal frase nominal o noun phrase en general van a poder encontrar esa
+nomenclatura en todos lados y bueno yo que sé dependiendo de del artículo dependiendo de lo que
+están leyendo puede que aparezca como sn o como np porque lo está tratando en inglés etcétera pero
+bueno son cosas que hablan de lo mismo son este grupo es un grupo de palabras que se asocian
+alrededor del núcleo que el núcleo en este caso es estudiante y bueno después van a cumplir van a
+tener cierta estructura y van a cumplir ciertos roles bueno entonces esos son ejemplos de sintagmas
+qué es lo que pasa con un sintagma un sintagma siempre tiene un núcleo en este caso estoy
+viendo el estudiante de ingeniería de montevideo el núcleo es estudiante y el resto de las palabras
+del sintagma se estructuran alrededor del núcleo tienen cierta vinculación o cierta relación
+respecto al núcleo entonces en el estudiante de ingeniería de montevideo yo lo que digo es que
+estudiante es el núcleo y después le voy a agregar de ingeniería voy a hacer que estudiante
+de ingeniería digamos forma en una unidad mayor y a ese de ingeniería le voy a llamar complemento
+le voy a decir que es un complemento de estudiante después voy a agarrar de montevideo y lo voy a
+pegar a la estructura que ya venía armando y voy a decir que es un adjunto y en el medio cuando
+yo hago eso lo que va pasando es que se van armando estas cosas o sea yo partí de un núcleo nominal
+partido una palabra que es un nombre y armé una proyección eso que dice n prima es se denomina
+una proyección después le pegue un adjunto y armé otra proyección y al final le puse un
+especificador que en este caso es un determinante y termino armando un sintagma eso se llama la
+proyección máxima de la proyección máxima del nombre que termina siendo un sintagma nominal
+esta cosa que está acá esta estructura en forma de árbol que puede parecer un poco raro
+de principio es es parte de una teoría que se inventó en los 70 lo inventó digamos está
+basada en las ideas de no anchonski lo tiene a chonski no bien chonski en los 70 inventó esto
+después rey jackendorf creo que llamaba fue el que lo formalizó y se llama la teoría de la
+x barra y se escribe x prima y bueno creo que originalmente era con una barra arriba escribían
+así pero en las en la máquina escribir a la época era difícil entonces al final lo que lo que
+terminaron haciendo ponerle un apóstrofe bien entonces eso se llama teoría de la x barra y la
+teoría de la x barra dice que todos los sintagmas del mundo en realidad para la teoría todos los
+sintagmas de todos los lenguajes de todos los lenguajes naturales del mundo se pueden analizar
+esta manera yo siempre puedo encontrar un núcleo adentro del sintagma y después le puedo pegar
+un complemento le puedo pegar un adjunto y al final le termino pegando un especificador y eso me
+arma un sintagma esto es una una vista como súper simplificada de lo que es la teoría de la x barra
+pero bueno este un poco para que tengan una idea de qué se trata entonces esto es un sintagma
+nominal el sintagma nominal se arma de esa manera acá notar que yo dije que agregué de
+ingeniería como complemento y de montevideo como adjunto porque uno de los dos es complemento y
+porque el otro es un adjunto es un tema que es bastante discutido pero vamos a tratar con otro
+ejemplo de ver si se entiende cuál es la diferencia entre complemento y adjunto este es otro sintagma
+de los que teníamos ahí muy propenso las infecciones respiratorias en primavera en este caso el núcleo
+es el adjetivo propenso y le agregó un complemento que es a las infecciones respiratorias eso es un
+complemento y le agregó un adjunto que es en primavera y después le pongo un especificador que en
+este caso es un adverbio el adverbio muy eso de que de agregarle como especificador el adverbio al
+al grupo adjetival también es medio discutido pero bueno en este caso para este análisis vamos a
+suponer que es así entonces bueno os haremos esto que está acá empiezo con el núcleo que es el
+adjetivo propenso y después digo que tengo un complemento que es a las infecciones respiratorias
+qué pasa con el adjetivo propenso qué tiene de particular
+yo puedo decir juan es propenso
+claro es como que propenso necesita que yo le diga propenso a qué porque en realidad propenso
+sólo no está funcionando entonces ahí es como que propenso me obliga a ponerle un complemento
+propenso algo propenso las infecciones respiratorias sin embargo en primavera no pasa eso o sea en
+primavera es una cosa es digamos una una frase que se la puede agregar a cualquier cosa yo puedo
+decir flores rojas en primavera por ejemplo y no importa tanto que yo haya puesto propenso ahí
+entonces como que la diferencia entre complemento de adjunto viene a ser eso complemento es algo
+que el núcleo pide que se agregue de alguna manera y adjunto es algo que el núcleo bueno no le
+importa si está o no ese es como que me agrega más información pero es independiente de cuál
+es el núcleo que yo estoy poniendo entonces bueno es un poco la diferencia entre complemento
+de adjunto después cuando veamos la estructura de elaboración va a quedar capaz que un poco más
+claro de cuáles son esas diferencias bueno y lo otro que hay es un especificador que en el caso
+de el sintagma nominal el especificador era un determinante entonces en el caso de sintagma
+nominal una cosa que ocurre en español y que no ocurre en en otros idiomas
+no creo que esto ocurre si en otros idiomas es que el
+el núcleo tiene que concordar con el especificador entonces en el caso de el estudiante yo estoy
+diciendo estudiante es una palabra que es singular y es masculina y entonces puedo ponerle un
+determinante que es singular y masculino si dijera estudiantes entonces tendría que ponerle un
+un determinante que es plural y tendría que decir los estudiantes eso se llama concordancia entre
+determinante y nombre y bueno eso ocurre este digamos en español ocurre entre el determinante
+del nombre también ocurre entre el determinante entre el nombre y el adjetivo que es algo que
+vimos hace un ratito bien
+ok entonces qué son los sintagmas
+los sintagmas son grupos de palabras que tiene cierta estructura interna y sirven para
+como expandir digamos lo que son las categorías básicas todos los sintagmas tienen un núcleo
+y ese núcleo les va a dar cuál es la categoría del sintagma o sea si el núcleo es un nombre
+entonces yo digo que es un sintagma nominal y tienen similitud en cómo funcionan internamente
+internamente siempre tienen esa forma de árbol pero claro en realidad no es que
+vamos ahora vamos a ver algunos ejemplos pero no es que siempre tengan esa forma de árbol
+completa sino que a veces le faltan partes bien entonces la estructura que yo puedo encontrar
+siempre entre un sintagma sigue estas reglas siempre tengo un núcleo siempre puedo encontrar
+complementos a juntos o un especificador y acá tenemos algunos ejemplos ejemplo de sintagmas
+nominales por ejemplo el libro negro es un sintagma nominal con núcleo libro la vieja
+casa de la colina es un sintagma nominal con núcleo casa ese primera tijos de alegría el
+estudiante de ingeniería de montevideo o juan que pasa con juan que es lo que ven de raro respecto
+a los otros sintagmas no tiene determinante ni tiene nada en realidad no tiene ni determinante
+ni complementos y nada en realidad eso en la teoría está planteado dice bueno está lo
+podemos analizar igual diciendo que tenemos el núcleo juan que es un n y a esto le pongo un
+complemento vacío y a esto le pongo un adjunto vacío y al final le pongo un especificador vacío y
+me queda un sintagma nominal porque es esto en realidad porque en español no digamos no es
+usual que uno le ponga determinante a los nombres propios yo no digo el juan entonces claro en
+definitiva lo que me queda es un montón de lugares vacíos en la teoría formalmente uno debería
+decir bueno está tengo esto este sintagma que tiene un montón de lugares vacíos en la práctica
+vamos a ir directamente de sintagma nominal a juan y decir que es un nombre propio pero bueno
+en realidad esta teoría que le estoy dando esta versión super light de la x barra es solamente
+como modo de ejemplo en realidad vamos a ver durante el curso otras formas de gramáticas
+que son un poco más simples que eso y que sirven para poder modelar las oraciones que vamos a ver
+bien
+bueno ejemplo de sintagmas adjetiva son por ejemplo fácil de leer y ahí tengo el
+complemento de fácil que es de leer y tan débil que en ese caso tiene un este especificador que
+están y después tengo un sintagma adjetiva al solo en el mismo caso que pasaba con juan pero
+solamente un adjetivo que es curioso y acá hay más ejemplos ejemplos preposicionales los preposicionales
+son los que tienen como núcleo la preposición como en un comienzo para que lo vean a la casa
+adorviales son los que tienen como núcleo de adorio como muy tarde y lejos de tu casa y los
+verbales son los que tienen como núcleo un verbo comía una manzana y canto una cosa que
+tienen los sintagmas verbales después vamos a ver es que cuando están completos y tienen todas
+las partes que le falta en realidad lo que pasa que se transforma en oraciones un sintagma
+verbal viene a ser como una oración entonces cómo es esto de el análisis de los sintagmas yo
+tengo por ejemplo este ejemplo que dice la vieja casa de la colina y eso lo analizaría de esta
+manera yo digo que casa digo que casa es un nombre
+después dice que es la vieja casa de la colina digo que tengo de la colina
+y esto es un adjunto después digo que tengo la palabra vieja y esto también es un adjunto
+y después arriba del todo termino agregándole la que es el determinante que está actuando como
+especificador bien esa es la forma de analizar la vieja casa de la colina pero si me fijo bien en
+realidad acá no tengo una sola palabra sino que tengo varias palabras tengo de la colina
+entonces qué es esto que está acá esto en realidad es otro sintagma que a su vez lo puedo
+analizar y puedo decir bueno esto es un sintagma preposicional que empieza con el núcleo de esto
+es una preposición y tiene el complemento la colina este es el complemento entonces esto se
+transforma en un p prima y después tiene un especificador vacío y se transforma en un sp y
+todo esto de acá está actuando como adjunto de casa o sea yo originalmente dije bueno yo tenía
+el núcleo casa y lo que estaba como complemento era de la colina bueno ahora puedo seguir un paso
+más y volver a analizar ese de la colina y abrirlo como si fuera también un sintagma que de hecho
+lo es es un sintagma preposicional pero a su vez este de acá yo en este caso tengo la colina y la
+colina también lo puedo llegar a analizar como otro sintagma entonces vamos a tratar de hacerlo
+yo digo que tengo colina no tiene ningún complemento y tiene el determinante la que
+es el especificador y esto me genera un sintagma nominal entonces y esto está actuando como un
+complemento
+esto está actuando como complemento de D y a su vez todo esto que está acá está actuando como
+adjunto de casa entonces en definitiva yo puedo agarrar cualquier sintagma de estos y puedo empezar
+a descomponerlo y ver cada una de las unidades que me van apareciendo por ahí lo puedo volver a
+descomponer y volver a descomponer y al final me va quedando un árbol binario me va quedando un
+árbol binario donde aparecen todas las palabras de ese sintagma que yo estaba escribiendo y bueno
+y todas esas palabras al final me quedan todas organizadas en un árbol binario la teoría
+de la x barra siempre plantea dibujar árboles binarios a partir de todas las estructuras
+bueno y en definitiva fue un poco criticada por eso más adelante pero bueno en definitiva
+esta es una forma de darle estructura a todas las unidades que hay en el lenguaje en este
+caso los sintagmas después vamos a ver que las oraciones también se pueden estructurar de esta
+manera y bueno fue una teoría que en su momento fue bastante utilizada porque claro ellos planteaban
+que todos los idiomas del mundo en todos los lenguajes naturales ya sea el inglés el español
+o el chino todo se pueden analizar de esta manera yo puedo descomponer los sintagmas de esta forma y
+al final siempre me va a terminar quedando un árbol binario en los cuales yo identificó ciertos
+núcleos y otras cosas que se le van pegando al núcleo en qué sentido no hay forma de probar
+y pero y cómo lo probarías y empecé agarrando frases y hasta que en algún momento hay una que
+no la puedas hacer y ahí lo lo falciaste es el método científico
+claro pero digamos si es incorrecto se va a borrefalciar si no no vas a poder
+como todas las teorías científicas
+claro o sea si esto fuera completamente formal estuviéramos en un punto de vista lógico entonces
+lo podrías hacer pero claro acá estás describiendo una situación del universo
+estás describiendo una cosa que ya existe ahí que es el lenguaje entonces vos estás haciendo un
+modelo y tratando de ver si ese modelo se aplica al lenguaje que es algo que ya existe entonces
+es más parecido a las leyes físicas que a las leyes matemáticas digamos leyes matemáticas no
+es más parecido a la física que un teorema matemático claro o sea vos estás describiendo una
+situación del universo y tratando de encontrar el mejor modelo posible que le explique
+y bueno esta es un modelo que en su momento hizo mucho ruido porque explicaba un montón de
+situaciones y andaba bastante bien en un montón de casos más adelante se empezaron a ver otros
+en el curso vamos a ver algo un poco más simple que esto no vamos a hacerlo de esta manera sino
+que vamos a ver algo más parecido a lo que son las gramáticas libres de contexto con algunos
+cambios pero bueno después este vamos a empezar a hablar un poco más de cómo la estructura de
+la eración respecto a esto a esto de la estructura de los intangmas y bueno va a quedar un poco más
+claro capaz bien entonces lo siguiente que vamos a ver son los constituyentes sintácticos
+hasta ahora lo que tenemos eran palabras las palabras se pueden agrupar de alguna
+manera en sintagmas los intangmas tiene una estructura esa estructura implica que tienen
+un núcleo y tienen cosas alrededor que se le van pegando el núcleo y ahora vamos a ver que algunos
+de estos sintagmas resulta que son constituyentes de la oración entonces miremos este ejemplo que
+hay acá que dice el informativista de la televisión anunció fuertes tormentas para los próximos días
+que sintagmas podemos identificar ahí en esa en esa oración
+sintagmas de cualquier tipo no tratan de encontrar sintagmas nominales sintagmas verbales
+el informativista de la televisión sería uno bien nominal exactamente que otro
+anunció fuertes tormentas para los próximos días podría llegar a ser un sintama verbal si
+que otro para los próximos días es un sintama de qué tipo
+preposicional porque para es una preposición que otro
+el informativista
+fuertes tormentas para los próximos días o fuertes tormentas
+informativista solo puede ser ahí se empieza a poner un poco más este claro se pone se
+empieza a poner un poco más turbio yo diría que el informativista solo no sería un sintagma
+y me queda la duda de si el informativista es un sintagma o no porque en realidad uno diría
+informativista de la televisión y eso sería todo junto pero capaz que en algunos casos se
+puede analizar así la televisión si seguro que es un sintama los próximos días es otro
+sintama para los próximos días es otro sintama de la televisión también y el informativista
+de la televisión también y después la eración entera el informativista de la televisión
+anunció fuertes tormentas para próximos días en realidad eso también es todo un sintama verbal
+cual si juan era un sintagma juan no lleva determinante en español porque no decimos el
+juan pero un informativista si puede llevar determinante digamos debería llevar determinante
+entonces le ponemos el informativista lo que queda la duda es si es el informativista solo
+lo puedes considerar un sintagma o tenés que decir todo el informativista de la televisión para
+mí debería ser todo porque en ese caso de la televisión si está modificando a informativista
+si bueno hay casos de españoles que digamos español que se
+claro o sea hay casos de uso de español por parte de no sé de personas que utilizan el
+determinante para los nombres capaz que no es lo más aceptado pero bueno es algo que se usa y de
+vuelta eso es algo que tienen que tener en cuenta los los sistemas automáticos porque bueno si yo
+obligo a decir que según la regla del nombre propio no puede tener determinante y después
+escribe alguien escribe el juan y le digo que no que no es posible que no es válido entonces bueno
+estaría mal bueno entonces dentro de estos sintagmas que acabamos de reconocer digamos
+acá vamos a reconocer un montón de sintagmas adentro de la oración
+algunos de ellos van a ser constituyentes de la oración
+y vamos a tratar de ver cuáles son en este caso el informativista de la televisión anunció
+fuertes tormentas para los próximos días yo me voy a quedar con que esto es una oración que tiene
+el verbo conjugado anunció y anunció está siendo digamos está siendo acompañado por
+diferentes estructuras que son como argumentos de ese verbo son como las cosas que se dicen acerca
+de anunció entonces yo puedo preguntar acá quién anunció algo bueno el que anunció algo es el
+informativista de la televisión entonces bueno eso es como una especie de sintagma que está
+directamente aplicado sobre anunció qué fue lo que anunció qué fue lo que anunció fuertes
+tormentas fuertes tormentas anunció y para cuándo lo anunció para los próximos días entonces en
+definitiva ya puedo reconocer tres cosas puedo dividir esto tres cosas en realidad cuatro cosas que
+es anunció el verbo principal y después puedo ver cuáles son los argumentos que están alrededor
+el informativista de la televisión es uno de ellos fuertes tormentas es lo anunciado y los
+próximos días para los próximos días es para cuándo lo anunció a esos sintagmas que vienen
+a ser como sintagmas maximales yo puedo descomponer la oración en un grupo de sintagmas y un verbo
+conjugado a eso le vamos a llamar constituyentes entonces ahora les digo esta definición que es
+un poco un poco light de que son como sintagmas maximales que van acompañando al al verbo conjugado
+y después vamos a tratar de ver una formalización un poco mejor de qué significan estos constituyentes
+de la oración y bueno y cómo se clasifican para qué sirven etcétera pero todo eso lo vamos a ver
+la clase que viene así que por ahora vamos a dejar por acá

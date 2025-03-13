@@ -1,0 +1,1302 @@
+start	end	text
+0	26920	Bueno, primero vamos a hablar de lenguajes regulares. Ustedes hicieron el curso de teoría
+26920	32760	de lenguajes y este año generalmente damos una introducción más teórica a lenguajes
+32760	38920	regulares. Este año decidí cortar esa parte porque en realidad ustedes ya sufrieron bastante
+38920	45800	a Prada y además y compañías en todos esos temas de lenguajes regulares y sus propiedades
+45800	52960	teóricas y propiedades de clausura y sus diferentes modelos. Hoy vamos a dar solo un repaso acá para
+52960	59400	nivelar un poco porque son del tipo de métodos que forman la base de otra cantidad y que para
+59400	70000	algunas tareas aplican directamente. Y arranco con esta frase porque como yo decía creo en la primera
+70000	81840	en la primera clase Chonky por allá por 1957 mostró que el inglés no era pues no era
+81840	87920	susceptible de ser representado con automatas finitos y eso hizo que la investigación en este
+87920	91800	tipo de automatas en el procedimiento de lenguajes natural se tuviera como oportunitas años digamos
+91800	98600	y después volvieron. Ahora vamos a hablar un poquito más de eso pero ¿qué son? ¿qué son los
+98600	104960	lenguajes regulares? Me queda el elegísimo el teclado de acá. ¿Por qué nos interesa los lenguajes
+104960	110280	regulares? Porque esencialmente la visto como herramienta para el procedimiento de lenguajes
+110280	119480	natural son una herramienta para especificar texto mediante patrones. Es decir yo quiero
+119480	127800	especificar un conjunto de textos con una expresión sola y generalmente puede utilizar
+127800	136080	expresiones regulares. Si yo quiero expresar todas las palabras que empiezan con C tengo que
+136080	149200	expresar de alguna forma algo como le voy a poner en P.C punto asterisco. Es una C seguida de cualquier
+149200	155000	cosa cualquier cantidad de veces. Ahora vamos a ver un poco más de eso pero esencialmente es una
+155000	159840	forma de expresar muchas y quiero encontrar en un texto todas las palabras que aparecen que empiezan
+159840	168320	con mayúscula y terminan con A sí voy a poner una cosa como H con H mayúscula que dice cualquier
+168320	176560	cosa terminan con A. ¿De acuerdo? Ya me aparecen algunas cosas como bueno pero acá tiene que haber
+176560	184600	no haber espacios en el medio por ejemplo ¿no? Pero y toda una serie de discusiones pero lo importante
+184600	194040	es que yo puedo expresar conjuntos un patrón a través de una expresión. Un conjunto de texto
+194040	200640	a partir de un patrón. Tienen expresividad limitada ¿se acuerdan de la jerarquía Chonki? No, es decir
+200640	208560	nosotros tenemos los los lenguajes regulares, los lenguajes libres de contexto y los lenguajes
+208560	216440	recursivamente enumerables por acá afuera. Los lenguajes regulares son solo un subconjunto
+216440	220320	de los lenguajes pero antes ¿qué son los lenguajes? ¿qué son los lenguajes formales? ¿se acuerdan
+220320	226400	lo que eran los lenguajes formales? ¿a quién se acuerda? Yo tengo un alfabeto finito de símbolos
+227560	237960	¿sí? Defino tiras de símbolos de acuerdo y los lenguajes son un subconjunto de las tiras
+237960	243560	que yo puedo formar sobre ese alfabeto. Solamente eso, es un conjunto de tiras, conjunto de palabras.
+246560	252680	Los lenguajes regulares solo hay uno de los lenguajes son regulares en tanto pueden ser
+252680	259080	expresados de la forma que lo vamos a ver ahora con este tipo de expresiones regulares. O sea,
+259240	268920	no puedo expresar cualquier cosa con lenguajes regulares. Por ejemplo, el ejemplo de manual es
+268920	277920	que yo no puedo expresar cosas de la forma igual cantidad de as que debes. ¿sí? Esto no lo puedo
+277920	283960	expresar con lenguajes regulares. Miran con cara, esto lo debían saberlo. No puedo expresar cosas
+283960	291120	como ésta. Una tía y su reverso. Eso no lo puedo expresar con expresiones regulares. Tiene
+291120	297000	presión limitada, pero a cambio de eso son muy, muy, muy, muy eficientes. Es decir,
+297000	302800	típicamente cuando yo quiero hacer algo, hacer una búsqueda eficiente de algo en un texto,
+302800	307080	si lo logro expresar esa búsqueda con una expresión regular sé que lo voy a encontrar
+307080	314520	de una forma muy eficiente. Si lo vuelvo determinístico, incluso de orden,
+314520	322400	en el largo de la palabra que te buscan. ¿te acuerdo? Y son fácilmente adaptables para
+322400	331920	buscar un patrón en un corpus. Si yo tengo que buscar un texto como en Unix, con Grep,
+332920	338920	o en un editor de texto cuando controlo de buscar o lo que sea. Si yo lo puedo
+338920	342200	especificar con un patrón, generalmente nosotros ponemos una palabra que de última es un patrón
+342200	348600	sencillo que solamente expresa una suntira. Pero yo podría, casi todos los editores
+348600	353780	profesionales permiten buscar expresiones regulares. Especificar esos patrones para
+353780	358040	buscar. Y casi todos los lenguajes, de hecho creo que todos los lenguajes de programación
+358080	363400	hoy en día tienen forma de especificar expresiones regulares. Por ejemplo, si yo tengo un problema
+363400	368480	de programación y quiero decir, bueno, si lo que encuentro es una url y quiero expresar
+368480	371880	una url de alguna forma, lo expreso con una expresión regular. No voy a escribir toda
+371880	377120	la url del mundo o que me pueden aparecer. ¿te entiendes? Es decir, yo estoy especificando
+377120	383760	conjuntos. Y esas expresiones regulares son fácilmente adaptables para buscar un corpus.
+383920	389320	Ahora vamos a ver lo que es un corpus devolviendo todas las ocurrencias del patrón. Un corpus
+389320	394000	para el pensamiento del lenguaje natural es una cosa muy utilizada y es nuestra base
+394000	404640	de trabajo, es un conjunto de textos. Nosotros llamamos corpus o el plural córpora cuando
+404640	410600	hablamos de un conjunto de textos. Si yo tengo un conjunto de textos, eso es un corpus. Ahora
+410600	414320	vamos a hablar un poquito más de corpus. Vamos a volver a hablar de corpus, pero por
+414320	424040	ahora lo que estamos hablando es que tengo textos. Bien, ¿qué pasa? Los lenguajes regulares
+424040	429880	están completamente estudiados y yo diría que podrían considerarse un problema resuelto.
+429880	439680	Se vienen al curso de teoría de lenguajes y saben lo que un ingeniero tiene que saber
+439680	451360	sobre lenguajes regulares y eso está en un libro de 1979. Y de hecho toda la teoría
+451360	459280	es anterior al año 1970, si no me equivoco, ¿de acuerdo? O sea que están muy bien estudiados
+459280	463800	y además están desde UNIX incorporados los lenguajes de programación. UNIX ya venía
+463800	475200	con expresiones regulares, con CED, con grep, con AWK, todos los herramientas que incluían
+475200	479560	las expresiones regulares dentro. Era en épocas maravillosa porque los mismos que
+479560	483760	definían la teoría de la depresión regular era los que trabajaban en implementarla, eso
+483760	491760	hoy ya no se ve tanto. Es decir, los que estaban creando los fundamentos eran los mismos Richie
+491760	500440	de Kernigan que eran los que lo implementaban en UNIX. Y bueno, y lo que les decía, todos
+500440	509320	los lenguajes hoy lo incluyen. Bueno, ¿y cómo son, cómo lucen las expresiones regulares?
+510080	516600	Por ejemplo, una expresión regular puede tener, ¿esto es cómo aparecen las expresiones
+516600	520760	regulares en los lenguajes de programación? Que no es lo mismo que las expresiones regulares
+520760	526200	que vieron en el curso de teoría del lenguaje que era con mucho menos operadores, con los
+526200	532400	mínimos operadores que permitían definirla. Pero la expresividad es la misma, acá lo
+532400	537440	que hay es forma de abreviar cosas, para no tener que escribir expresiones regulares
+537560	542080	monstruosas, digamos. Entonces, hay cosas como, la expresión regular cabeza encuentra
+542080	547440	el patrón acá a cabeza, la palabra en esta escrita. Este signo exclamación, reconoce
+547440	555280	el signo exclamación. Este B corta, B larga, B minúscula, B mayúscula, entre corchetes
+555280	561920	es como un or, digamos, ¿sí? Que sería lo mismo que buscar vagón con B corta o vagón
+561920	569400	con B larga. Esto busca A, B o C, ¿sí? Fíjese que acá lo que está devolviendo es la primera
+569400	575800	ocurrencia. Eso depende como yo programé la función de búsqueda, ¿no? Números del
+575800	586480	0 al 9, algo que no sea mayúscula, este corchete funciona como un not, y esto es que no sea
+586480	592920	una S, ¿de acuerdo? Esto no, nos voy a entrar en muchos detalles, digamos, la idea es que
+592920	599360	y acá así es como luce una búsqueda en Python, por ejemplo, con la biblioteca de presión
+599360	605960	regular de Python. A un search del patrón, y esto sería nuestro cuerpo, digamos, ¿no?
+605960	618520	Y ahí devuelve las ocurrencias. Más cosas, ¿no? Ahí sí. Fíjense que el símbolo de,
+618520	625080	¿cómo es? De aceto circunflejo al final no tiene ningún significado especial, y en el
+625080	633800	medio de a poco. Este signo de pregunta quiere decir que el carácter anterior es opcional,
+633800	649120	el punto macheda cualquier carácter, etcétera. Bueno, estos operadores son syntactic sugar,
+649120	654120	son formas de abreviar otras cosas, digamos, ¿no? Si yo pongo barra B, estoy pensando en
+654120	660360	un número, el 0 al 9 es otra forma de escribir 0 al 9, son facilidades, no agrega expresividad,
+660520	668960	vuelve la vida más fácil de que está programando. Y aquí hay forma de sustituir. Esto es utilizar
+668960	680360	una expresión en una sustitución. En casi todos los liguajes de programación, además,
+680360	686000	uno puede incluir cosas como decir, quiero que lo que dice acá sea exactamente lo mismo
+686000	695240	que lo que dice acá. ¿Se entiende? Por ejemplo, acá dice hoy quiero estar aquí mañana quiero,
+695240	706880	porque estamos apeando el quie, ¿sí? Con este. ¿De acuerdo? ¿Entiendes? Esto formalmente no son
+706880	714200	expresiones regulares, sino que son extensiones. De hecho, esto es más expresivo que la expresión
+714200	723120	regular. Esto es un poco de repaso, digamos, ¿no? Del tipo de cosas que puedo hacer, pero lo que nos
+723120	728120	interesa para este curso es que yo puedo buscar rápidamente y especificar muchas cosas a la vez
+728120	734960	buscar. Si yo, el asunto es, si yo puedo resolver algo en expresión regular, debería resolverlo
+734960	742480	con expresión regular. ¿Por qué? Porque hacerlo más complejo, me voy a perder eficiencia, porque
+742480	747720	no hay nada más eficiente que la expresión regular. ¿De acuerdo? Más o menos muchas veces no puedo,
+747720	758480	o me queda muy complicado describirlo. Porque la expresión regular, fíjense que uno tiene
+758480	763400	que cubrir toda la casuística que quiere identificar, lo cual es muy fácil cuando digo todas las
+763400	767600	palabras que empiezan con C, pero cuando yo quiero empezar a hacer cosas más complicadas como
+767680	775560	identificar, y ahora lo vamos a ver, separar palabras, por ejemplo, ahí digo, bueno, ¿pero qué separa una palabra,
+775560	781480	un espacio? Sí, pero también puede ser un signo de puntuación, sí, y un dos punto también. Entonces,
+781480	786280	yo podría decir buscar todos los signos de puntuación entre dos palabras, pero ¿y qué pasa si dieron
+786280	792000	enter, etcétera? Es decir, representar todo por una expresión regular a veces es bastante complicado.
+792080	797320	Ahora vamos a hablar un poco más de cómo se usan las expresiones regulares,
+800040	806200	pero como les decía, las expresiones regulares definen un conjunto de tiras que se llaman
+806200	814000	lenguajes regulares, ¿sí? Y que tienen interesantísimas propiedades de clausura,
+814000	819960	como vieron en el curso de teoria del lenguaje, lo cual hace que yo pueda, por ejemplo, si quiero
+819960	827440	buscar una cosa, algo que está representado por una expresión regular, y dos cosas que están
+827440	831800	representadas por expresiones, el or de ambas es cerrado, o sea que tengo una forma, no lo puse acá,
+831800	839400	tengo una forma inmediata de buscar ambos a la vez, es decir, es tan fácil buscar una cosa como
+839400	843960	buscar una cosa u otra, siempre es determinístico porque son cerrados bajo todas estas propiedades,
+843960	851880	o si yo quiero buscar, es tan fácil buscar algo que sea, que diga que si encuentro el string
+851880	859000	perro como algo que no sea perro, ¿no explicó? Porque son cerrados, porque si yo tengo un lenguaje
+859000	866880	regular que representa perro, inmediatamente tengo la negación, ¿sí? Pero lo más interesante de
+866880	875600	eso es que la demostración de que son clausuras son constructivas, ¿por qué? Porque los lenguajes
+875600	882640	regulares, además de poder ser expresados con una expresión regular, ¿sí? También pueden ser
+882640	888240	representados por un automata finito, que ahora vamos a ver lo que es, pero seguro que se acuerdan
+888240	893560	de ti del lenguaje, es decir, exactamente las mismas tiras que yo expreso con una expresión regular
+893720	902440	hay una automata, una máquina de estado que la reconoce, ¿sí? Un lenguaje regular es el conjunto
+902440	909080	de strings sobre un alfabeto sin más reconocidos por un automata finito, o sea, es una definición
+909240	923960	alternativa de lo mismo. Entonces, ¿cómo sería un automata finito para dirección? ¿Se acuerdan de
+923960	935320	cómo son los automatas finitos, ¿no? Este pizarrón. ¿Se acuerdan de cómo son los automatas finitos? Son
+935320	949000	esencialmente un conjunto de estados, ¿sí? Un estado por donde se comienza, ¿sí? Transiciones que
+949000	957400	tienen símbolos y que van de un estado al otro, ¿sí? Y algunos estados especiales que se llaman
+957480	965640	estados finales, ¿sí? ¿Se acuerdan de esto, ¿no? Todos símbolos sobre el alfabeto. ¿Cómo seguir
+965640	978240	un automata finito para direcciones de correo? Más o menos. Este automata. Vamos a suponer que yo
+978240	981000	acá escribo todos los símbolos, ¿no? Tengo que hacer un arco por cada símbolo.
+981000	990040	Supongamos que el alfabeto son miúsculas, mayúsculas de arroba y punto, ¿no?
+991400	995880	¿Este automata reconoce dirección de correo?
+999360	1006360	Yo diría que sí, pero, pero, exactamente, reconoce eso y mucho más, o sea, que no es lo que queremos.
+1006360	1012680	Nosotros veremos un automata que genere exactamente, o tan exactamente como podamos, las direcciones
+1012680	1014960	de correo. Entonces, ¿cómo sería?
+1023800	1024400	¿Qué hago?
+1025000	1028800	En el primer estado, voy a instar de las normas, pero ¿cuándo se puede estar?
+1028800	1030440	¿Qué sería? A, Z, A, Z.
+1032720	1036760	Sí, ¿y después? Bueno, sacamos los puntos. Tenemos letras a punto y a arroba.
+1038760	1040000	A ver, una arroba.
+1048080	1048600	Sí.
+1048600	1057080	Y, punto, lo mismo, ¿no? Vamos a suponer que el arco ya sabemos esto, ¿sí?
+1064320	1065280	¿Con qué símbolo?
+1067960	1068840	¿Oye era esto?
+1072680	1073640	¿Qué le parece?
+1076480	1077320	¿Qué le parece?
+1078680	1079640	Es una basura.
+1079640	1080080	¿Sí?
+1080080	1080880	Es una basura.
+1080880	1081400	¿Por?
+1081400	1082680	Es un problema de su momento de arrobo.
+1084120	1084880	¿Cómo? ¿Cómo, perdón?
+1084880	1086400	No se puede poner arrobo a algo.
+1086400	1089160	¿Un problema que tiene que te pueden poner arrobo a algo? Sí.
+1089880	1091480	¿Qué otro, tiene algún otro problema más?
+1095120	1096000	¿Qué otra cosa pasa?
+1097320	1102040	Que solo me admite algo punto com, punto algo, no? Sólo punto, y podría tener más de uno.
+1102040	1110120	Y acá, si no le ponemos el épsil, lo necesariamente tiene que tener una letra, lo cual necesita
+1110120	1119240	mal. Especificar una expresión regular no siempre es este, del todo sencillo y determina
+1119240	1125160	y es parte de nuestro problema de especificación, igual que estuvimos bastante bien. Aquí hay
+1125160	1132840	una que no es mucho mejor que la que hicimos nosotros, no, porque ahí es más o menos. Ahí anda
+1132840	1144360	con gmail.com, pero no anda con un tío bui, pero tal. Es decir, lo que tiene de bueno es que, a ver,
+1144360	1148320	lo que tiene de bueno es reitero, es que si yo tengo eso rápidamente puedo encontrar esas,
+1148320	1153560	las expresiones, la iré yo de correo, cómo la especificé, la puedo rápidamente encontrar en un
+1153560	1161720	cuerpo. ¿Por qué las puedo, a ver, por qué las puedo? Porque yo siempre tengo la forma, y acá
+1161720	1166840	viene la explicación de por qué es eficiente, porque yo siempre tengo la forma de esto. Esto es
+1166840	1174720	un automata finito determinista. Quiere decir que yo simplemente leo la entrada, voy recorriendo
+1174720	1181320	el automata y si cuando terminé llegué a un estado final quiere decir que reconoce esa entrada. Eso
+1181360	1190120	lo hago en orden en tantos pasos como largo tenga la entrada. No importa y voy recorriendo el
+1190120	1195400	texto, ¿no? ¿Cómo se hace la búsqueda es otra cosa, pero la idea es que voy recorriendo y intentando
+1195400	1209160	detectarse aparece uno de esos. Entonces, en los asuntos así, los lenguajes regulares siempre
+1209160	1213800	pueden ser representados por una expresión regular. Es mucho más fácil escribir una expresión
+1213800	1219480	regular en general que dibujar el automata, que es una cosa que va a poder ir creciendo y quedar
+1219480	1224720	enorme, ¿no? Porque yo puedo hacer una expresión regular, como le decía la demostración de la
+1224720	1229680	clausura y es constructiva. Entonces yo hago, si yo quiero reconocer expresiones de correo o
+1229680	1235400	nombre de países de África, hago una expresión regular para la dirección del correo, otra
+1235400	1243240	expresión regular para los países de África, genero los automatas de ambos, ¿sí? Que hay
+1243240	1247080	algoritmos para convertir expresiones. Por eso le decía que acá está lo que tiene bueno que
+1247080	1254280	acá está todo resuelto. Genero los automatas de ambos y simplemente creo una automata nuevo que lo
+1254280	1261760	que tiene es un estado inicial y que me manda a una automata o al otro. Y eso me da el oro. Ahora
+1261760	1266440	vamos a lo que sería, pero está. ¿De acuerdo? Es decir, siempre puedo construir algo eficiente
+1266440	1275400	para reconocer cualquier cosa expresada con expresión regular. ¿Alguna duda? Bueno, esa es la
+1275400	1279440	definición de automata finito que coincide con lo que hablamos, ¿no? Tengo un conjunto finito de
+1279440	1288760	estados, un alfabeto, un estado inicial y un conjunto de estados finales. ¿De acuerdo? Y cuando
+1288760	1299400	reconozco y bueno, sí, la función que me dice ir desde un, hay una función delta extendido que va
+1299400	1306000	del estado inicial, lee una tira y llega otro estado, si esa función me llega a un final. Bueno,
+1306000	1311160	o sea, no importa si yo paso por un final en el camino, tengo que terminar mi tira en el estado final.
+1311360	1319760	La pregunta que les dejo de ver es cuál sería la expresión regular para las direcciones de
+1319760	1326840	correo. Y no solo eso, hay una tercera forma de representar lo que es a través de gramáticas
+1326840	1332080	regulares, ¿sí? Ya vamos a hablar luego de gramáticas, pero hay una gramática que permite
+1332080	1341040	expresar los lenguajes regulares, exactamente las mismas tiras. Pero siempre son visiones
+1341040	1346360	alternativas de un conjunto de tiras. Siempre vamos a estar hablando de conjunto de tira,
+1346360	1352640	en todos los lenguajes, un lenguaje es un conjunto de tiras, incluido los lenguajes naturales.
+1352760	1361520	Los automotafinitos además pueden ser, nosotros hablamos de no deterministas,
+1361520	1366200	de deterministas, perdón, pero pueden ser no deterministas. El lenguaje de las ovejas que
+1366200	1375240	tengo acá es de una cierta cantidad de S y una última E. Esto es no determinista porque no
+1375240	1382400	sé cuándo es la última. Acá puedo dar vuelta o no. ¿Te acuerdo? Los automotafinitos no deterministas
+1382400	1388400	reconocen una tira cuando algún camino lleva un estado final. Parecen más expresivos que los
+1388400	1399040	lenguajes deterministas, pero no lo son. Conocemos algoritmos para transformar de esto a un automotafinito
+1399040	1406600	determinista. Y no solo eso, conocemos cómo va a hacer para que esto, este automata, que no
+1406600	1410120	son los no deterministas, sino que tiene transiciones, es decir, que yo me puedo mover desde
+1410120	1417800	este estado a este estado sin consumir la entrada. Esto parece más expresivo, pero no lo es. Todos son
+1417800	1424520	los mismos lenguajes regulares. ¿De acuerdo? Entonces yo siempre puedo transformar un automata
+1424520	1428600	finito no determinista que a veces me queda más fácil especificar. El lenguaje de las ovejas es
+1428600	1434800	más fácil especificar con un no determinista. Por lenguaje cuya última letra es una A.
+1435560	1448200	Yo puedo transformar esto a uno determinista y reconocer en tiempo lineal. ¿Por qué no siempre me
+1448200	1454120	conviene, me convendría a hacer eso? ¿Por qué no siempre me convendría y hay algoritmo para
+1454120	1463840	reconocer automatas no deterministas? O sea, una forma que yo tengo es, yo quiero reconocer
+1463880	1471040	una expresión regular, la especifico con un automata no determinista, lo convierto a determinista y el
+1471040	1476200	algoritmo es sencillo de buscar recorrer los arcos, como hicimos acá con el dedo, ¿no? Programar eso.
+1476200	1481600	¿Por qué a mí me podía convenir directamente tratar un algoritmo de que recorra esto?
+1481600	1497920	¿Por qué? En teoría del lenguaje se quedaron con la idea de que era siempre mejor volar
+1497920	1501360	los deterministas porque son mucho mejores y más lindos, pero también son mucho más grandes,
+1501360	1507920	porque yo para resolver el no determinismo si bien puedo lo resuelvo creando estados nuevos
+1508920	1513920	y a mí me puede convenir en lugar de crear una nueva automata mucho más grande y que además tengo
+1513920	1520640	el costo de conversión, ¿no? Es mantener en memoria en qué posición estoy, mantener el no
+1520640	1527520	determinismo. Si ustedes se acuerdan, el algoritmo de Thompson, lo que permitía era pasar de este
+1527520	1532480	automata a uno determinista y lo que hiciera, ¿en qué estado estoy? Estoy en Q0, bien una B estoy en
+1532480	1543160	Q1. Si bien una E estoy en Q2. Si viene una E en Q2, yo puedo estar en Q2 o en Q3. Recuerdo la lista
+1543160	1548080	de los estados en que estoy. Seguramente lo aprendieron para hacerlo en el segundo parcial y
+1548080	1558360	pues se olvidaron. Entonces, en estos modelos el problema es elegir el camino adecuado para procesar
+1558360	1564680	la tira. Yo no voy a entrar mucho en detalle en esto, pero ¿cómo puedo elegir el camino adecuado
+1564680	1576480	para procesar la tira? ¿Cómo digo si un automata reconoce una tira? Y los caminos son varios,
+1576480	1588320	esencialmente uno es backup, es como es el viejo querido backtracking, es decir, si yo tengo este
+1588320	1600400	automata, ¿verdad? Cuando tengo una duda, tomo un camino, digo bueno, viene una E, me fui acá o me
+1600400	1605640	quede acá. Bueno, yo supongo que me quede acá y si después viene un signo de exclamación,
+1605640	1614320	quedo trancado, o sea que ese camino no me servía y tomo el camino alternativo, ¿de acuerdo? O sea,
+1614320	1621280	hago backtracking, pero también puedo hacer look ahead y es mirar adelante las transiciones que
+1621280	1625440	tengo, mirar los siguientes símbolos que vienen en la entrada para ver si son compatibles con lo
+1625520	1631640	que tengo en el automata, o eso que les contaba recién del algoritmo de Thompson, hacer paralelismo,
+1631640	1637560	es decir, contar todos los caminos que tengo, posibles, ¿de acuerdo?
+1646480	1651920	Bueno, esto es lo que ya les dije, ¿no? En general se utilizan automatas finitos no
+1651920	1658200	terminan con un algoritmo adecuado. Esto es solo una introducción, no pretende ser más que eso,
+1658200	1662000	hay un curso para eso. Como yo les decía, para cada cosa que yo, cada tema que damos acá,
+1662000	1667400	hay un curso. No es que siempre exista un curso, pero digamos, se podría dar un curso.
+1669720	1676600	Y acá volvemos un poco a lo que nos interesa en este curso y esto que hablamos, los lenguajes
+1676600	1685080	regulares son lenguajes formales, ¿sí? O sea, los lenguajes formales son conjunto de tiras
+1685080	1690840	sobre un alfabeto finito o palabras y estos conjuntos tienen en general gramáticas que los
+1690840	1697520	generan exactamente, sabemos exactamente cómo generarlos. Esos son los lenguajes formales,
+1697520	1700280	que son los lenguajes que ustedes han conocido hasta el momento en la carrera,
+1700360	1704920	todos los lenguajes de programación son lenguajes formales. Esencialmente,
+1704920	1711800	son no ambigos para empezar. No puedo fácilmente dar dos interpretaciones, no, no puedo dar
+1711800	1715160	dos interpretaciones y copilar a código máquina, digamos, no, no puedo hacer dos cosas a la vega.
+1716640	1725720	Los lenguajes naturales son los que la gente habla. Es muy difícil modelar con un lenguaje
+1725720	1736640	formal al lenguaje natural porque son ambigos, más, ¿se acuerdan de l'héritier? Porque son
+1736640	1742240	vagos, porque hay cosas que uno dice que se puede interpretar de una forma, que no son claras,
+1742240	1746720	que uno lo interpreta por el contexto. ¿Se acuerdan lo que vimos, no? Que según como yo diga,
+1747480	1756120	venía a cenar, te espero, o vení que te espero, digamos, depende del contexto, pues son
+1756120	1761440	diferentes. Bueno, y un poco de esto, ¿no? Depende del contexto. Las cosas que se dicen
+1761440	1768560	dependen de dónde les tú dicen. Sin embargo, yo acá les dejo algún link. Uno podría llegar
+1768560	1773960	a discutir si no puede representarlo con un lenguaje de obra. Entonces, eso no es fácil,
+1774000	1777840	eso está clarísimo. Que no es sencillo, yo no puedo hacer expresiones regulares para todo
+1777840	1786320	el lenguaje natural. Pero dado que la cantidad de palabras se finita, yo eventualmente podría
+1786320	1791000	llegar a armar algo, que representar a todas las palabras que se pudieran decir. Sería muy difícil,
+1792000	1795720	sobre todo por la creatividad del lenguaje, porque el lenguaje está movimentando palabras todo el
+1795720	1806200	tiempo. Hay un artículo que es de 1962, 69, creo, que discute un poquito de eso.
+1810920	1814800	¿Y qué pasa con las expresiones regulares y el lenguaje natural? Bueno, hay un fenómeno
+1815800	1821960	en el lenguaje natural que se llama center embedding, que yo puedo decir un hombre llora,
+1822960	1829400	puedo decir un hombre que una mujer ama llora, puedo decir un hombre que una mujer que un niño
+1829400	1843320	adora ama llora. Y así puedo seguir a infinito. La estructura de estas oraciones es grupo nominal
+1843320	1854040	verbo. Grupo nominal 1, verbo 1. Grupo nominal 1, grupo nominal 2, verbo 2, verbo 1. Grupo nominal
+1854040	1860960	1 y supuestamente de alguna forma yo tengo que mostrar que este verbo está pegado a este grupo
+1860960	1865280	nominal, este verbo está pegado a este grupo nominal y este verbo está pegado a este grupo
+1865280	1872800	nominal. ¿Sí? ¿Tan relacionado desde el punto de vista que llora? ¿Quién es que llora? ¿Quién llora
+1872800	1884120	acá? Un hombre. No es la mujer la que talla. Si ustedes ven esta estructura, 1, 2, 3, 3, 2, 1,
+1884120	1889960	es muy parecido a esto que teníamos acá, bueno, que lo borré. W, W, reverso, que es el tipo de
+1889960	1894840	cosas que sabemos que no se pueden representar con el precio regular. Esto fue lo que hizo,
+1894840	1902440	si yo mal no recuerdo decir a Chonky que el lenguaje, el lenguaje natural no era expresable. Es decir,
+1902440	1906160	yo no tengo forma de modelar con el precio regular, es esto, teóricamente no puedo.
+1907160	1915140	¿Sí? Ahora, también yo puedo decir que yo lo des... A mí no saben lo que me contó Armarete
+1915140	1921660	por ejemplo, porque yo con esto ya me mareo y probablemente una malla no seamos capaces de
+1921660	1928340	entenderlo, no seamos capaces de procesarlo. Entonces, yo digo bueno, pero esto sí es
+1928340	1932780	arbitrariamente largo, pero si yo supongo que lo más que puedo llegar es a 3, ahí sí puedo
+1932780	1941100	expresarlo con una presión regular. ¿De acuerdo? ¿Se entiende? Es decir, nuestra capacidad teóricamente
+1941100	1944560	podemos armar la llave, pero no la podemos volar, no la podemos compilar, digamos, en otra cabeza.
+1944560	1950940	Entonces, un poco ponen discusión que vos no puedas... Esto como argumento de, ah bueno,
+1950940	1953740	dejar estudiar el precio regular es porque para el lenguaje natural nunca te van a servir para nada.
+1959980	1962340	¿Y esto qué pasó?
+1965660	1968660	No podemos modelar el lenguaje natural con expresiones regulares.
+1972100	1977620	Pero sí podemos modelar algunos fenómenos. Típicamente se modelan con expresiones regulares.
+1977620	1981820	La fonología se ha representado durante mucho tiempo en el estudio de los sonidos, ¿no?
+1981820	1987740	¿De cómo los sonidos forman las palabras? La morfología que lo vamos a ver, la que hace que viene.
+1987740	1999900	Y la sintaxis de superficie, digamos, superficial, reconocer los grupos nominales y grupos verbales
+1999900	2005500	se ha resuelto con expresiones regulares. Es decir, ciertos subgrupos de problemas se pueden
+2005500	2021660	resolver. ¿De acuerdo? ¿Hasta acá? ¿Alguna pregunta? No, ninguna duda. Esas son nuestras,
+2021660	2033860	nuestro primer modelo que es el de las expresiones regulares. Ahí tienen el capítulo 2 del libro
+2033860	2040700	de Martin Yuravsky, es lo que usamos para la clase de hoy. Si lo pueden encontrar en líneas,
+2040700	2044660	hasta porque sea tan en la tercera edición, están los drafts de algunos capítulos de tercera
+2044660	2070380	edición, los pueden encontrar si no me aparecen por ahí. ¿Lo acuerdo? Bien. Bueno, eso fue un poco el
+2070380	2084420	repaso de expresión regulares. Y ahora vamos a ir a la primera tarea que enfrentamos como en el
+2084420	2088660	procesamiento de Lemos Genatural Trisionemente. En realidad hay una primera tarea que está
+2088660	2096300	siempre subestimada y que lleva mucho tiempo en general que es la de preprocesamiento. Es decir,
+2096300	2107900	yo puedo partir de un texto escrito en un formato electrónicamente amigable, un texto en ansio,
+2107900	2113380	en un icode, pero generalmente para llegar del mundo real a ese texto yo tengo que hacer todo
+2113380	2122700	el procesamiento porque los textos vienen en páginas web, con marcas de HTML o hay que extraerlo
+2122700	2128340	de un PDF. Yo me acuerdo que en una época que hacíamos algunos trabajos con gente del
+2128340	2133260	Pasteur, la gente decía, había un compañero que me decía, bueno, no sabes nada, me venía a decir
+2133260	2138420	que venía ese procesamiento de Lemos Genatural y no sabía sacar el texto de un PDF. Porque su problema
+2138420	2144260	ante eso era sacar de los PDF, de los Papers, a texto puro. Qué bastante difícil por entreparer
+2144260	2151220	decir porque el PDF es una cosa de imprimir. Ese trabajo lleva mucho, es muy engorroso,
+2151220	2156500	lleva mucho tiempo y está generalmente subestimado el tiempo que lleva y en este curso lo vamos a seguir
+2156500	2161620	subestimando porque vamos a asumir que partimos un texto como la gente, digamos, sin ese tipo de cosas.
+2162620	2171980	O sea que yo tengo un texto escrito. Vamos a suponer también, bueno, no tenemos por qué suponerlo,
+2171980	2179060	pero si les queda cómodo, que es un texto razonable, que no tiene cosas muy raras como
+2179380	2186820	como Twitter o como poesía incluso, no? Yo creo que analizar poesía había
+2186820	2191020	tenido otros problemas, seguramente. De hecho se hace, de hecho tenemos un proyecto de grado
+2191020	2194740	o varios que analizan cosas de Twitter, pero ahí cambian un poquito las reglas.
+2194740	2204060	Ahora vamos a suponer un texto, un texto narrativo, una noticia, pues así, gente normática.
+2205060	2209640	Y lo que nos va a interesar es ver el tema de la normalización de los textos. Es decir,
+2209640	2221980	yo agarro ese texto y quiero de alguna forma analizarlo. Bueno, para empezar tenemos que ver
+2221980	2227540	cuáles son las unidades del texto. Y ahí yo puse una definición que dice segmento del discurso
+2227540	2236140	unificado, perdón, segmento del discurso, todos los años, me pongo la pausa, segmento del
+2236140	2241300	discurso unificado habitualmente por el acento, el significado y pausas potenciales, inicial y
+2241300	2256100	final. Eso es la definición de, ¿qué es eso? Acento, no, más chico, porque la pregunta es
+2256100	2263580	cuáles son las más pequeñas, ¿no? Palabras, ¿no? Las palabras, ustedes vieron que en todas
+2263580	2266780	estas definiciones siempre se ponen muy cuidadosos porque siempre apasionan, pero tal coste
+2266780	2272020	una palabra y no. Unificado habitualmente por el acento, no sé por qué el acento. Ah,
+2272020	2277500	porque por claro, porque tienen el brujo y las esas cosas, ¿no? El significado, tienen
+2277500	2282260	un significado, la clase que viene va a hablar de morfología, donde hay parte más chica
+2282380	2287220	en la palabra, pero que no tiene significado independiente. Y pausas potenciales, inicial
+2287220	2292340	y final, porque nosotros nos creemos que las palabras tienen espacios, pausas, pero nosotros
+2292340	2298860	no hablamos. Ah, sí, no, así no, así. ¿Lo acuerdo? Bueno, esa es la definición de
+2298860	2303620	palabra, o sea, nuestra primera aproximación va a ser, bueno, vamos a identificar las palabras
+2303620	2317100	de todo el texto, ¿sí? Y vamos a ver ahí, por ejemplo, un pedacito, un texto de un cuento
+2317100	2327900	muy lindo de Borje que se llama la elef. ¿Qué palabras hay ahí? Díganme palabras.
+2327900	2337140	¿Qué palabras vamos encontrando? Bueno, yo les digo, si no se animan. La, candente,
+2337140	2345900	mañana, de, fácil, ¿no? Los espacios se paran palabras. Febrero, en, qué, ¿verdad?
+2345900	2355460	Puedo seguir hasta el final. Vea tribitervos, son dos palabras y una sola. Son dos palabras,
+2355460	2365660	¿no? Pero a mí me podría interesar, para, posteriores análisis, decir que esto se comporta
+2365660	2370380	como un nombre propio solo, ¿no? Eso podría ser interesante. Si yo quiero saber todos los
+2370380	2376060	textos que hablan de Beatriz y Terbo, este, me podría dar a interesar de identificarlo
+2376060	2381060	como una sola cosa. Ella llama multibord expression, o tiares con nombre, que muchas veces me puede
+2381060	2393060	interesar identificarlas. ¿Murió? ¿Coma? ¿Coma el palabra o no es palabra? ¿Pende para qué?
+2393060	2403020	No tiene acento, o sea, de la definición de la Academia de Pañola no, no es una palabra
+2403020	2408020	pero está. Pero a mí me puede, me destacó más algo hace ahí, ¿no? Sepadre a dos. Enunciado,
+2408020	2415020	creo. Después de una imperiosa, blá, blá. Acá tenemos la Plaza Constitución, que es,
+2415020	2430860	es un lugar. Puticoma. Y acá hay otra cosa también muy interesante, ¿qué es lo que termina acá?
+2433020	2437020	La oración, ¿no? ¿Cómo saben que termina la oración?
+2440020	2447020	Pueden un punto, ¿no? Punto, sin una pregunta o sin exclamación termina la oración.
+2447020	2451020	Este punto podría ser en una abreviatura, ¿no?
+2451020	2457020	Podemos cortar la oce al medio y tenemos problema.
+2457020	2466020	¿El punto y cómo separa oraciones? Sí, yo qué sé. Cómo que sí, ¿no?
+2466020	2471020	Yo les avise que en este curso no esperen todas las respuestas porque no siempre están.
+2471020	2476020	Trabajamos con un lenguaje, a ver, trabajamos con un material que es ambiguo, que es, es
+2476020	2482020	movedizo, digamos, no podemos pretender tener todo determinístico. Pero si no sería muy fácil.
+2482020	2486020	Por eso un cuerpo en español no es igual que un cuerpo en inglés, porque las características
+2486020	2490020	son diferentes y ni les digo un cuerpo en chino.
+2490020	2496020	Acá hay más cosas. En realidad no sé qué aporta esto, pero este es lindo, te cuento.
+2496020	2500020	Mentón son tres puntos subvencibles. Al final eso termina oración.
+2500020	2505020	Bueno, toquenizar es un problema que en general es bastante fácil.
+2505020	2510020	Pero para llegar a un nivel completo de análisis tiene sus problemitas.
+2510020	2516020	Hay un típico muy clásico que se llama what is a word, what is a sentence.
+2516020	2523020	Están las referencias que habla de los problemas que hay al toquenizar, que no son tan sencillos como...
+2523020	2528020	¿Qué hace que no sea un problema tan sencillo? Un problema típico de problemático que en realidad con la...
+2528020	2535020	Un problema típico que en realidad con el advenimiento de los formatos directamente digitales,
+2535020	2539020	eso está menos que el corte de guiones en el borde.
+2539020	2542020	Yo creo que metí un artificial por acá, porque esto no lo tenía.
+2542020	2546020	La primera, comu nión.
+2548020	2556020	Comu nión es una palabra sola, pero yo en el texto la tengo separado por un guión.
+2556020	2561020	Y yo tengo que ver si ese guión se parte de una palabra al medio o es una palabra compuesta con un guión.
+2561020	2567020	Echos se pasan en español, no hay, pero bueno, pero no siempre trabajamos en español.
+2570020	2572020	Bueno, y entonces un poquito de...
+2572020	2577020	Además de otra cosa, yo tengo que identificar para el análisis...
+2577020	2580020	¿Cuáles son las palabras que aparecen?
+2580020	2582020	Ah, hay otra pregunta, a ver.
+2582020	2590020	Por ejemplo, este de... y este de, ¿son el mismo?
+2590020	2595020	Va, justo agarre una, porque de nuevo es una... no es lo que hice preguntar.
+2595020	2598020	Esto es una expresión, ¿no? Que generalmente se interpreta toda junta,
+2598020	2602020	a mí me podría convenir... pero más allá de eso, a ver, déjame buscar otro.
+2602020	2612020	No lo tengo, bueno, pero aparte de lo que es de nuevo, que es una expresión,
+2612020	2614020	este deeta en mayúscula y deeta en minúscula.
+2614020	2617020	¿Son la misma palabra o no?
+2620020	2622020	Son, en general son.
+2622020	2626020	¿Me interesa pasarlas a minúscula?
+2627020	2629020	¿A la dos?
+2629020	2631020	Para pensando en cómo analizar.
+2631020	2636020	Cuando yo normalizo, trato de dejar el texto, lo más fácil de analizar para después.
+2636020	2639020	Separo las palabras claramente y digo, esto es una palabra.
+2639020	2642020	No me confío, solo en el espacio, porque si acá hay dos espacios,
+2642020	2645020	sigue siendo una separación entre palabras.
+2649020	2653020	Lo importante es la distinción entre lo que se llama word type.
+2654020	2660020	En español le decimos más bien palabra, o palabra diferente,
+2660020	2662020	no hay una traducción directa que es...
+2662020	2666020	Si yo tengo un texto, las palabras son las palabras diferentes que hay.
+2666020	2671020	Y a cada uno de estos, como lo llamamos, lo llamamos tokens.
+2671020	2675020	Las apariciones de una palabra en un texto se llama tokens.
+2675020	2680020	Y la tarea de partir esto en así, se llama tokenización.
+2681020	2683020	No es lo mismo la palabra que el token.
+2683020	2686020	Geniamente un corpus, que es un conjunto de textos,
+2686020	2691020	tiene muchísimas más tokens que palabras, porque se repiten.
+2692020	2697020	Vamos a ver algunas definiciones de cosas sobre las que vamos a hablar.
+2697020	2699020	Bueno, como le decía, el corpus es una colección de textos,
+2699020	2703020	seguramente lo vamos a usar en todo el curso.
+2704020	2710020	La oración, yo cuando hice el curso español uno me dijeron,
+2710020	2714020	la oración es una estructura anidada por un verbo,
+2714020	2719020	lo cual me suena a definición más sintáctica que otra cosa.
+2719020	2721020	Busqué la definición que hay en la Wikipedia,
+2721020	2724020	me casi no la puedo copiar todo porque era demasiado,
+2724020	2730020	pero más o menos es un constituyente sintático,
+2730020	2732020	un constituyente sintático más pequeño y necesario
+2732020	2738020	para expresar un predicado completo, lo que quiera que eso sea.
+2738020	2740020	No, es decir, afirmamos algo,
+2740020	2743020	la demás la miro a ella porque me da miedo meter la pata.
+2743020	2748020	Nosotros ven oraciones, oraciones, no digamos, oraciones.
+2748020	2752020	El perro comió el hueso, oraciones.
+2752020	2757020	Tienen un verbo, un verbo tiene, llueve, es oración.
+2757020	2762020	Tenemos la versión hablada, que son los enunciados,
+2762020	2767020	o uterans, que es la versión para lenguaje hablado,
+2767020	2769020	que por ahora queda como conocimiento general
+2769020	2772020	porque acá no vamos a hablar de lenguaje hablado.
+2772020	2777020	Y después tenemos también los lemas.
+2777020	2781020	La forma de superficie es la palabra como la conocemos,
+2781020	2784020	con todas sus flexiones,
+2784020	2785020	no vamos a hablar de la clase que viene,
+2785020	2787020	inflesiones, derivaciones, pero es...
+2787020	2792020	Las flexiones son las que, por ejemplo, dan el género y el número,
+2792020	2795020	y las derivaciones son las que construyen una palabra a partir de otra,
+2795020	2798020	como ve los mentes.
+2798020	2802020	Mente es una derivación, inflesión de derivativa,
+2802020	2804020	una derivación.
+2804020	2805020	¿La palabra cómo está?
+2805020	2811020	Pero el lema es cuando nosotros representamos
+2811020	2816020	una palabra a un conjunto de ellas que tienen el mismo significado,
+2816020	2819020	que tienen la misma raíz, la misma categoría gramatical,
+2819020	2822020	¿qué es la categoría gramatical?
+2822020	2826020	¿Qué es la categoría gramatical?
+2826020	2829020	Tiene que saber eso, tiene que saber eso.
+2829020	2832020	Si es un verbo, si es un sustantivo.
+2832020	2837020	Y el mismo significado, o sea, gato, gata, gato, gatas,
+2838020	2841020	todos tienen un lema que es gato.
+2841020	2848020	¿Para qué puede servir identificar el lema de una palabra?
+2854020	2856020	Por ejemplo...
+2859020	2865020	Sí, pero ¿por qué me interesa reconocer, distinguir gato de gata de gato
+2865020	2867020	de gatos?
+2871020	2874020	Típicamente en la recuperación de información.
+2874020	2877020	Cuando yo quiero traer los documentos que hablan de gato,
+2877020	2879020	yo pongo gato,
+2879020	2883020	si hay un documento que dice gatos, seguramente me va a salir.
+2883020	2886020	Por eso me interesa, y es típico de recuperación de información,
+2886020	2890020	buscar por lema, no por la palabra, por la forma aflecionada,
+2890020	2894020	por la surface phone.
+2894020	2897020	Entonces, estos son conceptos.
+2897020	2908020	El lema es como el representante canónico de las formas de superficie afleccionada, digamos.
+2908020	2910020	Bueno, vamos a hablar más de eso en la clase que viene.
+2913020	2916020	Bien, como le decía en un corpus, yo tengo los word types,
+2916020	2918020	que son las palabras distintas en el corpus,
+2918020	2921020	y los tokens que son el total de palabras en el corpus.
+2922020	2925020	Total de apariciones de palabras en el corpus.
+2925020	2927020	¿Qué pasa?
+2927020	2929020	Por ejemplo...
+2935020	2937020	Bueno, esto queda de ver porque es muy fácil.
+2937020	2939020	¿Cuántas palabras hay ahí? ¿Cuántos tokens?
+2939020	2941020	Y la discusión que tuvimos, ¿no?
+2941020	2943020	Tengo que ver si cuento como tokens a las comas,
+2943020	2945020	generalmente se consideran tokens a las comas,
+2945020	2947020	porque a mí me interesa que aparezcan en el texto.
+2948020	2952020	A veces las unifico como signos de puntuación en el análisis.
+2952020	2954020	Muchas veces se hace eso.
+2954020	2957020	Pero yo creo que eso se hace para facilitar el análisis,
+2957020	2961020	no porque esté bien, porque a mí me interesaría separar una coma de un punto.
+2961020	2963020	Muchas veces no se hace.
+2963020	2965020	Es decir, para el etapa subsidente,
+2965020	2967020	esto se identifica con una marca que es un signo de puntuación.
+2969020	2972020	Pero por acá hay palabras que seguramente van a haber más tokens,
+2972020	2974020	¿qué palabra?
+2974020	2976020	Porque acá hay un la...
+2978020	2980020	Acá hay dos A.
+2985020	2987020	Bueno...
+2988020	2990020	Y bueno, por ejemplo,
+2990020	2994020	hay tradicionalmente uno en este tipo de análisis
+2994020	2996020	trabaja sobre corpus grandes.
+2997020	3002020	Los corpus que nos permiten analizar las diferentes ocurrencias de cosas
+3002020	3004020	en el lenguaje son corpus grandes,
+3004020	3006020	porque yo necesito ver la casuística.
+3006020	3008020	Los lingüistas hace muchos...
+3008020	3010020	hace décadas que trabajan sobre corpus,
+3010020	3012020	donde identifican la...
+3013020	3018020	¿Cómo se comporta el verbo ser en el lepaño?
+3018020	3020020	Y bueno, tengo que ver todas las ocurrencias de ser que aparecen
+3020020	3022020	y estudiar cómo se...
+3022020	3024020	es bien empilco esto.
+3025020	3028020	Si nosotros nos creemos que la real academia pañola sabe todo,
+3028020	3031020	pero en realidad primero que de algún lado tuve que aprender
+3032020	3034020	y luego que...
+3034020	3038020	uno tiene que estudiar la casuística, ¿de acuerdo?
+3038020	3041020	Entonces, hay un corpus bastante conocido que es el corpus crea,
+3041020	3043020	el corpus de referencia del español actual,
+3043020	3045020	que junta...
+3045020	3047020	acá tienen un link para verlo,
+3047020	3050020	los detalles, pero junta textos de diferentes lugares,
+3051020	3053020	mayormente de España, pero también de América Latina,
+3053020	3055020	de diferentes temas.
+3055020	3059020	Cuando uno construye un corpus es todo un trabajo,
+3059020	3061020	porque primero uno tiene que identificar
+3061020	3063020	de qué quiere armar el corpus, porque como le decía,
+3063020	3066020	un corpus de inglés es igual a un corpus español, obviamente,
+3066020	3070020	pero un corpus de noticias no es lo mismo que un corpus de...
+3070020	3072020	poemas,
+3072020	3074020	porque las cosas que hay,
+3074020	3076020	incluso las frecuencias de la palabra van a ser diferentes.
+3076020	3078020	Seguramente la cantidad de palabras desconocidas
+3078020	3081020	en un corpus de noticias sea muchísimo menor
+3081020	3083020	que la cantidad de palabras desconocidas
+3083020	3085020	en un corpus de poemas,
+3085020	3088020	porque uno cuando cree poemas se le da por inventar cosas.
+3090020	3092020	Por inventar palabras, cosas también.
+3092020	3097020	Por ejemplo, el corpus crea tiene 125 millones de tokens,
+3098020	3100020	es un corpus bastante grande
+3100020	3102020	para los parámetros del año 2000,
+3102020	3104020	para este, ahora no,
+3104020	3106020	ahora vamos a ver un poquito más,
+3106020	3110020	y tiene 737.799 palabras distintas.
+3111020	3114020	Esto debería converger, digamos,
+3114020	3117020	al tamaño del vocabulario que existe,
+3117020	3119020	que no es lo mismo que el vocabulario,
+3119020	3121020	que no es el número, me olvidé de notarlo,
+3121020	3123020	que no me lo acuerdo,
+3123020	3125020	de un diccionario, porque otra forma mira, un diccionario.
+3126020	3128020	El diccionario me dice todas las palabras,
+3128020	3130020	pero me lo dice, me trae los lemas.
+3132020	3134020	Entonces va a ser más chico, digamos.
+3134020	3136020	Esto es como un diccionario, palabras flexionadas.
+3137020	3143020	Por supuesto, no son las palabras del lenguaje,
+3143020	3145020	porque si yo no lo emití en este corpus,
+3145020	3147020	no, no existe.
+3151020	3154020	El corpus crea está separado en diferentes secciones,
+3154020	3156020	es típico de los corpus eso también,
+3156020	3158020	que vos tenés diferentes secciones,
+3158020	3160020	estos son de Venezuela, estos son de...
+3163020	3165020	Generalmente vos en los corpus tenés eso,
+3165020	3167020	de dividir su corpus, digamos.
+3168020	3170020	Por si vos querés especificar cosas,
+3170020	3172020	por ejemplo, si querés hablar del lepaño y del río La Plata,
+3172020	3174020	te remitía ese corpus.
+3175020	3177020	Y todos los análisis que uno hace en esto,
+3177020	3179020	de todo lo que hablan en el curso,
+3179020	3181020	siempre tiene que decir sobre qué corpus los hizo.
+3181020	3183020	Porque uno,
+3183020	3185020	entra en lo que sea,
+3185020	3187020	que significa entrenar,
+3187020	3190020	porque uno aprende ya sea mano,
+3190020	3192020	o automáticamente de un corpus,
+3192020	3194020	pero además tiene que evaluar sobre un corpus.
+3194020	3196020	A ver cómo le fue, eso lo vamos a hablar luego.
+3197020	3199020	Siempre va a ser sobre...
+3199020	3201020	uno tiene que decir sobre qué corpus es.
+3201020	3203020	A mí esto me dio tal resultado en el corpus crea.
+3204020	3206020	Lo cual no quiere decir que me va a averiguar el resultado
+3206020	3208020	en un corpus de Twitter.
+3210020	3212020	Hace poquito se aprobó,
+3212020	3215020	hubo un proyecto grado del grupo nuestro,
+3215020	3218020	se aprobó ahora, es un par de meses,
+3218020	3222020	que construyeron a partir de fuentes de noticias,
+3222020	3224020	de la wikipedia,
+3224020	3226020	y otros foros,
+3226020	3228020	y otros fuentes,
+3228020	3231020	un corpus de 6 mil millones de tokens.
+3231020	3233020	Esto es un muy buen corpus.
+3233020	3235020	Incluso,
+3235020	3237020	a nivel de lo que hay para el inglés,
+3237020	3239020	que son de 8 mil millones más o menos,
+3239020	3241020	y...
+3241020	3246020	ahí aparecieron 1.460 millones de palabras de...
+3246020	3248020	no, no puedes ver.
+3248020	3250020	Perdón.
+3250020	3252020	Un millón,
+3252020	3254020	un millón 460...
+3255020	3258020	1,5 millones de palabras de tinta.
+3258020	3260020	Fíjense...
+3261020	3263020	que para...
+3263020	3265020	125 millones de tokens,
+3265020	3267020	había 737 mil palabras,
+3267020	3269020	para 6 mil millones,
+3269020	3271020	había el doble.
+3272020	3274020	Lo que decíamos, debería ir convergiendo,
+3274020	3276020	pero si no apareciendo cosa rara.
+3276020	3278020	Esto es un corpus del español.
+3278020	3280020	Es un corpus...
+3280020	3282020	no anotado.
+3282020	3284020	Quiere decir que nadie lo miró a mano,
+3284020	3286020	obviamente.
+3286020	3288020	Solamente, y no es poco,
+3288020	3290020	una gran cantidad de textos.
+3290020	3292020	No puedo aprender yo de un corpus...
+3292020	3294020	de ese tipo de cosas.
+3294020	3296020	¿Cómo se agrupan las palabras?
+3296020	3298020	La frecuencia de las palabras.
+3298020	3300020	Cuanto más grande sea el corpus,
+3300020	3302020	más clara va a ser mi noción
+3302020	3304020	de la frecuencia de las palabras.
+3304020	3306020	La palabra más común en español creo que es D.
+3306020	3308020	Saber esas frecuencias,
+3308020	3310020	saberlas contando,
+3310020	3312020	supongo que es muy representativo
+3312020	3314020	de mi lenguaje, porque es todo...
+3314020	3316020	es una cantidad de cosas que ha dicho
+3316020	3318020	una cantidad de gente.
+3319020	3321020	Esto, este tipo de cosas,
+3321020	3323020	son los que ha hecho que
+3323020	3325020	radicalmente cambiara el pasamiento
+3325020	3327020	de lenguaje natural en los últimos años.
+3327020	3330020	Porque tengo muchos elementos nuevos.
+3330020	3332020	Y hoy en día es prácticamente
+3332020	3335020	impensable hacer análisis a mano.
+3338020	3340020	Subestimando el poder
+3340020	3342020	de todas estas cosas.
+3342020	3344020	Lo cual no quiere decir que uno no haga estudios analíticos,
+3344020	3346020	pero tiene otras herramientas totalmente nuevas.
+3346020	3348020	Si yo quiero saber cómo es
+3348020	3350020	el verbo ser en el español,
+3350020	3352020	bueno, tengo corpus muy grande
+3352020	3354020	para probar mis hipótesis.
+3359020	3361020	Bueno, la toquenización es
+3361020	3363020	identificar las palabras, dijimos que era bastante fácil,
+3363020	3365020	pero parecían cosas como los que fuimos
+3365020	3367020	encontrando.
+3367020	3369020	Por ejemplo,
+3369020	3372020	esto que está entre comillas,
+3372020	3374020	tengo que ver si lo puedo considerar
+3374020	3376020	solo o una entidad.
+3376020	3378020	O varios toquen con una entidad.
+3378020	3380020	Tengo que ver si las comillas las considero toquen aparte.
+3380020	3382020	Las fechas,
+3382020	3384020	los números,
+3384020	3386020	las direcciones web.
+3386020	3388020	Fenómenos que en el español no tenemos
+3388020	3390020	que son estos...
+3390020	3392020	¿Cómo que se llaman?
+3392020	3394020	Son...
+3394020	3396020	Contracciones, pero con...
+3396020	3398020	Apóstrafo.
+3400020	3402020	Nosotros tenemos contracciones,
+3402020	3404020	como sabe cualquiera que hizo
+3404020	3406020	Crucigramas a Idel,
+3406020	3408020	pero...
+3408020	3410020	esto no lo tenemos.
+3410020	3412020	Esto también hay que ver cómo separarlo.
+3412020	3414020	Y Idel, son todos problemas al Idel
+3414020	3416020	en el mundo real de la análisis,
+3416020	3418020	porque uno viene muy contento
+3418020	3420020	separando por palabras y se encuentra con al,
+3420020	3422020	que es una palabra, pues son dos.
+3422020	3424020	Entonces, después,
+3424020	3426020	uno armó un modelo
+3426020	3428020	de toque.
+3428020	3430020	Pus un ponense una lista de palabras,
+3430020	3432020	me olvidé de la separación.
+3432020	3434020	Sí, pero cuando lo quieren machear
+3434020	3436020	contra el texto original,
+3436020	3438020	dice, bueno, primera palabra, segunda palabra,
+3438020	3440020	no, para... Después que hizo la análisis,
+3440020	3442020	quiere volver al texto para mostrarlo.
+3442020	3444020	Cuando vuelve, hubo dos palabras
+3444020	3446020	que se le transformaron en una,
+3446020	3448020	o mejor dicho, una palabra que se le transformó en dos,
+3448020	3450020	cuando vuelve se equivoca, muestra
+3450020	3452020	las cosas corridas, de hecho, sucede.
+3452020	3454020	¿Todo por qué? Por Idel, que son
+3454020	3456020	una palabra que se pagó.
+3456020	3458020	También,
+3458020	3460020	también, ese es otro problema
+3460020	3462020	al de los críticos. Si a usted puede
+3462020	3464020	interesar sacar el de sí,
+3464020	3466020	porque para la análisis es muy importante.
+3466020	3468020	Exactamente,
+3468020	3470020	para la análisis son dos palabras.
+3470020	3472020	Y yo tengo
+3472020	3474020	que conservar de alguna forma,
+3474020	3476020	y perdón, porque parece,
+3476020	3478020	parece trivial, si yo no tengo,
+3478020	3480020	dice, bueno, yo hago una lista y se paro con los espacios,
+3480020	3482020	pero no, pues yo de alguna forma tengo que tener,
+3482020	3484020	y es un lío de implementación, le digo,
+3484020	3486020	muchas veces.
+3486020	3488020	Uno queda muy contento con su lista,
+3488020	3490020	trabaja con su lista de palabras,
+3490020	3492020	después hace,
+3492020	3494020	ahora, pues, en el clase que viene
+3494020	3496020	lo vamos a ver, le hace análisis
+3496020	3498020	gramatical,
+3498020	3500020	análisis sintáctico, arma el arbolito,
+3500020	3502020	bla, bla, cuando quiere volver
+3502020	3504020	a mostrar la oración, no sabe dónde la tenía.
+3504020	3506020	De un punto de vista de implementación,
+3506020	3508020	estamos hablando, ¿no?
+3508020	3510020	Sí.
+3510020	3512020	Cuando vamos a aprovechar un texto,
+3512020	3514020	¿vás tardado por lo que
+3514020	3516020	vamos a hacer?
+3516020	3518020	No.
+3518020	3520020	Vás tardado por lo que vos quieras hacer.
+3520020	3522020	Es decir,
+3522020	3524020	depende más de la tarea que estés completando.
+3524020	3526020	Por ejemplo, si vos vas a hacer
+3526020	3528020	un conteo simple
+3528020	3530020	de palabras,
+3530020	3532020	no te calienta esto.
+3532020	3534020	De hecho,
+3534020	3536020	capaz que te interesa tenerlo junto,
+3536020	3538020	porque tem
+3538020	3540020	es algo que
+3540020	3542020	es una colocación,
+3542020	3544020	digamos, un dos palabras, se da mucho junto,
+3544020	3546020	yo qué sé.
+3546020	3548020	Ahora, si vos querías hacer análisis sintáctico,
+3548020	3550020	cómo se organiza
+3550020	3552020	el arbol de la oración, esto te va a interesar
+3552020	3554020	separarlo sin duda.
+3554020	3556020	¿De acuerdo?
+3556020	3558020	Eso depende mucho de tu tarea.
+3560020	3562020	Si de todos modos
+3562020	3564020	es bastante estándar
+3564020	3566020	estas cosas tenerla separada.
+3566020	3568020	De hecho, hay un estándar muy sencillo.
+3568020	3570020	Ah, bueno, porque además hay otro problema
+3570020	3572020	y eso también lo he vivido.
+3572020	3574020	Que es, vos toquenizas
+3574020	3576020	con una herramienta.
+3576020	3578020	Esto es un problema
+3578020	3580020	bien de herramientas.
+3580020	3582020	Uno toqueniza de alguna forma en su programa
+3582020	3584020	y después utiliza una otra
+3584020	3586020	herramienta para ponerle la categoría
+3586020	3588020	gramatical a cada palabra.
+3588020	3590020	Si esta herramienta,
+3590020	3592020	al hacer el análisis gramatical,
+3592020	3594020	a la vez toqueniza según su criterio,
+3594020	3596020	lo toqué muchas veces.
+3596020	3598020	Yo tenía un tágar
+3598020	3600020	para hacer mi tesis
+3600020	3602020	en textos biológicos,
+3602020	3604020	de biología molecular,
+3604020	3606020	que aparecen muchas palabras raras.
+3606020	3608020	Y tenía un toque
+3608020	3610020	en etiqueta gramatical propio.
+3612020	3614020	Específico de lo entrenado
+3614020	3616020	sobre un corpus de ese tipo.
+3616020	3618020	Y no era una herramienta
+3618020	3620020	cerrada, lo que hacía era.
+3620020	3622020	Tomaba el texto, lo toquenizaba y lo notaba.
+3622020	3624020	Para machear este texto
+3624020	3626020	que me había toquenizado con mi texto original,
+3626020	3628020	como no toquenizaba igual,
+3628020	3630020	yo me lo sé, había cosas que
+3630020	3632020	por ejemplo decía 25 guión
+3632020	3634020	hidro, nunca entendí nada de lo que estaban haciendo.
+3634020	3636020	25
+3636020	3638020	hidroxil, no sé qué,
+3638020	3640020	y mi
+3640020	3642020	toquenizador, mi método de toquenización
+3642020	3644020	de 7 guión, es una palabra.
+3644020	3646020	El toquenizador
+3648020	3650020	del otro
+3650020	3652020	lo partí acá para devaluar el 25 por un lado
+3652020	3654020	y yo después tenía que
+3654020	3656020	volver a unificarlos para poder
+3656020	3658020	seguir trabajando.
+3658020	3660020	Esto era un nombre
+3660020	3662020	y esto era un número, yo qué sé.
+3664020	3666020	Bueno,
+3666020	3668020	acá hay un estándar de toquenización
+3668020	3670020	bastante conocido, es el del pen-triban.
+3670020	3672020	El pen-triban es
+3672020	3674020	un corpus
+3674020	3676020	de podemos ver qué es, anotado.
+3676020	3678020	Es decir, no sólo tomaron textos,
+3678020	3680020	sino que analizaron cada oración.
+3680020	3682020	Le pusieron la categoría gramatical
+3682020	3684020	a cada palabra.
+3684020	3686020	Y para eso tuvieron primero
+3686020	3688020	que toquenizar. La toquenización
+3688020	3690020	del pen-triban es muy sencilla.
+3690020	3692020	Se separan los signos
+3692020	3694020	de fundación de las palabras.
+3694020	3696020	Se separan las contracciones
+3696020	3698020	y las separan en it.
+3700020	3702020	Y las comillas dobles se transforman
+3702020	3704020	en comillas
+3704020	3706020	de apertura de cierre para separarlas
+3706020	3708020	y los paréntesis
+3708020	3710020	y los corchetes y las llaves
+3710020	3712020	se transforman en símbolos así.
+3712020	3714020	Esto por un tema de facilitar el par sin nada más.
+3714020	3716020	Es un estándar. Lo que tiene de bueno
+3716020	3718020	es que es un estándar. Que si yo aplico el pen-triban
+3718020	3720020	sé lo que me da.
+3720020	3722020	En vez de estar inventando
+3722020	3724020	yo mi propio
+3724020	3726020	algoritmo de toquenización.
+3728020	3730020	Pero bueno, después yo puedo querer
+3730020	3732020	post-processar, digamos,
+3732020	3734020	porque me aparece cierta realidad.
+3734020	3736020	Identificar nombres o cosas así.
+3740020	3742020	Bueno, el chino y el japonés
+3742020	3744020	tienen algún problema y es que no marcan
+3744020	3746020	los límites de las palabras.
+3746020	3748020	Sino que
+3748020	3750020	cada simbolito hansi
+3750020	3752020	del chino
+3752020	3754020	representa morfemas o sílabas.
+3756020	3758020	Entonces, toquenizar acá
+3758020	3760020	es un poco más difícil.
+3764020	3766020	¿Cómo?
+3766020	3768020	¿Cómo?
+3768020	3770020	No, son normales.
+3770020	3772020	Para ellos son normales.
+3772020	3774020	Ah, romana.
+3774020	3776020	No, no, no.
+3776020	3778020	Acá hay una palabra de hecho.
+3778020	3780020	De hecho, hay palabras.
+3782020	3784020	¿Tenés un analizador que va sobre el chino?
+3790020	3792020	No. Analizan derecho.
+3792020	3794020	Sí.
+3794020	3796020	Analizan derecho sobre los caracteres hansi.
+3800020	3802020	Bueno, el problema es que no tenemos espacio
+3802020	3804020	para separar, pero de hecho las palabras
+3804020	3806020	existen en tanto unidades con significado.
+3806020	3808020	Pero no la ve en el texto.
+3808020	3810020	Es lo mismo que nos pasa cuando hablamos.
+3810020	3812020	Si vos querés toquenizar
+3812020	3814020	el texto hablado, vas a tener un problema.
+3818020	3820020	Hay un algoritmo muy popular,
+3820020	3822020	muy básico, pero muy popular.
+3822020	3824020	Se llama MaxMatch.
+3824020	3826020	¿Qué tiene? ¿Una lista de palabras?
+3826020	3828020	De palabras, digamos.
+3828020	3830020	No de morfemas como de nada.
+3830020	3832020	Y es muy sencillo.
+3832020	3834020	Comienza al principio de la entrada.
+3834020	3836020	De la entrada que tiene del texto.
+3836020	3838020	Elige siempre la palabra más larga
+3838020	3840020	en la posición actual de la entrada.
+3840020	3842020	Y si no encuentra ninguna
+3842020	3844020	se queda con una letra sola.
+3844020	3846020	Y avanza.
+3846020	3848020	¿Verdad?
+3848020	3850020	Por ejemplo,
+3852020	3854020	si yo tengo la entrada, me saca
+3854020	3856020	de la cancha sin motivo.
+3856020	3858020	Acá ubica
+3858020	3860020	mesa
+3864020	3866020	K,
+3866020	3868020	el símbolo del K es calcio,
+3868020	3870020	D
+3872020	3874020	y la cancha es larga.
+3874020	3876020	Y acá ves la mesa
+3876020	3878020	de la... no anda muy bien.
+3878020	3880020	En español en inglés no funciona muy bien
+3880020	3882020	el MaxMatch, porque las palabras son más largas,
+3882020	3884020	pero en el chino funciona bastante bien.
+3884020	3886020	A nadie usa esto
+3886020	3888020	en español.
+3888020	3890020	Es el método más básico
+3890020	3892020	de cosas.
+3892020	3894020	Y hay mejoras sobre esto,
+3894020	3896020	empezando a la vez de izquierda a derecha,
+3896020	3898020	por ejemplo, de la izquierda a derecha
+3898020	3900020	o de derecha a izquierda,
+3900020	3902020	al mismo tiempo de los dos lados,
+3902020	3904020	como yo le decía, hay variantes.
+3904020	3906020	Y esto
+3906020	3908020	nos lleva
+3908020	3910020	a una cosa bastante interesante que es
+3910020	3912020	si yo tengo
+3912020	3914020	qué tan bueno, hay todo
+3914020	3916020	un tema en el procesamiento de lenguaje natural
+3916020	3918020	que es la evaluación.
+3918020	3920020	Yo cuando ejecuto una tarea
+3920020	3922020	tengo que
+3922020	3924020	evaluar mi resultado.
+3926020	3928020	Sobre qué la tengo que
+3928020	3930020	evaluar y esto vale siempre
+3930020	3932020	sobre un cuerpo que no sé para aprender.
+3932020	3934020	Si de alguna forma
+3934020	3936020	yo aprendo a toquenizar viendo
+3936020	3938020	cómo se separan las palabras con los textos de esto
+3938020	3940020	que tuve mirando y no sé qué,
+3940020	3942020	no puede utilizar, esto vale
+3942020	3944020	como regla general, después lo vamos a ver más
+3944020	3946020	en detalle con los métodos de aprendizaje automático, pero
+3946020	3948020	yo no puedo utilizar
+3948020	3950020	el mismo texto del que aprendí
+3950020	3952020	para evaluar mi resultado, porque
+3954020	3956020	me va a dar todo bien
+3956020	3958020	o por lo menos
+3958020	3960020	me va a dar mejor que
+3960020	3962020	si yo siempre tengo que evaluar sobre texto no visto
+3962020	3964020	o sea, yo siempre
+3964020	3966020	que tengo un cuerpo sobre el cual trabajar
+3966020	3968020	tengo que agarrar una porción
+3968020	3970020	del texto, típicamente 15-20%
+3970020	3972020	o podemos ver más en detalle.
+3972020	3974020	Y lo guardo a un costado
+3974020	3976020	hasta que llegue el momento de evaluar.
+3976020	3978020	Y cómo valúo la toquenización
+3978020	3980020	y bueno, si yo
+3980020	3982020	tengo la nuestra entrada
+3984020	3986020	y tengo lo que se llama un gold standard
+3986020	3988020	un texto
+3988020	3990020	correctamente segmentado
+3992020	3994020	alguien, un ser humano
+3994020	3996020	me dijo, bueno, la toquenización correcta
+3996020	3998020	es, me saca
+3998020	4000020	de la cancha sin motivo.
+4002020	4004020	Y cómo se calcula
+4004020	4006020	la performance
+4006020	4008020	de un toquenizador
+4008020	4010020	y bueno, con la word error rate
+4010020	4012020	o sea, el
+4012020	4014020	ratio de error de las palabras
+4014020	4016020	que es
+4016020	4018020	entre estos dos
+4020020	4022020	entre estos dos
+4024020	4026020	lista de palabras
+4026020	4028020	que tengo que cambiar
+4028020	4030020	para llegar de esta a esta
+4030020	4032020	si?
+4032020	4034020	que hay, como sería
+4034020	4036020	que sería lo que tendría que hacer yo
+4036020	4038020	y donde cambiar
+4038020	4040020	quiere decir insertar, borrar o
+4040020	4042020	sustituir
+4042020	4044020	que tengo que hacer?
+4044020	4046020	mesa
+4046020	4048020	mesa por
+4048020	4050020	me
+4050020	4052020	y que más?
+4052020	4054020	y k por
+4054020	4056020	saca, no?
+4058020	4060020	ah, porque me coqué
+4060020	4062020	le guardo
+4062020	4064020	entonces
+4064020	4066020	eso es la tasa de error
+4066020	4068020	acá tengo un error de 2, cuanto más baja mejor
+4068020	4070020	si tengo 0 de porque son igual
+4070020	4072020	luego eso se llama
+4072020	4074020	distancia mínima de edición
+4074020	4076020	y lo vamos a ver luego
+4076020	4078020	distancia mínima de edición, pero
+4078020	4080020	en palabras
+4080020	4082020	¿de acuerdo?
+4086020	4088020	bueno, además de
+4088020	4090020	toquenizar
+4090020	4092020	además de toquenizar
+4092020	4094020	bueno
+4094020	4096020	ya lo hemos hablado prácticamente
+4096020	4098020	todo
+4098020	4100020	la normalización implica
+4100020	4102020	llevar las palabras a un formato
+4102020	4104020	estándar para procesarlas
+4104020	4106020	llevar los números
+4106020	4108020	a un formato único
+4108020	4110020	porque así no metemos ruido
+4110020	4112020	para nuestro análisis posterior
+4112020	4114020	acuérdense que esto es la base
+4114020	4116020	de una cascada de tareas
+4116020	4118020	el principio de una cascada de tareas
+4118020	4120020	la url y otra forma
+4120020	4122020	de identificarlas y marcarlas
+4122020	4124020	detectar entidades con nombre
+4124020	4126020	y este
+4126020	4128020	que es folding o llevar toda minúscula
+4128020	4130020	o mayúscula que a veces lo hacemos a veces no
+4130020	4132020	según nuestra tarea
+4132020	4134020	bueno
+4134020	4136020	tradicionalmente la toquenización
+4136020	4138020	y la normalización se han realizado
+4138020	4140020	utilizando automata finito
+4140020	4142020	porque son problemas bastante sencillos
+4144020	4146020	y porque además son
+4146020	4148020	como son el comienzo de la cascada
+4148020	4150020	necesitamos que sean rápido
+4150020	4152020	yo necesito toquenizar rápidamente
+4152020	4154020	para poder después empezar el análisis
+4154020	4156020	entonces
+4156020	4158020	y porque además los automatas de hecho funcionan
+4158020	4160020	esa
+4160020	4162020	esa especificación
+4162020	4164020	del
+4164020	4166020	del algoritmo del PEN-Tribank
+4166020	4168020	tiene su equivalente
+4168020	4170020	en un pequeño programita en sed
+4170020	4172020	la herramienta UNIX para toquenizar con eso
+4172020	4174020	de acuerdo
+4174020	4176020	y cualquier
+4176020	4178020	biblioteca presionamiento del lenguaje natural decente
+4178020	4180020	por ejemplo en el ETK
+4180020	4182020	te permite especificar un toquenizador
+4182020	4184020	en base a una expresión regular
+4184020	4186020	como quiere separar las palabras
+4186020	4188020	y
+4188020	4190020	y lo hace
+4196020	4198020	bueno
+4198020	4200020	también lematizar
+4200020	4202020	a veces nos puede interesar tener solo el lema
+4202020	4204020	por ejemplo si mis documentos lo voy a usar para recuperar información
+4204020	4206020	con tenerlo el lema me alcanza
+4206020	4208020	hay una forma mucho más sencilla
+4208020	4210020	porque
+4210020	4212020	lematizar implica hacer un análisis morfológico
+4212020	4214020	de la palabra
+4214020	4216020	sacar es lo que va a ver la clase que viene
+4216020	4218020	la carla raíz
+4218020	4220020	y las derivaciones
+4220020	4222020	o los afijos
+4222020	4224020	o sea la pedacita
+4226020	4228020	es un poco más costoso
+4228020	4230020	hay un método muy viejo
+4230020	4232020	que se llama STEMIN
+4232020	4234020	que es mucho más simple
+4234020	4236020	que simplemente cortar las palabras
+4236020	4238020	yo sé que perros
+4238020	4240020	perritos
+4240020	4242020	perro
+4242020	4244020	es el STEM
+4244020	4246020	y yo lo puedo utilizar como una aproximación al lema
+4246020	4248020	va a cometer errores
+4248020	4250020	pero
+4250020	4252020	es muchísimo más rápido
+4252020	4254020	y no necesito ningún tipo
+4254020	4256020	análisis morfológico
+4258020	4260020	eso es el famoso
+4260020	4262020	STEMIN
+4262020	4264020	que mal que bien se sigue usando
+4264020	4266020	y ya pasaron como 30 y pico de años
+4266020	4268020	de que se le hizo
+4268020	4270020	si
+4274020	4276020	de eso vamos a hablar en la clase que viene
+4276020	4278020	que es hemorfología
+4278020	4280020	y no solo la irregularidad del lugar
+4280020	4282020	sino la ortográfica también
+4282020	4284020	lo imposible
+4284020	4286020	y eso
+4286020	4288020	si
+4288020	4290020	se puede resolver la clase que viene
+4290020	4292020	igual se resuelve
+4292020	4294020	también
+4294020	4296020	se puede resolver con algo mismo de estado finito
+4298020	4300020	bueno
+4300020	4302020	también hay otro tema
+4302020	4304020	y con esto vamos a terminar
+4304020	4306020	voy a hacer trabajar hoy
+4306020	4308020	y con esto vamos al último tema
+4308020	4310020	de la cosa que además nos interesa
+4310020	4312020	segmentar en oraciones
+4312020	4314020	y ustedes diosme cómo separamos
+4314020	4316020	en oraciones
+4318020	4320020	cómo separamos
+4320020	4322020	¿dónde están las oraciones?
+4322020	4324020	supongamos que los punticomas no son oraciones
+4324020	4326020	más fácil es la goma
+4326020	4328020	eh
+4328020	4330020	empiezan con mayúscula
+4330020	4332020	empiezan con mayúscula
+4332020	4334020	y terminar
+4334020	4336020	con un punto
+4336020	4338020	problemas
+4338020	4340020	ahí llegamos
+4340020	4342020	como un 90 y pico de precisión
+4342020	4344020	vamos a ver
+4344020	4346020	pero algún problema tiene
+4346020	4348020	las abreviaturas
+4350020	4352020	que pasa con la abreviatura
+4352020	4354020	tiene punto
+4354020	4356020	hay punto que son internas la oración
+4360020	4362020	nombre propio
+4362020	4364020	se puede marear con el tema de la mayúscula
+4364020	4366020	claro
+4366020	4368020	si todo el mundo es más bueno encontrar problemas
+4368020	4370020	encontrando problemas
+4370020	4372020	que hay otro problema
+4372020	4374020	si empiezan con un número
+4374020	4376020	por ejemplo
+4376020	4378020	empiezan con mayúscula
+4378020	4380020	es más difícil
+4380020	4382020	no se me ocurre pero puede haber
+4382020	4384020	si buscan un córpul de 6 mil millones de palabras
+4384020	4386020	les aseguro que encuentran todos los casos
+4386020	4388020	este
+4388020	4390020	y es eso
+4390020	4392020	efectivamente es eso
+4392020	4394020	reconocer oraciones
+4394020	4396020	se puede hacer con expresión regulares
+4396020	4398020	como dice el que
+4398020	4400020	tratando de
+4400020	4402020	buscar algunos casos especiales
+4402020	4404020	pero
+4404020	4406020	esta gente
+4408020	4410020	los métodos más
+4410020	4412020	el estado del arte en separación de oraciones
+4412020	4414020	es
+4414020	4416020	utiliza
+4416020	4418020	una especie
+4418020	4420020	una especie anal
+4420020	4422020	lo que se llama análisis no supervisado
+4422020	4424020	o clasificación no supervisado
+4424020	4426020	cuando yo digo análisis
+4426020	4428020	no supervisado
+4428020	4430020	luego el curso movió mucho
+4430020	4432020	pero no supervisado quiere decir que yo no tengo ningún
+4432020	4434020	texto anotado
+4434020	4436020	nadie me dijo cómo eran las oraciones
+4436020	4438020	simplemente me dieron el texto en crudo
+4438020	4440020	y yo hice mi análisis adentro de ese texto
+4440020	4442020	cuando yo hablo de clasificación supervisada
+4442020	4444020	alguien me dijo
+4444020	4446020	acá empieza la oración y acá termina
+4446020	4448020	¿de acuerdo?
+4448020	4450020	alguna anotador humano
+4450020	4452020	como cuando comparamos hoy con el toquenizador
+4452020	4454020	tengo un gol de estándar
+4454020	4456020	acá no
+4456020	4458020	esta gente lo que hizo fue
+4458020	4460020	crear un toquenizador entrenado
+4460020	4462020	agarró un gran conjunto de textos
+4462020	4464020	y tomó ciertas hipótesis
+4464020	4466020	y dijo bueno
+4468020	4470020	identifica candidatos
+4470020	4472020	a abreviaturas
+4472020	4474020	y dice bueno
+4474020	4476020	en general
+4476020	4478020	las palabras que terminan en punto
+4480020	4482020	son abreviaturas
+4482020	4484020	¿sí?
+4484020	4486020	en general
+4486020	4488020	las abreviaturas son cortas
+4488020	4490020	o sea que si una palabra es corta es más probable
+4490020	4492020	que sea abreviatura que no otra vez
+4492020	4494020	y en general
+4494020	4496020	tienen puntos internos
+4498020	4500020	¿de acuerdo?
+4500020	4502020	y con eso
+4504020	4506020	trataron de ver
+4506020	4508020	contar en un texto
+4508020	4510020	las frecuencias
+4510020	4512020	contar en un texto
+4512020	4514020	la cantidad de veces
+4514020	4516020	que esa palabra
+4516020	4518020	la misma palabra aparecía con y sin punto
+4518020	4520020	si yo por ejemplo
+4520020	4522020	la palabra
+4522020	4524020	etcétera
+4524020	4526020	casi todas las veces aparece con punto
+4526020	4528020	o de hecho todas las veces aparecen con punto
+4528020	4530020	en el corpus
+4530020	4532020	o sea que fuertemente candidata
+4532020	4534020	hacer una abreviatura
+4534020	4536020	pero si yo
+4536020	4538020	y aparece Guillermo
+4538020	4540020	como un punto al final
+4542020	4544020	seguramente no sea una abreviatura
+4544020	4546020	sino que sea el final de enhoración
+4546020	4548020	¿de acuerdo?
+4548020	4550020	entonces lo que hacían
+4550020	4552020	en ese tipo de conteos en el texto
+4552020	4554020	para ver cuáles eran más candidatas
+4554020	4556020	digamos a
+4556020	4558020	a priori hacer
+4558020	4560020	abreviaturas
+4560020	4562020	¿por qué se trataba esto de desambivar el punto?
+4562020	4564020	que es nuestro problema
+4564020	4566020	que mencionamos hoy ¿no?
+4566020	4568020	con la palabra
+4568020	4570020	con la palabra
+4570020	4572020	lo mismo hacía cuando eran palabras cortas
+4572020	4574020	palabras largas
+4576020	4578020	con esa lista de candidato
+4578020	4580020	después veían en qué contexto aparecían
+4580020	4582020	metían una segunda fase
+4582020	4584020	dice bueno, pero dice Guillermo punto
+4584020	4586020	y la palabra que la sigue empieza en minúscula
+4586020	4588020	entonces capaz que sí era una abreviatura
+4590020	4592020	no se me ocurre porque Guillermo punto
+4592020	4594020	es una abreviatura pero ta
+4594020	4596020	de acuerdo
+4596020	4598020	o
+4598020	4600020	colocaciones
+4600020	4602020	por ejemplo cuando yo digo
+4602020	4604020	saben lo que son las colocaciones
+4604020	4606020	son palabras que aparecen juntas
+4606020	4608020	de nuevo
+4608020	4610020	es una colocación
+4610020	4612020	no sé si dice colocación
+4612020	4614020	pero en inglés dice colocation
+4614020	4616020	no debe ser colocación
+4616020	4618020	por ejemplo si yo digo
+4618020	4620020	y etcétera
+4620020	4622020	y etcétera
+4622020	4624020	o coma etcétera
+4624020	4626020	y etcétera
+4626020	4628020	parecen muchas veces juntos
+4628020	4630020	entonces
+4630020	4632020	y entonces
+4632020	4634020	digamos
+4634020	4636020	es muy raro que se aparece
+4636020	4638020	con un punto en el medio
+4638020	4640020	ese punto sea de separación
+4640020	4642020	el ejemplo que dijí es horrible
+4642020	4644020	el año que viene voy a elegir uno bueno
+4644020	4646020	pero ese punto es raro
+4646020	4648020	que sea de separación
+4648020	4650020	porque siempre que aparecen juntas
+4650020	4652020	digamos yo digo
+4654020	4656020	de nuevo
+4656020	4658020	este es horrible pero no es tan malo como en el anterior
+4658020	4660020	de nuevo siempre aparece así
+4662020	4664020	de acuerdo si en algún momento aparece
+4664020	4666020	con un punto acá probablemente se hace
+4666020	4668020	un fin de eración
+4668020	4670020	de acuerdo
+4670020	4672020	pensimo el ejemplo
+4672020	4674020	y luego las palabras
+4674020	4676020	iniciales frecuentes es decir
+4676020	4678020	cuando aparece una mayúscula
+4680020	4682020	digamos
+4682020	4684020	esa palabra que apareció
+4684020	4686020	que tan candidata es
+4686020	4688020	hacer el comienzo de una oración
+4688020	4690020	a hacer una mayúscula
+4690020	4692020	en vez de ser un hombre ser un comienzo de oración
+4692020	4694020	y vemos que hay palabras que mucho más frecuentemente
+4694020	4696020	aparecen al comienzo de la oración
+4696020	4698020	la con mayúscula
+4698020	4700020	es una buena candidata a hacer
+4700020	4702020	comienzo de oración
+4702020	4704020	porque hay muchos la
+4704020	4706020	al comienzo de las oraciones
+4706020	4708020	entonces eso aumenta
+4708020	4710020	mi probabilidad de que sea
+4710020	4712020	entonces en base a un estudio de conteo
+4712020	4714020	y de frecuencias
+4714020	4716020	de lo que se llama likelyhood
+4716020	4718020	o verosimilitud
+4718020	4720020	desanvivo en el punto
+4720020	4722020	dicen bueno esto es un punto de abreviatura
+4722020	4724020	o es un punto de oración
+4726020	4728020	y de esa forma se paran oraciones
+4728020	4730020	si
+4732020	4734020	eso en el entecac existe
+4734020	4736020	y yo les voy a mostrar un poco el corpus
+4744020	4746020	hay firefox hablando lo que veo
+4758020	4760020	y
+4776020	4778020	esto es una base
+4778020	4780020	de jurisprudencia del Poder Judicial del Uruguay
+4788020	4790020	¿que es eso?
+4794020	4796020	esto esta publicado
+4796020	4798020	donde dice
+4812020	4814020	¿que dice?
+4818020	4820020	estas son las sentencias
+4820020	4822020	de
+4826020	4828020	una base de sentencias
+4828020	4830020	de ejemplo
+4830020	4832020	del Poder Judicial Uruguayo
+4832020	4834020	si se fijan
+4834020	4836020	este es el texto
+4838020	4840020	que interesante
+4840020	4842020	no eran todas iguales
+4844020	4846020	fíjense que si yo quiero
+4846020	4848020	parar el texto
+4848020	4850020	no tengo muchos problemas
+4850020	4852020	pero acá parecen cosas raras
+4852020	4854020	como este es punto que me interesaría
+4854020	4856020	que quedara dentro de la oración
+4856020	4858020	pero
+4858020	4860020	me sorprendí un poco
+4860020	4862020	acá hay un número que aparece con punto
+4862020	4864020	pero además hay otras sentencias
+4864020	4866020	que
+4866020	4868020	terminan en punto y raya
+4868020	4870020	punto y guión
+4870020	4872020	punto y guión
+4872020	4874020	hay el separador totalmente raro
+4874020	4876020	para lo que es el estandar
+4876020	4878020	y que uno tiene que ver como modificar la toquenización
+4882020	4884020	este corpus es el que van a usar
+4884020	4886020	ustedes para el laboratorio
+4886020	4888020	así que vayan a seguir haciendo amigos de él
+4888020	4890020	este
+4890020	4892020	mira referencias
+4892020	4894020	están por ahí
+4894020	4896020	los invito a le darlas
+4900020	4902020	alguna pregunta
+4902020	4904020	acá
+4908020	4910020	bueno tal vez ya ha sido demasiado
+4910020	4912020	para ustedes
+4912020	4914020	si no hay dudas
+4914020	4916020	vamos a hablar
+4916020	4918020	de distancia mínima de edición
+4918020	4920020	para empezar
+4920020	4922020	que es como ver
+4924020	4926020	cuál es la distancia entre dos palabras
+4926020	4928020	una noción de distancia entre dos palabras
+4928020	4930020	que esencialmente captura la idea
+4930020	4932020	de parecido
+4932020	4934020	es un punto de vista
+4934020	4936020	ortográfico
+4936020	4938020	y después vamos a seguir hablando
+4938020	4940020	de morfología
+4940020	4942020	gracias

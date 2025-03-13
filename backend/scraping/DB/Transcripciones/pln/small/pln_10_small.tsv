@@ -1,0 +1,516 @@
+start	end	text
+0	25260	La clase pasada estuvimos viendo una metodología de clasificación en general, así para cualquier
+25260	36620	problema de clasificación, especialmente cómo separar el corpus, qué medidas utilizar. Una
+36620	43220	cantidad de aspectos metodológicos que son muy importantes y que lo hicimos independiente del
+43220	46620	dominio en el que estamos, que es el depresamiento de lenguajas natural porque aplica para cualquier
+46620	52020	problema de clasificación. Problemas de clasificación y los métodos a aplicar a utilizar se pueden
+52020	56820	definir en general. De hecho, en el curso de aprendizaje automático, ustedes aprenden con más
+56820	60860	detalle lo que vimos en parte del curso de aprendizaje automático, aprenden con más detalle lo que
+60860	70180	ayer vimos en una clase sola. Porque se ven diferentes métodos, excluimos cuál era el método en
+70180	79500	particular y hablamos en general un clasificador, un clasificador supervisado, dijimos aquel caso
+79500	86460	donde yo tengo un conjunto de instancias de cosas, un conjunto de clases discreto y tengo que
+86460	93740	asignarle a cada instancia, la tarea de desasignarle a cada una de esas instancias uno del grupo de
+93740	98060	clases. Si yo tengo un conjunto de documentos y quiero saber en qué idioma está lo que estoy
+98060	103180	haciendo es un problema de clasificación. Tengo el conjunto de los documentos, tengo las clases
+103180	107700	que son los idiomas posibles y yo tengo que a cada uno asociarle una clase. Podría eventualmente
+107700	112260	ser más de una clase, podemos tener un problema multiclase, es decir hay variantes ¿no? Yo podría
+112260	119180	decir que a cada documento era signo más de una clase, por ejemplo si lo quiero clasificar el
+119180	125740	tópico de un documento, esto puede ser de espectáculos y de deportes o estamos hablando de
+125740	136740	guandanar a poner. En la clase de hoy lo que vamos a ver es vamos a hablar de los métodos que hay
+136740	142420	de clasificación de algunos métodos y de cómo se aplican algunas tareas del procesamiento de
+142420	147180	lenguaje natural. Vamos a hablar un poco de las características del método y de cómo intanciarlo
+147180	155100	en algún caso de ejemplo. Como yo decía en la clase pasada, los métodos de clasificación
+155100	163940	están muy difundidos en todos los diferentes análisis porque generalmente los elementos
+163940	168020	de dominio con lo que trabajamos son discretos, las palabras, las oraciones, los documentos,
+168020	177260	los tweets son todas cosas discretas. Entonces en general vamos a ver métodos de clasificación
+177260	185180	supervisadas. Si yo quisiera por ejemplo un ejemplo concreto, un proyecto que tuvimos el año
+185180	194540	pasado que era que clasificaba un tweet si era un chiste o no, esa era una tarea de clasificación,
+194540	202340	una tarea que también encaramos aunque no con demasiado éxito, era la de calificar el chiste
+202340	210140	en un rango, en un, por vacinar un valor de qué tan bueno estaba, digamos, si se podía llegar
+210300	215900	a capturar eso y ahí si yo como lo planteamos nosotros era que vos le podías poner una,
+215900	220300	dos, tres, cuatro, cinco estrellas, eso sigue siendo un problema de clasificación supervisada,
+220300	225060	pero si esto yo lo considerara un continuo, ahí tendríamos un problema de regresión,
+225060	229900	no son usuales, los problemas de regresión de pasamiento no van a que natural porque nuestros
+229900	236420	niños generalmente son discretos. Bueno, pero vamos a método de clasificación supervisada y en
+236420	244060	particular vamos a hablar de métodos probabilistas. Los métodos probabilistas en general tenemos
+244060	248580	la instancia, o sea yo no voy a volver sobre la terminología que vimos hace pasada, tenemos la
+248580	254820	instancia representada por atributos y queremos asignarlo a una clase, pero además los métodos
+254820	261980	probabilistas lo que hacen es asignarle una probabilidad a cada clase posible. Entonces yo no
+262020	273540	solo te digo esta instancia, esta instancia, este tweet es humorístico, sino que te digo este
+273540	283780	tweet tiene un 85% de chances en humorístico y no humorístico un 15%. Y esto por supuesto
+283780	289940	tiene que ser una distribución de probabilidad, sumar uno y tal, mayor que cero. Entonces
+292020	296700	y además los métodos probabilistas intentan obtener una distribución sobre las clases
+296700	297620	dado en los atributos.
+303980	309180	Y por supuesto clasificar en general va a ser, uno va a elegir la clase con la probabilidad más alta.
+310620	315380	Así es que no quiere simplemente dejar de volver esa distribución para que otra etapa
+315380	328620	del proceso lo utilice. Yo tengo la posibilidad de hacer eso. Los métodos generativos, que son
+328620	333860	uno de los tipos de métodos que hay, lo que intentan es, son los que hemos estado viendo
+333860	337900	hasta ahora en general y es lo que tratan de modelar la distribución conjunta, es decir,
+337900	350180	la clase junto con los atributos, ¿sí? Y las etiquetas, ¿de acuerdo? ¿Por qué? Porque es lo que
+350180	356580	necesitan para, a partir de la regla de Valle. Es decir, yo quiero la clase dada del conjunto de
+356580	359900	features, ¿se acuerdan que la feature era nuestra representación del documento, ¿no?
+360220	367940	Característica que, Valle a la redundancia caracterizaban al documento. Entonces, la probabilidad
+367940	373580	de la clase dada de los atributos es igual, la probabilidad conjunta dividida de la probabilidad
+373580	378500	de los atributos, ¿sí? Por definición, por la definición de probabilidad condicional.
+383180	387940	¿De acuerdo? Entonces lo que tratan de modelar es esto. ¿Por qué lo hacen? ¿Por qué esta
+387940	392860	probabilidad generalmente son más fáciles de estimar que las otras? ¿Por qué la puedo
+392860	399460	estimar contando más fácilmente? ¿Por qué? Porque fíjense que yo como condiciono en dada
+399460	405580	de la clase, digamos, yo, por ejemplo, puedo asumir independencia entre las variables aleatorias esta,
+405580	410380	o sea, entre los atributos y puedo decir, si estas son independientes, p de x1 dado c
+410700	417380	por p de x2 dado c, ¿no? ¿Esto no lo puedo hacer de este lado? Yo no puedo decir p de c
+417380	422940	dado x1, porque no funciona así la probabilidad, digamos. La independencia la puedo dejar de acá
+422940	432900	al lado. Y cualquier propiedad de dependencia entre variables aleatorias se mira de este lado,
+432900	436940	¿no? Eso genera toda una teoría que se llama la de los modelos gráficos, que por supuesto no
+437020	441500	vamos a hablar acá, pero que me dicen, bueno, ¿cuál es la estructura que yo supongo en términos
+441500	446700	de dependencia? Es decir, esta variable depende de esta, esta no, y así. Y puedo modelarlo con
+446700	455420	un gráfico, como va a tomar. Entonces, llegan a esto, ¿no? La probabilidad de la clase,
+455420	459180	dado los atributos, la probabilidad de la clase por la probabilidad de los atributos a la clase.
+459180	463580	Esto es valles, ¿no? Y ya lo hemos visto varias veces en el curso, no estamos inventando nada.
+464220	470180	Dividido la probabilidad de los atributos. Y bueno, y nada, lo que hemos hecho hasta ahora,
+470180	476180	tanto la probabilidad priori, la PC como la probabilidad de verosimilitud, esta la puedo
+476180	483380	estimar a partir de los datos. Esto ya lo hemos hecho. Pero vamos a tener que simplificar el problema.
+483540	501980	El método nai valles lo que hace es asumir que los atributos son independientes entre sí,
+501980	508820	lo cual es una barbaridad conceptual, si por ejemplo estamos hablando de un texto y los atributos son
+508820	514900	las palabras que tiene. Realmente las palabras vienen acompañadas, se hacen amigas entre ellas,
+514900	518540	digamos, ¿no? Si hay muy palabras positivas, muy probable que haya otras palabras positivas.
+518540	525140	Bueno, valles dice, bueno, no sé, no sé. La probabilidad de una palabra solo depende de la clase.
+528780	533940	Y por lo tanto eso hace que pueda partir la probabilidad, porque como son independientes,
+533940	540100	la probabilidad de x1 dado x1 por xn dado c, la probabilidad de x1 dado c por la probabilidad de
+540100	549540	x2 dado c, bla, bla. Y bueno, ¿y cómo construye un clasificador a partir de esto? Y bueno,
+549540	555100	maximizo lo de arriba, busco la clase que maximice lo de arriba. Lo de abajo es independiente de la
+555100	562140	clase. Entonces busco la clase que maximice lo de arriba y ahí tengo un clasificador. ¿De acuerdo?
+563940	571540	Es muy sencillo, tomo todos los atributos que se me ocurren, los considero independientes. Ahora
+571540	578860	lo moveremos en algún ejemplo y busco la clase que maximiza. El método Ney Valle funciona muy bien
+578860	587260	como base para un clasificador y por poca plata uno hace un clasificador como la gente que capaz
+587260	596220	que hasta le pueden llamar un AI en la prensa. Yo no sé de cuándo es el método de Ney Valle,
+596220	603940	me suena como de los años 60, si bien se basa en el teoría de Valle que de 1700, pero funciona
+603940	609260	muy bien. En general, como primera aproximación rápida o algo, uno puede usar Ney Valle sin mucho
+609260	617660	cargo de conciencia y funciona en general muy bien. El método de Ney Valle es aplicado a la
+617660	625660	clasificación de documentos. Utiliza una de las formas de darlo es utilizando lo que
+625660	631340	se llama una aproximación vago words. Es el ejemplo, es como el ejemplo canónico de
+631340	638220	clasificación, digamos, el vago word. Yo digo tengo todo esto, es un documento que tiene una
+638220	644380	estructura, que tiene un orden entre las palabras, que tiene una sintaxis, que tiene
+644380	651860	relaciones bien formadas, con una semántica, yo no le hago caso a nada de eso. Y lo que hago
+651860	659180	solamente es considero que esto es una bolsa de palabras. La bolsa de se acuerdan, bolsa es
+659180	666980	como un set, pero que puede tener elemento repetido. Una bolsa de palabras y tengo el conteo de
+666980	676580	cantidad de veces que una palabra aparece en ese documento. Mi representación del documento es esto.
+677940	687140	Me features son estos. Entonces, cómo hago clasificación, esto fue lo que hubo en la laboratoria
+687140	694780	del año pasado. Entonces, cómo se instancia Ney Valle para el problema de clasificación de documento?
+694780	700660	Bueno, las posiciones son todas las posiciones que tengo en el documento que quiero evaluar.
+700660	704740	Yo quiero evaluar en la clase. Aguardo, quiero evaluar la clase en un documento,
+704740	709500	entonces tengo las posiciones, que son todos los tokens que aparecen en cada palabra, en el documento.
+709500	730580	Y la clase, según Ney Valle, es la clase que maximiza, quería comentar algo acá.
+732100	739140	Esto en realidad es un conteo, pero yo acá la voy a contar seis veces. Por eso es un bug of words.
+739500	749620	En las posiciones considero todas las posiciones posibles, como decía, y calculo la clase como la
+749620	758700	clase que maximiza la probabilidad de cada palabra que aparece en el documento dado a esa clase.
+759700	766020	¿Se entiende? Es la clase que hace más probable, considerando independencia,
+772300	777180	que esa palabra es T en ese documento, digamos, ¿no? La probabilidad de W subida o C.
+778860	783900	¿Y cómo hago para hacer eso? Y bueno, para calcular esos valores, para estimar esos valores,
+784900	791380	yo digo, bueno, nuestro mejor estimador, este corrito quiere decir nuestro estimador,
+791380	795420	nuestro mejor estimador de la clase, de la probabilidad priori, de la probabilidad,
+795420	801060	estamos hablando de la probabilidad de la clase, si no tuvieramos la palabra, es decir,
+801060	808820	yo puedo tener una distribución, yo tengo documentos que son o de deporte o de música,
+808820	812900	vamos a suponer que son exclusivos, ¿tá? La probabilidad de la clase es el número de
+812900	818740	documentos de deporte sobre el total, o sea, mi probabilidad priori, ¿se acuerdan de Valle,
+818740	823340	¿no? Yo tengo una probabilidad priori que lo que pienso antes de empezar a ver el documento y
+823340	827820	antes de ver el documento yo puedo decir, bueno, el 90% de los documentos son de deporte,
+827820	835220	entonces mi probabilidad a priori es 0.9, ¿te acuerdo? Es mucho más probable a priori que sea un
+835220	839980	documento de deporte, yo voy a ajustar esa probabilidad con la probabilidad de las palabras de
+839980	846140	cada una, ¿te acuerdo? Entonces, yo estimo esa probabilidad priori con el número de
+846140	854020	clase de documentos, que tienen la clase dividido el total de documentos. Y, similarmente,
+857460	864180	estimo por conteo la probabilidad de cada palabra de la clase contando del total de
+864180	871060	veces que aparecen todas las palabras en los documentos de esa clase, o sea, de todas las
+871060	876580	palabras que aparecen en los documentos de deporte, ¿cuántas veces aparece esa palabra en la de
+876580	884220	deporte? Tiene sentido, ¿no? Es una palabra común en un dominio de deportes, esta es lo que se
+884220	892060	pregunta, y multiplica a todas esas probabilidades, que seguramente operativamente tengamos que usar
+892060	898380	un logaritmo y sumar, porque si no nos va a dar todavía muy chiquita, pero conceptualmente lo
+898380	908140	mismo. ¿Se entiende? ¿Por qué, en vez de usar esto, tengo que usar esto?
+922340	923700	¿Por qué tengo que hacer eso?
+936140	939460	¿Por qué tengo que hacer esto? ¿Qué es esto?
+943820	949900	La plaza, le agrego uno, acaba contador para que no tenga el problema de que, porque si una de
+949900	952900	estas probabilidades, lo mismo que nos pasó con los engramas, si le suena conocido, porque es lo
+952900	960060	mismo, si una de aquella probabilidad de da cero, se me cancela toda la clase, la probabilidad de
+960060	970500	clase va a ser cero. Entonces para eso hacemos la plaza, hacemos smoothing, suavizado, agregándole
+970500	981820	uno a cada contador. Por ejemplo, bueno todo esto que yo estoy diciendo está en el capítulo 7,
+981820	988820	más o menos, que es general, del capítulo 7 del libro de Martin Yurashki. El libro de Martin Yurashki
+988820	993900	está online, los capítulos nuevos, de hecho todos los capítulos correspondientes a clases que
+993900	1000180	hemos dado están online, yo realmente les recomiendo leerlos un libro que está muy claro, no va a
+1000180	1006140	tener mucha más dificultad que lo que vemos en la clase, por lo menos no se, uno pierde perspectiva,
+1006140	1019620	no? Está claro, pero, pero... ¿Qué le pasa? Le agrajo de si, si me giro nada, si, si, y ahí pueden
+1019620	1026420	chequear y hay algunos detalles más que me parecen muy interesantes, si a ustedes les interesa. Bueno,
+1027380	1032940	supongamos que nosotros tenemos el cuerpo de entrenamiento que tenemos arriba, las oraciones que
+1032940	1040820	están arriba y con una categoría negativa o positiva, algún tipo, en este caso estamos haciendo
+1040820	1047260	sentimenta análisis, es decir, analizar si la percepción es positiva o negativa sobre un documento.
+1047860	1058140	En el cuerpo de los tweets hacíamos algo así, algo parecido, es decir, yo necesito saber si la clase
+1058140	1066260	del cuerpo del tweet es de humor o no humor. Bueno, y ahí tenemos algunos ejemplos negativos y otros
+1066260	1072420	positivos y queremos saber qué pasa con predictable with no originality. Entonces,
+1073140	1082180	la probabilidad priori de la clase cuál es y es el total de documentos hay 1, 2, 3, 4, 5,
+1083780	1088500	de los cuales tres son negativas y dos son positivas, o sea, que estas son nuestra probabilidad
+1088500	1098140	priori. Y luego entramos a buscar la probabilidad de cada palabra. La probabilidad de predictable,
+1098140	1104500	dado que la clase es negativa, es 1 que es la ocurrencia de predictable,
+1104500	1109660	predictable solo aparece en la segunda oración y en un contexto negativo.
+1112580	1119020	Entonces, a cada 1 y a cada tenemos el más 20 es para normalizar, para la plaza,
+1119020	1123860	o sea, 1 más 1 y 14, que es el total de palabras más 20, 14 es el total de palabras diferente.
+1124860	1125580	¿De acuerdo?
+1131140	1136860	De las palabras diferentes. ¿La palabras? ¿Cómo fáciles verlo acá?
+1136860	1139220	Sí, es la clase, ¿no?
+1140740	1145660	De la clase. ¿La cantidad de palabras que hay en la clase? No, no son diferentes, son todas.
+1145660	1153060	¿Del total de palabras que hay? ¿Voy a contar? Positivo, 1, 2, 3, 4, 5, 6, 7, 8, 9.
+1154580	1158980	Son todas, porque acá yo estoy considerando todas las ocurrencias. Es una de las cosas que se
+1158980	1164060	le critican, ahí vayan, es general, es eso, que si yo repito muchas veces algo, le sumo probabilidad.
+1166940	1171380	Que a veces no es lo que se quiere, digamos. Si hay atributos que reiteran cosas,
+1171380	1175060	es como que están muy relacionados y no están aportando información.
+1176900	1181420	Entonces, acá están todas las probabilidades de las diferentes palabras. Fíjense,
+1182140	1185860	bueno, ahora nos fijamos en el ejemplo. Con esas probabilidades, esa es nuestra,
+1186860	1192820	es como entrenamos nuestro clasificador, esencialmente. ¿De acuerdo? Es decir, a partir del
+1192820	1195700	cuerpo de entrenamiento, yo calculo esta probabilidad y lo que estoy haciendo es entrenar.
+1196980	1203140	Como ustedes ven, son cuentas muy sencillas de hacer. El clasificador, no hay vaya,
+1203140	1208940	la ventaja que tiene, es que es muy rápido, muy, muy rápido. Tanto para entrenar como para
+1209900	1215020	evaluar. Entonces, cuando uno quiera acercarse a un problema y ver, ¿qué tan difícil es
+1215020	1221860	clasificar un cuerpo de humor? Entonces, se le arrima con un método de esto,
+1223700	1229460	que lo entrenan dos patadas, y más o menos tiene una idea. Dice, ah, mirad, que pude clasificar
+1229460	1235180	el 75, 80% del olor. O sea, lo que es un problema que tiene para mejorar un poco,
+1235700	1242980	tampoco es que es horrible y difícil. Y luego, sí, empieza a afinar, a ajustar parámetros,
+1242980	1247060	a cambiar el método, capaz que le mete una red o agregarle datos, le mete una red neuronal
+1247060	1253140	que está una semana entrenando. Pero con esto tiene una primera aproximación, por lo menos.
+1253140	1258620	A mí se alcanza, pasa alguien en los medios. Porque depende la tarea que estamos haciendo.
+1258620	1263940	Bueno, ¿pero qué pasa? Entonces, ¿cómo clasifico? Y bueno, si la palabra es prevista,
+1263940	1270780	volvió en no originality, yo tengo la probabilidad de la oración dada la categoría negativa por
+1270780	1277380	la probabilidad de la categoría negativa. O sea, que es 3 dividido 5 por las diferentes
+1277380	1283700	probabilidades de las palabras que aparecen en la categoría negativa. Si se fijan acá estos
+1283780	1301140	1 es porque no aparecían. Y acá, fíjense que originality es una palabra montinando a positiva,
+1301140	1316180	¿no? Es 1 sobre 29 contra 1 sobre 34. O sea, que está mejor en la positiva que en la negativa.
+1316180	1320900	¿Sí? ¿Por qué? Porque aparecen contextos positivos, realmente. Acá el problema que
+1320900	1327340	tienen no, adelante. Que es uno de los problemas que ahora vamos a ver. Pero de todos modos,
+1327940	1334780	multiplicando las probabilidades de cada palabra, llega que es más probable que sea negativa.
+1336300	1341580	¿Y por qué? Porque dice predíctabel, seguramente. ¿Por qué dice no?
+1349060	1354700	En realidad esto es number crunching, ¿no? Es porque hay un motivo, digamos, uno de las
+1354700	1358300	aplicaciones son siempre aposteriores en estas cosas, ¿no? Es decir, bueno, pasó esto, pero en
+1358300	1365980	realidad esto es un motivo de sus cuentas, inicialmente. ¿Se entiende? ¿Se entiende acá?
+1369980	1377100	Si nosotros queremos hacer sentimentanálisis, para el caso particular de clasificación de
+1377100	1382180	documentos que se llama sentimentanálisis, que es ver la impresión respecto a algo,
+1382500	1387340	a un documento, hay algunas reglas que permiten mejorar la performance.
+1389860	1393940	Es lo mismo, es exactamente lo mismo, las clases son las mismas, pero se puede hacer
+1393940	1399380	alguna modificación. Por ejemplo, no contar múltiples ocurrencias en la palabra en el mismo
+1399380	1404020	documento. Esto que yo les decía hoy, cuento una vez olas. Y se dice, es muy, muy linda,
+1404020	1411900	linda, linda, cuento una vez olas. Eso se llama binary navages. El manejo de la
+1411940	1418580	innovación es todo un tema, es todo un tema, el manejo de la innovación. Y una aproximación
+1418580	1427660	muy, muy sencilla, muy naí, pero que mejora las cosas, pues bueno, yo a todo lo que dice
+1427660	1431860	después de didn't, lo clasifico no como like, sino como not like, invento una palabra nueva.
+1435140	1439900	Podría llegar a hacer alguna cosa un poco más elaborada si tuviera un parser, porque si yo
+1439940	1445620	tengo un parser, tengo el árbol y tengo una rama que dice no todo lo que hay abajo.
+1445620	1448820	Entonces yo sé el alcance de no. Ahí igual el problema está en cómo hacer el parsing,
+1448820	1457980	pero si yo le agrego información de parsing, la cosa puede mejorar. De parsing vamos a
+1457980	1466820	hablar la semana que viene, pero yo diría que... Háganme acordar que hable el final
+1466980	1472940	de esto, del parsing. Esta, pero esta es una primera aproximación, ¿entiendes? Creo unas
+1472940	1479700	palabras nuevas ahí y ahora el like se cuenta como not like. Es muy naí porque dice todo lo que
+1479700	1485780	está después de didn't, pero podría haber otras cosas en el medio. No, no es tan sencillo, digamos,
+1485780	1492380	pues las oraciones son más complicadas. No, creo que pienses que, y hay un que ahí con oración
+1492540	1501180	subordinada, puede ser más complejo que esto, pero no da rimamos. Y otra aproximación, por supuesto,
+1501180	1508620	es usar lo que se llama lexicones de sentimiento, que son listas de palabras positivas y listas
+1508620	1512420	de palabras negativas. Tengo una lista recolectada, ¿sí?
+1513140	1518980	En el caso de que está mostrando como se llena la palabra, ¿no? Sí. Como no estaba, no tenía
+1518980	1523100	supexicon, cualquier cosa que pusiera, de originales, ¿no? Cualquier cosa que pusiera
+1523100	1529140	sento para originales y que no estuvieran entre niches, la primera, ¿no? Ah, sí, sí, claro, claro,
+1529140	1533620	claro, claro, claro. De todos modos se supone que vos, en todo este tipo de métodos, justamente lo
+1533620	1538900	que supone es que como vos tenés grandes volúmenes, si no, no funcionan. Claro, claro, claro. Es decir,
+1538900	1546900	que lo que hacen es capturar algo a partir de muchas ocurrencias. Pero sí, si no parece,
+1546900	1555580	si tenés cero, es la misma para todas. En el lexicón, entonces vos lo que podés hacer
+1555580	1558940	es agregar, en tu clasificador, simplemente una fitur que dice la cantidad de palabras en
+1558940	1562740	un lexicón positivo y la cantidad de palabras en un lexicón negativo. Es decir, tiene tres
+1562740	1570660	palabras negativas, es un X, Xn más 1 y Xn más 2, son dos atributos nomás, ¿sí? Y la
+1570660	1575620	cantidad de palabras en un lexicón negativo. Le agrego dos atributos que, si recordamos
+1575620	1581180	en la clase pasada, van a seguramente estar más correlacionados con la clase y nos van
+1581180	1586580	a poder dar una pista de su comportamiento. Si llegara a hacer un método de regla que
+1586580	1592460	dice, bueno, el que tiene más palabra positiva gana, porque juegan todas, intervienen mucho
+1592460	1597140	en la clasificación, ¿sí? ¿De acuerdo?
+1597140	1606620	Otro ejemplo, ¿cómo puedo hacer para calcular un tag de part of pitch si tengo la palabra
+1606620	1611020	y los postage de las palabras anteriores y siguientes? Y bueno, de la misma forma, ¿no?
+1611020	1614900	La probabilidad de que sea un adjetivo, dado que la anterior es un determinante, el siguiente
+1614900	1622700	es un nombre y la palabra es blanco, es la probabilidad de que la clase sea un adjetivo
+1622700	1629380	a priori, esto lo hago por conteo, la probabilidad de que una palabra sea blanco como adjetivo,
+1629380	1634220	es decir, de todas las veces que hubo blanco, cuántas veces, miento, de todos los adjetivos
+1634380	1644540	cual era blanco, cuántas veces pasó que antes de un adjetivo hubieron determinantes
+1644540	1651500	por la probabilidad de que el siguiente sea un nombre si este es un adjetivo. ¿Se entiende?
+1651500	1655820	Simplemente hago conteo de todas las veces que aparecieron cosas antes y las considero
+1655820	1661580	independiente entre ellas, lo cual sabemos que no es cierto, pero es lo que hay, es lo
+1661660	1670660	que puedo computar. Y bueno, y como yo estoy calculando la probabilidad conjunta de esto,
+1670660	1677980	podría llegar a generar ejemplos con la distribución calculada, eso me puede ser útil para hacer
+1677980	1681700	generación de texto, todos estos métodos me permiten, los métodos de, por ejemplo,
+1681700	1687100	de engrama me permiten generar también texto, que es la forma que hacen los generadores,
+1687100	1695140	que escriben parecido a alguien, digamos. Bueno, bueno, atacar los métodos generativos
+1695140	1700420	que son estos, es, como nadie valles. Un método generativo es ese que busca una distribución
+1700420	1705380	de todas las clases, prueba todas las clases y computa la distribución conjunta con los
+1705380	1711100	atributos. Los métodos discriminativos son un poco diferentes porque en lugar de,
+1712100	1719980	en lugar de calcular la probabilidad de la conjunta dicen, bueno, no, de todo ejemplo,
+1719980	1725860	cuál de los dos es mejor, cuál clase es mejor para este ejemplo, sin tratar de modelar
+1725860	1734620	todas las clases posibles. Es decir, modelamos directamente la probabilidad, intento modelar
+1734620	1739260	directamente la probabilidad condicional, la probabilidad de la clase daba los atributos,
+1739260	1748220	¿sí? Voy derecho a eso, ¿qué es más probable dado de todos estos atributos? Nada más.
+1751860	1757700	Y hay varias aproximaciones, algunas que son probabilísticas como entropía máxima y otras
+1757700	1764300	no. A ver, el preceptor de su porvector machine, ahora vamos a ver, no, vamos a ver la definición
+1764300	1772820	de su porvector machine. Pero esencialmente lo que te dicen es, bueno, esto está de tal lado.
+1775620	1777500	Si yo tengo estos puntos así,
+1777940	1787660	entreno y después te digo, bueno, este está de este, si este punto está del lado de los
+1787660	1796260	redonditos. No sé qué tan del lado está de los, esto no es probabilista, por ejemplo.
+1799620	1802740	O puedo hacer lo probabilista, pero igual lo único que respondo es acá y de qué lado está.
+1803220	1808060	Bueno, entonces vamos a ver uno que es el modelo de entropía máxima,
+1809500	1817060	que es como lo que vamos a ver, es como la versión discriminativa del método de Ney Valle.
+1821300	1825820	O también conocido como regresión multinomial logística, que vamos a ver por qué se llama así,
+1825820	1831260	y son modelos lo lineales para clasificación, es decir, yo quiero la clase, si tengo una serie de
+1831260	1836300	tributos. Hago.
+1836300	1863980	E, ahora vamos a ver qué es esto, ¿no? F su I, son las features, son como un indicador de algunas,
+1864140	1869580	son features a partir de los atributos, ahora vamos a ver cómo lo abrimos eso,
+1869580	1876700	pero son derivadas de estos atributos. Los W son los pesos, una serie de pesos que yo
+1876700	1883900	voy a intentar calcular, son los pesos de mi modelo, lo que yo voy a entrenar,
+1884540	1894820	aprender son los pesos de mi modelo. Y este es el producto, el dot product de ambos, es decir,
+1894820	1904780	esto va a ser W1 por F1 más W2 por F2 más W3 por F3, etcétera. ¿De acuerdo? Entonces yo,
+1904780	1910700	la feature esta, que según mi ejemplo, cuando yo vaya a evaluar, según mi ejemplo,
+1910700	1923540	esto va a valer algo, lo multiplico por un número fijo que va a depender de lo que yo entrené,
+1923540	1933460	es decir, lo que yo quiero aprender es W, ¿de acuerdo? Eso, elevó E a la suma de eso,
+1933460	1941100	ahora vamos a ver por qué hago esto. Y esta Z es simplemente un factor de normalización,
+1943100	1952060	es decir, de todos los W subí que tengo, o sea, esto no necesariamente genera una distribución
+1952060	1959540	de probabilidad, entonces este Z es como la suma de todos los casos posibles para llevarlo a una
+1959620	1963140	probabilidad, a que la suma me dé uno, aquellos que hablábamos unas clases atrás, bueno,
+1963140	1969700	generalizado acá. Esa es la famosa Z, que parece una pavada, pero es lo más difícil de computar,
+1969700	1973420	porque yo tengo que calcular este valor para todos los atributos posibles para que me dé una distribución.
+1976860	1981820	Entonces, los modelos de entropía al máximo calculan la probabilidad de la clase utilizando
+1981820	1991420	esta fórmula. Ahora vamos a ver por qué. Pero antes vamos a hablar de otra cosa para llegar a eso,
+1991420	1995660	y es de regresión lineal. Un problema de regresión lineal, que era lo que yo le decía hoy,
+1995660	1999580	es cuando uno intenta, un problema de regresión es cuando uno intenta calcular un valor,
+1999580	2011380	de algún valor real, un valor real, ¿sí? Entonces yo, si yo quiero saber, supongamos que yo
+2015820	2017340	tengo estos puntos acá,
+2017340	2036380	¿sí? Cuando yo hago regresión lineal, lo que hago es trazar, buscar una línea que separe los
+2036380	2055660	ejemplos. Eso esencialmente es, si esto es, va a ser una cosa como, si yo supongo que pasa por el
+2055660	2059300	origen, esta recta, vamos a suponer que pasa por el origen, y si no, vemos cómo se corrige.
+2072740	2074340	Vamos a llamarle X1, X2.
+2074340	2091260	Esto es la recta que representa esto, ¿no? Es decir, el W1 y W2 me van a determinar la
+2091260	2095340	legislación de la recta. Acá está pasando por el origen porque no tiene elemento independiente,
+2095340	2102020	yo puedo inventar un W0 con un X0 que vale siempre 1, para agregarle, vamos a moverla a la recta.
+2102020	2109540	¿De acuerdo? Entonces, lo que yo, cuando digo que hago regresión lineal, lo que digo es bueno,
+2109540	2117500	mis puntos yo asumo que son separables por una recta. Ah, perdón, yo quiero estimar X2 dado
+2117500	2126460	X1, ¿de acuerdo? Entonces yo obtengo la recta para un nuevo X, vengo acá y calculo el I.
+2126460	2136900	Entonces, I va a ser igual al WI por FI, que es esto, la sumatoria de los WI por FI es el dot
+2136900	2143300	product de WI con F. ¿De acuerdo? Simplemente estoy haciendo un estimador lineal de esto.
+2146540	2155740	¿Y cómo hago para, como encuentro esta recta? Bueno, una de las formas más usuales es la que
+2155740	2160140	minimiza la suma de los cuadrados de la diferencia entre valores y predicciones, o sea,
+2163780	2176500	esta recta minimiza esta distancia, ¿de acuerdo? La distancia, yo busco la recta que tenga la
+2176500	2188780	distancia mínima de esto al cuadrado y esto al cuadrado, ¿sí? Lo hago al cuadrado para que la
+2188780	2195020	suma sea positiva, para que no me afecte si estoy de un lado o del otro. La vieja regresa
+2195020	2204500	en un lineal, ¿sí? Entonces, no voy a entrar en detalles, pero yo calculo la fórmula de los
+2204500	2214900	mínimos cuadrados que son, si lo piensan son todo multiplicaciones de cosas al cuadrado, más
+2214900	2220580	cosas al cuadrado. O sea, que esto es positivo, es una función positiva y convexa y entonces yo lo que
+2220620	2225220	trato de buscar es el mínimo de esa función. El año que viene lo voy a escribir a eso,
+2225220	2233140	porque no sé si queda claro. Este, a ustedes no les importa. Pero la cuestión es que yo termino
+2233140	2238940	minimizando una función convexa, una función convexa y una función que es así. Así es una
+2238940	2245740	función convexa, ¿no? Que cualquier, cualquier par de puntos que yo una pasan todo por adentro del,
+2246220	2259060	no? Vamos, acá, esto es una función convexa. Sí, yo puedo unir acá, ¿de acuerdo? ¿Cómo es
+2259060	2263540	una función convexa? ¿Qué característica tiene las funciones convexas? ¿Cuál es
+2263540	2269780	qué característica tiene la función convexa? Ah, no se acuerdo. Las funciones convexas tienen el
+2269780	2277460	tema de que cuando yo encuentro un mínimo local es un mínimo global. Si una función es así,
+2278900	2284060	yo puedo quedarme, buscar el mínimo acá y encontrarme con este mínimo local y buscar acá.
+2286540	2292020	Sí, sí, claro, puedo llegar a quedar atascado acá. Si yo tengo una función convexa,
+2293020	2299820	esto es informativo, si quieren hacer curso de prensa automático, esto lo ven en detalle.
+2299820	2306420	Este, si yo tengo una función convexa, yo puedo buscar un punto cualquiera y empezar a
+2306420	2312420	calcular en la derivada y avanzar en la, en la dirección de la derivada y al final, al final del
+2312420	2316780	día voy a encontrar si hago las cosas bien el mínimo de función. Eso llama descenso por
+2316780	2322460	gradiente, ¿sí? Y debería enseñarse en primer año.
+2324940	2331060	Hay otro método de minimización. Son métodos de minimización numérica, ¿no? Son calculos numéricos.
+2332780	2337860	Quiero decir, no hay una fórmula cerrada para eso. Para el método de mínimo cuadrado sí hay
+2337860	2340860	una fórmula cerrada, es decir, una fórmula calcular, pero es más fácil de hacer descenso
+2340860	2346100	por gradiente, pues más rápido. Bueno, cuestión, que nosotros podemos saber cómo hacer esto,
+2346100	2352980	es decir, que yo puedo aprender los WB, o sea, los WB que minimizan, esos son los WB que queremos,
+2352980	2357940	está claro, ¿no? Es decir, yo calculo a partir del cuerpo de entrenamiento,
+2357940	2367180	esos WB, y lo uso luego. Eso se trata de aprender. Entonces, este es un problema de
+2367180	2373100	regresión, donde yo quiero calcular un número, pero acá estoy en un problema de clasificación,
+2373100	2377580	o sea, que lo que yo quiero aprender es una categoría, una probabilidad. Entonces, mi primera
+2377580	2388140	aproximación es, perdón, es bueno, yo digo esto, la probabilidad, el número que yo quiero estimar
+2389140	2398460	es la probabilidad de que sea clase, acá tenemos un caso positivo o negativo, ¿no? La probabilidad
+2398460	2409460	de que I va a ir a true, o sea, de la clase dado mi X. Entonces, yo lo que digo es bueno, hago
+2409460	2419340	regresión, hago regresión, pero en lugar de calcular un número, o sea, sigo calculando
+2419340	2427740	un número que es el valor de la probabilidad. Ahora, ¿qué problema tiene esto? El problema
+2427740	2432540	que tiene esto es que no es una distribución de probabilidad, no es un valor de probabilidad,
+2432660	2441620	porque la probabilidad tiene que estar entre 0 y 1, ¿de acuerdo? Entonces, esto no me sirve
+2441620	2444420	a aplicarlo directamente, porque me puede dar cualquier cosa, yo quiero una probabilidad.
+2444420	2451580	Entonces, lo que digo es bueno, pruebo con los odds, los odds que no sé cómo se traduce,
+2452580	2461500	los odds son como las chances, como las apuestas, ¿no? Tenés 2 a 1, 1 a 2,
+2461500	2467580	que es, esencialmente, la probabilidad de que sea verdadero comparado con la probabilidad de
+2467580	2475260	que no lo sea. Esto está un poco mejor, porque este resultado está entre 0 e infinito,
+2475260	2487140	pero si es sin estar entre 0 y 1, entre, perdón, yo quiero llevarlo a algo que esté
+2487140	2493860	entre menos infinito y más infinito que es esto, ¿no? Está claro, está claro. Esto está entre
+2493860	2499340	menos infinito y más infinito, el W por F, cualquier cosa. Acá yo lo reduzco a una cosa que
+2499340	2521940	está entre 0 y infinito, mejor. Bueno, pero para que esto quede entre, entre 0 y 1, lo que hago
+2521940	2528540	es, le aplico el logaritmo, para que quede, perdón, dije al revés, para que quede entre
+2528540	2533420	1 y infinito y más infinito, le aplico el logaritmo. Implico el logaritmo y entonces digo, bueno,
+2535420	2540420	esto es lo que buscábamos, yo quiero estimar el logaritmo de la probabilidad de las odds,
+2541780	2547620	y por eso llegó a esa fórmula tan rara con E, porque cuando yo despejo, y esto se lo dejo de
+2547620	2554620	ver, cuando yo despejo P igual true, es fácil, ¿no? Digamos, este logaritmo se transforma en un E
+2554620	2564380	a la W por F, ¿sí? Bueno, se lo dejo de ver. Cuestión, ¿qué queda de sí? E a la W por F dividido 1 más
+2564380	2579940	E a la W por F. Las odds, se transforma en que es esta función, ¿sí? Entonces, llegué a una función
+2579940	2587460	que me dice la probabilidad de que sea verdadero da la clase, a partir de haciendo unas cosas raras
+2587460	2594900	con las features, nada menos. O sea, algo parecido al lineal, pero que la corrijo con esta función.
+2594900	2606660	Esto es lo mismo que hace la red neuronal. No mismo. Esa función se llama función logística y tiene
+2606660	2612780	este aspecto. ¿Cuál es la característica de la función logística? Y bueno, que parece un escalón,
+2612980	2618900	es parecida una cosa que vale cero, si es negativo y uno si es positivo, pero que es continua.
+2626100	2632900	Es una linda función, es una función smooth. Pero sigue pareciendo un escalón. Si yo logro,
+2632900	2637780	si estoy de este lado, más seguramente sea negativo y si estoy de este lado sea positivo. Pero puedo
+2637780	2647060	derivar a las esas cosas. Las red neuronal usan mucho eso. Y hacemos el chiste de no se puede entrar.
+2650500	2653820	No, es para que se sientan más. Bueno.
+2660420	2665340	Y bueno, ¿y cómo clasificamos? Muy es fácil. Si la probabilidad de que sea verdadero mayor que
+2665380	2673740	la probabilidad que sea falso, dada el atributo, es lo mismo que decir que e a la w por f es mayor que
+2673740	2689940	1. Por esto. ¿Sí? Que es lo mismo que decir que w por f sea mayor que 0. Entonces clasificar es muy
+2689940	2696460	fácil con este método, porque lo único que toca hacer es multiplicar w por f con los pesos que
+2696460	2701620	calculé por la feature y si me da mayor que 0 quiere decir que positivo y sino negativo. Eso es la
+2701620	2707460	regresión logística. Se llama regresión, aunque se llama regresión es un método de clasificación.
+2708980	2709740	¿De acuerdo?
+2720020	2726820	Y la pregunta es bueno, pero acá yo todavía no respondí. ¿Cómo estimaba los pesos que
+2726820	2733060	me iba allí? Se era contando. Acá tengo que hacer algunas cosas un poco más raras.
+2739860	2745100	Digo que mi w estimado es el que maximiza este producto de probabilidades de las diferentes
+2745420	2755980	clases. Y me queda esta función súper rara, súper fea, súper complicada, pero que adivinen que es
+2755980	2762340	convexa. Y como es convexa, bueno, yo quiero buscar el máximo de una función convexa,
+2762340	2769580	lo mismo que le decía hoy. Aplico desde eso por la diente o algún otro método de numérico.
+2769580	2776860	Entonces tengo una forma de estimar esos w, el asunto que tengo es la forma de estimar.
+2783660	2788780	Y ¿qué pasa si tengo más de dos clases? Y bueno, tengo que hacer una cosa así,
+2788780	2792500	calcular la feature a partir de cada clase con cada tributo.
+2792660	2804580	Metarlo dentro de la fórmula y volver a normalizar. Y por eso nuestro método se llama
+2804580	2811460	multinomial logistic regression, porque es una extensión de la regresión logística a un caso de
+2811460	2820340	múltiple clases. Y por supuesto no vamos a quedar con la clase que maximiza la probabilidad de
+2822500	2823500	este tributo. ¿De acuerdo?
+2829620	2837900	Esta clase es un poquito más, entra más en detalles matemáticos que el resto. Me parece
+2837900	2843260	importante entender por qué esos atributos aparecen y por qué aparecen todas esas cosas con
+2843260	2847500	e. Y las cosas con e generalmente son para cambiar la curva. ¿Qué pasa si es paiguiente?
+2853500	2859140	Y por último, como comentario, ¿por qué se llaman modelos de entropía máxima? La entropía,
+2861780	2867140	no sé si hablamos algo de entropía en alguna clase. La entropía es una medida que trata de ver
+2867140	2874020	qué tan parecido son los elementos de algo. Entonces, el principio de entropía máxima dice,
+2874020	2884500	bueno, yo si tengo muchas distribuciones posibles, candidatas, algo, el hijo,
+2886340	2892420	la que tiene entropía máxima, es decir, la que da dos mil datos, la que solo asume lo que los datos
+2892420	2899100	te dicen. ¿Qué quiero decir eso? Si yo no conozco nada sobre un documento en el caso del 90-20, 90-10,
+2900100	2907860	asumo 90-10 porque puedo asumir a partir de los datos. Yo podría asumir 0802 por
+2907860	2914900	algún motivo, pero si yo no sé más que eso, estoy utilizando, o si no sé nada,
+2914900	2919700	si yo no sé nada sobre un documento, no sé nada, no tengo ninguna información a priori.
+2919700	2927100	Y te doy un documento y te digo de qué clase es, es de deporte o es de espectáculo. ¿Qué harían
+2927100	2938780	ustedes? Si yo te digo 50-50, eso es aplicar el principio de entropía máxima, es decir,
+2938780	2943540	bueno, yo no tengo información, es todo equiprobable. ¿Se acuerdan que la entropía es máxima cuando
+2943540	2950700	son todo equiprobable? Si yo agrego un poco de información y yo tengo un dado, pero yo te
+2950700	2960340	aseguro que el 6 no sale nunca. ¿Cuál es la probabilidad de sacar un 1? Un quinto. O sea,
+2960340	2966700	paso de ser un sexto, un quinto, porque tengo más información, pero siempre no debo un cuarto,
+2966700	2971860	porque no puedo sacarlo de ningún dato. Eso es el principio de entropía máxima. Si yo,
+2971980	2981460	cuando elijo estas distribuciones posibles, aplico solo lo que los atributos me dicen,
+2985020	2992620	aplicando el principio, el que tenga máxima entropía, a lo que llego es exactamente al
+2992620	2998420	mismo modelo que presenté antes. Por eso también los modelos se llaman modelos de entropía máxima,
+2999020	3003300	es porque son dos formas diferentes de llegar a los mismos. Si usted quiere en el detalle,
+3003300	3009220	en la literatura está eso. No sé si les interesa, pero al que les voy a interesar está muy bien.
+3010780	3015060	Coinciden con eso. Coinciden con una distribución de probabilidad para un modelo logístico
+3015060	3018700	lupinional cuyo peso maximiza la verosimilitud en los datos de entrenamiento.
+3029180	3035020	Por ejemplo, si yo quiero aplicar un modelo de entropía máxima al ejemplo del post time,
+3035020	3043780	la feature van a lucir así. Tengo una feature 1 que dice vale f1, vale 1 si la palabra es
+3043780	3055660	reis y la clase es nombre y si no vale 0. Otra feature va a ser 1 si la anterior es tú y la clase
+3055660	3063660	es verbo y si no es 0. Otra feature y como se imaginarán la feature son, estamos hablando de
+3063660	3073260	miles o de millones de features, pues son todas las posibles, las relevantes. Así lucen las features
+3073260	3083780	un modelo de entropía máxima, de un montón de features y yo lo que voy a hacer y además son
+3083780	3092660	indicadores, eso generalmente vale 1 o 0, usualmente. Y lo que yo voy a hacer es, calculando a través de
+3092660	3103220	contando, sí, voy a calcular los W, con aquello que hablamos hoy de la fórmula de minimizarla,
+3105620	3110940	o sea que cada feature va a tener un peso indicando qué tanto afecta la feature corresponde para el
+3110940	3118220	tag ese. Por ejemplo, si yo tengo aquello, se acuerdan que queríamos saber qué era reis en el post
+3118220	3124700	tag, ¿no? Que era la única palabra que no sabíamos lo que era. Entonces, estos son los pesos que yo
+3124700	3130980	entrené, lo que me dicen es que, fíjense que los pesos que tenemos acá, lo que me dicen es
+3133100	3139580	que la feature más importante es la size, en el caso, para que sea, si es un nombre, esta es muy
+3139580	3150780	negativa, o sea que resta valor y esta es muy positiva, f2 para un verbo, no me pregunten si son
+3150780	3160660	números reales o no más guardas, f2 es, ah, si la previa es tú, si, la previa es tú, pesa muy
+3160820	3174380	positivamente para que eso sea un verbo, tú reis, ¿no? Y la f6, ¿qué es? Y pesa muy negativamente para
+3174380	3181340	un nombre, fíjense que hay features diferentes según la clase, porque son más de 1, más de 2,
+3182180	3189780	¿de acuerdo? Entonces, yo hago las cuentas, la probabilidad de que sea un nombre dado las
+3189780	3197660	features es, es, es exactamente aplicar las features relevantes, acá es 0,8 porque
+3200780	3206860	multiplica la prim, la segunda y la sexta, porque son las que aplican a nn, ¿no? Si no valen 0.
+3211500	3230060	La 2, dijimos, y la 6, son las de tú, 0,8. No, es la 1 y la 6, la 1 y la 6, correcto. O sea,
+3230060	3238660	si reis la palabra, porque la otra no aplica, fíjense que como valen 0 no pasa nada con la
+3238820	3245620	multiplicación, porque yo estoy diciendo e al a eso, ¿no? No me molesta el 0 en este caso. Y este
+3245620	3252660	es el factor de normalización, es simplemente para que esto de 0,20 y 0,8. Sumo esto más esto,
+3252660	3261500	sumo todas y bueno, entonces yo busco la clase que más se inicia que en este caso es verbo, ¿de acuerdo?
+3262340	3272420	Bueno, esos son los modelos de entropia máxima. Hay otros modelos discriminativos que lo voy a
+3272420	3279260	mencionar rápidamente, porque en la forma de aplicarlos es la misma, lo único que hay acá de
+3279260	3284980	diferente es que es diferente la forma de elegir clasificador, es decir, si acá lo hacíamos por
+3284980	3290820	regresión logística, el support vector machines, que es un método que se puso muy de moda en
+3291820	3301940	principio de este siglo, en la década pasada digamos, es un método que lo que hace es buscar
+3301940	3307100	separar linealmente, pero en vez de hacerlo por mínimos cuadrados, lo que dice es buscar la recta
+3307420	3316220	que separa más, que queda más en el medio digamos, la intuición atrás de support vector
+3316220	3325780	machines que yo busco, si yo tengo los ejemplos así, tengo muchas rectas que pasan, ¿sí? Yo trato
+3325780	3333340	de encontrar la que maximiza el margen de los que están más cerca y queda en el medio, ¿sí,
+3334100	3337580	por eso se llama, los support vectors son estos, son los que están más cerca,
+3338580	3344820	los demás, si se fijan, no importan para el clasificador. ¿Cuál es la hipótesis del support
+3344820	3351580	vector machines y por qué son tan robustos y por qué, como están justo en el medio? Quiero decir,
+3351580	3361620	si yo meto uno que está acá, si un ejemplo a clasificar queda muy cerquita del borde, me puedo
+3361620	3367940	equivocar, ¿se entiende? Es más probable que me esté equivocando, en cambio yo le pongo en el
+3367940	3373680	medio y bueno, quedan bastante lejos digamos, y de hecho funcionan muy bien clasificando. Fueron
+3373680	3377700	toda una revolución en la support vector machines, ahora como ahora están de moda la red neuronal
+3377700	3381420	en la support vector machines, hicieron lo mismo a principios, agarraron, fueron los primeros
+3381420	3386340	métodos de discriminativo clasificación que empezaron a batir todos los récords digamos de
+3386340	3394300	diferentes tareas, hasta que pasaron de moda con el tema de las, si bien se usan mucho pasaron
+3394300	3399940	de moda con el tema de las red neuronales que volvieron a batirle los récords, pero esencialmente
+3399940	3405540	el método cómo se aplica es el mismo, así la diferencia es como teóricamente como se calcula
+3405540	3418060	que está ahí, hay otros métodos de clasificación, hacen el aprendizaje automático, los aprenden,
+3418060	3425700	vecinos más cercanos, los caníres, que es, clasifico un documento buscando los que están más cerca
+3425700	3429580	del punto de vista tribu, calculo una distancia entre documentos y me quedo con los que están más
+3429740	3437700	cercanos, ¿no? Es como la idea de, bueno si este está acá, ¿quiénes son los vecinos más cercanos?
+3437700	3442500	Y bueno, supongamos que los tres vecinos más cercanos son estos, en este caso los tres son
+3442500	3447020	circulitos, o sea que eso seguramente sea un circulito, podemos tener problemas cuando estamos
+3448020	3455140	los métodos de vecinos más cercanos tienen la ventaja, obviamente, de que pueden reconocer,
+3460900	3462340	pueden reconocer clásteres,
+3468260	3471380	los métodos de vecinos más cercanos definen una cosa así,
+3471380	3477100	no, pero,
+3486300	3492820	la cosa así, pueden reconocer cosas que no son lineales, tienen el problema de que a veces
+3492820	3500740	sobreajustan demasiado, árboles de decisión que no son muy realizados en el procesamiento de
+3500740	3505580	la imaginación, rando fores que son como una, hay muchos, muchos métodos de clasificación,
+3506580	3515460	pero en todos lo que tienen en común es que las medidas para realizar, para el métodología
+3515460	3527740	es la que hay en la clasificación pasada. Y eso desde el punto de vista de los métodos de clasificación
+3527740	3534140	puros, pero también se acuerdan que habíamos visto los métodos de clasificación secuencial,
+3534140	3541780	cuando yo quiero asignar una secuencia de tangs, de clases, asumo que mi atributo tiene una secuencia,
+3541780	3548300	mi instancia es una secuencia, por ejemplo, una oración, que es una secuencia de palabra,
+3548300	3555300	y quiero asignar una secuencia de tangs, bueno, hay versiones generativas, en el caso de los,
+3555860	3561620	la versión generativa de Naive Bayes son los hidden Marco Models, que lo vimos bastante en detalle
+3563300	3574420	en alguna clase anterior, y hay una versión también de clasificadores secuenciales,
+3574420	3580900	que estos son por lejos los que bandan mejor, que son los temas secuenciales, que son los
+3581100	3588700	conditions al random fields, los conditions al random field también fueron una novedad en los temas
+3588700	3592660	de clasificación secuencial, porque andan mucho mejor el general que los hidden Marco Models,
+3592660	3599420	y tienen una, son como una versión, una versión secuencial del modelo entropiés máximo,
+3601860	3607060	no, no, no, no esperen que entren detalle, tampoco conozco mucho la detalle, el matemático del
+3607060	3613700	del conditional random fields, pero como herramienta digamos para el clasificación de secuencias
+3613700	3625360	funciona muy bien. Yo diría que si uno va a, a ver si me queda algo más, no, acá tienen
+3625360	3636320	un poco de show jugar, sí, de estas cosas. Hueca, sirve para jugar, pero es juguete en general.
+3636320	3642200	Salkill Learnes es una herramienta bastante, una librería bastante polenta de, en Python y
+3642200	3652240	que está bastante de moda. Y acá me faltan, me faltan todas las nuevas bolas de bibliotecas de
+3653200	3658960	Dib Learning, ¿no?, de que son de Red Lunar y que son Torch, este, Teano, Keras,
+3662560	3670600	TensorFlow. Pero bueno, Salkill Learnes es una biblioteca de, de genérica, de Machine Learning
+3670600	3679360	en Python, Orange también. En Ileteká es más de procedimiento en lenguaje natural, pero tiene
+3679360	3686320	por ejemplo un plazificador exceciano. CRF más más es un Toolkit para Condition Random Fields.
+3688320	3695320	PyBrain, creo que no, no, no corre más o no sé, que es Red Neuronal y Homebiteon.
+3696520	3701960	SMelite era la herramienta de Support Vector Machines, cuando estaba en moda.
+3702960	3710080	SMelite es el 99 para que se dieron una idea y estaba bastante estable porque no hay mucho para,
+3710080	3714760	es muy sencillo el modelo de la Support Vector Machines, por lo grande como me lo aplico.
+3718960	3728840	Yo diría que, que si, si, si vamos a lo que, a lo que es el procedimiento en lenguaje natural a nivel
+3728840	3739600	de, a nivel de, como decir, de mercado o de herramienta o de, no me sabe la palabra, de industria,
+3739600	3749040	digamos, a nivel industrial, no es la palabra correcta pero está. Yo diría que el procedimiento en
+3749040	3755800	lenguaje natural está en lo que hemos aprendido hasta ahora. No? Es decir, todas estas cosas que
+3755800	3760960	hemos aprendido en las clases hasta ahora ya se encuentra a nivel industrial. A nivel industrial
+3760960	3770240	estoy hablando de las compañías de Intermed, no? Reconocimiento de, en, reconocimiento de
+3770240	3777920	caracteres mal escrito, clasificación, clasificación de, sentimenta análisis, de todo lo que hemos
+3777920	3783640	hablado hasta ahora, no? En el grama y todas esas cosas. También, a ver, no es lo único, no?
+3783640	3793480	Machine Translation es un ejemplo de cosas que andan muy bien. Este, pero utilizan métodos más
+3793480	3798520	o menos hasta acá. Lo que quiero decir es que, y bueno, y ahí hay algún componente semántico
+3798520	3805040	también que lo van a ver después con Luis, pero esas cosas más avanzadas, digamos, recién,
+3805040	3810320	recién se está empezando a hablar, pero en algunas cosas de, por ejemplo,
+3813200	3819640	reconocimiento de entidades, no? El otro día lo veía en un diario, digamos, unos dos años atrás,
+3819640	3825800	que algo que decía que era una aplicación que reconocía a partir del New York Times lugares,
+3825800	3832680	bueno, Google lo hace, no? Lugares y cuando arma las citas, cuando a partir de un correo te lo
+3832680	3837520	meten en el calendario, ahí lo que está haciendo es reconocimiento de entidades. Está
+3837520	3842120	reconociendo que dice el jueves 23, cena con tal y lo está viendo, está haciendo clasificación
+3842120	3847640	secuencial, pero eso son cosas que en el academia están como hace como 10 años, digamos, los
+3847640	3851400	condillos hablando de FIT tienen como 10 años, recién están empezando como entrares, el tipo
+3851400	3857040	costo. Y hay cosas que todavía está por verse cómo se van a incorporar, que son las que vamos
+3857120	3864400	a ver de ahora en adelante, que son el parsing, o sea, análisis más complejo, ni que hablar de
+3864400	3868840	análisis semántico más allá de la semántica de palabras, son cosas que vamos a ir viendo después,
+3870840	3878480	o sea, hay mucho todavía para mejorar y en el academia también, porque no está en todo,
+3878480	3885240	resuelto ni mucho menos. Por ejemplo, en el poder analizar semánticamente las cosas,
+3885320	3893400	estamos bastante lejos. Pero lo que quería transmitir es que esto de la clasificación es
+3893400	3898600	lo más que anda en la vuelta, digamos, ¿no? Y que con esto se va a hacer un montón de cosas.
+3899720	3906200	Bueno, clases que vienen arrancamos con parci, ¿sí? Gracias.

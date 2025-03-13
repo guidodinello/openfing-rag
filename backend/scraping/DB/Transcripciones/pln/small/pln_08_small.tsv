@@ -1,0 +1,1854 @@
+start	end	text
+0	28480	Vamos a la clase de hoy. En la clase de hoy seguimos avanzando en nuestro análisis
+28480	57560	del texto. Acá se pasaba si se acuerdan. En la clase pasada hablamos de engramas.
+57560	70680	Fernando era tu nombre ¿verdad? Más uno. Tiene más uno de los que vinieron el otro día con la
+70680	81760	lluvia también. Hablamos de engramas que es el repaso rápidamente de que ustedes lo pueden
+81760	88400	ver en OpenFing los que nos vinieron. Cuando hablamos de engramas lo que tratamos de hacer es
+88400	94080	identificar la probabilidad de una oración. Eso es lo que se llama un modelo de lenguaje. Trato
+94080	102400	de asignarle una probabilidad de una oración con el objetivo de generalmente con el objetivo de
+102400	107840	utilizar eso en un contexto más amplio de análisis. Por dar un ejemplo, si yo tengo dos
+107840	128520	candidatos a traducción de una oración y mis dos candidatos son uno es este y el otro es este.
+130720	135080	Esto es muy común que surjan las traducciones porque el orden de la palabra entre idiomas
+135800	145080	realmente difiere. Yo puedo tener estos dos candidatos a traducción, pero seguramente esta
+145080	155440	oración tenga una probabilidad más alta que la segunda ¿de acuerdo? ¿Por qué? Porque nosotros nos
+155440	164560	decimos los comen perros huesos y entonces yo, si bien mi sugerencia por mi método de
+164560	170120	reconocimiento de traducción podría decir que la mejor candidata es esta, yo al combinarlo
+170120	177320	vía regla de valles como vimos la otra vez con la probabilidad de la oración puedo mejorar mi
+177320	183120	predicción. Entonces los modelos engramas esencialmente lo que tratan de hacer es eso,
+183120	192000	de calcular la probabilidad de una oración y para eso lo que hacen es basarse en las
+192000	196800	ocurrencias que hubo en un corpus y hablamos un poco de la que hace pasada de corpus, digamos,
+196800	204080	no decir yo tengo grandes cantidades de texto y quiero ver qué tan comunes decir comen perros y
+204080	210280	los perros ¿de acuerdo? Y a partir de la probabilidad, yo calculo la probabilidad de la primera,
+211160	217720	la probabilidad de la segunda, la primera, la probabilidad de la tercera dada, la primera y la
+217720	224320	segunda y así y voy calculando utilizando la regla de la cadena la probabilidad de toda la oración.
+224320	229280	Un poco eso de la idea de los engramas, la que hace pasada de lo que vimos fue cómo calcular
+229280	235880	todas estas probabilidades a partir de conteos de frecuencia de los corpus utilizando usualmente
+235880	243400	principio de máxima verosimilitud. Bueno, en la clase de hoy vamos a pasar a algo un poquito más,
+244400	248800	vamos a agregar un poco más de análisis. ¿Cómo hago para chicar esto?
+253200	257680	Vamos a hablar de una siguiente tarea, vamos a enriquecer un poco más el texto. Hasta ahora
+257680	263440	nosotros no habíamos agregado información adicional en el texto, es decir, teníamos todo
+263440	271920	el texto, lo que hicimos separarlo por oraciones, separar las palabras. Sí, claro, cuando hicimos
+271960	275720	análisis morfológico le dimos una estructura a cada palabra, ahí sí se puede decir que hay,
+275720	282120	hay una, pero no a nivel de todo el texto, es decir, nosotros empezamos ahora a subir nuestro
+282120	288800	nivel de análisis y agregar más información. Y una de las primeras tareas medio cantadas para
+288800	297600	hacer es la de análisis léxico. La análisis léxico consiste esencialmente en, se acuerdan
+297600	303960	la categoría gramatical de las palabras, que una palabra es un subactivo, un determinante,
+303960	311480	un adjetivo o lo que sea. Bueno, el proceso de asignarle a una palabra su,
+316040	323520	lo que se llama part of speech, esto, se le llama también, nosotros le llamamos
+323520	333200	categoría gramatical pero es muy usual llamarlas así, post tag. Sí, post tag es la marca de part
+333200	350160	of speech de una, de una palabra. Sí, los perros comen huesos. ¿De acuerdo?
+350160	356720	Esa marca es la categoría gramatical principal. ¿Por qué nos interesa? Ahora vamos a ver
+356720	372960	por qué nos interesa. Sí, eso es un poco la idea de, lo que hablábamos recién. ¿De acuerdo? Bueno,
+372960	377480	¿y cómo podemos, cómo podemos automatizar esta tarea? ¿Cómo se les ocurre enfrentar esta tarea
+377480	384000	a ustedes? Yo tengo un texto y quiero asignarle una categoría gramatical. ¿Qué, qué es lo que
+384000	394800	haríamos? ¿Qué tenemos que empezar por hacer? Identificar una serie de categorías que existen.
+394800	403440	Eso no es trivial. Cada vez que se ponen a discutir eso hay mil teorías diferentes,
+403600	408400	teorías lingüísticas diferentes, sobre todo cuando vamos a afinando, pues está claro que es un
+408400	412600	sustantivo, no sé qué, pero cuando uno empieza a hablar del qué y del rol que cumple el qué hay
+412600	418400	como ocho qué diferentes y no sé qué. Porque cumplen diferentes roles y no sé qué y no se ponen
+418400	422760	de acuerdo de los lingüístas sobre qué. Al final, lo informático lo terminamos poniendo qué,
+422760	428280	barra qué. O sea, le ponemos una categoría gramatical propia y otra cosa. No sé si es lo más serio,
+428280	438840	pero tal. Este, porque, porque no es lo mismo el qué de, porque bueno,
+438840	442720	además que tiene tilde ese qué, o sea que es otro qué, el qué sin tilde, el qué sin.
+444720	454040	Además, el quiero qué me digas es un qué y dijo qué y ahí introduce una oración subordinada,
+454040	460000	dijo qué iba a ir otro lado, es otro qué, me importa, me importa. Cuestión qué, hay que definir
+460000	471800	un conjunto de tas, ¿de acuerdo? Y luego, por ejemplo, ¿cómo?
+475800	480240	Tengo que tener un diccionario, esencialmente, ¿no? Decisionario es una cosa que tenemos en general.
+480240	488560	También, claro, el que no, tenemos nuestro problema de morfología, supongamos que nos
+488560	492840	queda aunque sabemos el lema. Pero además, ¿qué otro problema tenemos?
+496720	497520	Justo ahí,
+500640	508160	justo ahí no tengo grandes problemas. Pero si por ejemplo aparece Banco,
+509160	515800	¿qué pasa con Banco? Puede ser un sustantivo, un verbo, ¿no? Banco de sentarse, no te banco.
+517040	523240	Las palabras son ambigüas, y las que son ambigüas son las que nos traen nuestro problema,
+523240	526400	porque sino nosotros simplemente buscaríamos la palabra en un diccionario y le ponemos
+526400	530560	a un categoría otra cosa más hipos. El gran problema que surge, como en todas las tareas,
+530560	536480	de la cual en la primera clase, es que tenemos ambigüedad. ¿Y cómo podríamos llegar a resolver
+536480	547760	esa ambigüedad? ¿Cómo se les ocurre que yo pueda saber si estoy hablando de Banco con...
+550160	551520	Tengo borrador.
+551520	561360	Pero si tienes un borrador, ya caes en los patológicos.
+563360	567920	Pero borrador, borrador ahí nos salió, ¿no?
+568880	583200	Ah, sí, y había marca Breta, ¿eh? En serio, ella trae. Bueno, ¿y cómo sabemos lo de qué pasa con Banco?
+585440	591280	El contexto. ¿Qué es el contexto? ¿Qué es el contexto? ¿Contesto? ¿Tienes a lo que es contexto?
+592240	598400	Las palabras que rodean a la palabra, a mi palabra, el contexto son las palabras que están antes o después,
+598400	616880	es decir, el contexto, ¿sí? Entonces, yo sé que si dice antes, T, esto que probablemente que es un verbo, ¿por qué?
+621280	623280	Porque sí.
+631280	633280	¿Por qué te...?
+636480	639280	Sí. Sí.
+640480	643840	Pero ¿por qué este tema dice que esto es un verbo?
+644240	656400	Puede haber dos respuestas. Una es porque si nosotros logramos armar la estructura de cómo hablamos cuando yo digo T, que me refiero a vos,
+656400	670400	no sé qué es este, este que es un clítico. Cuando hay un clítico antes, el verbo que viene, el verbo asociado a eso, asociado a eso tiene que haber un verbo, quiero decir.
+671360	678160	Esta es una explicación de si logra armar la estructura, pero además porque usualmente, la clase pasada ya lo vimos con los enegramas,
+678160	688400	porque usualmente o ha ocurrido que en los corpus que yo miré todas las veces que aparecía T y después banco,
+688400	699360	o muchas veces o muy frecuentemente sucedía que este banco era un verbo, o sea, yo aprendo de corpus anotados, ¿sí?
+700320	710320	No sé por qué sucede bien, pero de hecho sucede mucho, entonces yo digo, bueno, entonces este verbo, este debe ser un verbo porque este T,
+710320	719360	porque hay un T antes, ¿de acuerdo? No es mayor misterio en esto y los métodos que vamos a ver de análisis se basan en eso justamente,
+719360	727360	en deducir a partir del contexto cuál es la categoría, levantar la ambigüedad. ¿Sí?
+729360	736360	Pero podemos creer más información además, esto es el análisis del gato como he pescado hecho con Freelink, ¿sí?
+736360	750360	Y acá Freelink cuando analiza un texto nos devuelve, no sólo el lema de la palabra, esto se llama en etiquetas Eagle,
+751360	765360	que es un formato para justamente anotar part of pitch, pero no sólo part of pitch, sino agregarle nuevos atributos.
+765360	775360	Acá es un determinante, está, si no me equivoco, quiere decir que es un artículo, pero además es masculino y singular.
+776360	784360	Las marcas que van apareciendo dependen de la primera, o sea, gato es un nombre común, masculino y singular, y los otros tres pasiones los uso.
+784360	795360	Y así yo lo voy especificando, ¿de acuerdo? Comer es un verbo masculino e imperativo, ¿sí?
+795360	810360	No, no, género, no, es masculino, verbo, no sé qué es esta M, no, pues esta M tiene que decir algo.
+810360	815360	Bueno, revisen después la etiqueta Eagle, podemos buscarla si quieren acá.
+816360	821360	No, no, tercera persona en singular, presente tercera persona en singular.
+823360	829360	Y este es el come de la orden, el imperativo, la M creo que es imperativo y este es indicativo, si no me equivoco.
+833360	836360	No, pero no sé, porque estamos hablando de come, ¿no? Come es el lema.
+837360	845360	Esto es indicativo, esta M no me acuerdo, ¿verdad? Pero, digamos, uno tiene una codificación que le asocia.
+845360	851360	Se imaginarán que es mucho más difícil anotar un corp, solo el postal, que toda la...
+851360	855360	Necesito mayor cantidad de información, pero los principios son más o menos los mismos.
+855360	863360	Le decía, acá yo lo que estoy haciendo es al mismo tiempo, part of the, part of the time y análisis morfológico, ¿de acuerdo?
+864360	870360	Justamente en el laboratorio, una de las cosas que van a tener que hacer es correr este análisis y mapearlo a las otras fituras, a las universales.
+870360	881360	Las universales, part of the time, son justamente el intento, porque hay casi tanto formato como gente que se puso a hacer herramientas.
+881360	887360	La historia del pensamiento en el hogar natural está en una etapa en la que están convergiendo cosas, digamos.
+887360	894360	Cómo ocurre casi toda la disciplina. Se abrieron muchas, pues ya hay cada uno hacía su codificación de cómo codificar un texto, cómo codificar un...
+894360	898360	Porque hasta ahora veníamos lindos, separación en palabra, todo bien.
+898360	907360	Si bien cada uno podía toquenizar un poquito diferente, ya cuando empezaban a ponerle las marcas, como no hay un criterio estándar,
+907360	916360	y más, yo estoy seguro que muchos lingüistas deben estar en desacuerdo con el universal part of pitch,
+916360	924360	porque está restringiendo la junto categoría y claramente hay cosas que no va a resolver, digamos.
+924360	930360	Es una solución más computacional que otra cosa, para poder decir, bueno, pues yo tengo que anotar mucho texto y tengo que tener un criterio, ¿se entiende?
+933360	935360	Y este es un signo de computación.
+935360	942360	Como ven acá, lo que sucedió fue que acá no sólo me dio el análisis, sino que me dio las candidatas.
+942360	945360	Y no me está diciendo acá...
+948360	954360	Me está asignando una probabilidad, o sea, me está dando una distribución. No me está diciendo cuál de la dos más probable.
+955360	965360	Bueno, sumamos por orden bien acá arriba, pero... porque yo acá podría tener muchas combinaciones, ¿no?
+968360	975360	Y guarda, y acá me parece muy importante, el hecho de que ésta sea más probable que ésta,
+975360	983360	que esto sea un 0.75, tengo miedo de estar diciendo algo mal porque depende cómo esté hecho el análisis, ¿no?
+983360	992360	Este 0.75 hay que ver si se corresponde a... seguramente se corresponde a la probabilidad en este lugar, ¿tá?
+992360	1001360	Pero yo... o sea, que si yo pusiera acá la probabilidad de que sea esta excepción versus ésta, en general,
+1001360	1006360	no me sirve de mucho la probabilidad, porque cuando aparece en este contexto debería ser esta probabilidad.
+1006360	1008360	Y eso yo tengo que tenerlo en cuenta.
+1008360	1014360	Cuando yo hago partos pitagin, a mí lo que me interesa es conocer la probabilidad,
+1014360	1019360	la asignación de tags con mayor probabilidad para toda la oración.
+1019360	1022360	Creo que me enredé un poco en decirlo, pero el concepto es éste.
+1022360	1027360	Yo no me interesa solamente cuál es la excepción más probable para cada palabra,
+1027360	1033360	sino que yo necesito tener una visión global de la oración. ¿Se entiende?
+1033360	1038360	Por eso es un problema de clasificación secuencial.
+1038360	1040360	Eso es lo que se llama un problema de clasificación secuencial.
+1040360	1046360	Un problema de clasificación, la clase que viene lo vamos a ver, es yo tomo un objeto,
+1046360	1049360	para el caso una palabra, y le asigno una categoría.
+1049360	1053360	Es un problema de clasificación. Tengo un conjunto de categorías discreto y le tengo que poner uno.
+1053360	1057360	O hacer una distribución de probabilidad entre las categorías que existen.
+1057360	1065360	En un problema de clasificación secuencial, yo tengo que asignarle una asignación
+1065360	1068360	de categorías que maximice la probabilidad de toda la oración.
+1068360	1071360	Eso es un problema de clasificación secuencial, que es lo que vamos a ver ahora.
+1071360	1076360	El problema de análisis léxico es un problema de clasificación secuencial. ¿De acuerdo?
+1080360	1083360	Bueno, un poco ya hemos mencionado algunos, pero tenemos, ¿no?
+1083360	1088360	Acá tenemos bajo, que es un verbo, con el nombre bajo, que es un adjetivo,
+1088360	1093360	a tocar el bajo, que es un nombre, y bajo la escalera, este bajo es una preposición.
+1094360	1097360	El señor mesa se mesa la barra al lado de la mesa.
+1099360	1104360	Fíjese que este mesa es un nombre propio y este mesa es un nombre común.
+1105360	1111360	Dejan la barra la barra de pan. Acá barra y barra estos dos son sustantivos.
+1112360	1116360	Aunque tienen diferentes significados, desde el punto de vista de la análisis léxico es lo mismo.
+1116360	1119360	La distinción se da a un nivel posterior, a un nivel semántico.
+1120360	1126360	Para que el mozo barra, este barra no, porque este barra es este, es un verbo.
+1128360	1132360	Y acá, este es interesante porque y es una conjunción,
+1133360	1138360	pero acá funciona todo dentro de un nombre propio.
+1138360	1144360	Es decir, acá hay que identificar toda la entidad con nombre red, es decir, el rol es diferente.
+1150360	1155360	¿Por qué nos puede interesar hacer análisis léxico?
+1155360	1159360	Bueno, el ejemplo más obvio es para poder seguir analizando después.
+1159360	1163360	Si yo quiero armar la estructura de una oración, necesito saber las categorías,
+1163360	1167360	porque hay cosas que no se combinan con otras en el análisis sintáctico.
+1168360	1172360	Vamos a ver, cuando veamos análisis sintáctico, que yo, para armar la estructura de una oración,
+1172360	1175360	me baso en las clases de las palabras, más que las palabras en sí.
+1177360	1183360	Quiero decir, uno, cuando dice el perro, ese perro, puede ir cualquier nombre,
+1183360	1189360	pero no puede ir un verbo, el saltar, el salta.
+1191360	1195360	También hay algunas motivaciones adicionales que en español no pasa,
+1195360	1202360	pero en inglés sí, por ejemplo, hay palabras que se pronuncian diferente según su categoría.
+1202360	1209360	Discount, cuando funciona como sustantivo, discount, cuando funciona como un verbo.
+1209360	1215360	O object, objeto, object de objetar.
+1215360	1220360	La pronunciación es diferente, eso por supuesto en el español no se da.
+1221360	1225360	También, claro, hacer lematización, que ya vimos un poco cuando yo quiero recuperar algo,
+1225360	1228360	me quedo con el lema.
+1228360	1232360	Y si yo estoy haciendo, por ejemplo, resumen automático,
+1232360	1236360	un texto puede interesarme, ponderar más, por decir algo,
+1236360	1242360	los párrafos que incluyan más sustantivos o verbos o así, explico.
+1242360	1246360	Es decir, quiero destacar las partes del texto que tiene más contenido,
+1246360	1249360	entonces quiero saber dónde están los verbos y dónde están los sustantivos.
+1249360	1252360	Nunca funciona, pero igual.
+1255360	1259360	Bueno, también, por supuesto, para estudiar fenómenos lingüísticos.
+1259360	1264360	Es decir, ¿qué pasa? ¿cuántas veces en el español aparece un nombre propio?
+1264360	1267360	Entre dos.
+1267360	1271360	Dos nombres propios separados por una I, para alguien que está estudiando los fenómenos.
+1271360	1277360	Hay un... los invito a pasar después por acá, el Corpudo del Español, el Punto Org,
+1277360	1282360	se puede hacer este tipo de consultas, se puede consultar este tipo de ocurrencias
+1282360	1286360	para ver cómo funciona y te las muestra en un contexto.
+1286360	1290360	Entonces lo pruebo acá porque la interfaz es tan rara que se nunca logra solo andar bien,
+1290360	1294360	pero un poco de esfuerzo uno lo hace y muestra el contexto en el que aparece,
+1294360	1299360	entonces nos permite estudiar ese fenómeno, lo que se llama estudio de corpo.
+1300360	1307360	Por ejemplo, acá había una prueba que era formas del verbo servir, más una preposición.
+1307360	1312360	Acá siempre uno cuando habla de un corpo acuerden sí tiene que aclarar de qué corpo está hablando,
+1312360	1314360	una breve descripción del corpus.
+1314360	1320360	No es lo mismo un corpus de sentencia que un corpus de texto periodístico del siglo XX.
+1320360	1327360	Bueno, ahí tenemos 387 ocurrencias de servir de, servía de tren de aterrizaje,
+1327360	1335360	servir para, servía para transformar, servir a, servir en, servir con, servir con el red y tal, ¿no?
+1337360	1339360	Y bueno, y esta es la gran motivación.
+1339360	1345360	Allá en el Camino Perú, en el Camino Perú, en el Camino Perú,
+1346360	1348360	y bueno, y esta es la gran motivación.
+1348360	1351360	Allá en el Camino para poder hacer un análisis sintáctico.
+1355360	1357360	Bueno, el etiquetado eléxico es eso que está ahí.
+1357360	1362360	Yo tengo un texto, ahora lo vemos desde el punto de vista de la tarea computación, ¿no?
+1362360	1367360	Yo tengo un texto, tengo el conjunto de etiquetas y devuelvo el texto etiquetado.
+1368360	1373360	Recordamos algunas de las principales categorías gramaticales que ustedes vieron en la segunda clase.
+1375360	1379360	¿Sí? Terminantes, preposiciones, etcétera, etcétera.
+1381360	1384360	Ustedes ya lo vieron en la clase, no me voy a comentar mucho.
+1384360	1387360	Y él muestra unas cuantas categorías que están ahí.
+1387360	1391360	Como le decía, siempre hay mucha discusión entre cuáles son las categorías postas.
+1391360	1395360	Esencialmente no hay categorías postas. Depende un poco de la teoría.
+1395360	1400360	Porque, por ejemplo, no está bien claro que la cifra tenga que ser una categoría.
+1400360	1402360	O las fechas y las obras.
+1402360	1407360	Pero también tenerlas todas por separado parece ser un problema, digamos, no para el análisis.
+1409360	1412360	Como le decía, a veces acá tenemos más preguntas que respuestas.
+1412360	1415360	De eso se trata la investigación.
+1415360	1417360	Bueno, esas son las categorías IGEL.
+1417360	1420360	Como yo le decía, esto es un poco las que vimos en Freelance, ¿no?
+1420360	1423360	Lo primero es el postag, la categoría.
+1423360	1426360	Y dependiendo de lo que haya acá, lo que hay después.
+1427360	1432360	Por ejemplo, para nombres tenemos común y propio, género, masculino, femenino.
+1432360	1436360	O común, número singular, plural o invariable.
+1436360	1439360	La clasificación semántida que no se usa.
+1439360	1442360	Y el grado apreciativo que no tengo en la menor idea de lo que es.
+1446360	1447360	Pueden averiguarlo.
+1447360	1450360	Otro corpus es el famoso Brown.
+1450360	1453360	El corpus Brown es el primer corpus anotado en inglés.
+1453360	1455360	Es un corpus de un millón de palabras.
+1455360	1459360	Y mal no recuerdo que tiene diferentes formas de anotar.
+1459360	1462360	Completamente diferentes.
+1462360	1464360	¿Sí?
+1464360	1468360	Si se fijan acá, tiene, por ejemplo, marcados con diferentes talos,
+1468360	1472360	a los verbos según el tiempo que fue expresado.
+1476360	1478360	¿Por qué me interesa tener estos corpus a mí?
+1478360	1480360	¿Por qué me interesa tener corpus anotado?
+1482360	1484360	¿Para qué quiero tener corpus anotado?
+1484360	1486360	Por el aspecto vaso.
+1486360	1488360	Por el aspecto vaso.
+1488360	1490360	Por el aspecto vaso.
+1490360	1492360	¿Para qué quiero tener corpus anotado?
+1492360	1494360	Por el aspecto vaso.
+1496360	1497360	Es muy importante, ¿no?
+1497360	1500360	Yo tengo corpus anotado porque la forma que tengo de contar,
+1500360	1502360	todo lo que aprendo, lo aprendo del corpus.
+1506360	1508360	Es un esfuerzo, digamos,
+1510360	1515360	ahora con todo el humo que hay con la inteligencia artificial,
+1515360	1517360	la prensa automática, todas esas cosas,
+1518360	1522360	a veces se transmite la idea como que yo tengo grandes volúmenes de datos
+1522360	1525360	y con eso estoy cambiando el mundo,
+1525360	1526360	y en realidad no es tan así,
+1526360	1529360	yo necesito grandes volúmenes de datos anotados.
+1529360	1531360	Y la parte de grandes volúmenes,
+1531360	1533360	cuando vienen los de anotados ya se relativizan.
+1533360	1536360	Me sigue mi compañero y festejaba que tenía 2.000 tweets anotados,
+1538360	1540360	y hoy todo el mundo habla de millones y dos millones,
+1540360	1545360	pero no es que haya mucha gente que tenga 100.000 tweets anotados,
+1545360	1550360	porque 100.000 quiere decir 100.000 personas mirando el tweet
+1550360	1552360	y anotando esto,
+1552360	1556360	esto tiene tal aspecto que quiero estudiar,
+1558360	1563360	y no siempre la tarea de anotación del cuerpo es una tarea muy costosa, típicamente,
+1563360	1567360	porque imagínense que ustedes tienen que elegir entre todas estas categorías
+1567360	1569360	para ponerla a cada palabra,
+1569360	1571360	y con perro es fácil,
+1571360	1573360	pero con que ella se complica
+1573360	1576360	y se empiezan a generar discusión y que los criterios,
+1576360	1580360	cuando el proceso de anotar un cuerpo es todo un proceso muy interesante,
+1580360	1582360	porque generalmente, por ejemplo, para anotar el cuerpo,
+1582360	1585360	por lo menos se utilizan dos anotadores,
+1585360	1588360	para ver qué tan de acuerdo se ponen entre ellos,
+1588360	1591360	y cuando entramos a,
+1591360	1594360	por ejemplo, por el rol que cumple una palabra,
+1594360	1596360	entonces generalmente cuando se anota un cuerpo,
+1596360	1599360	lo que se hace es que se definen los criterios de anotación,
+1599360	1601360	y se, bueno, vamos a anotar de esta forma, de esta forma,
+1601360	1604360	esta forma, en tal caso vamos a tomarte el criterio,
+1604360	1606360	y se lo da por lo menos a dos anotadores,
+1606360	1609360	que son expertos en el tema,
+1609360	1612360	o sea que esencialmente cobran bastante bien, digamos,
+1612360	1614360	porque es una tarea muy difícil,
+1614360	1619360	y luego se comparan sus resultados,
+1619360	1625360	y se llega a un valor que es lo que se llama el interanoteitor agreement,
+1625360	1630360	que es, a ver, si dos seres humanos se pusieron en el cuerpo en el 95% de los tags,
+1630360	1634360	un método que llegue al 98% sí para nada,
+1634360	1641360	está claro, porque está haciendo algo mejor que la mejor anotación,
+1641360	1643360	¿se entiende?
+1643360	1645360	va a estar de acuerdo con uno, porque yo, a ver,
+1645360	1647360	cuando tengo los dos anotadores,
+1647360	1650360	yo al final tengo que llegar a un gol de estándares,
+1650360	1652360	llegar a una definición, pero,
+1652360	1655360	esa definición a veces puede ser un poco forzada, digamos,
+1655360	1659360	porque tengo que elegir entre uno de los dos, ¿se entiende?
+1659360	1662360	ese interanoteitor agreement es un valor que es muy interesante,
+1662360	1664360	porque nos da un techo para lo que los métodos hacen,
+1664360	1668360	entonces cualquier método que diga que está arriba del interanoteitor agreement,
+1668360	1672360	en realidad es muy relativo su utilidad, ¿de acuerdo?
+1672360	1675360	porque no hay un gol de estándar contra el cual comparar,
+1675360	1677360	todos los métodos y todas las evaluaciones que hacemos,
+1677360	1679360	la clase de clasificación lo vamos a ver también,
+1679360	1681360	todos los cosas que nosotros hacemos,
+1681360	1683360	las evaluamos contra un cuerpo anotado,
+1683360	1685360	que nos sirve de referencia,
+1685360	1693360	y esa medida va a depender mucho de ese gol de estándar,
+1693360	1697360	asumiendo que ese gol de estándar siempre está bien,
+1697360	1700360	por eso, al armar el cuerpo de gol de estándar,
+1700360	1702360	el cuerpo donde voy a evaluar,
+1702360	1704360	tengo que ser muy cuidadoso,
+1704360	1707360	no puede ser un cuerpo anotado automáticamente, juzgamente,
+1707360	1709360	tiene que ser hecho a mano,
+1709360	1711360	tiene que haber un ser humano que diga,
+1711360	1713360	esto vale tanto,
+1713360	1716360	me parece muy interesante,
+1716360	1720360	y que hace tiempo que vengo proponiendo sin éxito,
+1720360	1723360	una tesis anotada al respecto,
+1723360	1725360	sin éxito porque no tengo alumno,
+1725360	1732360	este es todos los procesos que nosotros conocemos de evaluación,
+1732360	1735360	asumen que el estándar es fijo,
+1735360	1742360	es decir, que hay una verdadera categoría para esta palabra,
+1743360	1750360	que acá yo puedo equivocarme en ponerle nombre a gato,
+1750360	1754360	pero que de última sé lo que el algoritmo tiene que darme,
+1754360	1757360	ahora hay casos donde eso no es tan claro,
+1757360	1760360	porque, por ejemplo, si yo tengo un tuit
+1760360	1765360	y quiero decir si es gracioso o no,
+1765360	1767360	es una opinión subjetiva,
+1767360	1770360	entonces, yo puedo hacer un corpus,
+1770360	1772360	donde diga, bueno,
+1772360	1775360	la mayoría de las personas dijeron que era gracioso,
+1775360	1777360	entonces, por lo tanto, lo declaro como gracioso,
+1777360	1780360	y un algoritmo que dice que no es gracioso se equivoca,
+1780360	1782360	o en realidad, de alguna forma,
+1782360	1786360	tendría que incorporar en el corpus esa distribución,
+1786360	1789360	eso no he visto que esté hecho,
+1789360	1791360	para mí hay un campo de investigación ahí,
+1791360	1793360	perdón, me debió un poco,
+1793360	1798360	cuestión que teníamos, ya no sé qué estaba hablando,
+1798360	1800360	ah, las categorías del corpus gran,
+1800360	1802360	y esto es nuevo,
+1802360	1805360	esto es nuevo, lo agregué para este año,
+1805360	1807360	porque me pareció muy interesante,
+1807360	1811360	hay un proyecto que se llama Dependencias Universales,
+1811360	1813360	que es ese que hoy les mostré allá encima,
+1813360	1815360	en el tema del laboratorio,
+1815360	1818360	que lo que trata de hacer es tener un formato consistente
+1818360	1820360	para anotación de tribancas,
+1820360	1822360	los tribancas son cosas que tienen anotados
+1822360	1824360	los partos hospitales y más cosas,
+1824360	1827360	información sintáctica y tal,
+1827360	1831360	pero lo que busca es tener una forma de anotar
+1831360	1834360	que sea universal, que pueda atravesar los idiomas,
+1834360	1836360	con todo lo que tengan en común,
+1836360	1839360	y dejando las especificidades de cada idioma
+1839360	1842360	para el costado, digamos, en un campo específico,
+1842360	1843360	¿de acuerdo?
+1843360	1845360	Este proyecto está avanzando mucho,
+1845360	1847360	está basado en las dependencias
+1847360	1849360	que se definieron en Stanford
+1849360	1851360	y una propuesta de postage universal
+1851360	1853360	que Google había hecho en un momento,
+1853360	1856360	pero es un proyecto de colaboración abierta,
+1856360	1859360	porque hay gente muy pesada, digamos,
+1859360	1864360	que ha trabajado mucho en el parcing de dependencias,
+1864360	1866360	yo creo que va a andar bien
+1866360	1868360	y por eso les estamos pidiendo que transformen
+1868360	1870360	eso en el formato este.
+1872360	1875360	En los postage tienen ciertas etiquetas universales de postage,
+1875360	1877360	son muy sencillas, son muy poquitas,
+1877360	1881360	fíjense que tiene una posición muy conservadora,
+1881360	1883360	no se pone muy...
+1884360	1886360	Esto va a abrir el...
+1889360	1892360	Ven, acá tienen unas poquitas categorías,
+1892360	1895360	clases abiertas, ¿acuerdan lo que era clases abiertas
+1895360	1897360	y cerradas de palabras no abiertas?
+1897360	1900360	Son las que admiten nuevos elementos
+1900360	1903360	y las cerradas son como las preposiciones,
+1903360	1905360	por ejemplo, que son fijas.
+1907360	1909360	O sea, tratan de humildemente
+1909360	1912360	poner una notación muy básica,
+1914360	1918360	pero que pueda servir para generar intercambio
+1918360	1921360	entre diferentes investigadores, digamos.
+1924360	1926360	Y luego tienen otras características
+1926360	1928360	que son características universales,
+1928360	1931360	como género, número, forma verbal
+1931360	1934360	y algunas específicas para algunos idiomas
+1934360	1936360	que solo aparecen en algunos idiomas.
+1937360	1941360	Fenómenos lingüísticos que no se enganen en todos los idiomas.
+1941360	1946360	Bueno, para realizar este análisis eléxico,
+1946360	1949360	nosotros tenemos dos categorías principales.
+1949360	1952360	Una es, como casi todas estas cosas que hemos estado hablando,
+1952360	1954360	una es un enfoque por relas,
+1956360	1959360	que es la aproximación más clásica,
+1959360	1962360	que es, bueno, esto que decíamos hoy,
+1962360	1964360	después de alguien se pone a estudiar
+1964360	1967360	y dice, bueno, si aparece T banco,
+1968360	1971360	entonces banco, toda la palabra banco
+1971360	1973360	que aparezca después de T
+1973360	1976360	es un verbo, regla número 1.
+1985360	1987360	Se robó un banco.
+1991360	1993360	Este banco aparece después de un,
+1993360	1996360	entonces yo lo voy a notar como un nombre.
+1998360	1999360	Sí.
+2002360	2007360	Pero acá yo digo no banco a
+2007360	2008360	Juan.
+2010360	2015360	Y acá no banco a,
+2015360	2017360	a mí me gusta más el contexto de la derecha.
+2017360	2021360	Bueno, todo esto y casos más complicados pueden haber.
+2021360	2023360	Por supuesto, si uno se pone a mirar los corpos,
+2023360	2025360	entonces lo que hace es
+2026360	2029360	empieza a mirar todas las posibilidades que hay,
+2029360	2031360	trabaja durante años
+2031360	2033360	y genera una lista de reglas
+2033360	2035360	para este,
+2036360	2037360	desamiguar.
+2037360	2038360	Es el enfoque tradicional,
+2038360	2040360	es muy, muy costoso,
+2040360	2042360	porque necesito lingüistas estudiando,
+2044360	2045360	pero este aquí,
+2045360	2047360	que este tipo de métodos
+2050360	2052360	funciona muy bien en esta tarea
+2052360	2054360	y por acá
+2056360	2060360	no lo tengo notado a,
+2060360	2061360	pero hay un,
+2061360	2062360	un, un tagger en inglés
+2062360	2064360	que utiliza este tipo métodos,
+2064360	2065360	ahora lo vamos a ver
+2065360	2068360	y que llega a un 99,5% de accuracy.
+2068360	2070360	Es decir, que etiqueta muy bien.
+2070360	2072360	Es una tarea que con mucho trabajo
+2072360	2073360	y muchas reglas
+2073360	2075360	se puede resolver así.
+2078360	2079360	La otra aproximación,
+2079360	2081360	ahora vamos a dar los detalles,
+2081360	2082360	pero la otra aproximación
+2082360	2084360	es el enfoque estadístico.
+2084360	2086360	Bueno, a partir de los grandes corpos
+2086360	2087360	que tenemos,
+2088360	2089360	grandes entre comillas,
+2089360	2090360	son corpos anotados,
+2090360	2091360	no es que tenemos
+2091360	2093360	miles de millones de palabras, no?
+2096360	2098360	Entreno modelos a partir de grandes,
+2098360	2099360	grandes corpos.
+2102360	2104360	Y estimó la probabilidad
+2104360	2105360	de la palabra,
+2105360	2107360	de la categoría según el contexto.
+2107360	2109360	Y también hay enfoques híbridos
+2109360	2111360	que son, por ejemplo,
+2111360	2112360	el tagger de Bril,
+2112360	2114360	que lo vamos a ver un poquito después.
+2117360	2118360	Como acá hemos
+2118360	2120360	virado para lo estadístico,
+2120360	2122360	veí rápidamente por el tema de los derrelas,
+2122360	2124360	pero esencialmente en los años 60
+2124360	2126360	el análisis léxico se empieza haciendo así,
+2129360	2130360	una arquitectura de dos capas.
+2130360	2132360	Le asignó categorías potenciales
+2132360	2133360	a partir de un diccionario.
+2133360	2134360	Es decir, qué cosas puede tener.
+2134360	2135360	Esto es lo primero que toca hacer.
+2135360	2137360	Era lo que hablamos al principio de la clase, no?
+2137360	2139360	Banco puede ser o un verbo o un nombre.
+2139360	2141360	No puede ser una preposición.
+2142360	2144360	Porque no está en la lista de preposición.
+2144360	2146360	Si fuera bajo, sí.
+2146360	2148360	Y el acabado se utiliza reglas
+2148360	2150360	de desambiguación
+2150360	2151360	para eliminar categorías.
+2151360	2153360	Es lo que nos imaginaríamos,
+2153360	2155360	que haríamos de análisis, no?
+2157360	2158360	Por ejemplo,
+2160360	2162360	en Siji Tiger,
+2163360	2164360	que hace una cosa así,
+2167360	2169360	para cada palabra,
+2170360	2172360	le asignan partos pitch y alguna cosa adicional.
+2176360	2177360	No, miento.
+2177360	2179360	Esto es el lexicón.
+2180360	2182360	Tiene 56.000 palabras,
+2183360	2185360	con morfología a dos niveles,
+2185360	2188360	como vimos en la clase de morfología,
+2190360	2193360	con un postag y además
+2193360	2196360	con ciertas características lingüísticas.
+2200360	2201360	Por ejemplo,
+2201360	2203360	all es un determinante,
+2203360	2205360	pero además es un cuantificador.
+2205360	2208360	Algo que es un predeterminador,
+2208360	2210360	que yo no sé lo que es, etcétera, no?
+2212360	2214360	Reglas hechas a mano.
+2214360	2215360	Esto está hecho a mano.
+2216360	2217360	Entonces,
+2219360	2221360	yo tengo la grabación Pablo,
+2221360	2223360	John Dutt, Salivation,
+2223360	2225360	y tengo todas las categorías posibles.
+2225360	2227360	Tengo Pablo,
+2227360	2229360	que es un hombre singular propio,
+2229360	2230360	Jav,
+2230360	2232360	que tiene dos posibilidades.
+2234360	2235360	Jav, perdón.
+2236360	2237360	John, Dutt,
+2237360	2238360	y Dutt, que tiene cuatro.
+2239360	2240360	Dutt es complicado.
+2240360	2241360	Dutt es qué?
+2242360	2243360	Tiene cuatro candidaturas, no?
+2243360	2245360	Entonces, yo tengo que desambiguar
+2247360	2249360	en esta oración lo que pasa.
+2249360	2250360	¿Y cómo desambigúo?
+2250360	2251360	Uo.
+2251360	2252360	Diguo.
+2253360	2254360	Con reglas.
+2254360	2258360	3.744 reglas para quitar las etiquetas incorrectas.
+2258360	2260360	Un laburo de la hostia, no?
+2260360	2261360	Porque digamos,
+2261360	2263360	cada regla puede romper otra, además, no?
+2263360	2265360	Porque la regla es lo que dice,
+2265360	2267360	bueno, Dutt, que tengo Dutt,
+2267360	2269360	si la siguiente palabra es un adjetivo,
+2269360	2271360	un adverbio, un cuantificador,
+2276360	2279360	elimino los que no sean adverbios.
+2279360	2281360	O sea, lo estoy calificando como adverbio.
+2281360	2284360	O, y además, no, perdón,
+2284360	2286360	si la siguiente palabra y la demás
+2286360	2288360	aparecen al final de una oración,
+2289360	2291360	y la palabra siguiente no es un,
+2291360	2293360	anterior no es un verbo,
+2293360	2296360	como consider que permite adjetivo.
+2298360	2301360	Esto es un lenguaje para especificar este tipo de reglas.
+2301360	2303360	Entonces, eliminarlo y dejarlo como adverbio.
+2304360	2305360	¿Se entiende?
+2306360	2307360	Son reglas.
+2307360	2309360	Mucho trabajo, pero con buenos resultados.
+2310360	2312360	Generalmente, lo que sucede con los métodos de regla,
+2312360	2314360	lo que han demostrado los métodos de regla,
+2314360	2315360	es que vos,
+2317360	2319360	tu accuracy, que es la,
+2319360	2321360	se acuerdan, no sé si lo hablamos,
+2321360	2323360	pero la accuracy es la capacidad de clasificar bien
+2323360	2325360	en un problema de clasificación,
+2325360	2327360	de si en que hay, cuántas clasifico bien.
+2328360	2330360	La accuracy va creciendo,
+2332360	2334360	con el método va mejorando,
+2334360	2336360	pero sigan a un techo.
+2337360	2340360	Crece rápidamente, pero crea un techo.
+2340360	2342360	Los métodos de aprendizaje automático general,
+2342360	2344360	o general no,
+2344360	2346360	pueden crecer más despacio,
+2346360	2350360	pero tienen más alto el, el, el techo.
+2352360	2353360	Sí, y lo que ha pasado últimamente,
+2353360	2356360	es que las redes neuronales son un poquito más altos.
+2357360	2359360	Entonces, estos pasaron los últimos cinco años,
+2359360	2360360	últimos cinco.
+2360360	2365360	Yo, yo vi,
+2365360	2366360	una de las señales de que,
+2366360	2367360	de que esto progresa,
+2367360	2368360	o de que yo estoy viejo,
+2368360	2369360	una de las dos,
+2369360	2371360	es que yo vi este fenómeno,
+2371360	2373360	los métodos que estaban por regla,
+2373360	2375360	cómo los métodos de aprendizaje automáticos,
+2375360	2378360	tomaron el estado del arte en diferentes tareas,
+2378360	2380360	y ahora estamos viendo
+2380360	2383360	cómo los métodos del redes neuronales
+2383360	2385360	de deep learning están superando los.
+2385360	2387360	Es más,
+2387360	2388360	recuerdo que,
+2388360	2390360	cuando se hacía el chiste de bueno,
+2390360	2391360	a ver,
+2391360	2393360	vamos a, vamos a hacer que las conferencias
+2393360	2394360	dejen de ser,
+2394360	2396360	miren este, miren esta tarea
+2396360	2397360	que antes se resolvía con regla,
+2397360	2399360	cómo la resolvo con aprendizaje automático,
+2399360	2401360	y, y me mejoró.
+2401360	2402360	Y ahora el chiste,
+2402360	2403360	bueno, vamos a dejar de,
+2403360	2405360	ah, miren esta tarea que antes la resolvía bien
+2405360	2406360	con aprendizaje automático,
+2406360	2407360	la resolvo con deep learning,
+2407360	2408360	y también mejoró,
+2408360	2410360	aplicando los mismos métodos.
+2410360	2412360	Estamos viviendo este momento.
+2414360	2415360	Pero,
+2415360	2416360	esencialmente,
+2416360	2418360	la información de base
+2418360	2420360	de la que se prende la misma.
+2420360	2421360	Bueno,
+2421360	2422360	la otra alternativa,
+2422360	2423360	¿Cómo estamos ahora?
+2423360	2424360	¿Qué hora es?
+2424360	2426360	No hay cinco.
+2426360	2427360	No hay cinco,
+2427360	2428360	está muy bien.
+2428360	2430360	La otra alternativa,
+2430360	2432360	es,
+2432360	2434360	hacer part hospital
+2434360	2436360	con un modelo de clasificación secuencial.
+2436360	2438360	¿Tá?
+2438360	2440360	El modelo de clasificación secuencial
+2440360	2442360	en el que vamos a poner énfasis,
+2442360	2444360	y que vamos a presentar acá,
+2444360	2446360	los Hiedemarco Models.
+2446360	2447360	¿Tá?
+2449360	2451360	Hoy en día,
+2454360	2455360	los Hiedemarco Models
+2455360	2457360	no son el método más
+2457360	2459360	utilizado
+2459360	2462360	para las tareas de clasificación secuencial.
+2463360	2465360	Los Hiedemarco Models
+2467360	2469360	nacieron en los años 60,
+2470360	2472360	tomaron fuerza en los años 90,
+2472360	2474360	son un modelo de clasificación secuencial.
+2474360	2476360	En la primera década del siglo XXI,
+2476360	2478360	fueron sustituidos,
+2478360	2480360	estoy hablando en general,
+2480360	2482360	por métodos
+2482360	2484360	que se basan en otros
+2484360	2485360	principios,
+2485360	2487360	que son discriminativos y no generativos,
+2487360	2489360	capaz que en un par de clases lo vemos,
+2489360	2491360	y ahora están
+2491360	2493360	de moda las redes neuronales,
+2493360	2495360	pero me parece que son muy interesantes,
+2495360	2497360	porque muestra,
+2497360	2499360	permiten ver el problema
+2499360	2501360	que estamos resolviendo,
+2501360	2503360	y una forma de aproximarse a él.
+2503360	2505360	Y realmente funciona bastante bien,
+2505360	2507360	digamos, además, ¿no?
+2508360	2510360	Entonces, por eso,
+2510360	2511360	me parece que es muy interesante,
+2511360	2513360	ah, y además se aplican a una cantidad de problemas.
+2513360	2515360	Son un modelo.
+2515360	2517360	En particular,
+2517360	2519360	los otros los hemos ver aplicados al Parto Hospital.
+2521360	2523360	Entonces,
+2523360	2525360	los modelos de Marco, de estados ocultos,
+2525360	2527360	son un caso particular
+2527360	2529360	de la inferencia vallesiana, de la inferencia que vimos,
+2529360	2531360	se acuerdan cuando hablamos de la clasificación de errores,
+2531360	2533360	que vimos de cómo clasificar una palabra,
+2533360	2535360	cómo buscar la candidata
+2535360	2537360	y la regla de valles y demás.
+2537360	2539360	Bueno, esto es,
+2539360	2541360	los modelos de Marco, de estados ocultos,
+2541360	2543360	son como una versión
+2543360	2545360	secuencial
+2545360	2547360	donde aplicamos la regla de valles.
+2550360	2552360	Lo que decíamos hoy,
+2552360	2555360	el post-haggin se puede ver como una tarea de clasificación de secuencias,
+2555360	2557360	dado una secuencia de palabra,
+2557360	2559360	una secuencia apropiada de categorías gramaticales.
+2559360	2561360	Para toda la secuencia.
+2561360	2563360	No solo para cada palabra.
+2563360	2565360	No es que yo clasifico la primera, la segunda,
+2565360	2567360	sino clasifico toda a la vez.
+2567360	2569360	Eso es un problema de clasificación secuencial.
+2569360	2571360	Un problema de clasificaciones,
+2571360	2573360	dado una observación, se intenta terminar
+2573360	2575360	a cuál conjunto de clases pertenece.
+2575360	2577360	No.
+2577360	2579360	¿A cuál clase de un conjunto pertenece?
+2579360	2581360	¿Tá?
+2581360	2583360	Un problema de clasificaciones,
+2583360	2585360	es un problema de que tengo un conjunto discreto de valores
+2585360	2587360	y un objeto a la que le quiero asignar una categoría.
+2587360	2589360	Eso se llama clasificación.
+2595360	2597360	¿De acuerdo?
+2599360	2601360	Si yo aquí veo un animal
+2601360	2603360	y me dan la cantidad de patas que tiene
+2603360	2605360	o la foto
+2605360	2607360	si quieren hacer lo más complicado,
+2607360	2609360	yo tengo que decidir si es un perro, un gato,
+2609360	2611360	un camecho, un león.
+2611360	2613360	Eso es un problema de clasificación.
+2614360	2616360	Si yo quiero saber cuánto me puede ese animal,
+2616360	2619360	cuánto lo puedo llegar a vender en el mercado libre,
+2619360	2621360	eso es un problema de regresión,
+2621360	2623360	porque lo estoy asignando una,
+2623360	2625360	un valor real, la veo contigo.
+2625360	2627360	¿De acuerdo?
+2627360	2629360	Acá, en el negocio, en el pensamiento y en el juego natural,
+2629360	2631360	típicamente se habla de problemas de clasificación.
+2631360	2633360	Nosotros hemos visto una cantidad de problemas ya de clasificación.
+2633360	2635360	Por ejemplo, el primero que vimos
+2635360	2637360	fue el de la separación de oraciones,
+2637360	2639360	que esencialmente consiste en clasificar
+2639360	2641360	cada punto en punto final
+2641360	2643360	o otra cosa.
+2649360	2651360	Por ejemplo,
+2651360	2653360	voy a usar este ejemplo del libro,
+2653360	2655360	cada año me propongo
+2655360	2657360	hacer la versión español, pero nunca...
+2659360	2661360	Yo tengo este ejemplo, ¿no?
+2667360	2669360	Secretariat
+2669360	2671360	que es un caballo.
+2673360	2675360	Se espera que corra mañana.
+2677360	2679360	Y yo tengo que asignarle
+2679360	2681360	su parto espiritual.
+2681360	2683360	¿Verdad?
+2683360	2685360	Una nueva versión simplificada,
+2685360	2687360	tenemos las categorías que son poquitas
+2687360	2689360	y solo los post-arts.
+2691360	2693360	La idea cuál es,
+2693360	2695360	bueno, de todas las posibles
+2695360	2697360	secuencias de etiqueta que tengo,
+2699360	2701360	dijo la secuencia de etiqueta que es la más probable
+2701360	2703360	para la secuencia de observación
+2703360	2705360	de las n palabras.
+2705360	2707360	¿De acuerdo?
+2709360	2711360	¿Cómo puedo hacer eso yo pensando
+2711360	2713360	lo de pensando como en la clase pasada?
+2715360	2717360	¿Cómo podría llegar a hacer eso yo?
+2725360	2727360	¿Cómo se le ocurre que pueda hacer eso?
+2729360	2731360	¿Cómo?
+2735360	2737360	Contando, ¿no?
+2737360	2739360	Cuento todas las veces que apareció de una forma
+2739360	2741360	y cual todas las veces que apareció
+2741360	2743360	de la otra
+2743360	2745360	y me quedo con la más común.
+2747360	2749360	¿Qué problema tiene eso?
+2753360	2755360	No, pero yo digo toda la oración.
+2755360	2757360	¿Qué problema tiene eso?
+2757360	2759360	Tiene dos problemas.
+2759360	2761360	Tirando a imposible, ¿no?
+2761360	2763360	Es poco probable que esto haya aparecido
+2763360	2765360	ya en el cuerpo antes
+2765360	2767360	y se apareció una vez,
+2767360	2769360	no suficientemente cantidad de veces
+2769360	2771360	que va a pastimar su probabilidad.
+2771360	2773360	Problema número 1.
+2775360	2777360	Problema número 2, no me acuerdo cuál.
+2779360	2781360	Este, me olvidé cuál era la otra
+2781360	2783360	característica que iba a mencionar,
+2783360	2785360	no importa, ya me voy a acordar.
+2785360	2787360	El problema es que no tengo forma
+2787360	2789360	de estimar así contando
+2793360	2795360	Entonces,
+2795360	2797360	pero observemos
+2797360	2799360	que lo que nosotros tenemos es una secuencia
+2799360	2801360	de palabras.
+2803360	2805360	Y queremos saber
+2805360	2807360	sus ciertos tags.
+2809360	2811360	¿De acuerdo?
+2815360	2817360	Esencialmente, en nosotros,
+2817360	2819360	lo que queremos es esto.
+2819360	2821360	Una estimación
+2823360	2825360	de alguna forma
+2827360	2829360	de la probabilidad
+2829360	2831360	de la secuencia,
+2831360	2833360	este 1 a la n
+2833360	2835360	dado que tengo las palabras.
+2835360	2837360	¿De acuerdo?
+2837360	2839360	Esto, si les parece parecido
+2839360	2841360	a lo que vimos para la...
+2841360	2843360	para el candidato
+2843360	2845360	a mejores palabras
+2845360	2847360	para la corrección, es porque es lo mismo.
+2847360	2849360	Esencialmente, es lo mismo una más consecuencia.
+2849360	2851360	Yo tengo una secuencia de palabras
+2851360	2853360	y quiero
+2853360	2855360	el argumento
+2855360	2857360	que maximiza
+2857360	2859360	esta probabilidad.
+2859360	2861360	¿De acuerdo?
+2861360	2863360	Yo quiero
+2863360	2865360	no la probabilidad de esto, sino la que maximiza
+2865360	2867360	esa probabilidad.
+2867360	2869360	Esencialmente acá,
+2869360	2871360	en este ejemplo nuestro
+2871360	2873360	si se fijan,
+2873360	2875360	sólo tengo 2...
+2875360	2877360	Ah, ese era el otro problema.
+2877360	2879360	Que en este ejemplo, yo sólo tengo 2 posibilidades.
+2879360	2881360	Porque estas no son ambigüas,
+2881360	2883360	según mi dicionario.
+2883360	2885360	La unidad de esa ambigüa es RACE
+2885360	2887360	que puede ser un verbo o un nombre.
+2889360	2891360	RACE, la carrera
+2891360	2893360	y RACE correr.
+2893360	2895360	Entonces, yo sólo tengo 2 secuencias.
+2895360	2897360	El otro problema que yo les digo hoy es que además
+2897360	2899360	la combinación de palabras
+2899360	2901360	de categorías explota.
+2901360	2903360	Para oraciones muy largas
+2903360	2905360	tengo muchísimas combinaciones
+2905360	2907360	porque yo acá tengo 2, pero la otra porque son los 1.
+2907360	2909360	Donde se empiecen a multiplicar
+2909360	2911360	tengo N1 por N2 por N3 por N4
+2911360	2913360	según la cantidad de categorías que tenga cada palabra.
+2913360	2915360	O sea que tampoco puedo
+2915360	2917360	si quiera probarlas todas.
+2917360	2919360	Cuanto menos contar.
+2919360	2921360	Poder podría, pero sería
+2921360	2923360	computacionalmente muy costoso.
+2923360	2925360	Podría probar todas las combinaciones, generarlas
+2925360	2927360	y contar en cada uno.
+2933360	2935360	Dijimos, esa es nuestra tarea.
+2935360	2937360	Nosotros queremos la secuencia
+2937360	2939360	de TAQ que maximice esa probabilidad.
+2945360	2947360	Bueno, pero como computo
+2947360	2949360	esta fórmula?
+2949360	2951360	Si les parece que ya lo vieron es porque ya lo vieron.
+2951360	2953360	Lo vimos para clasificación.
+2953360	2955360	Aplico la regla de valles
+2955360	2957360	para llevarlo a otras probabilidades
+2957360	2959360	que son más fáciles de computar.
+2959360	2961360	Entonces, damos vuelta
+2961360	2963360	la fórmula
+2963360	2965360	y como nos va a quedar?
+2965360	2967360	Nos va a quedar
+2967360	2969360	la probabilidad
+2969360	2971360	de la secuencia
+2971360	2973360	de TAQs dada la secuencia
+2973360	2975360	de palabras
+2975360	2977360	es igual a la probabilidad
+2977360	2979360	de la secuencia de palabras
+2979360	2981360	dada la secuencia
+2981360	2983360	de TAQs
+2983360	2985360	por la probabilidad de la secuencia de TAQs
+2985360	2987360	dividida la secuencia de palabras.
+2989360	2991360	Y fíjense
+2991360	2993360	que lo que me queda acá es
+2997360	2999360	Parece como un problema más complicado todavía
+2999360	3001360	porque es
+3001360	3003360	dada una secuencia de TAQs
+3003360	3005360	¿Qué tan probable es
+3005360	3007360	que esos TAQs sean esas palabras?
+3007360	3009360	¿Qué tan probable son que esos TAQs
+3009360	3011360	sean las palabras?
+3011360	3013360	¿De acuerdo?
+3013360	3015360	O sea, de todas las veces
+3015360	3017360	que aparecieron estas secuencias de TAQs
+3017360	3019360	¿Cuántas veces eran esas las palabras?
+3019360	3021360	Seguimos teniendo un problema de decir
+3021360	3023360	porque está claro que no podemos contar eso, ¿no?
+3023360	3025360	Pero además lo vimos vuelta
+3025360	3027360	y por otra parte la secuencia de TAQs
+3027360	3029360	¿Qué tan común es la secuencia de TAQs?
+3029360	3031360	Esto parece un poco más razonable.
+3031360	3033360	Es más parecido a lo que vimos
+3033360	3035360	en la enigrama de la clase pasada.
+3039360	3041360	¿Por qué desaparece este de acá abajo?
+3041360	3043360	A ver si se acuerdan.
+3049360	3051360	¿Por qué no depende
+3051360	3053360	de mi argumento?
+3053360	3055360	Si yo
+3055360	3057360	quiero maximizar esta probabilidad
+3057360	3059360	es lo mismo que maximizar esta.
+3059360	3061360	Entonces ahora sí, me quedo con estas dos
+3061360	3063360	la probabilidad de los TAQs
+3063360	3065360	por la probabilidad de las palabras.
+3065360	3067360	¿De acuerdo?
+3068360	3070360	Eso es lo que vamos a querer calcular.
+3079360	3081360	Igual sigue teniendo muchos problemas
+3081360	3083360	como decíamos, ¿no?
+3083360	3085360	Porque yo tengo que ver todas las combinaciones posibles.
+3085360	3087360	Yo podría llegar a contar en un corpus
+3087360	3089360	de todas las veces que apareció T1 o TN
+3089360	3091360	o sea, todas las veces que apareció
+3091360	3093360	determinante nombre
+3093360	3095360	por ejemplo, determinante
+3095360	3097360	adjetivo, nombre, verbo.
+3099360	3101360	¿Cuál de todas esas veces
+3105360	3107360	¿Cuál de todas esas veces
+3107360	3109360	esto generó
+3109360	3111360	el lindo perro
+3111360	3113360	conmigo la comida?
+3115360	3117360	Es eso lo que estoy contando.
+3117360	3119360	Multiplicado el mapa
+3119360	3121360	por la probabilidad de que esa secuencia de TAQ
+3121360	3123360	se haya dado en el corpus.
+3125360	3127360	¿Sí?
+3127360	3129360	Y usted fíjense
+3131360	3133360	que nosotros lo que vemos
+3133360	3135360	son las observaciones.
+3135360	3137360	No vemos los TAQs, obviamente.
+3137360	3139360	Por eso se llama modelos tabulos
+3139360	3141360	porque se llama modelos tabulos.
+3145360	3147360	Para solucionar este problema
+3147360	3149360	los GDMarco model
+3149360	3151360	¿Se acuerdan que
+3151360	3153360	los modelos vallesianos
+3153360	3155360	como
+3155360	3157360	simplificación que los TAQs
+3157360	3159360	eran independientes entre ellos?
+3159360	3161360	¿Se acuerdan?
+3161360	3163360	Bueno, los GDMarco model hacen
+3163360	3165360	dos simplificaciones que son bestiales
+3165360	3167360	que es increíble que funcionen
+3167360	3169360	y es. La primera
+3169360	3171360	dicen bueno
+3171360	3173360	yo para simplificar digo que
+3173360	3175360	la probabilidad de que
+3175360	3177360	una palabra ocurra
+3177360	3179360	de que se emita
+3179360	3181360	solo depende de la etiqueta.
+3181360	3183360	¿Sí?
+3183360	3185360	Es decir
+3185360	3187360	que esto sea la o el
+3187360	3189360	no depende del contexto.
+3191360	3193360	¿Aguardo?
+3193360	3195360	Es una simplificación muy fuerte ¿no?
+3197360	3199360	Entonces esta probabilidad
+3199360	3201360	es mucho más sencilla
+3203360	3205360	porque es la probabilidad
+3205360	3207360	de cada palabra dado su contexto
+3207360	3209360	dado su TAQ
+3211360	3213360	¿Sí? ¿De acuerdo?
+3215360	3217360	¿Por qué?
+3217360	3219360	Porque esto es probabilidad
+3219360	3221360	W1n
+3221360	3223360	dado T1n
+3223360	3225360	es igual como son independientes
+3225360	3227360	la probabilidad de W1n
+3227360	3229360	es dado
+3233360	3235360	perdón
+3235360	3237360	la probabilidad de W1 dado T1n
+3241360	3243360	pero como cada palabra
+3243360	3245360	depende
+3245360	3247360	porque las palabras
+3247360	3249360	son independientes entre ciertas
+3249360	3251360	¿Cómo es diciendo?
+3271360	3273360	Esto
+3273360	3275360	yo lo asumo
+3275360	3277360	por la segunda regla
+3277360	3279360	porque las etiquetas
+3279360	3281360	las categorías solo dependen entre ellas
+3281360	3283360	las palabras son independientes entre sí
+3283360	3285360	entonces
+3285360	3287360	y además la otra
+3287360	3289360	es que
+3289360	3291360	esto de lo que se llama
+3291360	3293360	hipótesis marcoviana
+3293360	3295360	que es
+3295360	3297360	la probabilidad de que una etiqueta ocurra
+3297360	3299360	depende solo de la previa
+3299360	3301360	es muy simplificador
+3301360	3303360	lo único que me condiciona
+3303360	3305360	que acá hay un adjetivo
+3305360	3307360	es que
+3307360	3309360	antes hubo un determinante
+3309360	3311360	si bien
+3311360	3313360	yo estoy generando una cadena
+3313360	3315360	es una cadena como muy sencilla
+3317360	3319360	que tiene muy fuerte simplificación
+3321360	3323360	¿Por qué hacemos eso y bueno
+3323360	3325360	para volverlo computacionalmente posible?
+3325360	3327360	simplemente
+3329360	3331360	porque yo teniendo eso puedo empezar a contar
+3331360	3333360	porque
+3333360	3335360	es mucho más fácil saber decir
+3335360	3337360	cuántas veces untaba parecido después de otro
+3337360	3339360	es un número
+3339360	3341360	que es mucho más contable en un cuerpo
+3341360	3343360	y lo mismo cuántas veces
+3343360	3345360	emitió la palabra porque yo quiero saber
+3345360	3347360	esta pregunta
+3347360	3349360	el determinante gelo la es más fácil
+3349360	3351360	puedo contar y tengo
+3351360	3353360	10.000 veces fue el
+3353360	3355360	8.500 fue la y etc
+3355360	3357360	3.200 fue
+3357360	3359360	un y así
+3359360	3361360	entonces
+3361360	3363360	lo que llegamos acá
+3363360	3365360	el modelo de Markov de estado oculto es
+3367360	3369360	la secuencia de tags es la que maximiza
+3369360	3371360	esto
+3371360	3373360	que es más o menos
+3373360	3375360	porque dice estas simplificaciones
+3377360	3379360	maximiza
+3379360	3381360	la probabilidad de la palabra
+3381360	3383360	por el tag de la dotar anterior
+3383360	3385360	esto es el modelo de Markov de estado oculto
+3387360	3389360	aplicado al análisis lexy
+3393360	3395360	se entiende más o menos
+3401360	3403360	y cómo calculamos
+3403360	3405360	la probabilidad de transición
+3405360	3407360	y bueno
+3407360	3409360	contando
+3409360	3411360	la probabilidad
+3413360	3415360	dado que tenga un tag
+3415360	3417360	otro por ejemplo la probabilidad de que
+3417360	3419360	dado un determinante venga un verbo
+3425360	3427360	es simplemente contar
+3427360	3429360	la cantidad de veces que apareció
+3429360	3431360	un determinante y un verbo
+3431360	3433360	dividido la cantidad de veces que apareció un determinante
+3433360	3435360	cuántas veces
+3435360	3437360	el determinante
+3437360	3439360	estuvo seguido un verbo
+3439360	3441360	¿se acuerdan cómo se llamaba esto?
+3441360	3443360	estimar esto
+3444360	3446360	se llamaba estimar
+3446360	3448360	por medio del principio
+3448360	3450360	de máxima verosimilitud
+3450360	3452360	y eso se llama un estimador de máxima
+3452360	3454360	verosimilitud
+3461360	3463360	maximum likelihood
+3463360	3465360	en inglés
+3467360	3468360	bueno entonces
+3468360	3470360	acá hicimos la cuenta y dijimos
+3470360	3472360	¿qué pasa con Reis?
+3473360	3475360	Reis
+3475360	3477360	yo puedo calcular la probabilidad
+3477360	3479360	que sea un nombre
+3479360	3481360	dado que antes había un determinante
+3481360	3483360	¿se acuerda?
+3487360	3489360	antes hay un tú
+3493360	3495360	acá esto es una cuenta
+3495360	3497360	no, perdón, no tiene que ver con la solución
+3497360	3499360	yo
+3499360	3501360	también ¿cómo aplico esto
+3501360	3503360	a una intuición que yo tengo?
+3503360	3505360	bueno, los determinantes suelen presentar
+3505360	3507360	adjetivos y nombres, entonces la probabilidad
+3507360	3509360	de que haya un nombre después de un determinante
+3509360	3511360	o un adjetivo deberían ser altas
+3511360	3513360	y efectivamente en el Corpus Brown
+3513360	3515360	la mitad de las veces después
+3515360	3517360	de un determinante viene un nombre
+3517360	3519360	y acá
+3527360	3529360	y acá tenemos la probabilidad
+3529360	3531360	de que
+3533360	3535360	por ejemplo
+3535360	3537360	dado que hay un verbo
+3537360	3539360	bbz creo que era conjugado
+3539360	3541360	sea is
+3541360	3543360	el verbo de esta la probabilidad de misión
+3543360	3545360	y es 047
+3545360	3547360	la mayoría de las veces el verbo
+3547360	3549360	de ser en inglés
+3549360	3551360	empiezo a sacar conclusión a partir
+3551360	3553360	del corpus anotado
+3555360	3557360	entonces, yo quiero resolver
+3557360	3559360	este problema
+3559360	3561360	yo podría llegar a modelarlo
+3561360	3563360	a esto
+3563360	3565360	como un
+3565360	3567360	como un modelo
+3567360	3569360	que marcó de estado oculto, es decir
+3569360	3571360	como lo que se llama un gráfico del modelo
+3571360	3573360	un grafo que modela las probabilidades
+3573360	3575360	acá lo que estamos diciendo
+3575360	3577360	es que
+3577360	3579360	la palabra
+3579360	3581360	solo depende del tag
+3581360	3583360	y que cada tag depende del anterior
+3583360	3585360	esta es una forma gráfica a través de grafos
+3585360	3587360	de modelar y toda una teoría
+3587360	3589360	que se llama graphical models
+3589360	3591360	que estudia
+3591360	3593360	cómo representar probabilidades a través de grafos
+3595360	3597360	y acá lo que tenemos es
+3597360	3599360	lo que estamos diciendo es
+3599360	3601360	lo único que incide en esto
+3601360	3603360	es la categoría armatical
+3603360	3605360	y lo único que incide
+3605360	3607360	en cada categoría armatical es el anterior
+3607360	3609360	y yo lo que trato de hacer
+3609360	3611360	es buscar
+3611360	3613360	cuál de estas dos es la mejor
+3613360	3615360	para esta
+3615360	3617360	secuencia
+3617360	3619360	¿de acuerdo?
+3619360	3621360	lo estoy pensando como un proceso donde yo tengo estados
+3621360	3623360	que están ocultos, que son estos
+3623360	3625360	yo quiero calcular
+3625360	3627360	probabilidades de transición entre ellos
+3627360	3629360	yo quiero sacar la probabilidad de transición acá
+3631360	3633360	pero lo que yo veo son las palabras
+3633360	3635360	no veo los estados
+3635360	3637360	¿de acuerdo?
+3637360	3639360	entonces yo a partir
+3639360	3641360	de lo que veo
+3641360	3643360	con el tag asociado
+3643360	3645360	necesito inferir
+3645360	3647360	cuál es el mejor cual es
+3647360	3649360	la probabilidad de tocar arriba
+3655360	3657360	entonces
+3657360	3659360	si queremos desambiguar reis
+3659360	3661360	necesitamos saber
+3663360	3665360	la probabilidad
+3667360	3669360	fíjense que las probabilidades
+3669360	3671360	que me interesan a mí en este caso
+3671360	3673360	son
+3675360	3677360	estas que están marcadas negritas
+3677360	3679360	esta
+3679360	3681360	esta
+3681360	3683360	y esta
+3683360	3685360	las otras son comunes
+3685360	3687360	o sea que no me importan
+3687360	3689360	me van a dar lo mismo
+3691360	3693360	entonces yo voy a calcular estas probabilidades
+3697360	3699360	y ahí están
+3699360	3701360	la probabilidad que sea un nombre
+3701360	3703360	que después de tu
+3703360	3705360	venga un nombre que es muy baja
+3705360	3707360	y que venga un verbo muy alta
+3711360	3713360	pero en cambio
+3713360	3715360	reis como nombre
+3715360	3717360	es mucho más común
+3717360	3719360	que reis como verbo
+3721360	3723360	¿sí?
+3725360	3727360	nr lo mejor que es adjetivo
+3727360	3729360	no que es nr
+3735360	3737360	que después venga
+3737360	3739360	un adverbio
+3739360	3741360	después de un verbo
+3741360	3743360	venga un adverbio es mucho menos probable
+3743360	3745360	que venga después de un nombre
+3747360	3749360	es el doble probable
+3749360	3751360	entonces yo tengo que combinar esa probabilidad
+3751360	3753360	para ver cuál es la mejor que me da para la secuencia
+3753360	3755360	lo que decíamos al principio, yo tengo que tener en cuenta toda la secuencia
+3763360	3765360	y entonces acá nos da que esto es mucho más probable
+3765360	3767360	que reis, según esta cuenta
+3767360	3769360	sea un
+3769360	3771360	verbo
+3771360	3773360	y en bocán, en este caso le pegamos
+3773360	3775360	me dio mucho más probable
+3775360	3777360	fíjense
+3777360	3779360	sobre todo por esto
+3779360	3781360	por el peso de esto
+3785360	3787360	un problema que tenemos con esto cuál es
+3787360	3789360	o sea resolvimos uno de los problemas
+3791360	3793360	que es
+3793360	3795360	que desde el punto de vista de las cuentas
+3795360	3797360	digamos ¿no? del conteo
+3797360	3799360	resolvimos uno de los problemas
+3799360	3801360	cómo estimar a partir del conteo
+3801360	3803360	lo que no resolvimos acá
+3803360	3805360	es que ¿qué pasa con la explosión
+3805360	3807360	de combinaciones?
+3807360	3809360	porque acá solo teníamos dos combinaciones posibles
+3809360	3811360	pero si yo acá hubiera tenido varios candidatos
+3811360	3813360	en cada palabra
+3813360	3815360	tenía que probar todas las combinaciones posibles
+3815360	3817360	entre ellas
+3817360	3819360	¿de acuerdo? si acá
+3819360	3821360	yo hubiera tenido que calcular
+3821360	3823360	si hubiera más de un candidato acá
+3823360	3825360	se abre la lista
+3825360	3827360	exponencialmente ¿no?
+3827360	3829360	¿tiene?
+3829360	3831360	entonces ese problema no lo hemos resuelto
+3833360	3835360	pero si ustedes se fijan
+3835360	3837360	lo que parece un problema muy difícil
+3837360	3839360	no lo es tanto
+3839360	3841360	porque las mismas restricciones que pusimos nos permite
+3841360	3843360	facilitar la cosa
+3843360	3845360	porque nosotros como sabemos que cada palabra
+3845360	3847360	solo depende del anterior
+3849360	3851360	el mejor camino hasta acá
+3853360	3855360	digamos el mejor camino total
+3855360	3857360	que va a estar compuesto por caminos más cortos
+3857360	3859360	óptimos
+3859360	3861360	porque
+3861360	3863360	para llegar acá solo tengo que saber
+3863360	3865360	el mejor hasta acá y la transición
+3865360	3867360	¿se entiende?
+3867360	3869360	porque si hubiera uno mejor
+3869360	3871360	ya lo hubiera procesado antes
+3873360	3875360	¿se acuerdan alguna cosa que ya hemos hecho
+3875360	3877360	parecida a esa?
+3877360	3879360	la distancia de edición
+3879360	3881360	lo que vamos a usar es una agorimoprogramación dinámica
+3881360	3883360	para resolver este tema
+3883360	3885360	el tema de que yo puedo tener muchas combinaciones
+3885360	3887360	pero que yo solo llego hasta cierto lugar
+3887360	3889360	¿por qué?
+3889360	3891360	porque yo tengo mi hipótesis marcoviana que dice
+3891360	3893360	mi futuro solo depende de este estado en el que estoy
+3895360	3897360	¿de acuerdo?
+3897360	3899360	entonces
+3903360	3905360	vamos a primero a caracterizar
+3905360	3907360	el modelo general
+3907360	3909360	de hidden mark on models
+3909360	3911360	porque esto se utiliza para muchas cosas
+3911360	3913360	pero el hidden mark on model es como una extensión
+3913360	3915360	de un automata finito
+3915360	3917360	donde yo le voy a asignar probabilidades
+3921360	3923360	voy a tener estados
+3927360	3929360	voy a tener probabilidades de transición
+3941360	3943360	¿si?
+3945360	3947360	y
+3947360	3949360	observaciones
+3951360	3953360	asociadas a cada estado
+3955360	3957360	perdón
+3963360	3965360	pasa que le puse n a las observaciones
+3965360	3967360	y no está bien
+3971360	3973360	voy a tener un conjunto de observaciones
+3973360	3975360	y voy a tener la probabilidad de emitir
+3987360	3989360	para cada
+3989360	3991360	observación posible
+3991360	3993360	la probabilidad de emitirla en cierto estado dado
+3995360	3997360	¿de acuerdo?
+4001360	4003360	no
+4003360	4005360	perdón
+4005360	4007360	dije mal
+4007360	4009360	la probabilidad de emisión
+4009360	4011360	depende de las observaciones posibles
+4011360	4013360	no del estado en el que estamos
+4013360	4015360	es independiente del estado
+4015360	4017360	¿si?
+4017360	4019360	no, está bien
+4019360	4021360	depende del estado
+4021360	4023360	para cada observación
+4023360	4025360	yo voy a tener de 0 1
+4025360	4027360	de 0 2 de 0 3
+4027360	4029360	perdón de 1 2 3 la posibilidad de emitir
+4029360	4031360	lo vamos a ver bien
+4031360	4033360	y estados finales
+4033360	4035360	iniciales y finales
+4039360	4041360	entonces
+4041360	4043360	vamos a...
+4043360	4045360	voy a bajar otra cosa
+4047360	4049360	esto es en general
+4049360	4051360	lo que es un modelo de marco
+4051360	4053360	yo tengo un conjunto de estados ocultos
+4053360	4055360	que no sé dónde están
+4055360	4057360	y tengo observaciones
+4057360	4059360	que ocurren en cada estado
+4059360	4061360	yo en cada estado emito algo
+4061360	4063360	si lo vemos
+4063360	4065360	desde el punto de vista del postal
+4065360	4067360	nuestros estados ocultos que son
+4067360	4069360	son los postals
+4069360	4071360	las posibles
+4071360	4073360	etiquetas gramaticales
+4073360	4075360	y lo que emitimos
+4075360	4077360	es la palabra
+4077360	4079360	y este a de 0 1 y a 0 2
+4079360	4081360	es la probabilidad de transición entre estados
+4081360	4083360	ya que todo de sumar 1
+4083360	4085360	¿de acuerdo?
+4085360	4087360	si yo lo veo
+4087360	4089360	desde el punto de vista de
+4089360	4091360	esto lo estoy sacando
+4091360	4093360	estas tramparecias
+4093360	4095360	la estoy sacando de un curso que dio
+4095360	4097360	un profesor
+4097360	4099360	de Oregón
+4099360	4101360	que se llama Brian Rohr
+4101360	4103360	que vino a dar un curso acá
+4103360	4105360	y me quedé con las presentaciones
+4105360	4107360	de esto porque me parece que estaba muy clara
+4109360	4111360	yo tengo una secuencia de palabras
+4111360	4113360	si
+4113360	4115360	en tiempos unos n
+4115360	4117360	primera, segunda, tercera
+4117360	4119360	que discretizamos el tiempo
+4119360	4121360	vocabulario
+4121360	4123360	y los tags
+4123360	4125360	y yo digo bueno
+4131360	4133360	la probabilidad de emitir
+4137360	4139360	la palabra tal
+4139360	4141360	va a depender solamente
+4141360	4143360	del tag que ya estaba
+4143360	4145360	solo depende del tag J
+4145360	4147360	si en el momento J
+4147360	4149360	va a depender del tag que tengo en la posición J
+4151360	4153360	J acá es la posición
+4153360	4155360	y es la palabra
+4159360	4161360	y las probabilidades de transición van a ser
+4161360	4163360	la probabilidad de pasar de un tag al otro
+4165360	4167360	¿de acuerdo?
+4167360	4169360	y al principio tengo unas ciertas probabilidades
+4169360	4171360	que son
+4171360	4173360	la probabilidad de arrancar con un tag
+4173360	4175360	es la distribución inicial
+4175360	4177360	la probabilidad de arrancar
+4177360	4179360	con un tag
+4179360	4181360	y la probabilidad de terminar
+4183360	4185360	con un tag
+4185360	4187360	que son las que necesito para completar
+4187360	4189360	para que me quede consistente
+4189360	4191360	al principio tengo que establecer una distribución
+4191360	4193360	de probabilidad entre las que comienzan
+4193360	4195360	yo para eso meto un tag adicional
+4195360	4197360	y acá son los conteos simplemente
+4199360	4201360	acá lo que hicimos fue
+4201360	4203360	suavizarlo con la técnica Laplace
+4205360	4207360	y esta forma
+4207360	4209360	una toda complicada es
+4213360	4215360	la probabilidad en el tiempo
+4215360	4217360	T estar en el estado J
+4219360	4221360	habiendo visto toda la secuencia
+4221360	4223360	que tuve hasta el momento
+4223360	4225360	es decir yo voy avanzando
+4225360	4227360	por mi secuencia de palabra ahora voy a mover un ejemplo
+4227360	4229360	y el alfa
+4229360	4231360	me dice
+4231360	4233360	la probabilidad de que
+4233360	4235360	al principio estoy en uno ¿no? la probabilidad que estar en el principio es uno
+4237360	4239360	en el tiempo T es
+4239360	4241360	el alfa
+4241360	4243360	de T-1
+4243360	4245360	el tiempo anterior
+4245360	4247360	por la probabilidad de transición
+4247360	4249360	por la probabilidad de emitir
+4249360	4251360	y me quedo con el máximo
+4251360	4253360	de todos esos
+4253360	4255360	mi mejor probabilidad
+4255360	4257360	es el máximo de todos esos
+4257360	4259360	la más probable es eso
+4259360	4261360	y como ven en cada paso
+4261360	4263360	T yo solo dependo del alfa anterior
+4265360	4267360	la mejor secuencia
+4269360	4271360	en el tiempo T
+4271360	4273360	va a estar formado por la mejor secuencia
+4273360	4275360	del tiempo T-1
+4275360	4277360	si
+4277360	4279360	mejor dicho
+4279360	4281360	va a estar formado por
+4281360	4283360	lo que me maximice la mejor secuencia
+4283360	4285360	de T-1 multiplicada por la emisión
+4287360	4289360	yo voy a tener una mejor secuencia
+4289360	4291360	para el TAG 1, 2, 3 y 4
+4291360	4293360	yo para los 4 hago la cuenta
+4293360	4295360	digo bueno
+4295360	4297360	la mejor secuencia para que estuviera
+4297360	4299360	en un adjetivo
+4299360	4301360	en la posición T-1
+4301360	4303360	era tal
+4303360	4305360	un nombre
+4305360	4307360	mi mejor secuencia es la que más inmice
+4307360	4309360	la mejor secuencia para el TAG T-1
+4309360	4311360	adjetivo multiplicada por la transición
+4311360	4313360	de un adjetivo, un nombre
+4313360	4315360	multiplicada por la probabilidad de emitir
+4315360	4317360	y eso lo hago para todos los TAG anteriores posibles
+4317360	4319360	y me quedo con el mejor
+4319360	4321360	ahora lo voy a mover en un ejemplo
+4321360	4323360	pero le des esa
+4323360	4325360	y además guardo cuál fue el estado del que vine
+4325360	4327360	para saber cuál es la secuencia
+4327360	4329360	yo todo eso lo puedo resolver
+4329360	4331360	como yo dependo solo
+4331360	4333360	de la posición en la que estoy
+4335360	4337360	puedo resolverlo con una tablita
+4337360	4339360	y eso es lo que voy a hacer
+4339360	4341360	hacer lo que se llama un trellis, una tabla
+4341360	4343360	donde yo voy guardando esas probabilidades
+4345360	4347360	supongamos que nosotros
+4347360	4349360	tenemos este ejemplo
+4349360	4351360	que
+4351360	4353360	fruit flies fast
+4355360	4357360	quiere decir
+4357360	4359360	las frutas vuelan rápido
+4359360	4361360	las
+4363360	4365360	fast
+4367360	4369360	no pero es este
+4371360	4373360	es una gente
+4375360	4377360	esto se puede leer como la fruta
+4377360	4379360	frut flies fast
+4383360	4385360	ahi va
+4385360	4387360	claro
+4387360	4389360	es la que buscamos
+4393360	4395360	vamos a ver si nos va
+4395360	4397360	pero si se fijan
+4397360	4399360	fruit no es ambigua
+4399360	4401360	pero flies si
+4401360	4403360	puede ser las
+4403360	4405360	las moscas o el verbo volar
+4405360	4407360	y fast es este verbo
+4407360	4409360	que es eso
+4409360	4411360	de ayunar
+4411360	4413360	un adverbio
+4413360	4415360	o un adjetivo
+4415360	4417360	si
+4417360	4419360	entonces yo voy a tener que calcular
+4419360	4421360	todas las combinaciones posibles
+4421360	4423360	que son 3 por 2
+4423360	4425360	6 posibles
+4427360	4429360	y acá tengo la probabilidad
+4429360	4431360	de transición entre tags
+4431360	4433360	no acá lo que estoy diciendo es
+4433360	4435360	la probabilidad
+4437360	4439360	de que un adjetivo
+4439360	4441360	venga despues de otro adjetivo
+4441360	4443360	es 0 1
+4445360	4447360	todo esto lo hice contando en el corpus
+4447360	4449360	se entiende
+4449360	4451360	conté todas las veces que en el corpus
+4451360	4453360	un adjetivo y otro adjetivo
+4453360	4455360	la probabilidad de que despues
+4455360	4457360	de un adjetivo venga
+4457360	4459360	siempre tengo que mirar la jota
+4459360	4461360	venga un nombre es 0 3
+4461360	4463360	y asi
+4463360	4465360	acá lo que estamos diciendo es imposible
+4465360	4467360	que despues de un verbo verga otro verbo
+4469360	4471360	por supuesto esto no
+4471360	4473360	acá solo tengo la tabla
+4473360	4475360	que son todos los que me interesan a mi
+4475360	4477360	pero esto seria una tabla
+4477360	4479360	fiquese que no es tan grande esta tabla
+4479360	4481360	son todas las combinaciones
+4481360	4483360	es n por n donde n son mis tags posibles
+4485360	4487360	y despues tengo la probabilidad de emisión
+4489360	4491360	la probabilidad de emitir
+4491360	4493360	frut
+4493360	4495360	en el tag 2
+4495360	4497360	se acuerda de lo que la duda de si tenian si el estado es
+4497360	4499360	dado que es un nombre
+4499360	4501360	la probabilidad que sea fruta es 0 1
+4501360	4503360	por supuesto que esta probabilidad es un juguete
+4503360	4505360	lo que estoy diciendo de una de cada 10 veces
+4505360	4507360	que aparece un sustantivo en el corpus es fruto
+4509360	4511360	que a mi de acá
+4511360	4513360	nosotros vamos a dejar su probabilidad muy pequeña
+4513360	4515360	y por eso usualmente lo que hacemos en la realidad
+4515360	4517360	es sumarlo a ritmo
+4517360	4519360	multiplicar porque si no tenemos problemas
+4519360	4521360	de underflow o horribles
+4523360	4525360	bueno y asi
+4525360	4527360	la probabilidad de emitir para cada una de ellas
+4527360	4529360	con las posibles categorias
+4529360	4531360	es 1
+4533360	4535360	entonces
+4537360	4539360	lo que yo quiero saber es cuál es la probabilidad
+4539360	4541360	de cada oración
+4541360	4543360	de cada secuencia
+4543360	4545360	digamos
+4545360	4547360	mejor dicho
+4547360	4549360	en
+4551360	4553360	para viterbi
+4553360	4555360	nosotros tenemos tres grandes problemas
+4555360	4557360	a resolver
+4557360	4559360	hay tres problemas fundamentales
+4559360	4561360	en los modelos de los hedemarco model
+4561360	4563360	que es
+4563360	4565360	dado a un hedemarco model este modelo que tenemos acá
+4565360	4567360	yo ya con estas
+4567360	4569360	transiciones tengo
+4569360	4571360	el modelo no tengo los tags
+4571360	4573360	que son los de tag oculto
+4573360	4575360	las palabras
+4575360	4577360	la probabilidad de transición y la probabilidad de emisión
+4577360	4579360	en el estado inicial en el final
+4579360	4581360	tengo un modelo de marcó
+4581360	4583360	cuál es mi problema bueno uno de los problemas es
+4583360	4585360	calcular la verosimilitud es decir dado un hedemarco model
+4585360	4587360	y una secuencia
+4587360	4589360	o de palabras quiero calcular la probabilidad
+4591360	4593360	esto es ni más ni menos un modelo de lenguaje
+4595360	4597360	otra tarea es la de decodificar
+4597360	4599360	que es
+4599360	4601360	dado un hedemarco model y una secuencia
+4601360	4603360	calcular la mejor secuencia de estado oculto
+4603360	4605360	en el parto hospital lo que hacemos
+4605360	4607360	es esto decodificar
+4607360	4609360	y hay otra tercera tarea
+4609360	4611360	que es la de aprender
+4611360	4613360	que es
+4613360	4615360	aprender las probabilidades de transición a partir
+4615360	4617360	de texto arbitrario
+4617360	4619360	que es algo que en esta clase
+4619360	4621360	en este curso no lo vemos
+4623360	4625360	entonces yo voy a tratar de resolverla
+4625360	4627360	segunda tarea
+4629360	4631360	no, ¿quiere que tiene que ser yo?
+4639360	4641360	muy difícil esto
+4641360	4643360	bueno
+4643360	4645360	entonces nosotros hemos tratado de resolver la segunda tarea
+4645360	4647360	la tarea es de decodificar, asignarla a mejor secuencia
+4651360	4653360	entonces arrancamos con una tablita así
+4653360	4655360	que dice bueno
+4655360	4657360	acá yo tengo la posible categoría
+4661360	4663360	y acá tengo las posibles palabras
+4663360	4665360	fíjense que ahí
+4665360	4667360	uno es fruit
+4667360	4669360	flies
+4669360	4671360	fast
+4671360	4673360	¿tá?
+4677360	4679360	al principio y hay bueno tenemos la categoría
+4679360	4681360	cero que es el tag de comienzo de la eración
+4681360	4683360	¿tá?
+4683360	4685360	al principio de mi algoritmo
+4687360	4689360	la probabilidad es uno de estar en el estado cero
+4691360	4693360	el estado cero es el
+4693360	4695360	s ¿no?
+4695360	4697360	¿de acuerdo?
+4697360	4699360	no, no dije nada
+4699360	4701360	la probabilidad es uno acá
+4701360	4703360	y no puede estar nunca
+4703360	4705360	en el estado cero
+4705360	4707360	al lado a la 3
+4707360	4709360	en la 4 lo voy a reutilizar
+4709360	4711360	el cero para el final
+4711360	4713360	por eso no lo puse acá
+4713360	4715360	eso es lo que sabemos, que al principio necesariamente
+4715360	4717360	esto toca
+4717360	4719360	¿tá?
+4719360	4721360	luego
+4721360	4723360	tenemos que calcular
+4723360	4725360	viene la primera palabra
+4725360	4727360	que es fruit
+4727360	4729360	¿sí?
+4729360	4731360	frut, dijimos que podía ser según nuestras
+4733360	4735360	probabilidad de transición
+4735360	4737360	siempre tengo todos los años tengo un problema
+4737360	4739360	puede ser un nombre
+4739360	4741360	solamente un nombre
+4741360	4743360	¿sí?
+4751360	4753360	entonces yo acá que tengo que calcular
+4753360	4755360	yo sé que esto acaba a haber cero
+4755360	4757360	porque no puedo estar en este estado acá
+4757360	4759360	solo voy a poder estar acá
+4761360	4763360	y yo tengo que calcular la probabilidad de estar acá
+4765360	4767360	que no es uno
+4767360	4769360	es uno por la probabilidad de que sea frutado
+4771360	4773360	exactamente es uno
+4773360	4775360	por la probabilidad de que sea fruta
+4775360	4777360	perdón
+4777360	4779360	por la probabilidad de que venga un nombre
+4779360	4781360	después del comienzo
+4781360	4783360	por la probabilidad de que sea
+4783360	4785360	frutado a un nombre
+4785360	4787360	¿de acuerdo?
+4787360	4789360	la dos probabilidades que tengo siempre
+4789360	4791360	la de transición y la de misión
+4797360	4799360	si verifican eso
+4799360	4801360	es 002
+4813360	4815360	001
+4817360	4819360	probabilidad de
+4819360	4821360	perdón, probabilidad de nombre
+4821360	4823360	al comienzo 002
+4823360	4825360	¿sí?
+4825360	4827360	que sea fruta o que es un nombre
+4827360	4829360	001
+4829360	4831360	o sea que debería ser 002
+4833360	4835360	002
+4835360	4837360	¿de acuerdo?
+4837360	4839360	y le indico acá que vengo del estado 0
+4839360	4841360	obviamente
+4841360	4843360	esto no tiene sentido
+4845360	4847360	ahora voy a ir al segundo
+4847360	4849360	que es flies
+4849360	4851360	que dijimos que tenemos
+4851360	4853360	nombres
+4853360	4855360	o verbos
+4855360	4857360	si
+4861360	4863360	entonces
+4863360	4865360	¿de dónde puedo venir acá?
+4867360	4869360	¿de cuál puedo venir acá?
+4875360	4877360	¿de cuál de esta categoría puedo venir?
+4881360	4883360	para mi cálculo
+4887360	4889360	¿cuál puede ser la anterior a ésta?
+4891360	4893360	solo nombre, porque las otras tienen probabilidad 0
+4893360	4895360	no es posible que hubiera otra cosa
+4895360	4897360	que nombre al principio, lo cual tiene sentido
+4897360	4899360	porque es la única teoría posible
+4899360	4901360	entonces yo voy a calcular
+4901360	4903360	pero
+4903360	4905360	podría ser cualquiera de estas 5
+4905360	4907360	¿de acuerdo?
+4907360	4909360	yo tengo que calcular la probabilidad de ir de nombre
+4909360	4911360	adjetivo
+4911360	4913360	de nombre a nombre
+4913360	4915360	plural
+4917360	4919360	de nombre a verbo
+4919360	4921360	de nombre a verbo
+4921360	4923360	para eso voy a multiplicar
+4923360	4925360	la probabilidad que tengo acá
+4925360	4927360	002, el alfa
+4927360	4929360	este es el alfa
+4929360	4931360	multiplicado por la probabilidad de transición
+4931360	4933360	multiplicado por la probabilidad de emisión
+4933360	4935360	en realidad la probabilidad de emisión es común para todos
+4935360	4937360	¿por qué no depende del estado?
+4937360	4939360	no, no es como
+4939360	4941360	sigo cometiendo el mismo error
+4947360	4949360	entonces fíjense que acá
+4953360	4955360	aparecen estas dos porque son las únicas
+4955360	4957360	dos que pueden tener emisión
+4959360	4961360	puede haber emisión
+4963360	4965360	dijimos que flies puede ser un nombre o un verbo
+4967360	4969360	¿de acuerdo?
+4973360	4975360	y solo pueden venir de acá
+4977360	4979360	o sea que necesariamente
+4979360	4981360	este nombre
+4981360	4983360	la única forma a calcularlo
+4983360	4985360	es la probabilidad de esto, el alfa
+4985360	4987360	por la probabilidad de transición
+4987360	4989360	entre nombre y nombre en NS
+4989360	4991360	por la probabilidad de emisión
+4991360	4993360	de
+4993360	4995360	flies dado en NS
+4995360	4997360	acá no hago máximo, sigo teniendo una sola
+4999360	5001360	¿de acuerdo? porque solo pueden venir acá
+5003360	5005360	¿de acuerdo? y lo mismo para acá abajo
+5007360	5009360	¿sí?
+5009360	5011360	y lo que estoy diciendo es que en ambos casos
+5011360	5013360	vienen de nombre
+5013360	5015360	lo cual tiene sentido porque es lo único que había
+5017360	5019360	¿de acuerdo? porque yo tengo que recordar de donde viene
+5019360	5021360	porque ahora voy a tener el problema
+5025360	5027360	porque ahora en la columna 3
+5027360	5029360	que tiene
+5029360	5031360	nuestro gran problema viene ahora
+5035360	5037360	porque acá yo tengo 3 candidatas
+5043360	5045360	tengo 3 candidatas
+5045360	5047360	y 2 candidatas de previa
+5049360	5051360	entonces
+5051360	5053360	yo tengo que calcular
+5055360	5057360	empiezo con un adjetivo acá
+5061360	5063360	quiero saber
+5063360	5065360	¿puedo venir de acá o de acá?
+5065360	5067360	si viene de acá
+5067360	5069360	el alfa es la probabilidad
+5069360	5071360	esta 004
+5073360	5075360	por la probabilidad de transición para acá
+5075360	5077360	por la probabilidad de emisión
+5079360	5081360	de la palabra
+5081360	5083360	flies dado
+5085360	5087360	que es un adjetivo
+5089360	5091360	o esa es una posibilidad
+5091360	5093360	o la otra posibilidad que sea esta
+5093360	5095360	por la probabilidad de transición
+5097360	5099360	por la probabilidad de emisión otra vez la misma
+5099360	5101360	pero eso fue con lo que me confundí hoy
+5101360	5103360	¿de acuerdo?
+5103360	5105360	¿se entiende?
+5105360	5107360	entonces yo
+5107360	5109360	de estas dos
+5109360	5111360	acá es donde aplico
+5111360	5113360	mi condición de Marco Vial
+5113360	5115360	porque
+5115360	5117360	si es la mayor
+5117360	5119360	para llegar acá no es posible
+5119360	5121360	que sea otra esta
+5121360	5123360	por como yo tengo definido mi proceso
+5123360	5125360	que solo dependo de la anterior
+5125360	5127360	¿de acuerdo?
+5127360	5129360	entonces yo voy a hacer
+5129360	5131360	la cuenta de transición
+5131360	5133360	esto por esto
+5133360	5135360	esto por la transición
+5135360	5137360	por la emisión
+5137360	5139360	y me voy a quedar con el mayor de las dos
+5139360	5141360	y lo voy a poner acá
+5141360	5143360	ahí es el único lugar donde yo hago máximo
+5145360	5147360	esto no quiere decir que va a ser un adjetivo
+5147360	5149360	quiero decir que mi probabilidad
+5149360	5151360	de un adjetivo es esta
+5151360	5153360	hasta el momento
+5153360	5155360	es mi probabilidad de que esto sea un adjetivo
+5155360	5157360	dado que se dio esta secuencia de observaciones
+5159360	5161360	no quiere decir tampoco que termino el partido
+5161360	5163360	mi partido termina solamente cuando yo llevo al final
+5163360	5165360	por eso estoy guardando los estados de los que venía
+5165360	5167360	porque si ustedes ven yo sigo multiplicando
+5167360	5169360	para avanzar
+5169360	5171360	y puede haber una probabilidad muy pequeña
+5171360	5173360	que me mate un camino
+5173360	5175360	¿de acuerdo?
+5175360	5177360	entonces
+5181360	5183360	acá puede ser
+5183360	5185360	adjetivo, verbo
+5185360	5187360	o adverbo
+5187360	5189360	y si se fijan
+5189360	5191360	si es un adjetivo
+5191360	5193360	el alfa más probable
+5193360	5195360	viene de 4, viene de verbo
+5195360	5197360	pero si es
+5197360	5199360	un
+5199360	5201360	verbo
+5201360	5203360	lo más probable es que el anterior fuera un nombre
+5205360	5207360	¿se entiende?
+5207360	5209360	dependiendo de donde yo estoy es el camino mejor
+5209360	5211360	como que hasta el momento
+5211360	5213360	yo tengo el camino
+5217360	5219360	bueno, comienzo obviamente
+5219360	5221360	perdón
+5221360	5223360	al revés ¿no?
+5223360	5225360	lo tengo que hacer
+5225360	5227360	es
+5227360	5229360	adjetivo
+5229360	5231360	precedido por un
+5231360	5233360	verbo
+5233360	5235360	precedido por un nombre
+5237360	5239360	la otra es un verbo
+5239360	5241360	precedido por un
+5241360	5243360	nns, precedido por un nombre
+5245360	5247360	y el último es un adverbio
+5247360	5249360	precedido por
+5249360	5251360	un verbo
+5251360	5253360	precedido por un nombre
+5253360	5255360	¿se entiende?
+5255360	5257360	según mis cuentas
+5257360	5259360	si acá llega un adjetivo
+5259360	5261360	no es lo mismo que si acá llega un verbo
+5261360	5263360	mi secuencia
+5263360	5265360	y todavía no tengo el partido ganado
+5265360	5267360	porque tengo que hacer la última
+5267360	5269360	contar qué pasa con la última transición
+5269360	5271360	en la última transición
+5271360	5273360	lo que tiene de bueno entre comillas
+5273360	5275360	es que eso solo tengo que calcular acá
+5275360	5277360	porque los otros no son posibles
+5277360	5279360	pero tengo que hacer las tres cuentas
+5279360	5281360	qué pasa si viene este al final
+5281360	5283360	este al final o este al final
+5283360	5285360	y quedarme con el máximo
+5287360	5289360	si?
+5289360	5291360	entonces
+5291360	5293360	lo que me dice es que
+5293360	5295360	mi mejor
+5295360	5297360	opción es venir desde acá
+5297360	5299360	por cómo dan las cuentas
+5299360	5301360	en cuenta
+5303360	5305360	y entonces la secuencia que yo voy a elegir
+5305360	5307360	es esta
+5307360	5309360	creo que está mal
+5309360	5311360	si el eligió la fruta
+5311360	5313360	abuela en rápido
+5313360	5315360	¿no?
+5317360	5319360	así la vía
+5319360	5321360	este es
+5321360	5323360	bueno en realidad
+5323360	5325360	y la de la
+5325360	5327360	si tenés razón
+5327360	5329360	tenés razón
+5333360	5335360	¿se entendió?
+5335360	5337360	¿entendió?
+5339360	5341360	si
+5341360	5343360	porque acá tengo
+5347360	5349360	la probabilidad de
+5349360	5351360	barra S
+5351360	5353360	dada la categoría última
+5353360	5355360	tiene medio trampa
+5355360	5357360	esta categoría es
+5357360	5359360	como la estoy reutilizando
+5359360	5361360	dejamela así
+5361360	5363360	pero acá lo que dijimos fue que es
+5363360	5365360	improbable
+5365360	5367360	cualquiera me sirve igual
+5367360	5369360	contando el corpo
+5369360	5371360	¿cuántas veces terminaste la oración?
+5371360	5373360	si
+5379360	5381360	que como son equiprobables
+5381360	5383360	ganó esta
+5383360	5385360	no que era la que venía con mayor probabilidad
+5385360	5387360	pero eso podría haber cambiado
+5387360	5389360	si fuera mucho menos probable
+5389360	5391360	que algo terminar en adverbio por ejemplo
+5391360	5393360	si yo
+5393360	5395360	mi cuerpo me dice que lo más probable
+5395360	5397360	que termine en adjetivo
+5397360	5399360	en verbo podía cambiarme el resultado
+5399360	5401360	y cambiarme toda la cadena para atrás
+5401360	5403360	lo que me importa transmitir es eso
+5403360	5405360	uno maximiza la probabilidad de toda la oración
+5405360	5407360	no de uno
+5407360	5409360	bueno y los otros son las cuentas
+5409360	5411360	para calcular para atrás
+5411360	5413360	los adverbios
+5413360	5415360	las clases
+5423360	5425360	bueno ya terminamos
+5425360	5427360	espero un poquito
+5427360	5429360	estoy haciendo lo mismo 40 veces
+5429360	5431360	si se fijan yo calcule
+5431360	5433360	la secuencia
+5433360	5435360	de
+5435360	5437360	la secuencia de estados ocultos
+5437360	5439360	que maximiza la probabilidad
+5439360	5441360	¿tamo acuerdo?
+5441360	5443360	hay otra tarea
+5443360	5445360	que es la de
+5445360	5447360	calcular la verosimilitud
+5447360	5449360	es decir
+5449360	5451360	da uje de marco modo
+5451360	5453360	de la oje de marco modo
+5453360	5455360	de la oje de marco modo
+5455360	5457360	de la oje de marco modo
+5457360	5459360	es decir
+5459360	5461360	da uje de marco modo de una secuencia
+5461360	5463360	a calcular la probabilidad
+5463360	5465360	de la secuencia
+5465360	5467360	bueno este algoritmo que acabamos de ver
+5467360	5469360	se llama algoritmo de viterbi
+5471360	5473360	y tiene una muy linda
+5473360	5475360	y larga historia
+5475360	5477360	porque lo han usado todos
+5477360	5479360	lo han descubierto independientemente
+5479360	5481360	de los años 60 o 50 para acá
+5483360	5485360	el otro algoritmo
+5485360	5487360	que tenemos para verlo queda un algoritmo más
+5487360	5489360	todavía, que saben que son las 10
+5489360	5491360	que es el algoritmo forward el que calcula la verosimilitud
+5491360	5493360	es decir calcular la probabilidad de la secuencia
+5497360	5499360	la buena noticia es que hay
+5499360	5501360	que hacerle solo un cambio muy menor
+5501360	5503360	al algoritmo de viterbi para obtener
+5503360	5505360	el algoritmo de forward
+5505360	5507360	porque si ustedes se fijan
+5507360	5509360	nosotros acá
+5511360	5513360	vamos calculando la probabilidad
+5515360	5517360	desde donde venimos
+5519360	5521360	y ante la dudada hacemos el máximo
+5523360	5525360	si yo quisiera saber la probabilidad
+5525360	5527360	de todos los caminos acá
+5527360	5529360	que tendría que hacer
+5531360	5533360	sumar las probabilidades
+5533360	5535360	en lugar de calcular el máximo sumo las probabilidades
+5537360	5539360	nuevamente
+5539360	5541360	mi modelo dice que solo depende
+5541360	5543360	del estado anterior
+5543360	5545360	y tengo las probabilidades en el estado que estoy
+5545360	5547360	y tengo todos los posibles
+5549360	5551360	para las que maximizan
+5553360	5555360	entonces el algoritmo forward es igual
+5555360	5557360	que el viterbi nada más que en lugar de calcular
+5557360	5559360	máximo sumamos
+5559360	5561360	y eso nos permite la probabilidad de una eración
+5563360	5565360	dado al modelo
+5565360	5567360	la probabilidad de la eración es un modelo de lenguaje
+5567360	5569360	si se acuerdan de la clase pasada
+5569360	5571360	o sea que esa es una forma alternativa
+5571360	5573360	para el modelo de lenguaje
+5573360	5575360	y hay una tercera tarea
+5575360	5577360	que es la de
+5579360	5581360	aprender
+5581360	5583360	esto es como muy raro
+5583360	5585360	yo tengo solo texto
+5585360	5587360	y los estados
+5587360	5589360	del key de marco model
+5589360	5591360	o sea
+5591360	5593360	las clases posibles
+5593360	5595360	y aprendo
+5597360	5599360	de texto sin anotar
+5599360	5601360	que es clasificación
+5601360	5603360	aprendizaje no supervisado
+5603360	5605360	aprendo las transiciones
+5605360	5607360	ese algoritmo se llama
+5609360	5611360	forward-backward
+5611360	5613360	o bound-welch
+5613360	5615360	y no logro entender nunca cómo funciona
+5615360	5617360	digo sé cómo funciona pero
+5617360	5619360	es como increíble porque lo que hace es
+5619360	5621360	a partir de grandes volúmenes de texto
+5621360	5623360	hace una estimación
+5623360	5625360	de las probabilidades de transición
+5625360	5627360	y con esas probabilidades
+5627360	5629360	de transición recalculas
+5631360	5633360	es una versión específica
+5633360	5635360	de un algoritmo más general
+5635360	5637360	que se llama expectation maximization
+5637360	5639360	donde yo
+5639360	5641360	tengo algo a la que quiero ver
+5641360	5643360	cuál estructura tiene que calcularla
+5643360	5645360	estimar sus parámetros
+5645360	5647360	y lo que hago es
+5647360	5649360	tiro una aproximación primera
+5649360	5651360	y hago cuentas en base al modelo
+5651360	5653360	y me devuelvo un ajuste de esos parámetros
+5653360	5655360	no lo vamos a ver en detalle
+5655360	5657360	pero lo importante
+5657360	5659360	es que eso nos permite
+5659360	5661360	estimar probabilidades
+5661360	5663360	a partir de texto irrestricto
+5663360	5665360	si yo podía tener grandes volúmenes de texto
+5665360	5667360	que son mucho más fáciles de conseguir
+5667360	5669360	y estimar probabilidades
+5669360	5671360	en los hechos igual depende mucho
+5671360	5673360	de cómo inicias
+5673360	5675360	bueno
+5675360	5677360	y por acá quedamos
+5677360	5679360	hoy avanzamos mucho
+5679360	5681360	nos pusimos al día

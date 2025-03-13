@@ -1,0 +1,570 @@
+En la clase de hoy vamos a ver un tema nuevo que es el de los modelos del
+lenguaje. Si ya fueran en la clase pasada, vimos que era bastante diferente, el de los
+transductores para resolver el tema de la morfología de Taufinito, unos artefactos de
+Taufinito que permiten resolver temas a través de un método de reglas. Yo defino reglas de
+como se conforman las palabras, las combino de cierta forma y de esa forma resuelvo el
+tema de convertir de la palabra a su análisis y viceversa. Y después vimos la segunda parte
+de un método que era bastante diferente, su concepción, que es un método estadístico,
+que lo que hacía era aplicando el modelo del canal ruidoso, aproximarse al problema de
+corregir el rojo de ortográfico. Cuando yo hablo un modelo probabilista, lo que estoy diciendo
+es que además de, por ejemplo, clasificar o sugerir una solución, lo que haces es asignarle
+probabilidades a las posibles respuestas. Un método probabilista, típicamente no da una
+respuesta, sino que devuelve una distribución de probabilidad. Si yo tengo varios eventos
+posibles, una distribución de probabilidad es un número, entre 0 y 1, que yo asigno a cada
+evento posible, de forma que la suma de todos los eventos de en 1, eso es lo que llamamos
+una distribución de probabilidad. Entre 0 y 1 son todos, son todos mayores o iguales
+que 0, menores iguales que 1 y además su suma da 1, eso es una distribución de probabilidad.
+0, 5, 0, 25, 0, 25 es una distribución de probabilidad. Si el evento 1 tiene probabilidad
+0, 5, el otro es 0, 25 y el otro es 0, 25, eso es una distribución de probabilidad. Si no
+suma 1, no son una distribución de probabilidad. Y si yo, por ejemplo, tengo un evento que
+ocurre 10 veces, si por ejemplo hago conteo de frecuencia, por ejemplo no digo hay un evento
+1, que ocurre 10 veces, hay un evento 2, que ocurre 5 y hay un evento 3, que ocurre
+5, eso no es una distribución de probabilidad, porque esto no está entre 0 y 1, porque no
+suman 1. ¿Cómo hago yo para convertir esto en una distribución de probabilidad? Lo que
+hago es dividir por el total de ocurrencia, ¿verdad? Que en este caso es 20 y eso me da la
+proporción respecto a 1 y eso es siempre una distribución de probabilidad. Entonces,
+se llama normalizar para obtener una probabilidad. Y ustedes lo van a ver que lo vamos a ver
+en varias veces. El método de este de corrección utilizaba fuertemente la regla de valles
+para modelar la situación. Hasta ahora hemos hablado en todas las cosas que hemos tratado
+de palabras aisladas, ¿no? La morfología estudia, en primero hablamos de cómo separar
+las palabras y después vimos cómo analizaba la intamimente, pero siempre hablábamos de palabras
+aisladas. Acá lo que vamos a empezar a mirar es ¿qué pasa cuando las palabras aparecen
+juntas? Es decir, nosotros lo que vamos a hablar es de la
+probabilidad de una secuencia de palabras. ¿Por qué esto importa? Porque como ustedes bien
+sabrán, las palabras en el idioma pañón nos aparecen solas y no cualquier palabra
+así o otra palabra. Nosotros tenemos una cantidad de reglas para expresar en el idioma
+que hace que el orden importe. Y de lo que se trata es ver cómo se orden, cómo tener
+en cuenta se orden, no puede ayudar a otra estaria. Creo que con algún ejemplo lo vamos
+a ver más claro. Primero que nada vamos a recordar a Chonky, que esto yo lo comentaba
+en la primera clase, aquello de que Chonky dijo la noción de probabilidad de una oración
+es completamente inútil bajo cualquier interpretación de este término y trancó por 20 años la
+investigación hasta que apareció, Shellinet que volvió a revivir el tema de los métodos
+probabilistas o basados en conteos para aproximárselo el problema de procedimiento en el
+lenguaje natural. Chonky lo que decía esencialmente es cuando nosotros hacemos conteos y sacamos
+conclusiones en base a cuenta, en base a número, en base a experiencia, que es típicamente
+lo que vamos a ver en este caso de los enigramos. Estamos obteniendo soluciones a problemas,
+no estamos entendiendo qué es lo que está pasando. Y eso es una discusión catalía de
+hoy sigue, es decir, hay una famosa discusión por ahí en internet entre Chonky, esto te
+hablando hace dos o tres años, o cinco años, entre Chonky y Peter Norby, que discute un
+poco esto, es decir, si esto que estamos haciendo ahora y que ha tenido tan buenos resultados
+del punto de vista de reconocimiento de labla y el procedimiento de los enigramos natural
+es en realidad inteligencia artificial o de solamente en number crunching que no nos aporta
+mucho. Norby en lo que le dice, bueno, de hecho, la ciencia siempre en modo menos funcionó
+así. Bueno, entonces ¿cuál es el objetivo de lo que vamos a ver acá son de modelos
+del lenguaje? El objetivo del modelo del lenguaje es calcular la probabilidad de una
+secuencia palabra, es decir, ¿qué tan probable es en mi lenguaje que una secuencia se
+es? ¿De acuerdo? ¿Para qué no puede servir eso? Bueno, imagínense que ustedes, y acabamos
+a recordarlo otra vez el modelo del canal ruidozo, del otra vez, imagínense que tengo este
+texto escrito, ¿sí? Y por medio de un método que no sé cuál es, tengo dos oraciones
+candidatas, bueno, dos textos candidatos, uno que es preneva para el curso de PLN y prueba
+para el curso de PLN. ¿De acuerdo? Y además supongamos que el método que utilicé para
+reconocer la escritura me dice que este es más probable que este. Nosotros ¿qué vamos
+a elegir? Vamos a elegirle abajo. ¿Por qué? Porque esto no es una palabra válida, pero
+aun siendo una palabra válida, o aun suponiendo que fuera una palabra válida, podría darse
+un caso donde yo identifico una palabra válida, se ponen los correcciones, aún así yo
+podía decir bueno, pero en este lugar, en este lugar, esa palabra no calza, digamos, ¿sí
+alguna forma yo sé? Es decir, si yo logro detectar que esta oración es más probable que
+esta de alguna forma, eso me va a ayudar en la tarea de reconocimiento. Lo mismo pasa con el
+reconocimiento de la habla de lo que hablamos y lo otro día con el espíritu de reconocimiento
+y cuando yo hablo y digo una palabra, ustedes me escuchan. Entonces, los modelos de
+nevoje sirven para ayudar en este tipo de tarea, típicamente los modelos de nevoje
+ayudan y no tratarían. Nos abregan mucha información. Entonces, cuando nosotros hacemos
+reconocimiento de escritura, luego lo que decimos es, ¿cuál es la probabilidad de la oración
+origen, dada la observación que tengo? Yo tengo una observación, ¿sí? ¿Cuál es la
+probabilidad de una oración origen? Es proporcionar a la probabilidad de la observación,
+dada la oración por la probabilidad de la oración. ¿Y esto qué es? Eso es valles, en la rir
+de valles. Entonces, nosotros por valles sabemos eso. Y como ven, acá aparece la noción
+de probabilidad de la oración. Por eso es que nos interesa conocer la probabilidad de
+las variaciones. Ahora, ¿cómo calculamos la probabilidad de la oración? Bueno, hay un ejemplo
+más, ¿no? Por ejemplo, en la traducion automática, si tenemos estas tres candidatos, nuevamente
+a mí me va a ayudar con conocer el orden o saber cuál es la más probable en mi linguaje.
+En las corrección de errores, como vimos la vez pasada, hordas de botero es una secuencia
+muy de poca probabilidad. Y pensemos un poquito. ¿Preguntemos, no? ¿Por qué? Esta
+oración no les parece que sea muy probable. ¿Qué nos podría determinar que esta oración
+no es muy probable? O esta, implementación a la educación ley. ¿Por qué podemos suponer
+que esa no es probable? Bueno, a mí me ocurre en dos razones, principales o dos, pero
+sí mansiones. ¿Una es por las sintaxis, ¿no? La sintaxis del día de mapeñón no es así. No
+decimos educación ley, educación... ¿Por qué no? ¿Por qué no? ¿Por qué no?
+La sección es su y de botero, como publican la verdad. Ah, bueno, ¿Precio pudiera ser un
+suh de un tercero, ¿no? Acá seguramente lo que hay es lo que hay es un error autográfico
+de sus gordas de botero. O sea, acá, acá tenemos un tema de sintaxis, acá no tenemos un tema
+de sintaxis. Deberíamos conocer un poco de semántica para asociar botero que pintaba
+mujeres gordas. Entonces, una aproximación un poco más humilde, es la segunda, es la
+alguna aproximación más étadística, porque si nosotros, y que juega con el hecho de que
+tenemos grandes volúmenes de texto y ahí el cambio de los modelos probabilísticos, es
+que sus gordas de botero seguramente apareció antes en mis cuerpos de texto y hordas de botero,
+eso es una aproximación mucho más étadística, eso es lo que vamos a hacer en los modelos
+de negra más justamente. A partir de grande volúmenes de texto, detectar, calcular la
+probabilidad. Es una aproximación puramente étadística, es bien salvoaje, yo no sé qué
+estructura tiene esto, pero sé que esto no se dio nunca y que gordas de botero sí, muchas
+veces. Entonces, les más probaré que más equivocado. A ver, relacionado con esto, ahora
+vamos a ver por qué está relacionado, está el tema de la predicción de la siguiente
+palabra. ¿Cuáles se imaginan que es la siguiente palabra a la primera relación? ¿Cuál
+puede ser la siguiente palabra? ¿Quién? Para y no meten mi tío pronóstico para, qué
+otra cosa puede ser? Para es una preposición ¿no? ¿Qué más? ¿Qué otra cosa puede
+ser ahí? ¿Cuál por ejemplo? ¿Un pronóstico alentador? O puede decir un pronóstico terrible
+o un pronóstico... ¿Qué otra cosa más? Hay un más común para mí. El mitío pronóstico
+con meteorológico ¿no? A raíz de este fenómeno se sucederán tormentas, fuertes, importantes,
+muy, no creo que ahí diga tormentas gatito ¿no? gatito no es muy probable que sea la palabra
+siguiente. Nuevamente, ¿por qué sabemos esto? Y porque es muy raro que hay en diga tormentas
+gatitos ¿no? Entonces, esto que tenemos acá es la posibilidad de que hay de siguiente
+palabra. ¿Dada todas las anteriores? Si yo tengo todo el contexto lo que se llama
+contexto, dado el contexto de la palabra que sigue acá. ¿Sí? Una de las, lo que nosotros
+vamos a querer hacer en un modelo de lenguaje como camino para calcular la protección
+de honoración es dado el contexto calcular la palabra. Siguiente. ¿Sí?
+¿Rachas de viento fuerte de componente? Veremos que. Bueno, no resulta hacer que de
+los ejemplos que yo tomé a Buenos Aires, puse viento fuerte de componente, perdón. El
+lino me demitió pronóstico especial, o sea que le ramos, se sucederán tormentas fuertes,
+viento fuerte, componente subo este. Por ejemplo, perdición.
+Vamos a poner un poquito de notación antes de seguir, porque vamos a ver cómo enfrentamos
+este problema, es decir, cómo calculamos esa protección. Un poco de notación para seguir
+eso. Yo lo que estoy diciendo es la probabilidad de que una variable aleatoria ahí valga,
+tome el valor con ocimiento, en este caso tendría una variable aleatoria por cada posición
+del texto, ¿verdad? Tengo una X1 que la primera palabra ha equidó que es la segunda
+X3, son variables aleatoria que lo variable aleatoria esencialmente un mapeo, es una
+función que me apega, de un evento un número entre cero y un. La probabilidad, perdón.
+Perdón, perdón. Bueno, no, mientras definí, me apega con un real y la probabilidad me
+devuelve un número entre cero y un. Es decir, yo defino la probabilidad de una variable aleatoria
+como la distribución de probabilidad de una variable aleatoria es la dado de los diferentes
+valores que puede tomar, cuál es el valor de cada uno de ellos, ¿sí? Y esto cuál es
+el rango, ¿qué valores probable tiene cada una variable aleatoria que refira palabras?
+El todo el vocabulario, todas las palabras diferentes que yo puedo tener. Entonces nosotros
+vamos a poner estos notaciones probabilidades con ocimiento, de que la palabra sea
+conocimiento. Vamos a denotar W1 a la N1N a la secuencia de palabras W1, W2, WN, por ejemplo
+en una nación y vamos a decir que la vamos a hablar de la probabilidad de la secuencia
+de palabras queriendo decir, bueno, la probabilidad de la que la primera sea W1, que la segunda
+sea W2, etcétera. ¿De acuerdo? O sea que esta distribución de probabilidad tiene como
+rango todas las secuencias posibles de palabras. O sea que si mi vocabulario es V, tengo N
+y a la V, V a la N, V a la N. O sea que es enorme, especialmente, si todas las posibles
+secuencias y vamos a recordar la chain rule o la regla de multiplicación de las probabilidades
+que es, si yo tengo la probabilidad de una secuencia de palabras W1, WN, esto es la probabilidad
+de la primera palabra, que de alguna forma la calculo, por la probabilidad de la segunda
+da la primera, da que la primera, da que la primera fue W1, observen acá que no son
+independientes, es decir, la palabra por definición acá, no son eventos independientes,
+es decir, tengo una cierta probabilidad de que empiece con W1, la multiplicación por
+la probabilidad de que la segunda sea W2, da que la primera fue W1, por la probabilidad
+que la tercera sea W3, da que las dos primeras fueron uno de ahí así. ¿De acuerdo?
+de esa forma con esta regla yo y al final WN la última da toda la santería, esto se
+llama regla de la cadena, yo con la regla de la cadena puedo calcular la probabilidad
+de una secuencia o de una oración, da la secuencia, si logro calcular estas probabilidades, o sea
+si logro calcular predecir las palabras correctamente, voy a poder predecir la secuencia,
+esa forma paso de la predicción al cálculo de toda la probabilidad de la oración. ¿Entienden?
+Bien, entonces vamos a quedarnos con esa notación, entonces yo digo bueno, un ejemplo
+¿no? Si yo quiero saber la probabilidad de viento fuerte, de componente sudeste como
+el que está soplando, no sé si es componente sudeste, pero fuerte, es la probabilidad de
+viento por la probabilidad de fuerte, dado viento por la probabilidad de dado viento fuerte
+etcétera, ¿no? Nada menos que la regla de la cadena. Entonces yo quiero saber la última
+P de sudeste, dado viento fuerte, de componente y vos con Google por ejemplo digo bueno,
+fuerte, de componente aparece 9.230 veces, viento fuerte, componente sudeste aparece
+347 veces, y yo entonces voy a estimar la probabilidad de esa por medio de conteos, entonces
+la cantidad de veces que ha aparecido viento fuerte, componente sudeste, dividido la cantidad
+de veces que aparece fuerte, componente, 347 veces dividido, no, 9.230. Aguardo, y esta
+es la probabilidad de que la siguiente palabra sea sudeste, en mi estimación. Si ustedes
+desfijan, esto es una probabilidad porque contando todas las palabras posibles que pueden
+seguir acá, si yo logro determinar cuáles son, yo sé que van a ver 9.230, van a sumar
+9.230, ¿no? En todo lo caso posible, mira todos los casos, junto a lo que son
+la siguiente palabra, eso hace que como esto me va a dar 9.230, la suma de todas las
+cuantidades, esto va a dar uno, entonces esto sí es una distribución de probabilidad,
+entonces que estamos bien, efectivamente que yo des una probabilidad. Aguardo, esto es
+lo que me dices, bueno, el 3,76% de las veces es sudeste, la siguiente palabra. Eso
+que acabamos de hacer es estimar la probabilidad a partir de la frecuencia de ocurrencia en un
+corpo grande, eso Google es un corpo grande, muy grande. Y eso se llama principio máximo,
+pero similitud que lo vimos la de pasada, es, trato de hacer, calcular la probabilidad
+en base a lo mejor posible a los datos que tengo, es decir, considero, yo estoy considerando
+que los datos que tengo, es decir, el corpo de Google es una buena aproximación del mundo
+real, del lenguaje en realidad, yo no sé si en realidad efectivamente cuando los seres
+humanos hablamos, hay un 3,76% de probabilidad de que, después decir bien tofuerte componente,
+viene sudó este, pero el corpo de Google es que es lo mejor que tengo como aproximación,
+me dices eso, y eso es lo que yo utilizo, como un estimador de máxima de la similitud,
+lo mejor que puedo acercarme con el corpo que tengo, eso es lo que vamos a hacer todo el
+tiempo acá, calcular componentes de máxima de la similitud. Pero tenemos algún problema,
+¿no? Y es, en el otro caso, dice, a raíz estos fenómenos se producirán tormentas fuertes,
+la próegue fuertes, y a raíz estos fenómenos se producirán tormentas, tiene un problema,
+ahí es que, nunca apareció en mi corpus, a raíz estos fenómenos se producirán tormentas,
+y nunca apareció en mi corpus, a raíz estos fenómenos se producirán tormentas fuertes,
+¿sí? Y eso nos da una horrible edición por cero, que queremos evitar, o sea que no
+está probabilidad, ah, infinito, no sé, no está definida, esto, una pregunta, esto les parece
+que es un fenómeno común o no, que nos puede pasar cuando estemos estimando, todo el tiempo,
+porque por más grande que sea el corpus, el lenguaje es muy creativo, entonces tenemos que buscar
+forma y además, porque estamos haciendo un conteo de palabras, de relación muy largas,
+o sea que la rila de la cadena no resuelve en mi problema, porque yo, una aproximación bien
+naïf para que el culo de la probabilidad de calcular toda la secuencia posible, ¿cuánta
+vez se aparece la secuencia que quiero calcular en la elaboración del total de raciones,
+lo cual es un disparate, pues no tengo corpus, evidentemente grande, pero esta aproximación
+tampoco nos ayuda mucho, porque sigo teniendo contexto muy largo, porque si ustedes se fijan,
+en la rila de la cadena, bueno, en lo que acabamos de hacer, la última probabilidad es casi
+la misma que la primera, con menos una palabra, tengo que con una forma a chicar eso. Entonces,
+una de las ideas fuerza para computar esta probabilidad es el lugar de tomar todas las palabras,
+tomar sobre las últimas, es decir, yo me quedo con las últimas N menos un palabras, N menos
+N, bueno, ¿sí? N, N, esto es en gran, ¿no? Y las otras no las considero, digo bueno,
+la con, mi, mi, mi, mi humilde aproximación para que esto se pueda volver manejable, es decir,
+bueno, yo en realidad solamente me importan las, solo las últimas palabras afectan en la que
+voy a predecir, solo la última idea. Y de eso se tratan los modelos en grama, que utilizan
+lo que se llama, eso que acabo de decir, yo llamo hipote sigue marco, hipote sigue marcoviana,
+solamente las últimas palabras afectan la siguiente, hay un límite, ¿tá? Y fíjense que en la hipote
+se divide grama, yo digo, cada palabra la aproximo por la anterior, simplemente, es decir, estoy
+diciendo una cosa tan sencilla como la última palabra es la única, cada palabra condición
+en la siguiente, pero en la anterior, ¿no? Es muy fuerte, ¿no? Y de trigramas son dos y con
+N en grama son N, ¿no? Sí, con la hipote sigue divide grama, mi proviezo mucho más
+sencilla que antes, porque es como, cada palabra, solo depende, vamos a mire, uno bueno, uno
+no está más, pero cada palabra depende del anterior, simplemente me queda que la probabilidad
+de una secuencia, es la probabilidad de la primera, por la probabilidad de la segunda
+de la primera, por la probabilidad de la tercera de la segunda, etcétera, y aguardó, acá
+nos falta este PW1 en esa fórmula, pero no nos preocupa demasiado porque eso lo resolvemos
+poniendo una marca al comienzo de la secuencia que siempre vale uno su probabilidad, es decir
+que todas las variaciones empiezan con una marca, y si no, multiplico acá, ¿no? Si no, si
+lo quiere hacer de otra forma, agrega un PW, es su cero, acá y lo mismo, pero esencialmente
+lo importante acá es que esto se transforma en una simple multiplicación de probabilidades
+de una palabra a la anterior, y cómo hago para calcular esto, cómo puedo calcular esto acá,
+cómo calcular la probabilidad de una palabra, da en anterior, contando, pero solamente
+den cuenta a dos, lo cual lo vuelvo poniendo mucho más manejable, y eso es justo lo que vamos
+a hacer, un modelo de lenguaje intenta predecir la próxima palabra de una oración a partir
+de las n menos una anterior, y por supuesto que importa el orden en ese cálculo, ¿no?
+También tenemos que plantearnos cuando hagamos los enegramos, cuando calculemos la probabilidad
+en general, bueno, cosas que ya hemos conversado, ¿qué elemento vamos a contar? Sí, por
+ejemplo, tengo un tema de tokenización, esta coma, la tengo que considerar un diagrama
+o no la tengo que considerar un diagrama, ¿sí? La tengo que considerar un token o no la tengo
+considerar un token, me interesa, bueno eso seguramente va a depender un poco de la aplicación
+en la que les aplican a los que les utilizan, o tengo un cuerpo oral donde tengo
+de fluencia, de fluencia, creo que ya me ha estado. ¿Qué tengo que hacer con las
+mayúsculas? ¿Qué hago con la forma flexionada? Todo lo problema de la tokenización me
+parece en el diagrama, es decir, esto son cascadas y amo, ¿no? Yo acabé a tener la tokenización
+realizada, lo que ya no hay respuesto universal depende de la tarea que estamos haciendo, por
+ejemplo, típicamente los cuerpos orales están todos pasados a mayúsculas, como son
+más continuos, no hay la identificación de raciones, no es tan importante. Si yo voy
+a hacer análisis, si estoy haciendo un análisis de cómo se usan los signos de puntuación
+en mi lenguaje, obviamente la coma la tengo que identificar, sino que para que no me interese,
+o me puede interesar, todo esto es mapearlos a una cosa sola que se llama signos de puntuación
+y juntar los puntos con las coma. Bueno, tiene que hacer eso en el laboratorio, ya se van a
+escolar. Bueno, nada, se necesita un pretetamiento, disponible al menos palabras, yo ni
+el modelo, no hay modelos generales. También va a depender un poco, nuestros números van
+a depender de la cantidad de palabras. El diccionario, el Oxford English Dictionary tiene
+290.000 entradas, el trezor de la sangre francés tiene 54.000 y el diccionario de la radio
+es 88.000. ¿Por qué les parece que tienen tantas más acacagadas? Porque el diccionario
+no parece en la forma flexionada y el español está mucho más flexionado que el número.
+O sea, el inmune se va a tener que arreglar más solito. Bueno, y después tenemos corpos,
+esto ya hablamos un poco, y aquellos distinguyen entre el número de toques en que son la cantidad
+de ocurrencias que hay en el texto y el número de palabras distintas, el vocabular.
+Acá está la respuesta a la pregunta de que hacíamos antes, ¿cómo estimamos lo vigilan más?
+Utilizando otra vez lo que se llama un estimador de máximo a ver el similitud, lo que se llama
+métodos de frecuencias relativas, que es cuento, la cantidad de veces que apareció una
+palabra con, por ejemplo, la probabilidad de fuerte, dado viento, se aproxima como la cantidad
+de veces que aparece bien tofuerte, por la dividida de la cantidad de veces que apareció,
+dividido todas las posibles continuaciones, ¿de acuerdo? Viento fuerte, viento calmo, viento,
+viento diles, viento, no sé, lo que quieras. Y sumo todas las posibles, estoy haciendo normalizando
+como hablamos al principio de como hablamos acá, estoy normalizando. Ahora, esto aquí es equivalente,
+¿cómo puedo simplificar esto?
+Si yo tengo todas las disica, parece viento fuerte, viento calmo, no sé, ¿qué es la suma de todo eso?
+Y la cantidad es de la peseamiento, estoy igual a la cantidad de veces que aparece bien tof, en el corp.
+¿Cómo guardó? ¿Cómo son todas las posibles ocurrencias?
+Ahí tenemos la simplificación y además para tener en cuenta la primera y última palabra
+de honoración, le vamos a agregar siempre los símbolos de comienzo y de fin, eso para asegurarnos
+de que para no tener que calcularse parada la probabilidad de la primera palabra. Yo sé que la primera
+palabra siempre es ese y calculo la probabilidad de la primera en el texto, digamos, ponerle él
+dado que la anterior era ese, ¿de acuerdo? Y así lo dejo en una sola forma. Por ejemplo,
+si supongamos que yo tengo ese corp, ¿no? Oan, abrió la puerta, el viento abrió la puerta,
+el negro abrió limones en tus mejillas nuevas, Juan recoge limones. Y quiero saber la probabilidad
+de estas oraciones. Evidentemente, no las tengo en el corp, ya que no es poco tan directamente,
+pero quiero utilizar un modelo de diagramas para calcular.
+Y con lo que sabemos es bastante sencillo. Primero que nada, decimos bueno, la probabilidad de
+Juan abrió limones es probabilidad de Juan dado el comienzo, probabilidad de abrió dado Juan,
+probabilidad de limones de abrió, etcétera, ¿no? Fíjense que la probabilidad Juan dado el comienzo
+de la cantidad de veces que apareció Juan en la marca del comienzo, dividido en la cantidad de
+marca del comienzo que es uno. Entonces, he tomado...
+2 de 4. Ah, ¿por qué hay cuatro oraciones?
+Claro, claro, porque yo estoy haciendo contegos directamente, no estoy haciendo probabilidad.
+2 de 4 veces arrancó con Juan, ¿sí? Juan abrió es una de 2, ya había parecido
+Juan abrió en el corpus y Juan apareció 2 veces. O sea, de 2 veces la pareció Juan en la siguiente
+apareció una vez abrió. Y así sigo multiplicando y como ve, multiplica la fracción y me da, bueno,
+0,042, esa es la probabilidad de Juan abrió limones.
+Enero abrió la puerta, 0,17, también tiene mucho sentido, ¿no? A ver,
+justamente el hecho de que sigo un ejemplo de jubete le hace perder la gracia todo esto,
+porque esto funciona porque tengo grandes volúmenes, sino no es una paba. Y acá que nos pasó,
+¿qué puede haber pasado acá?
+La palabra come nunca está. Y en la puerta, en la puerta está. La primera se explica
+porque come nunca está. Creo que está así, perdón, la si, la puerta, ¿por qué es
+la 0? Porque lo que no está es en la, en la, no aparece nunca, si ustedes miren acá la probabilidad
+de, perdón, la cantidad de, la probabilidad de esto es la probabilidad de que empiece con él,
+ya tenemos un problema con el comienzo con él, porque creo que no hay ninguna.
+Ningún empieza con él, y tú ya tienes un problema y además en la tampoco está, o sea que el
+conteo me da 0, si el vigrama no aparece en el cuerpo de entrenamiento, siempre mi problema
+me da 0, y más interesante aún, si cualquier vigrama de todos los que aparecen en la oración,
+da 0, la probabilidad de la oración es 0, eso es un gran problema. Resolver el problema de eso
+y lo que se llama el suavizado de negra más que vamos a ver cómo, tenemos que ir una forma de
+resolver eso que nos va a pasar siempre, es decir, como nuestro cuerpo, nunca puede ser tan,
+aunque solo sean dos palabras, igual puede aparecer mi pareja de palabras que no aparecieron y yo
+no me puedo transcar con eso, ¿de acuerdo?
+Bueno, nos queda ese pendiente del cielo que lo vamos a ver después porque ya te quiero comentar
+y con una cosa, pero vamos a acordarnos de eso, y tú y tenéis un buen problema pendiente.
+Bien, en general ustedes eran, bueno, pero ¿cuál es el mejor ene? ¿No? ¿Por qué? ¿Cuál es el tema? Es
+cuánto, cuánto, más largo sea el tirama que yo utilizo, más información tengo de contexto,
+es decir, intuitivamente mejor estimar con 5 palabras que con una.
+Vamos a guardar con eso. ¿Cuál es el problema de los 3 más largos?
+¿Por qué no puedo usar el 15?
+Porque tenemos mi problema, porque llegamos acá, que con 15 no tengo corpos fíjendemente grande
+como para que aparecan esa ocurrencia. Entonces, ese balance entre cantidad de ocurrencia,
+porque yo no tengo una buena estimación de la cantidad de ocurrencia, no voy a poder estimar
+bien la probabilidad. Con eso bien que yo estoy atimada la probabilidad de partir en contegos,
+si yo tengo una, dos, tres ocurrencias seguramente esa probabilidad artificial, pues si hubo
+una ocurrencia en un corpo de miles de millones de palabras, no me está diciendo mucho.
+Realmente en igual 3 se obtienen buenos resultados, por lo menos para aproximarse de
+la cantidad de cada muy bien, Google hace unos años atrás sacó un corpo de negra, un sí,
+una lista de negra más de hasta 5, no recordo que no está ahí porque venían en 7.
+O sea que determinaré, ¿ne va a depender un poco la tarea y ese se me dio a ojos?
+Digamos, pues yo me estaría un poco bóblica. Ahora vamos a ver un poco de evaluación,
+y tal y lo que decíamos, ¿no se agregan? Cuando son 3g más tengo que agregar 2 símbolos,
+el comienzo de la oración. Te voy a poner enero abrió, porque yo necesito 2 de contexto para
+calcular el triunfo en detalle. ¿Cuándo? Ahí no te caas, así que no.
+Y bueno, y la pregunta es ¿cómo calculamos?
+De ver punto de vista metodológico, ¿cómo hacemos para calcular buenas probabilidades?
+Ya vimos cómo se hace el conteo. Ahora quiero ver cómo organizo el corpo, y me parece
+que es interesante ver esto porque nos va a pasar en muchas cosas, en este tema,
+el procedimiento de lengua natural, y que muchas veces induce el mal uso metodológico de estas
+cosas, lleva error. Entonces me parece que va de la pena comentarlo esto. Yo dije que
+iba a ser conteo para calcular las probabilidades, ¿no? Entonces yo por acá tengo un corpus,
+un corpus de texto, ¿si? Entonces, sencillamente lo que tengo son muchos textos, ¿no?
+Obviamente, sencillamente no, tengo muchos textos, esa es la definición de corno.
+Y yo voy a crear un modelo de un modelo de un lenguaje, es decir, yo lo que quiero
+construir con esto de las probabilidades de las eleaciones es un modelo del idioma pañol.
+Yo tengo un corpus de texto en español, y quiero hacer un modelo del idioma pañol.
+Supongo que yo entreno un modelo, entrenar el modelo en este caso que es decir calcular
+todas esas probabilidades. ¿Cómo hago para saber qué tan bueno es? ¿Sí? ¿Cómo lo
+evaluó? Supongo que yo ahora voy a modular el cual es la medida, pero supongo que yo tengo
+una medida de performance que me dice bueno, aplicale tu modelo a este texto, sí, supongamos
+que la medida es el que le asigne, ahora vamos a ver por qué, pero el que le asigne
+mayor probabilidad a todo el texto a las oraciones del texto es el mejor, el mejor modelo
+es que la asigna probabilidad mayor a la oración en que tengo el texto. Si yo aplico mi
+método, mi modelo, o sea, el lugo, mi modelo, sobre este mismo corpus, ¿qué problema tengo?
+Que me va a dar barro, porque los calculé ahí, es decir, yo nunca puedo, nunca, pero nunca
+nunca, he valuado un modelo en el mismo corpus en el que entrenes. Esto aplica siempre, cada vez
+que es un difícil métodotadístico, pensado automático, lo más importante es saber en la
+pensado automático, nunca, el lugo es tu modelo en un corpus, en el mismo corpus que entrenaste,
+porque por definición estás haciendo trampa, eso lo llama sobre ajustes, sobre ajustas
+a tu corpus de entrenamiento. Entonces yo lo que voy a hacer es dividir mi corpus en
+dos, y voy a decir, este es el corpus de entrenamiento, voy a poner en inglés y el corpus
+de evaluación. Entonces lo que yo voy a hacer es entrenar y cuánto se paró acá. Bueno,
+la regla más o menos es 80 20.
+Pregunto, ¿por qué me interesaría que esto fuera lo más grande posible?
+Para que tener más información, ¿y por qué no uso 90 10 o 95 o 97 3?
+¿Cómo?
+Tengo que solucionar ese balance, no entretener una cantidad razonable de datos, porque si yo le
+valú sobre una oración, la variance es muy grande, es decir, la posibilidad de equivocarme
+es muy grande. Entonces, una regla es más o menos 80 20, ¿sí?
+Y bueno, ahí habla de 90 10, yo tengo la regla de 80 20.
+Va a solucir un problema adicional acá y es que ahora lo voy a ver es, por ejemplo,
+si yo quiero saber cuántos elegir el N, ¿no? Yo quiero elegir el N, yo necesito lo que
+va a hacer es prevo con un N acá, modelo 1, en igual 2 y aún modelo 2, en igual 3.
+Y esto es un poco más útil, y lo valúa acá y digo M1 y M2, y me quedó con el
+que me da mejor. Y esos métodologicamente no están bien, ¿por qué?
+Y esto es una de las cosas que es más difícil entender a veces, es, si yo prevo los dos
+modelos acá, de alguna forma también estoy haciendo trampa, porque supongan que yo tengo
+no dos parámetros, porque acá tengo o un parámetro que tiene dos valores. Supongamos
+que yo quiero ajustar otro parámetro de mi método, que puede tomar 500 valores posible.
+Si yo hago 500 en realidad, y 500 pruebas, sí, muy probablemente también estoy ajustando
+acá, estoy ajustando acá, porque estoy elegiendo de los 500 y a veces puede ser miles o
+300 de miles, el que mejora anda en este corpo de evaluación, o sea que estoy
+sobre ajustando el corpo de evaluación. Entonces, para la ajuste de parámetro yo
+usualmente lo que tengo que hacer es definir dividir este corpus, sacar un pedacito
+del corpo en trainamiento, que lo llamo corpus, gel dauto, corpus de desarrollo, y lo que
+hago es entrenos sobre esta parte y evaluos sobre el gel dauto, y me reservo este de evaluación,
+solamente para cuando tengo mi modelo definitivo, y quiero saber su performance, con su
+medio de evaluación. ¿Aguardo? Esto lo van a tener que presentar en el laboratorio,
+es decir, cómo evaluarían el método, un método. Hay otras posibilidades que no implican
+un cuerpo gel dauto, por ejemplo, hacer lo que se llama coros validation, que es separo
+este pedacito, entrenos sobre esto y evaluos sobre este, después separo otra franjita y entrenos
+sobre el resto y evaluos sobre la franjita, y así con cas franjas y saco el promedio. Eso
+me sirve para no desperdiciar, digamos, esta parte del corpus, para poder utilizar todo
+el corpus entrenadito. Esa más, cros validation. Vamos a volver a hablar un poquito
+cros validation cuando le hemos clasificación, pero lo que me interesa es que le quede claro
+la diferencia entre estos corpus, y cuando tengo el modelo final, uso esto solamente para
+evaluar la performance, es una medida que determinaré según mi tarea. ¿Cómo evaluamos
+un modelo bueno? La manera correcta de evaluar un modelo debería sería empíricamente,
+es decir, yo quiero evaluar un modelo del lenguaje y lo estoy usando para el reconocimiento
+de la habla, debería ser una evaluación de que también reconozco el habla, o que también
+reconozco la escritura, pero eso puede ser muy costoso a veces. Yo puedo estar haciendo un
+modelo lenguaje, no sé para qué se va a usar. Entonces, me interesa mucho, me puede
+interesar tener una medida intrínseca de la performance de mi modelo. Entonces, vamos
+a ver una forma de evaluar. A mi esta parte, de esta parte, en el libro está apuesta como
+un tema avanzado, pero a mí me parece interesante mostrarlo, porque la entropía es un concepto
+que aparece muchas veces en el procedimiento de lenguaje natural de otras cosas, y me
+pese que le va a ir la pena por lo menos aproximarse. Supongo que yo tengo una variabilidad
+aleatoria y todo esto voy a llegar a una forma de evaluar un modelo, no hay que empezar
+a hablar de todo esto. Supongo que sí que yo tengo una variabilidad aleatoria que tiene
+varios eventos posibles, en otro caso dijimos que eran las palabras posibles. La entropía,
+la entropía es una variabilidad aleatoria que es un concepto que viene de la teoría
+de información, de CloudXanon, la teleinformación lo que hablaba era, bueno, algunos capacicieron,
+lo vieron a algún curso, pero la teleinformación lo que trataba era de medir cuánto me cuesta
+a mí transmitir un mensaje. ¿Cómo puedo transmitir un mensaje de forma óptima? Digamos
+un poco la idea, o que hay atrás de una comunicación. La noción de entropía, estas
+funciones, tengo el evento que quiero hacer, la probabilidad del evento, por el hogarismo
+de esa probabilidad. La entropía tiene como característica fundamental que es una medida
+que si hay un evento que tiene toda la masa de probabilidad, la entropía es mínima, es
+decir, si yo tengo un dado que está tan carregado y una forma en algo que valentemente
+se puede decir que la entropía a mí es mirado de incertidumbre sobre un evento. Si yo
+tengo un dado que está tan carregado, que cabe que lo tiro, sé que siempre vas a salir
+seis, no tengo incertidumbre, mi entropía es cero. En cambio, si el dado está perfectamente
+calibrado, equilibrado, mi entropía es máxima. Es decir, ¿cómo está definida la entropía?
+No puedo tener etropía más alta que cuando los eventos están equipos lo hablan. Entonces
+justamente la entropía es generalmente lo que uno mide con la entropía de eso, ¿qué
+están parecidos? Son los resultados que están balanceados, están de alguna forma. Cuanto
+más incertidumbre tengo, porque están más balanceados. Si yo no tengo ni la menor
+idea de la palabra que sigue, mi entropía es máxima. Y además tiene otra característica
+que es que si lo haríamos es en base dos. Este número, la entropía me mide la cantidad
+de bits que yo necesito mínimos para transmitir los eventos. Esto es lo mejor forma de
+hacerlo con un ejemplo. Supongamos, y es el ejemplo que aparece en el libro. Supongamos
+que yo tengo ocho caballos. Tengo ocho caballos que quiero transmitirlas las apuestas
+que se están haciendo por un cable. Entonces digo, bueno, una forma cantada de transmitir
+lo directa de transmitir, llamar al primer caballo 0-1, 0-10, 0-11, 101, 110, 111.
+De acuerdo, acá yo uso ocho bits. Cada vez que se apuesta por el caballo 1, yo poco
+0-0, 0-1, blabla. Entonces en total yo utilizo tres bits para transmitirlas por un cable,
+tres bits por cada apuesta, ¿no? Ahora, cuando nosotros vemos las apuestas, descubrimos
+que la mitad de las veces se apuesta por el caballo 1. Un cuarto del caballo 2, un tercio blabla,
+un octavo del caballo 3, un disiseo del caballo 4, y todos estos se apuesta mucho menos.
+Teniendo en cuenta eso, yo lo que trato de hacer ahora es decir, bueno, quiero proponer
+una codificación mejor que hace que yo, los caballos que se apuesta más, o sea que
+tengo que transmitir más seguido, los codificos con menos bits. De acuerdo, la mitad
+de los bits, el primer bit, lo utilizo solo para el caballo 1, es decir, que si es un
+0 es que transmitir el caballo 1, necesita un solo bit. Si es un 1, si es un 1 y un 0 después
+es el caballo 2. Si son 2, 1 y un 0 después es el caballo 3. Si son 3, 1 y un 0, fíjense
+que yo para transmitir esto caballo utilizo 1, 2, 3, 4, 5, 6 bits. Utilizo más bits,
+pero como son mucho menos probable, mi entropía me da 2 bits, o sea, el promedio de bits
+que yo utilizo según la distribución es 2 bits, que es más baja que los 3 bits originales.
+¿Centiende? Incorporando la información de la distribución bajo. Podemos mejorar eso, no
+podemos mejorar eso. Nunca vamos a hacer el etropía, lo que lo dice es eso, nunca vas a encontrar
+una, porque justamente la etropía 2, como la etropía 2, la etropía me da una cota inferior
+sobre cuánto puedo llegar, con menos de 2 bits no puedo. ¿También te acuerdo? Te dice
+preguntarán para qué sirve esto. De hecho no, la etropía es una cota, lo que decía, una
+cota mínima para el número de bits necesaria. A partir de la etropía yo puedo calcular la
+etropía de una secuencia, la etropía de una secuencia es de todas las combinaciones
+posibles de una secuencia, la probabilidad de esa combinación es lo mismo para aplicar
+la secuencia, entonces si lo ven es un número muy complicado, porque es la sumatoria de una
+cantidad impresionante de número, porque son todas las combinaciones posibles de secuencia.
+Eso es lo que me mide la etropía de la secuencia, ¿qué tanta incertidumbre hay en una secuencia?
+Y la tasa de etropía sería eso debido a N, es decir el promedio,
+porque si no la secuencia malarga o no tiene entropía más alto, el promedio por palabra
+de la etropía. Entonces la etropía de un lenguaje, que sería como la medida de qué tanta
+incertidumbre hay en un lenguaje, ¿qué tan, digamos, qué tanto pollo llegar a predecir
+lo que va a seguir diciendo el lenguaje? Esa límite, pero como valoso, no en un contexto
+general en el lenguaje, es una medida para el lenguaje. Esa límite cuando la secuencia
+tiene infinito de la tasa de etropía, ¿sí?
+Y que es que acá es la suma, como decíamos, es la suma de todas las secuencias posibles,
+o sea que es una cosa imposible calcular, pero hay un teorema que es el de llano,
+como a mi la embraiman que dice que es el lenguaje, él es estacionario y ergólico. Estacionario
+y ergólico quiere decir que no importa dónde yo esté parado en una secuencia, todas las
+posiciones van en las probabilidades o en las mismas de la limidad, lo cual no es así en
+un lenguaje, porque lo que yo digo ahora y sí dentro de lo que estoy diciendo entre un
+minuto más, no, no hay aleatorio de lo más, pero suponiendo eso es una simplificación,
+lo que me permite es simplemente para calcular la entropía, la tasa de entropía, el lenguaje
+es simplemente unos sobre nes divididos logarimos, fíjense que perdí la probabilidad de cada
+una de las secuencias, es como que si yo tomo una secuencia suficientemente larga del lenguaje,
+voy a incluir a todas las secuencias, o sea que si yo una secuencia suficientemente larga
+puede ser el corpo de evaluación, yo puedo calcular la entropía sobre el corpo de evaluación,
+y entonces, esto es un número, ahora lo que dije acá es un número, no sabemos por qué tengo
+esto, ¿no? Pero fíjense que si yo puedo calcular lo que se llama la entropía cruzada,
+porque yo que tengo, yo tengo un lenguaje que genera las palabras con una cierta distribución
+de probabilidad, que es lo que queremos averiguar, que es lo que es lo que es lo que es nuestra
+problema original, es como da las palabras anteriores y se genera la siguiente, eso es algo que
+he desconocido, no sabemos como es, porque es el del lenguaje español, que yo quiero calcular,
+pero yo tengo un modelo M, que es el modelo de negramas, está, la entropía cruzada, lo que
+dice, bueno, calculamos esta hache utilizando la probabilidad original por el lovarismo
+del, de la probabilidad sin nada por el modelo, la probabilidad de la secuencia es la que tenía
+los movilidades, no la conozco, y la probabilidad, y en lovarimos sí, o sea, esa distancia
+es a largo embítesis del modelo, seguramente tenemos otra vez, ya lo manmelan, yo puedo sacar esta
+probabilidad simplificando la suponiendo que es el gode y que lo la, y digo bueno, la entropía cruzada
+es, depende sólo lovarismo de, de la probabilidad sin nada por lenguaje, por el modelo, y esto es
+interesante, cualquier, cualquier entropía cruzada que yo tenga, que yo calcule con un modelo,
+va a ser mayor necesariamente que la entropía es del lenguaje, cualquier modelo va a
+ensinarme una entropía mayor a la del lenguaje, entonces la, la, la, la, la cota inferior,
+entonces fíjense que como son todas mayores,
+cuanto más parecido sea mi modelo, al modelo, al modelo de lenguaje, al, al, al, cuanto más
+modelo, más parecido, así que mi probabilidad es más parecida de las de acá, por cómo está definido,
+va a ser mejor, de acuerdo, entonces, cuanto menor sea la entropía cruzada de mi modelo,
+evaluado sobre una secuencia suficientemente larga, decir sobre el corpo de evaluación,
+mejor va a ser mi aproximación, y justamente la medida de esa intrínsega que está buscando era
+es esto, que es dos, porque dos no lo sé, porque lo mismo, es dos, es para sacarlo lovarimos nada más,
+es dos a la entropía cruzada a este valor, y esto se llama perplejida, la perplejida es lo que
+mide el, el, lo que mide que tan bueno es interisidamente mi modelo sobre, sobre mi cuerpo de
+entrenamiento, sobre mi cuerpo de evaluación, es decir, si yo tengo dos modelos, el que así me
+mayor probabilidad, menor propiedad, mayor probabilidad, al corpón de evaluación es mejor desde
+ese punto de vista, lo consideramos mejor, porque porque tiene menos dudas de cómo se comporta,
+porque la perplejida es, es como la incertidumbre que yo tengo ante, dada una palabra, cuando
+sume para una palabra, cuál es mi incertidumbre, mi branching factor, en cuántas se puede abrir la
+siguiente palabra en promedio, un poco eso es lo que captura la perplejida, mi lenguaje va a tener un
+branching factor, es decir, no es que es cero, pero mi modelo siempre va a calcular algo mayor
+igual a ese branching factor, cuanto más bajo, es que si yo me estoy acercando mal a la perplejida
+posta, por eso la perplejida es la medida de que también hace la cosa, acuerdo,
+bueno, no, eso es su cuenta, por ejemplo, si nosotros entrenamos un ígrama, más ígrama,
+más ígrama, en un cuerpo de artículo de Wall Street Journal, de 38 millones de palabras,
+probaron el cuerpo sobre un modelo, ni un cuerpo de prueba de 1,5 millones de palabras,
+y calcularon la perplejida, y fíjense que la perplejida con los unigramos desde 962,
+no sabemos cuál es el mínimo esto, no sabemos cuánto puede bajar, pero sabemos que con
+vígrama llegó a 170 y contrígrama a 109, es decir, si yo tengo dos palabras antes, puedo
+predecir con mejor, porque acá es con un ígrama, es la probabilidad de la palabra, no dice mucho,
+si yo tengo el anterior, rápidamente baja, y si se fija cuando abre un tercero baja, pero no tanto,
+ni de cerca tanto, no, bueno, lo último que nos queda hablar,
+no dice, no pasó con las probabilidades nudes, se acuerdan que nos quedaban las probabilidades nudes
+cuando no había contigo, bueno, uno de los problemas es las palabras que no existen,
+las palabras que no existen, lo único que podemos hacer, o lo que típicamente se hace es
+crear un vocabulario fijo y sustituyo las palabras desconocidas por un especial,
+esto es típicamente lo que se hace, es decir, todas las palabras desconocidas las considero una
+sola palabra que no se equivale, y cuando aparecen enigradas más que no ocurren,
+tiene el caso de comer, que no aparecidas, pero puede ser que la enigrama no ocurra lo que
+voy a hacer, son técnicas de suavizado, yo tengo, se acuerdan, tengo el contador de,
+por ejemplo, acá es un migra a mano, contador de la palabra, de cantidad de veces la palabra
+dividido el total de token que hay, y así calculo las probabilidades, la técnica de la plaza,
+lo que dice es bueno, le agrego uno a cada contador, o sea que nunca me va a dar cero,
+lo hago a los bestia, digamos, no, para que no me decero le sumo uno, y le sumo ve y se acuerdan
+el nuevo poquito de una clase pasada, le sumo ve para que esto me siga dando una distribución de
+probabilidad, esto es simplemente lo que hace es calcular un contador ajustado,
+me explica por té y divide por temas, si me explica por el juvenil y divide por esto, por el PWI,
+por ejemplo, si yo digo, si este es mi corpo entrenamiento, esta es la historia de un hombre y la
+ciudad que creó, fíjense que mi conteo da uno, la habla y quiso me da cero, perdón, este es el
+conteo, ahí va, conteo de este es uno, de la es dos y de quiso es cero, la probabilidad de este es
+uno y divide 13, total de palabras, una es esta y es 0 0 8, la es 2 divide 13 y quiso me da cero en la
+probabilidad que nos queremos que nos da cero, si nosotros aplicamos la plaza, lo que me da es
+sumo 25, son 12 palabras en el vocabulario, porque la unidad está repetida es la
+sí, o sea que tengo 12 en el vocabulario no 13, 13 es T y 12 es B, entonces ya hago 2 divide 25 y así me da
+las nuevas probabilidades y acá quiso dejar de ser cero, el contador ajustado de lo que nos permite
+es comparar lo que teníamos antes con lo que teníamos ahora, por ejemplo, esta valía 1 y
+baja a 0 96, perdón, la valía 2 y baja a 1 44 y quiso va a de 0 a 0 48, si se fijan acá el
+descuento, lo que se llama descuento que es la división entre los dos valores, lo permite ver
+que le estoy sacando más masa de probabilidad a la que hay que quedar casi igual, es decir, la
+meta le la tiene a la plaza el problema, por qué es lo que está pasando acá, esto es lo que me
+muestra es que yo le tengo que sacar masa de probabilidad a los que aparecen, porque todo me
+tiene que sumar 1, toda la probabilidad me tiene que sumar 1, si yo ya agregar 5 gramas que antes
+estaban en cero, tengo que sacarle probabilidad a los que está, pues no me es un mamá que 1, entonces
+esto es lo que tiene que castiga mucho a los más frecuentes, le sacan mucho probabilidad a los
+más frecuentes y como que premia demasiado a los que no aparecen, hay otras técnicas no, no,
+vamos a entrar en eso, que tratan de ajustarlo un poco mejor, pero ahora vamos a mover alguna
+muy demasiada probabilidad, otra posibilidad es usar un delta en lugar de 1 y ese delta
+te va a calcularlo, se acuerdan lo que hablamos del cuerpo, siempre que yo tengo esos parámetros
+para calcular los calculos sobre el cuerpo de desarrollo, finalmente hay otro, esa es una
+aproximación, es decir, con técnicas sobre el contencio, hay otra posibilidad que son un poco
+más evolucios avanzadas, digamos que es, cuando yo quiero estimar, por ejemplo en técnicas de
+trigrama, una palabra, a partir de las dos anteriores y no existen casos de las dos anteriores
+en el texto, de las dos anteriores seguida doble, ¿no? Acá es doble, perdón, lo que hago es hacer lo
+que se llama BACOF, hacia calcularlo a través de la probabilidad de la anterior, si no tengo la
+anterior prueba con la anterior, eso llamas BACOF, el BACOF, tenés que resolver también que ahora
+otra vez está introduciendo en nuevas, luego caso que no tenías antes, estas probabilidades
+que calcularle y darle masa de probabilidad, otra vez tengo que mover probabilidad, cuando los
+corpos son muy muy grandes, una forma alternativa y es un método muy nuevo, se llama Stupid BACOF,
+que es como mi corpos muy grande, típicamente el corpos de Google, es no normalizo nada de las
+probabilidades, este conteo, no más como me fue, si una no me da prueba con la anterior, si igual
+tengo un montón de edad, o también se puede hacer interpolación, es decir, la probabilidad
+de una palabra daba las dos anteriores, es la probabilidad de la palabra, la probabilidad
+nueva, es la probabilidad original de la palabra daba las dos anteriores por un cierto
+lambda, un cierto lambda 2 por la probabilidad de la palabra daba el sol en el vigrama, más la
+probabilidad de un vigrama, y convino las tres a la vez, es como convino las tres tínias a la
+vez, es decir, le doy un cierto peso a las probabilidades que yo quiero, de esta forma,
+porque acá podría ser que existiera el vigrama anterior, pero existiera una vez sola, entonces
+yo no le tengo mucha confianza a esa, puede sucederme y no le tengo mucha confianza, entonces
+le doy un cierto peso a este también, y capa que le doy un peso un poquito más alto a este,
+o sea, si este existe, está todo bien, pero este es siempre una ayuda, y de esa forma
+balanceo, como calculo esto es lambda y con el corpos de valo, tengo que, de alguna forma
+calcularlo sobre el cuerpo de desarrollo, o el cuerpo gelado, también hay interpolación
+condicionada por el contexto, o sea, hay un lambda, acá ya lo que pasa es un poco más raro,
+y un poco más moderno, digamos que es que más de estas épocas, digamos, donde a mí ya no me
+preocupa tanto tener muchos parámetros, acá estoy definiendo un parámetro para cada combinación de
+palabras, y hasta aquí llegamos hoy, esto es este capítulo que tengo acá, capítulo 4 del libro
+Yurazki, tiene algunas cositas más, presencialmente es eso, y es lo que vamos a hablar de en este curso
+de Nigrama, la clase que viene, presentamos la baratocha.

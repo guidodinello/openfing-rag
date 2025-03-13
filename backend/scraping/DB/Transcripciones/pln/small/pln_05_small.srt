@@ -1,0 +1,5390 @@
+WEBVTT
+
+00:00.000 --> 00:29.080
+Primero hablamos de un formalismo, el de los lenguajes regulares, y terminamos hablando
+
+00:29.080 --> 00:41.080
+de normalización de textos, que es esencialmente, tenemos un texto, el texto escrito, así como
+
+00:41.080 --> 00:49.360
+lo recibimos, y lo trabajamos de forma de que sea mejor, más adecuado para un suficiente
+
+00:49.360 --> 00:55.520
+procesamiento. Y ahí identificamos algunas tareas, la principal de ellas, lo que se llama
+
+00:55.520 --> 01:03.600
+la toquenización, que es la separación en los componentes mínimos, que grosso modo podríamos
+
+01:03.600 --> 01:17.600
+identificarlo con las palabras. Hablamos de algunas técnicas de toquenización, y de algunas
+
+01:17.600 --> 01:23.200
+técnicas relacionadas que puede facilitar, dependiendo de la tarea en la que estamos,
+
+01:23.200 --> 01:33.680
+la tarea siguiente, por ejemplo, llevar todo a minúsculas, por ejemplo, o identificar
+
+01:33.680 --> 01:41.800
+algún tipo de entidades, como por ejemplo los números, o las fechas, toda esa área
+
+01:41.800 --> 01:49.280
+que se llama reconocimiento de entidades con nombre, es eso mismo, esto es un área dentro
+
+01:49.280 --> 01:55.160
+del procesamiento de hoja natural, porque no es trivial. Uno puede decir, una fecha es
+
+01:55.160 --> 01:59.920
+dos números, barritas, dos números, barritas, dos números, pero 18 de diciembre también
+
+01:59.920 --> 02:07.960
+es una fecha, y cuando yo digo el 18, voy a ir a comer un asado, estoy hablando de una
+
+02:07.960 --> 02:14.720
+fecha, pero si digo en el asado al final éramos 18, ese 18 no es una fecha. Todo problema,
+
+02:14.720 --> 02:19.120
+el reconocimiento de entidades con nombre es toda una tarea, que se realiza generalmente
+
+02:19.120 --> 02:24.240
+con un tipo de método que se llama de clasificación secuencial, que en algunas clases los vamos
+
+02:24.240 --> 02:32.720
+a ver. Tanto así que en el grupo hemos tenido unos
+
+02:32.720 --> 02:42.360
+cuantos proyectos de reconocimiento de eventos, una cosa un poco más general que las fechas.
+
+02:42.360 --> 02:53.960
+Bueno, nombre propio, nombre lugares, eso podría ser parte de la normalización del
+
+02:53.960 --> 02:57.840
+texto, es decir, para procesar, dependiendo de lo que yo quiero hacer, pero yo por ejemplo
+
+02:57.840 --> 03:03.000
+estoy haciendo el análisis sintáctico en oración, quiero tenerle el árbol de la oración,
+
+03:03.000 --> 03:06.080
+a mí lo único que me voy a hacer es saber que hay un nombre propio, que tiene el nombre
+
+03:06.080 --> 03:12.320
+propio si es José Luis Rodríguez o Pedro González, lo mismo, me interesaría tener
+
+03:12.320 --> 03:15.280
+algo ahí que diga esto es un nombre propio, lo que hay ahí ya está. Eso también puede
+
+03:15.280 --> 03:26.640
+verse como parte de la normalización. Bueno, y una cosa conecta un poco al, si bien no
+
+03:26.640 --> 03:31.520
+queda en la cascada, pero me parece interesante me echarlo acá, esto lo vamos un poco más
+
+03:31.640 --> 03:36.480
+adelante, pero en la nueva versión del libro de Jurásquie aparece junto con palabras
+
+03:36.480 --> 03:39.760
+y parece razonable porque en el otro forma me quedaba descolgado, acá queda un poco
+
+03:39.760 --> 03:47.440
+descolgado pero menos, que es saber la distancia, a mí me puede interesar saber la similitud,
+
+03:47.440 --> 03:52.520
+acá van a ver en este curso que hay, el concepto de similitud es muy importante, el concepto
+
+03:52.520 --> 03:59.800
+de distancia, ¿no? Es decir, ¿qué quiere decir una distancia entre palabras? ¿Y por
+
+03:59.920 --> 04:04.120
+qué es interesante? ¿Por qué puede ser interesante tener una noción de distancia entre palabras
+
+04:04.120 --> 04:09.240
+o documentos? ¿Por qué puede ser interesante? Si yo tengo dos documentos ¿por qué puede
+
+04:09.240 --> 04:12.840
+ser interesante conocer la distancia entre ellos, lo que sea que ellos sea?
+
+04:19.640 --> 04:27.080
+¿Si yo? Exactamente, es la aproximación primera a saber si dos documentos hablan de
+
+04:27.160 --> 04:37.760
+mismo tema que más o menos manejen la misma palabra, ¿de acuerdo? O si quiero saber si un
+
+04:37.760 --> 04:49.160
+trabajo es plagio de otro, o si quiero agrupar por temas, ciertos grupos, de hecho es la forma
+
+04:49.160 --> 04:55.240
+tradicional de agrupar documentos y de hecho es algo de lo que van a tener que hacer en el
+
+04:55.240 --> 05:05.320
+laboratorio. Pero esto es en realidad la distancia entre... Buscar la distancia entre dos palabras,
+
+05:05.320 --> 05:12.800
+es decir, palabras parecidas. Eso es típicamente de utilidad, por ejemplo, para corrección
+
+05:12.800 --> 05:18.120
+ortográfica. Si yo quiero sugerir lo que me equivoqué, generalmente lo que hago es meter
+
+05:18.120 --> 05:25.240
+más los dedos y hierrarle por una palabra y meter una palabra de letra antes. La clase
+
+05:25.240 --> 05:33.080
+viene a hablar un poco más, pero el corrector de mi celular generalmente hace cosas como esa,
+
+05:33.080 --> 05:44.000
+¿no? Entonces, tenemos una forma buena de medir la distancia entre palabras y de hecho hay una
+
+05:44.000 --> 05:48.200
+forma bastante estándar de hacer lo que es contando la cantidad de operaciones que
+
+05:48.200 --> 05:57.800
+llevan de una a la otra y que son operaciones insertar, borrar o sustituir letras, ¿de acuerdo?
+
+05:57.800 --> 06:09.720
+Entonces, la distancia de edición mínima es justamente el número de operaciones, el
+
+06:09.720 --> 06:33.160
+número de operaciones que yo necesito para... No veo nada. F11. Encontrar la distancia entre
+
+06:33.160 --> 06:37.000
+los palabras, ¿no? Por ejemplo, yo quiero saber la distancia entre Italia y Francia de la palabra,
+
+06:37.000 --> 06:53.600
+estamos hablando. No respondan con kilómetros. Claramente la intuición detrás de la distancia
+
+06:53.600 --> 07:08.000
+de edición es que palabras parecidas tienen una invitancia menor, ¿no? De hecho. Y el número
+
+07:08.000 --> 07:15.040
+de operaciones refleja un poco eso intuitivamente, ¿no? Si yo tengo Francia versus Francia está muy
+
+07:15.040 --> 07:19.600
+cerca porque solo tengo que insertarle una letra. ¿Cómo voy yo de Italia a Francia? ¿Cómo se le
+
+07:19.600 --> 07:28.840
+ocurre ir de Italia a Francia? Si parto de Italia, yo puedo borrar, puedo insertar o sustituir.
+
+07:28.840 --> 07:49.440
+¿Qué harían ustedes con Italia? ¿Sustituyo qué? ¿La I por la F? Si, la A no se cuenta
+
+07:49.440 --> 08:07.520
+como sustitución, ¿no? Porque que igual. ¿Le puede? Nada, así que. No, perdona, acá es SN,
+
+08:07.520 --> 08:16.280
+sí. Acá, ah, tengo que insertarle una C, ¿no? Podría insertar una, podría cambiar la C
+
+08:16.280 --> 08:24.880
+por la I. Digo, la I por la C. Pero no parece ser una buena estrategia, ¿por qué? Porque
+
+08:24.880 --> 08:36.440
+después la I la da, me coincide, ¿no? Entonces acá, dijimos que la C se inserta y la I la
+
+08:36.440 --> 08:42.600
+da, quedan. Entonces me tomé una, dos, tres, cuatro operaciones. La distancia de edición mínima
+
+08:42.600 --> 08:49.240
+entre Francia y Italia son cuatro, suponiendo que cada operación valga uno, ¿tá? Cuando
+
+08:49.240 --> 08:53.640
+cada una de estas operaciones vale el peso de cada operación, vale uno, eso se llama
+
+08:53.640 --> 08:58.640
+distancia del leventine, ¿sí? La distancia del leventine es la distancia de mínima edición
+
+08:58.640 --> 09:05.440
+cuando todas las operaciones valen uno. Y ustedes eran buenos, pero eso desde el punto
+
+09:05.440 --> 09:09.080
+de vista de algoritmico no parece tan fácil de hacer, ¿no? Porque uno tendría que probar
+
+09:09.080 --> 09:23.040
+todas las combinaciones de inserción y borrado y sustitución. Pero de hecho, el problema
+
+09:23.040 --> 09:27.480
+puede resolverse a partir de la solución de sus problemas en un combino de una tabla.
+
+09:27.480 --> 09:32.640
+Y eso ustedes, si recuerdan de, no sé dónde se da ahora eso, programación 3 se daba cuando
+
+09:32.640 --> 09:41.440
+yo era joven, este, es un problema de programación dinámica. Es decir, yo voy obteniendo resultados
+
+09:41.440 --> 09:50.600
+parciales y utilizo esos resultados en un chat para generar nuevos resultados, nuevas,
+
+09:50.600 --> 09:55.880
+nuevas entradas digamos hasta llegar, el dinero y el problema es un problema más chico. De
+
+09:55.880 --> 10:02.600
+hecho, el problema de la distancia de edición mínima puede resolverse a partir de la solución
+
+10:03.600 --> 10:08.440
+de sus problemas. Resulta ser que puede resolverse así y ahora lo vamos a ver. El método de
+
+10:08.440 --> 10:16.080
+programación dinámica donde yo descompongo un problema en su problema es muy, lo vamos
+
+10:16.080 --> 10:22.040
+a ver por lo menos dos veces más en este curso porque hay un algoritmo de parsing que van
+
+10:22.040 --> 10:27.320
+a ver que usa los mismos principios y hay otro algoritmo que lo gole, pero que lo vemos
+
+10:27.320 --> 10:31.920
+en este curso y que me voy a acordar en el correr de la clase. O si no, o si no, o si
+
+10:31.920 --> 10:37.120
+se acuerdan que era este, voy a decir cuando lo vaya a presentar, pero tienen la misma
+
+10:37.120 --> 10:45.720
+idea. ¿Se acuerda que acá hablábamos de que muchos métodos se repitan? Entre paréntesis
+
+10:45.720 --> 10:52.160
+para los que les gusta averiguar un poco sobre la historia y eso, el nombre de programación
+
+10:52.160 --> 10:56.960
+dinámica es muy interesante en la edad, porque surge el término y esencialmente era porque
+
+10:56.960 --> 11:02.400
+sonaba bien, sonaba bendible y había que poner dinámico, el tipo lo quería difundir
+
+11:02.400 --> 11:07.440
+y siempre buscando plata para su proyecto, que es lo que le pasa a todos los académicos
+
+11:07.440 --> 11:15.960
+en el mundo, busquenlo por ahí, por la Wikipedia. Entonces, la distancia de mínima edición
+
+11:15.960 --> 11:21.880
+o mínima distancia es eso que yo les decía. El mínimo número de operación de edición
+
+11:21.880 --> 11:32.080
+que se necesitan para transformar un string en otro. Una aplicación que usa muy bien
+
+11:32.080 --> 11:37.840
+esto es el cómo ir de la intendencia que lo hizo un alumno de este curso, en otros años.
+
+11:37.840 --> 11:42.360
+Fíjense y lo van a ver, es bastante bueno encontrando parecido. Bueno, y ahí tenemos
+
+11:42.360 --> 11:57.040
+Italia Francia ¿no? Ahí es exactamente la misma que sugerimos, que pensamos. La pregunta
+
+11:57.040 --> 12:01.800
+es si esa que se nos ocurrió en la mínima distancia de edición ¿no? Tampoco está tan
+
+12:01.800 --> 12:15.120
+claro, deberíamos probar todas las posibles combinaciones. Pero este aquí, vamos a ver,
+
+12:15.120 --> 12:28.640
+con este pizarro está complicado. Y encima en la pataza no se ve mucho ¿no?
+
+12:28.640 --> 12:41.200
+Un poco la idea es... siempre me olvido cual yo van cual, porque son simétricos, pero
+
+12:41.200 --> 13:02.880
+no. Me mareo porque es exactamente simétrico. Yo puedo poner el sur saca. Está hecho debajo
+
+13:02.880 --> 13:19.320
+para que le pases lo mismo. Acá pongo el destino y acá, perdón.
+
+13:32.880 --> 13:52.360
+Lo que vamos a hacer es nada más ni nada menos que obtener, poner cada cuadradito acá
+
+13:52.360 --> 14:03.280
+de la tabla, la distancia mínima de edición entre, digamos, si y la fila y j es la columna,
+
+14:03.280 --> 14:13.440
+en el ij tenemos la distancia mínima de edición desde la palabra origen hasta la posión
+
+14:13.440 --> 14:19.480
+j y la palabra destino hasta la posión i ¿de acuerdo? O sea, esto es la distancia entre
+
+14:19.480 --> 14:35.600
+fra e it. Y lo interesante es que yo puedo determinar cada una de estas a partir de esta y esta.
+
+14:35.600 --> 14:44.560
+Y ahora lo vamos a ver en cada caso, es decir, de la posición anterior insertando, ahora
+
+14:44.560 --> 14:51.720
+lo vamos a ver en cada caso. Empezamos por acá, acá es la distancia entre nada y nada
+
+14:51.720 --> 15:01.440
+y ahí que va. Sí, es como nuestro paso base ¿no? Y luego para llegar del numeral a cualquier
+
+15:01.440 --> 15:07.640
+parte de la palabra ¿cuánto tengo? ¿cuánto tengo? Si tengo que ir hasta la posición
+
+15:07.640 --> 15:22.240
+y ¿cuántos pasos son? Son i ¿verdad? O sea acá ¿cuánto sería? Y así ¿no? Y para
+
+15:22.240 --> 15:32.760
+este lado ¿como, perdón? No, porque yo quiero ir de nada a itali, por ejemplo, tengo que
+
+15:32.760 --> 15:39.760
+insertar it a li, o sea es agregar, siempre es agregar uno a la palabra que tenía antes.
+
+15:39.760 --> 15:44.560
+Ya acá empezamos a aplicar la regla porque es decir, la forma de ir desde nada hasta
+
+15:44.560 --> 16:03.800
+itali es lo mismo que ir hasta ital e insertar una ¿sí? Porque este es el destino. Y lo
+
+16:03.800 --> 16:11.600
+mismo para este lado pero estas son operaciones de borrado ¿sí? Yo para ir de F a nada tengo
+
+16:11.720 --> 16:20.240
+que borrar la F, o sea es una operación de borrado ¿se entiende? Para ir de F a nada
+
+16:20.240 --> 16:28.640
+tengo que borrar la F y la R ¿te acuerdo? Y es imposible que yo tenga un camino más
+
+16:28.640 --> 16:35.600
+corto porque siempre voy insertando de a uno. Si yo tengo que escribir 7 letras no tengo
+
+16:35.600 --> 16:45.280
+menos de 7 operaciones por tener ¿tá? Entonces después empiezo a moverme en esta dirección
+
+16:45.280 --> 16:58.240
+en el cuadro y digo bueno, para ir de numeral F a numeral I ¿qué puedo hacer? Y yo tengo
+
+16:58.240 --> 17:09.880
+tres opciones ¿cuáles son las tres opciones? Una es hacer una sustitución ¿tá? Ah perdón
+
+17:09.880 --> 17:16.320
+acá voy a en esta la distancia que voy a utilizar voy a hacer que la sustitución
+
+17:16.320 --> 17:20.920
+es lo mismo ¿no? después lo vemos con la otra pero voy a hacer la sustitución vaga
+
+17:20.920 --> 17:25.960
+a 2 yo supongo que sustituir me cuesta a 2 es otra forma estarda una es la distancia
+
+17:26.120 --> 17:32.200
+y la otra es que vaga a 2 porque tengo que borrar y me sentar. Entonces es para que
+
+17:32.200 --> 17:40.240
+quede un poco más entretenido el ejercicio sustituir ¿cuánto me va a costar sustituir
+
+17:40.240 --> 17:55.880
+una F por una I? No lo que voy a hacer es simplemente sustituir la F por la
+
+17:56.040 --> 18:02.920
+I ¿no? directamente y ahí solo tengo que sumar el costo de sustituir todo lo que tenía
+
+18:02.920 --> 18:09.400
+antes en la palabra o sea sustituyo en este caso nada por nada y después cambia la F por la I
+
+18:09.400 --> 18:22.640
+o sea que es siempre es 2 más lo que tengo acá en la diagonal ¿tá? 2 pero yo tengo otra forma
+
+18:22.640 --> 18:42.200
+de hacer esto ¿qué es? ir hasta F ¿si? y borrarla y perdón y perdón e ir de F a nada e insertarla
+
+18:42.200 --> 18:54.760
+ahí ¿de acuerdo? entonces ir de F a nada ¿cuánto me cuesta? 1 e insertarla ahí 1 o sea que acá me va a
+
+18:54.760 --> 19:01.560
+dar 2 ese camino me cuesta ¿qué es lo que estoy tratando de hacer? estoy tratando de ver cómo
+
+19:01.560 --> 19:05.160
+llegar a partir de los pasos anteriores a éste o sea que tengo que probar todo lo camino posible
+
+19:05.720 --> 19:10.680
+que son 3 esencialmente esa es la gracia es lo que introduce el agonismo yo tengo que hacer 3
+
+19:13.800 --> 19:22.760
+y acá lo que hago es el camino alternativo que es ir de nada ahí perdón ir de nada ahí
+
+19:26.560 --> 19:27.120
+1
+
+19:31.080 --> 19:33.040
+perdón borrar la F e ir ahí
+
+19:35.160 --> 19:35.800
+también son 2
+
+19:42.200 --> 19:48.400
+porque ahí yo estoy yendo de perdona claro borrar perdón quiero decir borrar la I e insertarla
+
+19:48.400 --> 19:53.920
+F acá fui de nada ahí e insert de la F
+
+19:55.880 --> 20:01.000
+borré la I insert de la F en todo caso en este caso no tengo problema porque los 3 valen
+
+20:01.000 --> 20:07.040
+lo mismo o sea la distancia de edición es la misma de acuerdo o sea acá acá yo sé que
+
+20:08.280 --> 20:17.240
+la mínima distancia entre F e I entre número al F número lo sacamos solo palcero entre F e
+
+20:17.240 --> 20:25.520
+I es 2 no importa por el camino que yo vaya y entonces empiezo a llenar el diabolal así
+
+20:26.520 --> 20:34.280
+acá tengo lo mismo no R e I acá me suma 3 por acá me suma 3 por acá me suma 3 también o
+
+20:34.280 --> 20:38.400
+sea sumo 1 3 2 más 1 3 1 más 2 3 también o sea acá siempre es 3
+
+20:39.920 --> 20:45.960
+de acuerdo y así sigo muy aburridamente sumando 1 no 2 4
+
+20:46.520 --> 20:56.240
+5 estos 6 y acá qué pasa qué es lo que pasa en este cuadradito
+
+20:58.480 --> 21:05.800
+ya tengo la I o sea que mi costo de sustitución cuánto es es 0 entonces acá que me da por
+
+21:05.800 --> 21:09.720
+este caminito el de la por el camino de la sustitución por el camino de ir hasta France
+
+21:10.720 --> 21:18.200
+si y cambiar la hasta Francia y cambiar me va a costar 5 más 0 5
+
+21:19.800 --> 21:27.400
+si en cambio por este camino cuesta 7 por este cuesta 7 yo me quedo con el mínimo
+
+21:30.400 --> 21:32.320
+o sea que acá van a ser 5
+
+21:33.320 --> 21:42.560
+y la gracia de del del por qué este método funciona así porque por cómo está definido
+
+21:42.560 --> 21:49.680
+el algoritmo yo sé que si acá llegué con una distancia de 6 como esto son lo único 3
+
+21:49.680 --> 21:55.640
+caminos posible para llegar si acá llegué con una distancia de 6 la distancia mínima hasta
+
+21:55.640 --> 22:00.480
+acá tiene que depender sólo de estas 3 porque si hubiera una más corta estaría en una de estas
+
+22:00.480 --> 22:08.520
+3 se entiende sólo dependo del paso anterior el algoritmo de h m m es el que el algoritmo
+
+22:08.520 --> 22:14.200
+de de de viterbi también me acordé me faltaba hoy ya se van a acordar de mí acuérdense cuando
+
+22:14.200 --> 22:20.000
+vamos a meter viterbi que es la misma idea que yo sólo dependo del paso anterior y por eso
+
+22:20.000 --> 22:24.040
+por usar una tabla porque si yo dependiera de más paso para atrás esto no podría hacerlo
+
+22:24.040 --> 22:28.360
+porque yo sólo consulto a los tres cuadraditos que me que me dirigen a este a este lugar
+
+22:29.320 --> 22:35.040
+si yo pudiera tener otro camino más complicado con más paz o con menos pasos este no podría
+
+22:35.040 --> 22:40.240
+hacer esto acá pero acá yo sé que por cómo lo tengo hecho la única 3 forma de llegar a esto
+
+22:40.240 --> 22:44.320
+es atrás de acá se entiende más o menos si
+
+22:48.760 --> 22:54.280
+no se ve mucho bueno pero cuál es el problema que tengo acá yo voy a llegar acá y bueno
+
+22:54.360 --> 23:01.320
+aquí que me va a dar ya lo decimos 7 esto va a quedar de ver para que ustedes lo hagan
+
+23:01.320 --> 23:08.440
+preso una pavada el algoritmo es una pavada después de hecho todos los años tengo que volver a pensar
+
+23:08.440 --> 23:13.320
+por qué la justificación porque uno que aplica el algoritmo es simplemente suma 2 sumo 2 acá
+
+23:13.320 --> 23:20.400
+o 0 si es la misma o 1 y 1 me quedo con el mismo esto me da 7 esto quiere decir que la distancia
+
+23:20.400 --> 23:27.280
+entre francia e italia es 7 se acuerda que hoy no había 4 porque usábamos distancia de
+
+23:27.280 --> 23:30.640
+leves ten que daba un peso de 1 pero el algoritmo es mismo
+
+23:33.760 --> 23:39.000
+y cuáles son las sustituciones cómo sé cuáles son las sustituciones
+
+23:43.880 --> 23:47.920
+es 7 pero cuáles son las operaciones que yo tengo que hacer para llegar de una a la otra
+
+23:51.400 --> 23:52.400
+y
+
+23:59.480 --> 24:01.800
+tendría que recorrer el camino para atrás bien
+
+24:05.560 --> 24:11.160
+7 con esta que definimos ahora con el valor 2 para la sustitución acá está la tabla completa
+
+24:13.400 --> 24:17.000
+pero no se la quiero mostrar por el por ahora le pico porque
+
+24:18.000 --> 24:23.120
+la distancia es 7 pero cuáles son las operaciones tengo que hacer el camino y qué
+
+24:23.120 --> 24:23.720
+problema tengo
+
+24:27.280 --> 24:28.800
+qué problema tiene mi algoritmo
+
+24:30.520 --> 24:34.680
+que yo no guardo dónde vine qué tendría que agregarle mi algoritmo
+
+24:39.160 --> 24:43.240
+exactamente una indicación de dónde vine que posiblemente puede ser de más de un lado se
+
+24:43.240 --> 24:53.440
+acuerdan acá yo puedo venir en este por ejemplo puedo venir de acá de acá o de acá los tres
+
+24:53.440 --> 25:00.800
+tienen la misma distancia de dicción y efectivamente no efectivamente porque ahí yo marqué uno solo
+
+25:00.800 --> 25:07.960
+pero si te ven yo acá lo que dice fue poner de dónde venía en cada caso ven acá vengo de 7
+
+25:07.960 --> 25:13.880
+porque la y la y la coinciden entonces vengo por la diagonal y así hago el camino inverso acá yo
+
+25:13.880 --> 25:20.200
+por por por razones de legibilidad sólo marqué uno de los orígenes pero en realidad si yo
+
+25:20.200 --> 25:25.720
+completo esta tabla fíjense que tengo digamos si yo marco todos los lugares donde puedo venir por
+
+25:25.720 --> 25:33.200
+ejemplo acá puedo venir de acá o de arriba en este tres o como lo vimos acá si yo marco tengo no
+
+25:33.200 --> 25:39.800
+sólo tengo la distancia sino que tengo todos los caminos posibles con esa distancia mínima
+
+25:39.800 --> 25:50.880
+de dicción también me interesa no solo por meterse a ir de uno al otro pero bueno se entendió más o
+
+25:50.880 --> 26:03.680
+menos y ahí tenemos la el camino reconstruido digamos a partir de la tablita esto lo van a tener
+
+26:03.680 --> 26:09.680
+que mirar en sus casas pero es muy sencillo voy haciendo las operaciones acá me moví por la
+
+26:09.680 --> 26:18.400
+diagonal por la diagonal acabo rel a él ustedes pueden comprobar de la tabla todas las operaciones
+
+26:18.400 --> 26:29.560
+que se ejecuta y la distancia mínima de dicción da 7 por qué porque esto está mal no porque
+
+26:29.560 --> 26:42.640
+sólo con inserción y borrado está acuerdo alguna pregunta acá está hecho con la distancia
+
+26:42.760 --> 26:51.360
+está ahí que como ven sólo agrega uno cuando se mueve a la diagonal cuando sustituye le hace el costo
+
+26:51.360 --> 27:02.000
+uno yo por ahí tengo hay una planillita voy a dejar el link pero esto es una pavada digamos una
+
+27:02.320 --> 27:07.000
+excel es muy fácil hacer simplemente poner la fórmula uno copia y pega ya está
+
+27:11.760 --> 27:19.160
+está acá fíjense que a diferencia de la anterior como la sustitución cuesta lo mismo que
+
+27:19.160 --> 27:23.720
+la del borrado la prefiere cuando puede entonces el camino de 4 es este
+
+27:30.480 --> 27:39.040
+bueno este no es más el capítulo 2 sólo tengo corregir así perdón y en este link tenemos
+
+27:39.040 --> 27:43.680
+la calculadora acá ponemos el costo de inserción la palabra origen de destino
+
+27:43.960 --> 27:47.640
+como ven acá la fórmula es muy sencillo
+
+27:50.760 --> 27:53.440
+bueno acá no se ve la fórmula arriba no sé cómo voy a hablar
+
+27:56.160 --> 28:02.520
+bueno está ahí puede cambiar el costo y nada nada muy mérito está alguna duda antes de pasar
+
+28:02.520 --> 28:12.360
+a otro tema como les decía la distancia mínima de dicciones es útil porque es un alcohol muy sencillo
+
+28:13.720 --> 28:22.000
+muy eficiente y permite por poca plata digamos obtener una noción bastante útil que es la de
+
+28:22.000 --> 28:28.920
+ir de una palabra a la otra y encima permite estimar el costo de cada operación después
+
+28:28.920 --> 28:34.040
+vamos a ver en un par de clases más adelante más adelante este
+
+28:34.360 --> 28:42.040
+porque por ejemplo si yo estoy corregiendo un error ortográfico
+
+28:43.040 --> 28:47.480
+no yo tengo un repasando un documento y aparece una palabra
+
+28:49.280 --> 28:54.720
+que no existe en mi diccionario yo tengo que sugerir palabras la distancia de mínima
+
+28:54.720 --> 29:00.800
+dicciones es una forma bastante rápida de encontrar las palabras más cercanas es decir buscar
+
+29:00.800 --> 29:07.680
+en el diccionario todas las palabras que están a una distancia 1 o 2 de acuerdo de la forma más
+
+29:07.680 --> 29:16.520
+sencilla de sugerir podemos ver un poco más sobre corrección de errores traductora está finita bueno
+
+29:20.800 --> 29:25.320
+vamos a pasar a una una etapa siguiente en el análisis de las palabras nosotros tenemos
+
+29:25.320 --> 29:34.680
+dijimos las las este las palabras identificadas como yo le decía no siempre es una cascada
+
+29:34.680 --> 29:40.200
+tan ordenada dice me puede interesar esto que voy a hacer por otros motivos pero lo que yo quiero es
+
+29:44.200 --> 29:53.280
+investigar la estructura interna de las palabras es decir trato de la palabra por ejemplo velozmente
+
+29:55.400 --> 30:01.600
+si quiere decir quiere decir velozmente primero qué clase gramatical tiene esa palabra
+
+30:07.240 --> 30:15.160
+es una adverbio como todos los terminamos en mente menos mente este es un adverbio y qué quiere decir
+
+30:16.160 --> 30:29.240
+quisi velozmente lo hizo que hizo algo rápido es como que adjetivo verbo digamos si se me permite
+
+30:29.240 --> 30:35.960
+la barbaridad compañía lingüista este es como que califica un verbo como todos los adverbios
+
+30:35.960 --> 30:42.720
+este hago una acción todo eso está contenido dentro de la palabra porque el mente es una es un
+
+30:42.800 --> 30:49.800
+sufijo que indica por hecho de tal forma o sea a partir de veloz que es un adjetivo yo genero
+
+30:49.800 --> 31:01.440
+un adverbio si medio que automáticamente es un mecanismo productivo de producir palabras
+
+31:01.440 --> 31:06.680
+nuevas y eso se lo puedo saber viendo la palabra porque tiene veloz que es una raíz y mente que es un
+
+31:06.680 --> 31:12.480
+sufijo que me dice de forma que se hace eso puede ser muy útil para por ejemplo identificar la clase
+
+31:12.480 --> 31:19.800
+de una palabra ese asunto de encontrar la estructura interna de las palabras se
+
+31:19.800 --> 31:25.840
+llamó morfología la morfología es el estudio de la estructura interna de las palabras y
+
+31:25.840 --> 31:30.200
+nosotros en esta clase en la que viene vamos a hablar de morfología pero antes de hablar de
+
+31:30.360 --> 31:40.400
+morfología vamos a introducir el mecanismo formal más utilizado en esto que es el de
+
+31:42.000 --> 31:50.960
+los transductores de taufinito y la extensión de las expresiones regulares para para pares de tiras
+
+31:50.960 --> 31:56.520
+ahora vamos un poquito de eso si entonces vamos a empezar hablando de transductores de taufinito
+
+32:01.200 --> 32:08.480
+como ya he dicho muchas veces cada tema me está matando el hecho de que la cosa más
+
+32:08.480 --> 32:16.000
+grande de la meta cada tema este merece un curso de hecho en el año 2003 unos
+
+32:16.000 --> 32:18.000
+así dimos un curso de transductores
+
+32:23.560 --> 32:27.120
+solo transductor transductor de taufinito
+
+32:29.600 --> 32:35.200
+que son esencialmente los transductor de taufinito son automatas finitos como los que vimos en la
+
+32:36.920 --> 32:38.120
+los que vimos en la
+
+32:38.840 --> 32:51.640
+lo que vimos en la clase pasada si se acuerdan que teníamos estados transiciones
+
+32:53.160 --> 33:00.200
+unos estados finales y un estado donde empezar si los transductor de taufinito son un conjunto
+
+33:00.200 --> 33:06.640
+de estados circulitos un alfabeto de entrada y uno de salida
+
+33:11.840 --> 33:12.880
+un estado inicial
+
+33:15.640 --> 33:21.920
+un conjunto finito de estados finales y las aristas o transiciones esto se puede
+
+33:21.920 --> 33:26.200
+en los automatas finitos realmente esto no lo representa con una función esto es de forma
+
+33:26.200 --> 33:31.320
+equivalente puede hacerlo acá otra forma es tener aristas pero simplemente es es la expresar
+
+33:31.320 --> 33:39.400
+el dibujito no da un estado y un símbolo de entrada o epsilon y un símbolo de salida o
+
+33:39.400 --> 33:45.480
+epsilon y otro estado final tengo un arco que va entre ellos y como interpreto se automata como
+
+33:45.480 --> 33:53.760
+bueno si yo voy acá si hay algún camino que lleva desde un estado inicial a uno final
+
+33:54.280 --> 33:55.400
+etiquetado
+
+33:57.400 --> 33:58.480
+con una entrada
+
+34:01.680 --> 34:08.600
+si lo que estoy mapeando mapeando es estoy haciendo dos cosas a la vez en el transductor
+
+34:08.600 --> 34:13.920
+estoy reconociendo la entrada formada por los símbolos e1 y e2
+
+34:15.280 --> 34:20.680
+si o sea se acuerdan que yo cuando yo tengo
+
+34:20.680 --> 34:27.240
+se acuerdan que los lenguajes que eran que eran los lenguajes que dijimos que eran los lenguajes
+
+34:29.960 --> 34:32.880
+conjuntos conjuntos de tiras o el alfabet
+
+34:35.520 --> 34:42.680
+exactamente conjuntos tiras de cualquier largo sobre ese alfabeto entonces acá lo que yo hago es
+
+34:43.680 --> 34:49.280
+dado una tira de un lenguaje la tira e1 e2 en este caso
+
+34:52.000 --> 34:55.080
+devuelvo como salida la tira s1 s2
+
+34:57.080 --> 35:02.600
+si los transductores de todos finitos son igual que los automatas finitos de hecho reconocen
+
+35:02.600 --> 35:06.960
+como entrada del mismo tipo de lenguaje los lenguajes regulares pero además vienen con
+
+35:06.960 --> 35:14.880
+el beneficio de que dan una salida asociada si ustedes se acuerdan del curso de lenguaje ustedes
+
+35:14.880 --> 35:21.520
+veían algo parecido en el curso de lenguaje se acuerdan como que como se llamaba eso se llamaba
+
+35:21.520 --> 35:28.440
+máquina de mili pero las máquinas de mili no vienen de la misma traducción que los lenguajes
+
+35:28.440 --> 35:34.040
+regulares la máquina de mili vienen de la de la electrónica de los circuitos digamos y por eso
+
+35:34.040 --> 35:39.560
+no tienen la noción de estado final yo no sé si ustedes se acuerdan este no tienen la noción de
+
+35:39.560 --> 35:47.080
+estado final sino que son más como continuos el transductor es el equivalente de los de los
+
+35:49.480 --> 35:54.880
+el equivalente el equivalente sobre pares de tiras de los lenguajes regular
+
+35:55.880 --> 35:58.640
+ahora vamos a ver que hay varias interpretación
+
+36:01.040 --> 36:08.680
+entonces y además si observamos esto fíjense que las transiciones también pueden tener
+
+36:12.680 --> 36:19.120
+éxilo o sea podría moverse por un arco sin emitir salida sin leer entrada si
+
+36:20.120 --> 36:27.360
+si no tuviéramos esto qué pasaría si yo no tuviera la posibilidad de anotar con éxilo
+
+36:27.360 --> 36:34.080
+qué es lo que pasaría con mis automatas no podría no ser determinado pues yo podría ir con
+
+36:34.080 --> 36:39.360
+el mismo símbolo a dos estados no de hecho yo podría hacer esto
+
+36:39.360 --> 36:47.680
+y ahí lo que estoy diciendo es que esto mapea a ese
+
+36:49.520 --> 36:52.080
+es el 132 y no es un problema
+
+36:55.520 --> 36:57.400
+qué pasaría si yo no tuviera éxilo
+
+37:02.320 --> 37:07.800
+las tiras de entrada y salida deben ser de igual largo no tendría la posibilidad de pasar Francia
+
+37:07.800 --> 37:14.480
+Italia digamos con una transformación de acuerdo esto lo que permite es que el largo sea y arma una
+
+37:14.480 --> 37:18.280
+cantidad de líos teóricos que no vamos a cubrir en este curso pero miente algunos problemas
+
+37:20.600 --> 37:25.640
+porque cosa que no se puede hacer son un poco más complicados formalmente hablando que los
+
+37:25.640 --> 37:35.160
+automatas finitos pero no mucho bien dado un transductor yo puedo definir una relación asociada
+
+37:35.160 --> 37:43.000
+del transductor si que es una relación es el producto cartesiano de dos lenguajes va es un su
+
+37:43.000 --> 37:47.880
+conjunto es un producto cartesiano de dos lenguajes
+
+37:51.960 --> 37:57.560
+es un sub es lo que hizo es un sub conjunto del producto cartesiano cartesiano de sin más
+
+37:58.280 --> 38:06.480
+que era esto son todas las tiras entradas esto es un suco es un mapeo entre tiras de entrada y
+
+38:06.480 --> 38:10.080
+tiras de salida entre todas las posibles si
+
+38:12.880 --> 38:14.680
+y cómo lo defino bueno
+
+38:16.560 --> 38:21.960
+una tira x e y son las tiras del producto cartesiano tales que existe un camino
+
+38:22.080 --> 38:31.040
+que existe un camino sobre la clausura de las aristas es decir sobre cualquier cami hay algún
+
+38:31.040 --> 38:37.120
+camino sobre el automata que llegan a estos finales es como la extensión natural de los
+
+38:37.120 --> 38:46.280
+automatas finitos de acuerdo simplemente lo puedo ver como estos son detalles lo van a ver
+
+38:46.280 --> 38:54.600
+que es exactamente lo mismo es la definición de de de de gorro para todo estado
+
+38:56.840 --> 39:03.040
+el vacío pertenece a gorro o sea con estado así mismo y luego si yo tengo un camino que va
+
+39:03.040 --> 39:11.000
+de q1 a q2 y de q2 a q3 y una transición que va del cudo a u3 tengo un camino de q1 a q3
+
+39:11.600 --> 39:12.920
+la definición de camino
+
+39:15.120 --> 39:18.920
+entonces esencialmente lo que yo estoy diciendo si hay algún camino
+
+39:20.960 --> 39:26.640
+que llega de un estado final aún aún de un estado inicial a uno final el par de tiras que se
+
+39:26.640 --> 39:31.320
+generan sobre las transiciones están en la relación de acuerdo
+
+39:31.320 --> 39:42.640
+por ejemplo y les propongo
+
+39:46.040 --> 39:48.320
+vamos yo les propongo hacer un transductor
+
+39:52.800 --> 39:54.520
+que está haciendo que estoy haciendo mal
+
+40:01.320 --> 40:05.040
+todo bien ahí
+
+40:14.520 --> 40:22.320
+vamos a suponer a ver yo quiero hacer un transductor para el plural de que la entrada
+
+40:22.320 --> 40:29.640
+sea una palabra en español y que la salida sea su plural o sea que cuál sería mi relación
+
+40:32.320 --> 40:35.000
+cuál sería la relación que computaría este transductor
+
+40:41.280 --> 40:43.880
+a mí me sé todos todos nos equivocamos
+
+40:47.680 --> 40:51.560
+cuál es la relación cuáles son qué pan qué es la relación que estamos buscando
+
+40:51.560 --> 41:03.400
+cuáles son las tiras no la relación que quiero la plural palabra plural cuál es la
+
+41:03.400 --> 41:08.240
+relación cuáles son los pares de tiras que tienen mi relación mi relación que dijimos que era
+
+41:08.240 --> 41:13.440
+era conjunto de pares de tiras cuáles serían los pares de tiras de mi transductor
+
+41:15.360 --> 41:21.160
+sin plural para cada palabra su plural él o los plurales porque hay algunas que son
+
+41:21.480 --> 41:25.040
+admiten más en un plural ahora vamos a ver que está pero
+
+41:26.920 --> 41:32.200
+si entonces como como a alguien se anima a sugerir un automata
+
+41:34.000 --> 41:35.920
+como cómo se hace el plural en español
+
+41:35.920 --> 41:48.880
+leo cualquier cosa no estamos acuerdo leo cualquier cosa
+
+41:51.480 --> 41:57.280
+ah por eso lo sé porque los automatas cuando lo vemos no me doy cuenta lo hago no determinista
+
+41:58.680 --> 42:01.960
+yo sé que acá si terminen una vocal
+
+42:01.960 --> 42:09.080
+se van a equivocar igual porque es horrible difícil pero
+
+42:11.000 --> 42:15.400
+si termina en un en una en una vocal una vocal de que si cuáles son las vocales a
+
+42:22.480 --> 42:27.520
+y acá devuelvo la misma no acá tomó cualquier símbolo de bueno mismo símbolo damos acuerdo
+
+42:28.240 --> 42:32.160
+al claro que acá yo tengo que hacer un arco para cada letra pero bueno no lo vamos a hacer porque
+
+42:32.160 --> 42:37.680
+nos quedaría un poco engorroso una devuelvo la y después qué pasa
+
+42:41.480 --> 42:42.360
+qué pasa acá
+
+42:44.280 --> 42:52.200
+epsilones muy bien y final por eso sé que es la última porque llega un final si no es la última
+
+42:52.200 --> 42:57.040
+no va a llegar un final y yo para reconocer tengo que recorrer el arco pero terminar en un final
+
+42:57.520 --> 43:02.600
+que más otra igual con la e
+
+43:09.720 --> 43:10.240
+no
+
+43:13.200 --> 43:14.280
+otra igual con la y
+
+43:28.400 --> 43:31.440
+no no mal
+
+43:33.800 --> 43:34.640
+manis
+
+43:38.120 --> 43:38.960
+manis es
+
+43:41.320 --> 43:44.800
+la de tampoco café café bueno si café café es
+
+43:49.880 --> 43:52.600
+la iba ese no
+
+43:52.600 --> 43:55.440
+no también
+
+44:08.920 --> 44:09.920
+también me pende porque
+
+44:14.120 --> 44:17.480
+caches esta esa que anda bien acá
+
+44:22.600 --> 44:32.600
+¿Colao? ¿Colao? ¿Colao?
+
+44:32.600 --> 44:54.600
+¿Qué pasa? ¿Qué tiene? ¿Qué tal?
+
+44:54.600 --> 45:17.600
+¿Omnibus? Está muy tímido. ¿Omnibus, si terminen ese, ¿qué pasa? ¿Omnibuses?
+
+45:17.600 --> 45:47.600
+¿Omnibus? No, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no
+
+45:47.600 --> 46:17.600
+no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no
+
+46:17.600 --> 46:47.600
+no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no
+
+46:48.260 --> 46:51.380
+Sustantivo운�GET TИ antiriotermitaINDHA o en oathónica
+
+46:51.940 --> 46:52.920
+¡papá!
+
+46:52.920 --> 46:53.920
+¡papas!
+
+46:53.920 --> 46:55.820
+sofás, bajsas, juro буду
+
+46:55.820 --> 46:56.380
+TODAS ENfulga
+
+46:56.380 --> 46:58.420
+Son excepciones terriblos Faralah y Albalah
+
+46:59.140 --> 47:01.680
+que se dice情
+
+47:03.020 --> 47:05.740
+y en ver ابbio know en función sustantiva
+
+47:07.200 --> 47:08.200
+no es
+
+47:08.200 --> 47:12.480
+también es excepción al pronombre esto cuando funciona como sustantivo
+
+47:12.480 --> 47:14.480
+veux admité ambos plurales yo es
+
+47:14.740 --> 47:16.260
+y Yo
+
+47:16.260 --> 47:20.460
+y son vulgares de cirsofaces, ignorantes, así es, sofaces.
+
+47:23.460 --> 47:27.260
+No son tanto, el problema ahí es más grande, pareciera ser el...
+
+47:27.960 --> 47:30.960
+para resolver con un tránsito, pero en general se puede implementar como reglas,
+
+47:30.960 --> 47:32.960
+son reglas determinísticas, ¿no?
+
+47:36.460 --> 47:40.460
+No deterministe, perdoné la palabra en el corazón, son números finitos de reglas.
+
+47:41.160 --> 47:46.660
+Ahí hay un problema acá con éste, yo lo que veo acá es el adverbio no, función sustantiva,
+
+47:46.660 --> 47:48.660
+porque tengo que saber en qué función está el no.
+
+47:51.160 --> 47:52.960
+¿Qué es el adverbio no, función sustantiva?
+
+47:52.960 --> 47:54.460
+Sabe algo que no sé, tampoco.
+
+47:54.460 --> 47:58.660
+Un no, ah, un no, no recibiré un no por respuesta.
+
+47:59.660 --> 48:03.160
+Ahí, no recibiré unos noes por respuesta.
+
+48:04.160 --> 48:13.160
+Yoes, el yo, el yoes, los yoes de las personas son los que los limitan,
+
+48:13.160 --> 48:15.160
+no, esos son los súper yoes.
+
+48:15.160 --> 48:21.160
+Bueno, un poco de la moraleja es que no es trivial,
+
+48:21.160 --> 48:29.160
+digamos, como que es posible, pero que, digamos, es bastante engorroso,
+
+48:30.160 --> 48:36.160
+imagínense si una tarea tan sencilla como el plural es bastante engorrosa,
+
+48:36.160 --> 48:41.160
+calcular todas las combinaciones morfológicas de las palabras, también,
+
+48:41.160 --> 48:47.160
+y de eso vamos a hablar la clase que viene, pero construir el transductor a mano no es fácil,
+
+48:47.160 --> 48:52.160
+pero tenemos algunas ventajas, y eso es un poquito lo que vamos a ver ahora.
+
+48:53.160 --> 48:56.160
+Bueno, pero antes de esto vamos a ver una cosa,
+
+48:56.160 --> 48:59.160
+tenemos cuatro formas de verlos a los transductores,
+
+48:59.160 --> 49:03.160
+que son, por supuesto, formalmente equivalentes, pero que nos permiten modelar,
+
+49:03.160 --> 49:09.160
+según la tarea que queremos, no se, nos puede ser más cómodo verlos de una forma u otra.
+
+49:09.160 --> 49:13.160
+Una es como reconocedores de parejas de tiras,
+
+49:13.160 --> 49:18.160
+es decir, una automata es lo que hicimos hasta ahora, no, reconocemos pares de tiras.
+
+49:18.160 --> 49:22.160
+La palabra es un plural, sí, el reconoce la palabra,
+
+49:22.160 --> 49:26.160
+pero también lo podemos ver como un transductor, ¿de acuerdo?
+
+49:26.160 --> 49:29.160
+Si yo le doy la palabra, me devuelve el plural.
+
+49:30.160 --> 49:34.160
+Por supuesto que es equivalente, pero a veces uno puede pensarlo mejor en una forma u otra.
+
+49:34.160 --> 49:37.160
+También como un generador de parejas de tiras,
+
+49:37.160 --> 49:44.160
+todos los automatas tienen esa característica, esa dualidad de generadores y reconocedores.
+
+49:44.160 --> 49:49.160
+Yo recorro cualquier camino, eso es un procedimiento generativo,
+
+49:49.160 --> 49:55.160
+yo recorro cualquier camino de un transductor y genero una pareja de tiras, ¿de acuerdo?
+
+49:55.160 --> 49:57.160
+Si yo quiero generar palabras al azar de un lenguaje,
+
+49:57.160 --> 50:02.160
+lo que hago es recorrer la automata y voy generando cosas.
+
+50:04.160 --> 50:07.160
+Y lo que sabemos, un computador de relaciones entre conjuntos,
+
+50:07.160 --> 50:10.160
+tengo dos conjuntos y quiero saber cuáles palabras están relacionadas.
+
+50:12.160 --> 50:15.160
+Según la circunstancia, me puede convenir de una forma u otra.
+
+50:15.160 --> 50:19.160
+Y bueno, las virtudes es esto, reconocen lo mismo que los automatas finitos.
+
+50:19.160 --> 50:24.160
+Los traductores tienen la misma debilidad expresiva que los automatas finitos.
+
+50:24.160 --> 50:27.160
+Es decir, solo pueden reconocer en su entrada lenguajes regulares.
+
+50:27.160 --> 50:30.160
+Si yo la entrada no la puedo expresar como un lenguaje regular,
+
+50:30.160 --> 50:34.160
+no puedo expresarlo en un transductor.
+
+50:35.160 --> 50:38.160
+Pero además permiten devolver una salida.
+
+50:38.160 --> 50:46.160
+Tienen las virtudes sort of, igual que los automatas finitos,
+
+50:46.160 --> 50:49.160
+pero además permiten devolver una salida.
+
+50:49.160 --> 50:53.160
+Son un poquito más complicados de un punto vista computacional
+
+50:53.160 --> 50:56.160
+porque no siempre se pueden volver deterministas en la entrada.
+
+50:56.160 --> 50:58.160
+Ahora vamos a mencionar un poquito adelante,
+
+50:58.160 --> 51:01.160
+pero no es para nada el objetivo de este curso.
+
+51:02.160 --> 51:04.160
+Bien, alguna definición más.
+
+51:04.160 --> 51:08.160
+Si yo tengo un transductor, va a quedar definida una función
+
+51:08.160 --> 51:12.160
+de sigma 1 aster a 2 a la sigma 2.
+
+51:12.160 --> 51:14.160
+¿Por qué es a 2 a la sigma 2 aster?
+
+51:17.160 --> 51:20.160
+Pero ¿por qué uso el conjunto potencial en el codominio?
+
+51:22.160 --> 51:24.160
+Porque es no determinista.
+
+51:24.160 --> 51:28.160
+Seguramente, 2 a esto es las combinaciones de todas posibles, ¿no?
+
+51:29.160 --> 51:32.160
+Todos los subconjuntos posibles de un conjunto.
+
+51:33.160 --> 51:36.160
+Porque acá cada tira puede volver más de una tira
+
+51:36.160 --> 51:37.160
+porque es no determinista.
+
+51:37.160 --> 51:40.160
+Yo permito generar cosas no deterministas.
+
+51:41.160 --> 51:47.160
+O sea que esto, rayita T, son todas las D
+
+51:47.160 --> 51:50.160
+que pertenecen a la relación, dada U.
+
+51:51.160 --> 51:57.160
+Rayita T, no digo transducción porque transducción es exactamente la palabra.
+
+51:59.160 --> 52:02.160
+El transductor para U devuelve todas las B.
+
+52:02.160 --> 52:04.160
+O sea, es algo que me apega en la salida.
+
+52:13.160 --> 52:15.160
+Perdón, estaba bien, dije bien.
+
+52:15.160 --> 52:19.160
+Una función que va de sigma aster a 2 a la sigma aster,
+
+52:19.160 --> 52:22.160
+o sea que dada una tira devuelve un conjunto de tiras,
+
+52:23.160 --> 52:25.160
+se llama transducción.
+
+52:27.160 --> 52:28.160
+¿De acuerdo?
+
+52:28.160 --> 52:30.160
+Una transducción es algo que dada una tira devuelve un conjunto.
+
+52:32.160 --> 52:37.160
+Y curiosamente, si existe un transductor que la computa...
+
+52:40.160 --> 52:42.160
+O sea que una transducción no quiere decir que haya un transductor.
+
+52:43.160 --> 52:44.160
+Es un poco raro, ¿no?
+
+52:46.160 --> 52:48.160
+Si hay un transductor que la computa es racional.
+
+52:50.160 --> 52:51.160
+¿De acuerdo?
+
+52:52.160 --> 52:54.160
+¿Por qué podría no haber un transductor?
+
+52:56.160 --> 52:58.160
+Porque los transductores solo admiten lenguaje regular,
+
+52:58.160 --> 53:00.160
+y acá no lo estoy restriciendo.
+
+53:02.160 --> 53:05.160
+Y además es una función racional, ¿sí? ¿Qué pasa?
+
+53:05.160 --> 53:08.160
+Para todo extrín de entrada devuelve un extrín de salida.
+
+53:14.160 --> 53:16.160
+Sería como un transductor bien comportado,
+
+53:16.160 --> 53:18.160
+porque no tendría determinismo en la salida.
+
+53:20.160 --> 53:21.160
+Bien.
+
+53:23.160 --> 53:27.160
+Si yo tengo un transductor puedo calcular la primera y segunda proyección.
+
+53:27.160 --> 53:28.160
+Es decir,
+
+53:31.160 --> 53:35.160
+proyectar quiere decir quedarme solo con la entrada o la salida en la transición.
+
+53:35.160 --> 53:36.160
+¿De acuerdo?
+
+53:37.160 --> 53:38.160
+¿Me quedo solo con la entrada?
+
+53:38.160 --> 53:39.160
+Entonces yo...
+
+53:42.160 --> 53:44.160
+obtengo un automata finito,
+
+53:44.160 --> 53:46.160
+proyectando la primera que hace una entrada.
+
+53:49.160 --> 53:50.160
+¿Sí?
+
+53:50.160 --> 53:52.160
+Simplemente me quedo con la entrada o la salida del transductor.
+
+53:55.160 --> 53:58.160
+Y si el este es la relación asociada, entonces...
+
+54:01.160 --> 54:04.160
+Entonces, perdón, los lenguajes, ¿sabiendo más?
+
+54:04.160 --> 54:07.160
+Asociados a las proyecciones son lenguajes regulares.
+
+54:09.160 --> 54:10.160
+¿Por qué?
+
+54:12.160 --> 54:13.160
+Vamos a empezar.
+
+54:13.160 --> 54:16.160
+Si yo proyecto solamente la entrada...
+
+54:17.160 --> 54:18.160
+Digamos...
+
+54:19.160 --> 54:20.160
+Si yo proyecto...
+
+54:25.160 --> 54:26.160
+Si yo proyecto...
+
+54:26.160 --> 54:29.160
+Si tengo un transductor proyecto, me quedo con la primera componente,
+
+54:29.160 --> 54:31.160
+voy a quedarme con el lenguaje regular, ¿por qué?
+
+54:34.160 --> 54:36.160
+Porque me queda exactamente un automata finito.
+
+54:37.160 --> 54:39.160
+Porque los estados son los mismos, los estados finales.
+
+54:40.160 --> 54:41.160
+¿De acuerdo?
+
+54:41.160 --> 54:44.160
+Y la entrada la computa justamente calculando el lenguaje de entrada.
+
+54:46.160 --> 54:47.160
+¿Se entienden?
+
+54:48.160 --> 54:50.160
+Simplemente yo me quedo...
+
+54:50.160 --> 54:52.160
+esto es más sencillo lo que parece.
+
+54:52.160 --> 54:54.160
+Me quedo con la primera parte o con la segunda parte.
+
+54:54.160 --> 54:55.160
+Y eso me genera un lenguaje.
+
+54:57.160 --> 54:58.160
+Son todos los...
+
+54:58.160 --> 55:01.160
+El lenguaje forma por todos los segundos lados de la relación.
+
+55:10.160 --> 55:13.160
+Y este aquí que los podemos probar,
+
+55:13.160 --> 55:16.160
+como de forma parecida lo que hicimos con los automatas finitos,
+
+55:16.160 --> 55:18.160
+que los transductores son cerrados bajo.
+
+55:18.160 --> 55:19.160
+La unión...
+
+55:20.160 --> 55:23.160
+Bajo la concatenación, bajo la clausura de clín.
+
+55:24.160 --> 55:25.160
+Bajo el reverso.
+
+55:26.160 --> 55:29.160
+¿Cómo calculo el reverso de un transductor?
+
+55:29.160 --> 55:30.160
+¿Sabe lo que es el reverso?
+
+55:31.160 --> 55:32.160
+¿Qué es el reverso de una tira?
+
+55:37.160 --> 55:38.160
+De otra bailante, ¿no?
+
+55:39.160 --> 55:41.160
+¿Haces un estado inicial?
+
+55:41.160 --> 55:42.160
+Sí.
+
+55:43.160 --> 55:47.160
+¿Que vaya con unas transiciones similar a todos los estados finales?
+
+55:47.160 --> 55:48.160
+¿Sí?
+
+55:51.160 --> 55:52.160
+Y ahí...
+
+55:52.160 --> 55:55.160
+Este estado inicial que era antes, para pasar al final de este vuelo.
+
+55:55.160 --> 55:56.160
+¿Sí?
+
+55:57.160 --> 55:58.160
+Y doy vuelta a la transición.
+
+55:59.160 --> 56:00.160
+Ah, la estrecha es alta.
+
+56:00.160 --> 56:01.160
+Y claro.
+
+56:01.160 --> 56:02.160
+Si no...
+
+56:02.160 --> 56:03.160
+No cambia.
+
+56:03.160 --> 56:04.160
+No cambia.
+
+56:04.160 --> 56:05.160
+Ah, si no, no.
+
+56:05.160 --> 56:06.160
+Pero está muy bien.
+
+56:06.160 --> 56:07.160
+Es exactamente eso.
+
+56:07.160 --> 56:09.160
+Realmente la gente empieza por dar vuelta a la estrecha
+
+56:09.160 --> 56:11.160
+y solía todo el resto.
+
+56:11.160 --> 56:12.160
+Este...
+
+56:13.160 --> 56:14.160
+Está muy bien.
+
+56:14.160 --> 56:15.160
+Está muy bien.
+
+56:15.160 --> 56:16.160
+Es un inverso bajo reverso.
+
+56:16.160 --> 56:19.160
+Y eso que hizo él es una demostración constructiva.
+
+56:19.160 --> 56:21.160
+Es decir, son cerrados porque yo, para cualquier automata,
+
+56:21.160 --> 56:22.160
+puedo dar lo que dijo él.
+
+56:22.160 --> 56:24.160
+Entonces, hice una demostración constructiva,
+
+56:24.160 --> 56:26.160
+como la que hacíamos tiene el lenguaje para demostrarles.
+
+56:26.160 --> 56:28.160
+Es que la unión era...
+
+56:29.160 --> 56:31.160
+Nuevamente, traer cosas interesantes porque...
+
+56:32.160 --> 56:33.160
+Digamos...
+
+56:33.160 --> 56:34.160
+Bueno, perdón.
+
+56:36.160 --> 56:38.160
+Y además, son cerrados bajo inverso.
+
+56:38.160 --> 56:39.160
+Y esto es muy interesante.
+
+56:41.160 --> 56:42.160
+¿Qué quiere decir?
+
+56:43.160 --> 56:45.160
+El inverso que es, es...
+
+56:46.160 --> 56:49.160
+Intercambiar las dos este...
+
+56:50.160 --> 56:53.160
+Las dos símbolos.
+
+56:53.160 --> 56:56.160
+El de salida poner la entrada y el de entrada poner la salida.
+
+56:57.160 --> 56:58.160
+¿Tá?
+
+56:59.160 --> 57:01.160
+Y eso que parece una pavada...
+
+57:03.160 --> 57:05.160
+Informalmente es una pavada.
+
+57:05.160 --> 57:06.160
+Hace que...
+
+57:07.160 --> 57:09.160
+Tiene la ventaja de que si yo modelo algo
+
+57:09.160 --> 57:11.160
+con un transductor...
+
+57:12.160 --> 57:14.160
+Y lo pienso de arriba para abajo.
+
+57:14.160 --> 57:15.160
+O sea, por ejemplo, para...
+
+57:15.160 --> 57:17.160
+Pensándolo como para mapear
+
+57:17.160 --> 57:19.160
+una palabra con su plural.
+
+57:20.160 --> 57:22.160
+Al modelarlo con un transductor,
+
+57:22.160 --> 57:24.160
+como son cerrados bajo inverso,
+
+57:24.160 --> 57:26.160
+me viene gratis la operación inversa.
+
+57:26.160 --> 57:28.160
+O sea, que yo,
+
+57:28.160 --> 57:31.160
+si sé modelar de una palabra su plural,
+
+57:31.160 --> 57:33.160
+ahora tengo automáticamente algo que,
+
+57:33.160 --> 57:34.160
+dado una palabra,
+
+57:34.160 --> 57:36.160
+me calcula su singular.
+
+57:36.160 --> 57:39.160
+Lo cual, en general no ocurre.
+
+57:39.160 --> 57:40.160
+En general es muy difícil.
+
+57:40.160 --> 57:42.160
+En todos los otros modelos como moderno,
+
+57:42.160 --> 57:43.160
+eso no sucede.
+
+57:43.160 --> 57:44.160
+Es decir, una cosa, la generación
+
+57:44.160 --> 57:46.160
+y otra cosa es el análisis.
+
+57:46.160 --> 57:48.160
+Generalmente el análisis...
+
+57:48.160 --> 57:49.160
+Generalmente no.
+
+57:49.160 --> 57:50.160
+No es más fácil o más difícil.
+
+57:50.160 --> 57:52.160
+Es distinto a la generación.
+
+57:52.160 --> 57:53.160
+A mí, por ejemplo,
+
+57:53.160 --> 57:55.160
+capaz que no sé qué le pasa a usted,
+
+57:55.160 --> 57:57.160
+pero a mí me resulta mucho más fácil pensar
+
+57:57.160 --> 57:58.160
+cómo ir en un singular plural
+
+57:58.160 --> 58:00.160
+y en un plural singular.
+
+58:01.160 --> 58:03.160
+Pero acá es exactamente lo mismo.
+
+58:03.160 --> 58:05.160
+Simplemente modelo esta automata
+
+58:05.160 --> 58:07.160
+y de vuelta la símbolo.
+
+58:07.160 --> 58:08.160
+¿Entienden?
+
+58:08.160 --> 58:09.160
+Después vamos a volver sobre esto
+
+58:09.160 --> 58:10.160
+con el tema de morfología.
+
+58:10.160 --> 58:11.160
+A ver si se acuerda mañana
+
+58:11.160 --> 58:12.160
+cuando va la pregunta.
+
+58:12.160 --> 58:14.160
+No, el martes, jueves.
+
+58:16.160 --> 58:17.160
+Y otra cosa muy interesante
+
+58:17.160 --> 58:18.160
+que tienen los traductores
+
+58:18.160 --> 58:20.160
+es que son cerrados bajo composición.
+
+58:20.160 --> 58:21.160
+La composición de dos traductores
+
+58:21.160 --> 58:23.160
+es el resultado de
+
+58:24.160 --> 58:26.160
+tomar la salida de uno
+
+58:26.160 --> 58:28.160
+y ponerlo como entrada de otro.
+
+58:30.160 --> 58:31.160
+¿Sí?
+
+58:31.160 --> 58:33.160
+La composición es
+
+58:34.160 --> 58:36.160
+la función que
+
+58:37.160 --> 58:38.160
+computa la primera,
+
+58:38.160 --> 58:40.160
+la primera traducción
+
+58:41.160 --> 58:43.160
+y a la salida le aplica la segunda.
+
+58:44.160 --> 58:45.160
+Como son cerrados,
+
+58:45.160 --> 58:46.160
+eso quiere decir,
+
+58:46.160 --> 58:48.160
+y además la demostración es constructiva,
+
+58:48.160 --> 58:50.160
+eso quiere decir que si yo tengo
+
+58:50.160 --> 58:51.160
+dos traductores,
+
+58:51.160 --> 58:53.160
+uno que mapea una cosa.
+
+58:53.160 --> 58:55.160
+Por ejemplo, que pasa a plurales
+
+58:56.160 --> 58:58.160
+y otro que, no sé,
+
+58:58.160 --> 59:00.160
+que le agrega un prefijo,
+
+59:01.160 --> 59:03.160
+yo los puedo modelar por separado
+
+59:03.160 --> 59:05.160
+y componerlos en cascada.
+
+59:07.160 --> 59:09.160
+O sea, hacer algo que primero le aplica
+
+59:09.160 --> 59:11.160
+el plural y después le pone el prefijo.
+
+59:11.160 --> 59:12.160
+Puedo pensarlo separado
+
+59:12.160 --> 59:14.160
+y al aplicarlo en cascada
+
+59:15.160 --> 59:17.160
+haciendo la operación de composición,
+
+59:17.160 --> 59:19.160
+tener un tradutor que haga las dos cosas a la vez.
+
+59:22.160 --> 59:24.160
+Y eso hace que se empiezan
+
+59:24.160 --> 59:26.160
+a facilitar nuestros problemas acá.
+
+59:26.160 --> 59:28.160
+Porque yo me puedo matar haciendo
+
+59:28.160 --> 59:30.160
+un tradutor que me calcula el plural,
+
+59:30.160 --> 59:31.160
+todo el esfuerzo,
+
+59:31.160 --> 59:33.160
+pero yo sé que ese tradutor
+
+59:33.160 --> 59:34.160
+después lo puedo componer con otro
+
+59:34.160 --> 59:36.160
+y no tengo que volver a tener que pensar
+
+59:36.160 --> 59:37.160
+todo de vuelta.
+
+59:38.160 --> 59:39.160
+¿Se entiende?
+
+59:39.160 --> 59:41.160
+Esa es la ventaja
+
+59:41.160 --> 59:43.160
+de que son cerrados como composición.
+
+59:43.160 --> 59:45.160
+Y además, toda la gracia de los traductores
+
+59:45.160 --> 59:47.160
+es que son cerrados como composición.
+
+59:47.160 --> 59:49.160
+Porque yo lo que hago es apilarlos.
+
+59:50.160 --> 59:52.160
+Vamos a ver más de esto.
+
+59:55.160 --> 59:57.160
+Este aquí que los
+
+59:57.160 --> 59:59.160
+traductores no son cerrados
+
+59:59.160 --> 01:00:01.160
+en caso general bajo interseacción.
+
+01:00:01.160 --> 01:00:03.160
+La intersección de dos traductores
+
+01:00:03.160 --> 01:00:05.160
+no siempre es calculable.
+
+01:00:07.160 --> 01:00:08.160
+¿Cuál sería...
+
+01:00:08.160 --> 01:00:09.160
+Este es un tradutor que mapea
+
+01:00:09.160 --> 01:00:10.160
+C a la N
+
+01:00:12.160 --> 01:00:14.160
+o N número de C
+
+01:00:14.160 --> 01:00:15.160
+a la M
+
+01:00:15.160 --> 01:00:16.160
+con M arbitrario
+
+01:00:16.160 --> 01:00:17.160
+y B
+
+01:00:17.160 --> 01:00:18.160
+la misma cantidad que la C.
+
+01:00:21.160 --> 01:00:23.160
+Y intersección con este otro
+
+01:00:23.160 --> 01:00:24.160
+que es al revés, ¿no?
+
+01:00:24.160 --> 01:00:26.160
+Mapea primero general a y después me te ves.
+
+01:00:27.160 --> 01:00:29.160
+¿Cuál sería la intersección
+
+01:00:29.160 --> 01:00:30.160
+de esos dos autómatos?
+
+01:00:30.160 --> 01:00:31.160
+A ver si...
+
+01:00:31.160 --> 01:00:32.160
+de esas dos reacciones.
+
+01:00:48.160 --> 01:00:49.160
+A la K, ve a la K.
+
+01:00:58.160 --> 01:00:59.160
+No, no.
+
+01:01:00.160 --> 01:01:02.160
+Son todos los posibles.
+
+01:01:03.160 --> 01:01:05.160
+Porque estos N y M en realidad son diferentes.
+
+01:01:06.160 --> 01:01:07.160
+Bueno...
+
+01:01:08.160 --> 01:01:10.160
+¿Y este sería la relación?
+
+01:01:12.160 --> 01:01:14.160
+¿Y qué problema tiene esa relación?
+
+01:01:19.160 --> 01:01:21.160
+¿Qué problema tiene esa relación?
+
+01:01:22.160 --> 01:01:23.160
+Esta.
+
+01:01:28.160 --> 01:01:30.160
+Sí, está bien. ¿Quién lo está diciendo?
+
+01:01:30.160 --> 01:01:31.160
+Que no es regular.
+
+01:01:31.160 --> 01:01:32.160
+¿Que no es regular?
+
+01:01:32.160 --> 01:01:33.160
+¿Se acuerdan que dijimos
+
+01:01:33.160 --> 01:01:34.160
+que si hay una transducción
+
+01:01:34.160 --> 01:01:35.160
+los dos lenguajes son regulares,
+
+01:01:35.160 --> 01:01:37.160
+las dos proyecciones son regulares?
+
+01:01:38.160 --> 01:01:40.160
+¿El entraje le salía?
+
+01:01:41.160 --> 01:01:42.160
+Esto no puede ser regular.
+
+01:01:42.160 --> 01:01:43.160
+No puede...
+
+01:01:44.160 --> 01:01:45.160
+No puede haber un tradutor
+
+01:01:45.160 --> 01:01:46.160
+que compute esto.
+
+01:01:46.160 --> 01:01:47.160
+Porque si lo hubiera,
+
+01:01:47.160 --> 01:01:48.160
+yo me quedo con la segunda componente.
+
+01:01:51.160 --> 01:01:52.160
+Perdón.
+
+01:01:54.160 --> 01:01:55.160
+Y...
+
+01:01:55.160 --> 01:01:56.160
+La segunda comp...
+
+01:01:56.160 --> 01:01:57.160
+del lado derecho, digamos,
+
+01:01:57.160 --> 01:01:58.160
+en la transición,
+
+01:01:58.160 --> 01:01:59.160
+seguimos una automata
+
+01:01:59.160 --> 01:02:00.160
+que computaba la K de la K.
+
+01:02:03.160 --> 01:02:04.160
+Sí, cosa que...
+
+01:02:05.160 --> 01:02:06.160
+de teoría del lenguaje de nada delante,
+
+01:02:06.160 --> 01:02:07.160
+sabemos que no es posible.
+
+01:02:08.160 --> 01:02:10.160
+Porque es el lenguaje canónico
+
+01:02:10.160 --> 01:02:11.160
+de no regular.
+
+01:02:12.160 --> 01:02:13.160
+Pampilema y eso.
+
+01:02:15.160 --> 01:02:16.160
+¿De acuerdo?
+
+01:02:16.160 --> 01:02:17.160
+Entonces, no somos cerrados
+
+01:02:17.160 --> 01:02:18.160
+bajo intercesión.
+
+01:02:18.160 --> 01:02:19.160
+Es igual en los hechos...
+
+01:02:19.160 --> 01:02:20.160
+Perdón.
+
+01:02:20.160 --> 01:02:21.160
+No...
+
+01:02:23.160 --> 01:02:24.160
+Son casos muy particulares
+
+01:02:24.160 --> 01:02:25.160
+cuando se da.
+
+01:02:25.160 --> 01:02:26.160
+O sea, tiene algunas...
+
+01:02:27.160 --> 01:02:28.160
+Estas tipo de propiedades teóricas
+
+01:02:28.160 --> 01:02:29.160
+complica la cosa
+
+01:02:29.160 --> 01:02:30.160
+del punto de vista teórico,
+
+01:02:30.160 --> 01:02:31.160
+pero no del punto de vista
+
+01:02:31.160 --> 01:02:32.160
+de eficiencia en general.
+
+01:02:35.160 --> 01:02:36.160
+También tenemos un tema de eficiencia
+
+01:02:36.160 --> 01:02:37.160
+porque como son determinísticos,
+
+01:02:37.160 --> 01:02:39.160
+no determinísticos en general,
+
+01:02:39.160 --> 01:02:40.160
+y no son tan...
+
+01:02:40.160 --> 01:02:41.160
+Ah, bueno, perdón.
+
+01:02:41.160 --> 01:02:42.160
+Perdón.
+
+01:02:44.160 --> 01:02:45.160
+Así como dimos una...
+
+01:02:47.160 --> 01:02:48.160
+una...
+
+01:02:50.160 --> 01:02:51.160
+como teníamos
+
+01:02:51.160 --> 01:02:53.160
+una definición de presiones regulares,
+
+01:02:55.160 --> 01:02:56.160
+también podemos dar una definición
+
+01:02:56.160 --> 01:02:59.160
+alternativa de relaciones regulares.
+
+01:03:00.160 --> 01:03:01.160
+Hasta ahora, las relaciones regulares
+
+01:03:01.160 --> 01:03:02.160
+dijimos que eran las que calculaban
+
+01:03:02.160 --> 01:03:03.160
+los transportores.
+
+01:03:03.160 --> 01:03:05.160
+Pero yo también puedo expresarlo
+
+01:03:08.160 --> 01:03:11.160
+a través de una versión extendida
+
+01:03:11.160 --> 01:03:13.160
+de las expresiones regulares.
+
+01:03:14.160 --> 01:03:15.160
+Es una versión
+
+01:03:18.160 --> 01:03:19.160
+donde defino a partir de...
+
+01:03:19.160 --> 01:03:21.160
+en vez de definir a partir de signos,
+
+01:03:21.160 --> 01:03:23.160
+defino a partir de pares de signos.
+
+01:03:24.160 --> 01:03:25.160
+Perdón, esto está mal.
+
+01:03:27.160 --> 01:03:28.160
+El conjunto vacío
+
+01:03:28.160 --> 01:03:29.160
+y ya
+
+01:03:29.160 --> 01:03:30.160
+para todo A, M,
+
+01:03:30.160 --> 01:03:31.160
+esto no es este...
+
+01:03:32.160 --> 01:03:33.160
+No, está bien.
+
+01:03:35.160 --> 01:03:36.160
+No, perdón.
+
+01:03:36.160 --> 01:03:37.160
+Estos son símbolos.
+
+01:03:38.160 --> 01:03:39.160
+Es Sima 1 y Sima 2.
+
+01:03:39.160 --> 01:03:40.160
+Es decir, simple.
+
+01:03:40.160 --> 01:03:41.160
+Hago la misma definición
+
+01:03:41.160 --> 01:03:42.160
+de presiones regulares,
+
+01:03:42.160 --> 01:03:43.160
+pero trabajo sobre pares.
+
+01:03:43.160 --> 01:03:44.160
+Y digo que la concatenación,
+
+01:03:44.160 --> 01:03:45.160
+la unión,
+
+01:03:45.160 --> 01:03:46.160
+y la calzura y clín
+
+01:03:46.160 --> 01:03:47.160
+también son regulares
+
+01:03:47.160 --> 01:03:48.160
+y que son todas las que hay.
+
+01:03:50.160 --> 01:03:51.160
+O sea,
+
+01:03:52.160 --> 01:03:53.160
+en un paper muy famoso
+
+01:03:53.160 --> 01:03:55.160
+de Kaplan y Cayde en 94,
+
+01:03:56.160 --> 01:03:57.160
+el tipo decía,
+
+01:03:57.160 --> 01:03:58.160
+bueno, una expresión regular
+
+01:03:58.160 --> 01:03:59.160
+de N vías
+
+01:03:59.160 --> 01:04:00.160
+es una expresión regular
+
+01:04:00.160 --> 01:04:01.160
+cuyos términos son
+
+01:04:01.160 --> 01:04:03.160
+N tuplas de símbolo alfabético
+
+01:04:03.160 --> 01:04:04.160
+o epsilon.
+
+01:04:04.160 --> 01:04:05.160
+Es...
+
+01:04:05.160 --> 01:04:06.160
+en lugar de tener
+
+01:04:07.160 --> 01:04:08.160
+en mis expresiones,
+
+01:04:08.160 --> 01:04:09.160
+en vez de tener,
+
+01:04:10.160 --> 01:04:11.160
+por ejemplo,
+
+01:04:11.160 --> 01:04:12.160
+la expresión regular
+
+01:04:12.160 --> 01:04:14.160
+que busca las palabras terminadas
+
+01:04:14.160 --> 01:04:16.160
+en S,
+
+01:04:18.160 --> 01:04:19.160
+que era una...
+
+01:04:21.160 --> 01:04:22.160
+A ver.
+
+01:04:24.160 --> 01:04:25.160
+Yo,
+
+01:04:25.160 --> 01:04:26.160
+si quería reconocer
+
+01:04:26.160 --> 01:04:27.160
+la lenguaje ratón,
+
+01:04:27.160 --> 01:04:28.160
+ponía estos símbolos,
+
+01:04:28.160 --> 01:04:29.160
+una expresión regular que decía esto.
+
+01:04:29.160 --> 01:04:30.160
+¿Verdad?
+
+01:04:33.160 --> 01:04:34.160
+Si quiero hacer la expresión regular
+
+01:04:34.160 --> 01:04:35.160
+que va de ratón,
+
+01:04:35.160 --> 01:04:37.160
+que expresa el plural de ratón
+
+01:04:37.160 --> 01:04:38.160
+en ratones,
+
+01:04:39.160 --> 01:04:40.160
+yo lo que hago es esto.
+
+01:04:50.160 --> 01:04:51.160
+¿De acuerdo?
+
+01:04:51.160 --> 01:04:52.160
+Simplemente tengo
+
+01:04:52.160 --> 01:04:53.160
+una nueva forma de escribir.
+
+01:04:53.160 --> 01:04:54.160
+Estos son expresiones regulares.
+
+01:04:54.160 --> 01:04:55.160
+O sea, yo acá podría ser,
+
+01:04:55.160 --> 01:04:56.160
+si yo quisiera decir
+
+01:04:56.160 --> 01:04:57.160
+cualquier cantidad de az,
+
+01:04:58.160 --> 01:04:59.160
+voy a hacer eso.
+
+01:04:59.160 --> 01:05:00.160
+Y ahí reconozco ratones.
+
+01:05:01.160 --> 01:05:02.160
+Y devuelvo ratones.
+
+01:05:03.160 --> 01:05:04.160
+¿De acuerdo?
+
+01:05:06.160 --> 01:05:07.160
+Esto es una forma de expresar
+
+01:05:07.160 --> 01:05:08.160
+expresión regular
+
+01:05:08.160 --> 01:05:09.160
+sobre paredes símbolos.
+
+01:05:09.160 --> 01:05:10.160
+Nada de más ni de menos.
+
+01:05:15.160 --> 01:05:16.160
+Lo interesante de esto
+
+01:05:17.160 --> 01:05:18.160
+es que me dio una forma
+
+01:05:18.160 --> 01:05:19.160
+de expresar
+
+01:05:19.160 --> 01:05:20.160
+a través de una delgebra
+
+01:05:23.160 --> 01:05:24.160
+esto.
+
+01:05:26.160 --> 01:05:27.160
+¿Te acuerdan que yo tenía
+
+01:05:27.160 --> 01:05:28.160
+este triangulito
+
+01:05:28.160 --> 01:05:29.160
+con la expresión regular?
+
+01:05:29.160 --> 01:05:30.160
+Yo tengo una relación regular
+
+01:05:30.160 --> 01:05:31.160
+a calcular conjuntos
+
+01:05:31.160 --> 01:05:32.160
+de paredes símbolos,
+
+01:05:33.160 --> 01:05:34.160
+de paredes tiras.
+
+01:05:35.160 --> 01:05:36.160
+Una expresión regular
+
+01:05:36.160 --> 01:05:37.160
+que la denota,
+
+01:05:38.160 --> 01:05:39.160
+o sea, que yo la puedo escribir,
+
+01:05:40.160 --> 01:05:41.160
+y que puedo compilarla
+
+01:05:41.160 --> 01:05:42.160
+automáticamente
+
+01:05:42.160 --> 01:05:43.160
+a un transdutor de Estados Unidos.
+
+01:05:45.160 --> 01:05:46.160
+¿De acuerdo?
+
+01:05:46.160 --> 01:05:47.160
+Entonces,
+
+01:05:47.160 --> 01:05:48.160
+la gracia
+
+01:05:49.160 --> 01:05:50.160
+de la fortaleza
+
+01:05:50.160 --> 01:05:51.160
+de nuestro método
+
+01:05:51.160 --> 01:05:52.160
+es que
+
+01:05:52.160 --> 01:05:53.160
+podemos escribir
+
+01:05:53.160 --> 01:05:54.160
+expresiones regulares
+
+01:05:56.160 --> 01:05:57.160
+en lugar de hacer los automáticos
+
+01:05:57.160 --> 01:05:58.160
+y tengo la forma
+
+01:05:58.160 --> 01:05:59.160
+de compilarlos directamente.
+
+01:05:59.160 --> 01:06:00.160
+Desde el punto de vista
+
+01:06:00.160 --> 01:06:01.160
+expresivo,
+
+01:06:01.160 --> 01:06:02.160
+yo lo puedo escribir así,
+
+01:06:02.160 --> 01:06:03.160
+pero automáticamente
+
+01:06:03.160 --> 01:06:04.160
+tengo esta
+
+01:06:04.160 --> 01:06:05.160
+una forma
+
+01:06:05.160 --> 01:06:06.160
+computacionalmente válida
+
+01:06:06.160 --> 01:06:07.160
+de calcularlo,
+
+01:06:07.160 --> 01:06:08.160
+computacionalmente eficiente.
+
+01:06:09.160 --> 01:06:10.160
+Eso es justamente
+
+01:06:10.160 --> 01:06:11.160
+que estoy diciendo
+
+01:06:11.160 --> 01:06:12.160
+yo de lo que decían Kaplan
+
+01:06:12.160 --> 01:06:13.160
+y que hay en el paper del 94.
+
+01:06:15.160 --> 01:06:16.160
+Que se ve que borré
+
+01:06:17.160 --> 01:06:18.160
+sin querer.
+
+01:06:18.160 --> 01:06:19.160
+¿De acuerdo?
+
+01:06:19.160 --> 01:06:20.160
+Vamos a volver sobre
+
+01:06:20.160 --> 01:06:21.160
+esto de la gracia que viene
+
+01:06:21.160 --> 01:06:22.160
+cuando hablemos de morfología.
+
+01:06:22.160 --> 01:06:23.160
+Pero
+
+01:06:25.160 --> 01:06:26.160
+generalmente cuando hablamos
+
+01:06:26.160 --> 01:06:27.160
+de Estados Finitos
+
+01:06:27.160 --> 01:06:28.160
+lo asociamos con eficiencia.
+
+01:06:28.160 --> 01:06:29.160
+Todo el mundo dice
+
+01:06:29.160 --> 01:06:30.160
+Estados Finitos Eficiente
+
+01:06:31.160 --> 01:06:32.160
+y los automatas
+
+01:06:32.160 --> 01:06:33.160
+y los transdutores
+
+01:06:33.160 --> 01:06:34.160
+se pueden ver como automatas
+
+01:06:34.160 --> 01:06:35.160
+sobre pares de símbolo.
+
+01:06:35.160 --> 01:06:36.160
+Y por lo tanto,
+
+01:06:36.160 --> 01:06:37.160
+todas las operaciones válidas
+
+01:06:37.160 --> 01:06:39.160
+lo podemos ver deterministas,
+
+01:06:39.160 --> 01:06:40.160
+minimizas,
+
+01:06:40.160 --> 01:06:41.160
+todo lo que aprendimos en teoría.
+
+01:06:41.160 --> 01:06:42.160
+Pero guarda,
+
+01:06:42.160 --> 01:06:44.160
+porque determinista
+
+01:06:44.160 --> 01:06:45.160
+para un transdutor
+
+01:06:45.160 --> 01:06:46.160
+no es lo mismo
+
+01:06:46.160 --> 01:06:48.160
+que determinista en la entrada.
+
+01:06:48.160 --> 01:06:50.160
+Porque este transdutor
+
+01:06:50.160 --> 01:06:51.160
+desde el punto de vista
+
+01:06:51.160 --> 01:06:52.160
+de los algoritmos
+
+01:06:52.160 --> 01:06:53.160
+es determinista.
+
+01:06:54.160 --> 01:06:56.160
+Porque su salida...
+
+01:06:56.160 --> 01:06:58.160
+su símbolo es el par.
+
+01:06:59.160 --> 01:07:00.160
+Entonces,
+
+01:07:00.160 --> 01:07:01.160
+este automata
+
+01:07:01.160 --> 01:07:02.160
+es determinista
+
+01:07:02.160 --> 01:07:03.160
+desde el punto de vista
+
+01:07:03.160 --> 01:07:05.160
+como pares de símbolo.
+
+01:07:05.160 --> 01:07:06.160
+Pero como transdutor
+
+01:07:06.160 --> 01:07:07.160
+no es determinista en la entrada.
+
+01:07:07.160 --> 01:07:08.160
+Que es la gracia
+
+01:07:08.160 --> 01:07:09.160
+que tiene el determinismo
+
+01:07:09.160 --> 01:07:10.160
+que yo recorro la entrada
+
+01:07:10.160 --> 01:07:11.160
+y me gana la salida sola.
+
+01:07:12.160 --> 01:07:13.160
+¿De acuerdo?
+
+01:07:13.160 --> 01:07:14.160
+Hay toda una línea
+
+01:07:14.160 --> 01:07:15.160
+de investigación,
+
+01:07:15.160 --> 01:07:16.160
+había ahora.
+
+01:07:19.160 --> 01:07:20.160
+En realidad la eficiencia
+
+01:07:20.160 --> 01:07:21.160
+de ese tema.
+
+01:07:21.160 --> 01:07:22.160
+Hay toda una línea de trabajo
+
+01:07:22.160 --> 01:07:24.160
+con los transductores secuenciales.
+
+01:07:24.160 --> 01:07:25.160
+Los transductores secuenciales
+
+01:07:25.160 --> 01:07:26.160
+son aquellos que
+
+01:07:27.160 --> 01:07:29.160
+son deterministas en la entrada.
+
+01:07:30.160 --> 01:07:31.160
+Y lo que hacen,
+
+01:07:31.160 --> 01:07:32.160
+esencialmente,
+
+01:07:32.160 --> 01:07:33.160
+los algoritmos de determinización
+
+01:07:33.160 --> 01:07:34.160
+es
+
+01:07:34.160 --> 01:07:35.160
+tirar para adelante
+
+01:07:35.160 --> 01:07:36.160
+la decisión
+
+01:07:36.160 --> 01:07:37.160
+hasta que no sean vivos.
+
+01:07:38.160 --> 01:07:39.160
+Esto como...
+
+01:07:39.160 --> 01:07:40.160
+demora la salida
+
+01:07:40.160 --> 01:07:41.160
+hasta que se tiene
+
+01:07:41.160 --> 01:07:42.160
+seguridad de poder emitir.
+
+01:07:42.160 --> 01:07:43.160
+Porque...
+
+01:07:48.160 --> 01:07:49.160
+en...
+
+01:07:51.160 --> 01:07:52.160
+en...
+
+01:08:18.160 --> 01:08:19.160
+en...
+
+01:08:49.160 --> 01:08:50.160
+por dios.
+
+01:08:55.160 --> 01:08:56.160
+Acá dice
+
+01:08:56.160 --> 01:08:57.160
+ratones
+
+01:08:57.160 --> 01:08:58.160
+o ratoncitos.
+
+01:09:00.160 --> 01:09:01.160
+¿Sí?
+
+01:09:01.160 --> 01:09:02.160
+Este automata...
+
+01:09:02.160 --> 01:09:03.160
+acá tiene uno...
+
+01:09:03.160 --> 01:09:04.160
+no determinista.
+
+01:09:04.160 --> 01:09:05.160
+Determinismo.
+
+01:09:06.160 --> 01:09:07.160
+¿Sí?
+
+01:09:11.160 --> 01:09:12.160
+¡Ah!
+
+01:09:18.160 --> 01:09:19.160
+Está bien.
+
+01:09:20.160 --> 01:09:21.160
+Como acá tienen no determinismo,
+
+01:09:21.160 --> 01:09:23.160
+lo que hacen los transductores secuenciales
+
+01:09:23.160 --> 01:09:24.160
+es
+
+01:09:24.160 --> 01:09:26.160
+postergar la misión de esta E
+
+01:09:27.160 --> 01:09:28.160
+hasta que la ambigüedad
+
+01:09:28.160 --> 01:09:29.160
+es...
+
+01:09:29.160 --> 01:09:30.160
+es muy complicado por explicarlo.
+
+01:09:31.160 --> 01:09:32.160
+La cuestión es que...
+
+01:09:33.160 --> 01:09:34.160
+empujan la salida
+
+01:09:34.160 --> 01:09:35.160
+y van generando...
+
+01:09:35.160 --> 01:09:36.160
+generan la salida
+
+01:09:36.160 --> 01:09:37.160
+string sin los símbolos.
+
+01:09:38.160 --> 01:09:39.160
+Entonces generan
+
+01:09:39.160 --> 01:09:40.160
+cuando ya no tienen ambigüedad,
+
+01:09:40.160 --> 01:09:41.160
+cuando ya saben
+
+01:09:41.160 --> 01:09:43.160
+que no vino una C acá,
+
+01:09:44.160 --> 01:09:45.160
+porque eso no tiene dos posibilidades.
+
+01:09:46.160 --> 01:09:47.160
+Si no viene más nada,
+
+01:09:49.160 --> 01:09:50.160
+¿saben?
+
+01:09:52.160 --> 01:09:53.160
+Saben que si ya no viene
+
+01:09:53.160 --> 01:09:54.160
+más nada en la entrada,
+
+01:09:55.160 --> 01:09:56.160
+puede emitir ratones.
+
+01:09:57.160 --> 01:09:58.160
+Pero para eso tienen que asegurarse
+
+01:09:58.160 --> 01:09:59.160
+de llegar al estado final.
+
+01:10:00.160 --> 01:10:01.160
+¿Cómo?
+
+01:10:01.160 --> 01:10:02.160
+¿Cómo qué?
+
+01:10:06.160 --> 01:10:08.160
+Que puede generar string sin la salida,
+
+01:10:08.160 --> 01:10:09.160
+exactamente.
+
+01:10:10.160 --> 01:10:11.160
+Lo que hacen es empujarlo.
+
+01:10:13.160 --> 01:10:14.160
+¿Cómo?
+
+01:10:14.160 --> 01:10:15.160
+Tiene Epsilon,
+
+01:10:15.160 --> 01:10:17.160
+acá te hace Epsilon,
+
+01:10:17.160 --> 01:10:18.160
+¿qué es Epsilon?
+
+01:10:19.160 --> 01:10:20.160
+Cuando ya no tiene dudas,
+
+01:10:21.160 --> 01:10:22.160
+no sé si es un buen ejemplo,
+
+01:10:22.160 --> 01:10:23.160
+no sé si está claramente ambigüedad.
+
+01:10:24.160 --> 01:10:25.160
+Pero...
+
+01:10:26.160 --> 01:10:27.160
+la idea es que permite demorar
+
+01:10:27.160 --> 01:10:28.160
+y eso no siempre se puede hacer.
+
+01:10:29.160 --> 01:10:30.160
+El general se puede,
+
+01:10:30.160 --> 01:10:31.160
+pero no siempre se puede,
+
+01:10:32.160 --> 01:10:33.160
+porque no siempre puede levantar la ambigüedad.
+
+01:10:36.160 --> 01:10:37.160
+De todos modos,
+
+01:10:37.160 --> 01:10:38.160
+en la mayoría de los casos razonables
+
+01:10:38.160 --> 01:10:39.160
+sí se puede,
+
+01:10:40.160 --> 01:10:41.160
+anteando para adelante lo suficiente.
+
+01:10:43.160 --> 01:10:44.160
+Esto es curioso porque
+
+01:10:44.160 --> 01:10:45.160
+las líneas de investigación
+
+01:10:45.160 --> 01:10:46.160
+de los traduptores secuenciales
+
+01:10:46.160 --> 01:10:47.160
+es como bastante diferente
+
+01:10:47.160 --> 01:10:48.160
+a la rama principal
+
+01:10:48.160 --> 01:10:49.160
+que era la de los otros.
+
+01:10:50.160 --> 01:10:51.160
+Están basados mucho más
+
+01:10:52.160 --> 01:10:53.160
+en los autómatas
+
+01:10:53.160 --> 01:10:54.160
+que en las expresiones,
+
+01:10:56.160 --> 01:10:57.160
+como da todo más.
+
+01:11:01.160 --> 01:11:02.160
+Y los algoritmos son espantosos.
+
+01:11:03.160 --> 01:11:04.160
+Mori es uno de los tipos
+
+01:11:04.160 --> 01:11:05.160
+que más sabe de
+
+01:11:06.160 --> 01:11:07.160
+procesamiento del lenguaje natural
+
+01:11:07.160 --> 01:11:08.160
+ni de todas estas cosas.
+
+01:11:09.160 --> 01:11:10.160
+Cuando dice que hay un área
+
+01:11:10.160 --> 01:11:11.160
+que está diciendo ahí
+
+01:11:11.160 --> 01:11:12.160
+que es una área de...
+
+01:11:12.160 --> 01:11:13.160
+la estación se ve de cosas
+
+01:11:13.160 --> 01:11:14.160
+en la que había,
+
+01:11:15.160 --> 01:11:16.160
+ya está como bastante estable.
+
+01:11:17.160 --> 01:11:18.160
+Hace como 10 años
+
+01:11:19.160 --> 01:11:20.160
+porque esencialmente los traduptores,
+
+01:11:21.160 --> 01:11:22.160
+si ustedes buscan,
+
+01:11:22.160 --> 01:11:23.160
+hay una cosa que se llama
+
+01:11:24.160 --> 01:11:27.160
+Open FST,
+
+01:11:29.160 --> 01:11:30.160
+que es una biblioteca
+
+01:11:31.160 --> 01:11:32.160
+que tiene la implementación.
+
+01:11:33.160 --> 01:11:34.160
+Todo el trabajo de Mori,
+
+01:11:34.160 --> 01:11:36.160
+Mori estaba en la Universidad de Nueva York,
+
+01:11:36.160 --> 01:11:37.160
+todavía está,
+
+01:11:37.160 --> 01:11:38.160
+y en los laboratorios
+
+01:11:39.160 --> 01:11:40.160
+en AT&T,
+
+01:11:40.160 --> 01:11:41.160
+trabajaba en AT&T,
+
+01:11:42.160 --> 01:11:43.160
+y desarrollaron
+
+01:11:43.160 --> 01:11:45.160
+toda esta línea de los traduptores.
+
+01:11:45.160 --> 01:11:46.160
+Por otro lado,
+
+01:11:46.160 --> 01:11:47.160
+teníamos la gente de Xerox,
+
+01:11:49.160 --> 01:11:50.160
+que son los finlandeses,
+
+01:11:50.160 --> 01:11:51.160
+cartúnen y todo eso,
+
+01:11:52.160 --> 01:11:54.160
+que tenían otra línea de motivación.
+
+01:11:55.160 --> 01:11:56.160
+Los dos, Xerox,
+
+01:11:56.160 --> 01:11:58.160
+creo que se arroba el laboratorio,
+
+01:11:59.160 --> 01:12:00.160
+anda por ahí,
+
+01:12:01.160 --> 01:12:02.160
+hay una herramienta
+
+01:12:02.160 --> 01:12:03.160
+que en alguna versión del curso,
+
+01:12:03.160 --> 01:12:04.160
+la mismo acá,
+
+01:12:04.160 --> 01:12:05.160
+yo no la presento más,
+
+01:12:05.160 --> 01:12:06.160
+porque me parece que no va,
+
+01:12:06.160 --> 01:12:07.160
+que se llama XFST,
+
+01:12:08.160 --> 01:12:09.160
+que permite computar,
+
+01:12:09.160 --> 01:12:10.160
+traduptores,
+
+01:12:10.160 --> 01:12:11.160
+y todas esas cosas,
+
+01:12:11.160 --> 01:12:12.160
+funcionan muy bien.
+
+01:12:13.160 --> 01:12:14.160
+¿Por qué dije eso?
+
+01:12:14.160 --> 01:12:15.160
+Ah, bueno, y después,
+
+01:12:15.160 --> 01:12:17.160
+se trabajó mucho en este tema de...
+
+01:12:17.160 --> 01:12:19.160
+Mori trabajaba más sobre los traduptores
+
+01:12:19.160 --> 01:12:20.160
+directamente,
+
+01:12:20.160 --> 01:12:21.160
+cómo componer traduptores,
+
+01:12:21.160 --> 01:12:22.160
+cómo...
+
+01:12:23.160 --> 01:12:24.160
+Y esta gente,
+
+01:12:24.160 --> 01:12:25.160
+Billy Cartoon,
+
+01:12:25.160 --> 01:12:26.160
+en este libro,
+
+01:12:26.160 --> 01:12:27.160
+porfología está finita,
+
+01:12:28.160 --> 01:12:30.160
+más en operadores sobre expresiones,
+
+01:12:30.160 --> 01:12:32.160
+que para que uno pudiera escribir las expresiones,
+
+01:12:32.160 --> 01:12:34.160
+vamos a ver la clase que viene un poco.
+
+01:12:39.160 --> 01:12:41.160
+Después, como todo el mundo,
+
+01:12:41.160 --> 01:12:44.160
+todo esto viró hacia cosas un poco más complicadas,
+
+01:12:45.160 --> 01:12:46.160
+que tiene que ver con...
+
+01:12:48.160 --> 01:12:49.160
+sobre todo con...
+
+01:12:50.160 --> 01:12:52.160
+automatas probabilistas y tal, y cual.
+
+01:12:54.160 --> 01:12:55.160
+Yo tengo...
+
+01:12:55.160 --> 01:12:57.160
+Mori escribió un libro
+
+01:12:58.160 --> 01:12:59.160
+sobre los fundamentos
+
+01:13:00.160 --> 01:13:02.160
+del aprendizaje automático,
+
+01:13:02.160 --> 01:13:03.160
+que...
+
+01:13:04.160 --> 01:13:05.160
+es imposible leer.
+
+01:13:06.160 --> 01:13:08.160
+Porque es la visión del matemático,
+
+01:13:08.160 --> 01:13:09.160
+digamos, ¿no?
+
+01:13:09.160 --> 01:13:10.160
+No tengo ahí mi casa de...
+
+01:13:11.160 --> 01:13:12.160
+Digo, he hecho e intento, pero...
+
+01:13:14.160 --> 01:13:15.160
+¿Alguna pregunta?
+
+01:13:19.160 --> 01:13:21.160
+9 y 20, tenemos tiempo.
+
+01:13:21.160 --> 01:13:22.160
+¿Alguna pregunta no?
+
+01:13:24.160 --> 01:13:25.160
+¿No?
+
+01:13:39.160 --> 01:13:41.160
+Bueno, primero me meto a parte de la entretenida,
+
+01:13:41.160 --> 01:13:43.160
+no es de formalismo, ni nada.
+
+01:13:43.160 --> 01:13:44.160
+Eh...
+
+01:13:59.160 --> 01:14:00.160
+Bueno,
+
+01:14:00.160 --> 01:14:02.160
+tenemos formalismo, ¿no?
+
+01:14:02.160 --> 01:14:04.160
+Tenemos formalismo, ¿no?
+
+01:14:04.160 --> 01:14:06.160
+Tenemos formalismo, ¿no?
+
+01:14:06.160 --> 01:14:08.160
+Bueno, tenemos formalismo, ¿no?
+
+01:14:08.160 --> 01:14:10.160
+Tenemos formalismo de los transdutores,
+
+01:14:10.160 --> 01:14:11.160
+¿se entendió más o menos?
+
+01:14:11.160 --> 01:14:12.160
+Ustedes, diganme si no entienden por qué.
+
+01:14:13.160 --> 01:14:15.160
+Tratamos de mejorarlo de una forma.
+
+01:14:16.160 --> 01:14:17.160
+Eh...
+
+01:14:19.160 --> 01:14:21.160
+Ahora, volvamos a la tarea que teníamos,
+
+01:14:21.160 --> 01:14:23.160
+que era la demorfología.
+
+01:14:23.160 --> 01:14:24.160
+Yo lo que quiero dar,
+
+01:14:24.160 --> 01:14:26.160
+antes de ver cómo se resuelve el tema
+
+01:14:27.160 --> 01:14:28.160
+de con transdutores,
+
+01:14:28.160 --> 01:14:29.160
+explicar cuál es el problema.
+
+01:14:29.160 --> 01:14:30.160
+Se acuerdan que en este curso
+
+01:14:30.160 --> 01:14:32.160
+siempre mostramos los modelos,
+
+01:14:33.160 --> 01:14:35.160
+mostramos los problemas que hay
+
+01:14:35.160 --> 01:14:36.160
+y las...
+
+01:14:37.160 --> 01:14:39.160
+las aproximaciones a esos problemas
+
+01:14:39.160 --> 01:14:40.160
+con esos modelos.
+
+01:14:41.160 --> 01:14:43.160
+Y en este caso no es la excepción.
+
+01:14:44.160 --> 01:14:46.160
+Morfología.
+
+01:14:50.160 --> 01:14:52.160
+Hay dos definiciones principales.
+
+01:14:52.160 --> 01:14:53.160
+Parte de la biología
+
+01:14:53.160 --> 01:14:55.160
+que trata de la forma de los seres orgánicos
+
+01:14:55.160 --> 01:14:57.160
+y de las modificaciones o transformaciones
+
+01:14:57.160 --> 01:14:58.160
+que experimenta.
+
+01:14:59.160 --> 01:15:00.160
+Como, imagina,
+
+01:15:00.160 --> 01:15:02.160
+no nos vamos a encargar mucho de este tema.
+
+01:15:03.160 --> 01:15:04.160
+Eh...
+
+01:15:04.160 --> 01:15:05.160
+Pero te puedo decir
+
+01:15:05.160 --> 01:15:06.160
+capaz que de la parte de la gramática
+
+01:15:06.160 --> 01:15:07.160
+que se ocupa de la estructura
+
+01:15:07.160 --> 01:15:08.160
+de las palabras.
+
+01:15:08.160 --> 01:15:09.160
+¿No?
+
+01:15:09.160 --> 01:15:10.160
+Eso es
+
+01:15:10.160 --> 01:15:12.160
+de lo que habla la morfología.
+
+01:15:18.160 --> 01:15:19.160
+Y esto es
+
+01:15:20.160 --> 01:15:22.160
+el asunto es cómo transformar gatitos
+
+01:15:22.160 --> 01:15:24.160
+en gato masculino plural de minotigos.
+
+01:15:25.160 --> 01:15:27.160
+Eso se trata de la morfología.
+
+01:15:27.160 --> 01:15:29.160
+Yo hago un análisis morfológico,
+
+01:15:29.160 --> 01:15:31.160
+es decir que
+
+01:15:33.160 --> 01:15:35.160
+tengo lo que llamo una forma de superficie
+
+01:15:37.160 --> 01:15:40.160
+y devuelvo lo que llamo una forma eléxica.
+
+01:15:41.160 --> 01:15:43.160
+Una representación estructurada de la palabra.
+
+01:15:47.160 --> 01:15:49.160
+Esto, este...
+
+01:15:51.160 --> 01:15:53.160
+Me puede decir servir para diferentes cosas.
+
+01:15:53.160 --> 01:15:55.160
+Una de ellas para obtener los lemas, por ejemplo.
+
+01:15:56.160 --> 01:15:57.160
+Para obtener...
+
+01:15:58.160 --> 01:16:01.160
+Y también para mejorar el asunto del parsing, ¿no?
+
+01:16:02.160 --> 01:16:03.160
+Porque yo lo puedo decir...
+
+01:16:03.160 --> 01:16:04.160
+El parsing
+
+01:16:04.160 --> 01:16:06.160
+es el análisis de la oración.
+
+01:16:06.160 --> 01:16:08.160
+Si una oración es sintácticamente correcta.
+
+01:16:08.160 --> 01:16:10.160
+Vamos a hablar en detalle, pero...
+
+01:16:10.160 --> 01:16:12.160
+No se puede decir el gato.
+
+01:16:12.160 --> 01:16:13.160
+¿Verdad?
+
+01:16:15.160 --> 01:16:16.160
+Un poco para...
+
+01:16:16.160 --> 01:16:18.160
+Esto es un tema ese, ¿no?
+
+01:16:18.160 --> 01:16:20.160
+Porque el es un determinante
+
+01:16:20.160 --> 01:16:21.160
+y gato
+
+01:16:21.160 --> 01:16:22.160
+es un sustantivo
+
+01:16:22.160 --> 01:16:24.160
+y gato también es un sustantivo.
+
+01:16:25.160 --> 01:16:27.160
+Pero tiene que haber concordancia.
+
+01:16:27.160 --> 01:16:28.160
+¿Se acuerdan de la concordancia?
+
+01:16:28.160 --> 01:16:30.160
+Concordancia de género y número.
+
+01:16:30.160 --> 01:16:31.160
+Bueno, acá.
+
+01:16:31.160 --> 01:16:33.160
+Entonces para esto me puede venir bien saber.
+
+01:16:35.160 --> 01:16:36.160
+Y que es un diminutivo
+
+01:16:36.160 --> 01:16:38.160
+me puedes venir bien para...
+
+01:16:40.160 --> 01:16:42.160
+Para posteriores análisis.
+
+01:16:42.160 --> 01:16:43.160
+Yo quiero hacer un análisis significado,
+
+01:16:43.160 --> 01:16:45.160
+no es lo mismo decir gato que gato.
+
+01:16:48.160 --> 01:16:50.160
+De hecho, quieren decir cosas diferentes.
+
+01:16:50.160 --> 01:16:51.160
+Entonces, bueno,
+
+01:16:51.160 --> 01:16:53.160
+lo que vamos a estudiar es,
+
+01:16:53.160 --> 01:16:54.160
+por un lado,
+
+01:16:55.160 --> 01:16:57.160
+los mecanismos de formación de las palabras.
+
+01:16:57.160 --> 01:16:59.160
+O sea, ¿cómo llevo de esto a esto?
+
+01:17:01.160 --> 01:17:03.160
+Y viste a ver,
+
+01:17:03.160 --> 01:17:04.160
+si tengo gato,
+
+01:17:04.160 --> 01:17:05.160
+si tengo que devolver esto.
+
+01:17:07.160 --> 01:17:08.160
+Parece bastante claro
+
+01:17:08.160 --> 01:17:09.160
+que es bastante más fácil
+
+01:17:09.160 --> 01:17:10.160
+esta tarea
+
+01:17:10.160 --> 01:17:11.160
+para acá,
+
+01:17:11.160 --> 01:17:12.160
+que está para acá, ¿no?
+
+01:17:12.160 --> 01:17:13.160
+¿Por qué?
+
+01:17:13.160 --> 01:17:14.160
+Porque yo
+
+01:17:15.160 --> 01:17:16.160
+tengo unas reglas ahí
+
+01:17:16.160 --> 01:17:18.160
+que me generan las palabras.
+
+01:17:19.160 --> 01:17:21.160
+Eso lo vamos a discutir posteriormente.
+
+01:17:22.160 --> 01:17:23.160
+Bueno,
+
+01:17:26.160 --> 01:17:28.160
+los morfemas son los pedacitos de las palabras
+
+01:17:28.160 --> 01:17:30.160
+que son las mínimas unidades con sentido.
+
+01:17:32.160 --> 01:17:33.160
+Que quieren decir algo.
+
+01:17:34.160 --> 01:17:36.160
+La primera vez que vi este curso,
+
+01:17:36.160 --> 01:17:37.160
+yo descubrí que los sufijos
+
+01:17:37.160 --> 01:17:38.160
+y los prefijos,
+
+01:17:38.160 --> 01:17:39.160
+que son los pedacitos de palabras
+
+01:17:39.160 --> 01:17:40.160
+que se pegan antes y después,
+
+01:17:40.160 --> 01:17:41.160
+están en el diccionario.
+
+01:17:41.160 --> 01:17:42.160
+Yo no sabía.
+
+01:17:43.160 --> 01:17:44.160
+¿Por qué?
+
+01:17:44.160 --> 01:17:46.160
+Porque tienen sin fin
+
+01:17:47.160 --> 01:17:49.160
+¿Por qué? Porque tienen significado.
+
+01:17:49.160 --> 01:17:50.160
+Cuando yo digo
+
+01:17:50.160 --> 01:17:52.160
+imposible,
+
+01:17:53.160 --> 01:17:54.160
+este IN,
+
+01:17:54.160 --> 01:17:55.160
+que ya tiene algún problema,
+
+01:17:55.160 --> 01:17:56.160
+porque en realidad es IN
+
+01:17:56.160 --> 01:17:57.160
+y cambia la N
+
+01:17:57.160 --> 01:17:58.160
+la N por M
+
+01:17:58.160 --> 01:17:59.160
+porque está antes de una P
+
+01:17:59.160 --> 01:18:00.160
+y eso lo podemos ver también.
+
+01:18:01.160 --> 01:18:02.160
+IN quiere decir no.
+
+01:18:06.160 --> 01:18:07.160
+Tenemos un morfema principal
+
+01:18:07.160 --> 01:18:08.160
+que se llama raíz,
+
+01:18:09.160 --> 01:18:10.160
+que no es una palabra,
+
+01:18:10.160 --> 01:18:11.160
+no es lo mismo que el lema.
+
+01:18:12.160 --> 01:18:13.160
+El morfema principal es una raíz,
+
+01:18:13.160 --> 01:18:14.160
+es un pedacito de la palabra.
+
+01:18:15.160 --> 01:18:16.160
+Los morfemas siempre se creen
+
+01:18:16.160 --> 01:18:17.160
+con un guioncito por ahí.
+
+01:18:20.160 --> 01:18:21.160
+Y después tenemos los afijos
+
+01:18:21.160 --> 01:18:22.160
+que dan significado a diccionar
+
+01:18:22.160 --> 01:18:23.160
+la palabra.
+
+01:18:23.160 --> 01:18:24.160
+No,
+
+01:18:24.160 --> 01:18:25.160
+imposible,
+
+01:18:26.160 --> 01:18:28.160
+IN dice que no es posible.
+
+01:18:32.160 --> 01:18:33.160
+Tenemos los sufijos
+
+01:18:34.160 --> 01:18:35.160
+que es
+
+01:18:37.160 --> 01:18:38.160
+los que se pegan al final.
+
+01:18:38.160 --> 01:18:39.160
+Gatito,
+
+01:18:39.160 --> 01:18:41.160
+Ito y ese son sufijos.
+
+01:18:42.160 --> 01:18:43.160
+Siercunfijos,
+
+01:18:43.160 --> 01:18:44.160
+yo siempre discuto con Ayala
+
+01:18:44.160 --> 01:18:45.160
+porque para mí
+
+01:18:45.160 --> 01:18:46.160
+esto no es un
+
+01:18:46.160 --> 01:18:47.160
+sufijos,
+
+01:18:47.160 --> 01:18:48.160
+porque es un guantar.
+
+01:18:48.160 --> 01:18:49.160
+Son prefijos
+
+01:18:50.160 --> 01:18:51.160
+y sufijos
+
+01:18:51.160 --> 01:18:53.160
+que tienen que ir juntos,
+
+01:18:53.160 --> 01:18:54.160
+que van o lo dono.
+
+01:18:55.160 --> 01:18:57.160
+Ayala dice que esto es un,
+
+01:18:57.160 --> 01:18:58.160
+yo digo que para mí
+
+01:18:58.160 --> 01:18:59.160
+en español no hay eso,
+
+01:18:59.160 --> 01:19:00.160
+pero está.
+
+01:19:00.160 --> 01:19:01.160
+Y esas palabras
+
+01:19:01.160 --> 01:19:02.160
+se llaman parasintéticas.
+
+01:19:02.160 --> 01:19:03.160
+Que esto no es,
+
+01:19:03.160 --> 01:19:05.160
+porque esto no es un prefijo.
+
+01:19:05.160 --> 01:19:06.160
+En...
+
+01:19:06.160 --> 01:19:08.160
+Para que en serio y en realidad
+
+01:19:08.160 --> 01:19:10.160
+te consideran que el morcema
+
+01:19:10.160 --> 01:19:11.160
+es en
+
+01:19:11.160 --> 01:19:12.160
+tar,
+
+01:19:12.160 --> 01:19:13.160
+que todo uno es la voz.
+
+01:19:13.160 --> 01:19:14.160
+Pero,
+
+01:19:14.160 --> 01:19:15.160
+¿puedes interpretarlo así,
+
+01:19:15.160 --> 01:19:16.160
+esto yo?
+
+01:19:16.160 --> 01:19:17.160
+No,
+
+01:19:17.160 --> 01:19:18.160
+no existe la palabra
+
+01:19:18.160 --> 01:19:19.160
+en guante
+
+01:19:19.160 --> 01:19:21.160
+y la voz existe en guantar.
+
+01:19:21.160 --> 01:19:22.160
+En guantar.
+
+01:19:22.160 --> 01:19:23.160
+Entonces,
+
+01:19:23.160 --> 01:19:24.160
+te unen
+
+01:19:24.160 --> 01:19:25.160
+juntos
+
+01:19:25.160 --> 01:19:26.160
+a la raíz.
+
+01:19:27.160 --> 01:19:28.160
+Pero
+
+01:19:28.160 --> 01:19:29.160
+tar
+
+01:19:29.160 --> 01:19:30.160
+es un sufijo.
+
+01:19:31.160 --> 01:19:32.160
+Sí.
+
+01:19:32.160 --> 01:19:33.160
+Es parte de ese...
+
+01:19:34.160 --> 01:19:35.160
+Sí, sí, sí, entienden,
+
+01:19:35.160 --> 01:19:37.160
+pero me queda la duda de si
+
+01:19:37.160 --> 01:19:38.160
+estoy hablando de sufijo,
+
+01:19:38.160 --> 01:19:39.160
+en realidad, acá.
+
+01:19:39.160 --> 01:19:40.160
+Bueno, de hecho, se pega, ¿no?
+
+01:19:41.160 --> 01:19:43.160
+Ar sería, ¿no?
+
+01:19:44.160 --> 01:19:45.160
+Bueno...
+
+01:19:45.160 --> 01:19:46.160
+En ar, ¿no?
+
+01:19:46.160 --> 01:19:47.160
+En ar, ¿no?
+
+01:19:47.160 --> 01:19:48.160
+En...
+
+01:19:48.160 --> 01:19:49.160
+En salsar.
+
+01:19:49.160 --> 01:19:50.160
+¿Guata es?
+
+01:19:50.160 --> 01:19:51.160
+Bueno, se las voy a dejar,
+
+01:19:51.160 --> 01:19:52.160
+entonces.
+
+01:19:52.160 --> 01:19:53.160
+Deben tener razón.
+
+01:19:54.160 --> 01:19:55.160
+Y decirlo que no,
+
+01:19:55.160 --> 01:19:56.160
+no hay es en
+
+01:19:56.160 --> 01:19:57.160
+infijos.
+
+01:19:57.160 --> 01:19:58.160
+Por ejemplo,
+
+01:19:58.160 --> 01:19:59.160
+el Tagalog,
+
+01:19:59.160 --> 01:20:00.160
+que es un lenguaje
+
+01:20:00.160 --> 01:20:01.160
+de...
+
+01:20:01.160 --> 01:20:02.160
+de Filipinas, creo,
+
+01:20:02.160 --> 01:20:03.160
+admite infijo,
+
+01:20:03.160 --> 01:20:04.160
+en palabras que se meten
+
+01:20:04.160 --> 01:20:05.160
+en el medio.
+
+01:20:05.160 --> 01:20:06.160
+Es decir,
+
+01:20:06.160 --> 01:20:07.160
+que abren la palabra en dos
+
+01:20:07.160 --> 01:20:08.160
+y meten un frío.
+
+01:20:08.160 --> 01:20:09.160
+Los...
+
+01:20:09.160 --> 01:20:10.160
+Este,
+
+01:20:10.160 --> 01:20:11.160
+lo único infijo que cite
+
+01:20:11.160 --> 01:20:12.160
+en el...
+
+01:20:12.160 --> 01:20:13.160
+en el inglés,
+
+01:20:13.160 --> 01:20:14.160
+son las malas palabras.
+
+01:20:14.160 --> 01:20:15.160
+La
+
+01:20:15.160 --> 01:20:16.160
+I'm fucking Believer,
+
+01:20:16.160 --> 01:20:17.160
+que lo meten en el medio,
+
+01:20:17.160 --> 01:20:18.160
+o los ingleses dicen
+
+01:20:18.160 --> 01:20:19.160
+a Vlad y Believer,
+
+01:20:19.160 --> 01:20:20.160
+y también lo usan igual,
+
+01:20:20.160 --> 01:20:21.160
+lo meten en cualquier lado.
+
+01:20:22.160 --> 01:20:23.160
+¿Tá?
+
+01:20:23.160 --> 01:20:24.160
+Entonces,
+
+01:20:24.160 --> 01:20:25.160
+después no,
+
+01:20:25.160 --> 01:20:26.160
+acá no,
+
+01:20:26.160 --> 01:20:27.160
+no se usa.
+
+01:20:27.160 --> 01:20:28.160
+¿Hay otros idiomas?
+
+01:20:28.160 --> 01:20:29.160
+¿Dónde sí?
+
+01:20:31.160 --> 01:20:32.160
+Este
+
+01:20:32.160 --> 01:20:33.160
+un,
+
+01:20:33.160 --> 01:20:34.160
+se...
+
+01:20:34.160 --> 01:20:35.160
+no me acuerdo el significado,
+
+01:20:35.160 --> 01:20:36.160
+perdón de mí,
+
+01:20:36.160 --> 01:20:37.160
+pero no la note.
+
+01:20:37.160 --> 01:20:38.160
+No tengo las notas acá,
+
+01:20:38.160 --> 01:20:39.160
+pero este
+
+01:20:39.160 --> 01:20:40.160
+un
+
+01:20:40.160 --> 01:20:41.160
+tiene significado.
+
+01:20:42.160 --> 01:20:43.160
+Quiere decir algo modificando
+
+01:20:43.160 --> 01:20:44.160
+la palabra y se meten
+
+01:20:44.160 --> 01:20:45.160
+en el medio,
+
+01:20:45.160 --> 01:20:46.160
+acorda la palabra en el medio.
+
+01:20:47.160 --> 01:20:48.160
+Bueno,
+
+01:20:48.160 --> 01:20:49.160
+y es diferente la raíz al lema.
+
+01:20:49.160 --> 01:20:50.160
+El lema es una palabra
+
+01:20:50.160 --> 01:20:51.160
+representativa,
+
+01:20:51.160 --> 01:20:52.160
+es gato,
+
+01:20:53.160 --> 01:20:54.160
+y el...
+
+01:20:54.160 --> 01:20:55.160
+la raíz sería gato.
+
+01:20:56.160 --> 01:20:57.160
+¿Se entienden?
+
+01:20:57.160 --> 01:20:58.160
+La diferencia entre...
+
+01:20:58.160 --> 01:20:59.160
+la raíz es un morfema,
+
+01:20:59.160 --> 01:21:00.160
+y el lema es una palabra.
+
+01:21:02.160 --> 01:21:03.160
+Generalmente,
+
+01:21:03.160 --> 01:21:04.160
+el lema
+
+01:21:04.160 --> 01:21:05.160
+se forma con el...
+
+01:21:06.160 --> 01:21:07.160
+con el...
+
+01:21:07.160 --> 01:21:08.160
+la raíz
+
+01:21:08.160 --> 01:21:09.160
+y alguna estándar
+
+01:21:09.160 --> 01:21:10.160
+de cómo el hijo
+
+01:21:10.160 --> 01:21:11.160
+lo sufijo,
+
+01:21:11.160 --> 01:21:12.160
+por ejemplo,
+
+01:21:12.160 --> 01:21:13.160
+masculino singular.
+
+01:21:21.160 --> 01:21:22.160
+¿Tá?
+
+01:21:22.160 --> 01:21:23.160
+¿Y cuál es la palabra,
+
+01:21:23.160 --> 01:21:24.160
+la diferencia entre las palabras
+
+01:21:24.160 --> 01:21:25.160
+y los morfemas,
+
+01:21:25.160 --> 01:21:26.160
+si los dos
+
+01:21:26.160 --> 01:21:27.160
+pueden tener sentido?
+
+01:21:27.160 --> 01:21:28.160
+Bueno,
+
+01:21:28.160 --> 01:21:30.160
+hay algunas características que...
+
+01:21:31.160 --> 01:21:33.160
+que las diferencian.
+
+01:21:33.160 --> 01:21:34.160
+La primera es que
+
+01:21:34.160 --> 01:21:35.160
+son aislables las palabras
+
+01:21:35.160 --> 01:21:36.160
+y los morfemas no.
+
+01:21:36.160 --> 01:21:37.160
+Los morfemas no pueden
+
+01:21:37.160 --> 01:21:38.160
+aparecer solo,
+
+01:21:38.160 --> 01:21:39.160
+es lo que decía yo.
+
+01:21:39.160 --> 01:21:40.160
+Bueno, el morfema
+
+01:21:40.160 --> 01:21:41.160
+no puede aparecer solo.
+
+01:21:41.160 --> 01:21:42.160
+Yo no puedo decir
+
+01:21:42.160 --> 01:21:43.160
+y quedarme ahí,
+
+01:21:43.160 --> 01:21:44.160
+me van esperando que
+
+01:21:44.160 --> 01:21:45.160
+diga algo más.
+
+01:21:46.160 --> 01:21:47.160
+¿No?
+
+01:21:47.160 --> 01:21:48.160
+Y mente.
+
+01:21:48.160 --> 01:21:49.160
+Bueno,
+
+01:21:49.160 --> 01:21:50.160
+mente me lo van a interpretar
+
+01:21:50.160 --> 01:21:51.160
+como palabra, pero está...
+
+01:21:51.160 --> 01:21:52.160
+este...
+
+01:21:53.160 --> 01:21:54.160
+Las palabras pueden
+
+01:21:54.160 --> 01:21:55.160
+cambiarse el orden
+
+01:21:55.160 --> 01:21:56.160
+si respetamos un poco
+
+01:21:56.160 --> 01:21:57.160
+las reglas de la sintancia,
+
+01:21:57.160 --> 01:21:59.160
+pero los morfemas no.
+
+01:22:01.160 --> 01:22:02.160
+¿No?
+
+01:22:02.160 --> 01:22:03.160
+Son permutables.
+
+01:22:04.160 --> 01:22:05.160
+Pueden intercalarle cosas
+
+01:22:05.160 --> 01:22:06.160
+en el medio,
+
+01:22:06.160 --> 01:22:07.160
+los morfemas no.
+
+01:22:11.160 --> 01:22:12.160
+Y bueno,
+
+01:22:12.160 --> 01:22:13.160
+no pueden hacerse oraciones
+
+01:22:13.160 --> 01:22:14.160
+con morfemas, digamos.
+
+01:22:14.160 --> 01:22:15.160
+Es decir,
+
+01:22:15.160 --> 01:22:16.160
+son unidades con sentido,
+
+01:22:16.160 --> 01:22:17.160
+pero las otras tienen
+
+01:22:17.160 --> 01:22:18.160
+como una...
+
+01:22:18.160 --> 01:22:19.160
+como...
+
+01:22:21.160 --> 01:22:22.160
+como más independencia,
+
+01:22:22.160 --> 01:22:23.160
+digamos.
+
+01:22:27.160 --> 01:22:28.160
+Lo cual
+
+01:22:28.160 --> 01:22:29.160
+no quiere decir
+
+01:22:29.160 --> 01:22:30.160
+no tenga sentido.
+
+01:22:30.160 --> 01:22:31.160
+De hecho, la raíz
+
+01:22:31.160 --> 01:22:32.160
+es la que concentra
+
+01:22:32.160 --> 01:22:33.160
+todo el sentido de la palabra
+
+01:22:33.160 --> 01:22:34.160
+y los afijo modifican
+
+01:22:34.160 --> 01:22:35.160
+ese sentido
+
+01:22:35.160 --> 01:22:37.160
+para transformarlo de alguna forma.
+
+01:22:37.160 --> 01:22:39.160
+¿Cómo transformarlo?
+
+01:22:39.160 --> 01:22:40.160
+Bueno.
+
+01:22:42.160 --> 01:22:43.160
+Bueno,
+
+01:22:43.160 --> 01:22:44.160
+tenemos dos problemas, ¿no?
+
+01:22:46.160 --> 01:22:48.160
+¿La formación de las palabras?
+
+01:22:48.160 --> 01:22:49.160
+¿Cómo se forman las palabras?
+
+01:22:52.160 --> 01:22:53.160
+Es decir,
+
+01:22:53.160 --> 01:22:55.160
+que yo tenga sus fijos y afijos,
+
+01:22:55.160 --> 01:22:56.160
+que yo tenga sus fijos y raíz
+
+01:22:56.160 --> 01:22:57.160
+se no quiere decir
+
+01:22:57.160 --> 01:22:58.160
+que pueda mezclar
+
+01:22:58.160 --> 01:22:59.160
+cualquier cosa o cualquier cosa.
+
+01:22:59.160 --> 01:23:00.160
+Yo no puedo decir
+
+01:23:02.160 --> 01:23:03.160
+inelefante.
+
+01:23:04.160 --> 01:23:05.160
+Inelefante no puedo decirlo.
+
+01:23:06.160 --> 01:23:07.160
+Si bien yo podría llegar
+
+01:23:07.160 --> 01:23:08.160
+a imaginarme
+
+01:23:09.160 --> 01:23:10.160
+qué es un inelefante.
+
+01:23:13.160 --> 01:23:14.160
+¿No?
+
+01:23:16.160 --> 01:23:17.160
+No, es un elefante.
+
+01:23:17.160 --> 01:23:18.160
+Es la negación del elefante.
+
+01:23:20.160 --> 01:23:22.160
+Pero sí puedo decir imprescindible.
+
+01:23:25.160 --> 01:23:26.160
+Si yo digo, por ejemplo,
+
+01:23:29.160 --> 01:23:30.160
+elefantemente.
+
+01:23:31.160 --> 01:23:32.160
+¿Usted qué significado le darían
+
+01:23:32.160 --> 01:23:33.160
+elefantemente?
+
+01:23:37.160 --> 01:23:39.160
+Hizo algo como hace un elefante, ¿no?
+
+01:23:39.160 --> 01:23:40.160
+Implicitamente estamos
+
+01:23:40.160 --> 01:23:41.160
+transformando elefante
+
+01:23:42.160 --> 01:23:44.160
+en un adjetivo, ¿no?
+
+01:23:47.160 --> 01:23:48.160
+En realidad no lo hizo
+
+01:23:48.160 --> 01:23:49.160
+porque es inelefantemente.
+
+01:23:51.160 --> 01:23:52.160
+Lo que estamos haciendo
+
+01:23:52.160 --> 01:23:53.160
+es forzando un poco
+
+01:23:54.160 --> 01:23:55.160
+a los sufijos
+
+01:23:55.160 --> 01:23:56.160
+para que
+
+01:23:56.160 --> 01:23:57.160
+cuáles significan.
+
+01:23:57.160 --> 01:23:58.160
+Bueno, esos
+
+01:23:58.160 --> 01:24:00.160
+los poetas lo hacen habitualmente.
+
+01:24:00.160 --> 01:24:01.160
+¿Los seres humanos?
+
+01:24:01.160 --> 01:24:02.160
+No, generalmente no.
+
+01:24:05.160 --> 01:24:06.160
+Pero tenemos otro problema
+
+01:24:06.160 --> 01:24:07.160
+que era lo de imposible, ¿no?
+
+01:24:07.160 --> 01:24:08.160
+Que las palas, los morfemas
+
+01:24:08.160 --> 01:24:09.160
+pueden cambiar
+
+01:24:09.160 --> 01:24:10.160
+según el contexto en el que aparecen.
+
+01:24:10.160 --> 01:24:11.160
+Además de pegarlo,
+
+01:24:11.160 --> 01:24:12.160
+yo no puedo decir
+
+01:24:12.160 --> 01:24:13.160
+manís.
+
+01:24:14.160 --> 01:24:15.160
+Es un error.
+
+01:24:15.160 --> 01:24:16.160
+¿Por qué este tipo de errores
+
+01:24:17.160 --> 01:24:18.160
+al hablar son tan comunes
+
+01:24:18.160 --> 01:24:19.160
+en los niños?
+
+01:24:20.160 --> 01:24:21.160
+Porque no saben algo
+
+01:24:21.160 --> 01:24:22.160
+las reglas, este tipo de reglas,
+
+01:24:22.160 --> 01:24:24.160
+las alteraciones ortográficas.
+
+01:24:27.160 --> 01:24:29.160
+¿Qué antes de me va a ver?
+
+01:24:29.160 --> 01:24:30.160
+¿Qué antes de me va a ver?
+
+01:24:30.160 --> 01:24:31.160
+¿Qué antes de me va a ver?
+
+01:24:31.160 --> 01:24:33.160
+Después de me va a velar.
+
+01:24:33.160 --> 01:24:34.160
+Por ejemplo, cosa así.
+
+01:24:34.160 --> 01:24:36.160
+Es decir, yo tengo esta estructura
+
+01:24:36.160 --> 01:24:39.160
+y tengo que cambiarlas
+
+01:24:39.160 --> 01:24:41.160
+por una cuestión ortográfica puramente.
+
+01:24:42.160 --> 01:24:44.160
+Entonces tengo dos problemas.
+
+01:24:44.160 --> 01:24:46.160
+El primero se llama morfotácticas.
+
+01:24:46.160 --> 01:24:51.160
+¿Cómo los morfemas
+
+01:24:51.160 --> 01:24:53.160
+se pegan para formar las palabras?
+
+01:24:53.160 --> 01:24:54.160
+Y la otra es
+
+01:24:54.160 --> 01:24:55.160
+¿Cómo pueden cambiar
+
+01:24:55.160 --> 01:24:56.160
+el contexto?
+
+01:24:56.160 --> 01:24:58.160
+Y esto aquí es que
+
+01:25:02.160 --> 01:25:04.160
+la forma de combinar morfemas
+
+01:25:04.160 --> 01:25:07.160
+además admiten varias variantes.
+
+01:25:10.160 --> 01:25:11.160
+Una es...
+
+01:25:11.160 --> 01:25:12.160
+A ver si lo tengo en la pregunta.
+
+01:25:12.160 --> 01:25:14.160
+Una es la flexión.
+
+01:25:17.160 --> 01:25:19.160
+La flexión es este género,
+
+01:25:19.160 --> 01:25:20.160
+número.
+
+01:25:20.160 --> 01:25:21.160
+Es decir, cuando yo no cambio
+
+01:25:21.160 --> 01:25:24.160
+el sentido ni la clase de la palabra.
+
+01:25:26.160 --> 01:25:29.160
+Yo tengo un gato
+
+01:25:29.160 --> 01:25:31.160
+y tengo gatos.
+
+01:25:32.160 --> 01:25:34.160
+Lo único que cambia
+
+01:25:34.160 --> 01:25:41.160
+es el concepto general de número.
+
+01:25:41.160 --> 01:25:43.160
+Pero no hay significado de la palabra
+
+01:25:43.160 --> 01:25:45.160
+y no deja de ser un sustantivo.
+
+01:25:46.160 --> 01:25:47.160
+¿De acuerdo?
+
+01:25:51.160 --> 01:25:52.160
+En el español
+
+01:25:52.160 --> 01:25:54.160
+tenemos unas cuantas flexiones.
+
+01:25:54.160 --> 01:25:57.160
+Tenemos más flexiones que en el inglés, en general.
+
+01:25:57.160 --> 01:25:58.160
+Pero hay lenguajes
+
+01:25:58.160 --> 01:26:00.160
+que son mucho más flexibles que en nuestro.
+
+01:26:00.160 --> 01:26:01.160
+Por ejemplo,
+
+01:26:01.160 --> 01:26:02.160
+Pablo Mávez, por ejemplo,
+
+01:26:02.160 --> 01:26:03.160
+Turco.
+
+01:26:03.160 --> 01:26:04.160
+El alemán también.
+
+01:26:04.160 --> 01:26:06.160
+Es decir, uno agrega significado
+
+01:26:06.160 --> 01:26:07.160
+pegándoles sus fijos.
+
+01:26:07.160 --> 01:26:09.160
+Nosotros no lo podemos hacer mucho a eso.
+
+01:26:10.160 --> 01:26:12.160
+Ahora vamos a ver algún ejemplo.
+
+01:26:14.160 --> 01:26:15.160
+Por otra parte,
+
+01:26:15.160 --> 01:26:17.160
+tenemos la morfología derivativa
+
+01:26:18.160 --> 01:26:19.160
+flexional.
+
+01:26:19.160 --> 01:26:21.160
+La derivativa es cuando yo creo otra palabra.
+
+01:26:21.160 --> 01:26:23.160
+¿Cambia el significado
+
+01:26:23.160 --> 01:26:25.160
+o la cambio de clase?
+
+01:26:27.160 --> 01:26:29.160
+Del adjetivo estable
+
+01:26:29.160 --> 01:26:31.160
+yo voy al verbo estabilizar
+
+01:26:33.160 --> 01:26:35.160
+al sustantivo estabilización
+
+01:26:35.160 --> 01:26:37.160
+y al sustantivo desestabilización.
+
+01:26:39.160 --> 01:26:41.160
+Yo acá estoy cambiando el significado de las palabras
+
+01:26:41.160 --> 01:26:43.160
+cambiándole los sus fijos.
+
+01:26:43.160 --> 01:26:45.160
+Eso se llama derivación.
+
+01:26:47.160 --> 01:26:49.160
+No, derivaciones.
+
+01:26:49.160 --> 01:26:50.160
+Estos son derivaciones.
+
+01:26:50.160 --> 01:26:52.160
+Flexiones son el plural, el número.
+
+01:26:53.160 --> 01:26:55.160
+Por ejemplo, yo pongo estabiles
+
+01:26:56.160 --> 01:26:57.160
+es este...
+
+01:26:58.160 --> 01:26:59.160
+una flecha.
+
+01:27:00.160 --> 01:27:01.160
+Estaba buscando un verbo que no tengo.
+
+01:27:01.160 --> 01:27:02.160
+Adetabilizar.
+
+01:27:03.160 --> 01:27:05.160
+Si yo pongo estabilizaba
+
+01:27:07.160 --> 01:27:10.160
+el aba, ese es una flexión.
+
+01:27:10.160 --> 01:27:11.160
+Porque las varbas son flexiones.
+
+01:27:11.160 --> 01:27:13.160
+Son las reglas generales, digamos, en conjugación.
+
+01:27:15.160 --> 01:27:16.160
+¿De acuerdo?
+
+01:27:17.160 --> 01:27:19.160
+Pero la cuestión es que ambos mecanismos
+
+01:27:19.160 --> 01:27:20.160
+no sirven para crear palabras nuevas.
+
+01:27:20.160 --> 01:27:22.160
+Y estos son los mejores, digamos,
+
+01:27:22.160 --> 01:27:24.160
+para inventar palabras.
+
+01:27:31.160 --> 01:27:33.160
+¿Por qué? Porque la derivación es un mecanismo productivo.
+
+01:27:33.160 --> 01:27:34.160
+La flexión no.
+
+01:27:35.160 --> 01:27:36.160
+La flexión no.
+
+01:27:36.160 --> 01:27:38.160
+Yo puedo plural, tengo reglas.
+
+01:27:38.160 --> 01:27:39.160
+La derivación sí.
+
+01:27:39.160 --> 01:27:40.160
+Yo puedo decir
+
+01:27:42.160 --> 01:27:43.160
+toquenización
+
+01:27:43.160 --> 01:27:45.160
+que es el
+
+01:27:47.160 --> 01:27:49.160
+nación y el efecto de
+
+01:27:49.160 --> 01:27:51.160
+separar el toquen.
+
+01:27:51.160 --> 01:27:52.160
+Y nefantescamente
+
+01:27:52.160 --> 01:27:54.160
+era una versión un poco mejor de la...
+
+01:27:55.160 --> 01:27:57.160
+Yo tenía un amigo que decía sin dudas mentes
+
+01:27:59.160 --> 01:28:01.160
+y quizás mentes nada.
+
+01:28:02.160 --> 01:28:04.160
+Y yo puedo llegar a interpretarla.
+
+01:28:05.160 --> 01:28:08.160
+Se pueden reír, pero por un momento
+
+01:28:08.160 --> 01:28:10.160
+se entiende lo que uno dice.
+
+01:28:11.160 --> 01:28:14.160
+Y hay gente que hace cosas muy extrañas
+
+01:28:14.160 --> 01:28:16.160
+como por ejemplo Cortázar ahí que
+
+01:28:21.160 --> 01:28:23.160
+que transmite una cantidad de
+
+01:28:24.160 --> 01:28:26.160
+sensaciones, que uno tenga
+
+01:28:26.160 --> 01:28:28.160
+ni la menor idea de lo que quieren decir, ¿no?
+
+01:28:30.160 --> 01:28:31.160
+Pero está.
+
+01:28:31.160 --> 01:28:33.160
+Y uno acá, por ejemplo,
+
+01:28:33.160 --> 01:28:34.160
+cuando él dice, él procuraba
+
+01:28:34.160 --> 01:28:36.160
+relamar las 5 peluzas,
+
+01:28:36.160 --> 01:28:38.160
+relamar qué le parece que es.
+
+01:28:41.160 --> 01:28:43.160
+Dicía, relamar.
+
+01:28:45.160 --> 01:28:47.160
+Pero qué clase de palabra es,
+
+01:28:47.160 --> 01:28:49.160
+yo no pretendía tanto.
+
+01:28:49.160 --> 01:28:51.160
+Si nos ponemos a hablar de significado acá,
+
+01:28:51.160 --> 01:28:53.160
+no sé qué tal lejos como ya.
+
+01:28:54.160 --> 01:28:56.160
+Relamar, qué tipo de palabra es?
+
+01:28:56.160 --> 01:28:58.160
+¿Cuál es la categoría gramatical?
+
+01:29:01.160 --> 01:29:02.160
+¿Cómo sabe?
+
+01:29:06.160 --> 01:29:07.160
+¿Cómo sabe?
+
+01:29:07.160 --> 01:29:08.160
+¿Cómo sabe?
+
+01:29:09.160 --> 01:29:11.160
+Porque terminan a Ere.
+
+01:29:11.160 --> 01:29:12.160
+Exactamente.
+
+01:29:13.160 --> 01:29:15.160
+Y además porque viene rodeado otras palabras.
+
+01:29:15.160 --> 01:29:16.160
+Ahí hay otro tema, ¿no?
+
+01:29:16.160 --> 01:29:18.160
+El contexto en el que aparece también nos invita a pensar
+
+01:29:18.160 --> 01:29:19.160
+que es un verbo.
+
+01:29:22.160 --> 01:29:25.160
+Todo ese fragmento de rayuela
+
+01:29:25.160 --> 01:29:26.160
+está basado en eso,
+
+01:29:26.160 --> 01:29:28.160
+en que nosotros por la estructura
+
+01:29:28.160 --> 01:29:29.160
+más o menos calculamos
+
+01:29:29.160 --> 01:29:31.160
+y por el contexto más o menos calculamos
+
+01:29:31.160 --> 01:29:33.160
+las palabras, aunque no sepamos,
+
+01:29:33.160 --> 01:29:35.160
+no la tengamos en un diccionario.
+
+01:29:36.160 --> 01:29:38.160
+Hay toda una línea de investigación
+
+01:29:38.160 --> 01:29:39.160
+que son de las palabras,
+
+01:29:39.160 --> 01:29:41.160
+de las unknown words.
+
+01:29:41.160 --> 01:29:42.160
+El guessing se llama eso.
+
+01:29:42.160 --> 01:29:44.160
+Alivinar
+
+01:29:46.160 --> 01:29:47.160
+qué clase tiene una palabra
+
+01:29:47.160 --> 01:29:48.160
+cuando no la tengamos en diccionario.
+
+01:29:48.160 --> 01:29:50.160
+No sé lo que es,
+
+01:29:50.160 --> 01:29:52.160
+pero me puedo rimar.
+
+01:29:53.160 --> 01:29:55.160
+Solamente sus orfeluños.
+
+01:29:58.160 --> 01:30:00.160
+Bueno, como le decía,
+
+01:30:00.160 --> 01:30:03.160
+hay diferentes tipos de lenguajes.
+
+01:30:03.160 --> 01:30:05.160
+Los flexionales, como el inglés y el español,
+
+01:30:05.160 --> 01:30:07.160
+admiten flexiones,
+
+01:30:07.160 --> 01:30:09.160
+las palabras
+
+01:30:09.160 --> 01:30:11.160
+a diferencia de los adelante
+
+01:30:11.160 --> 01:30:13.160
+como el chino, que solamente tienen un morfema
+
+01:30:13.160 --> 01:30:14.160
+por palabra.
+
+01:30:14.160 --> 01:30:16.160
+No pegan morfemas.
+
+01:30:18.160 --> 01:30:20.160
+Lo cual hace que tengan muchas palabras.
+
+01:30:22.160 --> 01:30:24.160
+El turco y el alemán
+
+01:30:24.160 --> 01:30:26.160
+son lenguajes,
+
+01:30:26.160 --> 01:30:28.160
+la diferencia entre los enlutinantes fesionales
+
+01:30:28.160 --> 01:30:29.160
+es un poco difusa,
+
+01:30:29.160 --> 01:30:31.160
+porque es
+
+01:30:31.160 --> 01:30:33.160
+más cualitativa.
+
+01:30:33.160 --> 01:30:35.160
+Pueden pegar muchos.
+
+01:30:35.160 --> 01:30:36.160
+Nosotros podemos decir,
+
+01:30:36.160 --> 01:30:38.160
+gatitos, si estoy pegando dos,
+
+01:30:38.160 --> 01:30:39.160
+me podría llegar a pegar hasta tres,
+
+01:30:39.160 --> 01:30:41.160
+capaz, en algún caso.
+
+01:30:41.160 --> 01:30:42.160
+Pero,
+
+01:30:42.160 --> 01:30:44.160
+esta gente pega muchos.
+
+01:30:51.160 --> 01:30:53.160
+Exactamente.
+
+01:30:53.160 --> 01:30:54.160
+Exactamente.
+
+01:30:54.160 --> 01:30:56.160
+Por ejemplo,
+
+01:30:56.160 --> 01:30:57.160
+oiga,
+
+01:30:57.160 --> 01:30:59.160
+los tir...
+
+01:30:59.160 --> 01:31:01.160
+En turco.
+
+01:31:03.160 --> 01:31:05.160
+En turco
+
+01:31:05.160 --> 01:31:07.160
+quiere decir
+
+01:31:07.160 --> 01:31:09.160
+comportándote
+
+01:31:09.160 --> 01:31:11.160
+como si...
+
+01:31:11.160 --> 01:31:13.160
+como si estuvieras entre aquellos que no pudimos civilizar.
+
+01:31:21.160 --> 01:31:23.160
+Pero hay casos peores.
+
+01:31:25.160 --> 01:31:27.160
+Volvamos.
+
+01:31:29.160 --> 01:31:31.160
+El auto del pueblo.
+
+01:31:31.160 --> 01:31:33.160
+El bols.
+
+01:31:33.160 --> 01:31:35.160
+Si los alemanes pegan,
+
+01:31:35.160 --> 01:31:37.160
+el alemán es al lutinante.
+
+01:31:37.160 --> 01:31:39.160
+Por eso es más difícil.
+
+01:31:40.160 --> 01:31:42.160
+Está claro que no todos los turcos
+
+01:31:42.160 --> 01:31:44.160
+andan hablando así por la vida.
+
+01:31:44.160 --> 01:31:46.160
+Estos son casos como de laboratorio,
+
+01:31:46.160 --> 01:31:47.160
+pero,
+
+01:31:47.160 --> 01:31:49.160
+después.
+
+01:31:49.160 --> 01:31:51.160
+De hecho, el finlandés es otro lenguaje
+
+01:31:51.160 --> 01:31:53.160
+que es al lutinante
+
+01:31:53.160 --> 01:31:55.160
+y yo creo que
+
+01:31:55.160 --> 01:31:57.160
+no es casualidad que
+
+01:31:57.160 --> 01:31:59.160
+los morfólogos,
+
+01:31:59.160 --> 01:32:01.160
+no sé cómo se dice.
+
+01:32:01.160 --> 01:32:03.160
+Muchos son finlandes.
+
+01:32:05.160 --> 01:32:07.160
+Sí, en turco sí.
+
+01:32:07.160 --> 01:32:09.160
+En turco sí.
+
+01:32:09.160 --> 01:32:11.160
+Yo creo que aparece un ejemplo más adelante.
+
+01:32:13.160 --> 01:32:15.160
+Pero hay casos peores,
+
+01:32:15.160 --> 01:32:17.160
+porque el chupik,
+
+01:32:17.160 --> 01:32:19.160
+que es un lenguaje si yo mal no recuerdo de Alaska,
+
+01:32:19.160 --> 01:32:21.160
+la gente de allá del norte
+
+01:32:21.160 --> 01:32:23.160
+con el frío,
+
+01:32:23.160 --> 01:32:25.160
+se ve que
+
+01:32:25.160 --> 01:32:27.160
+es un lenguaje que son los polis sintéticos
+
+01:32:27.160 --> 01:32:29.160
+donde uno, esencialmente, puede meter una oración
+
+01:32:29.160 --> 01:32:31.160
+entre la palabra.
+
+01:32:31.160 --> 01:32:33.160
+Para dar una explicación
+
+01:32:33.160 --> 01:32:35.160
+a luego.
+
+01:32:35.160 --> 01:32:37.160
+Tuntus catámbicas
+
+01:32:37.160 --> 01:32:39.160
+ahí tengo,
+
+01:32:39.160 --> 01:32:41.160
+en chupik, quiere decir,
+
+01:32:41.160 --> 01:32:43.160
+todavía no dijo de nuevo
+
+01:32:43.160 --> 01:32:45.160
+que iba a Casarrenos.
+
+01:32:47.160 --> 01:32:49.160
+Fíjense que ahí
+
+01:32:49.160 --> 01:32:51.160
+mete todo, tiene verbo,
+
+01:32:51.160 --> 01:32:53.160
+una oración subordinada.
+
+01:32:53.160 --> 01:32:55.160
+Todo en una palabra sola.
+
+01:32:55.160 --> 01:32:57.160
+Polis sintéticos se llaman.
+
+01:32:59.160 --> 01:33:01.160
+Hay más cosas
+
+01:33:01.160 --> 01:33:03.160
+en el universo
+
+01:33:03.160 --> 01:33:05.160
+que la que imagina tu filosofía.
+
+01:33:05.160 --> 01:33:07.160
+Hay muchas cosas. Si usted se pone en mi vida de Wikipedia
+
+01:33:07.160 --> 01:33:09.160
+de tipos de lenguajes, es muy entretenido.
+
+01:33:09.160 --> 01:33:11.160
+¿De ahí saca el ejemplo?
+
+01:33:11.160 --> 01:33:13.160
+Porque uno piensa que
+
+01:33:17.160 --> 01:33:19.160
+puede estar encerrado una casca ahora del nuece
+
+01:33:19.160 --> 01:33:21.160
+y sentirse dueño del universo.
+
+01:33:21.160 --> 01:33:23.160
+El parsing
+
+01:33:23.160 --> 01:33:25.160
+morfológico
+
+01:33:25.160 --> 01:33:27.160
+básicamente se usa para
+
+01:33:27.160 --> 01:33:29.160
+hacer el análisis de una oración.
+
+01:33:29.160 --> 01:33:31.160
+Es decir, tomar una entrada
+
+01:33:31.160 --> 01:33:33.160
+y devolver algún... generalmente se usa para la oración
+
+01:33:33.160 --> 01:33:35.160
+pero parsing es una expresión
+
+01:33:35.160 --> 01:33:37.160
+en inglés que no es muy traducible
+
+01:33:37.160 --> 01:33:39.160
+que es tomar una entrada y devolver
+
+01:33:39.160 --> 01:33:41.160
+algún tipo de estructura lingüística.
+
+01:33:41.160 --> 01:33:43.160
+En el caso de la oración devuelvo el árbol
+
+01:33:43.160 --> 01:33:45.160
+de parsing, por ejemplo.
+
+01:33:45.160 --> 01:33:47.160
+El parsing morfológico es justamente esto que estamos hablando.
+
+01:33:47.160 --> 01:33:49.160
+Tomar una palabra
+
+01:33:49.160 --> 01:33:51.160
+y devolver una representación de la raíz humorfena.
+
+01:33:51.160 --> 01:33:53.160
+Esto es lo que se llama morfología computacional.
+
+01:33:53.160 --> 01:33:55.160
+Bueno, vamos a los fierros.
+
+01:33:55.160 --> 01:33:57.160
+Queremos... Quiero una palabra,
+
+01:33:57.160 --> 01:33:59.160
+quiero computar la representación.
+
+01:33:59.160 --> 01:34:01.160
+¿De acuerdo?
+
+01:34:05.160 --> 01:34:07.160
+Y bueno, ¿qué formas tenemos?
+
+01:34:07.160 --> 01:34:09.160
+Y tenemos esta.
+
+01:34:09.160 --> 01:34:11.160
+Una posibilidad de tener un diccionario
+
+01:34:11.160 --> 01:34:13.160
+de formas flexionadas.
+
+01:34:13.160 --> 01:34:15.160
+Esto es, para cada palabra
+
+01:34:15.160 --> 01:34:17.160
+su
+
+01:34:17.160 --> 01:34:19.160
+representación, su análisis.
+
+01:34:19.160 --> 01:34:21.160
+¿Cuál es el problema de esto?
+
+01:34:29.160 --> 01:34:31.160
+¿Cuál es el problema de tener para todos los pares
+
+01:34:31.160 --> 01:34:33.160
+palabra, representación, palabra, representación?
+
+01:34:33.160 --> 01:34:35.160
+¿Calabilidad?
+
+01:34:35.160 --> 01:34:37.160
+¿Calabilidad? Pero hoy en día con las computadoras que tenemos.
+
+01:34:37.160 --> 01:34:39.160
+¿Estamos hablando de espacio
+
+01:34:39.160 --> 01:34:41.160
+cuando hablamos que había video?
+
+01:34:43.160 --> 01:34:45.160
+¿Para armarlo para empezar?
+
+01:34:45.160 --> 01:34:47.160
+Esto es un problema.
+
+01:34:47.160 --> 01:34:49.160
+Pero además que,
+
+01:34:49.160 --> 01:34:51.160
+hay un problema más grande que eso.
+
+01:34:53.160 --> 01:34:55.160
+No sé.
+
+01:34:55.160 --> 01:34:57.160
+Todo eso se resuelve.
+
+01:34:57.160 --> 01:34:59.160
+Un poco de...
+
+01:34:59.160 --> 01:35:01.160
+una estructura de datos,
+
+01:35:01.160 --> 01:35:03.160
+un algoritmo como la gente.
+
+01:35:03.160 --> 01:35:05.160
+Sí, pero podría contemplar
+
+01:35:05.160 --> 01:35:07.160
+las decepciones.
+
+01:35:07.160 --> 01:35:09.160
+La irregularidad es un otro problema,
+
+01:35:09.160 --> 01:35:11.160
+pero podría llegar a agarrarlas también, ¿no?
+
+01:35:11.160 --> 01:35:13.160
+Porque si yo meto uno a uno...
+
+01:35:13.160 --> 01:35:15.160
+Porque acá estoy hablando de una a una.
+
+01:35:17.160 --> 01:35:19.160
+Tengo un diccionario de forma flexionada.
+
+01:35:19.160 --> 01:35:21.160
+Tengo elefante, inelefante, inelefantemente...
+
+01:35:25.160 --> 01:35:27.160
+El problema es que esto es productivo.
+
+01:35:27.160 --> 01:35:29.160
+Me decir que...
+
+01:35:29.160 --> 01:35:31.160
+Nunca vamos a cubrirla todo porque siempre podemos inventar nuevas.
+
+01:35:35.160 --> 01:35:37.160
+Se puede y de hecho hay aproximaciones a esto.
+
+01:35:37.160 --> 01:35:39.160
+Hay diccionarios de forma flexionada,
+
+01:35:39.160 --> 01:35:41.160
+la francés y el inglés.
+
+01:35:41.160 --> 01:35:43.160
+Acá no creo que hayamos llegado a tal
+
+01:35:43.160 --> 01:35:45.160
+nivel de ineficiencia.
+
+01:35:45.160 --> 01:35:47.160
+Se vuelven enormes
+
+01:35:47.160 --> 01:35:49.160
+y no permiten palabras nuevas.
+
+01:35:49.160 --> 01:35:51.160
+Esa es el gran problema. No se usan más esto.
+
+01:35:51.160 --> 01:35:53.160
+¿Por qué nos llama?
+
+01:35:53.160 --> 01:35:55.160
+Además, ¿qué problema tenemos?
+
+01:35:55.160 --> 01:35:57.160
+Que...
+
+01:35:57.160 --> 01:35:59.160
+los lenguajes ablutinantes
+
+01:36:07.160 --> 01:36:09.160
+potencialmente pueden ser infinitas
+
+01:36:09.160 --> 01:36:11.160
+las palabras.
+
+01:36:13.160 --> 01:36:15.160
+Porque yo puedo decir que causaste
+
+01:36:15.160 --> 01:36:17.160
+que causes, que causes, que causes
+
+01:36:17.160 --> 01:36:19.160
+y pues tirarla todo lo que quiera.
+
+01:36:21.160 --> 01:36:23.160
+Claro que no es tan sencillo, pero...
+
+01:36:25.160 --> 01:36:27.160
+en realidad no es tan fácil hacerlo, pero
+
+01:36:27.160 --> 01:36:29.160
+potencialmente podrías.
+
+01:36:33.160 --> 01:36:35.160
+Entonces, acá está eso, ¿no?
+
+01:36:35.160 --> 01:36:37.160
+El turco tiene 40.000 formas posibles
+
+01:36:37.160 --> 01:36:39.160
+y hay que sumar los sufijos derivativos.
+
+01:36:39.160 --> 01:36:41.160
+Y teóricamente hay infinita palabra.
+
+01:36:41.160 --> 01:36:43.160
+¿Causaste que hay que causes, que hay que causes,
+
+01:36:43.160 --> 01:36:45.160
+que doble vea, gaceta?
+
+01:36:47.160 --> 01:36:49.160
+Y en español también es sufijo productivo
+
+01:36:49.160 --> 01:36:51.160
+como el nuestro querido mente.
+
+01:36:51.160 --> 01:36:53.160
+Mente es productivo.
+
+01:36:57.160 --> 01:36:59.160
+La otra forma
+
+01:36:59.160 --> 01:37:01.160
+es hacer
+
+01:37:01.160 --> 01:37:03.160
+parcimorfológico dinámico.
+
+01:37:03.160 --> 01:37:05.160
+O sea,
+
+01:37:05.160 --> 01:37:07.160
+lo que hago es
+
+01:37:07.160 --> 01:37:09.160
+tengo una lista
+
+01:37:09.160 --> 01:37:11.160
+de raíces y afijos posibles
+
+01:37:13.160 --> 01:37:15.160
+tengo un modelo de ordenamiento
+
+01:37:15.160 --> 01:37:17.160
+de los morphemas, decir qué morphemas se pegan con cuales
+
+01:37:21.160 --> 01:37:23.160
+o qué clases de morphemas pueden seguir a otros
+
+01:37:23.160 --> 01:37:25.160
+y puedo agruparlos
+
+01:37:25.160 --> 01:37:27.160
+y luego tengo reglas ortográficas
+
+01:37:27.160 --> 01:37:29.160
+que me dicen cómo cambian los palabras
+
+01:37:29.160 --> 01:37:31.160
+al mezclar los morphemas.
+
+01:37:31.160 --> 01:37:33.160
+Esto esencialmente lo que hablamos hasta ahora.
+
+01:37:35.160 --> 01:37:37.160
+Esta es la solución
+
+01:37:37.160 --> 01:37:39.160
+a la que se llega
+
+01:37:39.160 --> 01:37:41.160
+con el
+
+01:37:41.160 --> 01:37:43.160
+la morfología
+
+01:37:43.160 --> 01:37:45.160
+de estado finito.
+
+01:37:45.160 --> 01:37:47.160
+Vamos a ver en la clase que viene
+
+01:37:47.160 --> 01:37:49.160
+que todo esto yo lo puedo representar bastante directamente
+
+01:37:49.160 --> 01:37:51.160
+con
+
+01:37:51.160 --> 01:37:53.160
+transductores
+
+01:37:53.160 --> 01:37:55.160
+y vamos a ver cómo se resuelve.
+
+01:37:59.160 --> 01:38:01.160
+Bien, una nota
+
+01:38:01.160 --> 01:38:03.160
+es que
+
+01:38:03.160 --> 01:38:05.160
+hay dos hipótesis también
+
+01:38:05.160 --> 01:38:07.160
+para cómo los humanos procesamos esto.
+
+01:38:07.160 --> 01:38:09.160
+Una es
+
+01:38:09.160 --> 01:38:11.160
+que almacenamos en nuestra cabeza
+
+01:38:11.160 --> 01:38:13.160
+el listado completo de formas
+
+01:38:13.160 --> 01:38:15.160
+lo cual nos deja saber
+
+01:38:15.160 --> 01:38:17.160
+cómo piensan los turcos
+
+01:38:19.160 --> 01:38:21.160
+o la otra hipótesis
+
+01:38:21.160 --> 01:38:23.160
+es que sólo tenemos
+
+01:38:23.160 --> 01:38:25.160
+los morphemas
+
+01:38:25.160 --> 01:38:27.160
+y tratamos
+
+01:38:27.160 --> 01:38:29.160
+de tener la menor redundancia posible
+
+01:38:29.160 --> 01:38:31.160
+y sólo procesamos las morfotácticas, ¿no?
+
+01:38:31.160 --> 01:38:33.160
+Las morfotácticas se acuerdan que eran las reglas de pegar
+
+01:38:33.160 --> 01:38:35.160
+es decir, tengo lo mismo que dije
+
+01:38:35.160 --> 01:38:37.160
+que haría una computadora
+
+01:38:37.160 --> 01:38:39.160
+peor los pegacitos y armó
+
+01:38:39.160 --> 01:38:41.160
+por eso
+
+01:38:41.160 --> 01:38:43.160
+podría ser
+
+01:38:43.160 --> 01:38:45.160
+una explicación de
+
+01:38:45.160 --> 01:38:47.160
+algunos errores por ejemplo cuando uno dice
+
+01:38:47.160 --> 01:38:49.160
+media loca
+
+01:38:49.160 --> 01:38:51.160
+y es porque está flexionando
+
+01:38:51.160 --> 01:38:53.160
+equivocadamente
+
+01:38:53.160 --> 01:38:55.160
+le está arrando
+
+01:38:55.160 --> 01:38:57.160
+está pensando que en media
+
+01:38:57.160 --> 01:38:59.160
+un objetivo
+
+01:38:59.160 --> 01:39:01.160
+medio
+
+01:39:01.160 --> 01:39:03.160
+y es un adverbio
+
+01:39:03.160 --> 01:39:05.160
+acuerdo
+
+01:39:05.160 --> 01:39:07.160
+entonces
+
+01:39:07.160 --> 01:39:09.160
+claramente no pero pareciera que yo
+
+01:39:09.160 --> 01:39:11.160
+para poder cometer este error tengo que estar pegando
+
+01:39:11.160 --> 01:39:13.160
+pues si yo tuviera todo almacenado
+
+01:39:13.160 --> 01:39:15.160
+no seguía así
+
+01:39:15.160 --> 01:39:17.160
+no seguía razonable que yo me confundiera
+
+01:39:17.160 --> 01:39:19.160
+si tuviera la lista la palabra
+
+01:39:19.160 --> 01:39:21.160
+y lo mismo con esto
+
+01:39:21.160 --> 01:39:23.160
+son bastantes grandes
+
+01:39:23.160 --> 01:39:25.160
+estoy concordando todo
+
+01:39:25.160 --> 01:39:27.160
+pero eso
+
+01:39:27.160 --> 01:39:29.160
+sólo para preguntarlo
+
+01:39:29.160 --> 01:39:31.160
+en la prueba final y que no me lo conteste nadie
+
+01:39:33.160 --> 01:39:35.160
+una vez me pasó
+
+01:39:35.160 --> 01:39:37.160
+bien
+
+01:39:37.160 --> 01:39:39.160
+un poco más de los errores espontáneos
+
+01:39:39.160 --> 01:39:41.160
+hay una lista de errores
+
+01:39:41.160 --> 01:39:43.160
+y hay algunos que son
+
+01:39:43.160 --> 01:39:45.160
+pareciera ser que uno
+
+01:39:45.160 --> 01:39:47.160
+pegó mal
+
+01:39:47.160 --> 01:39:49.160
+el sufijo porque me fijas tan miramente
+
+01:39:51.160 --> 01:39:53.160
+pegó el mente donde no era
+
+01:39:53.160 --> 01:39:55.160
+y lo mismo con el melavio
+
+01:39:55.160 --> 01:39:57.160
+el muerde
+
+01:39:57.160 --> 01:39:59.160
+con juga
+
+01:40:01.160 --> 01:40:03.160
+no hay nada capaz de cambiar la palabra
+
+01:40:03.160 --> 01:40:05.160
+no importa
+
+01:40:07.160 --> 01:40:09.160
+me dijisteis que compraré
+
+01:40:09.160 --> 01:40:11.160
+hice el contacto
+
+01:40:11.160 --> 01:40:13.160
+de eso se trata la morfología
+
+01:40:13.160 --> 01:40:15.160
+y la clase que viene vamos a
+
+01:40:15.160 --> 01:40:17.160
+hablar de morfología
+
+01:40:17.160 --> 01:40:19.160
+está finito es como resolvemos
+
+01:40:19.160 --> 01:40:21.160
+con transductores
+
+01:40:21.160 --> 01:40:23.160
+el problema
+
+01:40:23.160 --> 01:40:25.160
+de la morfología
+
+01:40:25.160 --> 01:40:27.160
+¿de acuerdo?
+
+01:40:27.160 --> 01:40:29.160
+¿alguna duda?
+

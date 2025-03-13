@@ -1,0 +1,816 @@
+¿Qué vamos a ver hoy? Ni idea. Bien. La idea es como una clase
+de invitada dentro del curso de introducción al presamiento del
+lenguaje natural, dar algo de el tema de recuperación de información.
+Pero si uno piensa en recuperación de información, ya en seguida uno asocia
+Google, web, cosas, o vamos a ver eso. No, no vamos a ver eso. Vamos a ver los
+inicios de la recuperación de información. Cuando todavía Internet no
+era tal, estamos hablando de la década del 60, cuando empezaron a aparecer los
+primeros sistemas o cuáles eran los modelos o cuáles eran los criterios para
+construir un sistema de recuperación de documentos de información donde vamos a
+estar comentando la filosofía totalmente distinta a lo que oí en la web.
+Entonces, en los sistemas de recuperación de información, como le decía, en general
+se habla de un dominio acotado, un dominio conocido y uno lo que ha tratado
+de hacer es tratar de recuperar la mayor cantidad de documentos o de
+información que exista en esa base documental vinculado a la necesidad del
+usuario. Entonces, estas son algunas de las preguntas que uno se hace, ¿no?
+¿Cómo podemos recuperar información relevante para nosotros contenida en esos
+documentos, en esa colección de documentos? ¿Qué cosas tendrían que ser
+representativas? ¿Qué es lo que va a identificar un documento de otro? ¿Cómo
+se van a representar los documentos? ¿Cómo vamos a representar las consultas?
+Si importa la estructura que tenga el documento o solamente el contenido, en
+fin, ¿y cuál hace la relevancia asociada a cada documento?
+Esto es un tema bien importante porque uno inevitablemente, cuando voy a estar
+hablando, hace su paralelismo a la web. Entonces, hoy vemos, hacemos una consulta
+en la web, en internet y siempre aparece un orden de... De alguna manera, el tipo
+ordena, se aguna algún criterio. Entonces, en aquí estamos hablando de los
+primeros sistemas de recuperación de base datos documentales, el tema de la
+relevancia era muy importante y cuál sean los criterios y cómo se medía esa
+relevancia, era sumamente clave en los primeros modelos teóricos y, bueno,
+que después se aplicaron en los primeros sistemas de gestión documental.
+Entonces, bueno, una breve agenda, primero introducir al tema, vamos a hablar
+algo de los modelos de información retrieval, cuáles son las medidas para
+evaluar la recuperación y después, muy por arriba, hablar algo de
+indexación, que es Clare, indudablemente, por lo menos mencionar lo que sería
+recuperación de información en la web y después se tota un tema interesante,
+que es el tema de tracción de información, que de alguna manera es
+como un hermano menor de la recuperación de información.
+Entonces, para empezar a contextualizar, tres preguntas distintas. Primero,
+veamos qué es el concepto de información, luego qué es un sistema de
+información para, después, llegar al concepto de qué es recuperación de
+información. Acá yo saqué un par de…, porque todos estos conceptos ya los tenemos,
+ya los venimos manejando, más que nada para contextualizar. Estas son un par de
+definiciones que me parecieron interesantes de la Real Academia y la otra la
+saqué de Wikipedia. Comunicación o adquisición de conocimientos que permiten
+ampliar o precisar los que ya se poseen. Es decir, yo ya tengo determinada idea
+sobre algo y busco aumentar esas ideas sobre determinados conceptos o un
+conjunto organizado de datos procesados que constituyen un mensaje que cambia el
+estado del conocimiento del sujeto o de lo que ya conocíamos. Son como distintas
+pero orientadas a lo mismo, tratar de profundizar o de aumentar la capacidad
+de conocimiento sobre determinado aspecto. Entonces, sobre esa base un sistema
+de información, también hay un par de definiciones de dos sitios, conjunto de
+funciones o componentes relacionados que forman un todo, almacena, procesa,
+distribuye, en fin, o un conjunto organizado de elementos que pueden ser
+personas, datos, o sea, no asociarlo directamente a la tecnología. Un sistema
+de información es algo que va mucho más allá del concepto de tecnología.
+Entonces, cualidades de un sistema de información debe ser preciso, o sea, la
+información que contenga debe estar clara y contundente de lo que se
+pretende representar. Hay un tema de oportunidad que tiene que ver con el
+momento en que sucede un determinado hecho y el momento en que ese documento
+que refleja a ese hecho es puesto a disposición del sistema. Otra cualidad es
+el hecho de sea completo, si bien la completitud absoluta no existe. Bueno,
+la idea es que cuando yo recupere un sistema, trate de recuperar absolutamente
+todo lo relevante que a mí me interesa contenido en el sistema, ya que no me
+queden cosas por recuperar vinculados a lo que yo quiero. Este, bueno, que tenga
+contenido semántico, que la información sea coherente, o sea, un tema de
+integridad de la información y, bueno, los aspectos de seguridad que no se
+pierdan, digamos, con el tiempo. Algunos ejemplos, a casi uno ya orientado a
+sistemas de información pensando en tecnología, bueno, son los sistemas
+transaccionales, hay cualquiera de lo que va un GRP a un sistema de gestión de
+archivos, soporte a partir de ahí, uno genera un montón de información, entonces
+esa información existe en otros tipos de sistemas que serían los sistemas para
+tomar decisiones, basados en datawareja o jugos, etcétera. Pensamos al día de hoy.
+O los sistemas basados en conocimiento, que a gran derrago podemos enumerar como
+sistemas expertos. Estos son simplemente algunos ejemplos que se basan en grandes
+bases de conocimiento. Entonces, podemos clasificarlos en dos tipos.
+A veces hablamos de sistemas de base de datos o de gestión de datos, de gestión de
+datos o sistemas de recuperación de información, porque un poco lo que yo
+quiero es tratar de mostrar la diferencia entre datos e información.
+Nada, una definición para fijar ideas, un sistema de gestión de base de datos,
+bueno, un software dedicado a servir de interface entre la base de datos, el
+usuario, las aplicaciones, tiene un lenguaje de definición de datos, un lenguaje
+de consulta, etcétera.
+Bien, yendo a recuperación de información, también un par de definiciones,
+la básica de Wikipedia, ciencia de la búsqueda de información en documentos,
+la búsqueda de los documentos, de metadatos que describan esos documentos,
+en fin. Y me interesa, porque rescatar la definición de Salton, porque Salton es un
+poco considerado el padre de la recuperación de información, disciplina
+encargada de la representación, porque aparte contextualiza bien el concepto,
+de la representación, el almacenamiento, la organización y su posterior acceso y
+recuperación de esa información. Entonces, en los sistemas de recuperación de
+información, el objetivo es muy simple, tengo un conjunto de documentos, tengo un
+usuario, con una cierta, quiere investigar o quiere averiguar algo sobre
+determinado tema, y sisto, estamos pensando en conjuntos, no en la web que es heterogénea,
+sino en un conjunto de documentos homogéneo, y bueno, y nada, ayudarse de herramientas
+tecnológicas. Entonces, lo que decía recién, distinguamos lo que es recuperar
+datos de recuperar información. Decíamos en un sistema de base datos, yo tengo un
+lenguaje de manipulación, por ejemplo, de SQL, que busca padrón, valor, de una
+tabla que se llama padrón, es que tengan mayores a tal valor. En los sistemas de
+base datos, yo sé exactamente lo que quiero y tengo o debería de tener el
+conocimiento, el usuario tiene el conocimiento para precisar exactamente el
+tipo de datos que quieres traer. Cuando yo formulo una consulta en los sistemas de
+recuperación de información, quiero saber sobre equipos uruguayos clasificados a
+las copas internacionales en la última década. ¿Qué me voy a traer eso?
+¿Qué me debería de traer?
+Sí, ¿de qué?
+Me va a traer de los equipos de basquebol, de los equipos de fútbol, no estoy, es decir, la
+consulta es bien distinta cuando yo conozco las tablas, la estructura, mientras en el otro lado
+es, si yo no lo soy lo suficientemente preciso para expresar lo que yo necesito, el
+tipo lo sabe y me va a recuperar todo lo que hable de lo que estoy diciendo ahí.
+Bueno, claro, pero si yo, sobre lo mismo, no lo decíamos, bueno, no lo mismo, el
+dominio de la biología, yo voy a decir el dominio deportivo, entonces acá tenemos,
+¿entendés el problema? Esencialmente es eso.
+Entonces, un cuadrito que de alguna manera muestra un esquema de diferencia entre los dos grandes
+sistemas, en el de base de datos estamos pensando en un modelo esencialmente de tablas, un modelo
+relacional donde los objetos son tablas, un modelo estructurado, acá en los sistemas de
+recuperación son documentos, es texto, no es estructurado, la operación básica es la misma,
+es recuperación, de alguna manera lo que decíamos recién, es determinista en el sentido de yo,
+se lee padrón y valor, voy directamente al campo que quiero recuperar, en el otro lado con cierto,
+puse probabilístico, con cierto grado de, no sé, de certeza me va a devolver, capaz que lo que
+quiero, más alguna otra cosa que tendré que ver como lo filtro, etcétera. Las consultas
+son ambiguas y bueno, lo que veíamos recién, al utilizar lenguaje natural en los sistemas
+de recuperación de información, la consulta puede ser ambigua y bueno, y la base es lo mismo,
+y este esquema de alguna manera plantea muy a grandes rasgos lo que es todo el proceso de un
+sistema de information retrieval, tengo usuario y por un lado tengo la base de documentos,
+en cualquiera de los dos casos se realiza un procedimiento por el cual el usuario se realiza
+determinado tipo de operaciones sobre las consultas, antes de largar la búsqueda,
+después vamos a profundizar un poquito más, pero por ejemplo, cosas que seguramente ya
+han estado viendo en el curso, yo qué sé, si pensamos en el ejemplito que teníamos recién,
+de quiero los equipos, qué sé yo, el quiero no lo voy a considerar, los, los artículos no lo voy a
+considerar, es decir, tendré que operar, ver de qué manera represento yo las consultas antes de
+largar la búsqueda, por otro lado, lo mismo con los textos, es decir, yo tendría que tener
+un criterio por el cual voy a representar esos textos de mi base documental, o sea que voy a
+tener que manipular esos textos y hacer ciertas operaciones hasta indicar, y eso es lo que yo
+busco, objetos, este, objetos dentro de una base, este, con cierto índice, pues yo decíamos que
+hay algo de índice, vamos a hablar, lo ideal es que esos documentos me los ordene de alguna manera
+en función de cierto, cierto ranking, cierto grado de relevancia, y hay una primera evaluación
+de los resultados, dependiendo del modelo que uno, uno tenga, esos resultados se tiran de uno al
+usuario, o podría eventualmente hacer una retroalimentación y, o agregar más términos de búsqueda,
+o reformular la consulta, con lo cual el sistema vuelve a, o se lo presenta a los usuarios,
+o vuelve a largar una nueva búsqueda, pero conceptualmente es el esquema genérico de este
+tipo de sistemas. Bien, empecemos a ver alguno de los problemas. ¿Qué información sobre las
+batallas de la Segunda Guerra Mundial que no se liberaron en Europa? Entonces, mi mamá,
+que siempre la usamos en los ejemplos, a la madre de uno, el procedimiento de mi madre,
+cuando, si esto, y yo le digo, tenés que, le explico lo que son las stop wars, y qué sé yo,
+y estas tienen que sacarlas, ella va a poner, y bueno, lo que tengo que poner son los sustantivos,
+¿no? Claro, batallas Segunda Guerra Mundial de Europa. ¿Es correcto esto?
+Claro, el procedimiento intuitivo parece ser razonable, es decir, yo largo una consulta con
+las palabras clave, por decirlo de alguna manera, o los términos en donde podría llegar a estar
+los documentos de esa información. Sin embargo, tengo que manejar el concepto, por ejemplo,
+de la negación, que justamente no son las que se liberaron en Europa, quieren las otras.
+Entonces, no es tan directo cuando uno quiere expresar una consulta, o esas operaciones que
+decíamos recién hoy, que hay que hacer sobre las consultas, ¿no? Entonces, lo básico en
+información, en recuperación de información, es muy simple, dar un conjunto de palabras,
+la consulta, encontrar esas palabras en un documento, de alguna manera,
+y devolver los documentos en los documentos si corresponde y en algún orden.
+La simántica del texto y de la consulta se representan por un conjunto de términos,
+y bueno, alguno de los problemas que ya seguramente ustedes están imaginando,
+hay muchas formas de decir lo mismo. Un mismo término puede tener distintos significados
+en diferentes contextos, hasta ahora por ahí estamos poniendo términos, estamos hablando
+de identificar a los textos y a la consulta exclusivamente por el término. Cuando tenemos
+términos con más de un significado, podemos llegar a tener problemas, ¿no? Si no expreso
+de alguna otra forma el dominio, ¿no? Nada, ni que hablar de Apple o Banco, yo que sé,
+ahí términos, con más de un significado en contextos distintos, y después el otro tema es el
+predecir cuáles son más relevantes, cuáles, cómo va mi sistema a decir, este documento es más
+importante que este otro. Entonces, yo tengo como dos grandes aspectos a tener en cuenta.
+Por un lado, elegir un modelo de representación, como decíamos, de las consultas y de los documentos
+y de la base de documentos, y por otro lado diseñar algoritmos lo suficientemente eficientes
+para que me devuelvan esos documentos en un orden aceptable, o importante, para mí.
+¿Se entendió? Sí. Bien. Entonces, vamos a empezar a hablar de los modelos.
+Para definiciones bastante abstractas del concepto de modelo, la extracción de un proceso real o
+un esquema de un sistema o realidad compleja que se elabora para facilitar su comprensión y estudio
+de comportamiento. Es decir, es una definición conceptualmente de lo que es un modelo. Ahora,
+un modelo en los sistemas de recuperación de información, yo lo puedo especificar como
+esa cuadrupla que está ahí. Donde yo tengo, ¿de qué es un conjunto de representaciones
+lógicas de los documentos? Sí, de todos los documentos, ¿cómo lo voy a representar? Mi base
+documental. Q, que es el conjunto de representaciones lógicas que modelan las consultas que yo voy a
+poder hacer. Pues, pensemos que en que yo podría tener una, así como tengo una base de documentos,
+yo podría tener preestablecidos un conjunto de consultas también. F es un esquema operacional
+que especifica las representaciones de los documentos y de las consultas. Ahí tendríamos
+que ver cuáles son las operaciones que yo voy a tener tanto en los documentos como en las consultas
+y la R es la función de esa ranking que yo les decía, ¿no? Que evalúe de alguna manera esa
+relación que existe entre la consulta Q sub y del conjunto Q de consultas vinculada al documento
+de subcota del conjunto de documentos. O sea, la función de ranking. Y eso es importante porque
+en los sistemas de cómo se recupera la información, tiene mucho que ver, tiene... Yo indudablemente
+también me vuelvo a la web, ¿no? Pero que por ahí capaz que para mí los documentos me lo devuelve
+de determinada manera y está bien, pero para vos no. O sea, hay todo un tema ahí de cuál es la mejor
+función o el concepto de relevancia, no es una definición muy exacta, muy precisa y siempre
+hay cierto grado de alguna manera de subjetividad en ese tema. Bien, entonces, nosotros vamos a hablar
+básicamente de los modelos de los clásicos, el buleano y el vectorial. Vamos a mencionar algo
+del probabilístico y después hubieron algunos intentos de mejorar tanto el modelo vectorial
+como el modelo probabilístico, que son utilizar redes neuronales y redes vallesianas que tienen,
+ambos son mejoras en algún sentido del modelo vectorial, tanto las neuronales como las redes
+vallesianas y el LSI es como una extensión del modelo probabilístico, no arrojaron buenos
+resultados y medio como que se descontinuaron. Si hoy se usan las redes neuronales y las redes
+vallesianas, para otras cosas, pero no para como extensiones de estos modelos.
+Bien, entonces, modelo buleano.
+El documento se representa básicamente como un conjunto de términos, en general uno es
+los términos que elige para representar a los documentos, son sustantivos.
+Entonces, el concepto que decíamos recién, de si un documento va a ser relevante o no,
+en este modelo es, si está el término es relevante, si no está no lo es.
+El modelo buleano, ¿sí o no? Cero o uno, ¿está o no está?
+La regla que rige al modelo buleano es, vocabulario similar, el contenido es similar.
+Es decir, si yo tengo un documento que tiene determinados términos que lo identifican,
+si tengo dos documentos que tienen los mismos términos, el contenido es similar.
+Y ya se las tiro para que la tengas pensando, si eso no me puede llegar a ocasionar problemas.
+Claro, el problema que comentábamos hace un rato, si yo tengo, utilizo el concepto,
+yo que sé, banco, ¿está bien? el banco para como término de identificación,
+para mis documentos, y bueno, en un contexto, banco, va a ser el banco de plaza,
+y en otro contexto, banco, va a ser el banco del sistema económico, que sé yo.
+O sea, ya me estoy adelantando a uno de los problemas, obviamente, que tiene el modelo buleano.
+Bien, y se utilizan los operadores clásicos. Entonces,
+el modelo lo que hace es solucionar eso, el problema que tenía mi mamá,
+porque ahora yo le explico y le digo, mirá, vos vas a tener una forma de expresar
+las consultas, vas a tener que hacer una especie de análisis del texto S,
+antes de largar la consulta al sistema. Entonces, ahí va a tener que interpretar
+lo de que no fueron en Europa. Además de poder utilizar, por ejemplo,
+si pusiera batallas o combates como términos similares, porque si yo no tengo
+herramientas que me ayuden al sistema, es decir, herramientas ad hoc, que yo lo haga,
+tendría que poner con ors todos los distintos sinónimos. Me expreso, me explico.
+Bien. Acá, simplemente ejemplo, yo tengo el documento para un poco fijar la idea.
+Tengo el documento 1, que dice, es el jardín, hay plantas y flores todo el año.
+A mi mamá, nuevamente, en el documento 2, le gusta que le regalen flores y bombones.
+Entonces, como decíamos, los términos que se eligen para identificar al documento
+en general son los sustantivos, con lo cual son los términos en esta colección de documentos
+formado por estos dos, serían jardín, plantas, flores, año, mamá, bombones.
+Entonces, decíamos que los documentos los íbamos a identificar por los términos,
+si estaba o no estaba presente en el documento. Si está, ponemos 1, si no,
+ponemos un 0. Entonces, el documento 1 me quedaría 1, 1, 1, 1, 0, 0, asociado
+a cada uno de estos términos. Y está ahí, el documento 2, 0, 0, 1, 0, 1, 1.
+Si la consulta es, yo quiero flores o plantas y mamá me va a devolver el documento 2,
+pero si expreso, plantas y jardín, entonces me va a devolver el documento 2.
+Entonces, me va a devolver el documento 1. No, un ejemplo de cómo sería la asociación
+de documentos y consultas. Bueno, críticas.
+Al principio, cuando yo daba esa introducción, hablé del concepto de relevancia.
+Y en lo que hemos estado viendo del modelo buliano, claramente vemos que lo primero que marco ahí es,
+yo no hablo de más o menos relevantes, porque fíjense que el segundo, el segundo quedó claro,
+es indiferente si un documento contenga uno si empece la palabra de la consulta.
+Además, si yo en el mismo documento aparece tres o cuatro veces la misma palabra,
+yo voy a poner solamente un 1. O sea, no se le da mayor peso en función de la cantidad de ocurrencias
+de la palabra dentro del documento. Da lo mismo que se cumpla una o todas las cláusulas en el caso
+de honor. Ahora lo vemos con el ejemplito ahí. Y no considera el casi. ¿Qué quiere decir?
+Yo, por ejemplo, fíjese el ejemplo de acá. Quiero investigar sobre los charruas y los guaraníes.
+¿Cuál sería la consulta?
+Intuitivamente, la consulta es charruas y guaraníes.
+¿Qué podría llegar a pasar? Exacto. Si yo pongo charruas y guaraníes,
+me tiene que cumplir las dos, hablar de los dos. Ahora yo puedo tener un documento que me hable
+de la historia de los charruas y que sea súper y me interesaría, porque yo quiero charruas y
+de los guaraníes. Un documento que hables exclusivamente de los charruas me sirve. Entonces,
+tiene ese tema de lo que hablábamos hoy, del casi. Yo que sé, el ANG lo que hace es,
+me obliga a que hable exactamente de los dos. Entonces, aquello de lo intuitivo,
+tal vez lo ideal sería usar un horro. Y, como decíamos, no es intuitivo para mi mamá.
+A favor, de las primeras ideas que aún no se le ocurren,
+fue adotado de hecho por los primeros sistemas de recuperación bibliográficos.
+Y, bueno, como hemos visto, es muy simple de formalizar.
+Inmediatamente, llévense al día de hoy, año 2016, aplicar esto en lo que sería internet.
+Bueno, es que los sistemas de bibliotecas se basan en estas cosas. Los sistemas de bibliotecas,
+de gestión de documentos de las bibliotecas, se basan en estas cosas. Y tiene esa dificultad.
+¿Se entendió el modelo buliano? Después apareció una extensión del modelo buliano.
+Le llamaron modelo buliano extendido, que le agregaba a algún operador más,
+tenía que ver con la, le agregaba un operador de proximidad de las palabras. O sea,
+consideraba si ésta estaba cerca de éste, agregaba más cosas. Aparte de los operadores
+bulianos, agregaba un operador de proximidad. Pero, nada, fracasó con total éxito.
+Bien, modelo vectorial. Muchos dicen, yo, de lo que he estudiado, me incluyo en esa barra,
+que Salton es el padre, por decirlo de alguna manera, de los sistemas de información retrieval.
+Con su, el modelo vectorial es el clásico en los sistemas de recuperación de información.
+Él generó un sistema llamado smart. ¿Qué le sugieren?
+Claro, sí, pero no. Claro, porque ahora está muy de modo de smart, smart city, no, no tiene
+nada que ver. Smart is system, system for the mechanical analysis for retrieval text.
+Ese era smart. O sea, en el 60, claro, en el tipo, en el 60, en fin de los 60 no estaba como,
+como en los conceptos de hoy. Bien, el sistema smart. Se selecciona un conjunto de palabras o
+términos útiles para discriminar, eso es lo mismo que veníamos manejando hoy.
+Lo que le agrega es el concepto de grado de similitud entre consultas y documentos.
+Ahora vamos a hablar sobre eso.
+Que de alguna manera lo que hace es expresar la relación entre cada documento de subida,
+una colapsión de n documentos, con el conjunto de los k términos elegidos para indexar.
+Yo elijo, fíjense que en el ejemplo de buliano, el tipo agarraba todos los sustantivos de
+todos los documentos y, chao, ponía 1, 0, 1, 0 para el documento. Estuvieron, no estuvieran.
+Acá el tipo dice, para, no vamos a tomar las 322 sustantivos que hay. Vamos a elegir k
+y sobre esos k, que hay que ver cuáles son, sobre esos k es que vamos a representar a los documentos.
+Bien, los documentos y las consultas, entonces, son vectores de un espacio en el
+dimensional, de sub1, de sub2, de sub4, de sub4, el conjunto de términos, de sub1, de sub2,
+de sub4, en ese conjunto de documentos, pues decimos un espacio en el dimensional.
+Entonces, un documento de subj se modela como un vector,
+double su 1j, double su 2j, del double su kj, donde a cada término i, en un documento de
+su j se le asigna un peso double su ij. O sea, el i entre un y cano.
+Fíjense que el tema va a ser, bueno, ¿y cómo asignan los pesos? El buliano, ¿qué era lo que hacía?
+Estable está. El peso era 1 o 0. Acá el tipo lo que propone es una forma distinta de ver
+el término si es relevante o no dentro del documento. Entonces, lo clave o una de las
+claves fuertes del modelo vectorial es el tema de la asignación de pesos.
+Bien, algunas definiciones. DFI es la cantidad de documentos que contienen ahí
+y, por otro lado, definimos I, DFI, que es la frecuencia inversa del término I.
+Está un poco más que nada para, sobre todo, términos de atenuar la cantidad de veces que
+aparezca un término dentro de los documentos. O sea, que DFI es la cantidad de documentos
+que contienen ahí y DFI es la frecuencia inversa. Ejemplito. Estamos hablando ahora de los documentos
+y las consultas son victores. Supónganse que el documento 1, los pesos son 2, 3, 5, o sea,
+está representado por la terna 2, 3, 5, el documento 2, 3, 7, 1 y la consulta Q, 0, 0, 2.
+Elegí eso. En tres dimensiones me animaba a hacer el dibujito, ¿no?
+Un dato que sí podemos inferir, o ustedes seguramente se animen a inferir de la consulta 2
+con respecto a los términos que estoy utilizando. ¿Qué significa? ¿Qué seguro va a significar
+el 0 y el 0? ¿Qué significa el 0, 0 en la consulta? ¿Eh? ¿Que eso, que esos no los,
+en esta consulta Q, esos dos primeros términos no los estoy utilizando? O sea, ¿qué en realidad
+esta consulta? La expreso como un vector también, porque la consulta se expresa sobre los mismos
+términos en que se indexan los documentos, que se eligen para representar los documentos.
+Entonces lo que estoy queriendo decir ahí es que la consulta Q solamente contiene el término 3,
+el tercer término. Lo que me falta ahora es, tengo los documentos y tengo de alguna manera
+asigné los pesos esos que están ahí. Lo que tengo que ver es, ¿cuál documento es el más
+parecido a Q? ¿Cuál es el de los dos? ¿Cuál es el que me debería de volver el sistema,
+por lo menos, este primero. Entonces los términos más frecuentes en un documento serían mejores
+indicadores del tema del documento. Eso suena bastante razonable. O sea, un documento que
+hable muchas veces de determinada cosa, ese término debe ser pesado ahí adentro.
+Pero, por otro lado, si hay un término que aparece en muchos documentos distintos,
+por ahí no me sirve. Porque si todos hablan, elijo un término y todos hablan de lo mismo,
+voy a tener poca forma de diferenciarlos. Entonces, ese capaz que no lo elijo.
+Habíamos definido f e i de f. Acá definimos f i j, cantidad de ocurrencias del término
+i en el documento j. Y definimos el concepto de t f, t f i j, como la cantidad de ocurrencias
+del término i en el documento j dividido el max de f i j. Eso para que lo hacemos.
+¿Eh? Para normalizar. Exacto. Para justamente el tema de que tenga muchos elementos de alguna
+manera, atenuamos justamente el crecimiento del valor f. Bien. Existen varias fórmulas
+para asignar los pesos. La primera aproximación, la misma que sea el modelo buliano, el tipo
+está o no está. Pongo un 1, un 0. Si aparece el término i en el documento j, el valor
+del Ws vj va a ser 1. Y en caso contrario, 0. Esa es la primera aproximación. Tenemos
+un vector y ponemos 1, 0. El término i puede aparecer más de una vez en el mismo documento
+de j o puede considerarse como más significativo que otra. Entonces, el Ws vj es un poquito
+más sofisticado. Porque queremos introducirle justamente todo esto que estamos diciendo.
+Entonces, un indicador típico de la importancia en un esquema de modelo vectorial es el que
+sigue el concepto llamado tf y df para la asignación de pesos. Que es simplemente el peso de cada uno
+de los términos se calcula en función del df y el idf de ese término dentro de la base
+de documentos. Y acá hacemos un ejemplito para fijar bien esos conceptos.
+Supongan sí que tengo un documento que quiero hallar su vector. Los términos son a, b y c.
+Ese documento, el término a parece 3 veces, el término b parece 2 veces y el término c una vez.
+Mi base de documentos son 10.000. Y la cantidad de documentos que contienen a cada uno de los términos
+son, hay 50 de esos 10.000, hay 50 documentos que contienen el término a, hay 1.300 que contienen
+el término b y hay 250 que contienen el término c. Entonces, para hallar el vector asociado al
+documento, este del primero de todos, lo que hacemos es calcular el tf y df para cada uno de los
+términos. Entonces, si se acuerdan, el tf era el f, la cantidad de ocurrencias que aparecía el
+elemento dividido el máximo de todos los f's. El máximo de todos los f's, 3, 2, 1, el máximo es 3.
+Entonces, el tf de a es 3, 3, 1, el tf de b es 2, dividido 3 y el tf de c es 1, dividido 3.
+Y el idf era la fórmula que ya, el logaritmo de n, que era la cantidad de documentos de la colección,
+dividido la frecuencia con la cual aparecían dentro de esa colección. Entonces, el idf
+del término a es el logaritmo de 10,000, dividido 50, que da 5,3. El del logaritmo
+del b es, bueno, la cuenta da 2 y en el caso del c da 3,7. O sea, que el vector sería
+5,3, 1,3, 1,2. Ese sería el vector asociado al documento que tenemos allá. ¿Se entendió?
+Bien. Una vez que tenemos cada documento con sus pesos y la consulta, tiene su vector de términos con
+sus correspondientes de pesos, lo que tenemos que ver ahora es, bueno, la similitud entre
+cada uno de los documentos y la consulta. ¿Cómo comparamos ahora la, aquella pregunta que decíamos,
+cual de, del Q, si es más parecido al 1 o al 2? Entonces, esto de la medida de similitud que
+es introducida por Salton, una medecilitud es una función, en realidad, que lo que hace,
+lo que ve es la distancia entre dos vectores. Esencialmente es eso. Usando este concepto
+de grado de similitud, yo voy a poder ranquear todos los documentos recuperados en función de un
+cierto orden. Y, además, ¿no?, de fijar un umbral, por decir, bueno, aquellos que me den por debajo
+de tanto, eso ya ni los muestro. Los considero que no son relevantes. Bien, nada. El cálculo de la
+similitud es la distancia cosena entre dos vectores y es el producto de, la suma de los,
+de los productos de los pesos de cada uno de los vectores. Sí. Sí. Porque es una sumatoria.
+Entonces, la sumatoria de 1 a n. Entonces, uno de esos sumando me va a dar cero. Entonces,
+que era el caso del Q, ¿verdad?, el primero no importa con qué. O sea, ¿qué es lo que,
+qué es lo que estamos diciendo en el ejemplito este? Que la clara va a ser el término 2.
+Ese es el que me va a decir, lo demás no me interesan. Para esa consulta,
+el 2 es el que me va a determinar, eh, perdón, el tercer término es el que me va a determinar
+si el documento 1 o el 2 es más parecido a la consulta Q. Lo tengo por acá. Exacto.
+En el ejemplito que teníamos hoy, 2, 3, 5, 3, 7, 1, 0, 0, 2. Cuando calculo la similitud de
+de 1 con Q, lo que decíamos recién, ¿no? Tu pregunta. 2 por 0, ¿tá? Este, 3 por 0, o sea,
+este por este, este por este, y este por este. 5 por 2, 10. Y este es 3 por 0, 7 por 0, y 1 por 2.
+3 por 0, 7 por 0, 1 por 2. O sea, que este medio es 10 y este medio es 2. De acá que deducimos,
+de que de 1, porque es el de mayor grado de similitud, es el más grande, de 1 es más parecido o tiene
+más de lo que yo quiero con respecto a la consulta Q. ¿Yes? Ventajas, entonces, del modelo vectorial.
+Es simple, no parece ser demasiado complicado, tiene una sólida base matemática.
+Mejora el tema de la recuperación gracias a la asignación de los pesos.
+Considera, este, tanto ocurrencias locales al documento como globales a la colección de
+documentos, lo cual no es una cosa menor. Un documento puede ser recuperado en función de una
+coincidencia parcial, el tema que hablábamos hoy en el ejemplo de los guaraníes y los charruas.
+En lugar de predecirse un documento, eso no relevante, proporciona ese concepto de grado de
+relevancia o grado de similitud. Los resultados los puedo devolver ordenados por, justamente,
+por esa relevancia. Y bueno, Salto comprobó de que el modelo era de guao, fusionado.
+No todo es maravilloso, acá vemos ejemplos.
+Documento 1, un perro ataca a un niño con un virus. Documento 2, virus ataca al perro de un niño.
+No vean el segundo, veamos el primero. Esos documentos en principio tienen 100% de similitud,
+tienen la misma cantidad de, pensamos, estamos en ejemplo muy trivial, ¿no? Documento que está
+formado por una asociación. Pero bueno, perro, niño y virus, virus, perro y niño, no importa el orden,
+aparecen los dos con el mismo coso. En principio, los dos son iguales.
+Y lo voy a decir, un perro ataca a un niño con un virus. El virus es el del niño o el virus es el del perro.
+Virus ataca al perro de un niño. El virus ataca al perro, acá, ahí sí, ahí está más claro.
+Fíjense que igual tenemos problemas, ¿no? Porque en principio los dos son iguales.
+Ah, bueno, ahí es distinto. Yo estoy tirando los problemas que podemos llegar a tener. Si
+hubiera un no, tenemos que ver cómo lo represento. Pero si ya teníamos problemas con el primero,
+fíjense el segundo, el segundo ejemplo. El banco de la plaza está pintado rojo,
+en rojo quedó la plaza, luego que el banco quebró. De vuelta, estamos, tenemos el problema de,
+en distintos contextos, palabras, términos que pueden decir cosas distintas. Entonces,
+capaz que en el primero por ahí pasa de que los dos, pero en el segundo, no me lo podría devolver los
+dos. Y para el, para él, sería lo mismo. Entonces, problemas que tiene, sin duda,
+el modelo vectorial es carece de información sintáctica, el orden de las palabras,
+las relaciones entre los términos, la proximidad. Es decir, si una palabra, un término está más
+cerca de otro, eso puede ser importante y esto no, y yo no lo puedo reflejar aquí. Por lo menos,
+con lo que estamos viendo. El ejemplo recién que decíamos del banco, existencia de ambigüedad
+semántica, un mismo término puede tener distintas definiciones, distintos conceptos,
+y ignora la sinonimia. No hay nada que, en el caso anterior, perro y podría haber otro lado de
+can, y en realidad estamos hablando de también el mismo animal, no me lo reconoce.
+Los modelos, se acuerdan que yo les dije hoy, al principio les hablaba de modelos alternativos,
+les hablé de neural, redes neuronales, vallesianas, lo que hacen es, en vez de utilizar términos,
+para indicar, utiliza conceptos, y el tipo hace como una red donde activa los documentos que tengan
+tal concepto, o sea, trata de manejar, o sea, trabaja con un grafo y lo que utiliza son conceptos,
+o sea, ayuda de otras herramientas, no, de otras, o sea, en vez de, o sea, entre perro y can,
+elige uno de ellos y de alguna manera hace que cuando yo diga perro, dispare o active aquellos
+documentos que hablen de sinónimos, por ejemplo, o sea, que las neuronales y las vallesianas es
+lo mismo, pero con otra función en los pesos, pero los dos tienen la misma idea, manejar conceptos
+y no terminos. ¿Se entendió el modelo vectorial?
+Bien, y algo del modelo probabilístico, fue un nuevo paradigma teórico para los sistemas de
+recuperación de información en la década de 70, fíjese que Salton apareció con el vectorial a
+fines de los 60. Acá una de las autoras, de las actores, de los investigadores principales,
+es Sparkjohns, fue una de las, de la Collins Sparkjohns, no me acuerdo si era de colorado,
+no me acuerdo de qué universidad era, es el que, la que empieza a investigar hay más,
+también hay otros otros autores más, pero Sparkjohns es de las más reconocidas que trabajaba
+sobre el modelo probabilístico y el problema es de este modelo que en teoría está bueno,
+es que presupone la existencia de que existe un conjunto ideal de documentos relevantes, o sea,
+que parte de una suposición y le asigne una probabilidad de que exista el conjunto óptimo
+que me resuelve tal consulta, entonces el tipo va funcionando, va a tirar la consulta,
+la compara con ese conjunto óptimo y si no le da trata de reformular, o sea, lo que sí es importante
+que introduce este el modelo probabilístico es el concepto de relevance feedback, es decir,
+interacción con el usuario, te devuelvo esto y si no es igual a lo que yo quiero reformulo,
+cambio y largo de vuelta, lo crítico es determinar las propiedades que marcan la
+relevancia de un conjunto ideal, lograr una aproximación al conjunto de probabilidades a
+partir de una suposición inicial de propiedades e ir refinando con el usuario luego de la consulta,
+esencialmente el problema sustancial es que
+es como raro, yo sé de antemano, ¿cuál dice mi conjunto óptimo? con cierta probabilidad,
+yo necesitaba y si ya sé el conjunto óptimo, ¿para qué lo hago? bueno, en fin, pero está,
+nada acá simplemente una idea, una definición muy básica de probabilidad, la probabilidad p de
+aparición de un suceso es en total de n casos posibles, igualmente factibles, el consciente entre
+el número de ocurrencias H de dicho suceso, entre la cantidad total de casos, esto es un repasito
+fácil, pero bueno, el objetivo es lo que decíamos, tratar de reformular la consulta
+sucesivamente utilizando ponderación de términos, es decir, cambiar, modificar,
+la asignación de los pesos a los términos de la consulta, o sea, lo que se cambia es la consulta,
+¿cuáles son los problemas? bueno, dado una consulta a cuyo, un documento de J de la colección,
+el modelo probabilístico, estima la probabilidad de que el documento de J sea relevante para el
+usuario, el modelo asume que esta probabilidad de relevancia depende solo del documento de
+la consulta, y para mí la mayor dificultad es que asume que hay un conjunto R de documentos que
+el usuario prefiere como respuesta a la consulta Q, o sea, asume que existe ese conjunto R y trato
+de llegar a él, el tema es que parte de la base que ya lo tengo, entonces es como raro. Bueno,
+lo que plantean es una simplificación muy sencilla que ponen 0s y 1s a los términos de la consulta
+para arrancar y bueno, y en función de eso después va cambiando. Y la similitud entre un documento
+de J y la consulta, ahí usa Valles, la fórmula de Valles, R es el conjunto de documentos conocidos
+o inicialmente supuestos como relevantes, y R prima es el noto, el opuesto, el complemento.
+Bueno, la probabilidad de que el documento de J esté en el conjunto R de documentos
+relevantes para la consulta Q y la probabilidad de que el documento de J no sea relevante a la
+consulta Q, o sea que esté en el conjunto de los R primas. La similitud se define entonces,
+la similitud en el conjunto, en el modelo vectorial, la define como la probabilidad condicional esa que
+si operamos y jugamos un poquito con Valles, me da que la probabilidad de J ha dado R sobre
+la probabilidad de J ha dado R prima. Ventajas, por ahí decía la asignación de los pesos a los
+términos, no me queda tan claro, claro arranca con 0 y 1, entonces por ese lado muy sencillo,
+lo que sí está bueno es la idea de esa de interacción con el usuario, que el usuario trata
+de refinar la consulta, y que ordena la función de ranking en base a las probabilidades, contras,
+no toma en cuenta, que sé que no hable para nada del TF, de la frecuencia del término,
+no toma en cuenta todos los elementos del documento, asume independencia en los términos,
+necesita una hipótesis, para mí es la clave esto, necesito una hipótesis inicial que no siempre
+es acertada de cuál es el conjunto R de documentos relevantes, ¿cómo hago?, ¿cuál es el R de partida?
+Y bueno, claramente es poco intuitivo y obtuvo en definitiva pobres resultados.
+¿Se entendió la idea de modelos? Bueno,
+ahora veamos por qué estamos hablando de este tema en el curso de intropelégenes.
+Problema común es este que tenemos acá, ejemplo muy clásico, yo este ejemplo se lo
+voy a va esa ya, es un chileno que trabaja en Yahoo, en fin, es uno de los padres contemporáneos
+de information retrieval, consulta Guerra Fría, y el documento habla de la crisis
+y los omiciles cubanos. El sistema no tiene ni idea de que estas dos son parecidos,
+que estas dos cosas están relacionadas, a priori no tendría por qué saber que esas cosas están
+conceptualmente, el sistema no lo considera, porque no maneja esas cosas. Es más, capaz que
+si yo largo Guerra Fría, el tipo me va a hablar de me va a devolver cosas de ladera,
+invierno, ¿por qué?, porque es más parecido e intuitivamente fría, no sé. Entonces, bueno,
+nada, la solución a este tipo de problemas o lo que se empieza a incorporar es hacer
+análisis lingüístico. Entonces, cosas que han estado viendo en el curso, como la matización,
+el esteaming, tratar de reducir los términos a la raíz, el etiquetado, cosa de poder distinguir si
+es un verbo o un sustantivo, militar, es verbo o sustantivo. Entonces, no es lo mismo ese término
+en una consulta o en un documento, o sea, es importante el tag que identifique, por ejemplo,
+la categoría de cada una de las palabras, detectar frases comunes, el ejemplo de Guerra Fría y
+los misiles cubanos, la ayuda de tesauros, ¿sí?, bien tesauros, sí, el concepto de tesauros lo
+manejaron, ¿sí? Es como, pero no es un diccionario que tiene mucha más información, no solamente de
+la definición, sino de relaciones entre los términos, y hiperónimos o ponimos, por ejemplo,
+WarNet, exacto. Entonces, herramientas como el uso de tesauros nos ayudan, también el uso de la
+estructura del texto, es decir, si un término aparece en un título, o sea, el título primer
+párrafo, abajo, en fin, si yo tengo información de ese documento, si es de un título, si es un
+párrafo, si está abajo, si está en el medio, eso me puede ayudar a mí a orientar a la hora de
+asignar pesos o saber si en términos más relevante o no, más importante o no, para identificar un
+documento, ¿ok? Bien, volvemos entonces al tema de recuperación de información,
+para hablar de, bueno, ¿cómo evaluamos un sistema?, ¿cómo sabemos si está bueno o malo, si me
+devuelve lo que yo quiero o no me devuelve lo que yo quiero? ¿Cómo se hace?, ¿paramos todos los
+documentos contra todos en resí? ¿Hasta dónde miro en la lista de documentos relevantes? ¿Eso qué
+costo tiene?, ¿es posible o no es posible? La lista, además de los documentos, puede cambiar con el
+tiempo, puede ser algo muy dinámico. No es lo mismo que yo ahora una consulta sobre los documentos que
+hablen del presidente del Uruguay ahora, que hace tres años, los documentos que me deberían
+ver son otros, tiene que ver con lo de la cualidad de los sistemas de información que hablábamos al
+principio. Entonces, la evaluación no es una cosa, lo que quiero decir, lo que quiero transmitir
+con esto es que la evaluación no es una cosa fija, sino que puede cambiar en función de varios
+factores. Y una cosa importante, muchas de estas cosas tienen un componente humano, entonces
+lo que decíamos, creo que pusimos un ejemplito, por ahí un documento para mí es importante y es
+relevante, pero para aquel no. Entonces, puede haber distintos criterios para los evaluadores de un
+mismo sistema, así como probablemente lo hayan comentado en el curso, cuando yo quiero este
+trabajo con un cuerpo, si quiero etiquetarlo, rotularlo de alguna manera, por ahí dono, no
+ponemos de acuerdo si esto está lo cual o con qué peso le damos, en fin, el factor humano sigue
+siendo importante y clave dentro de todo esto, por suerte. Bien, bueno, ¿qué significa este término
+de relevancia que hemos estado hablando? En recuperación de información, relevante es importante,
+destacado, en fin, pero en recuperación de información un documento es relevante cuando su
+contenido posee alguna importancia relativa a la consulta, ese es el concepto para mí de relevante.
+Este diapositivo va a tener 20 años, fácil, ha sido la primera que hicimos cuando dimos algún
+curso de cosas de estas hace muchos años, no sé si no la hizo Dina, pero esta bárbara, porque en
+realidad marca los problemas o el universo de cosas que surgen al momento de recuperar, yo
+tengo una gran base, un universo de documentos, todo lo que está ahí en azul y los verdes son
+los documentos recuperados, pero de acuerdo a mi consulta, los relevantes son las de las estrellitas,
+entonces qué es lo que me puede pasar cuando yo logro una consulta, que me queden, claro,
+que haya ausencias que me falten o que recupere cosas que no tienen ningún sentido, lo que hablamos,
+el ejemplo de la, me recupere cosas de la ladera cuando había hablado de la guerra fría.
+Entonces, estas son las dos medidas clásicas utilizadas en recuperación de información que
+son precision y recall, que es el consciente entre el precisión, el documento recuperado
+relevante sobre la cantidad de documentos recuperados y el recall o la exhaustividad es el
+consciente entre los documentos recuperados relevantes, o sea el consciente es el mismo,
+sobre la cantidad de documentos relevantes. Lo ideal en un sistema ideal es que tanto precision
+como recall sean uno, el ideal lamentablemente en general no se da, este y uno cuando hace este
+tipo de sistemas lo que trata de hacer es bueno, darle más, cuando quiere mejorar la precisión
+por lo general tiende a bajar el recall, este es un cuadrilo que muestra eso, no, precision y recall,
+lo ideal es allá el 1-1, que le hado sean 1-1, el recall en 1 es casi todos los documentos
+relevantes de la colección, pero recuperé muchos irrelevantes y en el precisión 1 es
+póducos documentos relevantes, pero no tengo documentos irrelevantes recuperados, entonces
+bueno a veces me pueden quedar muchos documentos afuera, por eso es que, este, 0 recall tampoco
+es bueno, y uno trata de bueno manejar, este, ambas medidas, también la otra es la F, la F score,
+la medida F y la medida E que son, este, una ponderación de ambas de la precisión y recall,
+la medida F, este, la diferencia es que la F es 2 por PR y P más R, y la E lo que hace es
+le agrega un factor, un factor real entre 0 y 1, el beta S, que le puede dar más peso a uno
+u a otro, para la precisión en este caso, para si yo quisiera cambiar algo, pero son
+esencialmente variantes de la, o alternativas a las, a las dos medidas, bien, entonces para
+evaluar un sistema de recuperación, lo que yo necesito es, o sea, yo tengo un conjunto
+de documentos, tengo una consulta, en definitiva lo que yo tengo que hacer es, a ver si es
+bueno o malo, testearlo contra algo, entonces se fija un conjunto de documentos, un conjunto
+de consultas, se hace lo que decíamos hace un rato, un etiquetado humano de cada documento
+función de la consulta, en general son, son, son juicio binario, es buena o no es, o no
+es buena la consulta, y bueno, y lo largo, largo un sistema, o sea, no, o sea, yo pienso
+un modelo, pienso un sistema, pienso todo el, el, el, la algoritmia, mi función de ranking,
+tal, tal, tal, y lo testeo. Está la conexión del testeo, un conjunto de documentos, un
+conjunto de consultas, tengo el, el algoritmo, ese, ese es mi testear, y bueno, y en función
+de eso se evalúa. Estas son algunas, algunas colecciones, las más usadas, fíjense lo
+que decíamos desde el principio, ¿no? Estamos hablando, todas las colecciones, todos los
+conjuntos o estas bases son documentales, están asociados, tienen asociados un dominio, ¿no?
+Son particulares en dominio, por eso no estamos hablando de la web, donde es heterogéneo.
+Y esto es modo de referencia. Bien, y lo que se hace, yo quería agregar esto, lo que,
+lo que se hizo fue, lo que se llaman las, las conferencias TREC, text retrieval conference,
+que existen desde el año 1992, hasta el día de hoy se siguen haciendo, o sea, lo que hacen
+es involucrar a la academia, a la industria, este, al gobierno, porque no sé si saben
+lo que es DARPA o NIST, ¿eh? La sigla DARPA es este, ¿a cuál era? Dirección, bueno,
+es el Departamento de Defensa de los Estados Unidos, sí, ni más lejos. No me acuerdo
+la sigla cuál es, pero es del Departamento de Defensa de los Estados Unidos, o sea, el
+área tecnológica del Departamento de Defensa de los Estados Unidos, este, de hecho fueron
+los, de ahí surge el proyecto ARPANET, que es de alguna manera el precursor de, de Internet,
+y, o sea, las conferencias TREC eran patrocinadas por, por el DARPA y NIST, que es el Instituto
+de Normalización de Normas Técnicas de los Estados Unidos. Como decía Stricton en 1992,
+todavía se siguen haciendo, o sea, que lo que hacen es tratar de mejorar eso. Tengo una
+base de documentos, tengo un conjunto de consultas, hagan algoritmos para ver qué cosas se pueden
+recuperar, ¿está? Y es eso. Esas competencias, sí, sí, se siguen haciendo, creo que la del
+2016, no sé si ya se hizo, o se hizo o iba a ser, creo que eran Márila en Estados Unidos. Bien, entonces
+hablamos de modelos, hablamos de evaluación, brevemente vamos a comentar algo de índices.
+¿Se acuerdan que cuando planteábamos, este, al principio, el esquema general de, de un proceso
+de recuperación de información, teníamos por ahí, por acá teníamos el dibujito de la base de
+documentos, que se hacían ciertas operaciones sobre esas documentos, y esos documentos se
+indizaban? Entonces, bueno, lo que tenemos que pensar es cómo es que construimos esos índices
+para identificar a mis documentos. La estructura más simple es la denominada índices invertidos,
+que es algo muy trivial, un vocabulario, que es un conjunto de términos que aparezcan en el texto,
+y asociado a cada uno de esos términos, como si fuera una RAI de términos, y una lista asociada
+a cada uno de esos elementos de la RAI, que tiene los ID de cada uno de los documentos donde aparece
+ese término. El esquema de construir, de construcción de un índice invertido es algo, bueno, nada,
+muy sencillo, tengo el conjunto de documentos a ser indizados, hago una tocanización de esos
+documentos para ver los términos, este, con algún criterio en interés a cuál. Llevo a, a, a, hago, a, a, hago
+stemming, ¿no?, para llevar a la, a la raíz de, en general uno usa cuatro, cuatro caracteres, pero
+podría eventualmente ser más, este, y da, a la forma canónica, ¿no?, se olvida las mayúsculas,
+los infinitivos, en fin, y genera algo de este estilo. Vendo autos y camionetas, entonces es vend,
+ahí no el, me fui, no, no puse los cuatro elementos del, del stemming, pero bueno, el documento de uno,
+de todos los que aparecen acá, el vendo o el de vender aparece solamente en el de uno, auto aparece,
+acá aparece autos, autos, autos, autos, y acá auto, pero si la forma canónica sería auto y aparecen
+todos esos documentos, o sea, no importa si están plural o en singular, la lista de posteo la, la
+tenía. Y bueno, nada, a partir de este, este sería la base de índices, o sea, mi, de, de documentos
+indizados, y el tipo, el algoritmo tiene que tratar de, de acceder por medio de esos índices,
+que habitualmente los, el, el espacio, la estructura de índices, algo así, como un 30% de lo que
+ocupa la base de documental, este, en su totalidad. Bien, y poco es lo que decíamos, ¿no?, al momento
+de general proceso de indicación, hay que hacer, este, esas cosas de, de análisis lingüísticos,
+porque hay que hacer transformaciones sobre el texto, eliminar las stop words, este, porque esos
+términos no, no los voy a, no los voy a considerar como términos relevantes a la hora de iniciar un
+documento, llevar a la, a la, a la lema. Y hay que hacer, también hacemos lo, decimos lo que hay que
+hacer un análisis conceptual, es decir, tratar de elegir términos asociados a conceptos, si ven
+ahí en el ejemplito, no lo hice, voy a decir, uno podría elegir, este, el concepto,
+empezando en el auto y camioneta, uno que estuviera por, por arriba, un, no sé, algo como, ¿eh?,
+vehículo, ah, está, vehículo, bien, vehículo, y en realidad, este, yo lo que asocio es tanto
+auto como camioneta al concepto vehículo, o sea, este, elegir conceptos más, más ya determinos,
+trabajar con grupos nominales, este, sobre todo, yo que sé, pensando en estado de sitio, frente
+a amplio, o sea, conceptos que no sean, conceptos y que no sean solamente un término, porque yo lo
+que, lo que, puede estar compuesto por más de una, de una palabra. Y este, también, trabajar sobre,
+sobre, reconocimiento de entidades con nombre, es decir, en personas, lugares, este, organizaciones
+que podrían ser también elementos a, a ser considerados en el índice, ¿sí? Bien. Entonces,
+hablamos de information retrieval, y otra, otra que anda por ahí, es el, el clear, que es,
+lenguaje, el clear cross language information retrieval, ¿qué es?, ¿qué significa? No
+importa que esté escrita la, la consulta, a mí dame los, los, los documentos que hablen más
+hacia de la lengua, independientemente del, del idioma en el cual están escritos los documentos.
+Entonces, este es todo un campo que existe, la recuperación de información, este, para nada
+trivial, porque bueno, requieren, ahora lo vamos a estar viendo, pero fíjense que requieren de mucho
+trabajo, este, que van desde corpus paralelos, o, o bueno, ¿qué es lo que tiene que hacer, traducirla?
+¿Cómo hacer para buscar en español, este, documentos, que en realidad, o sea, voy a largar la
+consulta en español, pero te interesan aquellos documentos que, este, sean relevantes, pero que
+estén escritos en inglés, por poner dos lenguas distintas, ¿no? Y bueno, ¿por qué surge? Y nada,
+porque hay mucha información en, en más de un idioma y hay interés en realidad de recuperar la,
+lo más importante, más allá de la lengua en la cual está escrita, como decíamos sirve
+para eso, ¿no? Para acceder a la mayor cantidad de información, pero también es usada para la
+traducción de documentos, es decir, yo podría utilizar algunos algoritmos o estrategias en,
+empleadas en Clear para hacer traducción. Bien, lo que decíamos, ¿no? La consulta puede estar
+escrita en una lengua distinta de los documentos, pero la pregunta es, ¿y qué traduzco? Uno podría
+decir, bueno, lo mejor es traducir la consulta, porque, porque más chita, pero bueno, capaz que en
+realidad no debe, fíjense que si yo traduzco la consulta, yo podría agarrar y traducir al principio
+todos los documentos que tengo en mi base documental y eventualmente después en, tiene un costo muy
+grande al principio, pero después a la hora de la recuperación es bien directa, puede ser mucho
+más eficiente, o sea que hay que poner la balanza en función qué es lo que yo quiero ahora,
+¿qué es lo que me sirve más? Ahora, eso lo puedo o no hacer en función de los recursos
+lingüísticos que tenga, debería de tener diccionarios, tesauros, si tengo corpus paralelos o no,
+que se lloro los postager, en fin, depende con la ayuda de eso es que voy a poder elegir uno
+u otro criterio, y si esto en términos de eficiencia. Ok, se entendió lo que es el concepto
+de, de lo que es el CLIR, un poco la idea era que simplemente que tuvieran este, el, el, el, el
+pantallazo del concepto para cuando lo, si se veíamos adelante, entonces como decíamos al
+principio, como, como uno esto de recuperación de información, hoy, no en los 70 como Salton,
+lo asocia con el auge, con el auge de internet, toda esta teoría de, de, de Salton y la barra
+del modelo vectorial y del, del booleano y del probabilístico, como que estaba asociado a
+un corpus donde este, era muy dependiente del dominio, si era un corpus acotado, una base
+homogénea, ya la cosa con la web se descontrola totalmente, porque justamente estamos hablando
+de un universo, primero que estamos hablando de un universo de información enorme, está, este,
+yo creo que la barra de Salton ni se imaginó más allá de que, que, que la teoría sigue siendo la
+misma, este, no se imaginó con el auge de internet que iba, que iba a surgir este, este tipo de cosas,
+entonces, algunos, estas son cifras que yo, yo no ya había extraído en el año 2012, pero hay ahí de,
+este, un número de lo que se presume que, que se incrementan por año, lo cual la asusta bastante,
+más de 600 millones de sitios web, más de 50 millones se agregan por año, o sea que bueno,
+si esto fue el 2002 imagínense, este, todo lo que tenemos hoy, más de 100 millones de blog,
+más de 70 millones de sitios de estos, hechos con Google Pres, más de 600 mil millones de archivos,
+entonces, esto que decíamos hoy de, este, bueno, en la base de documentos,
+me tiran los documentos más relevantes, me tiran, son 10, son 15, son 20, eso explota,
+en la web, eso explota, entonces, lo que se hizo y el, a ver, Google no fue el primer
+buscador, de hecho, uno de los primeros buscadores era Altavista, y Altavista se basaba en el modelo
+vectorial de Salton, está, este, pero claro, como estábamos diciendo, la, estamos hablando
+de la, principio de la década del 90, este, con el auge de internet, esto que te veíamos
+siendo, creció tanto, que, bueno, nada, como, que el tema de identificar a cada uno de los
+documentos, de esas, de esos millones de documentos que existían en la, en internet, indizar a los
+efectos, eso, y hacer todo el cálculo de similitud, entre, con el documento, era, se hace,
+se ha tornado una ineficiencia terrible, entonces, bueno, nada, la barra de, este, como es,
+la repage, y el, y Brian, no, era el otro que, que, que, de Google, lo que, lo que hicieron
+fue, proponer el uso de, de clicks, como una serral de relevancia, la cantidad de clicks,
+que tenía, y referencias cruzadas de los documentos, y ahí apareció el, el, el conocido page
+rank, como, algoritmo de muestra de los, de la similitud de una consulta, sobre el, el
+mundo de lo que es internet, acá también hay un nombre, una, una gráfica, bastante,
+bastante vieja, uno de los primeros cursos de, de, de information retrieval, este, que
+bueno, nada, acá, que cuenta lo que es la web, tengo un montón de información que
+es pública, tengo un montón de información que es dinámica, después aparece cierta
+información que es semántica, hay cierta información estática, pero lo curioso de
+este, de este, de este gráfico, es que, yo no tengo toda la web indicada, ¿sabes? Es
+como imposible indizar absolutamente toda la web. Entonces, haciendo un, hoy como hicimos
+un, un, un cuadro de comparación entre lo que era un sistema de, de base de datos y un
+sistema de recuperación de información, me parecía que estaba bueno hacer un, un,
+un paralelismo entre lo que es un sistema tradicional de recuperación de información
+y lo que es el, el sistema de la web, ¿no? En los RI tradicionales, los documentos están
+bajo un dominio, o sea, los documentos son, son similares en algún sentido, hablan del
+más o menos lo mismo, en la web tenemos documentos diferentes de todo tipo, en, en la RI tradicional
+existe cierto control terminológico, mientras que en la web no, en la RI tradicional, la
+interfaz de consulta, yo hago un sistema que utilice tal modelo, lo que sea, como contaba
+Jacín, un sistema de biblioteca, la interfaz es única. En la web yo tengo, depende del
+buscador que yo tenga, este, tengo interfaces distintas, o sea, que no hay una homogeneización
+de sentido. El conjunto de documentos en la recuperación de información es bastante
+estable, más allá de que yo pueda agregar o algún documento a la colección, lo cual
+tendría que indicar, lo que sé yo, pero es más o menos estable. Acá por lo que decíamos
+recién, este, hay una volatilidad enorme. Y bueno, si, si el volumen de información
+en un sistema tradicional es grande, como veamos marcado hoy en el, en el cuadro, este,
+que comparaba con los sistemas de gestión de base de datos, este, acá es enorme, por,
+por poner otro adjetivo, otro sustantivo. Y bueno, nada, algunos desafíos de los buscadores,
+la calidad de la relevancia de los resultados, ser más o menos eficiente en, en la búsqueda,
+la información malestructura, hay en la web información malestructurada, información
+redundante. Entonces, la clave está en tratar de ver cómo el buscador es capaz de filtrar
+eso, este, el contenido es muy volátil, hoy está, mañana no está. Esto es, se conoce,
+es, es bastante clave, esto se lo pueden imaginar. No conocer la intención del usuario cuando
+lanza la búsqueda. Esto, bueno, hoy Google ya lo, como que el tipo ya sabe por dónde
+viene, que es, que es, ya de alguna manera él tiene identificado cuál es tu perfil
+o va definiendo tu perfil, este, y ya te sugiere, te sugiere cosa cuál es la intención del,
+del usuario, este, bien. Y acá algunas estadísticas me parecía interesantes, el 80% de las, compartir,
+el 80% de las consultas no utilizan operadores. Ahora acuerdan, pongan ustedes, pongan ustedes,
+piensen cuando largan en internet una cosa, nada, no, bueno, nada, ponen una secuencia
+de palabras, por lo general, este, el 25% utiliza una palabra y el 50% utiliza dos, y ya con
+eso largo la búsqueda. El 80% decía por ahí, no utiliza relevant feedback, es decir, no hay,
+no hay retroalimentación, o sea que, como que, en general le, le pega en los primeros
+documentos, además de los primeros documentos en la primera búsqueda, es decir, no tengo
+que refinarla y cambiarte al término en un 80%, no, eso es lo que decían las estadísticas.
+Y bueno, está bien interesante, el 85% mira las dos primeras páginas de resultado, más,
+yo creo que sería menos, la gran mayoría, mira la, creo que en la primera ya, sobre todo Google,
+le pega bastante a lo que, a lo que estoy buscando. Yo ya hablaba de Baesa Yates y quise
+compartir una frase de él, que es, buscar en la web no es un problema de recuperar documentos,
+no, no es documento lo que yo quiero recuperar en la web, mecanismo para,
+entre las personas y las necesidades que se encuentran detrás de tus objetivos, es decir,
+como me da filosófica la frase, no, ya, yo, lo que busco es un objetivo, si, tengo un objetivo
+que encontrar y no un documento, si lo pensamos en lo que decíamos hoy, yo busco información, quiero
+ver que hay en la vuelta sobre tal tema, no busco un documento específicamente, y eso es un cambio
+de paradigma bien importante entre lo que es la RI tradicional y la RI en la web. Bueno,
+y por último, extracción, hablar de extracción de información. El objetivo de, de extracción de
+información es obtener la información relevante e ignorar la irrelevante. El proceso es tratar de,
+de identificar aquellas partes del documento que yo recuperé, las partes importantes,
+o que a mí me interesan del documento y no tener que leer absolutamente todo el documento,
+como un desafío, lo del, lo del, es como un desafío, ya lo vamos a decir, es como un complemento o
+debería de verse como un complemento a la extracción de información a los sistemas de
+recuperación de información. La idea es que justamente que se complementen, que yo por
+un lado tengo un sistema de recuperación de información que obtenga todos los documentos
+que hablan de lo que yo quiero. Entonces yo tengo un proceso que hace eso, me extrae los
+documentos y luego un sistema de extracción, lo que hace es extrae y organiza la información que
+a mí me interesa. Conjunto de documentos, sistema de información, el sistema de recuperación de
+información me extrae aquellos que son relevantes, aquellos que me interesan. Luego los sistemas de
+extracción de información parten de esa colección de documentos y a partir de ahí obtienen datos.
+Y vuelvo a hablar del concepto de datos, porque la idea es tratar, si bien yo lo que obtengo es
+información, yo trato de esos documentos que están ahí, expresarlos de alguna forma que sea
+posible de ser manipulados por humanos inclusive, pero por algún sistema más sencillo. Que en
+general uno podría decir similar a lo que sería un esquema de base de datos. Lo que ponía por
+allá abajo es lo que yo tengo como una plantilla tributo-valor, o sea que los sistemas de extracción
+lo que hacen es tratan. Yo tengo una plantilla de cuáles son los campos que yo quiero recuperar y en
+función, mis algoritmos lo que tienen que hacer es extraer del documento y completar la plantilla.
+Esencialmente a grandes rasgos eso es lo que sería un sistema de extracción de información.
+Para ejemplo, bien sencillos. Si yo tengo un documento, estamos pensando en la habilidad de facultad y
+ya hay que llenar, en fin, función de las licencias, así que yo hay distintas formas de expresar lo
+mismo, pero lo que me interesa saber es, lo que yo quiero saber es, quién es la persona que se va a
+tomar la licencia, cuánto va a ser la licencia y por qué motivo. Entonces más allá de cómo esté
+escrito el texto que hablen de la licencia de los funcionarios, yo lo único que extraigo de ese
+documento es nombre, motivo y duración de la licencia. Entonces acá se concede licencia
+reglamentaria, el docente Juan Pérez por un mes, mi estructura tributo-valor, lo que me hace la plantilla
+esa me va a determinar. Una licencia es una terna, forma por nombre, duración y motivo, y lo mismo
+acá. O sea, están escritas de manera distinta, pero yo tengo que tener algoritmos que de alguna
+forma extraigan justamente esos términos y llenen esa estructura. También, al igual que con
+las TREC, con recuperación de información, existían unas conferencias para evaluar algoritmos
+de distracción de información, esas se llamaban las MOOC, las Message Understanding Conference,
+celebradas entre el 87 y el 97, también nuevamente patrocinada por DARPA y el gobierno de los
+Estados Unidos. Comenzaron, este muy cómico, porque las primeras MOOC en el año 87 el dominio
+eran sobre terrorismo, o sea, los tipos querían buscar cosas asociadas a terrorismo. Los janky
+no son nada de un manera inocente, o sea, tiraron, y bueno, la gente trataba de extraer, a ver,
+los documentos que hablaran sobre terrorismo. Se les daba información qué es lo que pretendían
+obtener, cuál es la plantilla, lo que decíamos, los atributos que iba a tener, la estructura
+de datos que yo iba a tener que completar en función de los documentos, y bueno, para
+evaluarse usaban las medidas que ya me habíamos visto para información retrieva, o sea, precisión,
+que con la medida F. Las MOOC dejaron de funcionar en el año 97, pero después se reactivaron
+otras conferencias en el 2000, que se llaman las ASE, Automatic Content Extraction, esas
+también duraron entre el 2000 y 2008, y a partir de ahí fueron sustituidas esas competencias
+por las TAC, las Text Analysis Conference, que se celebran siempre con las conferencias
+de Natural Language Learning, las con LL, es donde se hacen estas competencias al día
+de hoy. Acá metí unas diapositivas sobre corpus, de corpus ya estuvieron hablando,
+hemos hablado así que las voy a pasar medio rápido, pero las quise poner por las dudas,
+ya saben lo que es un corpus, cómo se construye un corpus, recopilación de un conjunto de
+documentos, y hay que definir las características de siada, si es escrito, oral, si es multilingüe,
+o monolingüe, el tipo de texto, si es de prensa, si es literario, pues no es lo mismo. Podemos
+hablar de corpus, hoy hablamos en la hueva, hablamos de la heterogéneidad, acá podríamos
+hablar de corpus sobre un determinado dominio, si está notado, si no está notado, en fin.
+Nada, y a modo de ejemplo, aunque creo que algunos ya los estuvieron viendo en el curso,
+yo pensé que estaba funcionando esto, se ve que no, bueno rápido me voy,
+nos terminamos, terminamos, terminamos. Algunos de los corpus está en inglés,
+esos son algunos de los más importantes, algunos de los corpus en español, yo quise destacar acá,
+estos son los conocidos, los de la Real Academia, el corpus de Mark Davis, Ancora de ese, este de
+verbos, y quería destacar algunos de los corpus, yo le puse nuestros, porque son generados acá.
+Distingo porque en general, para todo esto, hay muchísimo lo deben de haber estado viendo
+en el curso, hay muchísimo para el inglés y para otras lenguas, pero para el español hay
+pocos recursos, y bueno, tratamos nosotros de generar más recursos, entre los recursos que
+generamos en nuestros trabajos, que muchos surgen de proyectos de grado, o proyectos de
+pogrado, son el trabajar con nuevos corpus, entonces tenemos un corpus de noticias extraídas en
+la web, es un corpus muy grande, se sigue generando, creo que al día de hoy tiene uno,
+hoy contaban, el otro día contaban 1.6 giga de tamaño, o sea que es un corpus bastante interesante,
+el corín fue un corpus que surgió de un proyecto que hicimos con la gente de lingüística,
+como más de 10 años, como más de 15 años, pero más de 10 años, y como producto de ese corpus,
+un corpus pequeño, pero lo hicimos, está muy bien etiquetado, trabajamos con la gente de
+lingüística, y bueno, estos son corpus que han surgido en este último tiempo en el grupo,
+el corpus de opiniones, el corpus de eventos, el corpus de expresiones temporales, y hay uno
+que hizo Matías hace poco de la Wikipedia en español, que está bastante bueno,
+yo no sé si tiene entre 2 o 3 giga, una cosa así que está polenta.
+No, no, son corpus, yo lo metí dentro de extracción de información porque iba a
+volver a hablarse de corpus, realidad es son recursos lingüísticos que tenemos,
+no sabían de meterlo y lo metí dentro de extracción de información, pero en realidad no
+necesariamente, algunas cosas sí, los hemos usado para hacer sistemas de extracción.
+Todo eso venía porque bueno, acá el enfoque es para la construcción de un sistema de
+extracción de información, o basado en conocimiento lingüístico, o sistemas entrenados
+automáticamente con el uso de métodos estadísticos, ahí el aprendizaje de reglas utilizando corpus
+anotado, en fin, pero son dos modelos distintos de construcción de un sistema de extracción.
+Los criterios, nuevamente lo mismo, disponibilidad, lo de siempre, si tengo recursos o no tengo
+recursos lingüísticos, posibilidad de escritura de reglas, porque a veces se supone que esto
+funcionaba. La posibilidad de los recursos decía la posibilidad de escritura de reglas, a veces que
+si yo puedo escribir las reglas, eso está bueno porque soy bien preciso, pero también no me puedo
+pasar para el otro lado de escribir tantas reglas y lo hago tan particular que cuando después
+modifico algo, ya no me sirve y tengo que ver una nueva regla que me puedes escoger en galo de
+otro, pero bueno, la parte de reglas es importante. Si yo uso aprendizaje automático, el hecho de que
+tenga datos de entrenamiento es clave y el tema de performance es otra de las cosas que es importante,
+a tener en cuenta cuando quiero elegir porque esto era un enfoque basado en reglas o basado en
+aprendizaje. Y ahora sí, para liquidar es simplemente un ejemplo de lo que queríamos decir con un
+sistema de extracción de información. Esto es simplemente un dominio, descripciones de inmuebles,
+aterrenos, a expropiar. Es un ejemplo real. Montevideo, fecha, director de registro de
+propiedades de inmuebles, suscritos, escribano tal, celular tal, internet. Es decir, yo tengo un
+documento que me habla de una expropiación. Yo lo que tengo que hacer es, a mí me dan un conjunto
+de documentos y me dan una plantilla. Si pensamos en cómo yo completo esa plantilla,
+esa estructura de datos. Entonces esa plantilla, ¿qué es lo que yo tengo que extraer de los
+documentos? Un número de referencia porque todos los documentos deberían tener un número de
+referencia, una fecha, la inscripción, el escribano actuante, para el escribano de la
+célula y el nombre, el nombre del municipio, la ubicación, el padrón, la dirección, en fin,
+fíjense que todos estos datos, número, folio, todo eso, aparecen cosas acá. Con el inscrito,
+con el número tal, en la calle Solano-Antuña, de esta ciudad, folio, tal. Es decir, yo tengo
+determinadas, mi sistema debería tener determinadas reglas, hay que ver cómo lo hago, se escribo
+reglas o con qué lo hago, para en función de ciertas parámetros extraer justamente la información
+de ese texto y completar esa plantilla. Entonces, yo completo esa plantilla, tengo que hacer
+algoritmos que completen esa plantilla y nada, acá muestro, no se ve mucho, pero negritas
+está lo que justamente los datos que yo tengo que extraer, una fecha, no, sin los documentos
+no tienen por qué estar todas las fechas en el mismo formato, o sea que tengo que tener,
+si fueran reglas o un método de aprendizaje automático, tengo que ver cómo distingue
+las fechas, los distintos formatos de las fechas. Para el número de referencias, si tengo la
+palabra REFA delante y dos puntitos, en fin, cómo identifico los nombres propios, los números,
+por ahí aparece otra fecha más, monte videos y tengo identificados los lugares, entidades
+con nombres, las direcciones. Una vez que corre mi sistema, lo que me tendría que hacer
+es una plantilla con los valores en cada uno de los atributos. Y bueno, eso es todo.
+¿Alguna pregunta? Fue en medio rápido porque...
+Disculpa.
+Sí. Sí, utiliza. Sí, exactamente. Soler, decimos, por ejemplo. Sí. Sí, utiliza. Es que en la web
+hay un curso de recuperación de información en la web, y ahí está la ley de SIP, la ley de HIP,
+pero índices invertidas es la forma, por eso además lo que hice es presentar en la forma,
+el mecanismo por el cual se indiza los documentos en la web. Muchos de esos productos utilizan
+ese modelo de indicación de documentos. Exacto.
+¿Más preguntas?
+Listo. Bueno, entonces, terminó el curso y la semana que viene arrancamos con las presentaciones.
+Bueno, gracias.

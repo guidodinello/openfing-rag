@@ -1,0 +1,2399 @@
+WEBVTT
+
+00:00.000 --> 00:08.360
+Bueno, bienvenidos en la clase de hoy, vamos a ver el tema de redes neuronales que, bueno, es como
+
+00:08.360 --> 00:13.200
+digamos el estado del arte, lo que son las cosas de procesamiento de lenguaje natural en general hoy en
+
+00:13.200 --> 00:19.240
+día se resolven con redes neuronales. Entonces, es un poco para continuar con lo que debíamos
+
+00:19.240 --> 00:23.800
+ya vez pasado, ¿no? Habíamos visto metos de clasificación, habíamos visto que había algunos para
+
+00:23.800 --> 00:28.080
+clasificar cosas en categoría, sabía algunos secuenciales, sabía algunos que llamábamos
+
+00:28.080 --> 00:33.600
+los modelos de lenguaje? Y de los métodos de clasificación en realidad vimos en profundidad
+
+00:33.600 --> 00:37.560
+nadie vayes, pero vimos que había otro, por ejemplo, a la decisión, regresión logística,
+
+00:37.560 --> 00:44.720
+su perfecto machines y redes neuronales. Y para los métodos secuenciales también aparecía las
+
+00:44.720 --> 00:47.680
+reuniones neuronales para los modelos de lenguaje también aparecía las reuniones neuronales.
+
+00:47.680 --> 00:50.280
+Entonces, como que las redes neuronales son un método muy importante que es muy
+
+00:50.280 --> 00:54.120
+versatile y se usa para muchas cosas. Entonces, nos vamos a concentrar un poco, vamos a dar
+
+00:54.120 --> 00:58.680
+clas una introducción a lo que son las redes y además ver cómo se usan particularmente
+
+00:58.680 --> 01:02.880
+para el lenguaje. O sea, vamos a ver las técnicas de hevectores de palabras y, bueno,
+
+01:02.880 --> 01:07.480
+cómo aplicar eso a precisamente el lenguaje natural. Entonces, ¿cómo empieza esto?
+
+01:07.480 --> 01:12.320
+Esto empieza inspirado en esto de acá, que es una neurona biológica, ¿no? Esto lo habrán
+
+01:12.320 --> 01:20.120
+visto en el deseo, en biología. Una neurona es un tipo de célula del sistema nervioso
+
+01:20.120 --> 01:26.880
+de los animales, que tiene distintas partes, como se puede ver ahí, bueno, sí, voy a
+
+01:26.880 --> 01:34.320
+apuntar, voy a apuntar. Abo que era con esto. Hay, tiene distintas partes, tiene como
+
+01:34.320 --> 01:38.880
+uno es un nos pelitos que entran dentro del cuerpo de neurona que se llama tendridas y después tiene
+
+01:38.880 --> 01:44.720
+como una especie de cola que sale de la neurona que se llama Axon y, bueno, atacan el centro,
+
+01:44.720 --> 01:51.360
+tenemos lo que sería el cuerpo de la neurona, el soma. Entonces, en esas por esas
+
+01:51.360 --> 01:57.360
+de enritas vienen impulsos eléctricos, las de enritas actúan como inhibidores o activadores,
+
+01:57.360 --> 02:02.760
+pero vienen impulsos eléctricos, esos se condensan a dentro del soma que se el cuerpo y,
+
+02:02.760 --> 02:06.320
+si se supera, cierta un braal y actividad eléctrica, entonces ya le urona dispara un solo
+
+02:06.320 --> 02:12.080
+punto, pues el Axon, un solo impulso eléctrico, pues el Axon, lo manda hacia afuera. Y ese
+
+02:12.080 --> 02:18.720
+Axon está conectado a otras de enritas que están en otras de bronas. Entonces, esto tiene
+
+02:18.720 --> 02:24.440
+un montón de entradas, se condensan en el cuerpo de la célula de la neurona dispara un solo
+
+02:24.440 --> 02:28.080
+pulso eléctrico para afuera y ese pulso eléctrico viaja a otras neuronas. Entonces, como
+
+02:28.080 --> 02:32.920
+esas neuronas están conectadas en una especie de red, cada exón de una neurona está conectaba
+
+02:32.920 --> 02:38.320
+las enritas de otras, entonces, la salida de una es la entrada de otras. Esto conforma una red dentro
+
+02:38.320 --> 02:42.680
+del cerebro, o el sistema nervioso de los animales, y eso es lo que compoen en una
+
+02:42.680 --> 02:47.360
+reneuronal, en este caso una reneuronal natural, una reneuronal biológica. Entonces, en los
+
+02:47.360 --> 02:54.280
+años 40 se propuso la primera versión matemática, digamos, de cómo funciona una neurona,
+
+02:54.280 --> 02:58.840
+entonces unos científicos que, disjeron, bueno, vamos a tratar de simplificar este más posible,
+
+02:58.840 --> 03:03.880
+a otra verlo y generar una versión en una ecuación que trata de representar esto. Entonces,
+
+03:03.880 --> 03:09.280
+ellos diseñaron esta ecuación de acá. En la cual yo dice, bueno, vamos a cambiar esta neurona
+
+03:09.280 --> 03:14.320
+biológica que tenía todas estas partes y vamos a crear una especie de neurona artificial,
+
+03:14.320 --> 03:20.280
+en la cual yo tengo un conjunto de entradas, un conjunto de pesos de entrada que están acá,
+
+03:20.280 --> 03:24.720
+que vendrían a hacer el equivalente a las de enritas. Voy a tener impulso eléctrico de
+
+03:24.720 --> 03:30.280
+entrada que son como X1, X2, X3, hasta XC, que digamos que son los inputs que va a tener
+
+03:30.280 --> 03:35.640
+esa neurona. Después, en el centro lo que hago es sumarlos y en realidad lo que estoy sumando
+
+03:35.640 --> 03:42.200
+es el producto entre cada impulso de entrada y el peso correspondiente. También le voy a agregar
+
+03:42.200 --> 03:48.360
+un valor de cejo y después la salida le voy a pasar buena función de activación y eso me
+
+03:48.360 --> 03:52.960
+va a la salida de la neurona. Bien, o sea, esta parte de las vamos a estar viendo en detalle.
+
+03:52.960 --> 03:57.600
+Pero en definitiva, es como que yo tuviera esta ecuación de abajo, no? Yo tengo la sumatoria
+
+03:57.600 --> 04:05.400
+de las entradas multiplicadas por pesos, a eso le sumo un cejo que se llama a ver y todo eso
+
+04:05.400 --> 04:11.280
+se lo aplico una función sigma, que podemos saber un poco qué son esas funciones sigma. Entonces,
+
+04:11.280 --> 04:17.400
+bien que es una, digamos, es como una ecuación lineal, o sea, la sumatoria ni de XC
+
+04:17.400 --> 04:24.520
+por WSUI, más B, todo eso es una, digamos, una fórmula lineal y a eso le agregó un sigma,
+
+04:24.520 --> 04:30.600
+digamos, se lo aplico un sigma que esta va a ser una función lineal. Bien, entonces, más adelante
+
+04:30.600 --> 04:34.720
+para simplificar esta ecuación y para que después que es más fácil de calcular las cosas,
+
+04:34.720 --> 04:39.880
+lo que se hace es decir, bueno, este valor que venimos acá está, está bien que está sumando,
+
+04:39.880 --> 04:47.080
+que digamos se usa para que, como que, ahí, está bien que está acá que se usa para que
+
+04:47.080 --> 04:52.440
+tengo para poder completar toda la ecuación lineal, lo que se hace es agregarle con un peso
+
+04:52.440 --> 04:56.880
+más, entonces, decimos, bueno, tenemos una entrada más que vale uno y su peso correspondiente
+
+04:56.880 --> 05:01.720
+es el sejo. De eso en realidad, digamos, después nos olvidamos, cuando vamos a trabajar con
+
+05:01.720 --> 05:05.600
+estas cosas como que no utilizamos mucho el sejo y nos concentramos en decir, bueno, vamos a
+
+05:05.600 --> 05:11.080
+tener un vector que son entradas, que son los x1 hasta quise ne y un montón de peso que son los
+
+05:11.080 --> 05:15.280
+dole de uno estable de ne y adentro la neurona lo que pasa es que voy a hacer el producto interno
+
+05:15.280 --> 05:24.520
+tresos entre el vector x y el vector o leve y se lo voy a pasar a la función sigma, bien, entonces,
+
+05:24.520 --> 05:30.720
+esas funciones de activación sigma hay varias, o sea, al principio digamos cuando diseñaron
+
+05:30.720 --> 05:36.200
+primero esta neurona, lo que se les había ocurrido primero es decir, bueno, yo lo que hago es sumar
+
+05:36.200 --> 05:43.920
+todas estas, digamos, todos estos impulsos multiplicados por los pesos, los sumos y si esa suma
+
+05:43.920 --> 05:48.320
+supera cierto umbral, que el umbral lo podían calcular o ocho que se agutilizaba en uno o algunas
+
+05:48.320 --> 05:53.760
+esas cosas, bueno, si supera cierto umbral, entonces mando uno para afuera y si no mando ser, eso era
+
+05:53.760 --> 05:59.200
+lo primero que se le ocurrió, pero bueno, después empezaron a encontrar otras funciones que
+
+05:59.200 --> 06:04.240
+las mejores para poder entrenar mejores estas redes y en definitiva como que no hay mucho criterio
+
+06:04.240 --> 06:09.760
+de qué restricciones tienen que tener esa función, salvo que tiene que ser derivable, tiene que ser,
+
+06:09.760 --> 06:15.320
+tiene que ir como de menos a más, digamos, puede ser de 0 a 1 o de 0 más infinito o de menos infinito
+
+06:15.320 --> 06:20.560
+más infinito y tiene que estar no lineas, tiene que tener algún punto de no linealidad, entonces estas son algunas
+
+06:20.560 --> 06:25.080
+muy usadas, por ejemplo, la función sigma y de, o función logística que es la misma que se usa,
+
+06:25.080 --> 06:31.120
+lo que estamos hablando de un rato de, digamos, el método de regreso en logística utiliza también esta
+
+06:31.120 --> 06:38.440
+función, la tangente y parólica, otra, la función relo, es muy usada y la relo se define como el
+
+06:38.440 --> 06:42.840
+máximo entre 0 y 7, ¿no? relo de 7, el máximo entre 0 y 7, entonces vale 0 para todos los
+
+06:42.840 --> 06:49.040
+valores, excepto para cuando el, todos los valores menor que 0, pero cuando el máso que 0 vale directamente
+
+06:49.040 --> 06:52.880
+el valor, estas son las funciones un poco extrañas, voy a decir que tenían que hacer todas
+
+06:52.880 --> 06:57.640
+derivables y esta justo no es derivable en el punto 0, pero después de este derivado en todo el
+
+06:57.640 --> 07:03.120
+resto de los reales, bueno ya hay otras más, pero estas como son como de las más utilizadas,
+
+07:03.120 --> 07:09.840
+bien lo importante acá es que estas funciones de activación proven una no-lilidad, ni
+
+07:09.840 --> 07:16.960
+la linearidad y vamos a ver, porque, ok, bueno entonces, vimos lo que era una negrona, imagínense
+
+07:16.960 --> 07:27.160
+que en general las negronas se, se ponen como en grupos digamos y se, se distribuyen en capas
+
+07:27.160 --> 07:31.200
+dentro de una red, ¿no? entonces este es un ejemplo de una de las redes neuronales más simples,
+
+07:31.200 --> 07:36.400
+más simples que en realidad son útiles para algo, que se conoce como parcer trombos
+
+07:36.400 --> 07:43.120
+de capa o red fíjol guard de capa, que funciona en la siente manera, nosotros tenemos todas
+
+07:43.120 --> 07:46.440
+las entradas, esa que yo le decía que la centrada se quizó, una quizó, se quizó, se quizó,
+
+07:46.440 --> 07:51.960
+se quizó, se quizó, se quizó y se net, sería como una primera capa de entrada y después yo ubico
+
+07:51.960 --> 07:57.240
+un montón de neuronas en una segunda capa y las capas que vienen después de entrar le voy a llamar
+
+07:57.320 --> 08:03.480
+capas ocultas, o sea, tengo una primera capa de entrada, esa capa lleva a una capa oculta y todas las neuronas
+
+08:03.480 --> 08:07.800
+en la capa oculta están interconentadas con todas las neuronas en la capa de entrada, o sea, hay
+
+08:07.800 --> 08:14.600
+este pesos que van de todas todas, después puedo tener otra segunda capa oculta, otra tercera
+
+08:14.600 --> 08:18.640
+capa oculta, etcétera, hasta que lleva una última capa que también está interconentada
+
+08:18.640 --> 08:24.600
+con el anterior, que es la capa de salida, bien, pero no hay en las es que vayan entre
+
+08:24.600 --> 08:29.680
+la capa inicial y la capa de salida, digamos, la capa de entrada de la capa de salida, sino que siempre
+
+08:29.680 --> 08:34.840
+los en las esvan entre una capa y la sienta, entonces acá yo digo que tengo un arquitectura en capas
+
+08:34.840 --> 08:41.640
+donde tengo este segundo esta imagen, capa ocultas, tengo la capa oculta oculta oculta oculta oculta
+
+08:41.640 --> 08:47.680
+capa y después son la capa de salida, bien, entonces esta como el arquitectura más en sí, yo tengo
+
+08:47.680 --> 08:52.480
+un montón de capas, una tras de otra, y cada capa está completamente incarconentada con la anterior, pero
+
+08:52.560 --> 09:00.520
+nunca saltan entre capas, bien, entonces analicemos un poco que es lo que pasa dentro de esas
+
+09:00.520 --> 09:08.320
+capas y para eso vamos a dudar de mirar la capa, bien, yo tengo entonces, en esa imagen
+
+09:08.320 --> 09:14.760
+es como estamos gino de la frontera entre una capa y la sienta, yo tengo la frontera de la capa
+
+09:14.760 --> 09:23.640
+dobleve uno, la capa y la capa y más uno, entonces voy a decir que los estados de las neuronas
+
+09:23.640 --> 09:32.800
+en la capa y que llegan a la capa y son x1 super y x2 super y x3 super y x4 super y, bien, eso
+
+09:32.800 --> 09:40.200
+va a ser el estado de la capa y quiero calcular cuál va a ser la el valor de la capa y más uno dado
+
+09:40.200 --> 09:47.200
+que el valor de la capa y era eso, entonces la capa y yo tenía que valiar esto, y x1 super
+
+09:47.200 --> 10:03.920
+y x2 super y x3 super y y creo que ella va a estar 4, y x4 super, esto es un vector, bien, entonces
+
+10:04.400 --> 10:11.160
+recorden cómo calculábamos el valor de una neurona, decíamos que por ejemplo para calcular
+
+10:11.160 --> 10:20.960
+la neurona que está ya arriba que es x1 y más uno, el valor de esta neurona se calculaba
+
+10:20.960 --> 10:28.520
+como y tenía que hacer las sumas digamos de los inputs que estaban de la de izquierdo por
+
+10:28.520 --> 10:32.640
+los pesos que llegaban hasta ahí, entonces en este caso son todas las neuronas que están
+
+10:32.640 --> 10:38.080
+en la capa y todos los valores de la neurona multiplicados por todos los valores de las
+
+10:38.080 --> 10:49.040
+flechitas, entonces sería x1, por dobleb y la flechita que está lleno desde la neurona
+
+10:49.040 --> 10:54.960
+uno de la capa y hasta la neurona uno de la capa y más uno se llama dobleb 1 a 1, entonces
+
+10:54.960 --> 11:02.600
+x1 por dobleb 1 a 1, más, la segunda capa para la segunda neurona de la capa y la
+
+11:02.840 --> 11:20.640
+por el segundo peso te era el 2x1, el peso 2x1, esto también es de la capa y más x3 por dobleb 3x1,
+
+11:21.560 --> 11:36.960
+todo esto es de la capa y más x4 por dobleb 4x1, entonces la salida x1 de la capa y más uno es el
+
+11:36.960 --> 11:44.280
+producto de todas estas acá, bien ese producto de la neurona uno de la capa anterior por el peso
+
+11:44.280 --> 11:47.560
+uno uno, la neurona dos de la capa anterior por el peso 2x1, la neurona tres de la capa anterior
+
+11:47.560 --> 11:53.800
+por el peso 3x1, lo mismo puedo hacer para la otra puedo decir x2 y sería igual solo que
+
+11:53.800 --> 12:03.180
+también acá cambiándolo el lugar es a 2, entonces digo es x1 y por dobleb 1 a 2 y más 2
+
+12:03.180 --> 12:17.520
+estos más x4 y por dobleb 4 a 2 y bien sí, ahí está, cuando estamos en un arquitecto
+
+12:17.520 --> 12:21.800
+en capa como esta, es así, es cada la neurona de la capa siguiente está conectada con todo
+
+12:21.800 --> 12:27.580
+el anterior pero nunca saltan de capas, nunca cruzan hacia otra y nunca vuelen hacia atrás,
+
+12:27.580 --> 12:30.740
+que es otra cosa que puede pasar en otras arquitecturas de redes, pero esta que es la más
+
+12:30.740 --> 12:37.320
+simple es cada capa con la siguiente, bueno entonces x3 sería lo mismo, x1 y acá el peso 1 o 3,
+
+12:37.320 --> 12:57.400
+tan data, x4 el peso 4 o 3 sí, sí, o sea, no, acá son todas reales, x, todos los
+
+12:57.400 --> 13:04.640
+requisitos, le dole, son todas las reales, entonces a eso quería llegar, yo tengo x1 y x2 y x3 y x4
+
+13:04.720 --> 13:10.960
+son 4 variables reales que componen un vector y si yo agarró todos los dole 1, 1, 2, 1, 2, 1, 3, 1,
+
+13:10.960 --> 13:16.840
+4, 1, 2, 1, 2, etc, todo esto compone una matriz en realidad, yo puedo construirme la matriz
+
+13:16.840 --> 13:26.680
+de la capa y es igual, esta matriz que tiene dole 1, 1, hasta dole B, 4 o 3, bien,
+
+13:26.880 --> 13:39.120
+esto es una matriz, entonces al tener eso en realidad yo puedo expresar la salida de esta capa,
+
+13:39.120 --> 13:44.320
+puedo expresar los estados en los cuales lo valores, en los que quedan las neuronas de
+
+13:44.320 --> 13:50.000
+la capa siguiente, los puedo expresar como un producto de matriz, yo digo, el vector en la capa
+
+13:50.080 --> 13:56.560
+era esto, entonces el vector en la capa y más uno va a ser el producto de xy por dole B,
+
+13:56.560 --> 14:00.760
+digamos esto termine haciendo un producto de matrices, si hace el producto de matrices, es
+
+14:00.760 --> 14:06.800
+medaria, x1 por dole 1, y x2 por dole B, y x3 por dole B, y x4 por dole B, 4,
+
+14:06.800 --> 14:10.840
+que es lo mismo que estedera, y si vamos con la segunda columna, me al mismo daca,
+
+14:10.840 --> 14:15.560
+si vamos con la segunda columna, me al mismo daca, pero es un definitio la salida de esta capa,
+
+14:15.560 --> 14:22.720
+digamos si yo tengo esta neuron ahí, la salida de la capa, a ver dónde les creo,
+
+14:22.720 --> 14:26.560
+los pido acá porque esto nos va a tener que quedar para después para cobrar este,
+
+14:26.560 --> 14:33.280
+mirarlo, pero bueno, tengo x su braí, este es el vector de entrada, y voy a poner acá,
+
+14:33.280 --> 14:45.520
+copiar la matriz esta, dole B1 1, hasta dole B4 1, dole B4 3, dole B1 3,
+
+14:46.480 --> 14:59.640
+y vamos a hacer tres, entonces, digo que el valor de x1 va a ser el valor en y por la
+
+14:59.640 --> 15:06.240
+matriz que representa los pesos de la capa y, y a esto lo que me falta agregarle es el
+
+15:06.240 --> 15:11.240
+sigma, que es la función de activación y las el sigma también pues pertenece a la
+
+15:11.240 --> 15:18.200
+capa y día, mucho por tener distintas funciones de activación por capa, bien, entonces,
+
+15:18.200 --> 15:22.960
+concentremos en esto, ¿no? Decimos que si yo tengo una arquitectura en capas donde cada capa
+
+15:22.960 --> 15:26.560
+está conectada con la anterior, digamos todas las neuronas una capa están conectadas con
+
+15:26.560 --> 15:33.800
+todas las neuronas de anterior, entonces puedo calcular la activación o los valores que
+
+15:33.800 --> 15:37.800
+va a tener la capa y más uno en función de la capa y con esta formulada acá.
+
+15:41.240 --> 15:49.800
+Así que supongamos que tengo, eso creo que es, es altamente lo mismo que dice acá, ahí está,
+
+15:49.800 --> 15:56.080
+tengo esa entrada, la salida va a ser ese vector, digamos, de tres neuronas y tengo
+
+15:56.080 --> 16:03.360
+esos pesos por lo tanto puedo calcularlo de esta manera, bien, entonces supongamos que
+
+16:03.360 --> 16:10.400
+tengo una arquitectura que tiene tres capas, ¿no? Tiene o más, digamos, tiene dos capas
+
+16:10.400 --> 16:15.920
+ocultas, entonces eso significa que si tengo dos capas ocultas voy a tener una
+
+16:15.920 --> 16:20.280
+matriz de pesos, ¿dónde le voy a llamar dole 1 y una matriz de pesos, que le voy a llamar
+
+16:20.280 --> 16:27.560
+dole 2, entonces luego va a venir un vector X que va a ser un vector que tiene un montón
+
+16:27.560 --> 16:36.200
+detrás, ¿no? X1 hasta XL, esta es un vector, quiero ver cuál va a ser la salida de la
+
+16:36.200 --> 16:43.240
+red suponiendo que tengo una capa de pesos dole 1 con una función de activación sigma 1 y una
+
+16:43.240 --> 16:48.240
+capa de pesos, le dedo con una función de activación sigma 2. ¿Cómo me quedaría la salida
+
+16:48.240 --> 16:57.480
+de la red? Vamos, ¿cuál sería la formulada para la salida de la red? Vamos a llamarle
+
+16:57.480 --> 17:05.600
+RN de X a la salida de esta red, que es una red que tiene, dos capas ocultas y tienes
+
+17:05.600 --> 17:25.200
+la estructura, ¿no? ¿Qué le parece? Sí, ahí está, aquí es por dole 1 y esto le aplicamos
+
+17:25.200 --> 17:35.480
+sigma 1, ahí está, ahí está, la hacemos dole 2 y le pasamos sigma 2, exacto, entonces
+
+17:35.480 --> 17:41.840
+eso sería, digamos, la ecuación que te queda de una arquitectura con dos capas, dos capas
+
+17:41.840 --> 17:47.560
+ocultas y la salida, se calcularía esta manera, tenemos el vector X, el vector que le
+
+17:47.560 --> 17:51.800
+multiplicamos por los pesos de la capa 1, después le pasamos la función de la derivación,
+
+17:51.800 --> 17:55.160
+ahí se resulta o le multiplicamos por los pesos de la capa 2 y le aplicamos la función
+
+17:55.160 --> 17:59.480
+de activación y está y esa es la salida, si tuvieron más capas, si esto fuera un parcer
+
+17:59.480 --> 18:03.960
+pero multiplicapa de 30 a cada pasio, entonces tendríamos como más sanidad viendo esto pero
+
+18:03.960 --> 18:11.720
+más o menos es lo mismo, bien, entonces ¿Qué pasaría si estas funciones de activación
+
+18:11.720 --> 18:20.840
+fueran la función identidad o fueran funciones lineales como este multiplicar por 4, algo
+
+18:20.840 --> 18:24.800
+del estilo de ambos, ¿Qué pasaría en ese caso?
+
+18:24.800 --> 18:33.560
+A esta, en ese caso, si esto fuera la identidad o si fuera multiplicada por una constante
+
+18:33.560 --> 18:37.800
+pero supongamos que fuera la función identidad, entonces acá esto me daría lo mismo que
+
+18:37.800 --> 18:44.080
+hacer X por doble de 1 por doble de 2, que es lo mismo que hacer X por una cosa que
+
+18:44.080 --> 18:49.840
+es un producto entre dos matrices y un producto entre dos matrices vea otra matriz,
+
+18:49.840 --> 18:54.760
+entonces si estas funciones fueran una función identidad o fuera una función lineal o
+
+18:54.760 --> 19:00.760
+fuera una función de esas diamos simples, entonces todo esto sería una cuestión lineal o
+
+19:00.760 --> 19:05.360
+sea yo podría rescribirlo siempre como el producto entre un vector y una matriz, que es un
+
+19:05.360 --> 19:11.360
+sistema lineal, bien, esa es la razón por la cual se necesita que estas cosas acá sean
+
+19:11.360 --> 19:14.680
+no lineales, que era lo que le decía que bueno, casi que el único requisito que tienen
+
+19:14.680 --> 19:18.760
+que tener estas funciones de activación es que sean no lineales porque si son lineales cuando
+
+19:18.760 --> 19:23.320
+yo empiezo a arquitecturar estas cosas en capas me queda simplemente un producto de matrices,
+
+19:23.320 --> 19:27.400
+porque me interesa que sean no lineales y porque o sea me molesta que esto sean un sistema
+
+19:27.400 --> 19:32.120
+lineal, porque si yo tengo un sistema lineal digamos si yo tengo que el resultado de mi
+
+19:32.120 --> 19:36.600
+red lo puedes presar como X por una matriz, entonces bueno, hay cierta clase de problemas,
+
+19:36.600 --> 19:39.880
+que voy a poder resolver, pero todos los problemas que son no lineales, todos los problemas
+
+19:39.880 --> 19:44.800
+que no se pueden capturar por una estructura lineal, entonces no lo puedo resolver, bien,
+
+19:44.800 --> 19:54.240
+hay, sí, incluso sin la activación, o sea, es una renebrona que no tiene activación
+
+19:54.240 --> 20:00.760
+ninguna, o sea simplemente es multiplicar un vector por un conjunto de pesos, bien, entonces
+
+20:00.760 --> 20:05.560
+si yo tengo solamente una función lineal hay un conjunto de problemas que puedo
+
+20:05.560 --> 20:11.080
+modilar, es verdad, pero no son todos y de hecho no lo vamos a ver pero hay una demostración
+
+20:11.080 --> 20:16.760
+que dice que teniendo funciones activaciones no lineales, alcanza incluso a tener una sola
+
+20:16.760 --> 20:21.200
+capa oculta y alguna cocina más para modilar cualquier tipo de función que habíamos
+
+20:21.200 --> 20:24.560
+interesa, digamos, con ciertas propiedades, por lo menos que sea contínua, en centro
+
+20:24.560 --> 20:30.160
+intervalo, etcétera, pero a sumiendo ciertas propiedades bastante normales, es posible
+
+20:30.160 --> 20:33.560
+incluso con una sola capa, con una cantidad arbitraria de neuronas, modilar cualquier
+
+20:33.560 --> 20:39.360
+función posible, y es un poco el poder que tiene las renevernales en realidad, son
+
+20:39.360 --> 20:44.800
+como suficientemente flexibles como para modilar cualquier cosa, cosa que cuando veíamos
+
+20:44.800 --> 20:49.480
+bueno, hay valles, era un ejemplo que modilar a ciertos tipos de problemas, si miran regresión
+
+20:49.480 --> 20:53.600
+logística, podemos delarse a dos tipos de problemas, pero algunos no, bueno, las renevernales
+
+20:53.600 --> 21:01.520
+en calidad son super flexibles y podemos modilar cualquier cosa, entonces, sabemos que para
+
+21:01.520 --> 21:05.520
+cual casi cualquier función que a una linteresa modilar existe una renebrona que podría
+
+21:05.520 --> 21:08.960
+llegar a cumplir la composición de nivel de precisión, digamos ahí, teoría más que
+
+21:08.960 --> 21:15.160
+vemos están, sin embargo, encontrar en la práctica no es tan fácil, o sea, sabemos que existe
+
+21:15.160 --> 21:18.600
+la familia de las renevernales hay alguna función que me va a permitir a hacer todo lo
+
+21:18.600 --> 21:23.060
+que quiera, pero bueno, de allá encontrarla no está en sencillo, pero bueno, por lo menos
+
+21:23.060 --> 21:28.800
+sabemos que existe, igual con estas cosas que tenemos, o sea, sabiendo no más que arquitecturando
+
+21:28.800 --> 21:33.440
+en capas y teniendo la función de activación, no línial en cada una, ya tenés un montón
+
+21:33.440 --> 21:39.880
+de funciones interesantes que poden salir para modilar muchas cosas, bien, preguntas
+
+21:39.880 --> 21:53.000
+hasta acá, bueno, esta es otra función de activación interesante que se conoce como
+
+21:53.000 --> 21:58.840
+la función softmax, si utiliza para los problemas de clasificación discritos, por ejemplo
+
+21:58.920 --> 22:04.960
+y que van a tener en el segundo oligatorio, que bueno, es el problema de clasificación
+
+22:04.960 --> 22:09.980
+aruntuit y lo quiero clasificar en si es positivo, negativo, neutro o nada, no, tengo esas
+
+22:09.980 --> 22:15.200
+cuatro classes, entonces, la función de activación softmax es como una generalización de la
+
+22:15.200 --> 22:22.240
+función de la función logística, de la sigmoide, que se calcula esta manera dice bueno,
+
+22:22.240 --> 22:28.560
+eso asumo que los pesos de salida que son números reales van a formar una probabilidad,
+
+22:28.560 --> 22:32.600
+digamos, lo quiero transformar de una probabilidad, entonces lo que alguna esta manera, digo que
+
+22:32.600 --> 22:41.320
+el valor para isub y es a la asub y sobre la sumatoria de a la el resto, bien, esto solamente
+
+22:41.320 --> 22:46.040
+para que lo tengan en cuenta es muy probable que si van a usar redes sociales en la segunda
+
+22:46.040 --> 22:51.480
+tarea, tengas que utilizar al final una capa que se llama capas softmax, que es una capa
+
+22:51.480 --> 22:55.440
+que tiene una función de activación especial, que es serio para transformar las alidas en distribución
+
+22:55.440 --> 23:10.320
+de probabilidades, sí, y la mayor, si tiene una distribución de probabilidades y bueno,
+
+23:10.320 --> 23:21.160
+la sociedad que tiene probabilidad mayor, ahí tienes que tener una, sería como una
+
+23:21.160 --> 23:27.280
+logística independiente por cada una, entonces, si es mayor que esero, digo que es valido
+
+23:27.280 --> 23:33.000
+y no, o sea, si puedo tener más de un ley vela a la vez, ahí tendrías que hacer otra cosa,
+
+23:33.000 --> 23:36.480
+en softmax va a intentar que sea una distribución de probabilidades, entonces probablemente
+
+23:36.480 --> 23:47.240
+te queda una clase que gane y las demás sea mucho más bajitas, bien, bueno, entonces,
+
+23:47.240 --> 23:51.480
+recuerden que estamos, siempre utilizando en un número, por ahora no hemos visto nada del
+
+23:51.480 --> 23:55.480
+lenguaje, eso lo vamos a ver un poco más adelante ahora, son todos números, en la entrada,
+
+23:55.480 --> 24:01.440
+me viene en números reales, en los pesos tengo números reales, a multiplicación, el
+
+24:01.440 --> 24:05.040
+caso, funciona activación, etcétera y me da otro vector de números reales, o sea, la salida
+
+24:05.040 --> 24:09.120
+esto va a ser un vector en números reales, tener en cuenta que cada una de estas cosas van
+
+24:09.120 --> 24:13.920
+a tener sus dimensiones, no, yo voy a tener acá tenía una entrada que tenía cuatro
+
+24:13.920 --> 24:19.320
+vectores, para un cuatro valores, una matriz que tenía cuatro por tres, entonces al multiplicarlo
+
+24:19.320 --> 24:24.480
+me devuelve tres, si la siguiente capa es de tres por ocho, entonces me va a volver ocho,
+
+24:24.480 --> 24:29.640
+y así, o sea, los tamaños de las matrices o sea, los tamaños de las capas tienen que
+
+24:29.640 --> 24:38.080
+coincidir, pero en definitiva son todos vectores, no, por ahora esto es una cálculo utilizando
+
+24:38.080 --> 24:45.120
+cálculo en un médico vectorial, entonces vamos a hablar un poco de cómo se entrenan
+
+24:45.120 --> 24:50.360
+estas redes, y vamos a pensarlo de la siguiente manera, como estos son métodos de aprendizaje
+
+24:50.360 --> 24:54.920
+automático, se voy a tener, como vimos en las clasiónteriores, voy a tener un conjunto
+
+24:54.920 --> 25:00.400
+entrenamiento, un conjunto de desarrollo, un conjunto de test, entonces supongo que yo tengo un
+
+25:00.400 --> 25:05.200
+conjunto de entrenamiento que tiene en ejemplos, o sea, en ejemplos significa que voy a tener
+
+25:05.200 --> 25:13.440
+en estos sectores y enezalidas distintas, que les voy a llamar sí, entonces los vectores
+
+25:13.440 --> 25:19.120
+entre las onestos, los vectores de salida son estos de acá, y yo tengo que tratar de ver si
+
+25:19.120 --> 25:28.160
+la salida se parece al entrar, entonces supongamos que la salida es solamente un valor,
+
+25:28.160 --> 25:34.880
+o sea para simplificar, vamos a asumir que la entrada de la red son es un vector de, de
+
+25:34.880 --> 25:39.880
+cualquier dimension, y la salida solamente es un valor real, es posible, o sea lo que está haciendo
+
+25:39.880 --> 25:44.440
+es tener una red que tiene muchas capas, lo que sea, pero al final todo se reduce a una
+
+25:44.440 --> 25:49.240
+sola salida un valor real, obviamente esto después se extiende a más valor real, pero bueno,
+
+25:49.240 --> 25:58.520
+supongamos que tenemos una sola, entonces digo que tengo en instancias, o sea, en evaluores
+
+25:58.520 --> 26:03.360
+de aquí subí, este es mi conjunto entre el aviento, supongamos o el conjunto en el que estoy
+
+26:03.360 --> 26:10.400
+tratando de medir cosas, aquí subí y me dice que esto se que subí deberían corresponderse
+
+26:10.400 --> 26:18.080
+con diferentes valores de y subí, no, este es el conjunto de valores esperados, yo digo que para
+
+26:18.080 --> 26:24.760
+aquí subuno tengo un y subuno, para que subuno tengo un y subdos, bien, por ahora son
+
+26:24.760 --> 26:34.320
+todos números reales, y además tengo que yo tengo una red neuronal con ciertos pesos que se
+
+26:34.320 --> 26:41.240
+le ha podido aplicar a x subí y con sus matrices de pesos, entonces mi red neuronal me va
+
+26:41.240 --> 26:49.120
+a dar cierto valor y le voy a llamar y subí techo, como puedo saber si está bien lo que me da
+
+26:49.120 --> 26:54.960
+la red neuronal para que sí, o no, digamos que de qué manera yo puedo llegar a medir si está
+
+26:54.960 --> 27:07.840
+bien o no, este valor que me dio, a esta, o sea, a mi salida, mi conjunto yo decía bueno,
+
+27:07.840 --> 27:14.840
+la salida tenía haber sido y subí, y la salida me dio la red, es, es subí techo, como puedo
+
+27:14.840 --> 27:20.720
+saber si ese, ese está bien o mal, o sea que, que me dio, me díe, me díe, me díe, me díe,
+
+27:20.720 --> 27:27.880
+está bien o mal, ahí está, yo puedo restar y digo bueno, qué tanto se parece en estos dos,
+
+27:27.880 --> 27:32.960
+si esto está cerca de cero, es un valor muy chiquito, entonces yo puedo decir que estas dos cosas
+
+27:32.960 --> 27:39.680
+son iguales, por lo tanto la red me está dando un resultado parecido al que yo esperaba y si
+
+27:39.680 --> 27:45.440
+estos dos son muy diferentes, entonces esto me va a dar un valor bastante alto, entonces yo tengo
+
+27:45.440 --> 27:51.080
+muchos de estos, no, tengo n ejemplos de este estilo, así que lo que voy a hacer es sumar todos
+
+27:51.080 --> 27:59.240
+estos, de igual uno hasta n, sumo todos los valores, tengo un problema que es que a veces yo
+
+27:59.240 --> 28:02.680
+puedo le poder arpor mucho, es el poder arpor poco, pero a veces esto me va a dar
+
+28:02.680 --> 28:06.600
+negativo, esto me va a dar positivo, entonces si yo no sumo todo, capaz que me da cero por
+
+28:06.600 --> 28:11.280
+casualidad, entonces lo que hago es ponerlos al cuadrado, para decir bueno, yo siempre voy a
+
+28:11.280 --> 28:15.880
+sumar a los dispositivos, entonces si mi salida es distinta, el valor esperado siempre esto me
+
+28:15.880 --> 28:21.360
+va a dar un resultado positivo, bien entonces como estoy comparando en ejemplos, esto lo voy a dividir
+
+28:21.360 --> 28:30.040
+entre n, esto de acá me da una metrica condensada que me dice qué tanto se equivocó mi red,
+
+28:30.040 --> 28:34.000
+respecto a los valores, a todo lo que lo esperamos, y de hecho, esta es una de las metricas posibles
+
+28:34.000 --> 28:42.240
+para medir eso, están muy usadas, se llama mc, min squared error, error cuadrático medio, y es una
+
+28:42.240 --> 28:51.080
+de las metricas más conocidas, entonces esto es una metrica que me permite medir la discrepancia
+
+28:51.080 --> 28:57.400
+que hay entre los valores esperados de una red acá era y su y, entre los valores esperados de una red
+
+28:57.400 --> 29:02.520
+y los valores que la red dio con todos los pesos que tienen hasta el momento, recuerden que
+
+29:02.520 --> 29:12.080
+este hizo dice calculaba como el resultado de la red para equisubir y los pesos de la red, entonces,
+
+29:12.080 --> 29:17.360
+este tipo de funciones que miden la diferencia entre los valores esperados y los valores que
+
+29:17.360 --> 29:23.240
+me da la red de verdad, se llaman funciones de perdida, bien, o sea, el nombre de perdida no se
+
+29:23.240 --> 29:28.520
+moviende, donde sale, pero se le suele llamar funciones de perdida, los functions y bueno, son
+
+29:28.520 --> 29:33.120
+de los conceptos que no tienen que aprender cuando aprende de redes sociales, porque para entrenarlas,
+
+29:33.120 --> 29:37.520
+yo lo que tengo que hacer es elegir una de los funciones apropiada para problemas, entonces,
+
+29:37.520 --> 29:41.880
+estas de las más comunes, el arro cuadrático medio, sirve mucho para problemas donde los
+
+29:41.880 --> 29:48.800
+valores resultados son valores reales, no sirve tanto para cuando los valores esperados resultantes,
+
+29:48.800 --> 29:53.600
+son por ejemplo una distribución de probabilidades o una categoría en muchas como ese problema que
+
+29:53.600 --> 30:01.160
+tienen en el laboratorio, para esos utilizan otras, por ejemplo, la entropía cruzada o en particular,
+
+30:01.160 --> 30:06.080
+una versión de entropía cruzada que sirve para decir, yo tengo un solo valor correcto de
+
+30:06.080 --> 30:11.000
+entre muchos que en el laboratorio les pasa a eso, digamos, que tengo un tweet y es positivo,
+
+30:11.000 --> 30:15.280
+o en negativo o en neutrono, no, no puede ser más de una, entonces, para eso se usa la última,
+
+30:15.280 --> 30:21.520
+es una versión de la entropía cruzada para valores categoricos, bien, y existen unas
+
+30:21.520 --> 30:27.400
+contas más digamos, o sea, pero en definitiva siempre tengo que tener funciones de estilo,
+
+30:27.400 --> 30:31.160
+como pasaba con la función de activación, lo que se espera es una función de perdiada, es que
+
+30:31.160 --> 30:37.680
+se ha derribable y en el caso de la función de perdiada, lo que se espera es que cuando la
+
+30:37.680 --> 30:43.360
+salida de la red se parece muchísimo a los valores esperados, tiene que estar cercana a cero o
+
+30:43.360 --> 30:46.800
+tener que ser un valor mínimo y cuando la salida de la red es muy diferente, tiene que ser un
+
+30:46.800 --> 30:58.040
+valor más grande, bien, entonces, porque es que yo quiero que todo esto sea derribable,
+
+30:58.040 --> 31:12.720
+o que les parece, sí, la exacto para minimizar, el hecho de que yo puedo hacer que esto sea derribable,
+
+31:12.720 --> 31:21.760
+digamos que lo que está dentro, o sea, este es y su techo y su b techo, menos y su b, y esto lo
+
+31:21.760 --> 31:31.800
+calcule con esto que está acá, entonces esto es una sobre ne por la sumatoria de una está ene de una
+
+31:31.800 --> 31:45.080
+cosa que tenía la forma sigma de sigma de sigma de x por dobleve a la 1 por dobleve 2,
+
+31:45.080 --> 31:53.280
+no sé qué, menos y subí, al cuadrado, bien, entonces acá dentro se ha tenido una cosa
+
+31:53.280 --> 31:58.720
+que era todo derribable, y acá fuera tengo otra función que también es derribable, tanto
+
+31:58.720 --> 32:03.040
+las funciones de activación como todos los resultados de la red no en el álcool, como
+
+32:03.040 --> 32:07.160
+la función de pérdida, como todas estas cosas, son todas derribables, para que quiero eso porque
+
+32:07.160 --> 32:13.640
+efectivamente voy a derribar, la técnica se utiliza para entrenar estas cosas se basa mucho en
+
+32:13.640 --> 32:20.800
+encontrar adribas, y vamos a dar de ver por qué, bien, entonces, para entrenar una de estas
+
+32:20.800 --> 32:28.640
+red, recordemos que, digamos, para entrenar estas red, recordemos que tengo un conjunto de
+
+32:28.640 --> 32:36.200
+entrenamiento, un punto de desarrollo, un punto de test, y me interesa tratar de minimizar esto,
+
+32:36.200 --> 32:44.640
+o sea, yo tengo que la red se calcula como, dependiendo del valor de entrada y el conjunto de
+
+32:44.640 --> 32:49.800
+pesos que tengo, yo voy a multiplicar ese valor entrada por una matriz y por otra
+
+32:49.800 --> 32:54.480
+con la función de activación, etcétera, hasta obtener un resultado, pero entonces, no
+
+32:54.480 --> 33:01.000
+tal que este valor está en función de la entrada que es quiso y el conjunto de pesos de
+
+33:01.000 --> 33:06.000
+leve, no, acá yo tengo una función que es que está en función de dos cosas, estas son
+
+33:06.000 --> 33:10.520
+las entradas de conjunto de entrenamiento, o del conjunto que estoy mediendo, y estos son los
+
+33:10.520 --> 33:17.320
+pesos que yo le puedo dar acá una de las capas, entonces, una cosa interesante es que yo
+
+33:17.320 --> 33:21.360
+puedo mirar este problema del punto de vista de que estos valores, los dejo fijos, digo,
+
+33:21.360 --> 33:25.320
+mi conjunto de entrenamiento de lo conozco, entonces, los valores están fijos, y yo puedo
+
+33:25.320 --> 33:30.760
+ir cambiando los pesos hasta encontrar el conjunto de pesos ideales que permita que el
+
+33:30.760 --> 33:35.000
+valor de entrenamiento, multiplicado por esos pesos, me den la salía que yo quiero. Entonces,
+
+33:35.000 --> 33:38.040
+ahí, eso se transforma en un problema, como decía, por ahí, un problema de
+
+33:38.040 --> 33:43.920
+administración, un problema de optimización en el cual lo que voy a hacer es tomar
+
+33:43.920 --> 33:50.560
+esto como variable, entonces, yo lo que quiero encontrar es el argument para la familia
+
+33:50.560 --> 33:56.600
+posible de pesos de las distintas matrices de leve de esta función acá, que es uno
+
+33:56.600 --> 34:06.680
+sobreviene por sumatoria en N, de y subitecho menos y subí al cuadrado, bien, y voy a
+
+34:06.680 --> 34:13.800
+encontrar el armin en dobleb, o sea, lo que está acá dentro que es rn de xy dobleb,
+
+34:13.800 --> 34:22.240
+le voy a ir variando estos dobleb hasta que hacen contra el ideal, bien, entonces,
+
+34:22.240 --> 34:28.040
+supongamos que tengo unas funciones, vamos a ver una función bastante simple como
+
+34:28.040 --> 34:33.240
+para ver cómo funciona esto, el entrenamiento de una red se da utilizando una técnica
+
+34:33.320 --> 34:38.560
+llama de senso polgradiente, hay otras técnicas, pero estas por lejos la más utilizada de todas,
+
+34:38.560 --> 34:43.920
+y la técnica de senso polgradiente funciona la siente manera, no, si yo tuviera una función que
+
+34:43.920 --> 34:49.120
+va solamente en una dimensión y quiero minimizarla y arranco con un punto por acá, digo,
+
+34:49.120 --> 34:54.080
+bueno, mi peso inicial me dice que voy a terminar en este lado, entonces, yo puedo calcular
+
+34:55.040 --> 35:02.960
+la derivada en ese lado y decir, bueno, para que lado voy a bajando mi función de costón, o sea,
+
+35:02.960 --> 35:07.600
+suponiendo que esta es la función de pérdida, funciona de costón, puedo decir, para que el lado
+
+35:07.600 --> 35:11.920
+voy bajando mi función de pérdida y dice, bueno, lo voy bajando si bajo por esta dimensión,
+
+35:11.920 --> 35:16.680
+si bajo por esta dirección, entonces, ahí le digo, bueno, baja un poquito por ahí y cae
+
+35:16.680 --> 35:20.920
+culame otro valor que va a estar acá y ahí le vuelto a ver a la derivada y bueno,
+
+35:20.920 --> 35:24.960
+en qué sentido voy bajando y dice, voy bajando si me parallas, entonces, ahí me encuentro
+
+35:24.960 --> 35:28.840
+a tu valor que estén en esa dirección, calculo de vuelta de la derivada y así, o sea, yo puedo
+
+35:28.840 --> 35:35.680
+ir y tirando esta manera hasta llegar a un mínimo, bien, eso de ya más de cento por alguien,
+
+35:35.680 --> 35:40.840
+luego yo tengo, quiero encontrar el mínimo de una función, supongamos que esta es mi función
+
+35:40.840 --> 35:46.920
+de pérdida y empecé teniendo este valor calculo donde está en la dirección en la cual
+
+35:46.920 --> 35:53.920
+le puedo bajar más y voy moviendo me por ahí hasta llegar al punto bajo, esta, esto es
+
+35:53.920 --> 35:58.440
+un caso ideal en el cual yo tengo una sola variable que estoy tratando de encontrar, en el
+
+35:58.440 --> 36:04.640
+caso real, yo estoy minimizando, digamos, minimizando esta función respecto a dolebé, que
+
+36:04.640 --> 36:08.720
+es una cosa que son muchas matrices con muchos pesos, con muchas cosas y podéis llegar a
+
+36:08.720 --> 36:16.280
+hacer miles de millones de pesos, pero vuelta, en un caso ideal si yo estuviera solamente
+
+36:16.280 --> 36:20.360
+minimizando una severidad de esta manera, cuando yo estoy minimizando, misiones de variables
+
+36:20.360 --> 36:24.680
+a la vez, lo que pasa es que esta superficie, lo que tengo acá no va a hacer una curva tan
+
+36:24.680 --> 36:29.800
+linda, sino que va a hacer una superficie rusa que tiene un montón de óptimos locales
+
+36:29.800 --> 36:33.000
+que no me van a servir, pero cuando yo hago este algoritmo lo que va a hacer es caerse un
+
+36:33.000 --> 36:39.160
+óptimo local, imagínense que si esta curva tuviera esta forma, entonces este algoritmo llegaría
+
+36:39.160 --> 36:43.560
+a un óptimo local por acá, pero se perdería el óptimo global que está por acá, bien,
+
+36:43.560 --> 36:47.840
+eso es algo que puede pasar, entonces bueno, no se asusten que cuando uno entre una reneoronal,
+
+36:47.840 --> 36:52.200
+nunca va a estar seguro de que encontré el óptimo posible de toda la red, de todas las
+
+36:52.200 --> 36:57.480
+posibles, sino que bueno, tengo que conformarme con encontrar una bastante buena probando varias veces,
+
+36:57.480 --> 37:07.200
+bueno entonces, decíamos esto sobre entrenamiento, ok, el entrenamiento intentan encontrar
+
+37:07.200 --> 37:12.320
+los pesos que minimizan esta función de pérdida, o sea la combinación de matrices dolebé
+
+37:12.320 --> 37:18.740
+que hace que esta función sea lo menor posible, la técnica que se utiliza es en su pobre
+
+37:18.740 --> 37:23.500
+adiente, pero lo que está convencionando acá, se usa una cosa de llamas de cienso por
+
+37:23.500 --> 37:30.440
+antes esto castico que se trata de agarrar cada punto, se agarró cada punto de entrada y
+
+37:30.440 --> 37:33.720
+trata de hacer el cienso por pobre adiente, considerando solamente ese punto y es pues
+
+37:33.720 --> 37:37.880
+agarró otro punto de entrada y luego varias veces, luego que tiene eso es que es súper lento,
+
+37:37.880 --> 37:41.160
+o sea es como que tiene buena probidad de convergencia, pero súper lento, todo lo que
+
+37:41.240 --> 37:48.920
+hace es hacer de cienso por adiente en lote o en batches que significa bueno, en vez de tomar
+
+37:48.920 --> 37:54.000
+todo el conjunto de entrenamiento que puede tener 100 millones de ejemplos, todo modea 120
+
+37:54.000 --> 37:58.640
+una cosa de cieno, no sé, 200, o el hijo un batch que digo bueno, tomo este conjunto de ejemplos
+
+37:58.640 --> 38:05.280
+y hago de cienso por dentro de ahí, pues tomo otro conjunto de cienso por adiente por ahí y hasta
+
+38:05.480 --> 38:14.040
+llegar a llegar a un óptimo, bien, los siguientes vachos para ello, entonces yo les dije hasta
+
+38:14.040 --> 38:20.400
+ahora que todas las cosas tenían que ser derivables y el hecho es que sean derivables implica que
+
+38:20.400 --> 38:24.200
+lo vamos a derivar en el momento, lo vamos a hacer acá ni una derivada deamos porque en realidad
+
+38:24.200 --> 38:29.880
+los paquetes que se utilizan para trabajar con estas cosas en realidad son paquetes que
+
+38:29.880 --> 38:34.200
+permiten hacer derivaciones automáticas, o sea toda la gracia de construir redes neuronales,
+
+38:34.200 --> 38:38.400
+utilizando ciertas librerías, es que las librerías permiten definir todas estas cosas como
+
+38:38.400 --> 38:42.920
+vectors y después ellos hacen las derivadas automáticamente calculando automáticamente, pero en
+
+38:42.920 --> 38:48.240
+definitiva, la tenia que se usa para que acular, se llama propaedition que implica que cuando yo
+
+38:48.240 --> 38:53.960
+voy calculando, los peces de una red, los valores de una red, yo digo, el momento en
+
+38:53.960 --> 38:58.480
+través de x, lo multiplico por del eb, pues le pasa la función de activación, lo multiplico por
+
+38:58.480 --> 39:02.760
+otrable ver, le pasa la función de activación, a medida que voy calculando eso voy dejando como
+
+39:02.760 --> 39:08.080
+todos los valores sin termedios, esos valores se usan de atrás para adelante, por eso
+
+39:08.080 --> 39:12.280
+se llama propaedition para que acular las derivadas, porque en realidad todos los valores de
+
+39:12.280 --> 39:16.280
+sumas multiplicaciones, etcétera que yo fui llegando en el medio, si utilizan como que se
+
+39:16.280 --> 39:20.160
+precalculan para después que acular la derivada, y el va a curar propaedition es una técnica que
+
+39:20.160 --> 39:26.240
+me ayuda a ser eso rápidamente. Bien, entonces, esta la pregunta que le decía hoy, yo puedo
+
+39:26.240 --> 39:30.120
+encontrar la mejor función posible, puedo encontrar la mejor red neuronal que explique mi
+
+39:30.120 --> 39:35.880
+problema, 100% bien, la verdad es que no, porque en general este proceso se cae en optimos
+
+39:35.880 --> 39:41.160
+locales, y este tipo de funciones que tienen miles de millones de parámetros, lo que pasa que
+
+39:41.160 --> 39:46.840
+tienen muchísimos optimos locales, y bueno, el entrenamiento se va a caer siempre en un
+
+39:46.840 --> 39:52.200
+optimo local, lo que no hace para evitar eso de alguna manera es, por ejemplo, entrenar varias veces,
+
+39:52.200 --> 39:55.680
+una misma red, diciendo bueno, tengo una misma red con los mismos parámetros, el entreno
+
+39:55.680 --> 39:59.960
+muchas veces, y veo cuál, cuál le fue mejor, de todos los entrenamientos, esa es una de las formas,
+
+39:59.960 --> 40:06.120
+y el otro problema de tiene es el sobre ajuste, creo que no lo mencionamos en la clase anterior,
+
+40:06.120 --> 40:12.600
+sobre ajuste significa que las renevernales tienen un problema que lo tienen otro método de
+
+40:12.600 --> 40:17.480
+classificación, pero las renevernales en particular, porque como que son muy versátiles, y es que
+
+40:17.480 --> 40:21.400
+se pueden aprender muy fácil todo el conjunto de entrenamiento, yo puedo entrenar una red que se
+
+40:21.400 --> 40:25.240
+aprenda muy bien en conjunto de entrenamiento y me diga, sí, parece que X le corresponde
+
+40:25.240 --> 40:30.920
+este ahí y anda barbaro y la función de los me da casi cero, y sin embargo, lo prueba el conjunto de
+
+40:30.920 --> 40:36.800
+test y le va horrible, y eso es muy fácil porque como les decía, como la renevernales,
+
+40:36.800 --> 40:40.300
+puede modelar cualquier tipo de función, entonces es muy fácil que se aprendan todo el conjunto de
+
+40:40.300 --> 40:45.480
+entrenamiento y después, para el punto de telebasa, espantoso, esa es ese fenómeno de llamas
+
+40:45.480 --> 40:49.840
+sobre ajuste, entonces bueno, hay como distintas técnicas para tratar de evitarlo y que la red
+
+40:49.840 --> 40:58.640
+no, digamos, no se ajustes a los datos, sino que se va a generalizar más, etcétera, bien, entonces,
+
+40:58.640 --> 40:59.640
+sí, dale.
+
+41:10.640 --> 41:15.400
+Es una pregunta interesante, en realidad hay un conjunto de técnicas que sirven para decir
+
+41:15.400 --> 41:19.840
+si yo puedo entrenar una red con un conjunto de datos más amplio que capaz que no está
+
+41:19.840 --> 41:24.320
+el todo correcto y después una vez que tengo una red de entrenada, la entrena de vuelta
+
+41:24.320 --> 41:28.800
+con un conjunto más chico pero que tiene mejor calidad y eso da mejor resultado que entrenarla
+
+41:28.800 --> 41:33.760
+directamente con un conjunto más chico o con otro tipo de datos, entonces, de ahí hay variantes,
+
+41:33.760 --> 41:36.320
+es decir, si yo tengo una red de una vez que ya conseguí los pesos de la red, lo puedo seguir
+
+41:36.320 --> 41:42.640
+entrenando usando otros conjuntos y eso es valido, sí, o sea, se usa, es una técnica que se usa
+
+41:42.640 --> 41:49.800
+y está buena porque da buenos resultados, igual, en la tarea usted es, no sé, no sé si va a
+
+41:49.800 --> 41:54.040
+la pena hacerlo, pero obviamente, si van a tener una red de una red de una red, lo han con
+
+41:54.040 --> 41:59.080
+los datos que tienen, no creo que sean de salios a muchas cosas más, pero sí, tratar de ver
+
+41:59.080 --> 42:04.840
+un poco lo vamos a ver ahora, que hasta ahora vieron que ya están moviendo número real, no,
+
+42:04.840 --> 42:09.520
+se ha entrado un vector de número reales, salían número reales, vector de números reales, sí,
+
+42:09.520 --> 42:28.040
+vale, sí, se usan a veces, en la práctica, da mejor resultado, probar varias veces y
+
+42:28.040 --> 42:33.240
+ya o hacer una prueba, digamos, tipo grid search, en el cual digo, tengo tantos parámetros y
+
+42:33.240 --> 42:39.120
+probar con todos, o aleatoriamente probar, anas ampliando y tinto parámetros y entrenar, es cierto
+
+42:39.120 --> 42:43.520
+que también se usan métabriticas, evolutivos y algunas otras, para adaptar a utilizar
+
+42:43.520 --> 42:48.600
+la red, pero no sé en la práctica, si es que dan tan buenos resultados o simplemente
+
+42:48.600 --> 42:53.920
+ir probando con distintas combinaciones, dando mejor, o general, en contas buenos resultados,
+
+42:53.920 --> 43:13.600
+sí, sí, sí, tengo la función de arriba, claro, pero el problema es que la función
+
+43:13.600 --> 43:18.360
+de verde ya no va a tener un optimo global, normalmente, no va a tener porque la función de
+
+43:18.360 --> 43:25.920
+verde ya tiene esta cosa en el medio, estoy minimizando una cosa que es algo no el inial y que
+
+43:25.920 --> 43:28.960
+tiene millones de parámetros, y yo puedo ir en la dirección de cualquiera de los millones de
+
+43:28.960 --> 43:33.600
+parámetros, entonces por eso normalmente digamos, eso de generar su superficie, su perroboza
+
+43:33.600 --> 43:38.880
+que tiene un montón de su día, si bajaba por todos lados y justo a mocar la el optimo global
+
+43:38.880 --> 43:47.680
+es muy difícil, entonces nada te garantiza que puedas tener un nuevo global, claro, sí,
+
+43:47.680 --> 43:52.760
+pero acá queremos esplicitamente que la función de activación sea algo que me deje la función
+
+43:52.760 --> 43:59.880
+complicada, si vos, claro, si vos hace que la función de activación sea tan simple, que esto
+
+43:59.880 --> 44:07.440
+queda como la función con bexa, entonces pierde capacidad de generalización la red, por eso
+
+44:07.440 --> 44:11.120
+se dice también que esto es un problema de optimización no con bexa, no en optimización
+
+44:11.120 --> 44:14.920
+con bexa, uno pueda asegurar que siempre tenemos un optimo global y lo podríamos llegar
+
+44:14.920 --> 44:19.680
+a encontrar con alguna técnica, pero esto es optimización no con bexa, la forma de la gráfica
+
+44:19.680 --> 44:26.800
+siempre va a tener su vida si bajaba, se no hay un lado, bien, más preguntas, ¿tacá?
+
+44:26.800 --> 44:33.880
+Entonces pasemos a la parte del lenguaje, bien, decíamos, hasta el momento, teníamos una
+
+44:33.880 --> 44:39.600
+reneoronal que a la cual le entraban valores reales y salían valores reales, pero nosotros
+
+44:39.600 --> 44:43.760
+en realidad nos interesa trabajar con texto, nos interesa trabajar con palabras, oraciones,
+
+44:43.760 --> 44:50.480
+documentos, tweets, en el caso del olíadorio, y el problema es que tenemos una red que
+
+44:50.480 --> 44:53.960
+le entraban valores reales, no es un problema raro, digamos, es un problema que le pasa
+
+44:53.960 --> 44:56.720
+a la mayoría de los métodores de prensa automáticos, si estuvieron mirando algo de
+
+44:56.720 --> 45:01.160
+reacción logística, etcétera, siempre yo tengo que mandarle valores reales a las cosas,
+
+45:01.160 --> 45:05.800
+salvo en una iglesia que más o menos uno puede decir, bueno, trabajo con palabras, como
+
+45:05.800 --> 45:09.680
+en la abstracción, esto trabaja en un nivel de palabras, en el resto siempre está esperando
+
+45:09.680 --> 45:15.080
+que yo le mande valores numéricos, entonces, yo necesito poder tener una buena representación
+
+45:15.080 --> 45:22.440
+numérica de los textos, y de paso voy a pedir una propiedad más que es que esa representación
+
+45:22.440 --> 45:27.480
+numérica tenga algunas propiedades interesantes, como por ejemplo, una metrica distancia que
+
+45:27.480 --> 45:31.880
+haga que las palabras más cercan, las palabras más similares, y básicamente este
+
+45:31.880 --> 45:38.040
+más cerca, y la más diferente de este más lejos, por ejemplo, puedo pedir eso en una
+
+45:38.120 --> 45:44.240
+representación, entonces, vamos a ver una técnica de llamar Warden Medings, o
+
+45:44.240 --> 45:48.640
+vectores de palabras que su utiliza para representar las palabras y después de lo
+
+45:48.640 --> 45:53.520
+pudilizar como entrada una red, y la técnica se basa en la hipótesis distribucional
+
+45:53.520 --> 46:00.320
+que son de hipótesis que surgió en los 50 con, con este firf que era un lista lógico, etcétera,
+
+46:00.320 --> 46:05.440
+y decían lo siguiente, bueno, las palabras que aparecen en contextos similares tenden a tener
+
+46:05.440 --> 46:11.360
+significados similares, y acá tenemos un ejemplo que dice que este ejemplo tiene como algunas
+
+46:11.360 --> 46:15.480
+palabras y algunas ideas de contexto, la milanesa, aunque eso más rica, el Uruguaya,
+
+46:15.480 --> 46:20.240
+sí es rica, la muruesa con queso, la milanesa, aunque eso musalelas le decimos una
+
+46:20.240 --> 46:25.000
+politana, no sé qué, está, eso como que está hablando de milanesa, muruesa comida, y después
+
+46:25.000 --> 46:28.760
+el otro dice, los doños, una de las distaciones del año, el verano de mis estaciones favoritas,
+
+46:28.760 --> 46:32.440
+el invierno, en invierno se pide de frío, en verano nunca se frío y está hablando
+
+46:32.440 --> 46:37.400
+como de otra cosa, claramente las palabras rojas se parecen más entre sí, las palabras
+
+46:37.400 --> 46:41.200
+azules, se parecen más entre sí, entonces, idealmente yo querría tener una representación
+
+46:41.200 --> 46:47.360
+que a las rojas, las dejemos o menos cerca y a las azules violetas, las dejemos o menos
+
+46:47.360 --> 46:55.760
+en otro lado, bueno, una primera idea que surgía es lo que se conoce como matriz
+
+46:55.760 --> 47:04.320
+terminó, termino, que se realiza contando palabras, contando cuándo una palabra parecen,
+
+47:04.320 --> 47:07.160
+¿cuánta vez aparece una palabra en el contexto de otra?
+
+47:07.160 --> 47:12.300
+Entonces, por ejemplo, en este caso yo digo, yo tomo alrededor de una palabra en
+
+47:12.300 --> 47:17.040
+palabras de contexto alrededor y cuento, ¿cuánta vez aparece otra en ese contexto?
+
+47:17.040 --> 47:22.080
+Entonces, como es ejemplo, tenemos, bueno, estos son los ejemplos anteriores, no, la milanesa
+
+47:22.080 --> 47:27.640
+con queso más rica, la hamburguesa no sé qué, el otóño, tal cosa y pregunta, ¿cómo
+
+47:27.640 --> 47:31.960
+quedaría la matriz utilizando un contexto de cuatro palabras?
+
+47:31.960 --> 47:39.640
+Y acá no sé si lo llevan a ver todos, pero me aparece que, por ejemplo, la palabra milanesa
+
+47:39.640 --> 47:44.280
+tiene las palabras ricas y queso en su contexto, la palabra hamburguesa también, pero
+
+47:44.280 --> 47:49.400
+la palabra otóño, no, la palabra otóño tiene en su contexto, bueno, acá justo, como
+
+47:49.400 --> 47:53.680
+esto tomando en igual a cuatro no pasa, pero las palabras verán o invierno tienen en su contexto,
+
+47:53.680 --> 48:02.160
+la palabra frío y no tienen ni rica ni queso, entonces eso es con en igual a cuatro, ¿no?
+
+48:02.160 --> 48:06.480
+contando cuatro palabras alrededor, si yo considerará en igual sin go, entonces ahí sí,
+
+48:06.480 --> 48:14.240
+aparecería, otóño tiene la palabra estaciones en su contexto y verá no también tiene
+
+48:14.240 --> 48:19.000
+detaciones en su contexto, entonces es como que me van quedando zonas de la matriz que están
+
+48:19.000 --> 48:24.360
+como más acopladas entre sí, no, como que tienen mayor nivel de proximida y otras zonas que
+
+48:24.360 --> 48:31.600
+no, entonces ahí ya tendría como una especie de primera aproximación a lo que sería
+
+48:31.600 --> 48:35.280
+mi doctor de palabras, que es decir, bueno, yo puedo representar cada palabra con una fila de
+
+48:35.280 --> 48:39.080
+esta matriz y esa fila de la matriz va a tener ciertas propiedades cosa de que palabras
+
+48:39.160 --> 48:45.040
+que están cerca, se manticamente similares van a estar cerca en esas filas, un problema
+
+48:45.040 --> 48:48.680
+que tiene esta representación que dice abajo es que son sectores muy grandes, yo tengo
+
+48:48.680 --> 48:53.840
+sectores de tamaño básicamente el tamaño del vocabulario, si yo tengo consigueros 10.000
+
+48:53.840 --> 48:59.040
+para el vocabulario, o tener sectores de tamaño 10.000, donde la mayoría de los números van a ser
+
+48:59.040 --> 49:03.440
+cero y algunos van a ser valores distintos de cero, entonces me va a pasar que los sectores
+
+49:03.440 --> 49:11.760
+son dispersos o sparse, bien, entonces, ahí como refinaciones está técnico que se utiliza
+
+49:11.760 --> 49:17.560
+bastante, o sea, está técnica de construir matriz y hasta el menos término, se puede usar como
+
+49:17.560 --> 49:21.920
+va a ser para calcular ciertos tipos del problema de palabra, el algoritmo globo, se va a
+
+49:21.920 --> 49:28.480
+hacer en comentarios comenzar en esta matriz, los algoritmos de PCR, principal componentanálisis
+
+49:28.480 --> 49:32.840
+se puede usar para reducir la dimensionalidad de esta matriz, en talidad este tipo de matriz
+
+49:32.840 --> 49:39.200
+es tiene sus usos, pero la que vamos a ver es una técnica un poco posterior a las matriz
+
+49:39.200 --> 49:45.760
+está el menos término que digamos que está como en el inicio de lo que fue la la revolución
+
+49:45.760 --> 49:50.960
+que se han dado en pelea en los últimos años, este es un trabajo de 2013, un trabajo
+
+49:50.960 --> 49:57.040
+de un investigador de San Francisco Log, un que propuso en 2013, una técnica que en realidad
+
+49:57.040 --> 50:01.800
+son dos algoritmos distintos, que se llama hortubec, o sea, el algoritmo para ir de palabras
+
+50:01.800 --> 50:08.600
+a los aspectores, y que su idea era construir vectores de enzos, o sea, a vectores que tuviera
+
+50:08.600 --> 50:13.200
+una dimensión, mucho más chica del vocabulario, un vector de tamaño 10.000, un vector de tamaño
+
+50:13.200 --> 50:19.600
+100 o 150 o 300, y por el hecho de comprimir todo el vocabulario en esos vectores más
+
+50:19.600 --> 50:25.420
+densos, entonces ganó esas propiedades de que palabras más cercanas son simáticamente
+
+50:25.420 --> 50:30.040
+similares, entonces bueno obviamente no lo van solo por comprimir sino por cómo se
+
+50:30.040 --> 50:38.700
+entra en esto, entonces la idea de los algoritmos de hortubec es decir bueno en vez de contar
+
+50:38.700 --> 50:41.900
+como la matriz de término terminó las palabras, dentro de un contexto yo lo voy a ver
+
+50:41.900 --> 50:47.580
+con un problema de clasificación, un problema de provabilístico en el cual voy a predecir
+
+50:47.580 --> 50:54.620
+qué tan probable es que la palabra C aparezca el en contexto de la palabra WB, voy a tener una
+
+50:54.620 --> 51:00.320
+producción, la producción de que es cierto que aparece la palabra WB en el contexto
+
+51:00.320 --> 51:05.720
+de la palabra C, en el contexto de la palabra WB, eso sería P de más WB, pero a su vez
+
+51:05.720 --> 51:09.520
+tengo que tener una producción negativa, o sea yo tengo que saber cuáles son los ejemplos
+
+51:09.520 --> 51:15.660
+positivos y cuáles son los ejemplos negativos, entonces lo que se hace para esto decir bueno
+
+51:15.660 --> 51:21.680
+yo tengo un gran corbus, una gran colección de palabras y yo puedo medir, puedo llegar a medir
+
+51:21.680 --> 51:27.240
+cuáles son los contextos donde aparece la palabra C en el contexto de la palabra WB, pero
+
+51:27.240 --> 51:32.040
+además puedo llegar a medir los casos en los cuales no pasa, o sea yo puedo soltearte
+
+51:32.040 --> 51:36.200
+a la palabra celebratorias, y decir bueno una palabra aleatoria no siempre está en el contexto
+
+51:36.200 --> 51:41.480
+de una palabra WB, entonces con eso me invento ejemplos negativos, tengo ejemplos positivos que
+
+51:41.480 --> 51:47.560
+son la palabra queso, aparece en el contexto de la palabra muruesa, ejemplos negativos son
+
+51:47.640 --> 51:53.480
+de una palabra cualquiera, y salió yo que se árbol, bueno la palabra Árbol no aparece en el contexto
+
+51:53.480 --> 52:02.160
+de la palabra muruesa, bien, entonces el algoritmoschip, gran que es uno de los algoritmos de
+
+52:02.160 --> 52:09.680
+WB más utilizados, utiliza este ese principio y lo ve como una red neuronal, intenta
+
+52:09.680 --> 52:14.400
+modelar esto como una red neuronal, en la cual yo tengo una capa de entrada y la capa de
+
+52:14.400 --> 52:18.800
+entrada va a ser una representación Juanjote, esto lo mencionamos la de pasar, la representación
+
+52:18.800 --> 52:25.640
+Juanjote y es así, no, en la representación Juanjote, yo voy a tener un vector para la palabra queso
+
+52:25.640 --> 52:35.800
+y un vector para la palabra hamburguesa, donde voy a tener una columna para cáunas
+
+52:35.800 --> 52:44.360
+las palabras posibles, entonces voy a tener la capa de arbol y acá va a estar
+
+52:44.360 --> 52:51.080
+que son agulado y acá va a estar hamburguesa en otro lado y acá va a armas cosas, y entonces
+
+52:51.080 --> 52:56.920
+la representación de la palabra queso es cero en todos lados y un uno acá y cero en todo
+
+52:56.920 --> 53:02.960
+resto, la palabra muruesa es cero en todos lados, cero acá y un uno en hamburguesa y cero
+
+53:02.960 --> 53:08.400
+en todo resto, eso es la representación Juanjote, entonces esta red neuronal en realidad
+
+53:08.400 --> 53:13.760
+digamos, es una red neuronal que intenta predecir este problema pero a elístico toma como
+
+53:13.760 --> 53:19.280
+entrada ese vector de cero cibunos, ese vector Juanjote donde la entrada es todo el vocabulario
+
+53:19.280 --> 53:25.600
+posible, tiene una capa oculta en el medio, es una red que tiene una sola capa oculta y como
+
+53:25.600 --> 53:31.480
+salida tiene una distribución de probabilidades de todas las palabras en contexto, entonces
+
+53:31.480 --> 53:39.000
+la entrada es supongamos que esto tiene tamaño 10 mil, no, tengo 10 mil palabras posibles y
+
+53:39.000 --> 53:47.400
+espín palabras en el vocabulario, entonces la entrada de la red va a ser una cosa de tamaño
+
+53:47.400 --> 54:00.680
+10 mil, entrada tiene tamaño 10 mil y la salida va a tener c por 10 mil, c es cuánta
+
+54:00.680 --> 54:04.920
+que para la verdad es el contexto estoy contando, o sea si yo estoy contando, no sé, 10 palabras
+
+54:04.920 --> 54:10.400
+al rededor de la que estoy mirando, entonces va a ser una salida hace por 10 mil, esto se
+
+54:10.400 --> 54:15.640
+por 10 mil representan, cuál es la probabilidad de que una palabra cualquiera por ejemplo
+
+54:15.640 --> 54:22.080
+hamburguesa esté en un contexto de tres palabras para atrás de la palabra queso, cuál es la
+
+54:22.080 --> 54:25.080
+probabilidad que la palabra perro esté en un contexto de dos palabras para adelante y la
+
+54:25.080 --> 54:34.800
+palabra queso y así eso es las se por 10 mil salías y en el medio tiene una capa que ahí
+
+54:34.800 --> 54:47.960
+se enedim la capa oculta que tiene tamaño 10 mil por dime y dime es la dimensión de los
+
+54:47.960 --> 54:52.160
+sectores que eso es lo que le decía que podía ser dimensión 100 o dimensión 300 o
+
+54:52.160 --> 54:59.080
+dimensión 150, es un número mucho más chico que vocabulario, entonces pensemoslo como
+
+54:59.080 --> 55:05.880
+esto la tano mientras es un vector o anjote que tiene uno y un montón de seros y después
+
+55:05.880 --> 55:11.320
+lo paso por una matriz de pesos que tiene este tamaño 10 mil por por ejemplo 300, 10 mil
+
+55:11.320 --> 55:18.040
+por 300, entonces al multiplicar eso por mi vector acá esto me devuelve una sola fila de
+
+55:18.040 --> 55:22.080
+esa matriz que tiene dimensión 300 y eso se lo voy a pasar a la función de activación,
+
+55:25.080 --> 55:30.680
+a su vez eso tiene como una especie de segunda capa en la cual aparece en más pesos para
+
+55:30.680 --> 55:35.080
+poder calcular estas alidas pero en realidad al método después de que se entra en la columna
+
+55:35.080 --> 55:39.720
+un montón de valores positivos, un montón de valores negativos dice bueno que eso aparece en
+
+55:39.720 --> 55:44.120
+contexto de amor y esa pero perro no parece en el contexto de amor y esa etcétera tengo un montón de
+
+55:44.120 --> 55:50.480
+valores de este estilo, cuando termina entrenar y se bueno llegue al mejor cárculo de probabilidades
+
+55:50.480 --> 55:54.960
+en realidad yo tiro todo el resto de las capas y me quedo solamente con esta acá con la capa
+
+55:54.960 --> 56:01.280
+oculta, la capa oculta es una tabla que me dice para cada una de las palabras hay 300
+
+56:01.280 --> 56:06.520
+valores reales que lo representan, entonces me dice bueno para la palabra que eso esto
+
+56:06.520 --> 56:11.240
+es 300 valores vamos a hacer menos uno, 3 con 4 o 8 con 6 y no se quede tanto así 300 valores
+
+56:11.480 --> 56:16.400
+y para la palabra la moreza, menos 2, 3 con 1 etcétera, o sea voy a tener un montón de valores
+
+56:16.400 --> 56:22.120
+reales que lo representan, que representan esos números no lo sé y nadie lo sabe pero sabemos que
+
+56:22.120 --> 56:27.960
+ahí están codificadas la información importante para poder después trabajar con esos números,
+
+56:27.960 --> 56:36.080
+con esas palabras, bien, a eso se le llama Urdembeddings esta capa oculta que está acá en esta
+
+56:36.080 --> 56:45.000
+técnica de Urdembeddings, a la capa oculta que entrenan después de esto, bien, preguntas,
+
+56:45.000 --> 57:01.280
+está acá, sí, es por el producto, porque la matriz dole beso, la matriz de 10 mil por dimensiones y mi
+
+57:01.280 --> 57:05.440
+doctor Juan Jot, es un vector que tiene tamaño de 10 mil pero hay un solo uno, son todos
+
+57:05.440 --> 57:11.880
+zeros y uno, entonces a la C-block tome queda exclusivamente la fila que representa la
+
+57:11.880 --> 57:24.520
+palabra que eso, bien entonces, con esto se le obra con, con esa técnica Urdembeddings,
+
+57:24.720 --> 57:35.080
+no, el resultado de la copa oculta, se lo pasas en esta técnica por lo menos, le pasas,
+
+57:35.080 --> 57:39.520
+a la copa oculta a otros pesos que van a ir a la salida y esos pesos son lo que calculan
+
+57:39.520 --> 57:44.800
+la probabilidad de salida pero en realidad después estos pesos que aparecen después no me importa,
+
+57:44.800 --> 57:49.080
+o sea después de que yo termino entrenar todo, la única capa con la que voy a quedar con
+
+57:49.080 --> 57:53.720
+la del medio que es la que me interesaba entrenar, el resto es como una especie de escusa que se
+
+57:53.720 --> 58:01.840
+usa para la estataria para poder encontrar la capa del medio, la salida tiene C por 10 mil que
+
+58:01.840 --> 58:07.160
+significa yo estoy prediciendo cuál es la probabilidad en todas las C palabras de contexto de capa
+
+58:07.240 --> 58:17.360
+parece alguna palabra, bien entonces le hicimos, logramos nuestro objetivo que era decir que
+
+58:17.360 --> 58:24.080
+hago que puedo asociar a una palabra a un string un vector de valores reales, no, entonces tengo
+
+58:24.080 --> 58:30.160
+la palabra perro y me va a dar un vector de valores reales, la palabra comer y me va a
+
+58:30.160 --> 58:37.360
+dar otro vector de valores reales, etcétera, además se cumple que los vectores cuanto más cercanos
+
+58:37.360 --> 58:42.160
+están en ese espacio de dimension 300, entonces significa las palabras son más similares en algún
+
+58:42.160 --> 58:49.160
+sentido, o si están más lejanos, entonces son más decímiles, puedo utilizar, por ejemplo,
+
+58:49.160 --> 58:52.660
+la similidad, similaridad coseno, para eso si yo cariculen el coseno del ángulo del
+
+58:52.660 --> 58:56.440
+doctor de doctor es eso es una buena medida para saber qué tan parecidos son o incluso
+
+58:56.480 --> 59:00.240
+usa la distancia utilidad también para calcular eso, pero la similaridad coseno es la que
+
+59:00.240 --> 59:06.600
+más se usa y además de que tiene esa propiedad de que las palabras más cercanas son
+
+59:06.600 --> 59:13.840
+más parecidas, ya alguna manera estas técnicas descubren cosas interesantes que uno no
+
+59:13.840 --> 59:18.760
+es la centreno para que las descubran digamos sino que aparecen como de japa y aparecen cosas
+
+59:18.760 --> 59:22.280
+como que por ejemplo yo puedo hacer operaciones entre los sectores, entonces si yo tengo el
+
+59:22.280 --> 59:26.120
+lector de rey y le resto el lector de hombre y le sumo el lector de mujer me queda el
+
+59:26.120 --> 59:30.680
+lector de rey y eso es una propiedad que aparece después de que yo entre los sectores
+
+59:30.680 --> 59:39.080
+suele ser a la idea de estas colecciones del lector es que haga el lector de mujer le resto de
+
+59:39.080 --> 59:43.000
+hombre y le sumo rey y me queda rey, o haga el lector de uruguay, le arrega un
+
+59:43.000 --> 59:48.240
+TV, le sumo Francia me da paris, entonces ahí en un caso estoy haciendo una transformación
+
+59:48.240 --> 59:53.240
+en un poco morphológica decir bueno este hombre es a mujer como rey esa reina y
+
+59:53.240 --> 59:56.680
+no estoy haciendo una transformación más semántica como decir en la capital de uruguay
+
+59:56.680 --> 01:00:01.160
+en un TV, la capital de Francia París y a alguna forma yo nunca le dije al sistema que
+
+01:00:01.160 --> 01:00:05.680
+tiene que aprender eso pero por la forma que aquí han creado los sectores suelen tener
+
+01:00:05.680 --> 01:00:11.520
+propiedad de este estilo, bien eso fue como lo primero sorprendente que encontraba una
+
+01:00:11.520 --> 01:00:17.120
+cerca de estos metos que se pueden como que derregó de aprender esas cosas pero no están
+
+01:00:17.120 --> 01:00:21.640
+acceptos de problemas, como por ejemplo si yo tengo una palabra la palabra vela voy a tener
+
+01:00:21.640 --> 01:00:25.480
+un solo vector que representa la palabra vela y vela es una palabra que es a mí bueno
+
+01:00:25.480 --> 01:00:32.680
+o sea es policémica yo puedo tener una vela para aprender una vela de la velita de
+
+01:00:32.680 --> 01:00:37.320
+cumplea años o sea una pagón o puedo tener un barco a vela y bueno en los dos casos tengo
+
+01:00:37.320 --> 01:00:41.360
+la misma representación o el gato hidráulico y el gato animal también tengo la misma
+
+01:00:41.360 --> 01:00:46.520
+representación el banco de sentarse y el banco de financiero también con la misma representación
+
+01:00:46.520 --> 01:00:50.880
+etcétera entonces eso es un problema y bien estos estas técnicas y es que yo no tengo
+
+01:00:50.880 --> 01:00:55.840
+digamos no estoy usando por ejemplo guarnet que vienen guarnet a su una acción es clase no
+
+01:00:55.840 --> 01:01:00.840
+no tengo un repositorio significado de guarnet que me ayudé a decir cuáles cual sino que acá
+
+01:01:00.840 --> 01:01:08.840
+solamente tengo un representante para cada palabra bien y bueno esta técnica tiene ese
+
+01:01:08.840 --> 01:01:12.200
+problema después hay otras técnicas me permiten crear vectores contextuales que
+
+01:01:12.400 --> 01:01:19.200
+bueno es la palabra gato en esta oración donde probablemente sea un gato animal y no un gato hidráulico
+
+01:01:19.200 --> 01:01:27.720
+cosas así bien entonces una vez que construimos esta colección de vectores como los
+
+01:01:27.720 --> 01:01:32.840
+evaluamos cómo sabemos si están bien bueno hay como dos formas de evaluarlos bastante comunes
+
+01:01:32.840 --> 01:01:38.720
+se habla de test intrínsecos y test en extrínsecos que significan cosas distintas intrínsecos
+
+01:01:38.720 --> 01:01:45.400
+significa yo mido propiedad es del conjunto de vectores que construí entonces una de las que se
+
+01:01:45.400 --> 01:01:51.640
+mide en es exactamente lo que decía no recién medíamos que aparece una propia que es que yo
+
+01:01:51.640 --> 01:01:57.280
+puedo hacer dibujar como una especie para el logramos en el cual digo que hombres a mujer como
+
+01:01:57.280 --> 01:02:03.520
+rey esa y espero que en mi colección de vectores haya quedado reina digamos como resultado
+
+01:02:03.520 --> 01:02:08.800
+de la operación o uruguay esa montevideo como Francia y espero que haya quedado paris en
+
+01:02:08.800 --> 01:02:15.440
+ese lugar entonces bueno una forma de evaluar estos estos sistemas es construir una colección grande
+
+01:02:15.440 --> 01:02:21.680
+de estos test se llaman test de analogías entonces me puedo hacer una colección de grandes
+
+01:02:21.680 --> 01:02:25.680
+estos test y ver a cuántos le moca mi colección entonces tengo varias colecciones en
+
+01:02:25.680 --> 01:02:31.440
+ve distinta veo que este le invoco más veces y de lo invoco menos veces otros son los
+
+01:02:31.440 --> 01:02:38.200
+tests de similitud o similiaridad que estos se hacen con intervención humana un poco más fuerte que
+
+01:02:38.200 --> 01:02:43.700
+es preguntarlo un montón de personas por ejemplo que es más parecido a Honduras no una silla o una
+
+01:02:43.700 --> 01:02:50.240
+mesa o una manzana o una bestruso o cosas de estilo entonces dale dice en la gente trata de arranquear
+
+01:02:50.240 --> 01:02:54.440
+esta cuatro cinco palabras de cuál es más parecida menos parecida entonces le preguntaron
+
+01:02:54.440 --> 01:02:58.760
+un montón de personas las personas hacen sus listas y después miras dentro de tu colección de
+
+01:02:58.760 --> 01:03:03.820
+vectores si las distancias regrativas entre esas palabras son similares o no a la que esperaban los humanos
+
+01:03:03.820 --> 01:03:08.740
+entonces cuanto más similares se hacen el test de espirman para eso el test de correlación de
+
+01:03:08.740 --> 01:03:14.060
+espirman se puede sacar una medida de qué tanto se parece a la intuición humana lo que el sistema
+
+01:03:14.060 --> 01:03:19.480
+dice eso es la montés intrínsecos pues yo estoy abarrando en la colección de vectores que construí y
+
+01:03:19.480 --> 01:03:27.040
+la estoy testiando sola los testes extrínsecos se refieren a agarro mi colección de vectores y
+
+01:03:27.040 --> 01:03:31.320
+la meto en una tarea de peleen en un poco más grande y veo que tal le va
+
+01:03:31.320 --> 01:03:37.360
+entonces acá significa bueno yo supongo que tengo un sistema de peleen que hace traducción
+
+01:03:37.360 --> 01:03:42.560
+automática o analisis de sentimiento o recuperación de información o un chat bot o lo que sea
+
+01:03:43.560 --> 01:03:48.640
+si yo tengo un sistema que ya funciona y le cambio su capa de medings su colección de
+
+01:03:48.640 --> 01:03:52.600
+vectores por la mía que yo entrené y el sistema mejora en superformas entonces digo que
+
+01:03:52.600 --> 01:03:57.680
+puedo decir que mi colección de vectores mejoro la performance esto es puedo decir que la colección
+
+01:03:57.680 --> 01:04:02.680
+de vectores buena eso de llamas test extrínsecos se ha no estoy probando directamente las propiedades
+
+01:04:02.680 --> 01:04:06.120
+de los en vectores y no que estoy probando cómo se comportan en un sistema más grande
+
+01:04:10.760 --> 01:04:15.920
+bien entonces otra forma de evaluar esto más bien no creo que lleguen a ver nada porque
+
+01:04:15.920 --> 01:04:20.760
+está muy chiquito pero bueno vamos a mencionarlo es visualizar los en vectores recuerden que esto
+
+01:04:20.760 --> 01:04:26.800
+tenía de dimensión 100, 350 que era una dimensión mucho más chica que el vocabulario
+
+01:04:28.000 --> 01:04:31.400
+pero igual es una dimensión muy grande o sea los humanos podemos visualizar dos 3
+
+01:04:31.400 --> 01:04:35.400
+dimensiones a los humos más de eso ya nos mariamos y estos son vectores de 300
+
+01:04:35.400 --> 01:04:39.840
+dimensiones pero una forma de visualizar los es usar las técnicas de reducciones
+
+01:04:39.840 --> 01:04:46.480
+dimensionalidad por ejemplo PCR y TSNS son de las más comunes son técnicas que me permiten
+
+01:04:46.480 --> 01:04:50.440
+agarrar 300 dimensiones y bajar las 2 para poder dibujarlo en un plano entonces acá no
+
+01:04:50.520 --> 01:04:54.600
+llegan a ver, estos son dos trabajos que hicimos en el grupo para distintos colecciones
+
+01:04:54.600 --> 01:04:58.840
+de en veintis en distintos idiomas voy a arreglar esto así sí queda
+
+01:04:59.840 --> 01:05:04.360
+bien entonces en este tenemos un trabajo hecho para el español son vectores de
+
+01:05:04.360 --> 01:05:08.680
+palabras en español y tal y no van a llegar a verlo lo que están acá porque se
+
+01:05:08.680 --> 01:05:13.520
+es muy chiquito pero por ejemplo acá aparece un claster de años que están todos juntos
+
+01:05:14.520 --> 01:05:18.760
+acá aparecen nombres de personas que están todos juntos abajo aparece en lugares pero
+
+01:05:18.840 --> 01:05:23.960
+Uruguay, Bolivia que aparecen como clasterizados todos juntos entonces es una espera que una
+
+01:05:23.960 --> 01:05:28.480
+colección de vectores que haya quedado bien entrenada aparecen como clasters con cosas que
+
+01:05:28.480 --> 01:05:33.080
+son semanficamente similares y el trabajo de la derecha es un trabajo similares pero que está
+
+01:05:33.080 --> 01:05:37.320
+yo para igual a ni y bueno ya que se ve también más claro que aparecen cosas como
+
+01:05:37.320 --> 01:05:44.040
+relacionadas con fechas están enero las relacionadas con colores están en encian las
+
+01:05:44.040 --> 01:05:53.600
+relacionadas con no se bien que hay a animales están en verde etcétera países están en azul
+
+01:05:53.600 --> 01:05:58.040
+etcétera como que no puede estar en esas regiones obviamente esto no es perfecto en
+
+01:05:58.040 --> 01:06:02.800
+a que algunas cosas por fuera etcétera pero si uno logra ver que más o menos se
+
+01:06:02.800 --> 01:06:06.880
+clasterizan entonces tiene como cierta cidadan tuición de que andan mejor y
+
+01:06:06.880 --> 01:06:17.920
+sus efectores bien preguntas entonces los górden veings fueron en definitiva una de las
+
+01:06:17.920 --> 01:06:23.280
+primeras revoluciones que ocurrieron los últimos años lo cual es peleene y posible que después
+
+01:06:23.280 --> 01:06:29.120
+siempre empezaron a utilizar arquitecturas arredas más complejas o sea gracias a que tenemos en
+
+01:06:29.120 --> 01:06:33.640
+medings y decimos puedo representar una palabra como un vector de 300 dimensiones ese vector de
+
+01:06:33.640 --> 01:06:37.560
+300 dimensiones que son numeros reales se lo puedo enchufar como entrada a una red neuronal y
+
+01:06:37.560 --> 01:06:43.720
+puedo obtener cosas más complicadas a mí me interesaba de hace un rato dijimos tener
+
+01:06:43.720 --> 01:06:50.560
+representaciones de palabras pero además de oraciones o de tweets o de documentos enteros y bueno
+
+01:06:50.560 --> 01:06:53.600
+por lo menos yo tengo representación de palabras no usando bora en medings como que eso
+
+01:06:53.600 --> 01:07:00.080
+está bastante bien resuelto y gracias a que ahora tengo bora en medings puede usar arquitecturas
+
+01:07:00.080 --> 01:07:04.480
+más complejas como las redes como lusionales las redes LCDM y las redes tipo transformers
+
+01:07:04.480 --> 01:07:09.520
+que los transformers son lo que más utiliza bien día pero además puedo hacer una cosa en
+
+01:07:09.520 --> 01:07:15.760
+los embedings algo un poco más simple pero que a su vez me sirve para resolver estos problemas
+
+01:07:15.760 --> 01:07:21.560
+y es usar la técnica de Centroide que es así está les va a servir en la tarea salvo y
+
+01:07:21.560 --> 01:07:25.920
+quieren entrenar una red más compleja que también son bienvenidos y quieren entrenar una LCDM
+
+01:07:25.920 --> 01:07:31.040
+en un transformer pero el Centroide es una técnica es muy sencilla supongo que yo tengo
+
+01:07:31.040 --> 01:07:36.040
+mi capa de embedings que tiene bueno dice que eso se lo presenta así a hamburguesa de representación
+
+01:07:36.040 --> 01:07:44.440
+pero es así el gato es así etcétera tengo vectors para cada palabra y tengo ahora un tweet que
+
+01:07:44.440 --> 01:07:49.120
+quiere representar utilizando la colección de embedings yo simplemente puedo agarrar todas las
+
+01:07:49.120 --> 01:07:53.600
+palabras del tweet buscar todos los vectors correspondientes y hacer el promedio a eso de
+
+01:07:53.600 --> 01:07:59.520
+llamar a ser un Centroide de todos los embedings del tweet y no dice esta apreciado el promedio
+
+01:07:59.520 --> 01:08:07.040
+de perro o gato no se al tweet dice no me gustó la película se va el promedio no me gustó la película
+
+01:08:07.040 --> 01:08:11.680
+de un promedio todo el embeding me dear papapafrita pero sin embargo funcionos bastante bien es
+
+01:08:11.680 --> 01:08:17.240
+es como un poco antintuitivo pero hacer el promedio todas esas 300 dimensiones de las distintas
+
+01:08:17.240 --> 01:08:22.760
+palabras después yo utilizó eso como entrada para otro otro sistema de clasificación no sólo
+
+01:08:22.840 --> 01:08:26.840
+arrenornal sino que hay que utilizar otro otro tipo de cosas como su proyecto no haciens o
+
+01:08:26.840 --> 01:08:32.880
+relación logística y anda bastante bien o sea es como extraño pero sobre todo el problema de análisis
+
+01:08:32.880 --> 01:08:38.800
+sentimiento anda bastante bien bueno esa la técnica del Centroide es una técnica fácil decir si yo tengo
+
+01:08:38.800 --> 01:08:44.880
+una colección de embedings puedo hacerme embedings de oraciones o embedings de textos un poco más grandes
+
+01:08:44.880 --> 01:08:52.600
+simplemente promediendo los embedings que tengo bien entonces ahora lo que vamos a ver en el
+
+01:08:52.600 --> 01:08:59.320
+resto de la clase en unos minutos son ejemplos de cómo funcionan estas arquitecturas más complejas que
+
+01:08:59.320 --> 01:09:03.640
+puedo utilizar gracias a que tengo embedings no les vamos a ver en profundidad sino que simplemente
+
+01:09:03.640 --> 01:09:10.080
+vamos a pasar por arriba pero es una idea para ver qué clase de cosas se pueden hacer y empezamos por las
+
+01:09:10.080 --> 01:09:18.080
+como lutivas las redes tipos en N se llaman redes como lutivas o como lusionales y originalmente se utilizaban
+
+01:09:18.080 --> 01:09:24.120
+como para procesar imágenes o sea también se utilizan estoy en día para procesar imágenes y lo que hacen es
+
+01:09:25.120 --> 01:09:31.120
+ir recorriendo como que segmenta una imagen en cuadraditos y lo van recorriendo digamos y después obtienen como
+
+01:09:31.120 --> 01:09:38.440
+información de cada uno de los cuadraditos bueno pero también se han aplicado al lenguaje y la forma que se
+
+01:09:38.440 --> 01:09:44.040
+aplican lenguaje es como decir batomando de enegramas y va viendo yo que es por ejemplo tres palabras a la vez y va
+
+01:09:44.040 --> 01:09:51.400
+obteniendo datos de cada una de las tres palabras a la vez y después con eso después saca un total entonces lo
+
+01:09:51.400 --> 01:09:57.880
+interesante es que digamos puedo pasar a tener cosas de orden más grande que una palabra no o sea ahora en
+
+01:09:57.880 --> 01:10:04.480
+bebrosa una sola palabra estoy produzando toda una oración entonces tienes una pregunta bien entonces un ejemplo
+
+01:10:04.480 --> 01:10:09.480
+como funciona esto supongamos que estoy tratando de clasificar Twitch y digo la película fue muy
+
+01:10:09.480 --> 01:10:17.320
+aburrida yo me puedo construir una red neuronal de tipo convolutiva que lo que va a ser es decir bueno a los
+
+01:10:17.320 --> 01:10:23.560
+en beings de la de a tres palabras los voy tomando de tres palabras considero los en beings de la película fue y a
+
+01:10:23.560 --> 01:10:29.280
+esos tres en beings se los paso a una red a esa esa unidad convolutiva que lo que va a ser es mirar
+
+01:10:29.280 --> 01:10:34.280
+estras tres palabras y tratar de sacar información de las tres y devolverme una cosa que tenga ciertos
+
+01:10:34.280 --> 01:10:39.080
+tamaños fijo y después se va a mover la ventana y en vez de la película fue va a considerar las
+
+01:10:39.080 --> 01:10:44.760
+palabras películas fue muy y devuelta lo va a pasar por esa subred y va a tratar de sacar salidas y después fue
+
+01:10:44.760 --> 01:10:50.000
+muy aburrida lo va a pasar por la misma subred tratar de sacar salidas después voy a tener una
+
+01:10:50.000 --> 01:10:57.160
+capa que dice bueno de todas estas salidas intermedia que tuve obtengon los máximos y esos máximos los usos para
+
+01:10:57.160 --> 01:11:04.000
+que alcular mi salida que mi salida final sería positivo negativo neutro o no no estas redes esta
+
+01:11:04.000 --> 01:11:08.920
+capa como le tiva que que allí en el medio parece como capa como le tiva entonces a sus redes que
+
+01:11:08.920 --> 01:11:12.920
+estoy viendo ahí en realidad son los mismos pesos no es como la misma que se va moviendo y me va dando
+
+01:11:12.920 --> 01:11:19.320
+resultados distintos bien entonces lo bueno que tienes que llevar todo una entrada que son muchas palabras
+
+01:11:19.320 --> 01:11:24.520
+y me va a dar una salida única digamos condensa todas las palabras se queda como con las
+
+01:11:24.520 --> 01:11:28.560
+digamos las dimensiones máximas de cada una que les quede más la interés en y con eso que
+
+01:11:28.560 --> 01:11:38.680
+va a ir con una salida bien esas la red tipo convolutiva las redes el ctm pertenecen a un grupo más grande
+
+01:11:38.680 --> 01:11:43.800
+de redes que se llama las redes recurrentes que significas son redes con memoria que van mirando
+
+01:11:43.800 --> 01:11:48.200
+a cada palabra a la vez y van recordando lo que viene hasta el momento entonces esto me sirve para
+
+01:11:48.200 --> 01:11:53.400
+obtener una salida final o también para obtener salidas por palabra entonces vamos a ver como funciona
+
+01:11:53.400 --> 01:12:01.120
+de estas esto como una especie de diagrama de cómo sería una recurrente similar a la que veíamos
+
+01:12:01.120 --> 01:12:06.240
+hace un rato digamos en capas pero ahora yo voy a tener una capa que tiene una lacesa sí misma
+
+01:12:06.240 --> 01:12:10.960
+digamos todas las neuronas de esa capa van a tener un enlace de vuelta de vuelta hacia sí misma se llama
+
+01:12:10.960 --> 01:12:16.560
+capa recurrente y bueno después voy a tener una capa de salida entonces cuando yo voy a ver como funciona
+
+01:12:16.560 --> 01:12:21.360
+eso con un tweet que quiero clasificar como la película fue muy aburrida funcionaría esta manera
+
+01:12:21.360 --> 01:12:28.400
+yo digo bueno primero agarró la palabra la el embedding de la palabra la se lo paso a la red y después
+
+01:12:28.400 --> 01:12:32.640
+voy a agarrar el embedding de la palabra película de se lo paso de vuelta de la red pero esta vez
+
+01:12:32.640 --> 01:12:37.200
+además de poner el embedding de la palabra película voy a poner también la salida del paso anterior
+
+01:12:37.200 --> 01:12:44.080
+entonces esto va consumiendo una palabra a la vez y siempre consumiendo la salida de la
+
+01:12:44.080 --> 01:12:51.120
+capa anterior entonces va consumiendo la película fue muy aburrida cuando llegó aburrida ya consumió
+
+01:12:51.120 --> 01:12:56.720
+las salidas de todas las capas anteriores y la palabra nueva y ahí es como que la salida
+
+01:12:56.720 --> 01:13:00.360
+ese último paso ya me dio tiene como una especie de versión condensada de todo lo que era la
+
+01:13:00.360 --> 01:13:08.360
+la versión y ahí con esos últimos pesos calcule la salida positivo negativo neutro o no además
+
+01:13:08.360 --> 01:13:15.120
+si yo quisiera podría ir sacando para ir sacando los pesos de cada una de las salidas entonces
+
+01:13:15.120 --> 01:13:18.720
+ahí tendría como una salida por palabra entonces esto podría ser un ejemplo por ejemplo para
+
+01:13:18.720 --> 01:13:22.760
+los problemas de clasificación de secuencia que debemos la vez pasada bueno con una red de este
+
+01:13:22.760 --> 01:13:26.440
+estilo se puede hacer la clasificación de secuencia sacando una salida por palabra si tenías una
+
+01:13:26.440 --> 01:13:33.800
+pregunta el embedding exact si la entrada en esto caso yo digo bueno a sumo que tengo
+
+01:13:33.800 --> 01:13:43.460
+por remains yo ya puedo utilizar estas redes más complejas bien y la que es la arquitectura del
+
+01:13:43.460 --> 01:13:48.560
+estado del arte hoy en día es la arquitectura de tipo transformer que también es una arquitectura
+
+01:13:48.560 --> 01:13:52.320
+que utiliza secuencias de entrada pero es una arquitectura bastante más compleja acá vamos
+
+01:13:52.320 --> 01:13:56.920
+a ver solamente una idea muy básica como funciona pero es una arquitectura que tengo muchos
+
+01:13:57.120 --> 01:14:04.480
+pedazos y hace muchas cosas distintas y bueno el se basa en una cosa de llamas tapas autotensionales
+
+01:14:04.480 --> 01:14:08.240
+ahora no vamos a ver qué es el modelo autotensional pero lo vamos a ver la clase que viene
+
+01:14:08.240 --> 01:14:15.480
+no lo emente como bueno un ejemplo de cómo funciona el sistema de traducción automática que utiliza
+
+01:14:15.480 --> 01:14:20.320
+modelos autotensionales bueno una variante de eso es el modelo autotensional que lo que hace
+
+01:14:20.400 --> 01:14:25.880
+construir una matriz entre las palabras de una oración y sí misma no se tengo una oración
+
+01:14:25.880 --> 01:14:31.080
+que tiene ene palabras y va a tratar de cruzar las ene palabras con las propias ene palabras
+
+01:14:31.080 --> 01:14:35.240
+y tratar de establecer conexiones entre cada uno de los pares entonces termina calculando una
+
+01:14:35.240 --> 01:14:41.040
+matriz y lo bueno que tiene es que me permite construir en vez de contextuales por palabra o sea
+
+01:14:41.040 --> 01:14:46.360
+en vez de una palabra vista en contexto y además una en vez de total de la oración entonces funcionan
+
+01:14:46.360 --> 01:14:50.040
+más o menos así esto es como una especie de representación muy vaga de lo que es un transformer
+
+01:14:50.040 --> 01:14:54.880
+no se transformen en realidad tiene como muchas partes más complejas pero imagínense que
+
+01:14:54.880 --> 01:14:59.960
+funciona esta manera no yo digo tengo la oración la película fue muy aburrida entonces la
+
+01:14:59.960 --> 01:15:05.600
+voy a pasar por una capa autotensional que significa yo cruzo todas las palabras con todas y
+
+01:15:05.600 --> 01:15:12.120
+calculo la relevancia de cada palabra contra las demás eso me va a dar una serie de salidas y eso
+
+01:15:12.120 --> 01:15:16.560
+de lo que hace es construirme como una colección de envéns de nivel 1, o sea yo empecé con
+
+01:15:16.560 --> 01:15:22.200
+los bordes envéns de la película fue muy aburrida y ahora voy a tener una colección de
+
+01:15:22.200 --> 01:15:27.720
+envén de nivel 1 que ya mirando algo de contexto eso es envén de nivel 1 a su vez de los
+
+01:15:27.720 --> 01:15:32.480
+paso de vuelta a otra capa autotensional que de vuelta a los cruz a todos con todos y me debo
+
+01:15:32.480 --> 01:15:38.160
+dar una salida que son los envéns de nivel 2 y eso lo sigo pasando por varias capas autotensionales
+
+01:15:38.160 --> 01:15:42.400
+que los cruzan todos con todos hasta que al final me terminan dando lo o sea lo voy a
+
+01:15:42.400 --> 01:15:49.000
+pasar en el capas y me terminan dando una salida de nivel 5 digamos entonces al inicio
+
+01:15:49.000 --> 01:15:53.960
+de nida guarden véns que miraban solamente una palabra a la vez y lo que tengo al final
+
+01:15:53.960 --> 01:15:58.040
+ya son como en veis contextuales en los cuales ya considero varias veces cruzar todas las
+
+01:15:58.040 --> 01:16:03.840
+palabras con todas entonces como que eso va ganando información en cada paso a su vez
+
+01:16:03.840 --> 01:16:09.840
+a bien después que yo tengo estos en veis contextuales en general si utiliza otra red más de tipo
+
+01:16:09.840 --> 01:16:14.760
+de coder puede ser un tanforo de puede ser una lctm algo más pero necesito otra cosa que es la
+
+01:16:14.760 --> 01:16:18.400
+que me diga por ejemplo hacia el positivo o negativo en el otro etcétera pero es otro tipo de
+
+01:16:18.400 --> 01:16:23.440
+red que después de codificas en formación pero bueno por lo menos hasta acá yo ya construí en medings
+
+01:16:23.440 --> 01:16:29.680
+de cosas pero bien lo que tengo acá son tenía la película fue muy aburrida y eso lo transformé en
+
+01:16:29.760 --> 01:16:35.240
+tenia cinco palabras y lo transformé en cinco en medings digamos que de distintos niveles pero siempre
+
+01:16:35.240 --> 01:16:40.880
+son cinco en medings entonces yo diría que el primero se corresponde con la el segundo con película
+
+01:16:40.880 --> 01:16:46.480
+tercero con fue es una una versión contextual del en medings porque significa la palabra película
+
+01:16:46.480 --> 01:16:50.840
+en el contexto de la película fue muy aburrida no es la palabra película en general entonces yo
+
+01:16:50.840 --> 01:16:56.080
+tuviera una relación que tiene gato sería gato en el contexto del gato como he pescado que no sería
+
+01:16:56.080 --> 01:16:59.880
+lo mismo que cuando estoy hablando en un gato y verablico probablemente o sea los en veintiendes
+
+01:16:59.880 --> 01:17:07.200
+bien pero además me interesa tener una representación de la oración entera y para eso lo que
+
+01:17:07.200 --> 01:17:13.000
+se hace es agregar un toque en extra un toque en llamado CLS se pone al principio de la oración y
+
+01:17:13.000 --> 01:17:20.280
+se lo hace jugar con todos los las capas atencionales del medio entonces yo tengo una palabra extra que como
+
+01:17:20.280 --> 01:17:24.160
+no es una palabra de la oración no tiene un en veint contexto al sino lo que hace es capturar la
+
+01:17:24.160 --> 01:17:30.120
+información de la oración en la vez entonces ese en veint que me queda afuera el en veint que corresponde al
+
+01:17:30.120 --> 01:17:35.080
+el toque en CLS ese que después yo podré utilizar para predecir cosas yo lo utilizo como un en
+
+01:17:35.080 --> 01:17:40.360
+veint que tiene cierto tamaño y se lo paso una capa de dos max para que me prediga así esa
+
+01:17:40.360 --> 01:17:50.720
+oración es positivo negativo en neutra o no bien bueno y para terminar comentarles los tipo de
+
+01:17:50.720 --> 01:17:55.000
+herramientas que pueden utilizar para trabajar con reneunales obviamente para el segundo laboratorio
+
+01:17:55.000 --> 01:18:01.840
+o una poder utilizar reneunales si quieren de todo tipo si quieren colecciones en veints no
+
+01:18:01.840 --> 01:18:06.320
+sus amigos podemos dar o pueden bajar algunas que estén disponibles en la web pero bueno
+
+01:18:06.320 --> 01:18:09.840
+herramientas habitual para trabajar con estos son por ejemplo tensorflow y paitor que son dos
+
+01:18:09.840 --> 01:18:16.760
+y los tecas tensorflow de Google y paitor es de meta o de facebook y bueno queras general trabajar
+
+01:18:16.800 --> 01:18:20.680
+un tercer flow y jagging face es un repositorio que tengo un montón de modelos ya prendrenados
+
+01:18:20.680 --> 01:18:25.040
+para muchos idiomas y para muchas cosas que ya se pueden utilizar autos de box y funcionan
+
+01:18:25.040 --> 01:18:30.400
+muy bien y bueno tás son estas herramientas y otras más las van a poder utilizar el laboratorio
+
+01:18:31.920 --> 01:18:35.560
+bueno por hoy eso la próxima aéjamos a ver traducción automática
+

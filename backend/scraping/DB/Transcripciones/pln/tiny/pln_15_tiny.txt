@@ -1,0 +1,799 @@
+Bueno, bienvenidos en la clase de hoy, vamos a ver el tema de redes neuronales que, bueno, es como
+digamos el estado del arte, lo que son las cosas de procesamiento de lenguaje natural en general hoy en
+día se resolven con redes neuronales. Entonces, es un poco para continuar con lo que debíamos
+ya vez pasado, ¿no? Habíamos visto metos de clasificación, habíamos visto que había algunos para
+clasificar cosas en categoría, sabía algunos secuenciales, sabía algunos que llamábamos
+los modelos de lenguaje? Y de los métodos de clasificación en realidad vimos en profundidad
+nadie vayes, pero vimos que había otro, por ejemplo, a la decisión, regresión logística,
+su perfecto machines y redes neuronales. Y para los métodos secuenciales también aparecía las
+reuniones neuronales para los modelos de lenguaje también aparecía las reuniones neuronales.
+Entonces, como que las redes neuronales son un método muy importante que es muy
+versatile y se usa para muchas cosas. Entonces, nos vamos a concentrar un poco, vamos a dar
+clas una introducción a lo que son las redes y además ver cómo se usan particularmente
+para el lenguaje. O sea, vamos a ver las técnicas de hevectores de palabras y, bueno,
+cómo aplicar eso a precisamente el lenguaje natural. Entonces, ¿cómo empieza esto?
+Esto empieza inspirado en esto de acá, que es una neurona biológica, ¿no? Esto lo habrán
+visto en el deseo, en biología. Una neurona es un tipo de célula del sistema nervioso
+de los animales, que tiene distintas partes, como se puede ver ahí, bueno, sí, voy a
+apuntar, voy a apuntar. Abo que era con esto. Hay, tiene distintas partes, tiene como
+uno es un nos pelitos que entran dentro del cuerpo de neurona que se llama tendridas y después tiene
+como una especie de cola que sale de la neurona que se llama Axon y, bueno, atacan el centro,
+tenemos lo que sería el cuerpo de la neurona, el soma. Entonces, en esas por esas
+de enritas vienen impulsos eléctricos, las de enritas actúan como inhibidores o activadores,
+pero vienen impulsos eléctricos, esos se condensan a dentro del soma que se el cuerpo y,
+si se supera, cierta un braal y actividad eléctrica, entonces ya le urona dispara un solo
+punto, pues el Axon, un solo impulso eléctrico, pues el Axon, lo manda hacia afuera. Y ese
+Axon está conectado a otras de enritas que están en otras de bronas. Entonces, esto tiene
+un montón de entradas, se condensan en el cuerpo de la célula de la neurona dispara un solo
+pulso eléctrico para afuera y ese pulso eléctrico viaja a otras neuronas. Entonces, como
+esas neuronas están conectadas en una especie de red, cada exón de una neurona está conectaba
+las enritas de otras, entonces, la salida de una es la entrada de otras. Esto conforma una red dentro
+del cerebro, o el sistema nervioso de los animales, y eso es lo que compoen en una
+reneuronal, en este caso una reneuronal natural, una reneuronal biológica. Entonces, en los
+años 40 se propuso la primera versión matemática, digamos, de cómo funciona una neurona,
+entonces unos científicos que, disjeron, bueno, vamos a tratar de simplificar este más posible,
+a otra verlo y generar una versión en una ecuación que trata de representar esto. Entonces,
+ellos diseñaron esta ecuación de acá. En la cual yo dice, bueno, vamos a cambiar esta neurona
+biológica que tenía todas estas partes y vamos a crear una especie de neurona artificial,
+en la cual yo tengo un conjunto de entradas, un conjunto de pesos de entrada que están acá,
+que vendrían a hacer el equivalente a las de enritas. Voy a tener impulso eléctrico de
+entrada que son como X1, X2, X3, hasta XC, que digamos que son los inputs que va a tener
+esa neurona. Después, en el centro lo que hago es sumarlos y en realidad lo que estoy sumando
+es el producto entre cada impulso de entrada y el peso correspondiente. También le voy a agregar
+un valor de cejo y después la salida le voy a pasar buena función de activación y eso me
+va a la salida de la neurona. Bien, o sea, esta parte de las vamos a estar viendo en detalle.
+Pero en definitiva, es como que yo tuviera esta ecuación de abajo, no? Yo tengo la sumatoria
+de las entradas multiplicadas por pesos, a eso le sumo un cejo que se llama a ver y todo eso
+se lo aplico una función sigma, que podemos saber un poco qué son esas funciones sigma. Entonces,
+bien que es una, digamos, es como una ecuación lineal, o sea, la sumatoria ni de XC
+por WSUI, más B, todo eso es una, digamos, una fórmula lineal y a eso le agregó un sigma,
+digamos, se lo aplico un sigma que esta va a ser una función lineal. Bien, entonces, más adelante
+para simplificar esta ecuación y para que después que es más fácil de calcular las cosas,
+lo que se hace es decir, bueno, este valor que venimos acá está, está bien que está sumando,
+que digamos se usa para que, como que, ahí, está bien que está acá que se usa para que
+tengo para poder completar toda la ecuación lineal, lo que se hace es agregarle con un peso
+más, entonces, decimos, bueno, tenemos una entrada más que vale uno y su peso correspondiente
+es el sejo. De eso en realidad, digamos, después nos olvidamos, cuando vamos a trabajar con
+estas cosas como que no utilizamos mucho el sejo y nos concentramos en decir, bueno, vamos a
+tener un vector que son entradas, que son los x1 hasta quise ne y un montón de peso que son los
+dole de uno estable de ne y adentro la neurona lo que pasa es que voy a hacer el producto interno
+tresos entre el vector x y el vector o leve y se lo voy a pasar a la función sigma, bien, entonces,
+esas funciones de activación sigma hay varias, o sea, al principio digamos cuando diseñaron
+primero esta neurona, lo que se les había ocurrido primero es decir, bueno, yo lo que hago es sumar
+todas estas, digamos, todos estos impulsos multiplicados por los pesos, los sumos y si esa suma
+supera cierto umbral, que el umbral lo podían calcular o ocho que se agutilizaba en uno o algunas
+esas cosas, bueno, si supera cierto umbral, entonces mando uno para afuera y si no mando ser, eso era
+lo primero que se le ocurrió, pero bueno, después empezaron a encontrar otras funciones que
+las mejores para poder entrenar mejores estas redes y en definitiva como que no hay mucho criterio
+de qué restricciones tienen que tener esa función, salvo que tiene que ser derivable, tiene que ser,
+tiene que ir como de menos a más, digamos, puede ser de 0 a 1 o de 0 más infinito o de menos infinito
+más infinito y tiene que estar no lineas, tiene que tener algún punto de no linealidad, entonces estas son algunas
+muy usadas, por ejemplo, la función sigma y de, o función logística que es la misma que se usa,
+lo que estamos hablando de un rato de, digamos, el método de regreso en logística utiliza también esta
+función, la tangente y parólica, otra, la función relo, es muy usada y la relo se define como el
+máximo entre 0 y 7, ¿no? relo de 7, el máximo entre 0 y 7, entonces vale 0 para todos los
+valores, excepto para cuando el, todos los valores menor que 0, pero cuando el máso que 0 vale directamente
+el valor, estas son las funciones un poco extrañas, voy a decir que tenían que hacer todas
+derivables y esta justo no es derivable en el punto 0, pero después de este derivado en todo el
+resto de los reales, bueno ya hay otras más, pero estas como son como de las más utilizadas,
+bien lo importante acá es que estas funciones de activación proven una no-lilidad, ni
+la linearidad y vamos a ver, porque, ok, bueno entonces, vimos lo que era una negrona, imagínense
+que en general las negronas se, se ponen como en grupos digamos y se, se distribuyen en capas
+dentro de una red, ¿no? entonces este es un ejemplo de una de las redes neuronales más simples,
+más simples que en realidad son útiles para algo, que se conoce como parcer trombos
+de capa o red fíjol guard de capa, que funciona en la siente manera, nosotros tenemos todas
+las entradas, esa que yo le decía que la centrada se quizó, una quizó, se quizó, se quizó,
+se quizó, se quizó, se quizó y se net, sería como una primera capa de entrada y después yo ubico
+un montón de neuronas en una segunda capa y las capas que vienen después de entrar le voy a llamar
+capas ocultas, o sea, tengo una primera capa de entrada, esa capa lleva a una capa oculta y todas las neuronas
+en la capa oculta están interconentadas con todas las neuronas en la capa de entrada, o sea, hay
+este pesos que van de todas todas, después puedo tener otra segunda capa oculta, otra tercera
+capa oculta, etcétera, hasta que lleva una última capa que también está interconentada
+con el anterior, que es la capa de salida, bien, pero no hay en las es que vayan entre
+la capa inicial y la capa de salida, digamos, la capa de entrada de la capa de salida, sino que siempre
+los en las esvan entre una capa y la sienta, entonces acá yo digo que tengo un arquitectura en capas
+donde tengo este segundo esta imagen, capa ocultas, tengo la capa oculta oculta oculta oculta oculta
+capa y después son la capa de salida, bien, entonces esta como el arquitectura más en sí, yo tengo
+un montón de capas, una tras de otra, y cada capa está completamente incarconentada con la anterior, pero
+nunca saltan entre capas, bien, entonces analicemos un poco que es lo que pasa dentro de esas
+capas y para eso vamos a dudar de mirar la capa, bien, yo tengo entonces, en esa imagen
+es como estamos gino de la frontera entre una capa y la sienta, yo tengo la frontera de la capa
+dobleve uno, la capa y la capa y más uno, entonces voy a decir que los estados de las neuronas
+en la capa y que llegan a la capa y son x1 super y x2 super y x3 super y x4 super y, bien, eso
+va a ser el estado de la capa y quiero calcular cuál va a ser la el valor de la capa y más uno dado
+que el valor de la capa y era eso, entonces la capa y yo tenía que valiar esto, y x1 super
+y x2 super y x3 super y y creo que ella va a estar 4, y x4 super, esto es un vector, bien, entonces
+recorden cómo calculábamos el valor de una neurona, decíamos que por ejemplo para calcular
+la neurona que está ya arriba que es x1 y más uno, el valor de esta neurona se calculaba
+como y tenía que hacer las sumas digamos de los inputs que estaban de la de izquierdo por
+los pesos que llegaban hasta ahí, entonces en este caso son todas las neuronas que están
+en la capa y todos los valores de la neurona multiplicados por todos los valores de las
+flechitas, entonces sería x1, por dobleb y la flechita que está lleno desde la neurona
+uno de la capa y hasta la neurona uno de la capa y más uno se llama dobleb 1 a 1, entonces
+x1 por dobleb 1 a 1, más, la segunda capa para la segunda neurona de la capa y la
+por el segundo peso te era el 2x1, el peso 2x1, esto también es de la capa y más x3 por dobleb 3x1,
+todo esto es de la capa y más x4 por dobleb 4x1, entonces la salida x1 de la capa y más uno es el
+producto de todas estas acá, bien ese producto de la neurona uno de la capa anterior por el peso
+uno uno, la neurona dos de la capa anterior por el peso 2x1, la neurona tres de la capa anterior
+por el peso 3x1, lo mismo puedo hacer para la otra puedo decir x2 y sería igual solo que
+también acá cambiándolo el lugar es a 2, entonces digo es x1 y por dobleb 1 a 2 y más 2
+estos más x4 y por dobleb 4 a 2 y bien sí, ahí está, cuando estamos en un arquitecto
+en capa como esta, es así, es cada la neurona de la capa siguiente está conectada con todo
+el anterior pero nunca saltan de capas, nunca cruzan hacia otra y nunca vuelen hacia atrás,
+que es otra cosa que puede pasar en otras arquitecturas de redes, pero esta que es la más
+simple es cada capa con la siguiente, bueno entonces x3 sería lo mismo, x1 y acá el peso 1 o 3,
+tan data, x4 el peso 4 o 3 sí, sí, o sea, no, acá son todas reales, x, todos los
+requisitos, le dole, son todas las reales, entonces a eso quería llegar, yo tengo x1 y x2 y x3 y x4
+son 4 variables reales que componen un vector y si yo agarró todos los dole 1, 1, 2, 1, 2, 1, 3, 1,
+4, 1, 2, 1, 2, etc, todo esto compone una matriz en realidad, yo puedo construirme la matriz
+de la capa y es igual, esta matriz que tiene dole 1, 1, hasta dole B, 4 o 3, bien,
+esto es una matriz, entonces al tener eso en realidad yo puedo expresar la salida de esta capa,
+puedo expresar los estados en los cuales lo valores, en los que quedan las neuronas de
+la capa siguiente, los puedo expresar como un producto de matriz, yo digo, el vector en la capa
+era esto, entonces el vector en la capa y más uno va a ser el producto de xy por dole B,
+digamos esto termine haciendo un producto de matrices, si hace el producto de matrices, es
+medaria, x1 por dole 1, y x2 por dole B, y x3 por dole B, y x4 por dole B, 4,
+que es lo mismo que estedera, y si vamos con la segunda columna, me al mismo daca,
+si vamos con la segunda columna, me al mismo daca, pero es un definitio la salida de esta capa,
+digamos si yo tengo esta neuron ahí, la salida de la capa, a ver dónde les creo,
+los pido acá porque esto nos va a tener que quedar para después para cobrar este,
+mirarlo, pero bueno, tengo x su braí, este es el vector de entrada, y voy a poner acá,
+copiar la matriz esta, dole B1 1, hasta dole B4 1, dole B4 3, dole B1 3,
+y vamos a hacer tres, entonces, digo que el valor de x1 va a ser el valor en y por la
+matriz que representa los pesos de la capa y, y a esto lo que me falta agregarle es el
+sigma, que es la función de activación y las el sigma también pues pertenece a la
+capa y día, mucho por tener distintas funciones de activación por capa, bien, entonces,
+concentremos en esto, ¿no? Decimos que si yo tengo una arquitectura en capas donde cada capa
+está conectada con la anterior, digamos todas las neuronas una capa están conectadas con
+todas las neuronas de anterior, entonces puedo calcular la activación o los valores que
+va a tener la capa y más uno en función de la capa y con esta formulada acá.
+Así que supongamos que tengo, eso creo que es, es altamente lo mismo que dice acá, ahí está,
+tengo esa entrada, la salida va a ser ese vector, digamos, de tres neuronas y tengo
+esos pesos por lo tanto puedo calcularlo de esta manera, bien, entonces supongamos que
+tengo una arquitectura que tiene tres capas, ¿no? Tiene o más, digamos, tiene dos capas
+ocultas, entonces eso significa que si tengo dos capas ocultas voy a tener una
+matriz de pesos, ¿dónde le voy a llamar dole 1 y una matriz de pesos, que le voy a llamar
+dole 2, entonces luego va a venir un vector X que va a ser un vector que tiene un montón
+detrás, ¿no? X1 hasta XL, esta es un vector, quiero ver cuál va a ser la salida de la
+red suponiendo que tengo una capa de pesos dole 1 con una función de activación sigma 1 y una
+capa de pesos, le dedo con una función de activación sigma 2. ¿Cómo me quedaría la salida
+de la red? Vamos, ¿cuál sería la formulada para la salida de la red? Vamos a llamarle
+RN de X a la salida de esta red, que es una red que tiene, dos capas ocultas y tienes
+la estructura, ¿no? ¿Qué le parece? Sí, ahí está, aquí es por dole 1 y esto le aplicamos
+sigma 1, ahí está, ahí está, la hacemos dole 2 y le pasamos sigma 2, exacto, entonces
+eso sería, digamos, la ecuación que te queda de una arquitectura con dos capas, dos capas
+ocultas y la salida, se calcularía esta manera, tenemos el vector X, el vector que le
+multiplicamos por los pesos de la capa 1, después le pasamos la función de la derivación,
+ahí se resulta o le multiplicamos por los pesos de la capa 2 y le aplicamos la función
+de activación y está y esa es la salida, si tuvieron más capas, si esto fuera un parcer
+pero multiplicapa de 30 a cada pasio, entonces tendríamos como más sanidad viendo esto pero
+más o menos es lo mismo, bien, entonces ¿Qué pasaría si estas funciones de activación
+fueran la función identidad o fueran funciones lineales como este multiplicar por 4, algo
+del estilo de ambos, ¿Qué pasaría en ese caso?
+A esta, en ese caso, si esto fuera la identidad o si fuera multiplicada por una constante
+pero supongamos que fuera la función identidad, entonces acá esto me daría lo mismo que
+hacer X por doble de 1 por doble de 2, que es lo mismo que hacer X por una cosa que
+es un producto entre dos matrices y un producto entre dos matrices vea otra matriz,
+entonces si estas funciones fueran una función identidad o fuera una función lineal o
+fuera una función de esas diamos simples, entonces todo esto sería una cuestión lineal o
+sea yo podría rescribirlo siempre como el producto entre un vector y una matriz, que es un
+sistema lineal, bien, esa es la razón por la cual se necesita que estas cosas acá sean
+no lineales, que era lo que le decía que bueno, casi que el único requisito que tienen
+que tener estas funciones de activación es que sean no lineales porque si son lineales cuando
+yo empiezo a arquitecturar estas cosas en capas me queda simplemente un producto de matrices,
+porque me interesa que sean no lineales y porque o sea me molesta que esto sean un sistema
+lineal, porque si yo tengo un sistema lineal digamos si yo tengo que el resultado de mi
+red lo puedes presar como X por una matriz, entonces bueno, hay cierta clase de problemas,
+que voy a poder resolver, pero todos los problemas que son no lineales, todos los problemas
+que no se pueden capturar por una estructura lineal, entonces no lo puedo resolver, bien,
+hay, sí, incluso sin la activación, o sea, es una renebrona que no tiene activación
+ninguna, o sea simplemente es multiplicar un vector por un conjunto de pesos, bien, entonces
+si yo tengo solamente una función lineal hay un conjunto de problemas que puedo
+modilar, es verdad, pero no son todos y de hecho no lo vamos a ver pero hay una demostración
+que dice que teniendo funciones activaciones no lineales, alcanza incluso a tener una sola
+capa oculta y alguna cocina más para modilar cualquier tipo de función que habíamos
+interesa, digamos, con ciertas propiedades, por lo menos que sea contínua, en centro
+intervalo, etcétera, pero a sumiendo ciertas propiedades bastante normales, es posible
+incluso con una sola capa, con una cantidad arbitraria de neuronas, modilar cualquier
+función posible, y es un poco el poder que tiene las renevernales en realidad, son
+como suficientemente flexibles como para modilar cualquier cosa, cosa que cuando veíamos
+bueno, hay valles, era un ejemplo que modilar a ciertos tipos de problemas, si miran regresión
+logística, podemos delarse a dos tipos de problemas, pero algunos no, bueno, las renevernales
+en calidad son super flexibles y podemos modilar cualquier cosa, entonces, sabemos que para
+cual casi cualquier función que a una linteresa modilar existe una renebrona que podría
+llegar a cumplir la composición de nivel de precisión, digamos ahí, teoría más que
+vemos están, sin embargo, encontrar en la práctica no es tan fácil, o sea, sabemos que existe
+la familia de las renevernales hay alguna función que me va a permitir a hacer todo lo
+que quiera, pero bueno, de allá encontrarla no está en sencillo, pero bueno, por lo menos
+sabemos que existe, igual con estas cosas que tenemos, o sea, sabiendo no más que arquitecturando
+en capas y teniendo la función de activación, no línial en cada una, ya tenés un montón
+de funciones interesantes que poden salir para modilar muchas cosas, bien, preguntas
+hasta acá, bueno, esta es otra función de activación interesante que se conoce como
+la función softmax, si utiliza para los problemas de clasificación discritos, por ejemplo
+y que van a tener en el segundo oligatorio, que bueno, es el problema de clasificación
+aruntuit y lo quiero clasificar en si es positivo, negativo, neutro o nada, no, tengo esas
+cuatro classes, entonces, la función de activación softmax es como una generalización de la
+función de la función logística, de la sigmoide, que se calcula esta manera dice bueno,
+eso asumo que los pesos de salida que son números reales van a formar una probabilidad,
+digamos, lo quiero transformar de una probabilidad, entonces lo que alguna esta manera, digo que
+el valor para isub y es a la asub y sobre la sumatoria de a la el resto, bien, esto solamente
+para que lo tengan en cuenta es muy probable que si van a usar redes sociales en la segunda
+tarea, tengas que utilizar al final una capa que se llama capas softmax, que es una capa
+que tiene una función de activación especial, que es serio para transformar las alidas en distribución
+de probabilidades, sí, y la mayor, si tiene una distribución de probabilidades y bueno,
+la sociedad que tiene probabilidad mayor, ahí tienes que tener una, sería como una
+logística independiente por cada una, entonces, si es mayor que esero, digo que es valido
+y no, o sea, si puedo tener más de un ley vela a la vez, ahí tendrías que hacer otra cosa,
+en softmax va a intentar que sea una distribución de probabilidades, entonces probablemente
+te queda una clase que gane y las demás sea mucho más bajitas, bien, bueno, entonces,
+recuerden que estamos, siempre utilizando en un número, por ahora no hemos visto nada del
+lenguaje, eso lo vamos a ver un poco más adelante ahora, son todos números, en la entrada,
+me viene en números reales, en los pesos tengo números reales, a multiplicación, el
+caso, funciona activación, etcétera y me da otro vector de números reales, o sea, la salida
+esto va a ser un vector en números reales, tener en cuenta que cada una de estas cosas van
+a tener sus dimensiones, no, yo voy a tener acá tenía una entrada que tenía cuatro
+vectores, para un cuatro valores, una matriz que tenía cuatro por tres, entonces al multiplicarlo
+me devuelve tres, si la siguiente capa es de tres por ocho, entonces me va a volver ocho,
+y así, o sea, los tamaños de las matrices o sea, los tamaños de las capas tienen que
+coincidir, pero en definitiva son todos vectores, no, por ahora esto es una cálculo utilizando
+cálculo en un médico vectorial, entonces vamos a hablar un poco de cómo se entrenan
+estas redes, y vamos a pensarlo de la siguiente manera, como estos son métodos de aprendizaje
+automático, se voy a tener, como vimos en las clasiónteriores, voy a tener un conjunto
+entrenamiento, un conjunto de desarrollo, un conjunto de test, entonces supongo que yo tengo un
+conjunto de entrenamiento que tiene en ejemplos, o sea, en ejemplos significa que voy a tener
+en estos sectores y enezalidas distintas, que les voy a llamar sí, entonces los vectores
+entre las onestos, los vectores de salida son estos de acá, y yo tengo que tratar de ver si
+la salida se parece al entrar, entonces supongamos que la salida es solamente un valor,
+o sea para simplificar, vamos a asumir que la entrada de la red son es un vector de, de
+cualquier dimension, y la salida solamente es un valor real, es posible, o sea lo que está haciendo
+es tener una red que tiene muchas capas, lo que sea, pero al final todo se reduce a una
+sola salida un valor real, obviamente esto después se extiende a más valor real, pero bueno,
+supongamos que tenemos una sola, entonces digo que tengo en instancias, o sea, en evaluores
+de aquí subí, este es mi conjunto entre el aviento, supongamos o el conjunto en el que estoy
+tratando de medir cosas, aquí subí y me dice que esto se que subí deberían corresponderse
+con diferentes valores de y subí, no, este es el conjunto de valores esperados, yo digo que para
+aquí subuno tengo un y subuno, para que subuno tengo un y subdos, bien, por ahora son
+todos números reales, y además tengo que yo tengo una red neuronal con ciertos pesos que se
+le ha podido aplicar a x subí y con sus matrices de pesos, entonces mi red neuronal me va
+a dar cierto valor y le voy a llamar y subí techo, como puedo saber si está bien lo que me da
+la red neuronal para que sí, o no, digamos que de qué manera yo puedo llegar a medir si está
+bien o no, este valor que me dio, a esta, o sea, a mi salida, mi conjunto yo decía bueno,
+la salida tenía haber sido y subí, y la salida me dio la red, es, es subí techo, como puedo
+saber si ese, ese está bien o mal, o sea que, que me dio, me díe, me díe, me díe, me díe,
+está bien o mal, ahí está, yo puedo restar y digo bueno, qué tanto se parece en estos dos,
+si esto está cerca de cero, es un valor muy chiquito, entonces yo puedo decir que estas dos cosas
+son iguales, por lo tanto la red me está dando un resultado parecido al que yo esperaba y si
+estos dos son muy diferentes, entonces esto me va a dar un valor bastante alto, entonces yo tengo
+muchos de estos, no, tengo n ejemplos de este estilo, así que lo que voy a hacer es sumar todos
+estos, de igual uno hasta n, sumo todos los valores, tengo un problema que es que a veces yo
+puedo le poder arpor mucho, es el poder arpor poco, pero a veces esto me va a dar
+negativo, esto me va a dar positivo, entonces si yo no sumo todo, capaz que me da cero por
+casualidad, entonces lo que hago es ponerlos al cuadrado, para decir bueno, yo siempre voy a
+sumar a los dispositivos, entonces si mi salida es distinta, el valor esperado siempre esto me
+va a dar un resultado positivo, bien entonces como estoy comparando en ejemplos, esto lo voy a dividir
+entre n, esto de acá me da una metrica condensada que me dice qué tanto se equivocó mi red,
+respecto a los valores, a todo lo que lo esperamos, y de hecho, esta es una de las metricas posibles
+para medir eso, están muy usadas, se llama mc, min squared error, error cuadrático medio, y es una
+de las metricas más conocidas, entonces esto es una metrica que me permite medir la discrepancia
+que hay entre los valores esperados de una red acá era y su y, entre los valores esperados de una red
+y los valores que la red dio con todos los pesos que tienen hasta el momento, recuerden que
+este hizo dice calculaba como el resultado de la red para equisubir y los pesos de la red, entonces,
+este tipo de funciones que miden la diferencia entre los valores esperados y los valores que
+me da la red de verdad, se llaman funciones de perdida, bien, o sea, el nombre de perdida no se
+moviende, donde sale, pero se le suele llamar funciones de perdida, los functions y bueno, son
+de los conceptos que no tienen que aprender cuando aprende de redes sociales, porque para entrenarlas,
+yo lo que tengo que hacer es elegir una de los funciones apropiada para problemas, entonces,
+estas de las más comunes, el arro cuadrático medio, sirve mucho para problemas donde los
+valores resultados son valores reales, no sirve tanto para cuando los valores esperados resultantes,
+son por ejemplo una distribución de probabilidades o una categoría en muchas como ese problema que
+tienen en el laboratorio, para esos utilizan otras, por ejemplo, la entropía cruzada o en particular,
+una versión de entropía cruzada que sirve para decir, yo tengo un solo valor correcto de
+entre muchos que en el laboratorio les pasa a eso, digamos, que tengo un tweet y es positivo,
+o en negativo o en neutrono, no, no puede ser más de una, entonces, para eso se usa la última,
+es una versión de la entropía cruzada para valores categoricos, bien, y existen unas
+contas más digamos, o sea, pero en definitiva siempre tengo que tener funciones de estilo,
+como pasaba con la función de activación, lo que se espera es una función de perdiada, es que
+se ha derribable y en el caso de la función de perdiada, lo que se espera es que cuando la
+salida de la red se parece muchísimo a los valores esperados, tiene que estar cercana a cero o
+tener que ser un valor mínimo y cuando la salida de la red es muy diferente, tiene que ser un
+valor más grande, bien, entonces, porque es que yo quiero que todo esto sea derribable,
+o que les parece, sí, la exacto para minimizar, el hecho de que yo puedo hacer que esto sea derribable,
+digamos que lo que está dentro, o sea, este es y su techo y su b techo, menos y su b, y esto lo
+calcule con esto que está acá, entonces esto es una sobre ne por la sumatoria de una está ene de una
+cosa que tenía la forma sigma de sigma de sigma de x por dobleve a la 1 por dobleve 2,
+no sé qué, menos y subí, al cuadrado, bien, entonces acá dentro se ha tenido una cosa
+que era todo derribable, y acá fuera tengo otra función que también es derribable, tanto
+las funciones de activación como todos los resultados de la red no en el álcool, como
+la función de pérdida, como todas estas cosas, son todas derribables, para que quiero eso porque
+efectivamente voy a derribar, la técnica se utiliza para entrenar estas cosas se basa mucho en
+encontrar adribas, y vamos a dar de ver por qué, bien, entonces, para entrenar una de estas
+red, recordemos que, digamos, para entrenar estas red, recordemos que tengo un conjunto de
+entrenamiento, un punto de desarrollo, un punto de test, y me interesa tratar de minimizar esto,
+o sea, yo tengo que la red se calcula como, dependiendo del valor de entrada y el conjunto de
+pesos que tengo, yo voy a multiplicar ese valor entrada por una matriz y por otra
+con la función de activación, etcétera, hasta obtener un resultado, pero entonces, no
+tal que este valor está en función de la entrada que es quiso y el conjunto de pesos de
+leve, no, acá yo tengo una función que es que está en función de dos cosas, estas son
+las entradas de conjunto de entrenamiento, o del conjunto que estoy mediendo, y estos son los
+pesos que yo le puedo dar acá una de las capas, entonces, una cosa interesante es que yo
+puedo mirar este problema del punto de vista de que estos valores, los dejo fijos, digo,
+mi conjunto de entrenamiento de lo conozco, entonces, los valores están fijos, y yo puedo
+ir cambiando los pesos hasta encontrar el conjunto de pesos ideales que permita que el
+valor de entrenamiento, multiplicado por esos pesos, me den la salía que yo quiero. Entonces,
+ahí, eso se transforma en un problema, como decía, por ahí, un problema de
+administración, un problema de optimización en el cual lo que voy a hacer es tomar
+esto como variable, entonces, yo lo que quiero encontrar es el argument para la familia
+posible de pesos de las distintas matrices de leve de esta función acá, que es uno
+sobreviene por sumatoria en N, de y subitecho menos y subí al cuadrado, bien, y voy a
+encontrar el armin en dobleb, o sea, lo que está acá dentro que es rn de xy dobleb,
+le voy a ir variando estos dobleb hasta que hacen contra el ideal, bien, entonces,
+supongamos que tengo unas funciones, vamos a ver una función bastante simple como
+para ver cómo funciona esto, el entrenamiento de una red se da utilizando una técnica
+llama de senso polgradiente, hay otras técnicas, pero estas por lejos la más utilizada de todas,
+y la técnica de senso polgradiente funciona la siente manera, no, si yo tuviera una función que
+va solamente en una dimensión y quiero minimizarla y arranco con un punto por acá, digo,
+bueno, mi peso inicial me dice que voy a terminar en este lado, entonces, yo puedo calcular
+la derivada en ese lado y decir, bueno, para que lado voy a bajando mi función de costón, o sea,
+suponiendo que esta es la función de pérdida, funciona de costón, puedo decir, para que el lado
+voy bajando mi función de pérdida y dice, bueno, lo voy bajando si bajo por esta dimensión,
+si bajo por esta dirección, entonces, ahí le digo, bueno, baja un poquito por ahí y cae
+culame otro valor que va a estar acá y ahí le vuelto a ver a la derivada y bueno,
+en qué sentido voy bajando y dice, voy bajando si me parallas, entonces, ahí me encuentro
+a tu valor que estén en esa dirección, calculo de vuelta de la derivada y así, o sea, yo puedo
+ir y tirando esta manera hasta llegar a un mínimo, bien, eso de ya más de cento por alguien,
+luego yo tengo, quiero encontrar el mínimo de una función, supongamos que esta es mi función
+de pérdida y empecé teniendo este valor calculo donde está en la dirección en la cual
+le puedo bajar más y voy moviendo me por ahí hasta llegar al punto bajo, esta, esto es
+un caso ideal en el cual yo tengo una sola variable que estoy tratando de encontrar, en el
+caso real, yo estoy minimizando, digamos, minimizando esta función respecto a dolebé, que
+es una cosa que son muchas matrices con muchos pesos, con muchas cosas y podéis llegar a
+hacer miles de millones de pesos, pero vuelta, en un caso ideal si yo estuviera solamente
+minimizando una severidad de esta manera, cuando yo estoy minimizando, misiones de variables
+a la vez, lo que pasa es que esta superficie, lo que tengo acá no va a hacer una curva tan
+linda, sino que va a hacer una superficie rusa que tiene un montón de óptimos locales
+que no me van a servir, pero cuando yo hago este algoritmo lo que va a hacer es caerse un
+óptimo local, imagínense que si esta curva tuviera esta forma, entonces este algoritmo llegaría
+a un óptimo local por acá, pero se perdería el óptimo global que está por acá, bien,
+eso es algo que puede pasar, entonces bueno, no se asusten que cuando uno entre una reneoronal,
+nunca va a estar seguro de que encontré el óptimo posible de toda la red, de todas las
+posibles, sino que bueno, tengo que conformarme con encontrar una bastante buena probando varias veces,
+bueno entonces, decíamos esto sobre entrenamiento, ok, el entrenamiento intentan encontrar
+los pesos que minimizan esta función de pérdida, o sea la combinación de matrices dolebé
+que hace que esta función sea lo menor posible, la técnica que se utiliza es en su pobre
+adiente, pero lo que está convencionando acá, se usa una cosa de llamas de cienso por
+antes esto castico que se trata de agarrar cada punto, se agarró cada punto de entrada y
+trata de hacer el cienso por pobre adiente, considerando solamente ese punto y es pues
+agarró otro punto de entrada y luego varias veces, luego que tiene eso es que es súper lento,
+o sea es como que tiene buena probidad de convergencia, pero súper lento, todo lo que
+hace es hacer de cienso por adiente en lote o en batches que significa bueno, en vez de tomar
+todo el conjunto de entrenamiento que puede tener 100 millones de ejemplos, todo modea 120
+una cosa de cieno, no sé, 200, o el hijo un batch que digo bueno, tomo este conjunto de ejemplos
+y hago de cienso por dentro de ahí, pues tomo otro conjunto de cienso por adiente por ahí y hasta
+llegar a llegar a un óptimo, bien, los siguientes vachos para ello, entonces yo les dije hasta
+ahora que todas las cosas tenían que ser derivables y el hecho es que sean derivables implica que
+lo vamos a derivar en el momento, lo vamos a hacer acá ni una derivada deamos porque en realidad
+los paquetes que se utilizan para trabajar con estas cosas en realidad son paquetes que
+permiten hacer derivaciones automáticas, o sea toda la gracia de construir redes neuronales,
+utilizando ciertas librerías, es que las librerías permiten definir todas estas cosas como
+vectors y después ellos hacen las derivadas automáticamente calculando automáticamente, pero en
+definitiva, la tenia que se usa para que acular, se llama propaedition que implica que cuando yo
+voy calculando, los peces de una red, los valores de una red, yo digo, el momento en
+través de x, lo multiplico por del eb, pues le pasa la función de activación, lo multiplico por
+otrable ver, le pasa la función de activación, a medida que voy calculando eso voy dejando como
+todos los valores sin termedios, esos valores se usan de atrás para adelante, por eso
+se llama propaedition para que acular las derivadas, porque en realidad todos los valores de
+sumas multiplicaciones, etcétera que yo fui llegando en el medio, si utilizan como que se
+precalculan para después que acular la derivada, y el va a curar propaedition es una técnica que
+me ayuda a ser eso rápidamente. Bien, entonces, esta la pregunta que le decía hoy, yo puedo
+encontrar la mejor función posible, puedo encontrar la mejor red neuronal que explique mi
+problema, 100% bien, la verdad es que no, porque en general este proceso se cae en optimos
+locales, y este tipo de funciones que tienen miles de millones de parámetros, lo que pasa que
+tienen muchísimos optimos locales, y bueno, el entrenamiento se va a caer siempre en un
+optimo local, lo que no hace para evitar eso de alguna manera es, por ejemplo, entrenar varias veces,
+una misma red, diciendo bueno, tengo una misma red con los mismos parámetros, el entreno
+muchas veces, y veo cuál, cuál le fue mejor, de todos los entrenamientos, esa es una de las formas,
+y el otro problema de tiene es el sobre ajuste, creo que no lo mencionamos en la clase anterior,
+sobre ajuste significa que las renevernales tienen un problema que lo tienen otro método de
+classificación, pero las renevernales en particular, porque como que son muy versátiles, y es que
+se pueden aprender muy fácil todo el conjunto de entrenamiento, yo puedo entrenar una red que se
+aprenda muy bien en conjunto de entrenamiento y me diga, sí, parece que X le corresponde
+este ahí y anda barbaro y la función de los me da casi cero, y sin embargo, lo prueba el conjunto de
+test y le va horrible, y eso es muy fácil porque como les decía, como la renevernales,
+puede modelar cualquier tipo de función, entonces es muy fácil que se aprendan todo el conjunto de
+entrenamiento y después, para el punto de telebasa, espantoso, esa es ese fenómeno de llamas
+sobre ajuste, entonces bueno, hay como distintas técnicas para tratar de evitarlo y que la red
+no, digamos, no se ajustes a los datos, sino que se va a generalizar más, etcétera, bien, entonces,
+sí, dale.
+Es una pregunta interesante, en realidad hay un conjunto de técnicas que sirven para decir
+si yo puedo entrenar una red con un conjunto de datos más amplio que capaz que no está
+el todo correcto y después una vez que tengo una red de entrenada, la entrena de vuelta
+con un conjunto más chico pero que tiene mejor calidad y eso da mejor resultado que entrenarla
+directamente con un conjunto más chico o con otro tipo de datos, entonces, de ahí hay variantes,
+es decir, si yo tengo una red de una vez que ya conseguí los pesos de la red, lo puedo seguir
+entrenando usando otros conjuntos y eso es valido, sí, o sea, se usa, es una técnica que se usa
+y está buena porque da buenos resultados, igual, en la tarea usted es, no sé, no sé si va a
+la pena hacerlo, pero obviamente, si van a tener una red de una red de una red, lo han con
+los datos que tienen, no creo que sean de salios a muchas cosas más, pero sí, tratar de ver
+un poco lo vamos a ver ahora, que hasta ahora vieron que ya están moviendo número real, no,
+se ha entrado un vector de número reales, salían número reales, vector de números reales, sí,
+vale, sí, se usan a veces, en la práctica, da mejor resultado, probar varias veces y
+ya o hacer una prueba, digamos, tipo grid search, en el cual digo, tengo tantos parámetros y
+probar con todos, o aleatoriamente probar, anas ampliando y tinto parámetros y entrenar, es cierto
+que también se usan métabriticas, evolutivos y algunas otras, para adaptar a utilizar
+la red, pero no sé en la práctica, si es que dan tan buenos resultados o simplemente
+ir probando con distintas combinaciones, dando mejor, o general, en contas buenos resultados,
+sí, sí, sí, tengo la función de arriba, claro, pero el problema es que la función
+de verde ya no va a tener un optimo global, normalmente, no va a tener porque la función de
+verde ya tiene esta cosa en el medio, estoy minimizando una cosa que es algo no el inial y que
+tiene millones de parámetros, y yo puedo ir en la dirección de cualquiera de los millones de
+parámetros, entonces por eso normalmente digamos, eso de generar su superficie, su perroboza
+que tiene un montón de su día, si bajaba por todos lados y justo a mocar la el optimo global
+es muy difícil, entonces nada te garantiza que puedas tener un nuevo global, claro, sí,
+pero acá queremos esplicitamente que la función de activación sea algo que me deje la función
+complicada, si vos, claro, si vos hace que la función de activación sea tan simple, que esto
+queda como la función con bexa, entonces pierde capacidad de generalización la red, por eso
+se dice también que esto es un problema de optimización no con bexa, no en optimización
+con bexa, uno pueda asegurar que siempre tenemos un optimo global y lo podríamos llegar
+a encontrar con alguna técnica, pero esto es optimización no con bexa, la forma de la gráfica
+siempre va a tener su vida si bajaba, se no hay un lado, bien, más preguntas, ¿tacá?
+Entonces pasemos a la parte del lenguaje, bien, decíamos, hasta el momento, teníamos una
+reneoronal que a la cual le entraban valores reales y salían valores reales, pero nosotros
+en realidad nos interesa trabajar con texto, nos interesa trabajar con palabras, oraciones,
+documentos, tweets, en el caso del olíadorio, y el problema es que tenemos una red que
+le entraban valores reales, no es un problema raro, digamos, es un problema que le pasa
+a la mayoría de los métodores de prensa automáticos, si estuvieron mirando algo de
+reacción logística, etcétera, siempre yo tengo que mandarle valores reales a las cosas,
+salvo en una iglesia que más o menos uno puede decir, bueno, trabajo con palabras, como
+en la abstracción, esto trabaja en un nivel de palabras, en el resto siempre está esperando
+que yo le mande valores numéricos, entonces, yo necesito poder tener una buena representación
+numérica de los textos, y de paso voy a pedir una propiedad más que es que esa representación
+numérica tenga algunas propiedades interesantes, como por ejemplo, una metrica distancia que
+haga que las palabras más cercan, las palabras más similares, y básicamente este
+más cerca, y la más diferente de este más lejos, por ejemplo, puedo pedir eso en una
+representación, entonces, vamos a ver una técnica de llamar Warden Medings, o
+vectores de palabras que su utiliza para representar las palabras y después de lo
+pudilizar como entrada una red, y la técnica se basa en la hipótesis distribucional
+que son de hipótesis que surgió en los 50 con, con este firf que era un lista lógico, etcétera,
+y decían lo siguiente, bueno, las palabras que aparecen en contextos similares tenden a tener
+significados similares, y acá tenemos un ejemplo que dice que este ejemplo tiene como algunas
+palabras y algunas ideas de contexto, la milanesa, aunque eso más rica, el Uruguaya,
+sí es rica, la muruesa con queso, la milanesa, aunque eso musalelas le decimos una
+politana, no sé qué, está, eso como que está hablando de milanesa, muruesa comida, y después
+el otro dice, los doños, una de las distaciones del año, el verano de mis estaciones favoritas,
+el invierno, en invierno se pide de frío, en verano nunca se frío y está hablando
+como de otra cosa, claramente las palabras rojas se parecen más entre sí, las palabras
+azules, se parecen más entre sí, entonces, idealmente yo querría tener una representación
+que a las rojas, las dejemos o menos cerca y a las azules violetas, las dejemos o menos
+en otro lado, bueno, una primera idea que surgía es lo que se conoce como matriz
+terminó, termino, que se realiza contando palabras, contando cuándo una palabra parecen,
+¿cuánta vez aparece una palabra en el contexto de otra?
+Entonces, por ejemplo, en este caso yo digo, yo tomo alrededor de una palabra en
+palabras de contexto alrededor y cuento, ¿cuánta vez aparece otra en ese contexto?
+Entonces, como es ejemplo, tenemos, bueno, estos son los ejemplos anteriores, no, la milanesa
+con queso más rica, la hamburguesa no sé qué, el otóño, tal cosa y pregunta, ¿cómo
+quedaría la matriz utilizando un contexto de cuatro palabras?
+Y acá no sé si lo llevan a ver todos, pero me aparece que, por ejemplo, la palabra milanesa
+tiene las palabras ricas y queso en su contexto, la palabra hamburguesa también, pero
+la palabra otóño, no, la palabra otóño tiene en su contexto, bueno, acá justo, como
+esto tomando en igual a cuatro no pasa, pero las palabras verán o invierno tienen en su contexto,
+la palabra frío y no tienen ni rica ni queso, entonces eso es con en igual a cuatro, ¿no?
+contando cuatro palabras alrededor, si yo considerará en igual sin go, entonces ahí sí,
+aparecería, otóño tiene la palabra estaciones en su contexto y verá no también tiene
+detaciones en su contexto, entonces es como que me van quedando zonas de la matriz que están
+como más acopladas entre sí, no, como que tienen mayor nivel de proximida y otras zonas que
+no, entonces ahí ya tendría como una especie de primera aproximación a lo que sería
+mi doctor de palabras, que es decir, bueno, yo puedo representar cada palabra con una fila de
+esta matriz y esa fila de la matriz va a tener ciertas propiedades cosa de que palabras
+que están cerca, se manticamente similares van a estar cerca en esas filas, un problema
+que tiene esta representación que dice abajo es que son sectores muy grandes, yo tengo
+sectores de tamaño básicamente el tamaño del vocabulario, si yo tengo consigueros 10.000
+para el vocabulario, o tener sectores de tamaño 10.000, donde la mayoría de los números van a ser
+cero y algunos van a ser valores distintos de cero, entonces me va a pasar que los sectores
+son dispersos o sparse, bien, entonces, ahí como refinaciones está técnico que se utiliza
+bastante, o sea, está técnica de construir matriz y hasta el menos término, se puede usar como
+va a ser para calcular ciertos tipos del problema de palabra, el algoritmo globo, se va a
+hacer en comentarios comenzar en esta matriz, los algoritmos de PCR, principal componentanálisis
+se puede usar para reducir la dimensionalidad de esta matriz, en talidad este tipo de matriz
+es tiene sus usos, pero la que vamos a ver es una técnica un poco posterior a las matriz
+está el menos término que digamos que está como en el inicio de lo que fue la la revolución
+que se han dado en pelea en los últimos años, este es un trabajo de 2013, un trabajo
+de un investigador de San Francisco Log, un que propuso en 2013, una técnica que en realidad
+son dos algoritmos distintos, que se llama hortubec, o sea, el algoritmo para ir de palabras
+a los aspectores, y que su idea era construir vectores de enzos, o sea, a vectores que tuviera
+una dimensión, mucho más chica del vocabulario, un vector de tamaño 10.000, un vector de tamaño
+100 o 150 o 300, y por el hecho de comprimir todo el vocabulario en esos vectores más
+densos, entonces ganó esas propiedades de que palabras más cercanas son simáticamente
+similares, entonces bueno obviamente no lo van solo por comprimir sino por cómo se
+entra en esto, entonces la idea de los algoritmos de hortubec es decir bueno en vez de contar
+como la matriz de término terminó las palabras, dentro de un contexto yo lo voy a ver
+con un problema de clasificación, un problema de provabilístico en el cual voy a predecir
+qué tan probable es que la palabra C aparezca el en contexto de la palabra WB, voy a tener una
+producción, la producción de que es cierto que aparece la palabra WB en el contexto
+de la palabra C, en el contexto de la palabra WB, eso sería P de más WB, pero a su vez
+tengo que tener una producción negativa, o sea yo tengo que saber cuáles son los ejemplos
+positivos y cuáles son los ejemplos negativos, entonces lo que se hace para esto decir bueno
+yo tengo un gran corbus, una gran colección de palabras y yo puedo medir, puedo llegar a medir
+cuáles son los contextos donde aparece la palabra C en el contexto de la palabra WB, pero
+además puedo llegar a medir los casos en los cuales no pasa, o sea yo puedo soltearte
+a la palabra celebratorias, y decir bueno una palabra aleatoria no siempre está en el contexto
+de una palabra WB, entonces con eso me invento ejemplos negativos, tengo ejemplos positivos que
+son la palabra queso, aparece en el contexto de la palabra muruesa, ejemplos negativos son
+de una palabra cualquiera, y salió yo que se árbol, bueno la palabra Árbol no aparece en el contexto
+de la palabra muruesa, bien, entonces el algoritmoschip, gran que es uno de los algoritmos de
+WB más utilizados, utiliza este ese principio y lo ve como una red neuronal, intenta
+modelar esto como una red neuronal, en la cual yo tengo una capa de entrada y la capa de
+entrada va a ser una representación Juanjote, esto lo mencionamos la de pasar, la representación
+Juanjote y es así, no, en la representación Juanjote, yo voy a tener un vector para la palabra queso
+y un vector para la palabra hamburguesa, donde voy a tener una columna para cáunas
+las palabras posibles, entonces voy a tener la capa de arbol y acá va a estar
+que son agulado y acá va a estar hamburguesa en otro lado y acá va a armas cosas, y entonces
+la representación de la palabra queso es cero en todos lados y un uno acá y cero en todo
+resto, la palabra muruesa es cero en todos lados, cero acá y un uno en hamburguesa y cero
+en todo resto, eso es la representación Juanjote, entonces esta red neuronal en realidad
+digamos, es una red neuronal que intenta predecir este problema pero a elístico toma como
+entrada ese vector de cero cibunos, ese vector Juanjote donde la entrada es todo el vocabulario
+posible, tiene una capa oculta en el medio, es una red que tiene una sola capa oculta y como
+salida tiene una distribución de probabilidades de todas las palabras en contexto, entonces
+la entrada es supongamos que esto tiene tamaño 10 mil, no, tengo 10 mil palabras posibles y
+espín palabras en el vocabulario, entonces la entrada de la red va a ser una cosa de tamaño
+10 mil, entrada tiene tamaño 10 mil y la salida va a tener c por 10 mil, c es cuánta
+que para la verdad es el contexto estoy contando, o sea si yo estoy contando, no sé, 10 palabras
+al rededor de la que estoy mirando, entonces va a ser una salida hace por 10 mil, esto se
+por 10 mil representan, cuál es la probabilidad de que una palabra cualquiera por ejemplo
+hamburguesa esté en un contexto de tres palabras para atrás de la palabra queso, cuál es la
+probabilidad que la palabra perro esté en un contexto de dos palabras para adelante y la
+palabra queso y así eso es las se por 10 mil salías y en el medio tiene una capa que ahí
+se enedim la capa oculta que tiene tamaño 10 mil por dime y dime es la dimensión de los
+sectores que eso es lo que le decía que podía ser dimensión 100 o dimensión 300 o
+dimensión 150, es un número mucho más chico que vocabulario, entonces pensemoslo como
+esto la tano mientras es un vector o anjote que tiene uno y un montón de seros y después
+lo paso por una matriz de pesos que tiene este tamaño 10 mil por por ejemplo 300, 10 mil
+por 300, entonces al multiplicar eso por mi vector acá esto me devuelve una sola fila de
+esa matriz que tiene dimensión 300 y eso se lo voy a pasar a la función de activación,
+a su vez eso tiene como una especie de segunda capa en la cual aparece en más pesos para
+poder calcular estas alidas pero en realidad al método después de que se entra en la columna
+un montón de valores positivos, un montón de valores negativos dice bueno que eso aparece en
+contexto de amor y esa pero perro no parece en el contexto de amor y esa etcétera tengo un montón de
+valores de este estilo, cuando termina entrenar y se bueno llegue al mejor cárculo de probabilidades
+en realidad yo tiro todo el resto de las capas y me quedo solamente con esta acá con la capa
+oculta, la capa oculta es una tabla que me dice para cada una de las palabras hay 300
+valores reales que lo representan, entonces me dice bueno para la palabra que eso esto
+es 300 valores vamos a hacer menos uno, 3 con 4 o 8 con 6 y no se quede tanto así 300 valores
+y para la palabra la moreza, menos 2, 3 con 1 etcétera, o sea voy a tener un montón de valores
+reales que lo representan, que representan esos números no lo sé y nadie lo sabe pero sabemos que
+ahí están codificadas la información importante para poder después trabajar con esos números,
+con esas palabras, bien, a eso se le llama Urdembeddings esta capa oculta que está acá en esta
+técnica de Urdembeddings, a la capa oculta que entrenan después de esto, bien, preguntas,
+está acá, sí, es por el producto, porque la matriz dole beso, la matriz de 10 mil por dimensiones y mi
+doctor Juan Jot, es un vector que tiene tamaño de 10 mil pero hay un solo uno, son todos
+zeros y uno, entonces a la C-block tome queda exclusivamente la fila que representa la
+palabra que eso, bien entonces, con esto se le obra con, con esa técnica Urdembeddings,
+no, el resultado de la copa oculta, se lo pasas en esta técnica por lo menos, le pasas,
+a la copa oculta a otros pesos que van a ir a la salida y esos pesos son lo que calculan
+la probabilidad de salida pero en realidad después estos pesos que aparecen después no me importa,
+o sea después de que yo termino entrenar todo, la única capa con la que voy a quedar con
+la del medio que es la que me interesaba entrenar, el resto es como una especie de escusa que se
+usa para la estataria para poder encontrar la capa del medio, la salida tiene C por 10 mil que
+significa yo estoy prediciendo cuál es la probabilidad en todas las C palabras de contexto de capa
+parece alguna palabra, bien entonces le hicimos, logramos nuestro objetivo que era decir que
+hago que puedo asociar a una palabra a un string un vector de valores reales, no, entonces tengo
+la palabra perro y me va a dar un vector de valores reales, la palabra comer y me va a
+dar otro vector de valores reales, etcétera, además se cumple que los vectores cuanto más cercanos
+están en ese espacio de dimension 300, entonces significa las palabras son más similares en algún
+sentido, o si están más lejanos, entonces son más decímiles, puedo utilizar, por ejemplo,
+la similidad, similaridad coseno, para eso si yo cariculen el coseno del ángulo del
+doctor de doctor es eso es una buena medida para saber qué tan parecidos son o incluso
+usa la distancia utilidad también para calcular eso, pero la similaridad coseno es la que
+más se usa y además de que tiene esa propiedad de que las palabras más cercanas son
+más parecidas, ya alguna manera estas técnicas descubren cosas interesantes que uno no
+es la centreno para que las descubran digamos sino que aparecen como de japa y aparecen cosas
+como que por ejemplo yo puedo hacer operaciones entre los sectores, entonces si yo tengo el
+lector de rey y le resto el lector de hombre y le sumo el lector de mujer me queda el
+lector de rey y eso es una propiedad que aparece después de que yo entre los sectores
+suele ser a la idea de estas colecciones del lector es que haga el lector de mujer le resto de
+hombre y le sumo rey y me queda rey, o haga el lector de uruguay, le arrega un
+TV, le sumo Francia me da paris, entonces ahí en un caso estoy haciendo una transformación
+en un poco morphológica decir bueno este hombre es a mujer como rey esa reina y
+no estoy haciendo una transformación más semántica como decir en la capital de uruguay
+en un TV, la capital de Francia París y a alguna forma yo nunca le dije al sistema que
+tiene que aprender eso pero por la forma que aquí han creado los sectores suelen tener
+propiedad de este estilo, bien eso fue como lo primero sorprendente que encontraba una
+cerca de estos metos que se pueden como que derregó de aprender esas cosas pero no están
+acceptos de problemas, como por ejemplo si yo tengo una palabra la palabra vela voy a tener
+un solo vector que representa la palabra vela y vela es una palabra que es a mí bueno
+o sea es policémica yo puedo tener una vela para aprender una vela de la velita de
+cumplea años o sea una pagón o puedo tener un barco a vela y bueno en los dos casos tengo
+la misma representación o el gato hidráulico y el gato animal también tengo la misma
+representación el banco de sentarse y el banco de financiero también con la misma representación
+etcétera entonces eso es un problema y bien estos estas técnicas y es que yo no tengo
+digamos no estoy usando por ejemplo guarnet que vienen guarnet a su una acción es clase no
+no tengo un repositorio significado de guarnet que me ayudé a decir cuáles cual sino que acá
+solamente tengo un representante para cada palabra bien y bueno esta técnica tiene ese
+problema después hay otras técnicas me permiten crear vectores contextuales que
+bueno es la palabra gato en esta oración donde probablemente sea un gato animal y no un gato hidráulico
+cosas así bien entonces una vez que construimos esta colección de vectores como los
+evaluamos cómo sabemos si están bien bueno hay como dos formas de evaluarlos bastante comunes
+se habla de test intrínsecos y test en extrínsecos que significan cosas distintas intrínsecos
+significa yo mido propiedad es del conjunto de vectores que construí entonces una de las que se
+mide en es exactamente lo que decía no recién medíamos que aparece una propia que es que yo
+puedo hacer dibujar como una especie para el logramos en el cual digo que hombres a mujer como
+rey esa y espero que en mi colección de vectores haya quedado reina digamos como resultado
+de la operación o uruguay esa montevideo como Francia y espero que haya quedado paris en
+ese lugar entonces bueno una forma de evaluar estos estos sistemas es construir una colección grande
+de estos test se llaman test de analogías entonces me puedo hacer una colección de grandes
+estos test y ver a cuántos le moca mi colección entonces tengo varias colecciones en
+ve distinta veo que este le invoco más veces y de lo invoco menos veces otros son los
+tests de similitud o similiaridad que estos se hacen con intervención humana un poco más fuerte que
+es preguntarlo un montón de personas por ejemplo que es más parecido a Honduras no una silla o una
+mesa o una manzana o una bestruso o cosas de estilo entonces dale dice en la gente trata de arranquear
+esta cuatro cinco palabras de cuál es más parecida menos parecida entonces le preguntaron
+un montón de personas las personas hacen sus listas y después miras dentro de tu colección de
+vectores si las distancias regrativas entre esas palabras son similares o no a la que esperaban los humanos
+entonces cuanto más similares se hacen el test de espirman para eso el test de correlación de
+espirman se puede sacar una medida de qué tanto se parece a la intuición humana lo que el sistema
+dice eso es la montés intrínsecos pues yo estoy abarrando en la colección de vectores que construí y
+la estoy testiando sola los testes extrínsecos se refieren a agarro mi colección de vectores y
+la meto en una tarea de peleen en un poco más grande y veo que tal le va
+entonces acá significa bueno yo supongo que tengo un sistema de peleen que hace traducción
+automática o analisis de sentimiento o recuperación de información o un chat bot o lo que sea
+si yo tengo un sistema que ya funciona y le cambio su capa de medings su colección de
+vectores por la mía que yo entrené y el sistema mejora en superformas entonces digo que
+puedo decir que mi colección de vectores mejoro la performance esto es puedo decir que la colección
+de vectores buena eso de llamas test extrínsecos se ha no estoy probando directamente las propiedades
+de los en vectores y no que estoy probando cómo se comportan en un sistema más grande
+bien entonces otra forma de evaluar esto más bien no creo que lleguen a ver nada porque
+está muy chiquito pero bueno vamos a mencionarlo es visualizar los en vectores recuerden que esto
+tenía de dimensión 100, 350 que era una dimensión mucho más chica que el vocabulario
+pero igual es una dimensión muy grande o sea los humanos podemos visualizar dos 3
+dimensiones a los humos más de eso ya nos mariamos y estos son vectores de 300
+dimensiones pero una forma de visualizar los es usar las técnicas de reducciones
+dimensionalidad por ejemplo PCR y TSNS son de las más comunes son técnicas que me permiten
+agarrar 300 dimensiones y bajar las 2 para poder dibujarlo en un plano entonces acá no
+llegan a ver, estos son dos trabajos que hicimos en el grupo para distintos colecciones
+de en veintis en distintos idiomas voy a arreglar esto así sí queda
+bien entonces en este tenemos un trabajo hecho para el español son vectores de
+palabras en español y tal y no van a llegar a verlo lo que están acá porque se
+es muy chiquito pero por ejemplo acá aparece un claster de años que están todos juntos
+acá aparecen nombres de personas que están todos juntos abajo aparece en lugares pero
+Uruguay, Bolivia que aparecen como clasterizados todos juntos entonces es una espera que una
+colección de vectores que haya quedado bien entrenada aparecen como clasters con cosas que
+son semanficamente similares y el trabajo de la derecha es un trabajo similares pero que está
+yo para igual a ni y bueno ya que se ve también más claro que aparecen cosas como
+relacionadas con fechas están enero las relacionadas con colores están en encian las
+relacionadas con no se bien que hay a animales están en verde etcétera países están en azul
+etcétera como que no puede estar en esas regiones obviamente esto no es perfecto en
+a que algunas cosas por fuera etcétera pero si uno logra ver que más o menos se
+clasterizan entonces tiene como cierta cidadan tuición de que andan mejor y
+sus efectores bien preguntas entonces los górden veings fueron en definitiva una de las
+primeras revoluciones que ocurrieron los últimos años lo cual es peleene y posible que después
+siempre empezaron a utilizar arquitecturas arredas más complejas o sea gracias a que tenemos en
+medings y decimos puedo representar una palabra como un vector de 300 dimensiones ese vector de
+300 dimensiones que son numeros reales se lo puedo enchufar como entrada a una red neuronal y
+puedo obtener cosas más complicadas a mí me interesaba de hace un rato dijimos tener
+representaciones de palabras pero además de oraciones o de tweets o de documentos enteros y bueno
+por lo menos yo tengo representación de palabras no usando bora en medings como que eso
+está bastante bien resuelto y gracias a que ahora tengo bora en medings puede usar arquitecturas
+más complejas como las redes como lusionales las redes LCDM y las redes tipo transformers
+que los transformers son lo que más utiliza bien día pero además puedo hacer una cosa en
+los embedings algo un poco más simple pero que a su vez me sirve para resolver estos problemas
+y es usar la técnica de Centroide que es así está les va a servir en la tarea salvo y
+quieren entrenar una red más compleja que también son bienvenidos y quieren entrenar una LCDM
+en un transformer pero el Centroide es una técnica es muy sencilla supongo que yo tengo
+mi capa de embedings que tiene bueno dice que eso se lo presenta así a hamburguesa de representación
+pero es así el gato es así etcétera tengo vectors para cada palabra y tengo ahora un tweet que
+quiere representar utilizando la colección de embedings yo simplemente puedo agarrar todas las
+palabras del tweet buscar todos los vectors correspondientes y hacer el promedio a eso de
+llamar a ser un Centroide de todos los embedings del tweet y no dice esta apreciado el promedio
+de perro o gato no se al tweet dice no me gustó la película se va el promedio no me gustó la película
+de un promedio todo el embeding me dear papapafrita pero sin embargo funcionos bastante bien es
+es como un poco antintuitivo pero hacer el promedio todas esas 300 dimensiones de las distintas
+palabras después yo utilizó eso como entrada para otro otro sistema de clasificación no sólo
+arrenornal sino que hay que utilizar otro otro tipo de cosas como su proyecto no haciens o
+relación logística y anda bastante bien o sea es como extraño pero sobre todo el problema de análisis
+sentimiento anda bastante bien bueno esa la técnica del Centroide es una técnica fácil decir si yo tengo
+una colección de embedings puedo hacerme embedings de oraciones o embedings de textos un poco más grandes
+simplemente promediendo los embedings que tengo bien entonces ahora lo que vamos a ver en el
+resto de la clase en unos minutos son ejemplos de cómo funcionan estas arquitecturas más complejas que
+puedo utilizar gracias a que tengo embedings no les vamos a ver en profundidad sino que simplemente
+vamos a pasar por arriba pero es una idea para ver qué clase de cosas se pueden hacer y empezamos por las
+como lutivas las redes tipos en N se llaman redes como lutivas o como lusionales y originalmente se utilizaban
+como para procesar imágenes o sea también se utilizan estoy en día para procesar imágenes y lo que hacen es
+ir recorriendo como que segmenta una imagen en cuadraditos y lo van recorriendo digamos y después obtienen como
+información de cada uno de los cuadraditos bueno pero también se han aplicado al lenguaje y la forma que se
+aplican lenguaje es como decir batomando de enegramas y va viendo yo que es por ejemplo tres palabras a la vez y va
+obteniendo datos de cada una de las tres palabras a la vez y después con eso después saca un total entonces lo
+interesante es que digamos puedo pasar a tener cosas de orden más grande que una palabra no o sea ahora en
+bebrosa una sola palabra estoy produzando toda una oración entonces tienes una pregunta bien entonces un ejemplo
+como funciona esto supongamos que estoy tratando de clasificar Twitch y digo la película fue muy
+aburrida yo me puedo construir una red neuronal de tipo convolutiva que lo que va a ser es decir bueno a los
+en beings de la de a tres palabras los voy tomando de tres palabras considero los en beings de la película fue y a
+esos tres en beings se los paso a una red a esa esa unidad convolutiva que lo que va a ser es mirar
+estras tres palabras y tratar de sacar información de las tres y devolverme una cosa que tenga ciertos
+tamaños fijo y después se va a mover la ventana y en vez de la película fue va a considerar las
+palabras películas fue muy y devuelta lo va a pasar por esa subred y va a tratar de sacar salidas y después fue
+muy aburrida lo va a pasar por la misma subred tratar de sacar salidas después voy a tener una
+capa que dice bueno de todas estas salidas intermedia que tuve obtengon los máximos y esos máximos los usos para
+que alcular mi salida que mi salida final sería positivo negativo neutro o no no estas redes esta
+capa como le tiva que que allí en el medio parece como capa como le tiva entonces a sus redes que
+estoy viendo ahí en realidad son los mismos pesos no es como la misma que se va moviendo y me va dando
+resultados distintos bien entonces lo bueno que tienes que llevar todo una entrada que son muchas palabras
+y me va a dar una salida única digamos condensa todas las palabras se queda como con las
+digamos las dimensiones máximas de cada una que les quede más la interés en y con eso que
+va a ir con una salida bien esas la red tipo convolutiva las redes el ctm pertenecen a un grupo más grande
+de redes que se llama las redes recurrentes que significas son redes con memoria que van mirando
+a cada palabra a la vez y van recordando lo que viene hasta el momento entonces esto me sirve para
+obtener una salida final o también para obtener salidas por palabra entonces vamos a ver como funciona
+de estas esto como una especie de diagrama de cómo sería una recurrente similar a la que veíamos
+hace un rato digamos en capas pero ahora yo voy a tener una capa que tiene una lacesa sí misma
+digamos todas las neuronas de esa capa van a tener un enlace de vuelta de vuelta hacia sí misma se llama
+capa recurrente y bueno después voy a tener una capa de salida entonces cuando yo voy a ver como funciona
+eso con un tweet que quiero clasificar como la película fue muy aburrida funcionaría esta manera
+yo digo bueno primero agarró la palabra la el embedding de la palabra la se lo paso a la red y después
+voy a agarrar el embedding de la palabra película de se lo paso de vuelta de la red pero esta vez
+además de poner el embedding de la palabra película voy a poner también la salida del paso anterior
+entonces esto va consumiendo una palabra a la vez y siempre consumiendo la salida de la
+capa anterior entonces va consumiendo la película fue muy aburrida cuando llegó aburrida ya consumió
+las salidas de todas las capas anteriores y la palabra nueva y ahí es como que la salida
+ese último paso ya me dio tiene como una especie de versión condensada de todo lo que era la
+la versión y ahí con esos últimos pesos calcule la salida positivo negativo neutro o no además
+si yo quisiera podría ir sacando para ir sacando los pesos de cada una de las salidas entonces
+ahí tendría como una salida por palabra entonces esto podría ser un ejemplo por ejemplo para
+los problemas de clasificación de secuencia que debemos la vez pasada bueno con una red de este
+estilo se puede hacer la clasificación de secuencia sacando una salida por palabra si tenías una
+pregunta el embedding exact si la entrada en esto caso yo digo bueno a sumo que tengo
+por remains yo ya puedo utilizar estas redes más complejas bien y la que es la arquitectura del
+estado del arte hoy en día es la arquitectura de tipo transformer que también es una arquitectura
+que utiliza secuencias de entrada pero es una arquitectura bastante más compleja acá vamos
+a ver solamente una idea muy básica como funciona pero es una arquitectura que tengo muchos
+pedazos y hace muchas cosas distintas y bueno el se basa en una cosa de llamas tapas autotensionales
+ahora no vamos a ver qué es el modelo autotensional pero lo vamos a ver la clase que viene
+no lo emente como bueno un ejemplo de cómo funciona el sistema de traducción automática que utiliza
+modelos autotensionales bueno una variante de eso es el modelo autotensional que lo que hace
+construir una matriz entre las palabras de una oración y sí misma no se tengo una oración
+que tiene ene palabras y va a tratar de cruzar las ene palabras con las propias ene palabras
+y tratar de establecer conexiones entre cada uno de los pares entonces termina calculando una
+matriz y lo bueno que tiene es que me permite construir en vez de contextuales por palabra o sea
+en vez de una palabra vista en contexto y además una en vez de total de la oración entonces funcionan
+más o menos así esto es como una especie de representación muy vaga de lo que es un transformer
+no se transformen en realidad tiene como muchas partes más complejas pero imagínense que
+funciona esta manera no yo digo tengo la oración la película fue muy aburrida entonces la
+voy a pasar por una capa autotensional que significa yo cruzo todas las palabras con todas y
+calculo la relevancia de cada palabra contra las demás eso me va a dar una serie de salidas y eso
+de lo que hace es construirme como una colección de envéns de nivel 1, o sea yo empecé con
+los bordes envéns de la película fue muy aburrida y ahora voy a tener una colección de
+envén de nivel 1 que ya mirando algo de contexto eso es envén de nivel 1 a su vez de los
+paso de vuelta a otra capa autotensional que de vuelta a los cruz a todos con todos y me debo
+dar una salida que son los envéns de nivel 2 y eso lo sigo pasando por varias capas autotensionales
+que los cruzan todos con todos hasta que al final me terminan dando lo o sea lo voy a
+pasar en el capas y me terminan dando una salida de nivel 5 digamos entonces al inicio
+de nida guarden véns que miraban solamente una palabra a la vez y lo que tengo al final
+ya son como en veis contextuales en los cuales ya considero varias veces cruzar todas las
+palabras con todas entonces como que eso va ganando información en cada paso a su vez
+a bien después que yo tengo estos en veis contextuales en general si utiliza otra red más de tipo
+de coder puede ser un tanforo de puede ser una lctm algo más pero necesito otra cosa que es la
+que me diga por ejemplo hacia el positivo o negativo en el otro etcétera pero es otro tipo de
+red que después de codificas en formación pero bueno por lo menos hasta acá yo ya construí en medings
+de cosas pero bien lo que tengo acá son tenía la película fue muy aburrida y eso lo transformé en
+tenia cinco palabras y lo transformé en cinco en medings digamos que de distintos niveles pero siempre
+son cinco en medings entonces yo diría que el primero se corresponde con la el segundo con película
+tercero con fue es una una versión contextual del en medings porque significa la palabra película
+en el contexto de la película fue muy aburrida no es la palabra película en general entonces yo
+tuviera una relación que tiene gato sería gato en el contexto del gato como he pescado que no sería
+lo mismo que cuando estoy hablando en un gato y verablico probablemente o sea los en veintiendes
+bien pero además me interesa tener una representación de la oración entera y para eso lo que
+se hace es agregar un toque en extra un toque en llamado CLS se pone al principio de la oración y
+se lo hace jugar con todos los las capas atencionales del medio entonces yo tengo una palabra extra que como
+no es una palabra de la oración no tiene un en veint contexto al sino lo que hace es capturar la
+información de la oración en la vez entonces ese en veint que me queda afuera el en veint que corresponde al
+el toque en CLS ese que después yo podré utilizar para predecir cosas yo lo utilizo como un en
+veint que tiene cierto tamaño y se lo paso una capa de dos max para que me prediga así esa
+oración es positivo negativo en neutra o no bien bueno y para terminar comentarles los tipo de
+herramientas que pueden utilizar para trabajar con reneunales obviamente para el segundo laboratorio
+o una poder utilizar reneunales si quieren de todo tipo si quieren colecciones en veints no
+sus amigos podemos dar o pueden bajar algunas que estén disponibles en la web pero bueno
+herramientas habitual para trabajar con estos son por ejemplo tensorflow y paitor que son dos
+y los tecas tensorflow de Google y paitor es de meta o de facebook y bueno queras general trabajar
+un tercer flow y jagging face es un repositorio que tengo un montón de modelos ya prendrenados
+para muchos idiomas y para muchas cosas que ya se pueden utilizar autos de box y funcionan
+muy bien y bueno tás son estas herramientas y otras más las van a poder utilizar el laboratorio
+bueno por hoy eso la próxima aéjamos a ver traducción automática

@@ -1,0 +1,527 @@
+En la clase pasado entonces lo que estuvimos viendo es fundamentalmente lo que es recuperación
+de información como una aplicación en donde tendremos a utilizar procesamiento del
+lenguaje natural en alguna de las tareas, que se hacen sobre todo antes o durante el proceso
+de recuperación, los algoritmos que implementan el proceso de recuperación. Y después
+cometamos también lo que es la extracción de información como otra disciplina diferente
+a la recuperación que a veces entre mezclan este o se confunden y que se está hablando
+de lo mismo y en realidad son como complementarias, ¿no? Si yo tengo un proceso de recuperación
+de información que me recupera documentos donde se supone que está la información que
+yo estoy buscando usuario y el proceso de extracción de información lo que hace es a partir
+de un conjunto de documentos que se supone que son de interés extrae aquellas partes que efectivamente
+hablan de lo que yo estoy queriendo, nada que incluso alguno comentaba que hoy se
+pensamos en Google que solamente pone las palabras y ya te trae la porción de texto
+donde están las palabras que vos en este ministerucán. Decíamos la extracción de información
+es una disciplina que, típicamente, lo que hace es extraer a tributos, relaciones, el
+perdón entidades, relaciones y eventos. Y como un mente lo que se hace es se trata de generar
+una suerte de plantilla con pares a tributo valor donde ahí se cargan los valores de
+los valores de los atributos, de los nombres de los atributos y el valor que tienen.
+En función de lo que yo quiero extraer, eso genera una estructura que es, después, mucho
+más manipulable por un usuario experto o digamos o algún sistema que después permita
+a hacer otras cosas. Dentro de las tareas de extracción
+de información y quedamos más o menos en eso, y este tenemos el reconocimiento de entidades
+con nombre, la resolución de co-referencias, extracción de relaciones semánticas, entrentidades,
+resolución y reconocimiento de expresiones temporales, asignación de relaciones semánticos
+entre otras tareas. Lo que queríamos hoy es ver, algún ejemplo de que consiste, por ejemplo,
+la extracción de reconocimiento de entidades con nombre.
+Nosotros esencialmente en entidades con nombre, lo que tenemos que pensar es que,
+típicamente, lo que uno quiere extraer, son tres grandes conjuntos. Organizaciones, personas
+y lugares. Después uno puede seguir queriendo poniendo, poniendo el nombre de una
+otra cosa, pero esencialmente la sentidades que tienen nombre, son algún tipo de organización,
+algún tipo de lugar, o algún nombre de personas. Entonces, un poco acabemos el ejemplo.
+Y vemos el ejemplo y vemos que lo que se pretenden mostrar es que ya dificultades
+que se pueden presentar. Parcelón, autorizó, noticias viajanos, autorizó a Luis Ores,
+a viajar el lunes a Montevideo para estar a la orden de la selección, para los partidos
+de este herivinatorias. Pa, pa, pa. ¿Qué entidades con nombre ustedes reconoce en
+ahí o que el sistema debería detectar? Pensamos, ¿de vuelta, ¿no? Organizaciones, lugares,
+personas. En piecena. Luis Ores, Barcelona, Argentina, Paraguay, Montevideo, Liga española, bien, lo
+vemos como una organización. El eliminatorias. ¿Qué sería el eliminatorias?
+El eliminatorias, como el, el partido, el partido, el eliminatorias, vamos a ir al saludo.
+Ve, si, bien, me interesa saberlo, pero es una organización, es una persona, es un lugar.
+Capa que a mí se me interesa después hacer cosas, por un poco, justamente, el chiste de
+borre conocés en día de con nombre y después lo que vas a querer reconocer, son relaciones
+entre esas sentidades o cosas por el estilo. Pero es un paso que viene después, después de que yo
+detecto las sentidades, en piezo jugar, en piezo, bueno, el que no trajo aquí lo hacer con esas
+sentidades. Es como un primer paso, correcto. Capa que el eliminatorias me puede servir
+porque quiero saber, para que, por ejemplo, para preguntar, para qué es que va, este licorio
+es que día venir a Montevideo, porque quería venir a jugar las eliminatorias, pero eso ya
+entra en la siguiente etapa que sería la detección de relaciones.
+Es en dos, históricos, es un de la comunidad. Bien, es una de el medio dido, la segunda
+guerra mundial, como lo vas a, como lo vas a encasillar, es eso.
+Podría ser un evento, después vamos a hablar de eventos y de las dificultades de eventos.
+Pero bueno, es algo que, como un mente uno lo que tiene, por lo menos para arrancar o podría
+llegar a tener son listas de palabras que tienen todas las organizaciones, todos los
+no hombres o que se yo. Ahí yo podría usar esas listas eventualmente para desambiguar y
+segunda guerra mundial, ahí yo lo tomo, todo como una sola entidad y es, pero que es una
+persona, es un organización, es un nombre. No, entonces, ver cómo lo categorizas. Eso es algo
+que me va a interesar tenerlo determinado, pero no en principio no es una entidad con nombre.
+Si viene por lado lo que dice compañero después lo de eliminatorias o las relaciones o los
+eventos. Exacto. Bueno, ahí están, ¿no? Este barcelona, suales, está se nota más como
+ar, vamos a usar ellos. Ahí, en negritas. Barcelona, montevide, argentina, paraguay. Bien, en
+negritas están un poquito en las sentidades que se encontraron.
+Después está, en contra las sentidades, tratamos de, acá, bueno, el desdito valor. El
+cuáles son nombres, cuáles son lugares y cuáles son organizaciones. En rojo organizaciones,
+en verde lugares y en azul nombres. No, no, no, no es de luz, no. Perfecto. Eso quería llegar,
+qué Barcelona, Barcelona es un lugar, es una ciudad preciosa que queda allá en el, el, no de
+no eres de España, pero no es un club. De hecho, acá está siendo referencia, un club, con
+a la vez pasa lo mismo, bueno, en España pasa mucho, porque hay las ciudades, los equipos
+de fútbol tienen nombre de ciudades, muchos de ellos. Entonces, acá se tenemos un problema,
+cómo vas a, digamos, potencialmente tenemos un problema, es decir, cómo vas a tratar
+esa entidad, como un nombre de una persona o como un nombre de lugar.
+Entonces, lo podemos acá, como en realidad nosotros sabemos que es un club o que
+acá en el texto está recibiendo referencia a club, lo ponemos en rojo. Pero es algo
+que yo lo hago o lo debería hacer a posterior y de una primera reconocimiento, ok.
+Y después está lo que interesa de bien, yo tengo la sentidad de con nombre y me puedo
+querer, me pueden querer encontrar relaciones entre esas sentidades, cómo se combina
+esas sentidades. Entonces, esa parece ahí, ahí, con un color medio rozadito, autorizar,
+la organización, Barcelona, autorizó a Luis Ares, a viajar. Entonces, ahí tenemos más tenemos
+lo autorizó a viajar, tenemos dos relaciones, o autorizar a viajar, podría tratar como uno,
+todo depende como uno, lo interpreto, lo que quiere hacer. Y ahí aparece, no se no
+tan mucho, porque hablamos de las tareas de tracción de información y hablamos de la sentidad
+de con nombre. También dijimos el tema de las referencias. Fíjense acá, no sé si se nota
+que está con otro colorcito. Pese a que el jugador no fue incluido, ¿Quién es el jugador?
+El Luis Ares, o sea, tengo que de alguna forma también determinar que ese término
+hace referencia en este caso del Luis Ares. Lo mismo acá, lo de Club Catalán, hace referencia
+a Barcelona. ¿O qué estas son todas cosas, otareas, que uno hace en ese proceso de
+extracción de entidades con nombre? Estrader, nombres, estrader relaciones, bueno, lo que
+está diciendo. La mayor parte de los trabajos estrader en relaciones, entrentidades
+mencionadas en la misma oración, siempre se trata uno ya debo cuando analiza con referencias,
+el texto analizar es un poco más o puede ser un poco más largo, las referencias pueden
+ser en esa misma oración, mas complicado es cuando la referencia está en otra oración después,
+¿verdad? Bueno, esto es una un desafío. La mayor reedación es predeterminada, dirección
+de la empresa, clunde jugar el jugador, etcétera. Por relaciones de más de dos argumentos,
+donde muchas veces se habrá de extracción de eventos. Ahora vamos a hablar un poquito
+de eventos. Entonces, relación, lo que decía es, bueno, la relación autorizar, que requiere
+dos argumentos, a autoriza a ver. Y pues, pues, bueno, podemos agregar cuando que aquí para
+qué el autorizo etcétera. Entonces, ahí apareció otro concepto que quizás no está puesto
+acá, acá el evento podría ser viajar que el autorizo habíajar, no sé si se cuándo,
+dice para qué, para estar a la orden, en fin, hay una serie de textos ahí que uno podría
+o de presiones que uno podría quedar llegar a determinar. Se tiene entonces la idea, bien,
+viajar a estar a la orden incluido, como decía en Marrassión, en general se procede
+por etapas, primero en las sentidades y luego después que entencó las sentidades cuáles
+son las relaciones. Entonces, otra cosa y otro desafío importante es lo que podríamos
+decir la extracción de eventos. Un evento es una actividad en el mundo real que ocurre durante
+cierto periodo de tiempo en un cierto espacio geográfico, una definición. Y para eso, yo lo
+que tengo muchas veces tengo, alguna vez en lo puedo reconocer, puedo sacar por lo que decíamos
+recién, por ejemplo, el evento de las eliminatorias podríamos determinar que es un evento
+que a lo que hablábamos hoy. Pero a veces es una tarea en sí misma la la detección
+de eventos, donde yo tengo un conjunto de también determinos o de palabras disparadoras
+de un evento. Y por ahí me puede llegar a querer interesar encontrar. Fíjense
+en la primera. Primero es ejemplos, una tormenta de arriba, perdón. Una tormenta de arriba
+centenares de árboles en un video. ¿Cómo yo puedo detectar con la cada monte de video?
+No, sería con nombre. Pero tengo algo que me indica que se dio un evento que es.
+Tormenta. Tormenta, me da la idea de que hubo algo, pasó algo. Un motociclista
+de 38 años, falleció en un accidente de trancito. Tal vez la palabra accidente, sea
+el evento. También bueno, que falleció. Pero accidente es una palabra disparadora que
+me dice, bueno, acá hay un evento. Esta es un desafío más grande que se está. Colóñe
+Requena es una mugre. A priori, por qué va a ser un evento. Pero en realidad sí me
+está marcando un evento de que hay un problema de limpieza en Colóñe Requena. Entonces,
+a veces yo tengo palabras disparadoras que me ayúna de detectar eventos y a veces tengo
+que encontrar alguna otra técnica para detectar esos eventos. De acuerdo. Bien, arquitectura
+generica, esto es una propuesta aquí, o jobs en la década en lochenta, si más no recuerdo,
+que plantea cuál es una arquitectura en general de un sistema de extracción de información.
+Como bueno, parece un montón de cosas y determinos que estuvimos haciendo. Analisis
+lexico gráfico, nos basamos en diccionarios, analisis sintáticos, reconocimientos
+de entidades, reconociendo de patrones, siempre acá en realidad todos estos reconocimientos
+de patrones de alguna manera. Analisis sintáticos, referencias y acabajo, lo que decíamos
+generación de plantillas, donde se van a cargar esos altos.
+Y lo sé enfoque para la construcción de un sistema de extracción de información, tengo
+por un lado reglas, o por otro lado, los sistemas mediante aprendizaje automático.
+No voy a entrar a hacer juicio de valor, yo creo que los dos sombalidos, el término de
+método genera reglas, reciere un conocimiento lingüístico, sin duda, técnicas reconocimientos
+de patrones, voy a tener que generar esas listas que me permitan a mí, pues yo lo puedo
+hacer todas estas cosas que estoy moviendo, lo puedo hacer con grandes listas y no necesito
+entrenar nada. Pero tengo que tener claro este tipo de cosas, ¿no? Como Barcelona,
+Uruguay, que es, a que estoy haciendo referencia, es un lugar, es el Rio Uruguay, es el país Uruguay,
+es la selección Uruguay, se entiende, entonces, tengo dificultades que por ahí las tengo
+que resolver más adelante. Con el sistema, bueno, la contra que puede llegar a tener
+los sistemas de reglas es en algún caso que no tengo las capacidades ni los recursos, como
+para poder hacer todo eso. Además, si yo le quiero incorporar, después, nuevos documentos por
+ahí, tengo que entrar a la redefinir reglas y esas reglas nuevas que agregó, capaz que me
+repercute en las que ya tenía, es un proceso que es muy bueno, que funciona, pero tiene
+algunas limitaciones, por lado de los recursos y por lo lado de las escrituras de las reglas.
+Para esto, la clave, que lo que yo necesito, que es. Paitos.
+Dato, corpus.
+En los sistemas de Machine Learning, de aprendizaje automático, si no tengo datos, prácticamente
+seguramente tenga problemas a la hora de resolver un desafío. La clave está en la cantidad
+de datos que yo tengo para entrenar mi modelo.
+Bueno, lo está muy diciendo, los criterios para decidir un enfoque de ponida de recursos,
+por disposibilidad de escriturar reglas, la datos, los datos de entrenamiento, cambios posibles
+en la especificación y la performance, no, capaz que algún algoritmo puede ser un poco
+más eficiente que otro.
+Bien. La idea es, ahora, hablar de un par de temitas más, en donde también, el
+pensamiento del lenguaje natural, tiene una participación porque en su cuando estamos
+manejando texto, estas técnicas que estamos hablando se aplican a muchas otras, a muchos
+otros temas, a los que nosotros nos interesa esa procesamiento de texto.
+Uno es cláctering, y el otro es la detección del modelo de tópicos, ¿no? Entonces, lo primero
+que, de gustaría hacer una cierta precisión es porque nosotros hasta ahora vimos, creo que
+no sé si lo vieron con allá, creo que con Luis, el tema de clasificación, ¿no? Entonces,
+muchas veces o, o el, o hacer cláctering implica que yo, en definitiva, estoy haciendo clasificación,
+lo que yo estoy haciendo es, o que significa cláctering es agrupar, dado un conjunto de datos,
+ir agrupando sendatos que tengan un comportamiento similar, o sea, en similares en algún sentido.
+Cuando yo hago clasificación, es un método en donde yo ya sé qué es lo que yo pretendo
+clasificar, recibir que se yo hago, autos de determinado tipo o determinada marca, entonces
+los tengo un montón de autos y los clasificos, por si algo, mientras que es y además
+está asociado a técnicas de aprendizaje supervisados, yo tengo un conjunto de datos en donde
+yo ya sé, y cuando hay un nuevo dato, sea donde lo mando, o debería saber, ya está
+prestablecido, cuáles son los términos de clasificación. En cláctering está más asociado
+a lo que sería en técnicas de aprendizaje, no supervisado, donde en general no necesariamente
+dependiendo el algoritmo que yo utilice, sea la cantidad de conjuntos o clácter que yo voy a
+determinar. La estrategia es de poder en base a qué es que yo genero sus clácter, esos
+agrupamientos, qué es lo que hace de qué dos datos o dos textos sean similares, y ese
+justamente es el desafío, entonces simplemente presentar el presentar el tema, presentar
+dos modelos, un poquito distintos o dos enfoques de agoritmo de clácterización, y en
+una donde yo, a priori digo, bueno quiero que tenga equiscan que cá clácter, entonces
+en función de eso, no sé cuáles son, pero lo que hace el algoritmo es tratar de
+encontrarlos, es esa agrupamiento, tienen su propio contra, ¿no? Entonces, el clácter
+y nés, como decía por decir, una tarea que tiene como finalidad, lograr agrupamiento
+de conjuntos de objetos que están no etiquetados, y esa agrupación es esa agrupamiento recibe
+en el nombre de clácter. Los elementos de cada uno de cada uno de esos conjuntos
+poseen algunas características que los distinguen de otros, esto es importante, porque
+la idea es que cada uno de los elementos pertenecan a uno y sólo uno de los conjuntos
+determinados.
+Y esa última oración acá queda nuestro criterio de la zona interpretación semántica,
+por ahí yo no sé por qué lo estoy agrupando de esa manera, y muchas veces se despoze
+de que los agrupe, ellos trato de ver y de ponerlo un nombre a cada uno de esos conjuntos.
+Se entiende, a priori, no necesariamente tengo por qué conocer de que trata cada uno
+de esos clácter, simplemente los agrupo, y después le pongo un nombre.
+Algunos susos de técnicas de clácter, algunos son más conocidos seguramente o enseguida
+les suelen, la biología en el estudio de la célula, en un medio ambiente en marketing.
+En marketing, segmentación de mercado, muchas veces se habla de hacer clácter en marketing,
+lo que estamos haciendo es segmentar, tratar de hacer agrupaciones de clientes, con determinado
+perfil, determinado comportamiento, y eso justamente es un determinado clácter, a donde yo
+le voy a mandar, o mi empresa le va a mandar, eso que se está lo buen información.
+En sociología, bueno, en análisis de redes sociales, eso se hace mucho cuando se estudian
+los perfiles de los que actúan en redes sociales, y bueno, en función de eso, te tiran,
+Twitter, por ejemplo, y te tiran qué, qué, ¿cómo es? Que Twitter, promocionado, determinado
+producto, te puedes llegar a interesar, eso está relacionado en las dos, es algo de segmentación
+de mercado, pero también implica a análisis de redes sociales.
+Bueno, que no que veis tipo de nombre social, no va a hacer autóist, por ejemplo, te va
+a hacer un autóist primero, y ahí también según la segmentación en clácter, los que
+se pueden salvar a los usuarios muy intereses, ¿no?
+Pero eso es lo que haría voz después, tal, eso lo hace es voz después, cuando tenés
+los tweets, yo me sé que cuando empezaste ahora, pensé que ahora va a de cuando
+vos entrar a Twitter, y veis lo que te aparece, yo me refería a que vos entrar a
+Twitter, y de repente te aparece algo, un tweet que no sabes por qué te lo ponen, y eso es
+porque alguien sabe, a este le gusta al futuro, entonces seguramente le va a pasar en un
+tweet en la final de la Copa esta que está naciendo ahora, porque detectan que hay un
+interés en vos, entonces ese tipo de cosas adrupan, claro, el tweet no te lo mandan
+a vos, te lo mandan a todos aquella personas que tienen un perfil similar, entonces es un
+poco en ese sentido, bien, hay como dos clases de algoritmos principales, por decirlo
+alguna manera, es uno es el que se ya denomina camins, que es el que en el que yo sea
+a priori, como decía, quiero conseguir cárter distintos, ese algoritmo de camins en donde
+yo prefijo un cárter, es trato de terminar en un diujito para que se entienda más fácil en dos
+dimensiones, ahí hay un montón de piensas en que pueden ser documentos, pueden ser
+importa que demasiado representados por mundos, entonces que el algoritmo de camins lo que dice
+bueno, cuánto va a lecar, tres, entonces trata de terminar, tres puntos que son van a ser
+los centrógiles de esos clases, de esos conjuntos, cada clases se representan mediante un
+punto en el espacio, tengo cada esos puntos, los puntos que queden más cerca del centroide,
+se subí, que de cualquier otro centroide corresponden a el clastar, se subí, y eso es un proceso
+iterativo, es decir, yo agarro y pongo ahí el hijo, tres puntos a priori cual es quiera y
+empiezo calcular las distancias y ahí está el clave, que es lo que utilizo para que
+formula es la que utilizo, para calcular la distancia de cada uno de los puntos a esos
+que constituirían mis centrógiles, esos centrógiles en definitiva por eso que dice que es un
+proceso iterativo, yo voy a cambiarlo, es decir, yo tiro una vez y empiezo agrupar y después
+eventualmente, en función de lo que me da, puedo determinar nuevos centrógiles, porque algunos
+me quedaron, medios, lejos, o lo que se ha digo, capaz que hay otra agrupación, que es un
+poco mejor, acá es como en el ejemplo, este es como bastante, bastante obvio, que en definitiva
+si yo eligiera un punto acá, un punto acá y un punto por acá, enseguida esos grupos
+a deciría que están cercadas esos puntos, pero si yo hubiera puesto una de la séquis por
+acá arriba o por acá, ¿verdad? ¿verdad? Capazquilos agrupamientos hubieran sido otros, y entonces
+necesito más de una iteración para armarlos los conjuntitos que aparecen ahí, ¿ok?
+Entonces, como decía recién, acá todo depende de cuántos conjuntos o cuánto vale acá,
+acá yo podía decir, bueno yo tengo todo estos puntos y quiero hacer dos clastras, entonces
+parece intuitivo que están agrupado de esa manera y así podía elegir seis clastras, entonces
+definitiva los puntos que están más cerca, o sea, no está marcado acá cuál es el centro
+vide, pero un poco podemos introduir en función de los de los de los colores, ¿ok? Bueno,
+dos clastras, seis clastras, cuatro clastras, lo que fuera, para el cálculo de la distancia entre
+los puntos, lo que se utiliza es la distancia en clínea, ¿ok? También se podría utilizar
+el coseno del ángulo, entre eso que se forman tres dos puntos, en general es un algoritmo
+muy rápido que convergen pocas iteraciones, y esto es una cosa importante, es los clastras
+no hay solamente los objetos, es decir, cada uno de los elementos va a partencer a un
+conjunto solo, el desafío obviamente va a hacer elegir los mejores casen troides, acá
+hay un ejemplo de este justamente que hitera al más de un caso que muestra lo que decíamos
+hace un ratito, yo tengo un conjunto de puntos, ahí los verdes y el hijo estos dos, como
+son troides, está 12x en azul y en rojo, entonces en una primera pasada de algoritmo lo que
+me dice es, divido así y así, ese agrupamiento, algunos son azules y otros, pero será la
+mejor iteración vuelvo a iterarlo, el hijo cálculo de estos puntos que yo ahora están todos
+azules, a ver si no hay algún otro x, no sé si se ve ahí, acá y otro, acá está la x y acá
+ahí está la x en rojo, entonces, si yo defino esos otros, centros y des, el agrupamiento es
+distinto y tero de vuelta, centros y acá centros y acá y el agrupamiento algunos cambian, pero
+después de acá muestra que después de un par de iteraciones ya no cambia más, entonces la
+partición final sería este, o sea, tiende a converger después de un cierto número de pasos,
+no pero esto es como esto es un desemplito no más, debe de visualización, acá los estamos
+mostrando en dos dimensiones, volo que puede estenar si pueden ser en dimension de ellos que
+es ellos, el espacio en edimensional, en principio, pues vamos a traermas más que enjada el ejemplo,
+entonces un modelo de clasterin es el camins y otro modelo, otro esquema es el modelo jerarquico,
+entonces al revés del camins donde yo conocí a los cá, sabía que yo quería ser ca con juntos,
+en el gerarquico, yo no tengo pre definido priori, cuáles son esos cá con juntos que yo quiero
+determinar, entonces, yo se plantea como que los datos o las observaciones o los textos,
+si fueran textos, serían las hojas y en principio trato de ver alguna forma en que estén
+correlacionadas, ciertas similitudes y ahí tendremos que ver cuáles pueden ser las distancias
+de similitudes entre si son documentos o si son este que si yo cualquier otro caso esto,
+a ver como decíamos hoy, esto se aplica a lo que sea, a nosotros nos interesa ver cómo
+estas cosas las aplicamos a los documentos, a los textos, pero en principio son algoritmos
+de clacering genéricos, cada hoja representa un elemento de observación repito para nuestro
+caso serían documentos, y a medida de que se sube alguna de esas hojas se van funcionando
+en función de cierto grado de similitud, algunas características comunes, y la idea en este
+ejemplito que está puesto acá es que a nivel horizontal yo voy marcando hoy, yo voy
+marcando si acá sería en la posibilidad de la izquierda sería un solo clázca, son dos
+iguales, pero los cortes estos horizontales acá en las ramas es como que yo digo bueno,
+acá marco estos tengo dos clastas, tengo dos conjuntos elementos que se parecen y este
+de la izquierda tengo tres, dependiendo aquí a altura corto es donde yo agrupo conjuntos
+elementos que se consideren parecidos, que tengan algún grado de similitud, hay otros
+pero hay otro otro modelo, también que se llama de bescán que también se utiliza y se
+utiliza en clázter indetestos, es un algoritmo que también se basan la densidad de puntos
+en la representación como veamos hoy en el camins, pero también es un modelo que no conoce
+de priori, los cá, sino que yo voy tratando de agrupar con juntos que tengan algunas similitud,
+el problema que puede llegar a tener es que yo lo que hago es para cada uno de los puntitos
+misos heraciones, mis textos trato de generar un cierto círculo digamos un
+un cierto epsilom de cercanía, de correlación y en función de eso voy agrupando a que ellos
+que se queden cerca, está el concepto de lo que están adentro, lo que están en la frontera
+o lo que están quedando muy lejos y en función de eso yo voy viendo cuáles son los
+que puedo ir agrupando de alguna manera, lo que pasa ahí es que como en cualquiera de estos
+otros casos yo puedo tener documentos que nos aparezcan en nada y que me quedan muy aslados
+y entonces, también en cualquiera de estos algoritmos, eso puede generarme si son muy
+dispersos, los documentos, muy distintos, documentos digo documentos o elementos, puede
+generarme algunos elementos que no estén relacionados con ninguno de los clases, hay que
+ver qué tratamiento se hace con eso, preguntas, seguimos bien, y en otro tema es que
+queríamos comentar, bueno es el modelado de tópicos, que es un tópico, que es un tópico,
+está en lo que es tópico, no sé si hay que estar acá, vamos a ver así, si no le haya
+un rapido, que es un tópico, que le llaman tópico, escuchando en el tema modelado de tópicos,
+tópico modeling, no le suena, bien, que es un tópico, tema, ¿qué es una palabra tópico?
+¿Cuál es una circunstancia, para que os haya temas, bien? Claro, se utiliza, alguna
+circunstanó, se habló de determinado tópico, y eso es, se habló de determinado tema, correcto,
+es que es un poco esa idea, lo que pasa es que no necesariamente y esa es un poco, vamos a
+primero vamos a ver un par de funicciones de la rai, fíjense en la cinta, es la que
+o es eso, tema, el elemento un enunciado, no fíjense acá, esta está buena también, el elemento
+un enunciado normalmente es lado entre pausas que introducia algunos de los elementos
+de la radiación, o bien aporta el marco, el punto de vista pertinente para la
+renunciación, en definitiva la pregunta o lado es, tópico es igual a tema, si es como yo
+de término o como debería yo tener la forma de identificar los tópicos o los temas, es
+decir, cuando yo hago, modelé este modelado de tópicos, lo que trato a hacer y ahora
+nos vamos a concentrar directamente en textos, pensemos en textos en palabras, yo trato
+de ver o de agrupar, tratar de detectar de qué tópico habla tal o cuál documento en función
+de las palabras que estén en ese documento, pensemos en un texto que no tenemos, no sabemos
+nada y que me decir de terminar de qué tópico habla, para eso lo que hago es analizó
+las palabras que contiene, analizó las palabras que contiene, y después hay algunas
+discusiones, no, porque bueno, claro, las palabras que contenga, si son palabras que
+hablan, están siempre aparecen medio relacionadas en todos los tópicos, en perdón, en
+todos los documentos, capaz que están hablando de lo mismo, universidad, estudiante, clase,
+materia, profesor, capaz que todo eso está relacionado a algo que podemos ir tópico
+educación, se entiende y le estamos dando, le estamos dando como un justamente un tema
+semántico, pero si retrocedemos un casillo y lo pensamos como conjunto de palabras,
+hay un ejemplo que está muy lindo y yo digo bueno, en primer lugar, en segundo lugar,
+en tercer lugar, finalmente, son ciertos marcadores o palabras que también suelen aparecer
+juntas en un montón de documentos, pero en realidad de qué están hablando, cuál es el
+tópico, que está hablando, son palabras que si están relacionadas en algún sentido,
+porque aparecen siempre juntas, lo que sea por cierto, aparecen siempre juntas, pero en realidad
+no tienen un tema semántico, entonces hay que saber discriminar ese tipo de cosas, se ve la
+dificultad o se ve el tema, el origen de todo esto es lo que se conoce con el nombre de las
+colocaciones, o podríamos decir que uno de los origenes, que es una combinación, que son
+las colocaciones, es una combinación de palabras, cerrar una ventana, cometer una roar, que
+tienen aparecer juntas, mientras estas otras términos que aparecen acá, meter la pata,
+tomar el pelo, cortar por los anos, son palabras que aparecen juntas, pero que en realidad
+tienen significado en sí mismo, o sea, todas juntas constituyen un solo elemento o un término,
+si meter la pata que es, cuando es y meter la pata, y si te agoma el cometí es una roar, entonces,
+yo tendría que mi algoritmo tendría que determinar que meter la, si aparece, meter la pata,
+o cometer una roar, deberían de estar juntos, por decir algo, ¿Tá? Entonces,
+eso son el tipo de cosas o los desafíos que uno puede llegar a encontrar cuando está siendo estas cosas,
+topicos, el definitiva es el, o debería de ser el asunto principal del que se habla,
+del que se predica o del que se comunica alguna cuestión, y el tema es que ha dado un documento
+no necesariamente fácil determinar el topico, y es justamente el desafío que se que convoca
+cuando uno hace modelado de topicos, o topismo de ahí, tratar de encontrar o determinar
+el tema o un determinado tema del que hable un documento, fíjense este ejemplo, muy lindo,
+leamos arriba, a partir de este martes cada club solo podrás sumar 9 puntos, unidades que
+solo definirán el último modelo del campeonato roguallo, sino que también decidirán
+quiénes se mantienen en primera, de qué hablas eso, ahora tiene un montón de palabras,
+enseguía de este cuenta de la verdad de futuro, cambió a club por estudiante,
+campeonato roguallo por curso, y primera por carrera, y leamos la segunda agracción,
+a partir de este martes cada estudiante solo podrás sumar 9 puntos, unidades que solo definirán
+el último modelo del curso actual, sino que también decidirán quiénes se mantienen en carrera,
+y aquí estamos hablando acá, la puntada, estudio, educación, entonces la clave está en ver
+cuáles son las palabras que en definitiva son las que me marca en el topico y hay un montón de
+palabras que pueden aparecer en varios textos y en varios tópicos, porque si capaz que la
+palabra martes aparece tanto en los tópicos de carrera como en el topico de fútbol, se entiende,
+entonces, pero que pasa, en alguna va a aparecer o más frecuentemente o menos frecuentemente,
+y ahí la estrategia o el modelo que más se adecúa a este tema es trabajar con provenidades,
+y hacer distribuciones de probabilidad. Entonces, y ya vamos a eso, el modelo de tópicos nos
+permito organizar, entender y resumir grandes colecciones de documentos, intenta detectar patrones
+de ocurrencia de las palabras, agrupando las envase a distribuciones de esas palabras en un conjunto
+de documentos, un poco lo que estábamos comentando con ese ejemplo, está, es útil y identificado
+las temas para poder ocupar, eso está claro. Entonces, en qué consiste el modelo de tópicos
+en construir un modelo justamente que busque y encuentre las palabras que están relacionadas
+de alguna manera. Esa agrupación de palabras lo que van a conformar justamente son clatas,
+y esa o sea que lo que estuvimos viendo antes está, y precisamente relacionado con esto que estamos
+en dos horas. Y la estrategia claramente es que mis tópicos, los distintos claster que yo
+vas a juntar, sean los más distintos que pueda, entre sí. Pero eso no necesariamente lo
+puedo, es porque lo que nos va a estar pasando es que palabras muchas palabras pueden aparecer
+en muchos tópicos, lo que va a tener, lo que van a tener o lo que deberían detener son
+distintas frecuencias de aparición o distintas probabilidades que ocurran en tal o cual
+palabra, en tal o cual tópico.
+¿Pero por lo cual tan alto que vale dos tópicos? Y yo porque es la estrategia y uno de las
+tópicos. Sí. Exacto. Y ese es todo un desafío porque justamente lo que va a
+atener no solamente un documento va a pertenecer, ahora lo vamos a ver el agorismo tradicional
+de esto es el idea que lo que hace es justamente una distribución de dónde este documento
+puede quedar en este tópico, en este tópico, o en este tópico. Entonces, pero con distinta
+probabilidad y ese justamente el desafío. No solamente tengo palabras que pueden pertenecer
+a más de un documento y a más de un tópico, sino documentos que pueden pertenecer a más
+un tópico y ese es todo un problema. Sí, lo que pasa es que lo que yo trato de hacer es generar
+un modelo en base distribuciones de probabilidad. En el modelo tópico yo tengo que cada tópico
+es una bolsa de palabras y que cada documento es una mezcla de tópicos, que era un poco
+la pregunta que vos hacía. Cada documento puede tener ciertos porcentaje de palabras
+que con mayor o menor frecuencia aparecen en más de un tópico. Y eso justamente es la estrategia
+que hacen los algoritmos de tópicos de língua.
+Tengo un conjunto de documentos y lo que trato a hacer es agruparlos bajo un determinado
+tópico. Cada uno me dirán, pero pensemos y pensamos, noticia del prensa.
+La papa, porque yo por lo general tengo, ya metagatos, no que me dice este, a que de hecho
+pasa, esto pertenece a economía o esta es una noticia de fútbol o esta es una noticia
+de ahí pueden haber tópicos que están prácticamente determinados. Pero no necesariamente
+tengo sometagatos, en donde yo me pueda basar para aplicar mi tópico de línguamos,
+mismo del lado. Y no necesariamente, o sea, acá yo le estoy diciendo esto, a que?
+T1, T2 y T3, yo después a este T1, T2 y T3, le voy a poner una etiqueta. Y el desafío
+va a ser después, bueno, y cuando yo le incorporo un nuevo texto, a ver si encaja en alguno
+de esos tres que definía ahí, o tengo que hacer un nuevo, una nueva pasada para determinar
+capas otra cosa. Tampoco es una cuestión de que yo diga, bueno, hago un malado tópico,
+voy a seleccionar en diéstópicos, porque 10, capa que son 5, capa que son 20, capa que son
+20, capa que son 20, o sea, tampoco necesariamente se conoce en aprior y cuáles son los tópicos
+o la cantidad de tópicos que existen en un corpus. Y ahí dos enfogues, por un lado, me vuelve,
+lista de palabras y por otro lado es tratar de detectar patrones de aquella sucurrencias
+de palabras que se agrupen en base a ciertas distribuciones dentro del conjunto de documentos.
+Tampoco son 12 enfogues distintos. Y uno podía hacer este, hace un tiempo había un
+setchón, un trabajo con la gente 16 económicas, entonces justamente trataban era para otra
+cosa, no, el estudio de un indicador. Y que se basaba en cosas de este estilo. Trataba
+de ver cuál son aquellas palabras que hablan de determinado tópico o determinado tema.
+Hay economía económico, económista, comercio, inflación, entonces el tópico es economía.
+Es artido, un brinciar, tu insierta riesgo, país, insartido, un hombre. Fíjese que riesgo
+país lo toman con un token. No estamos necesariamente hablando de palabras, sino que estamos
+hablando de tokens. Esto también les da la pauta, hoy no lo vimos en el ejemplo, que
+entonces estas cosas, yo cada vez que vaya a aplicar. Y ahí ya me temo pelenes, antes de
+aplicar estas cosas. Fíjelo que tengo que hacer con los textos, que yo les dije que
+está minimizada esa carea cuando hacemos pelenes. Depurar, pre-procesar, sacar limpiar
+el texto, sacar un reele, ver que hacer con las fechas, normalizar, ver que hacer con los
+puntos, es decir, toda esa tarea de pre-procesamiento, la tengo que hacer antes. ¿Qué
+hubo las palabras? Las estopuores. Las limpios, las considero, no las considero.
+Sentiendes, esas palabras, las estopuores, estos temas, ¿no? Algunos agurimos las dejanadas
+dentro. Pero claro, esas me van a aparecer en todos los tópicos, se aparecen casi todos
+de momento, con funciones, artígulos, esas van a aparecer en todos los momentos, esas
+no son palabras que me identifique en un tema. De hecho, algunas veces, uno lo que hace, algunos
+agurimos, dice, bueno, genero todo un tópico con las estopuores y algunas palabras que
+no agren en contenido y te hacen un tópico con eso. ¿Tá? Para este tipo de cosas, cuando uno
+trabaja con listas de palabras, hay lo que se requiere es el conocimiento de un juicio
+experto, ¿no? También, de que diga, bueno, ¿cuáles son las palabras asociadas
+a tópico? O sea, hay un trabajo, no solamente de algoritmos, que se trata de identificar,
+si no un trabajo de arranque, que me identifique, ¿cuáles son aquellos asociadas a tántópicos?
+Bueno, y por otro lado, tenemos algoritmos, un enfoque basado en distribución de las palabras.
+El idea es un algoritmo bastante de los más utilizados, el idea y algunas variantes en esto
+hemos de lado del tópicos, sobre todo en este último tiempo. Pero, fíjense que aparecen,
+son trabajos que aparecen ya en la década de 2000, ¿no? Y leyes uno de los que hecho
+el que propone el algoritmo de el idea. El idea genera tópicos proponiendo una distribución
+de todas las palabras del corpus y calcula una distribución de estos tópicos en cada
+documento. Entonces, cada documento en ese corpus es distribuible con una cierta probabilidad
+a alguno de los tópicos. O sea, un poco la pregunta a cosas días, un documento puede
+pertenecer ser del tópico T1 con un 95% de probabilidad, pero tiene un 5% de probabilidad
+de que ese tópico también pertene, ese documento también pertene y salto pico T2, que es un poco
+lo que hace de la idea, juega con eso, pero un documento puede tener más de todo, es acto.
+Bueno, ese es otro tema, pero vos quieres incasillarlo en uno de los tópicos,
+es decir, este habla de 95, 50% de economía y 50% de política, política, exacto y
+todo, es así, después vos después tendrás que ver qué es lo que hace con eso, pero
+sí, exacto, puede pasar. Bueno, un poco lo que decíamos recién, cada tópico es una distribución
+probabilítica de palabra, no, entonces tengo el tópico turismo, educación, economía,
+y entonces, como ven, hay palabras que aparecen, estos son números truchos, pero palabras
+que aparecen o que pueden aparecer en más tópico. Turismo argentinos, bilateral, blú,
+educación, bueno, ven acá en economía también, aparece el blú peso, dólar. Entonces,
+hay palabras que capaz que blú, cuando tengas que precisar un documento, bueno, donde
+lo pongo, y tiene la palabra blú muchas veces, y bueno, capaz que lo pongo en el tópico turismo,
+es más probable que el tópico que no mía, pero bueno, es parte de las cosas que yo tengo
+que decidir cuando pico te tipos de goses. Entonces, decíamos, cada tópico es una distribución
+probabilítica de palabras, y cada documento es una distribución probabilítica de tópicos,
+de vuelta lo que decíamos es un rato. Entonces, si yo tengo este texto que está acá,
+lo con base a lo que preguntaba a vos, y bueno, en función de lo que aparece ahí,
+sí, vas a cifrar mi misterio de turismo y los solatores, por el economista, la verdad es,
+señaló que el primer trimestre este año, el gasto de Uruguay, el cancer, no sé cuánto, tanto de
+los Uruguayos, millones. Bueno, parece acá, el tema no parece la palabra dola, la
+parecen sí, no un poco lo que decíamos hoy del prepresasamiento. En fin, aparece acá sí,
+la parecen la palabra dola, la parecen blú, aparece pezos, en fin, el proceso me podría decir
+que este documento tiene un 25% de que sea de turismo, un 7% de educación, porque capa que
+tiene algunas palabras del tópico educación y un 19% de economía, por decir algo.
+Y otra vez que por ahí no aparece ahí, ok?
+Bien, se ha sido inicialmente una probabilidad y lo que la de es de Dirichlet, porque lo que
+Dirichlet es la distribución de Dirichlet, no es distribución de Dirichlet.
+Permite que un documento sea parte de varios tópicos cada uno con un peso diferente y lo
+interesante es esto, que son las métricas, como yo mido, si mi algoritmo es bueno, malo,
+se comporta bien, se comporta mal, es lo puedo medir con coherencia y perplegidad, perplegidades
+como se comporta cuando yo le agrego un documento, sabe dónde ir, se encajan en uno de
+los tópicos que ya definimos o no, entonces una medida de perplegidad me dice a mí,
+cuán efectivo es el acorismo que socabo de aplicar y coherencia de bueno, que haya una
+coherencia, se ha completo en su globalidad, que se ha corriente lo que acabo de mi distribución
+de documentos a lo largo de todo el corpus, sabe de que todo se estén dentro de algunos
+de los tópicos que he estado trabajando.
+Hay algunas variantes de la idea CTM, BTM, la CTM es una variante que lo que hace es cambiada
+la distribución de probabilidad por una normal logística, BTM está bueno, es una variante
+porque que pasa, el idea estamos acostumbrados a trabajar con textos largos, donde tienen
+una gran cantidad de palabras, entonces bueno, eso juego con la frecuencia de las palabras
+y del dotete.
+Y BTM lo que hace es incluir el concepto de BTM y es de ver si utiliza es como una versión
+de desdear aplicada a textos cortos, como podrían ser textos de Twitter o cosas por el estilo,
+en donde yo puedo tratar de encontrar pequeñas palabras que ocurren en un texto, es la misma
+idea pero para textos mucho más cortitos, es interesante, que si yo son ejemplitos,
+hay literatura que hables de estos de todos de los agolíte, quería llegar a este, esta
+es una idea extendido con embeddings, es una propuesta bastante reciente, en donde yo hago
+una representación de mi conjuntos de documentos, es vectorial, entonces un vector de dimensiones
+de las palabras de un vocabulario, de conjunto de todas las palabras del vocabulario.
+Y lo interesante es que utiliza abectores para determinar o sea para representar a los
+documentos y para representar a los tópicos, los documentos están representados por palabras
+y los tópicos están representados por palabras, entonces para saber cuando un nuevo documento
+entre tal o cual tópico, calcula la distancia o clídeo, la distancia cocino, entre los
+aspectores del tópico de el documento, que estoy agregando, o sea, lo que le agrega,
+este, este M, es alele de A, vectores, embeddings, entonces yo tengo hay ciertos, y
+perparámetros, no, cuál es el número de tópicos que yo quiero inferir, cuál es el espacio,
+la dimensión de los sectores, está y la cantidad de vocabularios, entonces tengo una
+matriz, bueno, de embeddings con dimensión de por V, una matriz de tópicos, una red neuronal,
+con entrada de tamaño V y salida de tamaño V, entonces un esquemita simplemente de lo que
+como haría para un nuevo documento entre la red y metida, cuál es son los tópicos inferidos
+por la red con su porcentaje de probabilidad, y cuál va a hacer la distribución de las palabras
+de ese texto en esos tópicos, o sea, las dos cosas, es más probable que tenga sea de economía
+o de, este, política, en tal probabilidad, y bueno, y el porcentaje estas palabras, y yo
+después de, pues veo, si lo depa adelante, si sigo, si no, ya queda en función del usuario,
+entonces simplemente un ejemplo para que para bajar a tierras tus conceptos, no?
+Yo tengo estas palabras, no? Club, campeonato, primera, tantos medios por acá, este cláster
+de palabras, también juntos, por acá tengo estudiante, carrera, curso, creo que son
+los mismos ejemplos que estaban en el anterior, no? Y tengo esta noticia, ¿eh? Que quiero
+ver a dónde va? Tengo el tópico 1, osea que está acá, tópico 1, fíjense del centro
+y el que decíamos hoy, tengo el tópico 2, yo lo que tengo que haber es calcular la distancia del
+vector de esta noticia con respecto a cada uno de los tópicos, de los efectores de los
+tópicos, y bueno, esto simplemente ha modo de ejemplo, me dio que esta noticia, fíjense
+hablamos del texto, no hablamos de multimedia, acá está propósito para mostrarles
+de que apareció una foto que probablemente sea deportes de esa noticia, pero bueno, en
+función de las palabras que tiene el texto, esto dice que pertenece al tópico 1, 90 y al
+tópico 2, 10, con esa probabilidad, y esta es la distinución de probabilidad de las palabras
+de la noticia que aparecía ahí, está, esto simplemente ha modo de ejemplo, ¿qué está
+de la distinución, osea la probabilidad de la palabra del tópico?
+Sí, sí, bien, se entendió, alguna pregunta, obviamente, de vuelta, donde engancha
+belleña acá, en particularmente en toda la setra paz, porque realmente en toda la
+setra paz, esto ya estoy aplicando técnicas de presentamiento de lenguaje natural, porque
+trabajó con las palabras, trabajó con los momentos, osea en cualquiera de estas dos
+casos, más allá de clasters lo vimos con algunos ejemplitos míos aislados, en lo
+mismo, acá aparecen mismo con el mismo concepto, de agrupamiento, de agrupamiento de palabras,
+de agrupamiento de documentos, y bueno, pues está la manera de cómo yo represento esos documentos,
+para luego procesamos, bien, no hay preguntas, ¿dale?
+Estos sabrimos son, osea, no os realizados, osea, no, no, no, no, exacto, exacto, es más,
+hoy lo, en este ejemplito, ¿no?
+Osea, los tópicos son 1, 2 y 3, después, yo humano puedo decir, bueno, mira, al
+te uno, me fijo en las palabras y digo economía, al te dole pongo deportes, que si pensamos
+en noticias, no, pensamos en noticias de un diario, no necesariamente un diario que lo
+coloque en el tópico política, capaz que en realidad para mí es el tópico de cormía, osea,
+también me puede servir tener esos metadatos, si fueran, si estuvieran analizando texto en
+prensa y tengo los metadatos, me puede servir como para validar o no validar, pero a priori,
+el tipo de tira, te uno, te dos, te tres, te cuatro, te cinco, los que vos quieras,
+o digamos, de vuelta, esto se va refinando, en llega un punto donde vos deciste, no, llevo
+hasta 10 tópicos o llevo hasta cuatro tópicos o llevo hasta 20 tópicos, porque después
+ya la distribución en la misma, no, no cambia, no, no, no, no, por más que agrande el número
+tópico, se esto no cambia, o sea que no, no, no, no agaría la ecuera, pero bueno, después se
+requiere de un juicio de perto que te diga bueno, te uno está, te dos está, y cuando venga
+un nuevo documento entre ese agorimo y ves, si enganchó en el te uno, que era de economía
+y ahí, como es que validas si estaba bien, está mal.
+Bueno, entonces dejamos por acá, fin del curso, y seguimos ahora semana que viene libre y luego empezamos con las presentaciones.
+En el foro, tienen para preguntar por la taría laboratorio, vamos a tratar de estar atentos a las preguntas.
+Y ahí después le digo hoy publicamos en un rato, publicamos la nomina de artículos de cada uno de los grupos.

@@ -1,0 +1,817 @@
+start	end	text
+0	29680	¿Qué vamos a ver hoy? Ni idea. Bien. La idea es como una clase
+29680	34360	de invitada dentro del curso de introducción al presamiento del
+34360	40960	lenguaje natural, dar algo de el tema de recuperación de información.
+40960	46800	Pero si uno piensa en recuperación de información, ya en seguida uno asocia
+46800	51840	Google, web, cosas, o vamos a ver eso. No, no vamos a ver eso. Vamos a ver los
+51840	59280	inicios de la recuperación de información. Cuando todavía Internet no
+59280	64680	era tal, estamos hablando de la década del 60, cuando empezaron a aparecer los
+64680	70480	primeros sistemas o cuáles eran los modelos o cuáles eran los criterios para
+70480	78560	construir un sistema de recuperación de documentos de información donde vamos a
+78560	83160	estar comentando la filosofía totalmente distinta a lo que oí en la web.
+83160	93280	Entonces, en los sistemas de recuperación de información, como le decía, en general
+93280	98000	se habla de un dominio acotado, un dominio conocido y uno lo que ha tratado
+98000	103080	de hacer es tratar de recuperar la mayor cantidad de documentos o de
+103680	112400	información que exista en esa base documental vinculado a la necesidad del
+112400	117400	usuario. Entonces, estas son algunas de las preguntas que uno se hace, ¿no?
+117400	121800	¿Cómo podemos recuperar información relevante para nosotros contenida en esos
+121800	126560	documentos, en esa colección de documentos? ¿Qué cosas tendrían que ser
+126560	131800	representativas? ¿Qué es lo que va a identificar un documento de otro? ¿Cómo
+131880	134920	se van a representar los documentos? ¿Cómo vamos a representar las consultas?
+136920	142480	Si importa la estructura que tenga el documento o solamente el contenido, en
+142480	145800	fin, ¿y cuál hace la relevancia asociada a cada documento?
+145800	151480	Esto es un tema bien importante porque uno inevitablemente, cuando voy a estar
+151480	156960	hablando, hace su paralelismo a la web. Entonces, hoy vemos, hacemos una consulta
+157080	162960	en la web, en internet y siempre aparece un orden de... De alguna manera, el tipo
+162960	168040	ordena, se aguna algún criterio. Entonces, en aquí estamos hablando de los
+168040	173120	primeros sistemas de recuperación de base datos documentales, el tema de la
+173120	177040	relevancia era muy importante y cuál sean los criterios y cómo se medía esa
+177040	181880	relevancia, era sumamente clave en los primeros modelos teóricos y, bueno,
+181880	184920	que después se aplicaron en los primeros sistemas de gestión documental.
+185880	193200	Entonces, bueno, una breve agenda, primero introducir al tema, vamos a hablar
+193200	200400	algo de los modelos de información retrieval, cuáles son las medidas para
+200400	206760	evaluar la recuperación y después, muy por arriba, hablar algo de
+206760	213480	indexación, que es Clare, indudablemente, por lo menos mencionar lo que sería
+214040	218080	recuperación de información en la web y después se tota un tema interesante,
+218080	220720	que es el tema de tracción de información, que de alguna manera es
+220720	224880	como un hermano menor de la recuperación de información.
+227880	232920	Entonces, para empezar a contextualizar, tres preguntas distintas. Primero,
+232920	237480	veamos qué es el concepto de información, luego qué es un sistema de
+237480	241240	información para, después, llegar al concepto de qué es recuperación de
+241240	251320	información. Acá yo saqué un par de…, porque todos estos conceptos ya los tenemos,
+251320	255480	ya los venimos manejando, más que nada para contextualizar. Estas son un par de
+255480	260960	definiciones que me parecieron interesantes de la Real Academia y la otra la
+260960	265640	saqué de Wikipedia. Comunicación o adquisición de conocimientos que permiten
+265640	270720	ampliar o precisar los que ya se poseen. Es decir, yo ya tengo determinada idea
+270720	276880	sobre algo y busco aumentar esas ideas sobre determinados conceptos o un
+276880	280880	conjunto organizado de datos procesados que constituyen un mensaje que cambia el
+280880	285840	estado del conocimiento del sujeto o de lo que ya conocíamos. Son como distintas
+285840	290040	pero orientadas a lo mismo, tratar de profundizar o de aumentar la capacidad
+290040	295800	de conocimiento sobre determinado aspecto. Entonces, sobre esa base un sistema
+295800	300960	de información, también hay un par de definiciones de dos sitios, conjunto de
+300960	306560	funciones o componentes relacionados que forman un todo, almacena, procesa,
+306560	310640	distribuye, en fin, o un conjunto organizado de elementos que pueden ser
+310640	315920	personas, datos, o sea, no asociarlo directamente a la tecnología. Un sistema
+315920	321680	de información es algo que va mucho más allá del concepto de tecnología.
+322640	328520	Entonces, cualidades de un sistema de información debe ser preciso, o sea, la
+328520	335720	información que contenga debe estar clara y contundente de lo que se
+335720	345120	pretende representar. Hay un tema de oportunidad que tiene que ver con el
+345120	349440	momento en que sucede un determinado hecho y el momento en que ese documento
+349480	358520	que refleja a ese hecho es puesto a disposición del sistema. Otra cualidad es
+358520	363520	el hecho de sea completo, si bien la completitud absoluta no existe. Bueno,
+363520	368640	la idea es que cuando yo recupere un sistema, trate de recuperar absolutamente
+368640	375040	todo lo relevante que a mí me interesa contenido en el sistema, ya que no me
+375040	380720	queden cosas por recuperar vinculados a lo que yo quiero. Este, bueno, que tenga
+380720	385360	contenido semántico, que la información sea coherente, o sea, un tema de
+385360	392720	integridad de la información y, bueno, los aspectos de seguridad que no se
+392720	400520	pierdan, digamos, con el tiempo. Algunos ejemplos, a casi uno ya orientado a
+400560	404880	sistemas de información pensando en tecnología, bueno, son los sistemas
+404880	413760	transaccionales, hay cualquiera de lo que va un GRP a un sistema de gestión de
+413760	419680	archivos, soporte a partir de ahí, uno genera un montón de información, entonces
+419680	424600	esa información existe en otros tipos de sistemas que serían los sistemas para
+424600	429120	tomar decisiones, basados en datawareja o jugos, etcétera. Pensamos al día de hoy.
+429560	435160	O los sistemas basados en conocimiento, que a gran derrago podemos enumerar como
+435160	440200	sistemas expertos. Estos son simplemente algunos ejemplos que se basan en grandes
+440200	447040	bases de conocimiento. Entonces, podemos clasificarlos en dos tipos.
+447040	453680	A veces hablamos de sistemas de base de datos o de gestión de datos, de gestión de
+453680	458320	datos o sistemas de recuperación de información, porque un poco lo que yo
+458360	462920	quiero es tratar de mostrar la diferencia entre datos e información.
+465920	470760	Nada, una definición para fijar ideas, un sistema de gestión de base de datos,
+470760	474520	bueno, un software dedicado a servir de interface entre la base de datos, el
+474520	477760	usuario, las aplicaciones, tiene un lenguaje de definición de datos, un lenguaje
+477760	478840	de consulta, etcétera.
+478840	487840	Bien, yendo a recuperación de información, también un par de definiciones,
+487840	493280	la básica de Wikipedia, ciencia de la búsqueda de información en documentos,
+493280	497600	la búsqueda de los documentos, de metadatos que describan esos documentos,
+497600	505960	en fin. Y me interesa, porque rescatar la definición de Salton, porque Salton es un
+505960	510760	poco considerado el padre de la recuperación de información, disciplina
+510760	514720	encargada de la representación, porque aparte contextualiza bien el concepto,
+514720	520480	de la representación, el almacenamiento, la organización y su posterior acceso y
+520480	527160	recuperación de esa información. Entonces, en los sistemas de recuperación de
+527160	533200	información, el objetivo es muy simple, tengo un conjunto de documentos, tengo un
+533280	540040	usuario, con una cierta, quiere investigar o quiere averiguar algo sobre
+540040	546600	determinado tema, y sisto, estamos pensando en conjuntos, no en la web que es heterogénea,
+546600	552160	sino en un conjunto de documentos homogéneo, y bueno, y nada, ayudarse de herramientas
+552160	561720	tecnológicas. Entonces, lo que decía recién, distinguamos lo que es recuperar
+561720	568160	datos de recuperar información. Decíamos en un sistema de base datos, yo tengo un
+568160	575280	lenguaje de manipulación, por ejemplo, de SQL, que busca padrón, valor, de una
+575280	579640	tabla que se llama padrón, es que tengan mayores a tal valor. En los sistemas de
+579640	586680	base datos, yo sé exactamente lo que quiero y tengo o debería de tener el
+586760	593600	conocimiento, el usuario tiene el conocimiento para precisar exactamente el
+593600	602880	tipo de datos que quieres traer. Cuando yo formulo una consulta en los sistemas de
+602880	607040	recuperación de información, quiero saber sobre equipos uruguayos clasificados a
+607040	613280	las copas internacionales en la última década. ¿Qué me voy a traer eso?
+617400	618680	¿Qué me debería de traer?
+621400	622960	Sí, ¿de qué?
+628120	634840	Me va a traer de los equipos de basquebol, de los equipos de fútbol, no estoy, es decir, la
+634840	641960	consulta es bien distinta cuando yo conozco las tablas, la estructura, mientras en el otro lado
+641960	648000	es, si yo no lo soy lo suficientemente preciso para expresar lo que yo necesito, el
+648000	651600	tipo lo sabe y me va a recuperar todo lo que hable de lo que estoy diciendo ahí.
+655800	661720	Bueno, claro, pero si yo, sobre lo mismo, no lo decíamos, bueno, no lo mismo, el
+661720	666160	dominio de la biología, yo voy a decir el dominio deportivo, entonces acá tenemos,
+666200	670040	¿entendés el problema? Esencialmente es eso.
+672120	681400	Entonces, un cuadrito que de alguna manera muestra un esquema de diferencia entre los dos grandes
+681400	687560	sistemas, en el de base de datos estamos pensando en un modelo esencialmente de tablas, un modelo
+687560	694920	relacional donde los objetos son tablas, un modelo estructurado, acá en los sistemas de
+694960	702520	recuperación son documentos, es texto, no es estructurado, la operación básica es la misma,
+702520	706560	es recuperación, de alguna manera lo que decíamos recién, es determinista en el sentido de yo,
+706560	714000	se lee padrón y valor, voy directamente al campo que quiero recuperar, en el otro lado con cierto,
+714000	720360	puse probabilístico, con cierto grado de, no sé, de certeza me va a devolver, capaz que lo que
+720360	726640	quiero, más alguna otra cosa que tendré que ver como lo filtro, etcétera. Las consultas
+726640	735080	son ambiguas y bueno, lo que veíamos recién, al utilizar lenguaje natural en los sistemas
+735080	743360	de recuperación de información, la consulta puede ser ambigua y bueno, y la base es lo mismo,
+744360	752040	y este esquema de alguna manera plantea muy a grandes rasgos lo que es todo el proceso de un
+752040	758920	sistema de information retrieval, tengo usuario y por un lado tengo la base de documentos,
+758920	768840	en cualquiera de los dos casos se realiza un procedimiento por el cual el usuario se realiza
+768840	774240	determinado tipo de operaciones sobre las consultas, antes de largar la búsqueda,
+774240	778920	después vamos a profundizar un poquito más, pero por ejemplo, cosas que seguramente ya
+778920	784800	han estado viendo en el curso, yo qué sé, si pensamos en el ejemplito que teníamos recién,
+784800	790200	de quiero los equipos, qué sé yo, el quiero no lo voy a considerar, los, los artículos no lo voy a
+790200	796160	considerar, es decir, tendré que operar, ver de qué manera represento yo las consultas antes de
+796160	804720	largar la búsqueda, por otro lado, lo mismo con los textos, es decir, yo tendría que tener
+804720	810480	un criterio por el cual voy a representar esos textos de mi base documental, o sea que voy a
+810480	816320	tener que manipular esos textos y hacer ciertas operaciones hasta indicar, y eso es lo que yo
+816320	823480	busco, objetos, este, objetos dentro de una base, este, con cierto índice, pues yo decíamos que
+823480	829400	hay algo de índice, vamos a hablar, lo ideal es que esos documentos me los ordene de alguna manera
+829400	835400	en función de cierto, cierto ranking, cierto grado de relevancia, y hay una primera evaluación
+835400	841680	de los resultados, dependiendo del modelo que uno, uno tenga, esos resultados se tiran de uno al
+841680	847080	usuario, o podría eventualmente hacer una retroalimentación y, o agregar más términos de búsqueda,
+847080	853680	o reformular la consulta, con lo cual el sistema vuelve a, o se lo presenta a los usuarios,
+853680	860720	o vuelve a largar una nueva búsqueda, pero conceptualmente es el esquema genérico de este
+860720	871840	tipo de sistemas. Bien, empecemos a ver alguno de los problemas. ¿Qué información sobre las
+871840	878400	batallas de la Segunda Guerra Mundial que no se liberaron en Europa? Entonces, mi mamá,
+878400	882560	que siempre la usamos en los ejemplos, a la madre de uno, el procedimiento de mi madre,
+882560	887400	cuando, si esto, y yo le digo, tenés que, le explico lo que son las stop wars, y qué sé yo,
+887400	891560	y estas tienen que sacarlas, ella va a poner, y bueno, lo que tengo que poner son los sustantivos,
+891560	896080	¿no? Claro, batallas Segunda Guerra Mundial de Europa. ¿Es correcto esto?
+900840	907640	Claro, el procedimiento intuitivo parece ser razonable, es decir, yo largo una consulta con
+907640	913040	las palabras clave, por decirlo de alguna manera, o los términos en donde podría llegar a estar
+913040	918720	los documentos de esa información. Sin embargo, tengo que manejar el concepto, por ejemplo,
+918720	921760	de la negación, que justamente no son las que se liberaron en Europa, quieren las otras.
+921760	932200	Entonces, no es tan directo cuando uno quiere expresar una consulta, o esas operaciones que
+932200	939480	decíamos recién hoy, que hay que hacer sobre las consultas, ¿no? Entonces, lo básico en
+939480	945720	información, en recuperación de información, es muy simple, dar un conjunto de palabras,
+946160	951000	la consulta, encontrar esas palabras en un documento, de alguna manera,
+951000	955800	y devolver los documentos en los documentos si corresponde y en algún orden.
+960880	964600	La simántica del texto y de la consulta se representan por un conjunto de términos,
+967480	974400	y bueno, alguno de los problemas que ya seguramente ustedes están imaginando,
+974680	982240	hay muchas formas de decir lo mismo. Un mismo término puede tener distintos significados
+982240	987280	en diferentes contextos, hasta ahora por ahí estamos poniendo términos, estamos hablando
+987280	992840	de identificar a los textos y a la consulta exclusivamente por el término. Cuando tenemos
+992840	999920	términos con más de un significado, podemos llegar a tener problemas, ¿no? Si no expreso
+999920	1005760	de alguna otra forma el dominio, ¿no? Nada, ni que hablar de Apple o Banco, yo que sé,
+1005760	1012840	ahí términos, con más de un significado en contextos distintos, y después el otro tema es el
+1012840	1020520	predecir cuáles son más relevantes, cuáles, cómo va mi sistema a decir, este documento es más
+1020640	1029680	importante que este otro. Entonces, yo tengo como dos grandes aspectos a tener en cuenta.
+1029680	1035880	Por un lado, elegir un modelo de representación, como decíamos, de las consultas y de los documentos
+1035880	1045400	y de la base de documentos, y por otro lado diseñar algoritmos lo suficientemente eficientes
+1045560	1053920	para que me devuelvan esos documentos en un orden aceptable, o importante, para mí.
+1056160	1064040	¿Se entendió? Sí. Bien. Entonces, vamos a empezar a hablar de los modelos.
+1068000	1073160	Para definiciones bastante abstractas del concepto de modelo, la extracción de un proceso real o
+1073200	1079360	un esquema de un sistema o realidad compleja que se elabora para facilitar su comprensión y estudio
+1079360	1083960	de comportamiento. Es decir, es una definición conceptualmente de lo que es un modelo. Ahora,
+1083960	1092480	un modelo en los sistemas de recuperación de información, yo lo puedo especificar como
+1092480	1098000	esa cuadrupla que está ahí. Donde yo tengo, ¿de qué es un conjunto de representaciones
+1098000	1103280	lógicas de los documentos? Sí, de todos los documentos, ¿cómo lo voy a representar? Mi base
+1103280	1107880	documental. Q, que es el conjunto de representaciones lógicas que modelan las consultas que yo voy a
+1107880	1113200	poder hacer. Pues, pensemos que en que yo podría tener una, así como tengo una base de documentos,
+1113200	1120800	yo podría tener preestablecidos un conjunto de consultas también. F es un esquema operacional
+1120800	1125680	que especifica las representaciones de los documentos y de las consultas. Ahí tendríamos
+1125680	1133520	que ver cuáles son las operaciones que yo voy a tener tanto en los documentos como en las consultas
+1133520	1143520	y la R es la función de esa ranking que yo les decía, ¿no? Que evalúe de alguna manera esa
+1143520	1149800	relación que existe entre la consulta Q sub y del conjunto Q de consultas vinculada al documento
+1149880	1156760	de subcota del conjunto de documentos. O sea, la función de ranking. Y eso es importante porque
+1156760	1167720	en los sistemas de cómo se recupera la información, tiene mucho que ver, tiene... Yo indudablemente
+1167720	1175720	también me vuelvo a la web, ¿no? Pero que por ahí capaz que para mí los documentos me lo devuelve
+1175800	1181400	de determinada manera y está bien, pero para vos no. O sea, hay todo un tema ahí de cuál es la mejor
+1181400	1188760	función o el concepto de relevancia, no es una definición muy exacta, muy precisa y siempre
+1188760	1198680	hay cierto grado de alguna manera de subjetividad en ese tema. Bien, entonces, nosotros vamos a hablar
+1199640	1206600	básicamente de los modelos de los clásicos, el buleano y el vectorial. Vamos a mencionar algo
+1206600	1215320	del probabilístico y después hubieron algunos intentos de mejorar tanto el modelo vectorial
+1215320	1225000	como el modelo probabilístico, que son utilizar redes neuronales y redes vallesianas que tienen,
+1225720	1233880	ambos son mejoras en algún sentido del modelo vectorial, tanto las neuronales como las redes
+1233880	1241320	vallesianas y el LSI es como una extensión del modelo probabilístico, no arrojaron buenos
+1241320	1250520	resultados y medio como que se descontinuaron. Si hoy se usan las redes neuronales y las redes
+1250520	1254760	vallesianas, para otras cosas, pero no para como extensiones de estos modelos.
+1258280	1261640	Bien, entonces, modelo buleano.
+1264600	1270680	El documento se representa básicamente como un conjunto de términos, en general uno es
+1271400	1278200	los términos que elige para representar a los documentos, son sustantivos.
+1280120	1284680	Entonces, el concepto que decíamos recién, de si un documento va a ser relevante o no,
+1284680	1288760	en este modelo es, si está el término es relevante, si no está no lo es.
+1290440	1292840	El modelo buleano, ¿sí o no? Cero o uno, ¿está o no está?
+1293000	1303400	La regla que rige al modelo buleano es, vocabulario similar, el contenido es similar.
+1305400	1310440	Es decir, si yo tengo un documento que tiene determinados términos que lo identifican,
+1312200	1316440	si tengo dos documentos que tienen los mismos términos, el contenido es similar.
+1316600	1325640	Y ya se las tiro para que la tengas pensando, si eso no me puede llegar a ocasionar problemas.
+1332200	1337640	Claro, el problema que comentábamos hace un rato, si yo tengo, utilizo el concepto,
+1337640	1343000	yo que sé, banco, ¿está bien? el banco para como término de identificación,
+1343480	1348840	para mis documentos, y bueno, en un contexto, banco, va a ser el banco de plaza,
+1348840	1353800	y en otro contexto, banco, va a ser el banco del sistema económico, que sé yo.
+1356760	1360760	O sea, ya me estoy adelantando a uno de los problemas, obviamente, que tiene el modelo buleano.
+1361880	1367400	Bien, y se utilizan los operadores clásicos. Entonces,
+1368120	1373320	el modelo lo que hace es solucionar eso, el problema que tenía mi mamá,
+1373320	1378120	porque ahora yo le explico y le digo, mirá, vos vas a tener una forma de expresar
+1378120	1382680	las consultas, vas a tener que hacer una especie de análisis del texto S,
+1382680	1387640	antes de largar la consulta al sistema. Entonces, ahí va a tener que interpretar
+1387640	1393560	lo de que no fueron en Europa. Además de poder utilizar, por ejemplo,
+1393880	1401960	si pusiera batallas o combates como términos similares, porque si yo no tengo
+1401960	1406520	herramientas que me ayuden al sistema, es decir, herramientas ad hoc, que yo lo haga,
+1406520	1412920	tendría que poner con ors todos los distintos sinónimos. Me expreso, me explico.
+1413240	1421720	Bien. Acá, simplemente ejemplo, yo tengo el documento para un poco fijar la idea.
+1421720	1425960	Tengo el documento 1, que dice, es el jardín, hay plantas y flores todo el año.
+1426840	1430840	A mi mamá, nuevamente, en el documento 2, le gusta que le regalen flores y bombones.
+1432360	1438040	Entonces, como decíamos, los términos que se eligen para identificar al documento
+1438120	1443960	en general son los sustantivos, con lo cual son los términos en esta colección de documentos
+1443960	1448920	formado por estos dos, serían jardín, plantas, flores, año, mamá, bombones.
+1450920	1457960	Entonces, decíamos que los documentos los íbamos a identificar por los términos,
+1457960	1462280	si estaba o no estaba presente en el documento. Si está, ponemos 1, si no,
+1462360	1469320	ponemos un 0. Entonces, el documento 1 me quedaría 1, 1, 1, 1, 0, 0, asociado
+1471320	1476360	a cada uno de estos términos. Y está ahí, el documento 2, 0, 0, 1, 0, 1, 1.
+1477640	1485640	Si la consulta es, yo quiero flores o plantas y mamá me va a devolver el documento 2,
+1485640	1491080	pero si expreso, plantas y jardín, entonces me va a devolver el documento 2.
+1491160	1498840	Entonces, me va a devolver el documento 1. No, un ejemplo de cómo sería la asociación
+1501640	1506440	de documentos y consultas. Bueno, críticas.
+1511800	1517240	Al principio, cuando yo daba esa introducción, hablé del concepto de relevancia.
+1518200	1525400	Y en lo que hemos estado viendo del modelo buliano, claramente vemos que lo primero que marco ahí es,
+1525400	1536280	yo no hablo de más o menos relevantes, porque fíjense que el segundo, el segundo quedó claro,
+1536280	1539880	es indiferente si un documento contenga uno si empece la palabra de la consulta.
+1539880	1545160	Además, si yo en el mismo documento aparece tres o cuatro veces la misma palabra,
+1546120	1553640	yo voy a poner solamente un 1. O sea, no se le da mayor peso en función de la cantidad de ocurrencias
+1553640	1563320	de la palabra dentro del documento. Da lo mismo que se cumpla una o todas las cláusulas en el caso
+1563480	1572440	de honor. Ahora lo vemos con el ejemplito ahí. Y no considera el casi. ¿Qué quiere decir?
+1575160	1579560	Yo, por ejemplo, fíjese el ejemplo de acá. Quiero investigar sobre los charruas y los guaraníes.
+1580680	1581960	¿Cuál sería la consulta?
+1587240	1589720	Intuitivamente, la consulta es charruas y guaraníes.
+1590440	1599000	¿Qué podría llegar a pasar? Exacto. Si yo pongo charruas y guaraníes,
+1599000	1605640	me tiene que cumplir las dos, hablar de los dos. Ahora yo puedo tener un documento que me hable
+1605640	1611560	de la historia de los charruas y que sea súper y me interesaría, porque yo quiero charruas y
+1611560	1616440	de los guaraníes. Un documento que hables exclusivamente de los charruas me sirve. Entonces,
+1616920	1623160	tiene ese tema de lo que hablábamos hoy, del casi. Yo que sé, el ANG lo que hace es,
+1623160	1626840	me obliga a que hable exactamente de los dos. Entonces, aquello de lo intuitivo,
+1627560	1635480	tal vez lo ideal sería usar un horro. Y, como decíamos, no es intuitivo para mi mamá.
+1635560	1644120	A favor, de las primeras ideas que aún no se le ocurren,
+1646280	1650360	fue adotado de hecho por los primeros sistemas de recuperación bibliográficos.
+1650360	1654040	Y, bueno, como hemos visto, es muy simple de formalizar.
+1657000	1665240	Inmediatamente, llévense al día de hoy, año 2016, aplicar esto en lo que sería internet.
+1665480	1680280	Bueno, es que los sistemas de bibliotecas se basan en estas cosas. Los sistemas de bibliotecas,
+1680280	1685880	de gestión de documentos de las bibliotecas, se basan en estas cosas. Y tiene esa dificultad.
+1685880	1696680	¿Se entendió el modelo buliano? Después apareció una extensión del modelo buliano.
+1696680	1703160	Le llamaron modelo buliano extendido, que le agregaba a algún operador más,
+1703160	1713080	tenía que ver con la, le agregaba un operador de proximidad de las palabras. O sea,
+1713080	1719400	consideraba si ésta estaba cerca de éste, agregaba más cosas. Aparte de los operadores
+1719400	1724760	bulianos, agregaba un operador de proximidad. Pero, nada, fracasó con total éxito.
+1729400	1738680	Bien, modelo vectorial. Muchos dicen, yo, de lo que he estudiado, me incluyo en esa barra,
+1739000	1745720	que Salton es el padre, por decirlo de alguna manera, de los sistemas de información retrieval.
+1746760	1752760	Con su, el modelo vectorial es el clásico en los sistemas de recuperación de información.
+1754120	1760680	Él generó un sistema llamado smart. ¿Qué le sugieren?
+1760680	1769480	Claro, sí, pero no. Claro, porque ahora está muy de modo de smart, smart city, no, no tiene
+1769480	1779160	nada que ver. Smart is system, system for the mechanical analysis for retrieval text.
+1781160	1787160	Ese era smart. O sea, en el 60, claro, en el tipo, en el 60, en fin de los 60 no estaba como,
+1787480	1793880	como en los conceptos de hoy. Bien, el sistema smart. Se selecciona un conjunto de palabras o
+1793880	1796840	términos útiles para discriminar, eso es lo mismo que veníamos manejando hoy.
+1798440	1803960	Lo que le agrega es el concepto de grado de similitud entre consultas y documentos.
+1807400	1808760	Ahora vamos a hablar sobre eso.
+1809720	1817240	Que de alguna manera lo que hace es expresar la relación entre cada documento de subida,
+1817240	1823400	una colapsión de n documentos, con el conjunto de los k términos elegidos para indexar.
+1825080	1832280	Yo elijo, fíjense que en el ejemplo de buliano, el tipo agarraba todos los sustantivos de
+1833240	1842520	todos los documentos y, chao, ponía 1, 0, 1, 0 para el documento. Estuvieron, no estuvieran.
+1844520	1852680	Acá el tipo dice, para, no vamos a tomar las 322 sustantivos que hay. Vamos a elegir k
+1853800	1860600	y sobre esos k, que hay que ver cuáles son, sobre esos k es que vamos a representar a los documentos.
+1863000	1870440	Bien, los documentos y las consultas, entonces, son vectores de un espacio en el
+1870440	1874680	dimensional, de sub1, de sub2, de sub4, de sub4, el conjunto de términos, de sub1, de sub2,
+1874680	1878840	de sub4, en ese conjunto de documentos, pues decimos un espacio en el dimensional.
+1880040	1883640	Entonces, un documento de subj se modela como un vector,
+1884600	1893880	double su 1j, double su 2j, del double su kj, donde a cada término i, en un documento de
+1893880	1900520	su j se le asigna un peso double su ij. O sea, el i entre un y cano.
+1905800	1911560	Fíjense que el tema va a ser, bueno, ¿y cómo asignan los pesos? El buliano, ¿qué era lo que hacía?
+1914600	1923400	Estable está. El peso era 1 o 0. Acá el tipo lo que propone es una forma distinta de ver
+1923400	1932360	el término si es relevante o no dentro del documento. Entonces, lo clave o una de las
+1932360	1936200	claves fuertes del modelo vectorial es el tema de la asignación de pesos.
+1936360	1943640	Bien, algunas definiciones. DFI es la cantidad de documentos que contienen ahí
+1945640	1952360	y, por otro lado, definimos I, DFI, que es la frecuencia inversa del término I.
+1952360	1958840	Está un poco más que nada para, sobre todo, términos de atenuar la cantidad de veces que
+1958840	1965960	aparezca un término dentro de los documentos. O sea, que DFI es la cantidad de documentos
+1966040	1974920	que contienen ahí y DFI es la frecuencia inversa. Ejemplito. Estamos hablando ahora de los documentos
+1974920	1985800	y las consultas son victores. Supónganse que el documento 1, los pesos son 2, 3, 5, o sea,
+1985880	1994840	está representado por la terna 2, 3, 5, el documento 2, 3, 7, 1 y la consulta Q, 0, 0, 2.
+1997640	2001480	Elegí eso. En tres dimensiones me animaba a hacer el dibujito, ¿no?
+2008200	2014760	Un dato que sí podemos inferir, o ustedes seguramente se animen a inferir de la consulta 2
+2014840	2021080	con respecto a los términos que estoy utilizando. ¿Qué significa? ¿Qué seguro va a significar
+2021080	2030200	el 0 y el 0? ¿Qué significa el 0, 0 en la consulta? ¿Eh? ¿Que eso, que esos no los,
+2031080	2037160	en esta consulta Q, esos dos primeros términos no los estoy utilizando? O sea, ¿qué en realidad
+2037160	2042840	esta consulta? La expreso como un vector también, porque la consulta se expresa sobre los mismos
+2042920	2046760	términos en que se indexan los documentos, que se eligen para representar los documentos.
+2047800	2052440	Entonces lo que estoy queriendo decir ahí es que la consulta Q solamente contiene el término 3,
+2053000	2060840	el tercer término. Lo que me falta ahora es, tengo los documentos y tengo de alguna manera
+2060840	2067000	asigné los pesos esos que están ahí. Lo que tengo que ver es, ¿cuál documento es el más
+2067000	2072280	parecido a Q? ¿Cuál es el de los dos? ¿Cuál es el que me debería de volver el sistema,
+2072360	2087480	por lo menos, este primero. Entonces los términos más frecuentes en un documento serían mejores
+2087480	2092840	indicadores del tema del documento. Eso suena bastante razonable. O sea, un documento que
+2092840	2098360	hable muchas veces de determinada cosa, ese término debe ser pesado ahí adentro.
+2098440	2107480	Pero, por otro lado, si hay un término que aparece en muchos documentos distintos,
+2107480	2113080	por ahí no me sirve. Porque si todos hablan, elijo un término y todos hablan de lo mismo,
+2113080	2118600	voy a tener poca forma de diferenciarlos. Entonces, ese capaz que no lo elijo.
+2119320	2129560	Habíamos definido f e i de f. Acá definimos f i j, cantidad de ocurrencias del término
+2129560	2140120	i en el documento j. Y definimos el concepto de t f, t f i j, como la cantidad de ocurrencias
+2140120	2146760	del término i en el documento j dividido el max de f i j. Eso para que lo hacemos.
+2149560	2158920	¿Eh? Para normalizar. Exacto. Para justamente el tema de que tenga muchos elementos de alguna
+2158920	2168120	manera, atenuamos justamente el crecimiento del valor f. Bien. Existen varias fórmulas
+2168120	2174280	para asignar los pesos. La primera aproximación, la misma que sea el modelo buliano, el tipo
+2174440	2179720	está o no está. Pongo un 1, un 0. Si aparece el término i en el documento j, el valor
+2179720	2186040	del Ws vj va a ser 1. Y en caso contrario, 0. Esa es la primera aproximación. Tenemos
+2186040	2191640	un vector y ponemos 1, 0. El término i puede aparecer más de una vez en el mismo documento
+2191640	2198920	de j o puede considerarse como más significativo que otra. Entonces, el Ws vj es un poquito
+2198920	2203320	más sofisticado. Porque queremos introducirle justamente todo esto que estamos diciendo.
+2205240	2213880	Entonces, un indicador típico de la importancia en un esquema de modelo vectorial es el que
+2213880	2222760	sigue el concepto llamado tf y df para la asignación de pesos. Que es simplemente el peso de cada uno
+2222760	2229240	de los términos se calcula en función del df y el idf de ese término dentro de la base
+2229320	2237000	de documentos. Y acá hacemos un ejemplito para fijar bien esos conceptos.
+2239880	2247240	Supongan sí que tengo un documento que quiero hallar su vector. Los términos son a, b y c.
+2248440	2256200	Ese documento, el término a parece 3 veces, el término b parece 2 veces y el término c una vez.
+2256440	2265720	Mi base de documentos son 10.000. Y la cantidad de documentos que contienen a cada uno de los términos
+2265720	2275080	son, hay 50 de esos 10.000, hay 50 documentos que contienen el término a, hay 1.300 que contienen
+2275080	2282600	el término b y hay 250 que contienen el término c. Entonces, para hallar el vector asociado al
+2282680	2291640	documento, este del primero de todos, lo que hacemos es calcular el tf y df para cada uno de los
+2292280	2300520	términos. Entonces, si se acuerdan, el tf era el f, la cantidad de ocurrencias que aparecía el
+2300520	2306680	elemento dividido el máximo de todos los f's. El máximo de todos los f's, 3, 2, 1, el máximo es 3.
+2307160	2315000	Entonces, el tf de a es 3, 3, 1, el tf de b es 2, dividido 3 y el tf de c es 1, dividido 3.
+2315960	2322120	Y el idf era la fórmula que ya, el logaritmo de n, que era la cantidad de documentos de la colección,
+2322680	2329160	dividido la frecuencia con la cual aparecían dentro de esa colección. Entonces, el idf
+2329640	2336760	del término a es el logaritmo de 10,000, dividido 50, que da 5,3. El del logaritmo
+2337800	2349080	del b es, bueno, la cuenta da 2 y en el caso del c da 3,7. O sea, que el vector sería
+2350200	2358600	5,3, 1,3, 1,2. Ese sería el vector asociado al documento que tenemos allá. ¿Se entendió?
+2359720	2372680	Bien. Una vez que tenemos cada documento con sus pesos y la consulta, tiene su vector de términos con
+2372680	2378280	sus correspondientes de pesos, lo que tenemos que ver ahora es, bueno, la similitud entre
+2378840	2385240	cada uno de los documentos y la consulta. ¿Cómo comparamos ahora la, aquella pregunta que decíamos,
+2385240	2394760	cual de, del Q, si es más parecido al 1 o al 2? Entonces, esto de la medida de similitud que
+2394760	2402280	es introducida por Salton, una medecilitud es una función, en realidad, que lo que hace,
+2402280	2410360	lo que ve es la distancia entre dos vectores. Esencialmente es eso. Usando este concepto
+2410440	2418120	de grado de similitud, yo voy a poder ranquear todos los documentos recuperados en función de un
+2418120	2423560	cierto orden. Y, además, ¿no?, de fijar un umbral, por decir, bueno, aquellos que me den por debajo
+2423560	2433640	de tanto, eso ya ni los muestro. Los considero que no son relevantes. Bien, nada. El cálculo de la
+2433720	2442280	similitud es la distancia cosena entre dos vectores y es el producto de, la suma de los,
+2442280	2454200	de los productos de los pesos de cada uno de los vectores. Sí. Sí. Porque es una sumatoria.
+2454200	2459560	Entonces, la sumatoria de 1 a n. Entonces, uno de esos sumando me va a dar cero. Entonces,
+2460040	2464520	que era el caso del Q, ¿verdad?, el primero no importa con qué. O sea, ¿qué es lo que,
+2464520	2469000	qué es lo que estamos diciendo en el ejemplito este? Que la clara va a ser el término 2.
+2469960	2473240	Ese es el que me va a decir, lo demás no me interesan. Para esa consulta,
+2473880	2478680	el 2 es el que me va a determinar, eh, perdón, el tercer término es el que me va a determinar
+2478680	2484440	si el documento 1 o el 2 es más parecido a la consulta Q. Lo tengo por acá. Exacto.
+2485240	2491160	En el ejemplito que teníamos hoy, 2, 3, 5, 3, 7, 1, 0, 0, 2. Cuando calculo la similitud de
+2491160	2498120	de 1 con Q, lo que decíamos recién, ¿no? Tu pregunta. 2 por 0, ¿tá? Este, 3 por 0, o sea,
+2498120	2504040	este por este, este por este, y este por este. 5 por 2, 10. Y este es 3 por 0, 7 por 0, y 1 por 2.
+2504040	2509960	3 por 0, 7 por 0, 1 por 2. O sea, que este medio es 10 y este medio es 2. De acá que deducimos,
+2510440	2518280	de que de 1, porque es el de mayor grado de similitud, es el más grande, de 1 es más parecido o tiene
+2518280	2529960	más de lo que yo quiero con respecto a la consulta Q. ¿Yes? Ventajas, entonces, del modelo vectorial.
+2531640	2536200	Es simple, no parece ser demasiado complicado, tiene una sólida base matemática.
+2536520	2542360	Mejora el tema de la recuperación gracias a la asignación de los pesos.
+2545000	2554200	Considera, este, tanto ocurrencias locales al documento como globales a la colección de
+2554200	2562600	documentos, lo cual no es una cosa menor. Un documento puede ser recuperado en función de una
+2562600	2567320	coincidencia parcial, el tema que hablábamos hoy en el ejemplo de los guaraníes y los charruas.
+2569480	2574600	En lugar de predecirse un documento, eso no relevante, proporciona ese concepto de grado de
+2574600	2580520	relevancia o grado de similitud. Los resultados los puedo devolver ordenados por, justamente,
+2580520	2589560	por esa relevancia. Y bueno, Salto comprobó de que el modelo era de guao, fusionado.
+2593320	2596680	No todo es maravilloso, acá vemos ejemplos.
+2599240	2606680	Documento 1, un perro ataca a un niño con un virus. Documento 2, virus ataca al perro de un niño.
+2607400	2617000	No vean el segundo, veamos el primero. Esos documentos en principio tienen 100% de similitud,
+2617000	2624280	tienen la misma cantidad de, pensamos, estamos en ejemplo muy trivial, ¿no? Documento que está
+2624280	2632600	formado por una asociación. Pero bueno, perro, niño y virus, virus, perro y niño, no importa el orden,
+2632760	2638920	aparecen los dos con el mismo coso. En principio, los dos son iguales.
+2640280	2647240	Y lo voy a decir, un perro ataca a un niño con un virus. El virus es el del niño o el virus es el del perro.
+2648840	2657480	Virus ataca al perro de un niño. El virus ataca al perro, acá, ahí sí, ahí está más claro.
+2657560	2662680	Fíjense que igual tenemos problemas, ¿no? Porque en principio los dos son iguales.
+2667240	2672200	Ah, bueno, ahí es distinto. Yo estoy tirando los problemas que podemos llegar a tener. Si
+2672200	2680520	hubiera un no, tenemos que ver cómo lo represento. Pero si ya teníamos problemas con el primero,
+2680600	2686280	fíjense el segundo, el segundo ejemplo. El banco de la plaza está pintado rojo,
+2687480	2694760	en rojo quedó la plaza, luego que el banco quebró. De vuelta, estamos, tenemos el problema de,
+2696680	2702200	en distintos contextos, palabras, términos que pueden decir cosas distintas. Entonces,
+2702840	2708760	capaz que en el primero por ahí pasa de que los dos, pero en el segundo, no me lo podría devolver los
+2708760	2718120	dos. Y para el, para él, sería lo mismo. Entonces, problemas que tiene, sin duda,
+2718120	2723640	el modelo vectorial es carece de información sintáctica, el orden de las palabras,
+2724280	2729480	las relaciones entre los términos, la proximidad. Es decir, si una palabra, un término está más
+2729480	2735080	cerca de otro, eso puede ser importante y esto no, y yo no lo puedo reflejar aquí. Por lo menos,
+2735720	2744040	con lo que estamos viendo. El ejemplo recién que decíamos del banco, existencia de ambigüedad
+2744040	2748520	semántica, un mismo término puede tener distintas definiciones, distintos conceptos,
+2749800	2759800	y ignora la sinonimia. No hay nada que, en el caso anterior, perro y podría haber otro lado de
+2759880	2766200	can, y en realidad estamos hablando de también el mismo animal, no me lo reconoce.
+2768680	2773240	Los modelos, se acuerdan que yo les dije hoy, al principio les hablaba de modelos alternativos,
+2773240	2780280	les hablé de neural, redes neuronales, vallesianas, lo que hacen es, en vez de utilizar términos,
+2780280	2789400	para indicar, utiliza conceptos, y el tipo hace como una red donde activa los documentos que tengan
+2789480	2795960	tal concepto, o sea, trata de manejar, o sea, trabaja con un grafo y lo que utiliza son conceptos,
+2795960	2807000	o sea, ayuda de otras herramientas, no, de otras, o sea, en vez de, o sea, entre perro y can,
+2807000	2816600	elige uno de ellos y de alguna manera hace que cuando yo diga perro, dispare o active aquellos
+2816680	2823560	documentos que hablen de sinónimos, por ejemplo, o sea, que las neuronales y las vallesianas es
+2823560	2830120	lo mismo, pero con otra función en los pesos, pero los dos tienen la misma idea, manejar conceptos
+2830120	2836920	y no terminos. ¿Se entendió el modelo vectorial?
+2841960	2848680	Bien, y algo del modelo probabilístico, fue un nuevo paradigma teórico para los sistemas de
+2848680	2855560	recuperación de información en la década de 70, fíjese que Salton apareció con el vectorial a
+2855640	2865720	fines de los 60. Acá una de las autoras, de las actores, de los investigadores principales,
+2865720	2873560	es Sparkjohns, fue una de las, de la Collins Sparkjohns, no me acuerdo si era de colorado,
+2873560	2882040	no me acuerdo de qué universidad era, es el que, la que empieza a investigar hay más,
+2882520	2887320	también hay otros otros autores más, pero Sparkjohns es de las más reconocidas que trabajaba
+2887320	2894840	sobre el modelo probabilístico y el problema es de este modelo que en teoría está bueno,
+2894840	2902760	es que presupone la existencia de que existe un conjunto ideal de documentos relevantes, o sea,
+2902760	2911000	que parte de una suposición y le asigne una probabilidad de que exista el conjunto óptimo
+2911320	2918280	que me resuelve tal consulta, entonces el tipo va funcionando, va a tirar la consulta,
+2918920	2926360	la compara con ese conjunto óptimo y si no le da trata de reformular, o sea, lo que sí es importante
+2926360	2933000	que introduce este el modelo probabilístico es el concepto de relevance feedback, es decir,
+2933000	2938920	interacción con el usuario, te devuelvo esto y si no es igual a lo que yo quiero reformulo,
+2939080	2945560	cambio y largo de vuelta, lo crítico es determinar las propiedades que marcan la
+2945560	2951640	relevancia de un conjunto ideal, lograr una aproximación al conjunto de probabilidades a
+2951640	2956840	partir de una suposición inicial de propiedades e ir refinando con el usuario luego de la consulta,
+2957800	2961880	esencialmente el problema sustancial es que
+2964040	2971720	es como raro, yo sé de antemano, ¿cuál dice mi conjunto óptimo? con cierta probabilidad,
+2973000	2976600	yo necesitaba y si ya sé el conjunto óptimo, ¿para qué lo hago? bueno, en fin, pero está,
+2979800	2985440	nada acá simplemente una idea, una definición muy básica de probabilidad, la probabilidad p de
+2985440	2992200	aparición de un suceso es en total de n casos posibles, igualmente factibles, el consciente entre
+2992200	2999400	el número de ocurrencias H de dicho suceso, entre la cantidad total de casos, esto es un repasito
+2999400	3006520	fácil, pero bueno, el objetivo es lo que decíamos, tratar de reformular la consulta
+3006520	3013520	sucesivamente utilizando ponderación de términos, es decir, cambiar, modificar,
+3013520	3017840	la asignación de los pesos a los términos de la consulta, o sea, lo que se cambia es la consulta,
+3021440	3025480	¿cuáles son los problemas? bueno, dado una consulta a cuyo, un documento de J de la colección,
+3025480	3030320	el modelo probabilístico, estima la probabilidad de que el documento de J sea relevante para el
+3030320	3036000	usuario, el modelo asume que esta probabilidad de relevancia depende solo del documento de
+3036000	3045520	la consulta, y para mí la mayor dificultad es que asume que hay un conjunto R de documentos que
+3045520	3052160	el usuario prefiere como respuesta a la consulta Q, o sea, asume que existe ese conjunto R y trato
+3052160	3059920	de llegar a él, el tema es que parte de la base que ya lo tengo, entonces es como raro. Bueno,
+3060480	3066440	lo que plantean es una simplificación muy sencilla que ponen 0s y 1s a los términos de la consulta
+3066440	3075720	para arrancar y bueno, y en función de eso después va cambiando. Y la similitud entre un documento
+3075720	3083040	de J y la consulta, ahí usa Valles, la fórmula de Valles, R es el conjunto de documentos conocidos
+3083040	3092760	o inicialmente supuestos como relevantes, y R prima es el noto, el opuesto, el complemento.
+3096760	3108840	Bueno, la probabilidad de que el documento de J esté en el conjunto R de documentos
+3108840	3116640	relevantes para la consulta Q y la probabilidad de que el documento de J no sea relevante a la
+3116640	3122560	consulta Q, o sea que esté en el conjunto de los R primas. La similitud se define entonces,
+3122560	3132240	la similitud en el conjunto, en el modelo vectorial, la define como la probabilidad condicional esa que
+3132280	3138800	si operamos y jugamos un poquito con Valles, me da que la probabilidad de J ha dado R sobre
+3138800	3149880	la probabilidad de J ha dado R prima. Ventajas, por ahí decía la asignación de los pesos a los
+3149880	3156960	términos, no me queda tan claro, claro arranca con 0 y 1, entonces por ese lado muy sencillo,
+3157600	3163960	lo que sí está bueno es la idea de esa de interacción con el usuario, que el usuario trata
+3163960	3174400	de refinar la consulta, y que ordena la función de ranking en base a las probabilidades, contras,
+3176040	3183000	no toma en cuenta, que sé que no hable para nada del TF, de la frecuencia del término,
+3183120	3190720	no toma en cuenta todos los elementos del documento, asume independencia en los términos,
+3190720	3197040	necesita una hipótesis, para mí es la clave esto, necesito una hipótesis inicial que no siempre
+3197040	3203920	es acertada de cuál es el conjunto R de documentos relevantes, ¿cómo hago?, ¿cuál es el R de partida?
+3205160	3210120	Y bueno, claramente es poco intuitivo y obtuvo en definitiva pobres resultados.
+3210120	3217840	¿Se entendió la idea de modelos? Bueno,
+3225880	3230160	ahora veamos por qué estamos hablando de este tema en el curso de intropelégenes.
+3230480	3238920	Problema común es este que tenemos acá, ejemplo muy clásico, yo este ejemplo se lo
+3238920	3246720	voy a va esa ya, es un chileno que trabaja en Yahoo, en fin, es uno de los padres contemporáneos
+3246720	3254080	de information retrieval, consulta Guerra Fría, y el documento habla de la crisis
+3254080	3262160	y los omiciles cubanos. El sistema no tiene ni idea de que estas dos son parecidos,
+3263280	3269280	que estas dos cosas están relacionadas, a priori no tendría por qué saber que esas cosas están
+3269280	3277600	conceptualmente, el sistema no lo considera, porque no maneja esas cosas. Es más, capaz que
+3277600	3282120	si yo largo Guerra Fría, el tipo me va a hablar de me va a devolver cosas de ladera,
+3284120	3291880	invierno, ¿por qué?, porque es más parecido e intuitivamente fría, no sé. Entonces, bueno,
+3291880	3298840	nada, la solución a este tipo de problemas o lo que se empieza a incorporar es hacer
+3298840	3305680	análisis lingüístico. Entonces, cosas que han estado viendo en el curso, como la matización,
+3305840	3313760	el esteaming, tratar de reducir los términos a la raíz, el etiquetado, cosa de poder distinguir si
+3313760	3320800	es un verbo o un sustantivo, militar, es verbo o sustantivo. Entonces, no es lo mismo ese término
+3320800	3326760	en una consulta o en un documento, o sea, es importante el tag que identifique, por ejemplo,
+3326760	3336920	la categoría de cada una de las palabras, detectar frases comunes, el ejemplo de Guerra Fría y
+3336920	3345640	los misiles cubanos, la ayuda de tesauros, ¿sí?, bien tesauros, sí, el concepto de tesauros lo
+3345640	3352840	manejaron, ¿sí? Es como, pero no es un diccionario que tiene mucha más información, no solamente de
+3352920	3359240	la definición, sino de relaciones entre los términos, y hiperónimos o ponimos, por ejemplo,
+3359240	3369480	WarNet, exacto. Entonces, herramientas como el uso de tesauros nos ayudan, también el uso de la
+3369480	3376640	estructura del texto, es decir, si un término aparece en un título, o sea, el título primer
+3376640	3385360	párrafo, abajo, en fin, si yo tengo información de ese documento, si es de un título, si es un
+3385360	3390640	párrafo, si está abajo, si está en el medio, eso me puede ayudar a mí a orientar a la hora de
+3391920	3397760	asignar pesos o saber si en términos más relevante o no, más importante o no, para identificar un
+3397840	3406720	documento, ¿ok? Bien, volvemos entonces al tema de recuperación de información,
+3409840	3415120	para hablar de, bueno, ¿cómo evaluamos un sistema?, ¿cómo sabemos si está bueno o malo, si me
+3415120	3423680	devuelve lo que yo quiero o no me devuelve lo que yo quiero? ¿Cómo se hace?, ¿paramos todos los
+3423680	3431440	documentos contra todos en resí? ¿Hasta dónde miro en la lista de documentos relevantes? ¿Eso qué
+3431440	3439040	costo tiene?, ¿es posible o no es posible? La lista, además de los documentos, puede cambiar con el
+3439040	3448880	tiempo, puede ser algo muy dinámico. No es lo mismo que yo ahora una consulta sobre los documentos que
+3448960	3454800	hablen del presidente del Uruguay ahora, que hace tres años, los documentos que me deberían
+3454800	3458880	ver son otros, tiene que ver con lo de la cualidad de los sistemas de información que hablábamos al
+3458880	3465440	principio. Entonces, la evaluación no es una cosa, lo que quiero decir, lo que quiero transmitir
+3465440	3471040	con esto es que la evaluación no es una cosa fija, sino que puede cambiar en función de varios
+3471120	3479920	factores. Y una cosa importante, muchas de estas cosas tienen un componente humano, entonces
+3480720	3486080	lo que decíamos, creo que pusimos un ejemplito, por ahí un documento para mí es importante y es
+3486080	3493520	relevante, pero para aquel no. Entonces, puede haber distintos criterios para los evaluadores de un
+3493520	3502000	mismo sistema, así como probablemente lo hayan comentado en el curso, cuando yo quiero este
+3502000	3507280	trabajo con un cuerpo, si quiero etiquetarlo, rotularlo de alguna manera, por ahí dono, no
+3507280	3517040	ponemos de acuerdo si esto está lo cual o con qué peso le damos, en fin, el factor humano sigue
+3517040	3526080	siendo importante y clave dentro de todo esto, por suerte. Bien, bueno, ¿qué significa este término
+3526080	3532480	de relevancia que hemos estado hablando? En recuperación de información, relevante es importante,
+3532480	3537600	destacado, en fin, pero en recuperación de información un documento es relevante cuando su
+3537600	3544880	contenido posee alguna importancia relativa a la consulta, ese es el concepto para mí de relevante.
+3544880	3558040	Este diapositivo va a tener 20 años, fácil, ha sido la primera que hicimos cuando dimos algún
+3558040	3569040	curso de cosas de estas hace muchos años, no sé si no la hizo Dina, pero esta bárbara, porque en
+3569040	3578160	realidad marca los problemas o el universo de cosas que surgen al momento de recuperar, yo
+3578160	3584040	tengo una gran base, un universo de documentos, todo lo que está ahí en azul y los verdes son
+3584040	3592280	los documentos recuperados, pero de acuerdo a mi consulta, los relevantes son las de las estrellitas,
+3592720	3598280	entonces qué es lo que me puede pasar cuando yo logro una consulta, que me queden, claro,
+3598280	3606080	que haya ausencias que me falten o que recupere cosas que no tienen ningún sentido, lo que hablamos,
+3606080	3609320	el ejemplo de la, me recupere cosas de la ladera cuando había hablado de la guerra fría.
+3612720	3620160	Entonces, estas son las dos medidas clásicas utilizadas en recuperación de información que
+3620160	3624960	son precision y recall, que es el consciente entre el precisión, el documento recuperado
+3624960	3631880	relevante sobre la cantidad de documentos recuperados y el recall o la exhaustividad es el
+3631880	3635240	consciente entre los documentos recuperados relevantes, o sea el consciente es el mismo,
+3635240	3642480	sobre la cantidad de documentos relevantes. Lo ideal en un sistema ideal es que tanto precision
+3642480	3651400	como recall sean uno, el ideal lamentablemente en general no se da, este y uno cuando hace este
+3651400	3657160	tipo de sistemas lo que trata de hacer es bueno, darle más, cuando quiere mejorar la precisión
+3657160	3666280	por lo general tiende a bajar el recall, este es un cuadrilo que muestra eso, no, precision y recall,
+3666280	3672440	lo ideal es allá el 1-1, que le hado sean 1-1, el recall en 1 es casi todos los documentos
+3672440	3677240	relevantes de la colección, pero recuperé muchos irrelevantes y en el precisión 1 es
+3677240	3683040	póducos documentos relevantes, pero no tengo documentos irrelevantes recuperados, entonces
+3683040	3688680	bueno a veces me pueden quedar muchos documentos afuera, por eso es que, este, 0 recall tampoco
+3688680	3697720	es bueno, y uno trata de bueno manejar, este, ambas medidas, también la otra es la F, la F score,
+3697720	3705080	la medida F y la medida E que son, este, una ponderación de ambas de la precisión y recall,
+3706520	3715800	la medida F, este, la diferencia es que la F es 2 por PR y P más R, y la E lo que hace es
+3715800	3725280	le agrega un factor, un factor real entre 0 y 1, el beta S, que le puede dar más peso a uno
+3725280	3732960	u a otro, para la precisión en este caso, para si yo quisiera cambiar algo, pero son
+3732960	3741080	esencialmente variantes de la, o alternativas a las, a las dos medidas, bien, entonces para
+3741080	3753200	evaluar un sistema de recuperación, lo que yo necesito es, o sea, yo tengo un conjunto
+3753200	3760760	de documentos, tengo una consulta, en definitiva lo que yo tengo que hacer es, a ver si es
+3760760	3767880	bueno o malo, testearlo contra algo, entonces se fija un conjunto de documentos, un conjunto
+3767880	3773160	de consultas, se hace lo que decíamos hace un rato, un etiquetado humano de cada documento
+3773160	3779680	función de la consulta, en general son, son, son juicio binario, es buena o no es, o no
+3779680	3788120	es buena la consulta, y bueno, y lo largo, largo un sistema, o sea, no, o sea, yo pienso
+3788120	3792800	un modelo, pienso un sistema, pienso todo el, el, el, la algoritmia, mi función de ranking,
+3792800	3802400	tal, tal, tal, y lo testeo. Está la conexión del testeo, un conjunto de documentos, un
+3802400	3808120	conjunto de consultas, tengo el, el algoritmo, ese, ese es mi testear, y bueno, y en función
+3808120	3817000	de eso se evalúa. Estas son algunas, algunas colecciones, las más usadas, fíjense lo
+3817000	3821560	que decíamos desde el principio, ¿no? Estamos hablando, todas las colecciones, todos los
+3821560	3828320	conjuntos o estas bases son documentales, están asociados, tienen asociados un dominio, ¿no?
+3828320	3832320	Son particulares en dominio, por eso no estamos hablando de la web, donde es heterogéneo.
+3832320	3845920	Y esto es modo de referencia. Bien, y lo que se hace, yo quería agregar esto, lo que,
+3845920	3859680	lo que se hizo fue, lo que se llaman las, las conferencias TREC, text retrieval conference,
+3859680	3869400	que existen desde el año 1992, hasta el día de hoy se siguen haciendo, o sea, lo que hacen
+3869400	3878560	es involucrar a la academia, a la industria, este, al gobierno, porque no sé si saben
+3878560	3892480	lo que es DARPA o NIST, ¿eh? La sigla DARPA es este, ¿a cuál era? Dirección, bueno,
+3892480	3897040	es el Departamento de Defensa de los Estados Unidos, sí, ni más lejos. No me acuerdo
+3897040	3904760	la sigla cuál es, pero es del Departamento de Defensa de los Estados Unidos, o sea, el
+3904760	3910640	área tecnológica del Departamento de Defensa de los Estados Unidos, este, de hecho fueron
+3910640	3919080	los, de ahí surge el proyecto ARPANET, que es de alguna manera el precursor de, de Internet,
+3919080	3923760	y, o sea, las conferencias TREC eran patrocinadas por, por el DARPA y NIST, que es el Instituto
+3923760	3931120	de Normalización de Normas Técnicas de los Estados Unidos. Como decía Stricton en 1992,
+3931120	3939360	todavía se siguen haciendo, o sea, que lo que hacen es tratar de mejorar eso. Tengo una
+3939360	3943520	base de documentos, tengo un conjunto de consultas, hagan algoritmos para ver qué cosas se pueden
+3943520	3950760	recuperar, ¿está? Y es eso. Esas competencias, sí, sí, se siguen haciendo, creo que la del
+3950760	3961240	2016, no sé si ya se hizo, o se hizo o iba a ser, creo que eran Márila en Estados Unidos. Bien, entonces
+3961240	3969560	hablamos de modelos, hablamos de evaluación, brevemente vamos a comentar algo de índices.
+3969560	3978280	¿Se acuerdan que cuando planteábamos, este, al principio, el esquema general de, de un proceso
+3978360	3983800	de recuperación de información, teníamos por ahí, por acá teníamos el dibujito de la base de
+3983800	3988000	documentos, que se hacían ciertas operaciones sobre esas documentos, y esos documentos se
+3988000	3995760	indizaban? Entonces, bueno, lo que tenemos que pensar es cómo es que construimos esos índices
+3995760	4002200	para identificar a mis documentos. La estructura más simple es la denominada índices invertidos,
+4002200	4009920	que es algo muy trivial, un vocabulario, que es un conjunto de términos que aparezcan en el texto,
+4009920	4018000	y asociado a cada uno de esos términos, como si fuera una RAI de términos, y una lista asociada
+4018000	4023360	a cada uno de esos elementos de la RAI, que tiene los ID de cada uno de los documentos donde aparece
+4023360	4031760	ese término. El esquema de construir, de construcción de un índice invertido es algo, bueno, nada,
+4031760	4036920	muy sencillo, tengo el conjunto de documentos a ser indizados, hago una tocanización de esos
+4036920	4046080	documentos para ver los términos, este, con algún criterio en interés a cuál. Llevo a, a, a, hago, a, a, hago
+4046080	4051920	stemming, ¿no?, para llevar a la, a la raíz de, en general uno usa cuatro, cuatro caracteres, pero
+4051920	4057520	podría eventualmente ser más, este, y da, a la forma canónica, ¿no?, se olvida las mayúsculas,
+4059360	4068840	los infinitivos, en fin, y genera algo de este estilo. Vendo autos y camionetas, entonces es vend,
+4068840	4075080	ahí no el, me fui, no, no puse los cuatro elementos del, del stemming, pero bueno, el documento de uno,
+4076080	4082480	de todos los que aparecen acá, el vendo o el de vender aparece solamente en el de uno, auto aparece,
+4083640	4093920	acá aparece autos, autos, autos, autos, y acá auto, pero si la forma canónica sería auto y aparecen
+4093920	4098640	todos esos documentos, o sea, no importa si están plural o en singular, la lista de posteo la, la
+4098640	4106640	tenía. Y bueno, nada, a partir de este, este sería la base de índices, o sea, mi, de, de documentos
+4106640	4112200	indizados, y el tipo, el algoritmo tiene que tratar de, de acceder por medio de esos índices,
+4112200	4118480	que habitualmente los, el, el espacio, la estructura de índices, algo así, como un 30% de lo que
+4118480	4128240	ocupa la base de documental, este, en su totalidad. Bien, y poco es lo que decíamos, ¿no?, al momento
+4128240	4134000	de general proceso de indicación, hay que hacer, este, esas cosas de, de análisis lingüísticos,
+4134000	4139280	porque hay que hacer transformaciones sobre el texto, eliminar las stop words, este, porque esos
+4139280	4143200	términos no, no los voy a, no los voy a considerar como términos relevantes a la hora de iniciar un
+4143200	4150680	documento, llevar a la, a la, a la lema. Y hay que hacer, también hacemos lo, decimos lo que hay que
+4150680	4156840	hacer un análisis conceptual, es decir, tratar de elegir términos asociados a conceptos, si ven
+4156880	4162200	ahí en el ejemplito, no lo hice, voy a decir, uno podría elegir, este, el concepto,
+4165320	4171320	empezando en el auto y camioneta, uno que estuviera por, por arriba, un, no sé, algo como, ¿eh?,
+4171320	4179200	vehículo, ah, está, vehículo, bien, vehículo, y en realidad, este, yo lo que asocio es tanto
+4179200	4185600	auto como camioneta al concepto vehículo, o sea, este, elegir conceptos más, más ya determinos,
+4186200	4194440	trabajar con grupos nominales, este, sobre todo, yo que sé, pensando en estado de sitio, frente
+4194440	4199280	a amplio, o sea, conceptos que no sean, conceptos y que no sean solamente un término, porque yo lo
+4199280	4206600	que, lo que, puede estar compuesto por más de una, de una palabra. Y este, también, trabajar sobre,
+4206600	4213720	sobre, reconocimiento de entidades con nombre, es decir, en personas, lugares, este, organizaciones
+4213720	4225720	que podrían ser también elementos a, a ser considerados en el índice, ¿sí? Bien. Entonces,
+4225720	4234040	hablamos de information retrieval, y otra, otra que anda por ahí, es el, el clear, que es,
+4236600	4243280	lenguaje, el clear cross language information retrieval, ¿qué es?, ¿qué significa? No
+4243280	4249920	importa que esté escrita la, la consulta, a mí dame los, los, los documentos que hablen más
+4249920	4254800	hacia de la lengua, independientemente del, del idioma en el cual están escritos los documentos.
+4254800	4261880	Entonces, este es todo un campo que existe, la recuperación de información, este, para nada
+4261880	4266960	trivial, porque bueno, requieren, ahora lo vamos a estar viendo, pero fíjense que requieren de mucho
+4266960	4273440	trabajo, este, que van desde corpus paralelos, o, o bueno, ¿qué es lo que tiene que hacer, traducirla?
+4273440	4280280	¿Cómo hacer para buscar en español, este, documentos, que en realidad, o sea, voy a largar la
+4280280	4286400	consulta en español, pero te interesan aquellos documentos que, este, sean relevantes, pero que
+4286400	4294000	estén escritos en inglés, por poner dos lenguas distintas, ¿no? Y bueno, ¿por qué surge? Y nada,
+4294160	4300920	porque hay mucha información en, en más de un idioma y hay interés en realidad de recuperar la,
+4301760	4307840	lo más importante, más allá de la lengua en la cual está escrita, como decíamos sirve
+4307840	4313120	para eso, ¿no? Para acceder a la mayor cantidad de información, pero también es usada para la
+4313120	4319320	traducción de documentos, es decir, yo podría utilizar algunos algoritmos o estrategias en,
+4319520	4330400	empleadas en Clear para hacer traducción. Bien, lo que decíamos, ¿no? La consulta puede estar
+4330400	4338320	escrita en una lengua distinta de los documentos, pero la pregunta es, ¿y qué traduzco? Uno podría
+4338320	4344680	decir, bueno, lo mejor es traducir la consulta, porque, porque más chita, pero bueno, capaz que en
+4344720	4350960	realidad no debe, fíjense que si yo traduzco la consulta, yo podría agarrar y traducir al principio
+4350960	4359560	todos los documentos que tengo en mi base documental y eventualmente después en, tiene un costo muy
+4359560	4365080	grande al principio, pero después a la hora de la recuperación es bien directa, puede ser mucho
+4365080	4371080	más eficiente, o sea que hay que poner la balanza en función qué es lo que yo quiero ahora,
+4371480	4378160	¿qué es lo que me sirve más? Ahora, eso lo puedo o no hacer en función de los recursos
+4378160	4385600	lingüísticos que tenga, debería de tener diccionarios, tesauros, si tengo corpus paralelos o no,
+4385600	4393200	que se lloro los postager, en fin, depende con la ayuda de eso es que voy a poder elegir uno
+4393200	4401480	u otro criterio, y si esto en términos de eficiencia. Ok, se entendió lo que es el concepto
+4401480	4407840	de, de lo que es el CLIR, un poco la idea era que simplemente que tuvieran este, el, el, el, el
+4407840	4414880	pantallazo del concepto para cuando lo, si se veíamos adelante, entonces como decíamos al
+4414880	4422520	principio, como, como uno esto de recuperación de información, hoy, no en los 70 como Salton,
+4422520	4431280	lo asocia con el auge, con el auge de internet, toda esta teoría de, de, de Salton y la barra
+4431280	4438640	del modelo vectorial y del, del booleano y del probabilístico, como que estaba asociado a
+4438640	4444640	un corpus donde este, era muy dependiente del dominio, si era un corpus acotado, una base
+4444640	4451200	homogénea, ya la cosa con la web se descontrola totalmente, porque justamente estamos hablando
+4451200	4458440	de un universo, primero que estamos hablando de un universo de información enorme, está, este,
+4458440	4467000	yo creo que la barra de Salton ni se imaginó más allá de que, que, que la teoría sigue siendo la
+4467000	4474440	misma, este, no se imaginó con el auge de internet que iba, que iba a surgir este, este tipo de cosas,
+4474440	4482720	entonces, algunos, estas son cifras que yo, yo no ya había extraído en el año 2012, pero hay ahí de,
+4482720	4489600	este, un número de lo que se presume que, que se incrementan por año, lo cual la asusta bastante,
+4490600	4497640	más de 600 millones de sitios web, más de 50 millones se agregan por año, o sea que bueno,
+4497640	4503120	si esto fue el 2002 imagínense, este, todo lo que tenemos hoy, más de 100 millones de blog,
+4503120	4511400	más de 70 millones de sitios de estos, hechos con Google Pres, más de 600 mil millones de archivos,
+4512400	4519480	entonces, esto que decíamos hoy de, este, bueno, en la base de documentos,
+4519480	4525120	me tiran los documentos más relevantes, me tiran, son 10, son 15, son 20, eso explota,
+4526120	4543040	en la web, eso explota, entonces, lo que se hizo y el, a ver, Google no fue el primer
+4543040	4549920	buscador, de hecho, uno de los primeros buscadores era Altavista, y Altavista se basaba en el modelo
+4549920	4555960	vectorial de Salton, está, este, pero claro, como estábamos diciendo, la, estamos hablando
+4555960	4561120	de la, principio de la década del 90, este, con el auge de internet, esto que te veíamos
+4561120	4568120	siendo, creció tanto, que, bueno, nada, como, que el tema de identificar a cada uno de los
+4568120	4574640	documentos, de esas, de esos millones de documentos que existían en la, en internet, indizar a los
+4574840	4579360	efectos, eso, y hacer todo el cálculo de similitud, entre, con el documento, era, se hace,
+4579360	4586200	se ha tornado una ineficiencia terrible, entonces, bueno, nada, la barra de, este, como es,
+4586200	4597240	la repage, y el, y Brian, no, era el otro que, que, que, de Google, lo que, lo que hicieron
+4597240	4604440	fue, proponer el uso de, de clicks, como una serral de relevancia, la cantidad de clicks,
+4604840	4610520	que tenía, y referencias cruzadas de los documentos, y ahí apareció el, el, el conocido page
+4610520	4619520	rank, como, algoritmo de muestra de los, de la similitud de una consulta, sobre el, el
+4619520	4625800	mundo de lo que es internet, acá también hay un nombre, una, una gráfica, bastante,
+4625800	4632800	bastante vieja, uno de los primeros cursos de, de, de information retrieval, este, que
+4632800	4637680	bueno, nada, acá, que cuenta lo que es la web, tengo un montón de información que
+4637680	4643120	es pública, tengo un montón de información que es dinámica, después aparece cierta
+4643120	4648280	información que es semántica, hay cierta información estática, pero lo curioso de
+4648280	4655880	este, de este, de este gráfico, es que, yo no tengo toda la web indicada, ¿sabes? Es
+4655880	4666880	como imposible indizar absolutamente toda la web. Entonces, haciendo un, hoy como hicimos
+4666880	4672240	un, un, un cuadro de comparación entre lo que era un sistema de, de base de datos y un
+4672240	4675880	sistema de recuperación de información, me parecía que estaba bueno hacer un, un,
+4675880	4679880	un paralelismo entre lo que es un sistema tradicional de recuperación de información
+4679880	4686880	y lo que es el, el sistema de la web, ¿no? En los RI tradicionales, los documentos están
+4686880	4692000	bajo un dominio, o sea, los documentos son, son similares en algún sentido, hablan del
+4692000	4700560	más o menos lo mismo, en la web tenemos documentos diferentes de todo tipo, en, en la RI tradicional
+4700560	4709120	existe cierto control terminológico, mientras que en la web no, en la RI tradicional, la
+4709120	4714800	interfaz de consulta, yo hago un sistema que utilice tal modelo, lo que sea, como contaba
+4714800	4720440	Jacín, un sistema de biblioteca, la interfaz es única. En la web yo tengo, depende del
+4720440	4725280	buscador que yo tenga, este, tengo interfaces distintas, o sea, que no hay una homogeneización
+4725280	4731880	de sentido. El conjunto de documentos en la recuperación de información es bastante
+4731880	4736360	estable, más allá de que yo pueda agregar o algún documento a la colección, lo cual
+4736480	4740760	tendría que indicar, lo que sé yo, pero es más o menos estable. Acá por lo que decíamos
+4740760	4746880	recién, este, hay una volatilidad enorme. Y bueno, si, si el volumen de información
+4746880	4753520	en un sistema tradicional es grande, como veamos marcado hoy en el, en el cuadro, este,
+4753520	4758520	que comparaba con los sistemas de gestión de base de datos, este, acá es enorme, por,
+4758520	4765120	por poner otro adjetivo, otro sustantivo. Y bueno, nada, algunos desafíos de los buscadores,
+4765880	4771880	la calidad de la relevancia de los resultados, ser más o menos eficiente en, en la búsqueda,
+4771880	4776560	la información malestructura, hay en la web información malestructurada, información
+4776560	4782480	redundante. Entonces, la clave está en tratar de ver cómo el buscador es capaz de filtrar
+4782480	4791920	eso, este, el contenido es muy volátil, hoy está, mañana no está. Esto es, se conoce,
+4792080	4796160	es, es bastante clave, esto se lo pueden imaginar. No conocer la intención del usuario cuando
+4796160	4801360	lanza la búsqueda. Esto, bueno, hoy Google ya lo, como que el tipo ya sabe por dónde
+4801360	4808000	viene, que es, que es, ya de alguna manera él tiene identificado cuál es tu perfil
+4808000	4815160	o va definiendo tu perfil, este, y ya te sugiere, te sugiere cosa cuál es la intención del,
+4815160	4828080	del usuario, este, bien. Y acá algunas estadísticas me parecía interesantes, el 80% de las, compartir,
+4828080	4836080	el 80% de las consultas no utilizan operadores. Ahora acuerdan, pongan ustedes, pongan ustedes,
+4836080	4842800	piensen cuando largan en internet una cosa, nada, no, bueno, nada, ponen una secuencia
+4842840	4850560	de palabras, por lo general, este, el 25% utiliza una palabra y el 50% utiliza dos, y ya con
+4850560	4858720	eso largo la búsqueda. El 80% decía por ahí, no utiliza relevant feedback, es decir, no hay,
+4858720	4866840	no hay retroalimentación, o sea que, como que, en general le, le pega en los primeros
+4866840	4871080	documentos, además de los primeros documentos en la primera búsqueda, es decir, no tengo
+4871080	4876440	que refinarla y cambiarte al término en un 80%, no, eso es lo que decían las estadísticas.
+4878440	4886800	Y bueno, está bien interesante, el 85% mira las dos primeras páginas de resultado, más,
+4886800	4893160	yo creo que sería menos, la gran mayoría, mira la, creo que en la primera ya, sobre todo Google,
+4894120	4906680	le pega bastante a lo que, a lo que estoy buscando. Yo ya hablaba de Baesa Yates y quise
+4906680	4913120	compartir una frase de él, que es, buscar en la web no es un problema de recuperar documentos,
+4916520	4921000	no, no es documento lo que yo quiero recuperar en la web, mecanismo para,
+4921960	4927520	entre las personas y las necesidades que se encuentran detrás de tus objetivos, es decir,
+4927520	4934680	como me da filosófica la frase, no, ya, yo, lo que busco es un objetivo, si, tengo un objetivo
+4934680	4940080	que encontrar y no un documento, si lo pensamos en lo que decíamos hoy, yo busco información, quiero
+4940080	4947240	ver que hay en la vuelta sobre tal tema, no busco un documento específicamente, y eso es un cambio
+4947240	4955040	de paradigma bien importante entre lo que es la RI tradicional y la RI en la web. Bueno,
+4955040	4964120	y por último, extracción, hablar de extracción de información. El objetivo de, de extracción de
+4964120	4975880	información es obtener la información relevante e ignorar la irrelevante. El proceso es tratar de,
+4976640	4984360	de identificar aquellas partes del documento que yo recuperé, las partes importantes,
+4984360	4989960	o que a mí me interesan del documento y no tener que leer absolutamente todo el documento,
+4989960	4998520	como un desafío, lo del, lo del, es como un desafío, ya lo vamos a decir, es como un complemento o
+4998520	5005200	debería de verse como un complemento a la extracción de información a los sistemas de
+5005200	5015040	recuperación de información. La idea es que justamente que se complementen, que yo por
+5015040	5020320	un lado tengo un sistema de recuperación de información que obtenga todos los documentos
+5020320	5027360	que hablan de lo que yo quiero. Entonces yo tengo un proceso que hace eso, me extrae los
+5027360	5033640	documentos y luego un sistema de extracción, lo que hace es extrae y organiza la información que
+5033640	5050040	a mí me interesa. Conjunto de documentos, sistema de información, el sistema de recuperación de
+5050040	5056440	información me extrae aquellos que son relevantes, aquellos que me interesan. Luego los sistemas de
+5056440	5065040	extracción de información parten de esa colección de documentos y a partir de ahí obtienen datos.
+5065040	5071840	Y vuelvo a hablar del concepto de datos, porque la idea es tratar, si bien yo lo que obtengo es
+5071840	5084280	información, yo trato de esos documentos que están ahí, expresarlos de alguna forma que sea
+5084280	5096040	posible de ser manipulados por humanos inclusive, pero por algún sistema más sencillo. Que en
+5096040	5106960	general uno podría decir similar a lo que sería un esquema de base de datos. Lo que ponía por
+5106960	5111880	allá abajo es lo que yo tengo como una plantilla tributo-valor, o sea que los sistemas de extracción
+5111880	5118200	lo que hacen es tratan. Yo tengo una plantilla de cuáles son los campos que yo quiero recuperar y en
+5118200	5124720	función, mis algoritmos lo que tienen que hacer es extraer del documento y completar la plantilla.
+5124720	5134120	Esencialmente a grandes rasgos eso es lo que sería un sistema de extracción de información.
+5135080	5142640	Para ejemplo, bien sencillos. Si yo tengo un documento, estamos pensando en la habilidad de facultad y
+5142640	5150320	ya hay que llenar, en fin, función de las licencias, así que yo hay distintas formas de expresar lo
+5150320	5158720	mismo, pero lo que me interesa saber es, lo que yo quiero saber es, quién es la persona que se va a
+5158720	5165680	tomar la licencia, cuánto va a ser la licencia y por qué motivo. Entonces más allá de cómo esté
+5165680	5172640	escrito el texto que hablen de la licencia de los funcionarios, yo lo único que extraigo de ese
+5172640	5180920	documento es nombre, motivo y duración de la licencia. Entonces acá se concede licencia
+5180920	5188160	reglamentaria, el docente Juan Pérez por un mes, mi estructura tributo-valor, lo que me hace la plantilla
+5188160	5194960	esa me va a determinar. Una licencia es una terna, forma por nombre, duración y motivo, y lo mismo
+5194960	5200280	acá. O sea, están escritas de manera distinta, pero yo tengo que tener algoritmos que de alguna
+5200280	5209720	forma extraigan justamente esos términos y llenen esa estructura. También, al igual que con
+5209720	5221400	las TREC, con recuperación de información, existían unas conferencias para evaluar algoritmos
+5221400	5228040	de distracción de información, esas se llamaban las MOOC, las Message Understanding Conference,
+5228040	5238040	celebradas entre el 87 y el 97, también nuevamente patrocinada por DARPA y el gobierno de los
+5238040	5245960	Estados Unidos. Comenzaron, este muy cómico, porque las primeras MOOC en el año 87 el dominio
+5245960	5254840	eran sobre terrorismo, o sea, los tipos querían buscar cosas asociadas a terrorismo. Los janky
+5254840	5260720	no son nada de un manera inocente, o sea, tiraron, y bueno, la gente trataba de extraer, a ver,
+5260720	5271000	los documentos que hablaran sobre terrorismo. Se les daba información qué es lo que pretendían
+5271000	5277280	obtener, cuál es la plantilla, lo que decíamos, los atributos que iba a tener, la estructura
+5277280	5281840	de datos que yo iba a tener que completar en función de los documentos, y bueno, para
+5281840	5286600	evaluarse usaban las medidas que ya me habíamos visto para información retrieva, o sea, precisión,
+5286600	5295360	que con la medida F. Las MOOC dejaron de funcionar en el año 97, pero después se reactivaron
+5295360	5303960	otras conferencias en el 2000, que se llaman las ASE, Automatic Content Extraction, esas
+5303960	5309880	también duraron entre el 2000 y 2008, y a partir de ahí fueron sustituidas esas competencias
+5309880	5318600	por las TAC, las Text Analysis Conference, que se celebran siempre con las conferencias
+5318600	5325720	de Natural Language Learning, las con LL, es donde se hacen estas competencias al día
+5325720	5332760	de hoy. Acá metí unas diapositivas sobre corpus, de corpus ya estuvieron hablando,
+5332760	5338600	hemos hablado así que las voy a pasar medio rápido, pero las quise poner por las dudas,
+5339480	5347040	ya saben lo que es un corpus, cómo se construye un corpus, recopilación de un conjunto de
+5347040	5352840	documentos, y hay que definir las características de siada, si es escrito, oral, si es multilingüe,
+5352840	5361000	o monolingüe, el tipo de texto, si es de prensa, si es literario, pues no es lo mismo. Podemos
+5361000	5365960	hablar de corpus, hoy hablamos en la hueva, hablamos de la heterogéneidad, acá podríamos
+5365960	5371560	hablar de corpus sobre un determinado dominio, si está notado, si no está notado, en fin.
+5374200	5378320	Nada, y a modo de ejemplo, aunque creo que algunos ya los estuvieron viendo en el curso,
+5383640	5387800	yo pensé que estaba funcionando esto, se ve que no, bueno rápido me voy,
+5387800	5394600	nos terminamos, terminamos, terminamos. Algunos de los corpus está en inglés,
+5394600	5401800	esos son algunos de los más importantes, algunos de los corpus en español, yo quise destacar acá,
+5401800	5408920	estos son los conocidos, los de la Real Academia, el corpus de Mark Davis, Ancora de ese, este de
+5408920	5414560	verbos, y quería destacar algunos de los corpus, yo le puse nuestros, porque son generados acá.
+5414560	5421880	Distingo porque en general, para todo esto, hay muchísimo lo deben de haber estado viendo
+5421880	5427280	en el curso, hay muchísimo para el inglés y para otras lenguas, pero para el español hay
+5427280	5434360	pocos recursos, y bueno, tratamos nosotros de generar más recursos, entre los recursos que
+5434360	5439320	generamos en nuestros trabajos, que muchos surgen de proyectos de grado, o proyectos de
+5439480	5446040	pogrado, son el trabajar con nuevos corpus, entonces tenemos un corpus de noticias extraídas en
+5446040	5451800	la web, es un corpus muy grande, se sigue generando, creo que al día de hoy tiene uno,
+5453000	5460160	hoy contaban, el otro día contaban 1.6 giga de tamaño, o sea que es un corpus bastante interesante,
+5460160	5466320	el corín fue un corpus que surgió de un proyecto que hicimos con la gente de lingüística,
+5467320	5476320	como más de 10 años, como más de 15 años, pero más de 10 años, y como producto de ese corpus,
+5476320	5483160	un corpus pequeño, pero lo hicimos, está muy bien etiquetado, trabajamos con la gente de
+5483160	5487920	lingüística, y bueno, estos son corpus que han surgido en este último tiempo en el grupo,
+5487920	5494880	el corpus de opiniones, el corpus de eventos, el corpus de expresiones temporales, y hay uno
+5494880	5501040	que hizo Matías hace poco de la Wikipedia en español, que está bastante bueno,
+5501040	5505520	yo no sé si tiene entre 2 o 3 giga, una cosa así que está polenta.
+5511520	5516680	No, no, son corpus, yo lo metí dentro de extracción de información porque iba a
+5516680	5520760	volver a hablarse de corpus, realidad es son recursos lingüísticos que tenemos,
+5520920	5524800	no sabían de meterlo y lo metí dentro de extracción de información, pero en realidad no
+5524800	5529360	necesariamente, algunas cosas sí, los hemos usado para hacer sistemas de extracción.
+5531840	5537160	Todo eso venía porque bueno, acá el enfoque es para la construcción de un sistema de
+5537160	5544760	extracción de información, o basado en conocimiento lingüístico, o sistemas entrenados
+5544760	5552240	automáticamente con el uso de métodos estadísticos, ahí el aprendizaje de reglas utilizando corpus
+5552240	5560440	anotado, en fin, pero son dos modelos distintos de construcción de un sistema de extracción.
+5560440	5567240	Los criterios, nuevamente lo mismo, disponibilidad, lo de siempre, si tengo recursos o no tengo
+5567240	5577360	recursos lingüísticos, posibilidad de escritura de reglas, porque a veces se supone que esto
+5577360	5593080	funcionaba. La posibilidad de los recursos decía la posibilidad de escritura de reglas, a veces que
+5593240	5599920	si yo puedo escribir las reglas, eso está bueno porque soy bien preciso, pero también no me puedo
+5599920	5603560	pasar para el otro lado de escribir tantas reglas y lo hago tan particular que cuando después
+5604920	5609080	modifico algo, ya no me sirve y tengo que ver una nueva regla que me puedes escoger en galo de
+5609080	5616840	otro, pero bueno, la parte de reglas es importante. Si yo uso aprendizaje automático, el hecho de que
+5616840	5624800	tenga datos de entrenamiento es clave y el tema de performance es otra de las cosas que es importante,
+5624800	5633280	a tener en cuenta cuando quiero elegir porque esto era un enfoque basado en reglas o basado en
+5633280	5644920	aprendizaje. Y ahora sí, para liquidar es simplemente un ejemplo de lo que queríamos decir con un
+5644920	5651320	sistema de extracción de información. Esto es simplemente un dominio, descripciones de inmuebles,
+5651320	5662520	aterrenos, a expropiar. Es un ejemplo real. Montevideo, fecha, director de registro de
+5662520	5666960	propiedades de inmuebles, suscritos, escribano tal, celular tal, internet. Es decir, yo tengo un
+5666960	5674160	documento que me habla de una expropiación. Yo lo que tengo que hacer es, a mí me dan un conjunto
+5674160	5679800	de documentos y me dan una plantilla. Si pensamos en cómo yo completo esa plantilla,
+5679800	5683960	esa estructura de datos. Entonces esa plantilla, ¿qué es lo que yo tengo que extraer de los
+5683960	5687840	documentos? Un número de referencia porque todos los documentos deberían tener un número de
+5687840	5694360	referencia, una fecha, la inscripción, el escribano actuante, para el escribano de la
+5694360	5700480	célula y el nombre, el nombre del municipio, la ubicación, el padrón, la dirección, en fin,
+5700920	5709560	fíjense que todos estos datos, número, folio, todo eso, aparecen cosas acá. Con el inscrito,
+5709560	5715440	con el número tal, en la calle Solano-Antuña, de esta ciudad, folio, tal. Es decir, yo tengo
+5715440	5720640	determinadas, mi sistema debería tener determinadas reglas, hay que ver cómo lo hago, se escribo
+5720640	5727840	reglas o con qué lo hago, para en función de ciertas parámetros extraer justamente la información
+5727840	5733840	de ese texto y completar esa plantilla. Entonces, yo completo esa plantilla, tengo que hacer
+5733840	5739640	algoritmos que completen esa plantilla y nada, acá muestro, no se ve mucho, pero negritas
+5739640	5745240	está lo que justamente los datos que yo tengo que extraer, una fecha, no, sin los documentos
+5745240	5748640	no tienen por qué estar todas las fechas en el mismo formato, o sea que tengo que tener,
+5748640	5753120	si fueran reglas o un método de aprendizaje automático, tengo que ver cómo distingue
+5753120	5757480	las fechas, los distintos formatos de las fechas. Para el número de referencias, si tengo la
+5757520	5765720	palabra REFA delante y dos puntitos, en fin, cómo identifico los nombres propios, los números,
+5765720	5770000	por ahí aparece otra fecha más, monte videos y tengo identificados los lugares, entidades
+5770000	5777080	con nombres, las direcciones. Una vez que corre mi sistema, lo que me tendría que hacer
+5777080	5790080	es una plantilla con los valores en cada uno de los atributos. Y bueno, eso es todo.
+5790080	5796080	¿Alguna pregunta? Fue en medio rápido porque...
+5797080	5801080	Disculpa.
+5811080	5821080	Sí. Sí, utiliza. Sí, exactamente. Soler, decimos, por ejemplo. Sí. Sí, utiliza. Es que en la web
+5822080	5833080	hay un curso de recuperación de información en la web, y ahí está la ley de SIP, la ley de HIP,
+5833080	5840080	pero índices invertidas es la forma, por eso además lo que hice es presentar en la forma,
+5840080	5847080	el mecanismo por el cual se indiza los documentos en la web. Muchos de esos productos utilizan
+5847080	5851080	ese modelo de indicación de documentos. Exacto.
+5855080	5858080	¿Más preguntas?
+5858080	5866080	Listo. Bueno, entonces, terminó el curso y la semana que viene arrancamos con las presentaciones.
+5866080	5869080	Bueno, gracias.

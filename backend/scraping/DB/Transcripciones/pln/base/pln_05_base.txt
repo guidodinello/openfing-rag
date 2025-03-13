@@ -1,0 +1,1195 @@
+...
+Primero hablamos de un formalismo
+y de los limbojas regulares
+y terminamos hablando de normalización de textos
+que es esencialmente tenemos un texto
+un texto escrito
+así como lo recibimos
+y lo trabajamos de forma de que sea mejor
+más adecuado por un su siguiente procesamiento
+y ahí identificamos algunas tareas, principales de ellas
+lo que se llama la tokenización, que es la separación
+en los componentes mínimas
+pero son modos podríamos identificamos las palabras
+hablamos de algunas técnicas de tokenización
+y de algunos de algunos
+algunas técnicas relacionadas que pueden facilitar
+dependiendo de la tarea en la que estamos
+la tarea siguiente por ejemplo
+llevar todo a minúsculas por ejemplo
+o a buen mamá yúscul
+o identificar algún tipo de entidades como por ejemplo los números
+o las fechas
+y identificar toda esa área que se llama reconocimiento entidades con nombre
+eso mismo está un área dentro del procesamiento de maquenatural
+porque no es trivial
+porque uno puede decir bueno
+una fecha es dos números barritas, dos números barritas, dos números
+pero 18 de diciembre también es una fecha
+y cuando yo digo el 18
+voy a ir a comer un asado
+estoy hablando de una fecha pero si digo en el asado al final
+fuimos 18, ese 18 no es una fecha
+esto es el problema del reconocimiento entidades con nombre
+esto es una tarea que se realiza generalmente como un tipo de método
+que se llama en declensificación secuencial
+en algunas clases lo vamos a ver
+tan así que en el grupo hemos tenido unos cuantos proyectos
+de reconocimiento de reconocimiento de eventos
+algo es un poco más general que las fechas
+bueno nombre es propio, nombre de lugares
+eso podría ser parte de la normalización del texto
+es decir para procesar, dependiendo de lo que yo quiero hacer
+pero yo por ejemplo estoy haciendo el análisis sin táctico
+en la narración quiero tener el árbol de la narración
+a mí lo único que me decía es que hay un nombre propio
+que tiene el nombre propio y es
+José Luis Rodríguez, Perón Salez
+lo mismo, me interesaría tener algo ahí que diga esto
+es un nombre propio lo que hay ya está
+eso también puede desperse como parte de la normalización
+bueno
+y una cosa conexa un poco al
+si bien no queda en la cascada pero parece interesante
+mucharlo acá esto lo vamos un poco más adelante
+pero en la nueva versión del libro de Yuraz
+que aparece junto con Palabra y parece razonable
+porque de la otra forma me quedaba descolgado
+acá queda un poco descolgado pero menos
+que es
+saber la distancia, a mí me puede interesar saber la similitud
+acá van a ver en este curso que hay
+el concepto de similitud es muy importante
+el concepto de distancia ¿no?
+así que quiere decir una distancia entre
+palabras y por qué es interesante
+porque puede ser interesante tener una noción de distancia
+entre palabras o documentos
+porque puede ser interesante
+si yo tengo dos documentos ¿por qué?
+puede ser interesante conocer la distancia entre ellos
+lo que sea que ellos sea
+si yo
+exactamente es la aproximación primera
+saber si dos documentos hablan de mismo tema
+es que más o menos maneja la misma palabra
+o si quiero saber
+si un trabajo es plagio de otro
+o si quiero
+agrupar por temas ciertos grupos
+de hecho es la forma tradicional de hacer
+de agrupar documentos
+y de hecho el salvo de lo que van a tener que hacer
+en el laboratorio
+pero esto es en realidad la distancia entre
+buscar la distancia entre dos palabras
+es decir palabras parecidas
+típicamente de utilidad por ejemplo
+para corrección ortográfica
+si yo quiero sugerir lo que me equivoqué
+realmente lo que hago es meter malos dedos
+y buscar y arrarle por una palabra
+y meterme la palabra el letra antes
+la clase viene malo un poco más
+pero
+el corrector de mi celular
+generalmente hacer cosas como esas ¿no?
+entonces tenemos una forma
+buena de meter la distancia entre dos palabras
+y de hecho hay una forma bastante estándar
+de usar lo que es
+contando la cantidad de operaciones
+que llevan de una a la otra
+y que son operaciones
+insertar
+borrar
+o sustituir letras
+entonces
+la distancia de edición mínima
+es justamente
+el número de operaciones
+el número de operaciones que yo necesito
+para
+no veo nada
+ese
+encontrar
+la distancia entre dos palabras
+no por ejemplo yo quiero saber la distancia entre
+y tal diferencia de la palabra
+tomo hablando
+no vale mi nombre respondan con kilómetros
+claramente
+la intuición detrás de la distancia de edición
+es
+es que
+palabras parecidas tienen distancia
+menor
+y el número de operaciones refleja
+un poco eso intuitivamente
+si yo tengo francia
+ver su francia
+está muy cerca
+porque solo tengo que insertarle una letra
+como he hecho de Italia a Francia
+como se le ocurre ir de Italia a Francia
+si parte de Italia
+yo puedo borrar
+puedo
+insertar o sustituir
+querido en usted con Italia
+sustitucio que
+la ipola f
+no se cuenta como sustitución
+un poco igual
+¿eh?
+nada y así que
+no perdona cada vez
+así
+acá
+tengo que insertarle una letra
+puede insertarle una letra
+cambiarla así por ahí
+digo la ipola c
+pero no parece ser una buena estrategia
+¿por qué?
+porque después la ilana me coincide
+¿no?
+entonces acá
+dijimos que la c se inserta
+y la ilana queda
+entonces me tomé a 1, 2, 3, 4 operaciones
+la distancia de edición mínima entre francias
+es un 4
+suponiendo que cada operación va a ir a 1
+cuando cada una de estas operaciones va a ir
+el peso de cada operación va a ir a 1
+eso es la distancia de edición
+la distancia de edición es la distancia de mínima edición
+cuando todas las operaciones van a ir a 1
+y ustedes eran por lo preso
+desde el punto de vista del gorimigo
+no parece tan fácil de hacer
+porque uno tendría que probar todas las combinaciones
+diserciones
+borrados
+y sustitución
+pero de hecho
+el problema... esto te llega a lo...
+no he puesto
+el problema puede resolverse a partir de la solución de su problema
+en un comer de una tabla
+y eso
+ustedes si recuerdan de...
+bueno sé, ¿dónde se da ahora?
+eso pronunciaba cuando yo era joven
+es un problema de pronunciación dinámica
+es decir, yo voy
+obteniendo resultados parciales
+y utilizo esos resultados en un chart
+para generar nuevos resultados...
+nuevas...
+nuevas centradas
+digamos hasta llegar
+a tener el problema más chico
+de hecho
+el problema de...
+la distancia de edición mínima puede resolverse a partir de la solución
+de su problema
+resulta ser que puede resolverse así
+y ahora lo vamos a ver
+el método de pronunciación dinámica
+donde yo
+compongo un problema
+es muy...
+lo vamos a ver por lo menos dos veces más
+en este curso porque
+hay un algoritmo de parcin que van a ver que usa los mismos principios
+y hay otros algoritmos como lo vale
+pero que lo vemos en este curso
+y que me voy a acordar en el correr de la clase
+o si no, ya...
+se cuándo creas este, voy a decir cuando lo vas a presentar
+pero tiene las mismas ideas, ¿accuerdas que acabamos de que
+muchos métodos se repitan, ¿no?
+entre paréntesis
+para los que les gusta
+averiguar un poco sobre la historia y eso
+el nombre de pronunciación dinámica es muy interesante la
+porque es surgel término y esencialmente era porque sonaba bien
+sonaba vendible
+había que disponer dinámico
+por lo que quería difundir
+siempre buscando plata para su proyecto
+que es lo que le pasa a todos los académicos en el mundo
+y busquenlo por ahí, por Wikipedia
+entonces, la distancia de mínima edición
+o mínimo distancia
+es lo que yo les decía, ¿tá?
+el mínimo número de operaciones de edición que se necesitan
+para transformar un estridio en otro
+una aplicación que hace que usa muy bien esto
+es el comodio de la tendencia que lo hizo en el alumno de este curso
+en otros años, fíjense y lo van a ver
+es bastante bueno encontrando parecido, bueno
+y ahí tenemos Italia, Francia, ¿no?
+ahí
+nada, ahí es exactamente la misma que es su Gerino
+que pensamos
+la pregunta es si esa que se no ocurrió en la mínima distancia de edición
+tampoco tan claro
+deberíamos probar todas las posibles combinaciones
+pero este aquí
+vamos
+hola de pizarrota complicada
+y encima la pataza no se ve mucho
+un poco la idea es
+siempre me ha olvidado cuál llevan cuál
+porque es un simétrico pero
+es para abajo para mí
+me marejo porque es exactamente simétrico
+yo puedo poner el surzaca
+está hecho de abajo para mí
+para mí
+acá pongo el destino
+y acá
+para mí
+lo que vamos a hacer es
+una manina menos que
+obtener cada cuadradito acá
+de la tabla
+la distancia
+mínima edición entre
+digamos, si la fina y jota es la columna
+en el jota tenemos
+la distancia mínima edición desde
+la palabra origen
+hasta la posión jota
+y la palabra destina hasta la posión
+¿de acuerdo?
+esto es la distancia entre fraes
+y lo interesante es que yo
+puedo determinar cada una de estas
+a partir de
+esta distancia
+ahora lo vamos a ver cada caso
+es decir, de la
+de la posición anterior
+insertando, ahora lo vamos a ver cada caso
+empezamos por acá
+acá la distancia entre nada y nada
+y ahí que va
+es como nuestro paso base
+y luego
+para llegar del numeral
+a cualquier parte de la palabra
+¿qué cuánto tengo? ¿cuánto tengo?
+si tengo que ir a esta
+la posición
+y cuantos pasos son
+sonis ¿verdad?
+pues acá ¿cuánto sería?
+y así ¿no?
+¿y para este lado?
+pero no eso lo agregaba a él y por cierto
+¿cómo perdón?
+no eso lo agregaba a él y
+no, porque yo quiero ir de nada a
+itali
+por ejemplo, tengo que desertar
+este a
+el y
+o sea, es agregar
+siempre es agregar uno a la palabra que tenía antes
+ya empezamos a aplicar la regla
+porque es decir, la forma de ir desde
+desde nada hasta itali
+es lo mismo que ir hasta itali
+y desertar una
+¿sí?
+porque este es el destino
+¿sí?
+y lo mismo para este lado
+pero estas son operaciones de borrado
+¿sí?
+yo para
+para ir de efe a nada tengo que borrar la efe
+o sea, es una operación de borrado
+¿sí tiene?
+para ir de efe a nada tengo que borrar la efe a ver
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí?
+¿sí, si yo te escribí en si
+y en si te letras no tengo menos de
+cita operación o potener?
+¿sabes?
+entonces después
+empiezas un buen bien esta dirección
+¿en el cuadro?
+TIL de numeral f, a numeral y que puedo hacer. Y yo tengo tres opciones. ¿Cuáles son las
+tres opciones? Una es hacer una sustitución. ¿Tá? Ah, perdón, acá voy a instalar la distancia
+que voy a utilizar, voy a hacer que la sustitución va a ir a lo mismo, después lo tengo con
+la otra, pero voy a hacer la sustitución, va a ir a dos. Yo supongo que sustituir me cuesta
+a dos. Es una de las distancienes, la otra es que va a ir a dos, pues tengo que borrar y
+sentar. Entonces, es para que quede un poco más entretenido el ejercicio, este sustituir,
+cuánto me va a costar sustituir una F por un ahí.
+Choppa, ahi va, sí, perdón. No, lo que voy a hacer es simplemente sustituir la F por
+ahí. No, directamente. Y ahí se le tengo que sumar el costo de sustituir todo lo que tenía
+antes, es la palabra. O sea, sustituyo, en este caso nada por nada, y después cambia la F por
+ahí. O sea, que es, siempre es dos más, lo que tengo acá la diagonal. Pero yo tengo otra forma
+de hacer esto. ¿Qué es? Ir hasta F, sí, y borrarla, y perdón, y perdón, ir de F en
+nada, e insertarla ahí. ¿Escuerto? Entonces, ir de F en nada, cuánto me cuesta? Uno, e insertarla
+ahí, uno. O sea, acá me va a dar dos. No, ese camino me cuesta, ¿qué lo que te intenta
+dar de hacer? Tanto de ver cómo llegar a partir de los pasos anteriores a este, o sea que
+tengo que probar todo lo camino posible. ¿Qué son tres? Esescialmente. Esa es la gracia,
+el lo que introduce el algoritmo. Yo tengo que hacer tres. Y acá lo que hago es el camino
+que es, ir de nada, ahí, perdón, ir de nada, ahí, uno, perdón, borrarla F e ir ahí. También
+son dos. Porque ahí yo estoy siendo de perdón, ¿eh? Claro, borrar, perdón.
+Quiero decir, borrarla ahí e insertarla F. Acá, fué de nada, ahí, e inserte la F, borrarla
+ahí, yo te la F. En todo caso, en este caso no tengo problema porque los tres valenos
+mismo. O sea, la distancia de dicción es la misma. De acuerdo. O sea, acá yo sé que la
+mínima distancia entre F e i entre un gran F, un gran losacamos, solo para el cero, entre
+F e i e dos. No importa por el camino que yo vaya. Y entonces sí, en piezo general, el
+que borrarla así. Acá tengo al mismo, ¿no? R e i, acá me suma tres, por acá me suma tres,
+por acá me suma tres también. O sea, sumo uno, tres, dos más uno, tres, uno más dos,
+tres también. O sea, acá siempre es tres. Acá, perdón. Y así sí, muy aburridamente
+sumando uno, ¿no? Tos cuatro, dos cinco, estos seis. Y acá qué pasa? ¿Qué es lo que
+pasa en este cuadradito? Ya tengo ahí, o sea, que mi costo de sustitución cuanto es
+cero. Entonces, acá que me da, por este camino de la, por el camino de la sustitución,
+por el camino de ir hasta France, sí, y cambiar la, hasta France y cambiar. Me va a costar
+cinco más cero, cinco, ¿sí? En cambio, por este camino me cuesta siete y por este
+cuesta siete. Yo me quedo con el mínimo. O sea, acá van a ser cinco, ¿sí? La gracia
+del, por qué este método funciona así? Porque por cómo está definido el algoritmo, yo
+sé que si acá llegué con una distancia de seis, como esto solo único tres caminos
+posible para llegar. Si acá llegué con una distancia de seis, la distancia mínima
+hasta acá tiene que depender solo de estas tres, porque si hubiera una más corta estaría
+en una de estas tres, se tiende? Solo dependo del paso anterior, el algoritmo de HMM, el
+algoritmo de Viterbi también me acordé, me faltaba hoy, ya se van a acordar de mí,
+yo cuando damos Viterbi que es la misma idea, que yo solo dependo del paso anterior y por
+eso puso una tabla, porque si yo les vendiera de más paso para atrás, esto no podría
+hacerlo, porque yo solo consulto a los tres cuadraditos que me dirigen a este lugar. Si
+yo pudiera tener otro camino más complicado, con más pasos, con menos pasos, no podría
+hacer esto. Acá, pero acá yo sé que por cómo lo tengo hecho, la única tres forma de
+llegar a esto es atrás de acá, se entiende más o menos, ¿sí? No se ve mucho, pero
+cuál es el problema que tengo acá? Yo voy a llegar acá y bueno, y este aquí que me
+va a dar, ya lo decimos, 7, esto va a quedar de deber para que usted lo hagan, pero
+es una pavada, y la ecorismo es una pavada, después de hecho todos los años tengo que
+volver a pensar por qué la justificación, porque el punto que aplica el ecorismo es
+simplemente su modo a cabo, cero si es la misma o uno y uno. Me dejo el mismo, esto me
+da 7, esto quiere decir que la distancia entre Francia y Italia es 7, se acuerda que
+hoy no había dos, cuatro porque usábamos distancia del edad de este en que daba un peso
+de uno, pero el ecorismo es mismo. ¿Y cuáles son las instituciones? ¿Cómo se cuáles
+son las instituciones? Es 7, pero cuáles son las operaciones que yo tengo que hacer para
+llegar de una a la otra.
+Tendría que recorrer camino para atrás, bien.
+7 con esta que definimos ahora, con valor 2 para la sustitución. Acá te lo he dado
+la compreta, pero no se la quiero mostrar por el, ahora le pico por qué. La instancia es 7,
+pero cuáles son las operaciones, no tengo que hacer el camino y qué problema tengo. ¿Qué
+problema tiene mi ecorismo?
+Acá es que yo no guardo donde vine, ¿qué tendría que agregarles mi ecorismo? Exactamente
+una indicación de donde vine, que posiblemente puede ser de más de un lado, o sea, ¿cuáles
+en acá? Yo puedo venir en este, por ejemplo, puedo venir de acá, o de acá, los 3 tienen
+la misma distancia de edición. Y efectivamente no, no efectivamente, porque ahí yo marque
+uno solo, pero si usted ven, yo acá lo que dice fue poner de dónde venía en cada caso.
+Ven, acá vengo de 7, porque la ahí y la coinciden, entonces vengo por la diagonal. Y así
+hago el camino en verso. Acá yo por razones de negibilidad, solo marque uno de los
+origen, pero en realidad, si yo completo está atabado, la fíjense que tengo, digamos,
+si yo marco todo el lugar de donde puedo venir, por ejemplo, acá, puede venir de acá
+o de arriba, en este 3, o como lo vimos acá. Si yo marco, no solo tengo la distancia de
+edición, sino que tengo todos los caminos posibles con esa distancia mínima distancia de edición.
+¿Está?
+A mí también me interesa uno solo, me interesa ir de uno a otro, pero bueno, se entendió
+más o menos. Y ahí tenemos la, el camino reconstruido, digamos, a partir de la tablita,
+esto lo va a la tener que venir en sus casas, pero es muy sencillo. Voy haciendo las
+operaciones, acá me moví por la diagonal, por la diagonal, acá borrela él. Ustedes pueden
+comprobar de la tabla, todas las operaciones que se ejecuta. Y la distancia mínima distancia
+de edición es da 7. ¿Por qué? ¿Por qué? Acá esto está mal. No, porque eso es solo con
+insertiones y borrados. ¿Está? ¿Acuerto? ¿Hay una pregunta? Aquí está hecho con la distancia
+de edad mínima. Que como ven, solo agrega uno, cuando se mueve a g ofena, cuando sustituye
+hacer costo uno, yo por ahí tengo, hay una planicitada, me deja verle impretto, es una
+pavada, una planicitada, es muy fácil hacer, simplemente poner la fórmula, uno copio
+y pegas ya está, acá fíjense que a diferencia del anterior, como la sustitución cuesta
+lo mismo que el borrado la prefiere cuando pude, entonces el camino de cuatro es este, bueno
+este no es más el capítulo dos, solo tengo que corregir, así, pero sí se cae, y en este
+link tenemos la calculadora, acá ponemos el costo diserción, la palabra origen de destino,
+como ven acá la fórmula es muy sencillo, bueno acá no se ve la fórmula, la río no se
+congelable, o sea, ahí pueden cambiar el costo, nada, nada muy militar, hay una duda antes
+pasar otro tema, como les decía, la distancia de mi madre llones es útil porque es un acolimo
+muy sencillo, muy eficiente, y permite, por poca plata digamos obtener una noción bastante útil
+que es la de una palabra y la otra, y encima permite estimar el costo de cabo operación,
+después vamos a ver en un par de clases más adelante, más adelante, porque por ejemplo
+estoy corregiendo un error ortográfico, yo tengo un documento y aparece una palabra que no
+existe en mi diccionario, yo tengo que sugerir palabra, la distancia de mi madre llones es una forma
+bastante rápida de encontrar la palabra más cercana, es decir buscar en el diccionario todas las
+palabras que están a una distancia 1 o 2, es bueno la forma más sencilla de sugerir,
+podemos ver un poco más sobre corrección de errores, tránsito de esta finita, bueno vamos a
+pasar a una etapa siguiente en el análisis de las palabras, nosotros tenemos, dijimos las las
+las las palabras científicas, como yo le decía no siempre es una cascada tan ordenada,
+hoy se me puede interesar esto que voy a hacer por otros motivos, pero lo que yo quiero es
+investigar la estructura interna de las palabras, es decir trato de la palabra por ejemplo
+velozmente, quiere decir, quiere decir velozmente, primero que clase gramatical tienes a palabra,
+es un advervio, como todos los también no me en mente, es un advervio, ¿qué quiere decir?
+quiere decir velozmente, lo hizo que hizo algo rápido, es como que adjetivo mero digamos,
+se me permite la verbalidad, compañía ni muerte, es como que califica un vero, como todos los
+van a ser, este hago una acción, todo eso está contenido dentro de la palabra, porque el mente es
+un sufijo que indica hecho de tal forma, o sea a partir de veloz que es un adjetivo yo genero
+un advervio, medio automáticamente, es un mecánimo productivo, tengo producción palabras de producir
+palabras nuevos, y eso yo lo puedo saber viendo a la palabra, porque tiene veloz que es una raíz
+y mente que es un sufijo que me dice de forma que se hace, eso puede ser muy útil para por
+ejemplo identificar la clase de una palabra, ese asunto de encontrar la estructura interna de las
+palabras y llamar un orfología, la orfología es el estudio de la estructura interna de las
+palabras, y nosotros en esta clase la que viene vamos a hablar de orfología, pero antes de hablar
+de morphología, vamos a introducir el mecánismo formal más utilizado en esto, que es el de los
+transductores de esta o finito y la extensión de las expresiones regulares para para, para
+pares de tiras, ahora vamos a ver un poquito de eso, entonces vamos a empezar hablando de
+transductores de esta o finito, que como os ya he dicho muchas veces cada tema está matando el
+hecho de que la cosa más chica en la venta, cada tema merece un curso de hecho en el año
+2003 un curso de transductores, solo de transductores, transductores de esta o finito,
+que son necesariamente los transductores de esta o finito son automatas, finito como los que vimos en
+lo que vimos en la clase pasada, se acuerdan que teníamos estados, transiciones, uno de estos
+finales y uno de estos donde empezar, los transductores de esta o finito son un conjunto de estados,
+circulitos, un alfabeto de entrada y uno de salida, un estabilicial, un conjunto finito de
+estados finales y las salistas o transiciones, entonces se puede, en lo automata finito,
+obviamente todo uno lo representa con una función, es de forma guialente puede hacerlo acá,
+otra forma es tener aristas pero simplemente es expresar el dibujito, un estado y un símbolo
+de entrada o epsilon y un símbolo de salida o epsilon y otro estado final, tengo un arco que va
+entre ellos, y como interpreto se automata como bueno, si yo voy acá, si hay algún camino que lleva
+desde un estado inicial, a uno final etiquetado, con una entrada, lo que estoy mapeando es,
+estoy diciendo dos cosas a la vez en el transductor, estoy reconociendo la entrada formada por los
+símbolos 1 y 2, o sea, se acuerdan que yo, cuando yo tengo, se acuerdan que los lenguajes
+que eran, que eran los lenguajes, qué dijimos que eran los lenguajes, conjunto de tiras sobre el
+fabeto, exactamente, conjunto de tiras, cualquier largo sobre ese el fabeto, entonces acá lo que
+yo hago es, dado una tira de un lenguaje, la tira E1 E2 en este caso, de hoy lo como salida
+la tira E1 E2, los transductores de estos finitos son, igual que los automata finitos, de hecho
+se reconocen como entrada del mismo tipo de lenguaje y los lenguajes regulares, pero además vienen con
+el beneficio de que dan una salida asociada, si ustedes se acuerdan de curso de lenguaje, ustedes veían
+algo parecido en el curso de lenguaje, se acuerdan como se llamaba eso, se llamaba máquina de mili,
+pero las máquinas de mili no vienen de la misma traducción que los lenguajes regulares,
+la máquina de mili vienen de la electrónica de los circuitos digamos y por eso no tienen la
+noción de estado final, yo no sé si ustedes se acuerdan, no tienen la noción de estado final sino
+que son más como continuos, el transductor es el equivalente de los equivalentes sobre pares de tiras
+de los lenguajes regulares, ahora vamos a ver que hay varias interpretaciones, entonces y además si
+observamos esto, fíjense que las transiciones también pueden tener sí ébcilo, o sea podría
+moverse por un arco sin emitir salido si le entra, si si no tuvieramos esto, ¿qué pasaría si yo
+no tuviera la posibilidad de anotar con ébcilo, aunque es lo que pasaría con mis automatas,
+no, podría no ser determinado, pues yo podría ir con el mismo símbolo de los dos de estado, no, de hecho yo podría ser esto
+y ahí lo que estoy diciendo es que esto me apega a ese 132 y no es un problema,
+¿qué pasaría si yo no tuviera ebcilo?
+las tiras de entrada se aliengan a ser igual largo, no tendría la posibilidad de pasar Francia
+a Italia digamos con una transformación de esto lo que permite es que el largo sea y arma a
+una cantidad de líos teóricos que no vamos a cubrir en este curso, peromente hay unos problemas eso,
+porque en cosas que no se pueden hacer, son un poco más complicados formalmente hablando que
+los automata finito, pero no mucho, bien, da un traductor, yo puedo definir una relación
+asociada del traductor, ¿sí? ¿qué es una relación? es el producto cartesiano de lenguaje,
+va, es un subconjunto, es un producto cartesiano de lenguaje, es un sub, es lo que dice, es un subconjunto
+del producto cartesiano de sin maúla, ¿cuál es que era sin master? ¿quiera esto?
+son todas las tiras de entrada, es un subcon, es un mapeo entre tiras de entrada y tiras de salida,
+entre todas las posibles, ¿sí? y como lo define bueno, una tira XI, son las tiras del producto
+cartesiano, tal es que existe un camino, que existe un camino sobre la clausura de las
+salistas, es decir, sobre cualquier camino, hay algún camino sobre la automata que llegan
+a esta final, es como la extensión natural de la automata finito, ¿sí? simplemente lo puedo ver
+como estos sonetaciones lo van a ver que exactamente lo mismo, es la definición de gorro, para todo
+este estado, el vacío pertenece gorro, o sea que un estado así mismo y luego, si yo tengo un
+camino que va de cú1 a cú2 y de cú2 a cú3 y una transición que va de cú2 a cú3,
+tengo un camino de cú1 a cú3, la definición de camino, ¿sí? entonces esencialmente lo que
+yo estoy diciendo, si hay algún camino, que llega a un estado final, a un estado inicial,
+a uno final, el par de tira que se genera sobre las transiciones está en la relación, ¿sí?
+por ejemplo, y les propongo, yo les propongo hacer un tranductor, ¿qué está haciendo?
+¿qué está haciendo? ¿sí es un tranductor para el plural? ¿qué la entrada sea una palabra
+del español? ¿y que la salida sea su plural? o sea que cual sería mi relación? ¿cuál
+sería la relación que computaría el tranductor?
+¿todo nos equivocamos? ¿qué es la relación? ¿cuáles son? ¿qué van? ¿qué es la relación
+que estamos cansando? ¿cuáles son las tiras? ¿cuáles son las tiras? ¿cuáles son
+las tiras? ¿cuáles son las tiras? ¿cuáles son los pares de tiras que tienen mi relación?
+¿qué dijimos que eran? ¿conjunto de pares de tiras? ¿cuáles serían los pares de tiras
+de mi tranductor? ¿sí popular para cada palabra es un plural? ¿el o los plurales? porque hay
+algunas que son, admiten más en un plural, pero sí, entonces ¿cómo alguien se anima a su
+plural? ¿cómo se hace el plural en el español? ¿cualquier cosa? ¿no? ¿tomo acuerdo? ¿cualquier
+cosa? por eso lo sé, porque los automatas cuando... no me doy cuenta, lo hago uno de terministas.
+Yo sé que acá sí es termina en una vocal. Ajá en el importe. ¿se van a equivocar igual?
+Porque es horrible difícil, pero sí termina en una vocal. ¿cualquier cosa? ¿cuáles son
+las vocales? ¿cualquier cosa? ¿cualquier cosa? ¿cualquier cosa? ¿cualquier símbolo
+de bueno en el mismo símbolo? ¿de acuerdo? claro que acá yo tengo que hacer un arco para
+cada letra, pero bueno no lo vamos a hacer porque nos quedaría un poco gorroso. ¿una de
+bueno? ¿y después qué pasa? ¿qué pasa acá? Epsilones, muy bien. ¿y final? ¿por
+eso sí que es la última? porque llega un final, si no es la última no va a llegar un final
+y yo para reconocer tengo que recorrer el arco, pero termina en una final. ¿qué más? ¿por
+No has trinado el glyco. ¿no? ¿ oh tu aí con la
+g. ¿no? Oh boy con la lea, ¿no? ¿y no? ¿que me hace? ¿cualquier cosa brońgarde? ¿
+No, no, no.
+No, mal.
+Menís.
+Meníses.
+La he tampoco.
+Café, café, café.
+La he iba.
+¿Ese no?
+No, también.
+¿E?
+the
+¿Cachú?
+¡omie! ¿Cachú! ¡Cachú! ¿Cachú!
+¿Colías? ¿Cuál ha youado?
+¿ombğan?
+Pasa un canal hoy.
+A él es el tablón Ganze, les va a respirar.
+ONUUS, si también en esa que pasan里
+ONUUSES
+¿Le dame ninguna? son los ledos
+ONUES
+bueno, no preguntarle la ráee
+Pero tenemos problemas, ¿no? Hay andan por ahí un acuerdo valera de leerlo, tiene que
+tomar así el chiste con eso, porque por ejemplo impotesis, ¿cuál es el plural de impotesis?
+¿Y de crisis? crisis es ¿eh? ¿Y de no? ¿Y de no? ¿Y de no? ¿Cuál es el plural de no?
+¿No es? Creo que no, David, bueno, no tenemos en español hay dos marcas para formar el
+problema de su tantiado, ¿qué son ese y ese? ¿Cosa que se ha llegado? ¿Ese este asimismo
+la posibilidad, aunque no es lo normal de que permanezca invariables, esto es para
+alguien que está movilando algo esta horrible, la elección de una, ah, debes juntarse a cientos
+de reglas, su tantiado, el que tío terminaba en vocal, atona o enectónica, café, forma
+en el plural con ese caso, se estudiante esta exilplano, tributo, comité, son pulgar
+y lo pulgar el terminado en seis, como cafés, el lugar de cafés, o pieces, el lugar de pieza.
+Su tantiado, ¿qué tío terminaba en nada? O en autónicas, papá, papás, sofás, majás,
+puros, son exercionatas rilas, faralais y albalas, que se dice, este, faralais y albalais,
+y el advervio no funciona sustantiva, no es, también es decepción el pronombre
+yo, cuando funciona como sustantivo, pues admitemos plurales, yo es y yo, y son pulgar
+y decir sofaces, no grande, más y sofaces, no son tanto, el problema ahí es más grande
+parecer a ser el, para resolver contrando, pero en general se puede implementar como
+relas, son relas deterministicas, ¿no? Estamos, no, no, no deterministe, pergúmense
+le paleré con eso, un número finito de relas, hay un problema acá con este, yo lo que
+veo acá es del, al vervio no funciona sustantiva, porque tengo que saber en qué funcionan
+está el, ¿no? ¿qué es, el advervio no funciona por la tienda de todo el salvo que
+no se, tampoco, no, ah, no, no, no, no, no, no recibiré un no por respuesta, ahí,
+no es por respuesta, yo es, el yo, el yo es, los yo es de las personas son los que los limitan,
+no ellos son los super yo es, bueno, un poco de la moral deja es que no es trivial, digamos como que
+es posible pero que digamos es bastante engorroso, imagínense si una tarea tan sencilla como el plural es
+bastante engorrosa, calcular todas las combinaciones morfológicas de las palabras, también y de eso
+vamos a la clase que viene pero construir el traductor a mano no es fácil pero tenemos algunas
+ventajas y eso es un poquito lo que vamos a ver ahora, bueno pero antes de esto voy a mover una
+cosa, tenemos cuatro formas de verlos a los traductores que son por supuesto formalmente equivalentes pero
+que nos permite modelar según en la tarea que queremos no se nos puede ser más cómodos de una
+forma u otra, una es como reconocidores de parijas de tiras, es decir una automata es lo que
+me hicimos ahora, reconocemos pares de tiras, la palabra es un plural, sí, el reconoce la palabra,
+pero también nos podemos ver como un traductor, ¿de acuerdo? si yo le doy la palabra me devuelve el plural,
+por supuesto que es equivalente pero a veces uno puede pensar lo mejor de una forma de otra,
+también como un generador de parijas de tiras, todos los automatas tienen esa característica,
+esa dualidad de generadores y reconocidores, yo recorro cualquier camino, eso es un procedimiento
+generativo, yo recorro cualquier camino de un traductor y genero una pareja de tiras,
+¿de acuerdo? si yo quiero generar palabras al azar de un lenguaje, lo que hago recorrer el
+automata y voy generando cosas y lo que sabemos es un computador de relación entre conjunto, tengo
+dos conjuntos y quiero saber cuál es para la palabra tan relacionada, según la circunstancia me
+puede convenir de una forma o otra, y bueno la virtud es ese esto, reconoce lo mismo que los
+automata finitos, los tradutores tienen la misma debilidad expresiva que los automata finitos,
+es decir, solo pueden reconocer en su entrada lenguaje a regulares, si yo de la entrada no la puedo
+expresar como lenguaje regular, no puedo expresar, no puedo expresarlo un traductor, pero además
+permiten devolver una salida, o sea tienen las virtudes, sortof, igual que los automata finitos,
+pero además permiten devolver una salida, son un poquito más complicado de un punto vista
+computacional porque no siempre se pueden volver deterministas en la entrada, ahora vamos a
+omisionar un poquito adelante pero no es para nada el objetivo de este curso, bien,
+alguna definición más, si yo tengo el traductor, voy a definir, va a quedar definido una función de
+sinma 1 aster, a 2 a la sinma 2, por qué es a la 2 a la sinma 2 aster, pero por qué uso el
+conjunto potencia en el cobo minio, porque es nada determinista, se acuerdan 2 a esto es las
+combinaciones de todas posibles, todos los subconjuntos posibles de un conjunto, porque acá cada
+tira puede volver más de una tira porque es no determinista, yo permito generar cosas
+nuevas también, o sea que estos racítate, son todas las v que pertenecen a la relación, dada u,
+racítate no digo transducción porque transducción no es exactamente la palabra, el traductor para u
+de vuelve todas las v, o sea es lo que me ha pedido en la salida, perdón estaba bien, dije bien,
+una función que va de sinma aster, a 2 a la sinma aster, o sea queda una tira de vuelve un
+conjunto de tiras, si llama transducción, o sea una transducción es algo que da una tira de vuelve un
+conjunto, y curiosamente si existe un traductor que la computa, o sea que es una transducción no quiere
+decir que es un traductor, no es un poco raro, si hay un traductor que la computa es racional,
+¿de acuerdo? ¿Por qué podría no haber un traductor? Porque los traductores son de
+mita en lenguaje regular y acá no lo estoy recibiendo, y además es una función racional
+sí que pasa, para todo estirin de entrada de vuelve un estirin salida, sería como un
+traductor bien comportado porque no tendría nada de termínima en la salida, bien, si yo tengo
+un traductor popular la primera y segunda proyección, es decir, proyectar quiere decir quedarme
+solo con la entrada o la salida en la transición, ¿de acuerdo? Me quedo solo con la entrada, entonces
+yo, si obtengo una automata finito, proyectando la primera y la segunda entrada, simplemente me quedo
+con la entrada o la salida del traductor, y si éste es la relación asociada, entonces, entonces
+perdón los lenguajes, acá no más, asociados a las proyecciones son lenguajes regulares, ¿por qué?
+vamos a empezar, si yo proyecto solamente la entrada, digamos, si yo proyecto,
+si yo proyecto de un traductor al proyecto, me quedo con la primera componente,
+voy a quedarme con lenguaje regular, ¿por qué?
+porque me queda exactamente en la automata finito, porque los estados son los mismos, los
+estados finales, ¿de acuerdo? y la entrada, la computa justamente calculando el lenguaje de entrada,
+se entiende? simplemente yo me quedo con la primera parte, o con la segunda parte,
+y eso me genera un lenguaje, son todos los segundos, el lenguaje formado por todos los segundos
+por el lado de la relación, y este aquí podemos probar de forma parecida lo que hicimos
+con los automata finitos que los tradutores son cerrados abajo, la unión, bajo la concatenación,
+bajo la clausura y clín, bajo el reverso, como calculo el reverso del traductor, ¿sabes lo
+el reverso? ¿qué es el reverso de una tida?
+de otro apaylante ¿no?
+¿si es un estado inicial?
+¿si?
+¿si?
+¿que vaya con las condiciones inmignatores del estado final?
+¿si?
+¿si?
+¿si?
+¿si?
+¿si?
+¿si?
+¿si?
+¿y da vuelta la Eliza en disiter?
+a la Frichamallah
+y claro, si no
+Pero es tan bueno, eso exactamente es
+Realmente la gente empieza a 130 pistolares para las viola, lo que yo sabía cavalry
+A todo el strat всегдаín es muy sour del mas articiler
+yo sabía que eso es todo muy bien
+Es un inverso unforroredario
+y eso que hizo él es una demostración ostrutiva
+Es decir, son cerrados porque yo para cualquier automata puedo hacer lo que dijo él, entonces
+hice una demostración creativa como la que hacíamos tener el lenguaje para demostrarlo, es
+que la unión era nuevamente traer cosas interesantes porque digamos, bueno, perdón. Y además
+son cerrados bajo inverso y esto es muy interesante. Esto es muy interesante. ¿Qué quiere decir?
+El inverso que es es intercambiar las dos símbolos. El les salía por una entrada y el entrada
+por una salía. Y eso que parece una pavada y formalmente es una pavada. Así que tiene
+la ventaja de que si yo modelo algo con un transductor y lo pienso de arriba para abajo, o sea,
+de, por ejemplo, para pensando en lo como para mapear una palabra con su plural. Al modelarlo
+con un transductor, como son cerrados bajo inverso, me viene gratis la operación inversa. O sea que
+yo, si se modelar de una palabra su plural, ahora tengo automáticamente algo que daba una
+palabra en alguna su singular, lo cual en general no ocurre, en general es muy difícil y en todo
+otro modelo como ver, eso no sucede, es decir, una cosa, la generación y otra cosa se la análisis.
+Genialmente la análisis, no es más fácil o más difícil, e distinto a la generación. A mí,
+por ejemplo, capaz que no sé qué le pasa a usted, pero a mí me resulta mucho más fácil pensar
+como me viene un singular un plural, un plural, un singular. Pero acá es exactamente lo mismo,
+simplemente un modelo esté automata y de vuelta la simule. Tienes una cosa muy interesante
+en los transductores que son cerrados bajo composición. La composición de los transductores es el
+resultado de tomar la salía de uno y ponerlo como entrada de otro. Sí? La composición es
+la función que computa la primera, la primera de la conducción y la salía de la
+aplicar la segunda. Como son cerrados, eso quiere decir, y como en la montaña de mal
+de montaciones constructivas, eso quiere decir que si yo tengo dos transductores, uno que
+me apega una cosa, por ejemplo, que pasa a funerales y otro que no sé, que le agrega un
+prefijo. Yo lo puedo modelar por separado y componerlos en cascada. O sea, hacía un
+primero de la aplicar el plural y después de poner el prefijo. Puedo pensarlo separado y
+al aplicarlo en cascada haciendo la operación de composición, tener un transductor cada
+de las dos cosas a la vez. Y eso hace que se empiezan a facilitar nuestros problemas acá,
+porque yo no puedo matar haciendo un transductor que me calcula el plural, todo el esfuerzo,
+pero yo sé que ese transductor después lo puedo componer con otro y no tengo que volver
+a tener que pensar todo de vuelta. ¿Se tiende? Esa es la ventaja de que son cerrados
+con composición. Y más todas las gracias en los transductores es que son cerrados con
+composición, porque yo lo que hago es atiliarlos. Vamos a ver más de esto.
+Este aquí que los transductores no son cerrados en caso general bajo intersección, la intersección
+de los transductores no siempre es calculable. ¿Cuál sería? Este es un transductor que me
+apega sea la n, un n número de ses, a la m con el arbitrario y ve la misma nadía que
+las es. Y intersección con el teotro, que es al revén, ¿no? Me apega primero, general,
+ahí después me te ves. ¿Cuál sería la intersección de esos dos automatos? A ver si
+deisador de yación".
+A la cá, aloca.
+¿Y el instante es un número de dos?
+No, no, no.
+No, son todos los posibles, Dios.
+No, porque estos N&M en realidad son diferentes, ¿no?
+Bueno, ¿y este sería la relación?
+¿Y qué problema tiene esa relación?
+¿Qué problema tiene esa relación?
+¿Esta?
+Sí, está bien, ¿quién lo está diciendo?
+¿Qué? ¿Qué no regular?
+¿Se acuerdan que dijimos que si hay una traducción, los dos lenguajes son regulares, las dos presecciones son regulares?
+El trae le salía.
+Esto no puede ser regular.
+No puede, no puede haber un tradutor que compute esto, porque si no hubiera, yo me quedo con la segunda componente.
+Perdón.
+Y, y, y...
+La segunda, la lado derecho, digamos, la transición, seguir una automata que computa a la cabeza de la caja de la caja.
+Sí, cosa que, de teoría lenguaje de una de las antes, sabemos que no es posible.
+Porque es el lenguaje canónico de no regular.
+Pampilé, más y eso.
+¿Te acuerdo?
+Entonces, no se ha desarrollado con intersección.
+¿Y si iguales los hechos?
+Perdón, no...
+Son casos muy particulares cuando se da.
+O sea, tiene alguna...
+Esta tipo de propiedad de teórica complica la cosa del punto de vista teórico, pero no, del punto de vista de eficiencia en general.
+También tenemos un tema de eficiencia porque como son deterministas y no deterministas en general.
+Y no son tan...
+Ah, bueno, pero...
+Así como dimos una...
+Una...
+Como teníamos una definición de expresiones regulares,
+también podemos dar una definición alternativa de relaciones regulares.
+Hasta ahora la relación regulares dijimos que eran las que calculaban los transductores.
+Pero yo también puedo expresarlo a través de una versión extendida de las expresiones regulares.
+Es una versión.
+¿Dónde definió a partir de...
+En vez de definía a partir de signos, definió a partir de pares de signos.
+Perdón, esto...
+El conjunto vacío y ya para todo va en esto no de ese termo.
+No, también.
+No, perdón, esto es un símbolo.
+Es un símbolo.
+Ahora la misma definición, lo voy a ver pero trabajo sobre pares.
+Y digo que la concatenación, la unión y la calzura y clín también son regulares y que son todas las que hay.
+O sea, en un paper muy famoso de Kaplan y Kei en el 94,
+tipo decía, bueno, una expresión regular de NVAs,
+es una expresión regular cuyo término son N tuplas de símbolo alfabético suépsilón.
+En lugar de tener en mis expresiones, en vez de tener, por ejemplo,
+la expresión regular que busca la palabra terminada en S,
+que era una...
+A ver.
+Yo, si quería reconocer lenguaje a Ratón, poní esto símbolo,
+es una expresión regular que es y esto, ¿no?
+Si quiero hacer la expresión regular que va de Ratón,
+que expresa el plural de Ratón en Ratones, yo lo que hago es esto.
+¿De acuerdo?
+Simplemente tengo una nueva forma de escribir, esto son expresiones regulares,
+o sea, yo acá podría ser, si yo quisiera decir cualquier cantidad de AS,
+podría ser eso, y ahí reconozco Ratones y devuelvo Ratones.
+¿De acuerdo?
+Esto es una forma de expresar expresiones regulares sobre pares de símbolo,
+nada de maniámen.
+Lo interesante de esto es que me dio una forma de expresar,
+a través de una algebra, esto,
+que acordan que yo tenia este triángulito con las expresiones regulares,
+yo tengo una relación regular a calcular conjuntos de pares de símbolos,
+de pares de tiras, una expresión regular que la denota,
+o sea, que yo le puedo escribir,
+y que puedo compilar la automáticamente a un transduuto de estas finitas.
+¿De acuerdo? Entonces, la gracia de las fortalezas de nuestro método
+es que podemos escribir expresiones regulares
+en lugar de hacer los automátes y tengo la forma de compilarlos directamente.
+Desde el punto de vista de expresivo yo lo puedo escribir así,
+pero automáticamente tengo esto,
+una forma computacionalmente válida de calcularlo,
+computacionalmente ficiente,
+eso es justamente que estoy diciendo yo lo que decía en Kaplan
+y que hay en el paper del 94,
+que se ve que borrele sin querer.
+¿De acuerdo? Vamos a volver sobre esto de la clase que viene
+cuando hablemos de morfología,
+pero,
+realmente cuando hablamos de estado finito lo asociamos con eficiencia,
+todo el mundo dice estado finito eficiente,
+y los transductores se pueden ver como automata sobre pares de símbolo,
+y por lo tanto todas las operaciones valieros,
+podemos volver de terminista, minimesa,
+lo todo lo que aprendimos en teoría,
+pero guarda, porque de terminista para un transductor
+no es lo mismo que determinista en la entrada,
+porque este transductor desde el punto de vista de los algoritmos
+es determinista,
+porque su simbolo es el par,
+entonces este automata es determinista desde el punto de vista
+como un par de símbolo,
+pero como transductor no es determinista en la entrada,
+que es la gracia que tiene el determinismo,
+que yo recorro de la entrada y me jena la salida sola.
+¿De acuerdo?
+Hay toda una línea de investigación,
+¡había!
+La realidad es eficiencia,
+hay toda una línea de trabajo con los transductores secuenciales,
+los transductores secuenciales son aquellos que son deterministas
+en la entrada,
+y lo que hacen especialmente los algoritmos de determinizaciones
+es tirar para adelante la decisión hasta que no sean viguas.
+¿Pas?
+Esto como como demora la salida hasta que tiene seguridad
+de poder emitir, ¿por qué?
+¡Por Dios!
+Acá hay cerratones o ratoncitos, ¿sí?
+Este automata acá tiene un determinismo,
+¿sí?
+¡Ajo!
+Como acá tiene no determinismo,
+lo que hacen los transductores secuenciales es postergar la emisión
+de está ahí hasta que la ambivueda es muy complicada por explicar.
+La cuestión es que empujan la salida y van generando,
+generan la salida estrins y no símbolos.
+Entonces, generan cuando ya no tienen ambivueda,
+cuando ya saben que no vino una seca,
+no tiene dos posibilidades.
+Si no viene más nada,
+saben que si ya no viene más nada en la entrada,
+puede emitir ratones,
+pero para eso tiene que asegurarse llegar al estado final.
+¿Cómo qué?
+Que puede generar estrins en la salida,
+¿se exactamente?
+Lo que hace es empujarlo.
+¿Cómo?
+Tiene epsilon, acá te hace epsilon,
+¿se diga?
+Cuando ya no tiene dudas,
+no sé si es un buen ejemplo,
+no sé si hay claramente ambivueda,
+pero la idea es que permite demorar
+y eso no siempre se puede hacer.
+El general se puede,
+pero no siempre se puede,
+porque no siempre puede levantar la ambivueda.
+De todos modos,
+la mayoría de los casos razonables,
+sí se puede planteando para el arte de lo suficiente.
+Esto es curioso,
+porque las líneas de investigación
+de los tradutores secuenciales
+es como bastante diferente
+a la rama principal que era la de nosotros.
+Están basados mucho más
+en los automatas que las expresiones.
+¿Cómo da todo más?
+Y los agorimos en el pantoso.
+Morí es uno de los tipos que más sabe
+por el sanamiento de lenguaje natural
+y de todas estas cosas.
+Y ya está como bastante estable,
+digamos, hace como 10 años,
+porque,
+porque esencialmente lo traducido.
+Si usted nunca haya una cosa que se llama
+OpenFST,
+que es una biblioteca
+que tiene la implementación,
+todo el trabajo de Mori,
+estaba en la Universidad Nueva York,
+todavía está y en los laboratorios
+en ATICT,
+trabajaban ATICT
+y desarrollaron toda esta línea
+de los tradutores.
+Por otro lado,
+teníamos la gente de CEROX,
+que son los filandeses,
+cartúnel y todo eso,
+que tenían otras líneas de motivación.
+Los CEROX,
+creo que se arró el laboratorio,
+anda por ahí tirada
+hay una herramienta que en alguna versión
+de juicio le dimos acá,
+si no le presentamos,
+vas a decir que no da,
+que se llama XFST,
+que permite computar
+tradutores.
+Entonces, esa cosa funciona muy bien.
+¿Por qué dije eso?
+Ah, bueno, no, y después,
+se trabajó mucho en este tema de trad...
+Mori trabajaba más sobre los tradutores
+directamente, como componer tradutores,
+como...
+y esta gente ve leí cartúnel
+en este libro,
+pues, por lo que he estado finito,
+más inoperadores sobre expresiones,
+que para que uno pudiera escribir
+una sensación de eso,
+vamos a ver la clase que viene un poco.
+¿Está?
+Después, como todo,
+como todo el mundo,
+todo esto miró hacia...
+hace cosas un poco más complicadas,
+que tiene que ver con...
+sobre todo con...
+automata, probabilista,
+y tal y cual.
+Yo tengo el...
+Mori escribir un libro
+sobre los fundamentos
+de la aprendizaje automático
+que es imposible.
+Porque la visión es matemático, digamos.
+No tengo ahí en mi casa de...
+digo, he hecho intento, pero...
+¿Hay alguna pregunta?
+No hay 20, tenemos tiempo.
+¿Hay alguna pregunta, ¿no?
+¿No?
+Bueno, ven, ven, topate,
+centrotenía, no es de forma limoninada.
+Eh...
+Bueno, tenemos el formalismo, ¿no?
+Tenemos el formalismo de los tradutores,
+se entendió más o menos,
+ustedes dirán que si no entienden por que.
+Tratamos de mejorarlo, de una forma.
+Ahora volvamos la tarea que teníamos,
+que ir al de la... la de morfología.
+Yo lo quiero dar antes de ver como se resuelve el tema
+de contrandutores,
+explicar cuál es el problema.
+Es decir,
+se resuelve el tema de contrandutores,
+explicar cuál es el problema.
+Se guardan que en este curso siempre mostramos los modelos,
+mostramos los problemas que hay,
+y las...
+las aproximaciones a esos problemas con esa modelo.
+En este caso no es la excepción.
+Morfología.
+Hay dos definiciones principales,
+parte de la biología que trata de la forma
+de los modelos orgánicos y de las modificaciones
+o transformaciones que experimentan.
+Como imaginar, no vamos a encargar mucho de este tema.
+Pero sí capaz que de la parte de la gramática
+que se ocupa de la estructura de las palabras.
+Eso es...
+de lo que habla de la morfología.
+Y esto es...
+El asunto es cómo transformar gatitos
+en gato masculino plural diminutivo.
+Eso se trata de la morfología.
+Yo hago un análisis morfológico,
+es decir, que...
+tengo lo que se llama una forma de superficie,
+y vuelvo lo que se llama una forma lexica,
+una representación estructurada de la palabra.
+Esto...
+Me puede decir que se viva diferentes cosas,
+es una de ellas para obtener los lemas, por ejemplo,
+para obtener...
+Y también para mejorar el asunto del parcín, ¿no?
+Porque yo no puedo...
+El parcín es el análisis de la oración.
+Si una oración es intacticamente correcta,
+vamos a hablar el detalle, pero...
+No se puede decir gatos, ¿verdad?
+Un poco para...
+para esto un tema, ¿verdad?
+Porque él es un determinante y gato...
+es sustantivo y gato también es sustantivo.
+Pero tiene que haber concordancia,
+se acuerdan de la concordancia,
+concordancia es género y número, bueno, ¿verdad?
+Entonces para esto me puedo venir bien saber.
+¿Qué es un diminutivo? ¿Me puedes venir bien para...
+para posteriores análisis?
+Yo quiero hacer un análisis significado,
+no es lo mismo decir gato que gato.
+De hecho, quieren decir cosas diferentes.
+Entonces, bueno, lo que vamos a tuyer es,
+por un lado,
+los mecanismos de formación de las palabras,
+o sea, ¿cómo llevo de esto a esto?
+Y bien saberse, el análisis...
+tengo gato y tengo que volver esto.
+Parece bastante claro que es bastante más fácil,
+esta tarea para acá, que es esta para acá, ¿no?
+Porque yo tengo unas reglas ahí que me generan la palabra.
+Eso lo vamos a discutir posteriormente.
+Bueno, los morfemas son los pedacitos de la palabra
+que son las mínimas unidades con sentido,
+que quieren decir algo.
+La primera vez que es este curso,
+yo descubrí que lo sufijo y los prefijo que son las pedacitos de palabras
+que se pegan antes después, están en el diccionario.
+Yo lo sabía.
+¿Por qué porque tiene un significado?
+Cuando yo digo,
+imposible,
+que ya tiene algún problema porque en realidad es
+in y cambia la m, la m por n,
+porque está en una p y eso vamos a mover también.
+In, quiere decir no.
+¿Tenemos un morfema principal que se llama raíz?
+Que no es una palabra, no es lo mismo que el tema.
+El morfema principal es una raíz, es un pedacito de la palabra.
+Los morfemas siempre se creen con un guioncito por ahí.
+Y después tenemos los afijos que han significado adicionar a la palabra,
+no, imposible,
+y dice que no es posible.
+Tenemos los sufijos que es
+los que se pegar al final,
+gatito y to y ese son sufijos.
+Si el confijos yo siempre discuto con Ayala,
+porque para mí esto no es un sufijos,
+porque hay un guantar,
+son prefijos y sufijos que tienen que juntos,
+que van a lo dono.
+Ayala dice que esto es un,
+yo digo que para mí en español no hay eso,
+pero está.
+Y esa palabra se llama en para sintéticas.
+Que no es esto, no es,
+porque esto no es un prefijo.
+Pero púlter, lo hacía esto yo.
+¿Pontuantar?
+Pero tar es un sufijo.
+Si, si, si.
+Si si, si, si, si tues hablando de su fijo en realidad cada,
+bueno, de hecho se pega, ¿no?
+Ar, sería, ¿no?
+Bueno.
+Si no, si es en arno, ¿no?
+En arno.
+En...
+En saltar...¿糟í?
+Bueno, si les voy a dejar entonces.
+De ver una razón.
+Y decirlo que no hay ese en...
+son infijos.
+Por ejemplo, el Tagalog, que es un lenguaje de Filipinas, creo, admite infijo que son
+palabras que se meten en el medio, es decir, que abren la palabra en dos y meten en un
+proveo. Los únicos infijos que existen en el inglés son las malas palabras, el
+un fucking belido que lo meten en el medio o los ingleses en un blado y belido. Y también
+lo usa igual, lo meten en cualquier lado.
+Entonces, después no se usa, hay otro idioma donde sí.
+Este un se cuello mejor al significado, pero no la noten, no tengo las notas acá, pero este
+un tiene significado, quiere decir algo muyificando la palabra y se meten en el medio, la
+palabra recorda la palabra en el medio. Bueno, y es diferente la raíz al lema, el lema es
+una palabra representativa, es gato y la raíz sería gato, se tiene la diferencia, la
+raíz es un morfema y el lema es una palabra. Generalmente el lema se forma con la raíz
+y a alguna estándar de cómo el hijo lo sufijo, por ejemplo, masculino singular.
+¿Y cuál es la palabra? La diferencia entre las palabras y los morfemas, si los dos pueden
+tener sentido. Bueno, hay algunas características que las diferencian. La primera es que son
+aislado en las palabras en los morfemas, no, los morfemas no pueden aparecer, solo era lo
+que decía yo. Bueno, el morfema no puede aparecer solo, yo no puedo decir, y quedarme ahí,
+me van esperando que diga algo más, ¿no? Y mente, bueno, mente me lo van a interpretar
+como palabra, pero está. La palabra pueden caviarse el orden, si respetamos un poco las reglas
+de la sintasi, pero los morfemas no son permutables, pueden intercalarle cosas en el medio, los
+morfemas no, y bueno, no pueden hacer solaciones con morfemas de amor. Es decir, son unidades
+consentidos, pero las otras tienen como más independencia de jamón. Lo cual no quiere
+decir que los morfemas, por ejemplo, no tengan sentido. De hecho, la raíz en la que concentra
+todo el sentido de la palabra, y los fijó muy eficaz en ese sentido para transformarlo
+de alguna forma. ¿Cómo transformarlo? Bueno, bueno, tenemos dos problemas, ¿no? La formación
+de las palabras, ¿cómo se forman las palabras? Es decir, que yo tenga sufijos, y a fijos,
+yo tenga sufijos y raíz, y no quiere decir que pueda mezclar cualquier cosa o cualquier cosa,
+no puedo decir este inelefante, inelefante no puedo decirlo. Sin embargo, podría
+llegar a imaginarme que es un inelefante, ¿no? Es una inelefante, es la negación del
+inelefante. Pero si puedo decir imprescindible, y si yo digo, por ejemplo, elefantemente, usted
+que significado le daría una elefantemente. ¿Y eso algo como hace una elefante? No, en plícita
+estamos transformando elefante en un adjetivo, ¿no? Y en realidad no lo hizo, porque es inelefante.
+¿No? Lo que estamos haciendo es forzando un poco a lo sufijos para que cuáles significado,
+bueno, eso, los poetas lo hacen habitualmente, los seres humanos, no, realmente no. Pero también
+pues otro problema que era lo imposible, ¿no? Que las palas, los morfemas pueden cambiar según
+el contexto de que aparece, además de pegarlo, yo no puedo decir, manís, es un error, ¿por qué
+este tipo de errores a la hablar son tan comunes en los niños, ¿no? Porque no saben
+las reglas, este tipo de reglas, las alteraciones ortográficas, ¿no? Que antes de me va a
+ir después de me va a bailar, por ejemplo, es así, es decir, yo tengo esta estructura
+y tengo que cambiarla por una cosión ortográfica puramente. Entonces tengo dos problemas,
+el primero se llama morfotácticas, ¿cómo los morfemas se pegan para formar las palabras?
+Y la otra es ¿cómo pueden cambiar según el contexto? Y este aquí es que la forma de
+combinar morfemas, además, admiten varias variantes, ¿no? Una es, a ver si lo tengo en la
+punta parecia. Una es la flexión. La flexión es este género número,
+pero lo tengo, es decir, cuando yo no cambio el sentido ni la clase de la palabra. Yo
+tengo un gato, tengo gatos, lo único que cambia es el concepto general de número, pero
+no es significado de la palabra y no deja de ser sustantivo. En el español tenemos unas
+cuantas flexiones, tenemos más flexiones en el inglés, en general, pero hay lenguajes
+que son mucho más flexivos que el otro del maestro, por ejemplo el turco, el alemán
+también, es decir, una griga significado pegándole su fijos, nosotros no lo podemos hacer
+mucho a eso. Ahora vamos a ver un ejemplo. Por otra parte tenemos la morfología de
+derivativa, la derivativa es cuando yo creo otra palabra, como cambio significado o la cambio
+de clase de la agitiva estable, yo voy al verbo estabilizar, al sustantivo estabilización
+y al sustantivo desestabilización. Yo acá estoy cambiando el significado de la palabra
+cambiándole los su fijos, eso se llama derivaciones, entonces son derivaciones, flexiones son
+el plural, el número, por ejemplo yo pongo establez, es este, no creo que no tengo
+nada de estabilizar, si yo pongo estabilizaba el ABA, ese es una flexión, porque los vargos
+son flexiones, son las reglas generales de gamo en conjugación. ¿Trabuérdame? Pero la
+cuestión que ambos me cañimos no sirven para que la palabra nueva, y esto es lo mejor
+que digamos no para inventar palabra. ¿Por qué? Porque la derivación es un mecanismo
+productivo, la flexión no, la flexión no, yo pongo plural, tengo relas, la derivación
+sí, yo puedo decir tokenización, que es el nación y el efecto de separar el toque
+y el elefantescamente, era una versión un poco mejor de la, yo tenía un amigo que decía
+sin dudamente, y quizás mente nada. Y yo puedo llegar a interpretarla, se pueden
+reír, pero más o menos se tiende lo que uno dice. Y hay gente que hace cosas muy extrañas,
+como con uno cortazas ahí que, que transmite una cantidad de sensaciones sin que uno tenga
+una menoria de héroe que quieres decir, ¿no? Pero está. Y uno acá, por ejemplo cuando
+él dice él procuraba relamar las cinco pelusas, relamar qué le parece que es. Dice
+a relamar, pero ¿qué clase de palabra es? Yo no pretendía tanto. Si nos ponemos
+hablar significado acá de este, no sé qué tal, lejos como ya, este, relamar qué tipo
+de palabra es, ¿qué? ¿Cuál es la categoría dramática? ¿Eh? ¿Cómo sabe? Porque
+terminan a él, es decir, también tenéis una buena, y además porque viene rodeado otras
+palabras, ahí hay otro tema, ¿no? El contexto en el que aparece también nos invita a pensar
+que es un verbo. Todo ese fragmento de rayuelas está basado en eso, que nosotros por la
+estructura más o menos calculamos, y por el contexto más o menos calculamos las palabras
+aunque no sepamos, no la tengamos en un dicionario. Ay, hay toda una línea de investigación
+que son desde las palabras, este de las annun words, el yesines se llama eso, alivinar
+qué clase tiene la palabra cuando no la tengo en dicionario. No sé lo sé lo que es,
+no, no puedo rimar. Son de mente sus sorferiunias. Bueno, bueno, como le decía, hay diferentes
+tipos de lenguajes, los flexionales, como en inglés y en español, admiten, admiten flexiones
+de las palabras. ¿A diferencia de los adelante como el chino, que solamente tienen un morfema
+por palabra, no pega morfemas, lo cual es el que tienen muchas palabras. El turco y
+el alemán son lenguajes, la librera y el trilitinante es un poco de fusa, porque es más
+cualitativa, pueden pegar muchos. Nosotros podemos decir, gatitos y estoy pegando dos,
+y podías llegar a pegar esta trica, en algún caso, pero esta gente pega muchos.
+Exactamente, exactamente, exactamente, por ejemplo, oigan los tiros, era más en turco, quiere
+decir, comportándote, es que no es que es como, si estuvieras entre aquellos que no pudimos
+utilizarlo. Pero hay casos peores, volvamos a seguirlo. El auto del pueblo, si los alemanes
+pegaron, el alemán es alutinante. Por eso es más difícil. Está claro que no todos los
+turcos andan hablando así por la vida, digamos, estos son casos como de laboratorio, pero
+está, después de hecho el finlandés es otro lenguaje que es alutinante, y yo creo que
+no es casualidad, que es un morfolo, vamos a decir, muchos son filandes.
+Sí, en turcos sí, en turcos sí. Podéis, aquí lo que aparece, por ejemplo. Pero hay casos
+peores, porque el chupic, que es un lenguaje, si yo más lo recuerdo de Alaska, la gente
+de allá del norte, con el frío, se ve que llegan a lenguaje, que no las polis sintéticos
+de donde uno esencialmente puede meter en oraciones en la palabra. Para dar una explicación
+medio gougalo, tu catámbrica, si hay un kit, en chupic, quiere decir, todavía no dijo
+de nuevo que iba a casar renos. ¿Qué es que ahí mete todo? Tiene verbo, una oración
+subordinada, todo en una palabra sola, polis sintéticos, eso es bueno. Hay más cosas
+en el universo que las que imagina tu filosofía, hay muchas cosas, si ustedes se ponen
+a mi alma de Wikipedia de tipos de lenguajes de entretenido, dice aquí, ¿por qué no piensa
+que puede estar encerrado en la cascara del Núesis, sentirse dueño del universo? Bueno,
+el parsing, el parsing es, prácticamente se usa para hacer el análisis de una oración.
+Si tomado una entrada de volueda, obviamente es una valoración, pero parsing es una expresión
+en inglés que no es muy traducible, que es tomar una entrada de volueda de algún tipo
+de estructura lingüística, en el caso de oración de volueda de parsing, por ejemplo, el
+parsing morfológico es justamente esto que estamos hablando, tomar una palabra y devolver
+una representación de la raíz humorfer. Esto es lo que llamamos morfología computacional,
+bueno vamos a los fieros, queremos una palabra, quiero computar la representación, ¿de acuerdo?
+Y bueno, ¿qué formas tenemos? Y tenemos esta, una posibilidad de tener un diccionario
+de forma flexionada. Esto es para cada palabra su representación, su análisis. ¿Cuál
+es el problema de esto? ¿Cuál es el problema de tener para todos los pares, palabra representación?
+¿Qué es la verdad representación? ¿Qué es la verdad representación? Calabilidad, pero
+hoy en día con las mutuadoras que tenemos, estamos hablando de espacio cuando hablamos
+que habíamos habilitado para armarlo, para empezar, esto es un problema, pero además
+que hay un problema más grande. No sé, a todo eso se resuelve, un poco de una estructura
+de datos, no le volvimos como la gente. Sí, pero podría contemplar las recepciones,
+las irregularidades es un otro problema, pero podría llegar a darlas también, ¿no? Porque
+si yo meto uno a uno, ¿por qué acá estoy hablando de una a una? Tengo un diccionario de
+forma flexionada, tengo inelefante, inelefante, inelefantemente. El problema de que esto
+es un producto, es decir, que nunca vamos a ocurrir a todo por mi menta nueva. Se puede
+y he hecho hay aproximaciones de esto, hay un diccionario de forma flexionada en francés
+y en inglés. Acá no creo que hayamos llegado a todos los niveles de eficiencia. Se vuelve
+el enorme y no permite hablar a nuevas, si sí es el gran problema, no lo suis al mar,
+¿qué nos llama? Además, ¿qué problema tenemos? Los lenguajes alutinantes, potencialmente
+pueden ser infinitas las palabras. Porque puedo decir causar que causaste, que causes,
+que causes y postirás lo que niiera. Está claro que no es tan sencillo, pero la realidad
+no es tan fácil hacerlo, pero potencialmente podrías. Entonces acá está eso, ¿no? El
+turco tiene 40.000 formas posible, a lo que hay que sumar en los suficios derivativos
+y teoregamente infinitas palabras, causaste que hay que causar que hay que causar
+que le ve a la seta. Y en español también es sufico productivo como en nuestro querido
+mente, mente es productivo. La otra forma es hacer parcimorfológico dinámico, o sea, lo
+ya o es, tengo una lista de raíces y a fijos posibles, tengo un modelo de ordenamiento
+de los morfemas, decir que morfemas se pegan con cuales, o que clases de morfemas pueden
+seguir a otros y puedo agruparlos. Y luego tengo reír las ortografías que me dicen cómo
+cambian los palabras al mezclar los morfemas. Esto es sencillamente y lo que hablamos
+ahora. Esta es la solución a la que se llega con la morfología de estado finito.
+Vamos a ver en la clase que viene que todo esto yo lo puedo representar bastante directamente
+con contradictores y vamos a ver como se resuelve. Bien, una nota, hay dos hipótesis también
+para cómo los humanos procesamos esto. Una es que almacenamos en nuestra cabeza el
+listado completo de formas, lo cual nos deja saber cómo piensa los turcos. O la otra
+hipótesis que es que solo tenemos los morfemas y tratamos de tener la menor redundancia
+posible y solo procesamos las morfotácticas, ¿no? Las morfotácticas se acuerdan que
+eran las reglas de pegar. Es decir, lo mismo que dije que hay una computadora, peor
+peacito y armos. Por eso podría ser una explicación de algunos errores, por ejemplo,
+cuando uno dice media loca y es porque está flexionando equivocadamente, le está rando,
+está pensando que media está flexionando media como que fue un agitivo medio, no está
+flexionado como un buen agitivo y es un adverbio, ¿accordo? Entonces, claramente no, pero
+pareciera que yo para poder cometer este error tengo que estar pegando, pues si yo tuviera
+todo almacenado no, no seguía así. No, no seguía razonando y yo no confundiera
+si tuviera realista la palabra. Y lo mismo con esto, son bastantes grandes, estoy concordando
+todo. Pero eso, solo para preguntarlos en la prueba final y que no me lo conteste en
+nadie. Nadie me pasó. Bien, un poco más de los errores de pontaños, ahí hay una lista
+de errores y hay algunos que son, pareciera ser que uno pegó mal el sufijo, ¿por qué
+no me fijas tan miramente? ¿Está pegó el mente donde no era, ¿no? Y lo mismo con el
+Melavio el Muarde, con un jugo, ¿a qué capa que cambiara el palabra, ¿no? Boné
+pota. Me dijiste, es que comprare eso el contexto.
+De eso se trata la morfología y la clase que viene vamos a hablar de morfología
+está o finito, es cómo resolvimos con traductores el problema de la morfología. ¿Y
+aguardó? ¿Alguna duda?

@@ -1,0 +1,1861 @@
+start	end	text
+0	24000	Bueno, el primero que vamos a hablar es de lenguajes regulares.
+25000	29000	Ustedes hicieron el curso de teoría de lenguajes y este año
+30000	33000	generalmente damos una introducción más teórica a lenguajes regulares.
+33000	37000	Este año decidí cortar esa parte porque en realidad ustedes ya tienen
+37000	44000	bastante sufrieron bastante aparada y además y compañía en todos esos temas de lenguaje regulares
+44000	51000	y sus propiedades teóricas, propiedades de clausura y sus diferentes modelos
+51000	56000	y vamos a dar solo un repaso acá para nivelar un poco porque son del tipo de métodos
+56000	61000	que forman la base de otra cantidad y que para algunas tareas aplican directamente.
+65000	70000	Y arranco con esta frase porque como yo decía creo en la primera,
+70000	82000	en la primera clase Chonky por eso por 1997 mostró que el inglés no era susceptible
+82000	88000	de ser representado con automata finitos y eso hizo que la investigación en este tipo
+88000	91000	automata en el procedimiento de lenguaje natural se tuviera como oportunitas años.
+91000	95000	Y después volvieron, ahora os voy a hablar un poquito más de eso,
+95000	101000	pero que son los lenguajes regulares y me queda legísimo el teclado de acá.
+101000	105000	¿Por qué nos interesan los lenguajes regulares?
+105000	110000	Porque esencialmente la visto como herramienta para el procedimiento de lenguaje natural
+110000	117000	son una herramienta para especificar texto mediante patrones.
+117000	123000	Es decir, yo quiero especificar un conjunto de textos a través de un patrón
+123000	130000	con una expresión sola y generalmente puede utilizar expresiones regulares.
+130000	135000	Si yo quiero expresar todas las palabras que empiezan con C,
+135000	138000	tengo que expresar de alguna forma algo como,
+138000	146000	lo voy a poner en Per, digamos, C punto a Terisco.
+146000	151000	Es una C seguida de cualquier cosa, cualquier cantidad de veces.
+152000	154000	Ahora vamos a ver un poco más de eso.
+154000	157000	Esencialmente es una forma de expresar muchas.
+157000	163000	Quiero encontrar en un texto todas las palabras que empiezan con mayúscula y terminen con A.
+163000	168000	Voy a poner una cosa como H, con H en mayúscula que dice,
+168000	172000	cualquier cosa terminen con A.
+172000	174000	¿De acuerdo?
+174000	176000	Y ahí me parecen algunas cosas como, bueno,
+176000	181000	nada tiene que haber no haber espacios en emé y, por ejemplo, ¿no?
+181000	184000	Pero una serie de discusiones.
+184000	192000	Pero lo importante es que yo puedo expresar conjuntos un patrón a través de una expresión,
+192000	197000	un conjunto de texto a partir de un patrón.
+197000	201000	Tienen expresividad limitada, se acuerdan de la jerarquía choque, ¿no?
+201000	208000	Eso tenemos los lenguajes regulares, los lenguajes libre de contexto
+208000	213000	y los lenguajes recursivamente numerables por acá fuera.
+213000	217000	Los lenguajes regulares son sólo un subconjunto de los lenguajes.
+217000	220000	Pero antes, ¿qué son los lenguajes? ¿Qué son los lenguajes formales?
+220000	222000	¿Ese acuerdan los lenguajes formales?
+222000	224000	Ahí, se acuerdan.
+224000	229000	Yo tengo un alfabeto finito de símbolos, ¿sí?
+229000	234000	De fin o tiras de símbolos.
+234000	235000	¿De acuerdo?
+235000	240000	Y los lenguajes son un subconjunto de las tiras que yo puedo formar sobre ese alfabeto.
+240000	241000	Solamente eso.
+241000	246000	Es un conjunto de tiras, conjunto de palabras.
+246000	251000	Los lenguajes regulares sólo hay uno de los lenguajes son regulares.
+251000	258000	En tanto, pueden ser expresados de la forma que lo vamos a ver ahora con este tipo de expresiones regulares.
+258000	265000	O sea, no puedo expresar cualquier cosa con lenguajes regulares.
+265000	271000	Por ejemplo, el ejemplo de manual es que yo no puedo expresar cosas de la forma,
+271000	274000	igual cantidad deías que debes.
+274000	281000	Esto no lo puedo expresar con lenguajes regulares.
+281000	286000	Pero, a cambio de eso, son muy, muy, muy, muy eficientes.
+286000	291000	Es decir, típicamente cuando yo quiero hacer algo,
+291000	301000	hacer una búsqueda eficiente de algo en un texto,
+301000	305000	si lo logros expresar esa búsqueda con una presión regular,
+305000	312000	sé que lo voy a encontrar de una forma muy eficiente,
+312000	315000	si lo vuelvo determinístico, incluso de orden,
+315000	317000	en el largo de la palabra que te busca.
+317000	320000	¿Te guardó?
+320000	328000	Y son fácilmente adaptables para buscar un patrón en un corpus.
+328000	332000	Si yo tengo que buscar un texto como en Unix, con grep,
+332000	338000	o en un editor de texto, cuando controlo y buscar, o lo que sea,
+338000	340000	si yo lo puedo especificar con un patrón,
+340000	343000	generalmente nosotros ponemos una palabra que de última de sus patrón sencillos,
+343000	346000	que solamente expresa una asuntira,
+346000	349000	pero yo podría, casi todos los editores profesionales,
+349000	352000	permiten buscar expresiones regulares.
+352000	354000	Especificar esos patrónes para buscar,
+354000	356000	y casi todo lo lenguaje de hecho,
+356000	358000	creo que todo lo lenguaje de pronunciamiento hoy en día,
+358000	361000	tienen forma de especificar expresiones regulares.
+361000	364000	Por ejemplo, si yo tengo un problema de programación,
+364000	366000	estoy haciendo, y quiero decir, bueno,
+366000	369000	si lo que encuentro es una URL y quiero expresar una URL de alguna forma,
+369000	371000	la expresó con una expresión regular,
+371000	374000	no hay que escribir toda la URL del mundo o que me pueden abarcer.
+374000	376000	¿Te entiende?
+376000	379000	Es decir, yo estoy especificando conjuntos.
+379000	383000	Y esa expresión regulares son fácilmente adaptables para buscar un corpus.
+383000	386000	Ahora vamos a lo que es un corpus devolviendo todos los ocurrencia del patrón.
+387000	391000	Un corpus, para expresamiento, le baja natural.
+391000	394000	Es una cosa muy utilizada y nuestra base de trabajo,
+394000	397000	es un conjunto de textos.
+397000	400000	Nosotros llamamos corpus,
+400000	404000	o el plural corpora,
+404000	406000	cuando hablamos de un conjunto de textos.
+406000	409000	Yo tengo un conjunto de textos, eso es un corpus.
+410000	413000	Ahora vamos a volver a hablar de corpus,
+414000	417000	pero por ahora lo que estamos hablando es un tengo textos.
+421000	423000	Bien, ¿qué pasa?
+423000	426000	Los lenguajes regulares están completamente estudiados
+426000	429000	y yo diría que podrían considerarse un problema resuelto.
+429000	433000	Ustedes vienen al curso material lenguajes
+433000	442000	y saben lo que un ingeniero tiene que saber sobre lenguajes regulares,
+442000	447000	y eso está en un libro de 1979,
+447000	453000	o sea, y de hecho toda la teoría anterior al año 1970,
+453000	456000	si no me equivoco.
+456000	459000	O sea que están muy bien estudiados,
+459000	462000	y además están desde Unix incorporados los lenguajes para la amación.
+462000	470000	Unix ya venía con expresiones regulares, con C, con Greb,
+471000	476000	con AWS, todos, herramientas que incluían la expresión regulares dentro.
+476000	481000	Era en épocas maravillosa porque los mismos que definían la teoría
+481000	483000	de la expresión regulares, los que trabajaban implementar,
+483000	486000	la eso hoy ya no se ve tanto.
+488000	490000	Es decir, los que estaban creando los fundamentos
+490000	497000	eran los mismos riches, querrían que eran los que los implementaban en Unix.
+498000	502000	Y bueno, y lo que les decía, todos los lenguajes o los inclusions.
+505000	509000	Bueno, ¿y cómo son? ¿Cómo les usen las expresiones regulares?
+509000	512000	Y bueno, por ejemplo, una expresión regular,
+512000	518000	esto es como aparece en la expresión regulares en los lenguajes de formación,
+518000	521000	que no es lo mismo que las expresiones regulares que vieron
+521000	526000	en el juicio de los lenguajes que era con mucho menos operadores,
+527000	532000	que permitían definirla, pero la expresidad de la misma,
+532000	535000	acá es lo que hay es forma de abreviar cosas,
+535000	538000	digamos, para no escribir expresiones regulares monstruosas, digamos, ¿no?
+538000	541000	Entonces, hay cosas como la expresión regular cabeza,
+541000	544000	encuentra el patrón acá a cabeza, la palabra en esta escrita.
+546000	548000	Este signo exclamación, reconocer signo exclamación,
+549000	554000	este corta velarga, ve minúcula, ve mayúscula,
+554000	559000	entre corchetes es como un or, digamos, ¿si?
+559000	563000	Que seguía lo mismo que buscar, va a un gongo en mi corta o va a un gongo en mi larga.
+565000	569000	Esto busca A, B y O C, ¿si? Fíjese que acá es lo que está devolviendo
+569000	574000	en la primera ocurrencia, eso depende como yo programé la función de buscar.
+575000	579000	Número del ser al 9, hay algo que no sea mayúscula,
+580000	583000	este corchete funciona como un dot,
+585000	587000	y esto es que no sea una S.
+590000	593000	Esto no, no voy a entrar mucho en detalle, veamos, la idea que...
+593000	596000	Y acá es como el uso una búsqueda en Python, por ejemplo,
+597000	600000	con la biblioteca de expresiones regulares de Python,
+601000	605000	a un search del patrón, y esto se llama nuestro corpo, digamos.
+606000	609000	Y ahí devuelve la ocurrencia.
+610000	613000	Más cosas, ¿no?
+614000	617000	ahí sí, fíjense que el símbolo de...
+618000	623000	de circunflejo al final no tiene ningún significado especial,
+624000	626000	y en el medio de a poco,
+627000	631000	este signo de pregunta quiere decir que el carácter anterior es opcional,
+633000	636000	el punto maché a cualquier carácter, etcétera.
+640000	642000	Bueno, estos operadores son sintactic sugar,
+642000	645000	son formas de abreviar otras cosas, digamos, ¿no?
+645000	646000	Si yo pongo barra de,
+646000	648000	estoy pensando en un número,
+648000	650000	el ser al 9 es otra forma escribirse,
+650000	652000	el 9 son facilidades, ¿no?
+653000	655000	No agrega expresividad, pero vuelve la vida más fácil
+655000	657000	de que está programando.
+659000	661000	Y aquí hay forma de sustituir,
+661000	663000	esto es utilizar un nudo,
+663000	665000	y aquí hay forma de sustituir,
+665000	667000	esto es utilizar un nudo,
+667000	669000	y aquí hay forma de sustituir,
+669000	671000	esto es utilizar una expresión en una sustitución.
+678000	680000	Y casi todos los lenguajes de promoción,
+680000	682000	además uno puede incluir cosas como decir,
+682000	684000	quiero que lo que dice acá,
+684000	687000	sea exactamente lo mismo que lo que dice acá.
+688000	690000	¿Se tiene?
+691000	693000	Por ejemplo, acá dice,
+693000	696000	quiero estar aquí mañana, quiero,
+696000	698000	porque estamos apiando el chie,
+699000	700000	¿sí?
+700000	701000	con este.
+703000	705000	Aguardo, ¿en quién es?
+705000	708000	Esto formalmente no son expresiones regulares,
+710000	712000	sino que son extensiones.
+712000	715000	De hecho, esto es más expresivo que la expresión regulares.
+718000	721000	Esto es un poco de repaso, digamos, ¿no?
+721000	723000	del tipo de cosas que puedo hacer,
+723000	725000	pero lo que nos interesa para este curso es que yo puedo
+725000	726000	buscar rápidamente,
+726000	728000	y especificar muchas cosas a la vez buscar.
+729000	731000	Si yo, el asunto es,
+731000	734000	si yo puedo resolver algo de expresión en regular,
+734000	736000	debería resolverlo con la expresión en regular.
+736000	737000	¿Por qué?
+737000	739000	Porque hacerlo más complejo,
+740000	742000	me voy a perder eficiencia,
+742000	744000	porque no hay nada más eficiente que la expresión en regular.
+745000	746000	Aguardo,
+746000	748000	más que muchas veces no puedo,
+748000	750000	o me queda muy complicado escribirlo.
+752000	754000	Porque la expresión regular,
+754000	760000	fíjense que uno tiene que cubrir toda la casuistia
+760000	761000	que quiere identificar,
+762000	765000	lo cual es muy fácil cuando digo toda la palabra que empiezan con C,
+765000	767000	pero cuando yo quiero empezar a hacer cosas más complicadas,
+767000	768000	como identificar,
+768000	770000	y ahora lo vamos a ver,
+771000	773000	separar palabras, por ejemplo,
+774000	776000	ahí, bueno, ¿pero qué separa una palabra, un espacio?
+776000	778000	Sí, pero también puede ser un signo de puntuación,
+779000	781000	sí, y un dos puntos también.
+781000	782000	Entonces yo podría decir,
+782000	784000	buscar todos los signos de puntuación entre dos palabras,
+785000	787000	pero ¿y qué pasa si dieron enter?
+787000	790000	Es decir, representar todo por un expresión regular
+790000	792000	a veces es bastante complicado.
+792000	794000	Ahora vamos a hablar un poco más de eso.
+795000	797000	¿De cómo se usan las expresiones regular?
+800000	801000	Pero como le decía,
+802000	805000	las expresiones regulares definen un conjunto de tiras
+805000	807000	que se llaman lenguajes regulares.
+809000	810000	¿Sí?
+812000	814000	¿Y qué tienen interesantes y más propiedades de clausura
+814000	816000	como viernes de curso de tiras de lenguajes?
+817000	819000	Lo cual hace que yo pueda, por ejemplo,
+819000	821000	si quiero buscar una cosa,
+822000	825000	algo que está representado por una expresión regular
+826000	828000	y dos cosas que están representadas por la expresión,
+828000	830000	el or de ambas es cerrado,
+830000	831000	o sea que tenga una forma,
+831000	832000	no lo puse acá,
+832000	836000	tiene una forma inmediata de buscar ambos a la vez.
+837000	840000	Es decir, están fácil buscar una cosa como buscar una cosa u otra.
+841000	842000	Siempre es determinístico,
+842000	844000	porque son cerrados bajo todas estas propiedades.
+844000	845000	O si yo quiero buscar,
+847000	848000	es tan fácil buscar algo que sea,
+850000	852000	que si encuentro el estrín perro,
+852000	853000	como algo que no sea perro,
+854000	855000	lo explicó,
+856000	857000	porque son cerrados,
+857000	859000	porque si yo tengo un lenguaje regular
+860000	861000	que representa perro
+861000	863000	y media también tengo la negación.
+864000	866000	Pero lo más interesante de eso,
+866000	869000	es que la demostración de que son clausuras,
+870000	872000	son constructivas,
+872000	873000	porque,
+874000	875000	porque los lenguajes regulares,
+875000	878000	además de poder ser expresados con una expresión regular,
+880000	882000	también pueden ser representados
+883000	885000	por una automata finito.
+886000	887000	Claro, vamos a ver lo que es,
+887000	889000	pero me seguro que se acuerdan de tirar el lenguaje.
+890000	892000	Es decir, exactamente las mismas tiras
+892000	893000	que yo expreso con una expresión regular,
+894000	895000	hay una automata,
+896000	897000	una máquina de estado,
+898000	899000	que la reconoce.
+900000	901000	Sí, un lenguaje regular
+901000	903000	es el conjunto de estrín sobre un alfabeto
+904000	906000	sin más reconocidos por un automata finito.
+908000	910000	O sea, es una definición alternativa de lo mismo.
+913000	914000	Entonces,
+915000	917000	¿Cómo seguí una automata finito para dirección?
+918000	920000	¿Se acuerdan de cómo son las automatas finito?
+921000	922000	Este pizarro.
+926000	928000	Se acuerdan de los automatas finito,
+928000	931000	son, esencialmente, un conjunto de estados.
+935000	936000	Sí,
+937000	939000	un estado por donde se comienza,
+940000	941000	sí,
+942000	944000	un estado por donde se comienza,
+946000	947000	sí,
+948000	950000	transiciones que tienen símbolos
+952000	953000	y que van de un estado al otro,
+954000	955000	sí,
+956000	958000	y algunos estados especiales que se llaman estados finales.
+961000	962000	¿Se acuerdan de esto, no?
+963000	964000	Todos símbolos sobre el alfabeto.
+965000	967000	¿Cómo seguimos una automata finito para direcciones de correo?
+968000	969000	¿Más o menos?
+975000	976000	Este automata.
+977000	979000	Vamos a suponer que yo acá escribo todos los símbolos,
+979000	981000	tengo que hacer un arco por cada símbolo.
+987000	989000	Supongamos que en el alfabeto son mi núcleo,
+989000	990000	masúscula de arroz y punto, ¿no?
+991000	992000	Este automata.
+993000	996000	¿Reconoce de direcciones de correo?
+998000	1001000	Yo iría que sí, pero,
+1002000	1003000	pero exactamente,
+1004000	1006000	reconoce eso y mucho más, o sea que no es lo que queremos.
+1007000	1009000	Nosotros queremos una automata que genere exactamente,
+1010000	1011000	o tan exactamente como podamos,
+1012000	1013000	las direcciones de correo.
+1014000	1015000	Entonces, ¿cómo sería?
+1024000	1025000	¿Qué hago?
+1028000	1029000	¿Qué sería?
+1030000	1031000	¿Aseta? ¿Aseta?
+1033000	1034000	¿Sí? ¿Y después?
+1035000	1037000	Bueno, sacamos los puntos, tenemos letras, puntos y arroba.
+1039000	1040000	¿Aboir una arroba?
+1048000	1049000	¿Sí?
+1050000	1051000	¿Punto?
+1054000	1055000	¿Lo mismo?
+1055000	1057000	Vamos a poner que el arco ya sale muy rápido, ¿sí?
+1064000	1065000	¿Con qué símbolo?
+1068000	1069000	¿Hay que ir a esto?
+1073000	1074000	¿Qué le parece?
+1076000	1077000	¿Qué le parece?
+1079000	1080000	¿Me?
+1081000	1082000	Por...
+1083000	1085000	¿Cómo compramos?
+1086000	1088000	¿Un problema que tiene que te pueden poner arroba algo?
+1089000	1091000	¿Sí? ¿Qué otra? ¿Tiene un otro problema más?
+1095000	1096000	¿Qué otra cosa pasa?
+1097000	1100000	Que de sólo más mate algo, punto con, punto a algo, ¿no?
+1100000	1102000	Sólo un punto y podría tener más de uno.
+1106000	1109000	Y acá, si no le ponemos el lepsilón, necesariamente tiene que tener una letra,
+1109000	1110000	lo cual no se necesita mal.
+1111000	1114000	Especificar una expresión regular no siempre es este,
+1115000	1117000	del todo sencillo y determina,
+1118000	1121000	y es parte de nuestro problema de especificación.
+1121000	1122000	Igual que tuvimos bastante bien.
+1124000	1127000	Aquí hay una que no es mucho mejor que lo que hicimos nosotros.
+1129000	1131000	No, porque ahí es más o menos.
+1132000	1135000	Ahí anda con mi Gmail.com, pero no anda con...
+1136000	1138000	No te digo muy.
+1140000	1141000	Pero está.
+1141000	1144000	Es decir, lo que tiene de bueno es que, a ver,
+1144000	1147000	lo que tiene de bueno y reitero es que si yo tengo eso rápidamente,
+1147000	1149000	puedo encontrar esas expresiones,
+1150000	1152000	la dirección y el correo, como la especificé,
+1152000	1154000	la puedo rápidamente encontrar en un cuerpo.
+1157000	1159000	¿Por qué las puedo ver? ¿Por qué las puedo?
+1159000	1161000	Porque yo siempre tengo la forma,
+1161000	1163000	y acá viene la explicación de por qué es eficiente,
+1163000	1165000	porque yo siempre tengo la forma de esto,
+1166000	1168000	esto es un automata finito de terminista.
+1169000	1170000	Quiere decir que yo,
+1172000	1175000	simplemente leo la entrada, voy recorriendo el automata
+1175000	1176000	y si cuando terminé,
+1177000	1180000	llegué a un estado final, quiere decir que reconoci esa entrada.
+1181000	1182000	Eso lo hago en orden,
+1183000	1185000	en tantos pasos como en largo tenga la entrada.
+1187000	1189000	No importa, lo...
+1189000	1191000	Y voy recorriendo el texto, digamos, ¿no?
+1191000	1193000	¿Cómo se hace la búsqueda de otra cosa?
+1193000	1194000	Pero, pero...
+1194000	1196000	Les voy recorriendo y intentando detectarse a parisono de eso.
+1201000	1202000	Entonces,
+1203000	1204000	en asuntos así,
+1205000	1206000	los lenguajes regulares,
+1208000	1211000	siempre pueden ser representados por una expresión regular,
+1212000	1214000	es mucho más fácil escribir una expresión regular,
+1215000	1216000	en general,
+1216000	1219000	que dibujar el automata, que es una cosa que va a poder creciendo
+1219000	1220000	y quedar enorme, ¿no?
+1220000	1222000	Porque yo puedo hacer una expresión regular,
+1223000	1226000	como le decía la demostración de la clausura es contrutiva,
+1226000	1229000	entonces yo hago, si yo quiero conocer, quiero reconocer expresiones de correo,
+1229000	1231000	o nombre de países de África,
+1232000	1234000	o una expresión regular para la dirección de correo,
+1235000	1236000	otra expresión regular,
+1237000	1239000	para los países de África,
+1240000	1242000	generos los automatas de ambos,
+1243000	1245000	que hay algoritmos para convertir expresión,
+1245000	1246000	por eso le decía que acá está,
+1246000	1248000	lo que tiene bueno que acá está todo resuelto.
+1249000	1250000	Generos los automatas de ambos,
+1251000	1252000	y simplemente,
+1252000	1253000	creo una automata nuevo,
+1254000	1255000	que lo que tiene es un estado inicial
+1255000	1257000	y que me manda a una automata o al otro.
+1260000	1261000	Y eso me da el horro.
+1261000	1263000	Ahora vamos a lo que se le decía, pero está.
+1264000	1265000	De acuerdo?
+1265000	1266000	Es decir, siempre puedo construir algo eficiente
+1266000	1268000	para reconocer cualquier cosa expresada con la expresión regular.
+1272000	1273000	¿Alguna duda?
+1275000	1276000	Bueno, esa es la definición de automata finito
+1276000	1277000	que coincide con lo que hablamos ¿no?
+1278000	1280000	Tengo un conjunto finito de estados,
+1281000	1282000	un alfabeto,
+1282000	1283000	un estado inicial,
+1283000	1285000	y un conjunto de estados y finales.
+1286000	1287000	¿De acuerdo?
+1288000	1290000	Y cuando reconozco, y bueno,
+1290000	1291000	sí,
+1293000	1294000	la función que me dice,
+1294000	1297000	ir desde una función
+1298000	1299000	denta extendida,
+1299000	1300000	que va al estado inicial,
+1301000	1303000	lee una tira y llegado a otro estado,
+1303000	1304000	si esa función me siga un final.
+1305000	1306000	Bueno,
+1307000	1309000	o sea, no importa si yo paso por un final en el camino,
+1309000	1311000	tengo que terminar mi tira en el estado final.
+1316000	1318000	La pregunta que le dejo de ver es cuál sería
+1318000	1320000	la expresión regular para las direcciones del correo.
+1322000	1323000	Y no solo eso,
+1323000	1325000	hay una tercera forma de representar lo que es
+1325000	1327000	a través de gramáticas regulares.
+1328000	1329000	Sí.
+1329000	1330000	Ya vamos a hablar luego de gramáticas.
+1330000	1332000	Pero hay una gramática que permite expresar
+1333000	1334000	los lenguajes regulares,
+1334000	1336000	es altamente las mismas tiras.
+1339000	1341000	Pero siempre son visiones alternativas
+1341000	1343000	de un conjunto de tiras.
+1344000	1346000	Siempre vamos a estar hablando de conjuntos de tira.
+1346000	1347000	En todos los lenguajes,
+1347000	1349000	un lenguaje es un conjunto de tiras.
+1351000	1353000	Incluido los lenguajes naturales.
+1358000	1359000	Los autómetas finitos además pueden ser,
+1359000	1361000	nosotros hablamos de no deterministas,
+1361000	1362000	de deterministas, perdón.
+1363000	1365000	Pero pueden ser no deterministas.
+1365000	1367000	El lenguaje de las sovejas que tengo acá
+1367000	1370000	es ver una cierta cantidad de es
+1371000	1372000	y una última es.
+1373000	1374000	Esto es no determinista,
+1374000	1376000	porque no sé cuándo es la última.
+1377000	1379000	¿Aca puedo arvuelta o no?
+1380000	1381000	¿De acuerdo?
+1381000	1383000	Los autómetas finitos no deterministas reconoce
+1383000	1385000	en una tira cuando algún camino lleva un estado final.
+1387000	1389000	Parecen más expresivos que los lenguajes de deterministas,
+1390000	1391000	pero no lo son.
+1393000	1395000	Conocemos algoritmos para transformar
+1395000	1399000	de esto a un automata finito de determinista.
+1401000	1402000	Y no sólo eso,
+1402000	1404000	es como hacer para que esto,
+1405000	1406000	este automata,
+1406000	1407000	que no solo es no determinista,
+1407000	1409000	sino que tiene transiciones cerocilogueares
+1409000	1410000	y que yo no puedo mover de este estado,
+1410000	1411000	este estado,
+1411000	1414000	sin consumir la entrada.
+1415000	1416000	Esto aparece más expresivo,
+1416000	1417000	pero no lo es.
+1417000	1419000	Todos son los mismos lenguajes regulares.
+1420000	1421000	De acuerdo,
+1421000	1423000	entonces yo siempre puedo transformar
+1424000	1425000	una automata finito,
+1425000	1426000	no determinista,
+1426000	1428000	que a veces me queda más fácil para pacificar.
+1428000	1429000	El lenguaje de la oveja es más fácil
+1429000	1431000	de pacificar con uno determinista.
+1433000	1435000	Por lenguajes cuyo último letra es una A.
+1438000	1440000	Yo puedo transformar esto a
+1441000	1444000	uno determinista y reconocer en tiempo lineal.
+1445000	1448000	¿Por qué no siempre me conviene
+1448000	1450000	me convendría hacer eso?
+1451000	1453000	¿Por qué no siempre me convendría
+1453000	1455000	y hay algoritmo para reconocer
+1455000	1457000	automatas no deterministas?
+1459000	1461000	Una forma que yo tengo es,
+1462000	1464000	quiero reconocer una expresión regular,
+1465000	1467000	la específico con una automata no determinista,
+1469000	1470000	lo convierto a determinista
+1470000	1472000	y el algoritmo de ese sencillo de buscar,
+1473000	1475000	recorrer los arcos como hicimos con el dedo, ¿no?
+1475000	1476000	Programar eso.
+1477000	1479000	¿Por qué a mí me podía convenir directamente
+1479000	1481000	tratar un algoritmo de que recorra esto?
+1493000	1494000	¿Por qué?
+1494000	1496000	Nada, el lenguaje se quedó con la idea
+1496000	1498000	de que era siempre mejor voluarlo de terministas,
+1498000	1499000	pues son mucho mejor y malino,
+1499000	1501000	pero también son mucho más grandes.
+1502000	1505000	Porque yo para resolver el no determinismo
+1505000	1507000	si bien puedo lo resuelvo creando
+1507000	1508000	Estados nuevos.
+1509000	1511000	Y a mí me puede convenir en lugar de crear
+1511000	1513000	una nueva automata mucho más grande
+1513000	1515000	y que es más tengo el costo de conversión, ¿no?
+1516000	1519000	Es mantener en memoria en qué posición estoy,
+1519000	1521000	mantener el no determinismo.
+1522000	1524000	Si ustedes se acuerdan,
+1524000	1525000	el algoritmo de Thompson,
+1526000	1528000	lo que permitiera pasar de este automata,
+1528000	1529000	uno determinista y lo que se era,
+1529000	1530000	en qué estado estoy,
+1530000	1531000	en tu incusero,
+1531000	1533000	viene una B, estoy en C1.
+1533000	1534000	Si viene una E,
+1534000	1535000	estoy en C2.
+1536000	1537000	Si viene una E,
+1537000	1538000	en C2,
+1538000	1540000	yo puedo estar en C2 o en C3.
+1542000	1544000	Recuerdo la lista de los estados en que estoy.
+1544000	1546000	Seguramente lo aprendieron para hacerlo
+1546000	1548000	en el segundo parcial y después se olvidaron.
+1551000	1552000	No, no.
+1553000	1554000	Entonces,
+1554000	1555000	en estos modelos,
+1555000	1557000	el problema es elegir el camino adecuado
+1557000	1558000	para procesar la tira.
+1558000	1560000	Eso no voy a entrar mucho en detalle en esto,
+1561000	1565000	pero como puedo elegir el camino adecuado
+1565000	1566000	para procesar la tira.
+1568000	1571000	Como digo,
+1571000	1573000	si una automata reconoce una tira.
+1575000	1576000	Y los caminos son varios,
+1576000	1577000	esencialmente uno,
+1577000	1578000	si ya es
+1579000	1580000	backup,
+1580000	1581000	es como
+1582000	1583000	es el viejo querido backtracking,
+1584000	1585000	es decir,
+1586000	1587000	si yo tengo
+1588000	1589000	este automata.
+1591000	1592000	¿Verdad?
+1593000	1594000	Cuando tengo una duda,
+1595000	1597000	toma un camino.
+1597000	1598000	Vino una E,
+1598000	1599000	me fui acá,
+1599000	1600000	o me quedé acá.
+1600000	1601000	Bueno,
+1601000	1602000	yo supongo que me quedé acá.
+1604000	1605000	Y si después,
+1605000	1606000	si no es clamación quedó trancado,
+1606000	1607000	o sea que ese camino no me servía,
+1607000	1608000	servía,
+1609000	1611000	y tomó el camino alternativo.
+1612000	1613000	Recuerdo?
+1614000	1615000	O sea, va a entrar.
+1616000	1618000	Pero también puedo hacer lucajed
+1618000	1619000	y es
+1619000	1621000	mirar adelante las transiciones que tengo,
+1621000	1623000	mirar los siguientes símbolos que vienen en la entrada
+1623000	1625000	para ver si yo es compatible con lo que tengo,
+1625000	1626000	en el automata.
+1628000	1630000	O eso que les contaba reciente el algoritmo de Thompson,
+1630000	1631000	hacer paralelismo,
+1631000	1632000	es decir,
+1632000	1634000	contar todos los caminos que tengo,
+1635000	1636000	posibles.
+1637000	1638000	Aguardo.
+1646000	1648000	Bueno, esto es lo que ya les dije, ¿no?
+1650000	1652000	En general, si utiliza una automata finito,
+1652000	1653000	no le termita con el algoritmo de cual.
+1653000	1654000	Esto es solo una introducción,
+1654000	1655000	no, no, no.
+1656000	1658000	No pretende ser más que eso.
+1658000	1659000	Hay un curso para eso.
+1659000	1660000	Como yo les decía,
+1660000	1661000	para cada cosa que yo,
+1661000	1662000	cada tema quedamos acá,
+1662000	1663000	hay un curso.
+1664000	1666000	No es que siempre exista un curso,
+1666000	1667000	pero digamos,
+1667000	1668000	se podría dar un curso.
+1670000	1671000	Y acá,
+1671000	1673000	volvemos a lo que nos interesa
+1673000	1674000	en este curso y eso.
+1675000	1676000	Esto que hablamos,
+1676000	1677000	los lenguajes regulares
+1677000	1678000	son lenguajes formales.
+1679000	1680000	¿Sí?
+1680000	1681000	O sea,
+1683000	1684000	los lenguajes formales
+1684000	1685000	son conjunto de tiras
+1685000	1686000	sobre un alfabeto finito o palabras.
+1688000	1690000	Y esto conjunto tiene ni general gramáticas
+1690000	1692000	que los generan exactamente.
+1692000	1693000	Sabemos exactamente como generarlos.
+1696000	1697000	Y eso son los lenguajes formales,
+1697000	1699000	que son los lenguajes que ustedes
+1699000	1700000	han conocido hasta el momento de la carrera.
+1701000	1703000	Todos los lenguajes de promoción son lenguajes formales.
+1704000	1706000	Esencialmente son no ambigos.
+1706000	1707000	Van a empezar.
+1709000	1711000	No puedo fácilmente dar dos interpretaciones.
+1711000	1712000	No, no puedo dar dos interpretaciones.
+1712000	1714000	Yo tiene que compilar a código máquina.
+1714000	1715000	No, no puedo hacer dos cosas a la vega.
+1717000	1718000	Los lenguajes naturales
+1720000	1721000	son los que la gente habla.
+1723000	1724000	Es muy difícil
+1724000	1726000	revelar con los lenguajes formales,
+1726000	1727000	los lenguajes naturales.
+1728000	1729000	¿Por qué?
+1730000	1731000	¿Por qué son ambigos?
+1733000	1734000	¿Más se guardan tener el tío?
+1736000	1737000	¿Por qué son vagos?
+1737000	1739000	¿Por qué hay cosas que uno dice
+1739000	1741000	que se puede interper dar una forma
+1741000	1742000	que no son clara,
+1742000	1744000	que uno la interpreta por el contexto?
+1744000	1745000	¿Sagueras de lo que vimos?
+1745000	1746000	¿No?
+1746000	1747000	Que según como yo diga...
+1751000	1752000	Venía a cenarte,
+1752000	1753000	espero...
+1753000	1754000	Venía que te espero,
+1754000	1755000	digamos, depende del contexto,
+1755000	1756000	pues son diferentes.
+1758000	1759000	Bueno, y un poco esto, ¿no?
+1759000	1760000	Depende del contexto.
+1760000	1761000	Las cosas que se dicen,
+1761000	1762000	dependen de dónde le estoy diciendo.
+1764000	1766000	Sin embargo, y yo acá les dejo algún link,
+1767000	1769000	uno podría llegar a discutir,
+1769000	1771000	sino puede representarlo con un...
+1771000	1772000	con un lenguaje de aula.
+1773000	1774000	Entonces, no es fácil.
+1774000	1775000	Es otra claricia.
+1775000	1776000	Que no es sencillo,
+1776000	1777000	yo no puedo hacer expresiones regulares
+1777000	1778000	para todo lo...
+1778000	1779000	para todo lo...
+1779000	1780000	el lenguaje natural.
+1782000	1784000	Pero dado que la cantidad de palabras
+1784000	1785000	es finita,
+1785000	1787000	yo eventualmente podría llegar a armar algo,
+1787000	1789000	que a representar a todas las palabras
+1789000	1790000	que se pudieran decir,
+1790000	1791000	sería muy difícil.
+1792000	1793000	Sobre todo por la creatividad,
+1793000	1794000	el lenguaje,
+1794000	1795000	porque el lenguaje está aumentando
+1795000	1796000	el palabra todo el tiempo.
+1800000	1804000	Hay un artículo que es de 1969, ¿verdad?
+1804000	1806000	Que discuto un poquito eso.
+1811000	1813000	¿Y qué pasa con las expresiones regulares
+1813000	1814000	y el lenguaje natural?
+1814000	1815000	Bueno, hay un fenómeno.
+1816000	1818000	En el lenguaje natural que se amacenten en Bedding,
+1820000	1822000	que es, yo puedo decir un hombre llora,
+1823000	1826000	puede decir un hombre que una mujer ama llora,
+1827000	1831000	puede decir un hombre que una mujer que un niño adora ama llora.
+1832000	1833000	Y así puedo seguir
+1836000	1837000	a infinito.
+1839000	1842000	Esa estructura de estas oraciones es
+1842000	1844000	Grupo nominal verbo.
+1846000	1847000	¿Sí?
+1847000	1848000	Grupo nominal 1, verbo 1.
+1848000	1849000	Grupo nominal 1,
+1849000	1851000	Grupo nominal 2, verbo 2, verbo 1.
+1852000	1853000	¿No?
+1853000	1854000	Grupo nominal 1
+1854000	1855000	y supuestamente,
+1856000	1857000	de alguna forma,
+1857000	1859000	yo tengo que mostrar que este verbo
+1859000	1861000	está pegado a este grupo nominal.
+1862000	1863000	Este verbo está pegado a este grupo nominal
+1863000	1865000	y este verbo está pegado a este grupo nominal.
+1867000	1868000	¿Sí?
+1868000	1870000	Tan relacionado desde el punto de vista sin que llora,
+1870000	1871000	¿Quién es que llora?
+1872000	1873000	¿Quién llora, acá?
+1874000	1875000	¿Qué un hombre?
+1876000	1877000	No hay la mujer la que está llora.
+1880000	1881000	Si ustedes ven esta estructura,
+1882000	1885000	1, 2, 3, 3, 2, 1, es muy parecido de esto,
+1885000	1886000	debemos ver, como que lo borré.
+1887000	1888000	W, W, W, R, verso.
+1889000	1891000	Que es el tipo de cosa que sabemos
+1891000	1893000	que no se pueden representar con el precio de regular.
+1894000	1895000	Esto fue lo que hizo,
+1895000	1896000	si yo más no recuerdo,
+1896000	1900000	decir a Chonky que al lenguaje natural,
+1900000	1903000	si yo no tengo forma de modelar
+1903000	1904000	con el precio de regular,
+1904000	1906000	es esto teóricamente no puedo.
+1907000	1908000	¿Sí?
+1910000	1912000	Ahora, también yo puedo decir que
+1912000	1913000	yo lo des...
+1913000	1915000	A mí no saben lo que me cotó armar este ejemplo.
+1916000	1918000	Porque yo conletas a mi mareo.
+1919000	1922000	Y probablemente una masa no seamos capaces de entenderlo.
+1923000	1925000	No seamos capaces de procesarlo entonces.
+1925000	1927000	Si yo digo bueno, pero
+1927000	1929000	esto sí es arbitrariamente largo,
+1929000	1931000	pero si yo supongo que lo más que puedo llegar es a 3,
+1932000	1934000	ahí sí puedo apresar una expresión regular.
+1936000	1937000	¿De acuerdo?
+1937000	1938000	¿Se entiende?
+1938000	1939000	Es decir, nuestra capacidad
+1940000	1942000	teóricamente podemos armar a Chonky,
+1942000	1943000	pero no las puedo volver,
+1943000	1944000	no las podemos compilar, digamos.
+1945000	1947000	Entonces, eso un poco pone en discusión que
+1947000	1948000	o no puedas...
+1949000	1950000	Esto como argumento de,
+1950000	1952000	bueno, deja de estudiar el precio de regular
+1952000	1954000	y para el lenguaje natural nunca te va a seguir pagando.
+1960000	1961000	Eh...
+1961000	1962000	¿Qué toco pasó?
+1966000	1968000	No podemos modelar el lenguaje natural con expresiones regulares.
+1972000	1974000	Pero sí podemos modelar a algunos fenómenos.
+1975000	1977000	Típicamente se modelan con expresiones regulares.
+1978000	1980000	La fonoilogía se ha representado durante mucho tiempo
+1980000	1982000	el estudio de los sonidos, ¿no?
+1983000	1985000	¿De cómo los sonidos forman las palabras?
+1985000	1986000	La amor fonogea que lo vamos a ver,
+1986000	1987000	la verdad es que viene.
+1989000	1991000	Y las sintaxis...
+1994000	1997000	de superficie, digamos, superficial,
+1997000	2000000	reconocer los grupos nominales y grupos verbales
+2000000	2003000	se ha resuelto con expresiones regulares.
+2003000	2004000	Si es cierto,
+2004000	2006000	sus grupos de problemas se pueden resuelar.
+2007000	2008000	¿De acuerdo?
+2009000	2010000	¿Hasta acá?
+2012000	2013000	¿Hay una pregunta?
+2017000	2018000	¿No? ¿Un lado?
+2020000	2022000	Esas son nuestras,
+2022000	2025000	nuestro primer modelo que es de las expresiones regulares.
+2028000	2031000	Ahí tienen el capítulo 2
+2033000	2036000	del libro de Martin Yuravsky,
+2036000	2038000	lo que buscamos para la clase de hoy.
+2039000	2041000	Si lo pueden encontrar en línea,
+2041000	2043000	porque está en la tercera edición,
+2043000	2045000	están los drafts de algunos capítulos de la tercera edición,
+2045000	2047000	lo pueden encontrar si no aparecen por ahí.
+2048000	2049000	Yo vuelvo.
+2049000	2050000	Bien.
+2067000	2068000	Bueno.
+2069000	2072000	Eso fue un poco el repaso de expresiones regulares.
+2073000	2075000	Y ahora vamos a ir a...
+2081000	2084000	a la primera tarea que enfrentamos como
+2084000	2086000	en el procedimiento de la tercera edición.
+2086000	2088000	Hay una realidad y una primera tarea
+2088000	2090000	que está siempre subestimada
+2091000	2093000	y que lleva mucho tiempo general
+2093000	2095000	que es la de preprocesamiento.
+2096000	2100000	Es decir, yo puedo partir de un texto escrito
+2101000	2106000	en un formato electrónicamente amigable,
+2106000	2109000	un texto en ánci o en un hícode.
+2110000	2112000	Pero, generalmente, para llegar del mundo real,
+2112000	2114000	a ese texto yo tengo que hacer todo el procedimiento
+2114000	2119000	porque los textos vienen en páginas huevos,
+2119000	2121000	con marcas de HTML,
+2121000	2123000	o hay que extraerlo de un PDF.
+2123000	2124000	Yo me acuerdo que...
+2126000	2129000	En una época que hacíamos algunos trabajos agujentes del pastor,
+2129000	2130000	la gente...
+2131000	2133000	Había un compañero y dice, pero no sabe nada,
+2133000	2135000	me venía a decir que venía a ese procedimiento de reglas natural
+2135000	2137000	y no sabía sacar el texto en un PDF.
+2137000	2139000	Tiened bueno, porque su problema antes de eso
+2139000	2142000	era sacar de los PDFs, de los paper, a texto puro.
+2143000	2144000	Qué es bastante difícil,
+2144000	2147000	por lo tanto, paréntese porque el PDF es una cosa de imprimir, ¿no?
+2149000	2151000	Ese trabajo lleva mucho, es muy engorroso,
+2151000	2153000	lleva mucho tiempo y está generalmente subestimado
+2154000	2155000	el tiempo que lleva
+2155000	2157000	y en este curso lo vamos a seguir subestimando
+2157000	2160000	porque vamos a sumir que partimos un texto como la gente, digamos,
+2160000	2162000	sin ese tipo de cosas.
+2163000	2165000	O sea que yo tengo un texto escrito, ¿no?
+2166000	2168000	Vamos a suponer también...
+2171000	2172000	Bueno, no tenemos que suponarlo, pero...
+2173000	2177000	Si les queda como ahora, que es un texto razonable,
+2177000	2181000	que no tiene cosas muy raras como Twitter o...
+2183000	2185000	o como, pues sí, incluso, ¿no?
+2185000	2187000	Yo tengo que analizar, pues sí,
+2187000	2189000	había que tener otros problemas, seguramente.
+2189000	2191000	De hecho, se hace, de hecho, tenemos un proyecto de grado,
+2191000	2193000	varios que analizan cosas de Twitter,
+2193000	2195000	pero ahí cambian un poquito las reglas.
+2196000	2199000	Ahora vamos a suponer de un texto como un texto narrativo,
+2199000	2202000	una noticia, pues así.
+2203000	2204000	Gente normal.
+2205000	2207000	Y lo que nos va a interesar es ver el tema
+2207000	2209000	de la normalización de los textos.
+2209000	2212000	Es decir, yo agarro ese texto y quiero dar alguna forma...
+2213000	2215000	eh...
+2216000	2218000	analizablo.
+2218000	2219000	Bueno,
+2219000	2221000	para empezar,
+2221000	2223000	tenemos que ver cuáles son las unidades del texto.
+2223000	2226000	Y ahí yo puse una definición que dice ese segmento
+2226000	2229000	del discurso unificado...
+2231000	2232000	Perdón.
+2232000	2234000	El segmento del discurso, todos los años,
+2234000	2235000	me pongo la cosa de no.
+2235000	2238000	El segmento del discurso unificado habitualmente por el asento,
+2238000	2241000	el significado y pausas potenciales, inicial y final.
+2241000	2243000	Eso es la definición de...
+2249000	2250000	¿Qué es eso?
+2252000	2253000	Asento?
+2253000	2254000	No.
+2254000	2255000	Más chico.
+2255000	2257000	Porque la pregunta de cuál son las más pequeñas, ¿no?
+2258000	2260000	Palabras, ¿no?
+2260000	2261000	Las palabras.
+2262000	2265000	Ustedes vieron que todas estas definiciones siempre se ponen muy cuidadosos
+2265000	2267000	porque siempre aparecen, pero está el costo,
+2267000	2268000	una palabra y no.
+2268000	2270000	Unificado habitualmente por el asento,
+2270000	2271000	no sé por qué el asento.
+2271000	2273000	Ah, porque por claro, porque tiene brujo,
+2273000	2274000	las esas cosas, ¿no?
+2276000	2278000	El significado tiene un significado,
+2278000	2281000	la clase que viene a molar de morfología,
+2281000	2283000	donde hay parte más chica en la palabra,
+2283000	2284000	pero que no tiene significado independiente.
+2285000	2287000	Y pausas potenciales, inicial y final.
+2287000	2290000	Porque nosotros nos creemos que las palabras tienen espacios.
+2290000	2293000	Pausas, pero nosotros no hablamos.
+2293000	2296000	Ah, sí, no, así no, así.
+2296000	2299000	Bueno, eso es la definición de palabra.
+2299000	2302000	O sea, nuestra primera aproximación va a ser, bueno,
+2302000	2305000	vamos a modificar las palabras dentro del texto, ¿sí?
+2309000	2311000	Y vamos a ver ahí, por ejemplo,
+2314000	2318000	un pedacito, un texto de un incuento muy lindo de Jorge,
+2318000	2319000	que se llama la elef.
+2325000	2327000	¿Qué palabras hay ahí? Díganme palabras.
+2327000	2328000	¿Qué palabras vamos contando?
+2328000	2338000	Bueno, yo les digo, si no se anima la candente mañana,
+2338000	2340000	fácil, ¿no? Los espacios se paran palabras.
+2342000	2345000	El febrero, en qué, ¿verdad?
+2345000	2347000	Pues seguir hasta el final.
+2347000	2349000	Ve a tributer, son dos palabras o una sola.
+2354000	2355000	Son dos palabras, ¿no?
+2359000	2364000	Pero, a mí me podría interesar para posteriores análisis,
+2364000	2367000	decir que esto se comporta como un nombre propio sol, ¿no?
+2369000	2370000	Eso podría ser interesante.
+2370000	2372000	Yo quiero saber todos los textos que hablan de Beatriz Viterbo.
+2374000	2377000	Me podría interesar y identificarlo como una sola cosa.
+2377000	2380000	Es que llama multiguor desprecion o entidades con nombre,
+2380000	2383000	que muchas veces me puede interesar y identificarla.
+2384000	2389000	¿No? ¿Murió? ¿Cómo? ¿Cómo es palabras o no es palabras?
+2392000	2394000	¿Pende pa qué? ¿No?
+2397000	2401000	No tiene ascento, o sea, de la definición de la Academia de Panyola,
+2401000	2403000	no es una palabra perta.
+2403000	2405000	Pero a mí me puede meter cómo algo hace ahí, ¿no?
+2405000	2409000	Se parado enunciado, creo.
+2410000	2413000	Después de una imperiosa hablar,
+2413000	2418000	acá tenemos la plaza constitución que es su lugar,
+2420000	2421000	puticoma.
+2427000	2431000	Y acá hay otra cosa muy interesante, ¿qué es lo que termina acá?
+2433000	2435000	La operación, ¿no? ¿Cómo saben que termina la operación?
+2440000	2443000	¿Pueden un punto? ¿No? ¿Punto? Si no es pregunta,
+2443000	2445000	o si no es clamación, termina la operación.
+2447000	2449000	A través de punto podría ser una abreviatura, ¿no?
+2451000	2453000	Podemos cortar la voz al medio y tenemos problemas.
+2457000	2459000	¿El puticoma separa a oraciones?
+2462000	2465000	Sí, yo que sé. ¿Por qué sí? ¿No?
+2466000	2469000	No, yo les avise que en este curso no os pere en todas las respuestas,
+2469000	2471000	porque no siempre están.
+2471000	2473000	Trabajamos con un lenguaje a ver.
+2473000	2476000	Trabajamos con un material que es ambivo o que es es,
+2476000	2480000	es movedizo, digamos, no podemos pretender tener todo determinismo.
+2480000	2482000	Pero si no sería muy fácil,
+2482000	2485000	por eso un cuerpo en español no es igual que un cuerpo en inglés,
+2485000	2490000	porque las características son diferentes y ni les dio un cuerpo en chino.
+2491000	2492000	Acá hay más cosas.
+2494000	2496000	Realmente no sé qué aporta esto, pero estoy lindos,
+2496000	2497000	te cuento.
+2497000	2500000	Mentón son tres puntos subvencidos, al final eso termino la acción.
+2501000	2504000	Bueno, toquenizar es un problema que en general es bastante fácil,
+2505000	2509000	pero para llegar a un nivel completo de análisis,
+2509000	2510000	tiene su problemitas.
+2510000	2516000	Hay un paper muy clásico que se llama What is a War, What is a Sentence,
+2517000	2520000	que están las referencias que habla de los problemas,
+2520000	2523000	que hay al toquenizar, que no son tan sencillos como,
+2523000	2525000	que hace que no sea un problema tan sencillo,
+2525000	2527000	un problema típico,
+2527000	2529000	un problema típico que en realidad con la,
+2529000	2533000	problema típico, en realidad con el adenimiento de los formatos,
+2534000	2536000	directamente digitales,
+2536000	2538000	eso es lo menos que es el corte de guiones,
+2538000	2539000	en el borde.
+2539000	2541000	Yo creo que me tiene una artificial por acá,
+2541000	2542000	porque esto no lo tenía.
+2542000	2545000	La primera como un nión, ¿sí?
+2547000	2551000	Comun, nión es una palabra sólida,
+2551000	2554000	pero yo en el texto la tengo separado por un nión.
+2556000	2559000	Y yo tengo que ver si ese nión se parte una palabra al medio,
+2559000	2561000	o es una palabra compuesta con un nión.
+2561000	2563000	Que esto se pasa en el pañón, ¿no hay pero?
+2565000	2567000	Pero bueno, para no siempre trabajamos en el pañón.
+2570000	2572000	Bueno, y entonces un poquito de,
+2572000	2574000	hay más y otra cosa, ¿no?
+2574000	2577000	Yo tengo que identificar para el análisis.
+2578000	2580000	¿Cuáles son las palabras que aparecen?
+2580000	2581000	Ay, hay otra pregunta, ¿ver?
+2582000	2583000	Por ejemplo,
+2584000	2585000	este d,
+2586000	2588000	y este d, son el mismo.
+2590000	2593000	Va justo a arreglar una, porque d nuevo es una multivisión.
+2593000	2595000	No es lo que hice pregunta.
+2595000	2596000	Esto es una expresión, ¿no?
+2596000	2597000	Que se interpreta a tu ajunta,
+2597000	2599000	a mí me podría convenir entre mi edad.
+2599000	2601000	Pero más allá de eso, a ver, es mi buscar otro.
+2605000	2611000	Ah, no lo tengo. Bueno, pero a parte de lo que es de nuevo,
+2611000	2612000	que es una expresión,
+2612000	2614000	este edad más yúscula es de la minúscula.
+2615000	2617000	Son la misma palabra o no.
+2620000	2622000	Son, en general, son.
+2622000	2626000	Me interesa pasarlas a minúscula.
+2629000	2630000	¿Aladó?
+2630000	2632000	Para pensando en cómo analizar.
+2632000	2634000	Cuando yo normalizo, trato de dejar el texto,
+2634000	2636000	lo más fácil de analizar para después.
+2637000	2639000	Separon las palabras claramente y digo,
+2639000	2640000	esto es una palabra.
+2640000	2641000	No me confío, son los espacios,
+2641000	2642000	porque si acá hay dos espacios,
+2643000	2645000	sigue siendo una separación entre palabras.
+2650000	2653000	Lo importante es la distinción entre lo que se llama WordType.
+2655000	2657000	Si en español le decimos más bien palabra,
+2657000	2661000	o palabra diferente, no hay una traducción directa que es.
+2662000	2663000	Si yo tengo un texto,
+2663000	2666000	las palabras son las palabras diferentes que hay.
+2667000	2669000	Y a cada uno de estos, como lo llamamos,
+2669000	2670000	los llamamos Tokens.
+2671000	2673000	Es las apariciones,
+2673000	2675000	una palabra en un texto llama Tokens.
+2675000	2677000	Y la tarea de partir esto,
+2678000	2680000	es la matóquenización.
+2681000	2683000	No es lo mismo, la palabra que el Tokens.
+2684000	2685000	Geramente un corpus,
+2685000	2686000	que es un conjunto de textos,
+2686000	2689000	tiene muchísimas más Tokens que palabras,
+2689000	2691000	porque se repiten.
+2693000	2694000	Vamos a ver algunas definiciones.
+2696000	2697000	De cosas que sobre las que vamos a ver,
+2697000	2698000	bueno, como les decía,
+2698000	2699000	el corpus es una colección de textos,
+2699000	2701000	seguramente lo vamos a...
+2701000	2702000	seguramente no,
+2702000	2703000	lo vamos a usar en todo el curso.
+2707000	2708000	La oración,
+2708000	2710000	yo con mis recursos de español uno me dijeron,
+2710000	2712000	la oración es una estructura,
+2713000	2714000	anidad por un verbo,
+2714000	2718000	lo cual me suena a definición más intacta y la otra cosa.
+2719000	2721000	Bueno, ¿qué la definición que hay en la Wikipedia?
+2721000	2723000	No, la puedo comprar todo,
+2723000	2724000	la he demasiado.
+2724000	2725000	Pero más o menos es...
+2728000	2729000	un constituyente...
+2729000	2730000	el sí, el sí,
+2730000	2731000	el sí, el sí, el sí, el sí,
+2731000	2733000	tengo más pequeño necesario para expresar un predicado completo.
+2735000	2736000	Lo que quiere que eso sea.
+2738000	2740000	No, decir afirmamos algo,
+2740000	2741000	no me quiero,
+2741000	2742000	me da miedo a meter el pato.
+2743000	2744000	No es otra de oración,
+2744000	2745000	de oración,
+2745000	2746000	de oración, ¿no?
+2747000	2749000	El perro comió el hueso,
+2749000	2750000	oración.
+2751000	2752000	Tiene un verbo,
+2752000	2753000	yo un verbo tiene,
+2753000	2754000	llueve,
+2754000	2755000	esa oración.
+2756000	2757000	Tenemos la versión,
+2757000	2758000	este,
+2759000	2760000	o la de hablada,
+2760000	2761000	que son los anunciados,
+2761000	2762000	o,
+2762000	2763000	uterans,
+2764000	2765000	¿sí?
+2765000	2766000	¿Qué es la versión para el lenguaje hablado?
+2766000	2768000	¿Qué por ahora queda como conocimiento general?
+2768000	2770000	Porque acá no vamos a la lenguaje hablado.
+2772000	2774000	Y, después tenemos también los lemas,
+2774000	2778000	la forma de superficie,
+2778000	2780000	la palabra como la conocemos,
+2780000	2782000	la palabra como la conoce,
+2782000	2784000	con todas sus flexiones,
+2784000	2786000	vamos a hablar la clase que viene de flexiones derivaciones,
+2786000	2787000	pero es,
+2787000	2789000	las flexiones son las que, por ejemplo,
+2789000	2790000	dan el género y el lúmero,
+2790000	2793000	y las derivaciones son las que construyen la palabra
+2793000	2794000	a partir de otra,
+2794000	2796000	como velojmente,
+2798000	2800000	mente es una derivación,
+2800000	2801000	inflesión de derivativo,
+2801000	2802000	una derivación.
+2802000	2804000	La palabra como tal,
+2804000	2805000	pero,
+2805000	2807000	el lema es cuando,
+2807000	2809000	nosotros,
+2809000	2811000	representamos por una palabra,
+2811000	2814000	a un conjunto de ellas que tienen el mismo significado,
+2814000	2816000	que tienen la misma raíz,
+2816000	2818000	la misma categoría gramatical,
+2818000	2820000	que era la categoría gramatical.
+2820000	2823000	¿Qué es la categoría gramatical?
+2823000	2827000	Es saber eso, ¿quién que es saber eso?
+2827000	2829000	El ver, si es un verbo,
+2829000	2830000	si es un sustantivo,
+2831000	2833000	y el mismo significado,
+2833000	2834000	o sea,
+2834000	2838000	gato, gato, gato, gato, gato, gato, gato,
+2838000	2841000	todos tienen un lema que gato.
+2842000	2844000	¿Para qué puede servir,
+2844000	2848000	identificar el lema de una palabra?
+2854000	2855000	Por ejemplo,
+2860000	2862000	¿Por qué me interesa reconocer
+2862000	2864000	distinguir gato,
+2864000	2866000	de gato, de gato, y de gatos?
+2871000	2872000	Típicamente,
+2872000	2874000	en la recuperación de información,
+2874000	2877000	cuando yo quiero traer los documentos que hablan de gato,
+2877000	2879000	yo pongo gato,
+2879000	2881000	si hay un documento que dice gatos,
+2881000	2883000	seguramente me da salir,
+2883000	2884000	por eso me interesa
+2884000	2886000	y es típico de recuperación de información,
+2886000	2887000	buscar problemas,
+2888000	2889000	no por la palabra,
+2889000	2890000	por la forma oprecionada,
+2890000	2891000	por la
+2891000	2892000	Surface Phone.
+2894000	2895000	Entonces,
+2895000	2896000	estos son conceptos,
+2898000	2899000	el lema es como el,
+2901000	2903000	el representante canónico de,
+2903000	2906000	de, de, de las formas,
+2906000	2908000	de superficie flexionada, digamos.
+2908000	2909000	Bueno, vamos a hablar más de eso
+2909000	2910000	en la clase que viene.
+2913000	2915000	Bien, como le decía en un corpucho,
+2915000	2916000	tengo los word types,
+2916000	2918000	que son las palabras distintas en el corpucho,
+2918000	2921000	y los toques que son el total de palabras en el corpucho.
+2922000	2923000	¿Sí?
+2923000	2925000	Total de apariciones de palabras en el corpucho.
+2926000	2927000	¿Qué pasa?
+2928000	2929000	Por ejemplo,
+2935000	2936000	bueno, esto que debe ver,
+2936000	2937000	porque es muy fácil.
+2937000	2938000	Cuánta palabra hay ahí,
+2938000	2939000	cuántos toques,
+2939000	2940000	y la discusión que tuvimos,
+2940000	2942000	tengo que ver si cuento como toques en las comas,
+2942000	2945000	realmente se consideran toques en las comas,
+2945000	2947000	porque a mí me interesa que aparezcan en el texto.
+2948000	2950000	A veces las unifico,
+2950000	2951000	como signos de puntuación,
+2951000	2952000	en el análisis,
+2952000	2953000	muchas veces ya sé eso.
+2954000	2955000	Pero yo creo que eso lo hace,
+2955000	2957000	se hace para facilitar el análisis,
+2957000	2958000	no porque esté bien,
+2958000	2959000	porque yo a mí me interesaría
+2959000	2961000	separar una coma de un punto.
+2961000	2962000	Muchas veces no se hace.
+2963000	2964000	Es decir, para etapa subsiguiente,
+2964000	2965000	esto se identifica con una marca
+2965000	2966000	que es un signo de puntuación.
+2970000	2971000	Pero por acá hay palabras que,
+2971000	2973000	seguramente haber más toques en que palabra,
+2974000	2975000	porque acá hay la,
+2978000	2979000	acá hay dos a,
+2985000	2986000	bueno,
+2988000	2989000	y bueno, por ejemplo,
+2989000	2992000	ahí tradicionalmente,
+2992000	2994000	uno en este tipo de análisis trabaja
+2994000	2995000	sobre corpus grandes,
+2997000	2998000	los corpus,
+2999000	3000000	que nos permiten analizar
+3000000	3002000	las diferentes ocurrencias de cosas,
+3002000	3003000	en la lenguaje,
+3003000	3004000	son corpus grandes,
+3004000	3006000	porque yo necesito ver la casuística,
+3006000	3008000	los linguistas hacen muchos,
+3008000	3009000	hace becas,
+3009000	3010000	que trabajan sobre corpus,
+3011000	3012000	donde identifican la,
+3013000	3015000	si yo, como se comporta el verbo,
+3017000	3018000	ser en el español,
+3018000	3019000	bueno,
+3019000	3020000	entonces que ver todas las ocurrencias
+3020000	3021000	de ser que aparecen y estudiar,
+3021000	3022000	como se,
+3022000	3023000	es bien empilco esto.
+3025000	3026000	Si nosotros nos creemos
+3026000	3027000	que la realidad acá en mi español
+3027000	3028000	la sabe todo,
+3028000	3029000	pero en realidad,
+3029000	3030000	primero que ya en un lado
+3030000	3031000	tuvo que aprender y,
+3032000	3033000	y luego que,
+3034000	3036000	uno tiene que estudiar la casística,
+3036000	3037000	la casuística.
+3037000	3038000	Bueno,
+3038000	3039000	entonces,
+3039000	3040000	hay un corpo bastante conocido
+3040000	3041000	que si el corpo crea el corpo de referencia
+3041000	3042000	del español actual,
+3043000	3045000	que junta acá tiene un link
+3045000	3046000	para verlo,
+3046000	3047000	lo detalle pero,
+3047000	3049000	junta textos de diferentes lugares,
+3051000	3052000	mayormente España,
+3052000	3053000	pero también América Latina,
+3053000	3054000	de diferentes temas,
+3055000	3056000	cuando uno coge,
+3056000	3057000	construye un corpo,
+3057000	3058000	es todo un trabajo,
+3059000	3061000	porque primero uno tiene que identificar
+3061000	3062000	de qué quiere armar el corpo,
+3062000	3063000	porque como le decía,
+3063000	3064000	un corpo de ingleno
+3064000	3065000	es igual que un corpo de español,
+3065000	3066000	obviamente,
+3066000	3067000	pero un corpo de noticias,
+3067000	3070000	no es lo mismo con un corpo de poemas,
+3072000	3073000	porque las cosas que hay,
+3073000	3074000	incluso las frecuencias,
+3074000	3075000	la palabra van a ser diferentes.
+3076000	3077000	Seguramente,
+3077000	3078000	la cantidad de palabras desconocidas
+3078000	3079000	en un corpo de noticias
+3079000	3081000	sea muchísimo menor
+3081000	3083000	que a la cantidad de palabras desconocidas
+3083000	3084000	en un corpo de poemas,
+3085000	3086000	porque uno cuando cree poemas
+3086000	3087000	se le da por inventar.
+3089000	3091000	Por inventar palabras,
+3091000	3092000	cosas también.
+3092000	3094000	Por ejemplo, el corpo crea tiene
+3095000	3097000	125 millones de tokens,
+3098000	3100000	es un corpo bastante grande,
+3100000	3102000	para los parámetros de año 2000,
+3102000	3103000	para este, ahora no,
+3103000	3105000	ahora vamos a ver un poquito más.
+3105000	3110000	Y tiene 737.799 palabras distintos.
+3111000	3114000	Esto debería converger, digamos,
+3114000	3116000	al tamaño del vocabulario que existe,
+3117000	3119000	que no es lo mismo que el vocabulario
+3119000	3120000	que no lo tiene número,
+3120000	3122000	porque no me lo acuerdo,
+3122000	3123000	de un diccionario,
+3123000	3125000	porque otra forma mira un diccionario.
+3126000	3128000	El diccionario me dice todas las palabras,
+3128000	3129000	pero me lo dice,
+3129000	3130000	me trae los lemas.
+3132000	3134000	Entonces, va a ser más chico, digamos, ¿no?
+3134000	3135000	Esto es un comundicionario
+3135000	3136000	para la palabra flexionada.
+3137000	3138000	Por supuesto, no es,
+3140000	3143000	no son las palabras lenguajes,
+3143000	3145000	porque si yo no lo emití en este corpo,
+3145000	3146000	no, no existe.
+3146000	3147000	Sí.
+3150000	3152000	El corpo crea esta separado
+3152000	3154000	en diferentes secciones,
+3154000	3155000	es típico de los corpos,
+3155000	3156000	si eso también,
+3156000	3157000	como tiene diferentes secciones,
+3157000	3159000	estos son de Venezuela,
+3159000	3160000	estos son de Venezuela.
+3163000	3164000	Generalmente vos en los corpos
+3164000	3165000	tenés eso,
+3165000	3167000	de dividir su corpo, digamos.
+3168000	3169000	Por si vos querés especificar,
+3169000	3170000	por ejemplo,
+3170000	3171000	si querés hablar del español
+3171000	3172000	del rey de la plata,
+3172000	3174000	te remití a ese corpo.
+3175000	3177000	Y todos los análisis que uno hace
+3177000	3179000	en esto, de todo lo que, como en el curso,
+3179000	3181000	siempre tiene que decir sobre qué corpo lo hizo.
+3182000	3183000	Porque uno,
+3184000	3185000	en trena,
+3185000	3186000	lo que sea que significa en trena,
+3186000	3187000	es para mover,
+3188000	3190000	porque uno aprende,
+3190000	3191000	ya sea mano
+3191000	3192000	o automáticamente,
+3192000	3193000	de un corpo,
+3193000	3194000	pero además tiene que evaluar
+3194000	3195000	sobre un corpo.
+3195000	3196000	A ver cómo le fue,
+3196000	3197000	eso lo vamos a hablar luego.
+3198000	3199000	Siempre va a hacer sobre un,
+3199000	3200000	uno tiene que decir sobre el corpo,
+3200000	3201000	que corpo es,
+3201000	3202000	a mí esto me dio tal resultado
+3202000	3203000	en el corpo crea.
+3204000	3205000	Lo cual no quiere decir
+3205000	3206000	que me va a dar igual resultado
+3206000	3207000	en un corpo de Twitter.
+3210000	3211000	Hace poquito,
+3211000	3212000	se aprobó,
+3212000	3213000	es un proyecto de grado
+3213000	3214000	del grupo nuestro,
+3215000	3216000	se aprobó ahora,
+3216000	3217000	es un par de meses,
+3217000	3218000	que construyeron,
+3218000	3219000	a partir de,
+3221000	3222000	fuentes de noticias
+3222000	3223000	de la Wikipedia,
+3224000	3225000	y otros foros,
+3225000	3226000	y otros fuentes,
+3226000	3228000	un corpo de
+3228000	3230000	6.000 millones de tokens,
+3231000	3232000	esto es un muy buen corpo.
+3233000	3234000	Incluso,
+3234000	3236000	a nivel de lo que hay para el inglés,
+3236000	3237000	que son de 8.000 millones,
+3237000	3238000	más o menos.
+3239000	3240000	Y,
+3241000	3244000	ahí aparecieron 1.460 millones
+3244000	3245000	de palabras de ti.
+3246000	3247000	No,
+3247000	3248000	no puede ser.
+3248000	3249000	Perdón,
+3250000	3252000	1.460,
+3252000	3253000	quedo malito,
+3253000	3254000	no me lo voy.
+3255000	3256000	1.4,
+3256000	3258000	1.5 millones de palabras de tinta.
+3258000	3259000	Fíjense,
+3261000	3262000	que,
+3262000	3263000	para
+3263000	3265000	125 millones de tokens,
+3265000	3266000	había 737.000 palabras,
+3267000	3268000	para
+3268000	3269000	6.000 millones,
+3269000	3270000	había
+3270000	3271000	el doble.
+3272000	3273000	Lo que decíamos,
+3273000	3274000	deberían convergiendo,
+3274000	3275000	pero sí nos parecieron cosas raras.
+3277000	3278000	Esto es un corpo del español.
+3278000	3279000	Es un corpo
+3279000	3281000	no anotado,
+3281000	3283000	quiere decir que nadie
+3283000	3284000	lo miró a mano,
+3284000	3285000	obviamente.
+3285000	3286000	Es solamente,
+3286000	3287000	y no es poco
+3287000	3289000	una gran cantidad de textos.
+3289000	3290000	¿Qué cosa puedo aprender
+3290000	3292000	yo de un corpo de ese tipo de cosas?
+3292000	3293000	Bueno,
+3293000	3294000	¿cómo se agrupan las palabras?
+3296000	3298000	La frecuencia de las palabras,
+3298000	3299000	como voy a poter,
+3299000	3300000	cuanto más grande,
+3300000	3301000	si el corpo es más
+3301000	3302000	clara va a ser minución
+3302000	3303000	de la frecuencia de las palabras.
+3303000	3304000	El palabra es más común y pañez,
+3304000	3305000	creo que es bien.
+3306000	3308000	Saber esas frecuencias,
+3308000	3309000	sabrarlas contando,
+3309000	3311000	supongo que es muy representativo
+3311000	3312000	de mi lenguaje,
+3312000	3313000	porque es todo,
+3313000	3314000	la cantidad,
+3314000	3315000	es una cantidad de cosas
+3315000	3316000	que ha dicho una cantidad de gente.
+3317000	3320000	Esto,
+3320000	3321000	este tipo de cosas,
+3321000	3322000	son los que ha hecho,
+3322000	3323000	que,
+3323000	3324000	radicalmente,
+3324000	3325000	cambiar el procedimiento
+3325000	3326000	de boba de natural
+3326000	3327000	en los últimos años.
+3327000	3328000	Porque,
+3328000	3330000	porque tengo muchos elementos nuevos.
+3330000	3332000	Y hoy en día es prácticamente,
+3332000	3335000	impensable hacer análisis a mano,
+3335000	3338000	a ver,
+3338000	3340000	subestimando el poder
+3340000	3341000	de todas estas cosas,
+3341000	3342000	lo cual no quiere decir que uno,
+3342000	3343000	nada,
+3343000	3344000	estudios analístico,
+3344000	3345000	pero tiene otra herramienta
+3345000	3346000	totalmente nueva.
+3346000	3347000	Si yo quiero saber,
+3347000	3349000	cómo es el verbo ser
+3349000	3350000	en el español,
+3350000	3351000	bueno, tengo herramienta,
+3351000	3352000	tengo corpos muy grande
+3352000	3353000	para probar mis hipótesis.
+3359000	3360000	Bueno,
+3360000	3361000	la tokenización es
+3361000	3362000	identificar las palabras,
+3362000	3363000	dijimos que era bastante fácil,
+3363000	3364000	pero parecían cosas
+3364000	3366000	como los que fuimos encontrando.
+3367000	3368000	Por ejemplo,
+3370000	3372000	esto que está entre comillas,
+3372000	3373000	tengo que ver si
+3373000	3375000	no puedo considerar un token solo,
+3375000	3376000	o una entidad,
+3376000	3378000	o varios tokens con una entidad.
+3378000	3379000	Toco que ver si las comillas
+3379000	3381000	las considero toque en la parte.
+3381000	3382000	Las fechas,
+3382000	3383000	los números,
+3383000	3385000	las direcciones jueves,
+3385000	3387000	fenómenos que en el español
+3387000	3389000	no tenemos que son estos,
+3389000	3390000	como que saben,
+3390000	3391000	son,
+3391000	3394000	¿eh?
+3394000	3395000	Contraacciones,
+3395000	3396000	pero con,
+3396000	3398000	con apóstol,
+3398000	3400000	parecían el útil.
+3400000	3401000	Nosotros tenemos
+3401000	3402000	contraacciones que son dos,
+3402000	3403000	como sabe de cualquiera
+3403000	3404000	que hizo crucigramos,
+3404000	3405000	al ideal,
+3405000	3408000	pero esto no los tenemos.
+3408000	3410000	Esto también hay que ver como separarlo,
+3410000	3411000	y al ideal,
+3411000	3412000	es un tome problema,
+3412000	3413000	al ideal,
+3413000	3414000	en el mundo real,
+3414000	3415000	del análisis,
+3415000	3417000	porque uno viene muy contento,
+3417000	3418000	separando por palabras,
+3418000	3419000	y se encuentra con al,
+3419000	3420000	que es una palabra,
+3420000	3421000	pues son dos.
+3421000	3422000	Entonces,
+3422000	3424000	después,
+3424000	3426000	uno armó un modelo de token,
+3426000	3427000	es decir,
+3427000	3428000	es una lista de palabras,
+3428000	3429000	es decir,
+3429000	3430000	bueno,
+3430000	3431000	las palabras me olvidé
+3431000	3432000	de la separación,
+3432000	3433000	sí,
+3433000	3435000	pero cuando lo quiere machar contra el,
+3435000	3436000	texto original,
+3436000	3437000	dice bueno,
+3437000	3438000	primera palabra,
+3438000	3439000	segunda palabra, no,
+3439000	3440000	para, para,
+3440000	3441000	después que hizo el análisis,
+3441000	3442000	quiere volver al texto,
+3442000	3443000	para mostrarlo.
+3443000	3444000	Cuando vuelve,
+3444000	3445000	hubo dos palabras,
+3445000	3446000	que se le transformaron en una,
+3446000	3447000	o, mejor dicho,
+3447000	3448000	una palabra,
+3448000	3449000	que se le transformaron
+3449000	3450000	todo,
+3450000	3451000	cuando vuelve ese equivo,
+3451000	3452000	que muestra la,
+3452000	3453000	las cosas corridas,
+3453000	3454000	de hecho,
+3454000	3455000	sucede.
+3455000	3456000	Todo por qué,
+3456000	3457000	por al ideal,
+3457000	3458000	que son,
+3458000	3459000	una palabra,
+3459000	3460000	y bien,
+3460000	3461000	ese es otro problema
+3461000	3462000	de los críticos.
+3462000	3463000	Si a usted,
+3463000	3464000	puede interesar,
+3464000	3465000	sacar el decil,
+3465000	3466000	porque para el análisis,
+3466000	3467000	es muy importante,
+3467000	3468000	exactamente,
+3468000	3469000	para el análisis,
+3469000	3471000	son dos palabras.
+3471000	3472000	Y yo,
+3472000	3473000	yo tengo que conservar
+3473000	3474000	de alguna forma,
+3474000	3475000	y perdón,
+3475000	3476000	porque parece,
+3476000	3477000	parece trivial,
+3477000	3478000	y yo no tengo,
+3478000	3479000	dice bueno,
+3479000	3480000	ya una lista,
+3480000	3481000	dice paro con los espacios,
+3481000	3482000	pero no,
+3482000	3483000	pues yo tengo de alguna forma,
+3483000	3484000	tengo que tener,
+3484000	3485000	y es un lío de implementación,
+3485000	3486000	le digo,
+3486000	3487000	vuelve bien carne propia,
+3487000	3488000	muchas veces.
+3488000	3489000	Cuando su lista pala,
+3489000	3490000	ahora, después,
+3490000	3491000	hace,
+3491000	3493000	ahora,
+3493000	3494000	después,
+3494000	3495000	el clase que viene lo va a mover,
+3495000	3496000	le hace,
+3496000	3497000	análisis gramatical,
+3497000	3499000	análisis sintáctico,
+3499000	3500000	arma,
+3500000	3501000	largolito,
+3501000	3502000	pla pla,
+3502000	3503000	cuando quiere volver a mostrar la oración,
+3503000	3504000	no sabe donde la tenía.
+3504000	3506000	De un punto de implementación,
+3506000	3507000	estamos hablando, ¿no?
+3507000	3508000	Sí.
+3508000	3510000	¿Este criterio de requerización,
+3510000	3512000	cuando vamos a presentar un texto?
+3512000	3514000	¿Pas tardado?
+3514000	3515000	¿No?
+3515000	3516000	¿No?
+3516000	3517000	No.
+3518000	3520000	¿Vas tardado por lo que vos quieras hacer?
+3521000	3523000	Es decir, depende más de la tarea
+3523000	3524000	que estés completando.
+3524000	3526000	Por ejemplo, si vamos a hacer,
+3529000	3531000	un conteo simple de palabras,
+3531000	3533000	no te calienta esto.
+3534000	3535000	De hecho, capaz que te interesa,
+3535000	3536000	tendrán lo junto,
+3536000	3537000	porque tengo,
+3539000	3540000	es algo que se da muy,
+3540000	3542000	es una colocación,
+3542000	3543000	digamos, un dos palabras,
+3543000	3544000	se da mucho junta,
+3544000	3545000	yo creo que sea.
+3546000	3547000	Ahora, si yo creaciera,
+3547000	3548000	análisis sintáctico,
+3549000	3551000	cómo se organiza el largo del oración,
+3551000	3553000	esto te va a interesar separar lo sin duda.
+3554000	3555000	¿De acuerdo?
+3556000	3558000	Eso depende mucho de tu tarea.
+3561000	3562000	Si de todos,
+3562000	3564000	es bastante estándar estas cosas,
+3564000	3565000	tenerlas separadas.
+3565000	3567000	De hecho, hay un estándar muy sencillo.
+3568000	3569000	Ah, bueno,
+3569000	3570000	porque además hay otro problema,
+3570000	3571000	y eso también lo he vivido,
+3572000	3573000	que es,
+3573000	3575000	vos toquenizas con una herramienta,
+3577000	3579000	esto suponema bien de herramientas,
+3579000	3581000	uno toqueniza de una forma de su programa,
+3581000	3583000	y después utiliza una,
+3583000	3585000	una otra herramienta para poner
+3585000	3587000	en la categoría gamaticada cada palabra.
+3588000	3589000	Si esta herramienta,
+3590000	3591000	al hacer el análisis gramatical,
+3591000	3593000	a la vez toqueniza, según su criterio,
+3593000	3595000	que es lo que sucede muchas veces.
+3596000	3597000	Ahora, yo tenía un tager para,
+3597000	3600000	para, yo hice mi tesis en textos biológicos,
+3600000	3602000	digamos, que son biología molecular,
+3602000	3604000	que aparece muchas palabras raras.
+3606000	3608000	Y habéis tenido un toquen,
+3608000	3610000	un tiquetador gramatical propio,
+3612000	3614000	específico de los entrenados
+3614000	3615000	sobre un corpus de ese tipo,
+3616000	3618000	y tipo, no era una herramienta cerrada,
+3618000	3619000	digamos, lo que haciera,
+3619000	3621000	tomó el texto, lo toquenizaba y lo notaba.
+3622000	3624000	Para machiar este texto que me había toquenizado
+3624000	3625000	con mi texto original,
+3625000	3627000	como no toquenizaba igual,
+3628000	3629000	yo me ponía,
+3629000	3630000	había cosas que fue, por ejemplo,
+3630000	3633000	decía, 25 guion y hidro,
+3633000	3635000	nunca entendía nada de lo que estaban haciendo, ¿no?
+3635000	3638000	25 y hidroxil, no sé qué.
+3639000	3641000	Y mito-quenizador,
+3641000	3643000	es mi método de toquenización de 7 guion,
+3643000	3644000	es una palabra.
+3645000	3646000	El toquenizador,
+3648000	3649000	el toquenizador del tager,
+3649000	3650000	el otro tager,
+3650000	3652000	lo partía acá para devaluar el 25 por un lado,
+3653000	3655000	y yo después tenía que volver a unificarlos
+3655000	3657000	para poder seguir trabajando.
+3658000	3660000	Bueno, esto era un hombre y esto era un número, yo quese.
+3664000	3665000	Bueno,
+3666000	3668000	acá hay un estándar de toquenización
+3668000	3669000	bastante conocido,
+3669000	3670000	es el pen triban.
+3671000	3675000	El pen triban es un corpus de Pamo,
+3675000	3676000	porque es anotado,
+3677000	3679000	es decir, no solo tomaron texto,
+3679000	3681000	sino que analizaron cada oración,
+3681000	3683000	le pusieron la categoría gramatical a cada palabra.
+3684000	3687000	Y para eso tuvieron primero que toquenizar,
+3687000	3689000	la toquenización del pen triban es muy sencilla.
+3691000	3693000	Se separan los signos de fundación de las palabras,
+3694000	3696000	se separan las contraacciones
+3696000	3698000	y las separan en it.
+3700000	3702000	Y las comillas doles se transforman
+3703000	3706000	en comillas de apertura de cierre para separarlas,
+3707000	3709000	y las parentes y los corchetes
+3709000	3711000	las llaves se transforman en símbolo así.
+3711000	3713000	Esto es por un tema de facilitar el parcinama.
+3714000	3715000	Es un estándar.
+3715000	3717000	Lo que tiene de bueno es que es un estándar,
+3717000	3719000	que si yo aplico el pen triban, se lo que me da.
+3720000	3722000	Me voy a andar inventando yo,
+3722000	3725000	mi propio algoritmo de toquenización.
+3728000	3730000	Pero bueno, después yo puedo querer
+3730000	3732000	post-processar, digamos, ¿no?
+3732000	3733000	Porque me parece en cierta realidad,
+3733000	3735000	por ejemplo, si quiero identificar nombre o cosas así.
+3735000	3739000	Bueno, el chino de japonés tienen algún problema
+3739000	3742000	y es que no marcan los límites de las palabras,
+3743000	3749000	sino que cada simbolito Jansi del chino representa morfema
+3749000	3751000	o sílabas.
+3753000	3758000	Entonces, toquenizar acá es un poco más difícil.
+3766000	3767000	¿Cómo probo?
+3770000	3772000	No son normales para eso, son normales.
+3773000	3775000	Ah, Roman, normal.
+3775000	3777000	No, no, no, no, no.
+3777000	3779000	Acá hay una palabra de hecho.
+3779000	3780000	¿De hecho hay palabras?
+3783000	3785000	¿Tenés una analizadora que va sobre el chino?
+3790000	3792000	No, analizan derecho.
+3793000	3796000	Sí, analizan, analizan derecho sobre los caracteres Jansi.
+3799000	3801000	Y ahora vamos a ver cómo.
+3801000	3803000	El problema que no tenemos espacio para separar,
+3803000	3806000	pero de hecho las palabras existen en tanto unidades con significado.
+3806000	3808000	Pero no la ve en el texto.
+3808000	3810000	Es lo mismo que nos pasa cuando hablamos.
+3810000	3813000	Si vos crees toquenizar el texto hablado,
+3813000	3815000	vas a tener un problema.
+3818000	3820000	Hay un algoritmo muy popular,
+3821000	3825000	que tiene una lista de palabras, de palabras.
+3825000	3827000	Digamos, ¿no?
+3827000	3829000	No hay morfema como de nada.
+3829000	3832000	Y es muy sencillo, comienza al principio de la entrada.
+3832000	3834000	De la entrada que tiene el texto,
+3834000	3838000	elige siempre la palabra más larga en la posición actual de la entrada.
+3840000	3843000	Y si no encuentran ninguna, se queda con una letra suave.
+3844000	3846000	Y avanza.
+3847000	3848000	Bra.
+3849000	3850000	Por ejemplo,
+3852000	3855000	si yo tengo la entrada, me saca de la cancha, sin motivo.
+3857000	3858000	Acá ubica en mesa.
+3864000	3867000	C, el símbolo del calcio,
+3868000	3869000	D,
+3872000	3874000	y la cancha de la letra.
+3874000	3876000	Y a cada vez a mesa,
+3877000	3879000	no anda muy bien.
+3879000	3881000	En español en inglés no funciona más mal,
+3881000	3883000	pues la palabra es más larga,
+3883000	3885000	pero en el chino funciona bastante bien.
+3886000	3888000	Nadie usa esto en un español.
+3889000	3892000	Y si el método más básico de cosas,
+3892000	3894000	y hay mejoras sobre esto,
+3894000	3896000	empezando a la vez de izquierda de derecha,
+3896000	3898000	por ejemplo, de izquierda de la derecha
+3898000	3900000	o de derecha de izquierda,
+3900000	3902000	al mismo tiempo de lado,
+3902000	3903000	como yo le decía, hay variantes.
+3904000	3906000	Y esto no lleva una cosa bastante interesante que es.
+3909000	3911000	Si yo tengo, ¿qué tan bueno?
+3911000	3914000	Ah, hay todo un tema en el posimiento de la hoja natural.
+3914000	3915000	¿Qué es la evaluación?
+3915000	3917000	Yo cuando ejecuto una tarea,
+3918000	3920000	tengo que evaluar mi resultado.
+3924000	3925000	¿Sí?
+3927000	3929000	Sobre qué la tengo de evaluar y esto vale siempre,
+3929000	3931000	sobre un cuerpo que no sé para aprender.
+3934000	3936000	Si de alguna forma yo aprendo a toquenizar,
+3936000	3938000	viendo cómo se sepan a las palabras con los textos de esto
+3938000	3939000	que tuve mirando,
+3939000	3940000	y no sé qué,
+3940000	3942000	no puede utilizar esto vale,
+3942000	3943000	como regla general,
+3943000	3944000	después lo mover más,
+3944000	3946000	en detalle con los métodos de la presa automático,
+3946000	3949000	pero yo no puedo utilizar el mismo texto del que aprendí
+3949000	3951000	para evaluar mi resultado.
+3951000	3952000	¿Por qué?
+3955000	3956000	Me va a dar todo bien,
+3956000	3957000	o por lo menos,
+3957000	3959000	me va a dar mejor,
+3959000	3962000	que siempre tengo que evaluar sobre texto no visto.
+3963000	3966000	O sea, yo siempre que tengo un cuerpo sobre el cual trabajar
+3966000	3969000	tengo que agarrar una porción del texto típicamente aquí
+3969000	3970000	y 70 por ciento.
+3970000	3971000	Vamos a ver más de detalle.
+3971000	3976000	Y lo guardo a un costado hasta que llegue el momento de evaluar.
+3977000	3979000	¿Y cómo evaluó la toquenización?
+3979000	3982000	Y bueno, si yo tengo el nuestra entrada
+3984000	3987000	y tengo lo que se llama un gol standard,
+3988000	3992000	un texto correctamente segmentado.
+3992000	3994000	A alguien, un ser humano,
+3994000	3995000	me dijo bueno,
+3995000	3997000	la toquenización correcta es
+3997000	3999000	me saca de la cancha sin motivo.
+4003000	4008000	Y cómo se calcula la performance de un toquenizador
+4008000	4010000	y bueno, con la word error rate,
+4010000	4014000	o sea, el ratio de error de las palabras,
+4014000	4017000	que es entre estos dos,
+4018000	4021000	entre estos dos,
+4023000	4025000	lista de palabras.
+4026000	4029000	¿Qué tengo que cambiar para llegar de esta ésta?
+4030000	4031000	¿Sí?
+4032000	4036000	¿Cómo sería? ¿Qué sería lo que tendría que hacer yo?
+4037000	4041000	¿Y dónde cambiar quiere sin insertar borrar o sustituir?
+4043000	4044000	¿Qué tengo que hacer?
+4047000	4049000	Mesa por M
+4050000	4051000	y qué más.
+4052000	4054000	Y K por saca, ¿no?
+4057000	4059000	Ah, por que me gobe, y eso es por que me gobe.
+4061000	4062000	¿De acuerdo?
+4063000	4065000	Entonces, eso es la tasa de error.
+4065000	4067000	Acá tengo un error de 2.
+4067000	4068000	Cuando toma baja mejor, ¿no?
+4068000	4070000	Y tengo 0 porque es 1 igual.
+4071000	4073000	Luego, eso se llama distancia mínima de edición
+4074000	4075000	y luego vamos a agarrar luego.
+4076000	4078000	Distancia mínima de edición, pero en palabras.
+4080000	4081000	¿De acuerdo?
+4081000	4082000	Que sorvido.
+4086000	4088000	Bueno, además de tokenizar.
+4088000	4089000	No tengo nada.
+4091000	4092000	Además de tokenizar.
+4097000	4098000	Bueno, ya lo he movilado,
+4098000	4099000	prácticamente todo.
+4101000	4103000	La normalización implica llevar la palabra
+4103000	4105000	a un formato estándar para procesarlas.
+4106000	4108000	Llevar los números a un formato único
+4108000	4111000	porque así no metemos ruido para nuestro análisis posterior.
+4113000	4115000	Por decir que esto es la base de una cascada de tarea,
+4115000	4117000	el principio de una cascada de tarea.
+4118000	4120000	La URL y otra forma con estructura,
+4120000	4124000	identificarlas y marcarlas, detectar entidades con nombre
+4125000	4126000	y este cash folding,
+4126000	4128000	llevar toda mi núscula a mayúscula
+4128000	4129000	que a veces lo hacemos a veces no.
+4131000	4132000	Según nuestra tarea.
+4133000	4135000	Bueno, tradicionalmente la tokenización
+4137000	4139000	y la normalización se ha realizado
+4139000	4140000	utilizando automata finito.
+4141000	4143000	Porque son problemas bastante sencillos
+4144000	4148000	y porque además son como son el comienzo de la cascada,
+4148000	4149000	necesitamos que sean rápido.
+4151000	4154000	Yo necesito tokenizar rápidamente para poder después empezar
+4154000	4155000	el análisis.
+4156000	4158000	Y porque además la automata desde hecho funciona.
+4158000	4162000	Esa especificación
+4162000	4166000	del algoritmo del pen-tribank.
+4167000	4170000	Tiene su equivalente en un pequeño programista en sed,
+4170000	4172000	es la herramienta UNICE para tokenizar con eso.
+4174000	4176000	Y cualquier biblioteca,
+4176000	4178000	procedimiento de lenguaje natural de sente,
+4178000	4179000	por ejemplo en LTC,
+4180000	4183000	te permite especificar un tokenizador en base de una expresión regular.
+4183000	4185000	Por decir cómo crece para las palabras
+4189000	4190000	y lo hace.
+4193000	4197000	Bueno, también le matizar,
+4198000	4201000	es decir a veces nos puede interesarte en el solo el lema.
+4201000	4203000	Por ejemplo, si mis documentos le voy a usar
+4203000	4204000	para recuperar información,
+4205000	4206000	contener lo el mismo alcanza.
+4208000	4209000	Hay una forma mucho más sencilla
+4209000	4212000	porque le matizar implica hacer un análisis morfológico
+4212000	4213000	de la palabra,
+4213000	4216000	es decir, sacar lo como la clase que viene al otro,
+4216000	4219000	es la Carla Reis y las derivaciones.
+4220000	4221000	Hola, a los afijos.
+4222000	4223000	O sea, la p...
+4223000	4224000	Puedes ver esto de cosas bien,
+4224000	4225000	después vamos a lo ver.
+4226000	4227000	Es un poco más costoso.
+4228000	4229000	Hay un método muy viejo,
+4230000	4231000	menos de 180 que se llama Steming,
+4231000	4232000	que es mucho más simple,
+4232000	4234000	que simplemente corta las palabras.
+4235000	4237000	Si yo sé que perros,
+4238000	4240000	perritos, perra, no sé qué.
+4240000	4242000	Yo sé que per es el Stem
+4243000	4245000	y yo lo puedo utilizar como una aproximación al lema.
+4246000	4248000	Va a cometer errores, claro.
+4248000	4249000	Pero...
+4250000	4252000	es muchísimo más rápido.
+4253000	4255000	Y no necesito ningún tipo de análisis morfológico pasar.
+4257000	4260000	Eso es el famoso Porter Stemer
+4260000	4262000	que mal que bien se sigues usando
+4262000	4265000	y ya pasaron como 30 y pico de año.
+4265000	4266000	¿De qué se le hizo?
+4267000	4268000	Ahora, una pregunta.
+4268000	4269000	Sí.
+4269000	4272000	Hay que necesitar por lo que contiene mucho con que se le di una
+4272000	4273000	de las seguridades.
+4273000	4275000	Sí, de eso vamos a hablar en la clase que viene
+4275000	4276000	que es morfología.
+4276000	4277000	Sí, claro.
+4277000	4278000	Y la...
+4278000	4280000	No solo la irregularidad de lo bueno,
+4280000	4281000	sino la ortográfica también.
+4282000	4283000	Lo imposible y eso.
+4283000	4284000	Morir y muerto.
+4284000	4285000	Sí, claro.
+4285000	4286000	Claro.
+4286000	4287000	Sí.
+4287000	4288000	Sí.
+4288000	4289000	Lo vamos a hablar la clase que viene.
+4290000	4292000	Igual se resuelve con...
+4292000	4293000	también es...
+4294000	4296000	se puede resolver con el agonismo de esta ufinita.
+4298000	4300000	Bueno, también hay otro tema
+4300000	4302000	y con esto vamos a irse como también...
+4302000	4304000	No, no vamos a terminar y voy a hacer trabajar hoy.
+4305000	4309000	Y con esto vamos al último tema de esto de la cosa que además no interesa
+4309000	4311000	se inventar en oraciones.
+4312000	4314000	Y ustedes, a mí, ¿cómo separamos en oraciones?
+4319000	4320000	¿Cómo separamos?
+4320000	4321000	¿Dónde están las oraciones ahí?
+4322000	4324000	Su mamá porque lo punticoma en los honoraciones.
+4324000	4325000	¿Más fácil de la humía?
+4325000	4327000	¿Eh?
+4328000	4329000	¿Esten comas siempre?
+4331000	4333000	Empiezan con masúscula y terminan?
+4333000	4334000	¿Y terminan?
+4335000	4336000	Con un punto.
+4337000	4338000	Problemas.
+4339000	4342000	Ahí se llamamos un 90 y pico de precisión.
+4343000	4345000	Pero algún problema tiene. ¿Cuál?
+4347000	4348000	Las abreviaturas?
+4349000	4351000	¿Qué pasa con la abreviatura?
+4353000	4354000	¿Tienes punto?
+4354000	4356000	Hay punto que son internos en la oración.
+4357000	4359000	¿Qué pasa con un número?
+4360000	4363000	Nombres propios, se pueden mariar con el tema de las masúsculas, claro.
+4366000	4370000	¿Esten, si todo el mundo es más bueno encontrar problemas de bucado de sución?
+4371000	4372000	¿Qué hay otro problema más?
+4374000	4376000	Si empieza con un número, por ejemplo...
+4378000	4379000	¿No?
+4379000	4380000	¿Qué empieza con minúsculas más difícil?
+4380000	4381000	¿No se me ocurre?
+4381000	4382000	Pero puede haber.
+4382000	4384000	Si buscan los cuerpos de 6.000 millones de palabras,
+4384000	4386000	de euros de vuelta a todos los casos.
+4389000	4391000	Y es eso, efectivamente es eso.
+4391000	4393000	Reconocer a oraciones.
+4394000	4396000	Se puede hacer con expresión regular, como dice él,
+4397000	4402000	tratando de buscar algunos casos especiales.
+4404000	4406000	Pero esta gente...
+4408000	4409000	Los métodos más...
+4409000	4412000	Lo he estado del arte en separación de oraciones.
+4413000	4414000	Es...
+4415000	4416000	Utiliza...
+4418000	4419000	Una especie de...
+4419000	4420000	Una especie de análisis.
+4420000	4423000	Lo que sea análisis no es supervisado o clasificación no es supervisado.
+4424000	4427000	Cuando yo digo análisis, no es supervisado.
+4428000	4433000	Luego el curso movió mucho esto, pero no es supervisado, quiere decir que yo no tengo ningún texto anotado.
+4433000	4435000	Nadie me dijo cómo eran las palabras.
+4435000	4439000	Yo simplemente miró en el texto en crudo y yo hice mi análisis dentro de ese texto.
+4440000	4443000	Cuando yo hablo de la clasificación supervisada, alguien me dijo,
+4444000	4446000	acá empieza la oración y acá termina.
+4446000	4447000	¿De acuerdo?
+4447000	4449000	Hay una notadora humana.
+4449000	4452000	Como cuando comparamos hoy con el tokenizador,
+4452000	4454000	tengo un gol de estándar, acá no.
+4457000	4462000	Estas gente, lo que hizo fue crear un tokenizador entrenado a dar un gran conjunto de testos
+4463000	4466000	y tomo ciertas hipótesis y dijo bueno.
+4469000	4472000	Identifica candidatos a abbreviaturas.
+4473000	4476000	Y dice bueno, en general,
+4477000	4482000	las palabras que terminan en punto son abbreviaturas.
+4485000	4487000	En general, las abbreviaturas son cortas,
+4487000	4492000	o sea que si una palabra es corta es más probable que sea abbreviatura que no, o que otra vez se.
+4493000	4496000	Y en general tienen puntos internos.
+4497000	4499000	¿La guardó?
+4500000	4503000	Y con eso
+4504000	4508000	trataron de ver contar en un texto de las frecuencias.
+4508000	4511000	Ahí está el link al ver.
+4511000	4517000	Contar en un texto de la cantidad de veces que esa palabra, la misma palabra aparecía con y sin punto.
+4518000	4520000	Si yo, por ejemplo,
+4521000	4526000	la palabra etcétera casi todas las veces aparecen con punto.
+4526000	4529000	O de hecho todas las veces aparecen con punto.
+4529000	4534000	En el corpus. O sea que fuertemente candidata a hacer una abbreviatura.
+4535000	4539000	Pero si yo parece guillermo con un punto al final,
+4541000	4546000	seguramente no sea una abbreviatura sino que sea el final de noración.
+4547000	4549000	¿La guardó?
+4549000	4552000	Entonces lo que hacían en ese tipo de conteos en el texto,
+4552000	4559000	para ver cuáles giran más candidatas, digamos, a priori hacer abbreviaturas.
+4559000	4562000	Porque ¿qué se trataba esto de desambiguar el punto?
+4562000	4565000	Que es nuestro problema que mencionamos hoy, ¿no?
+4565000	4568000	Desambiguar el punto y la masúscula.
+4570000	4573000	Lo mismo hacía cuando era palabras cortas, palabras largas.
+4577000	4581000	Con esa lista de candidato después se veían en qué contexto aparecían.
+4581000	4584000	Me dijeron una segunda fase y dice bueno, si si perdiste guillermo punto
+4584000	4587000	y la palabra que la siguen, empiezan minúsculas,
+4587000	4590000	entonces capaz que sí era una abbreviatura.
+4591000	4594000	No se me ocurre, porque guillermo punto es una abbreviatura,
+4594000	4596000	pero está, es que si yo hacía una abbreviatura.
+4596000	4597000	¿De acuerdo?
+4599000	4601000	O colocaciones.
+4601000	4603000	Por ejemplo, cuando yo digo,
+4603000	4606000	en lo que son las colocaciones son palabras que aparecen juntas, usualmente.
+4607000	4609000	De nuevo, es una colocación.
+4610000	4613000	No sé si se dice colocación, pero en inglés se dice colocación.
+4614000	4616000	Una de ser colocación.
+4616000	4618000	Por ejemplo, si yo digo, y etcétera,
+4621000	4624000	y etcétera, no sé si es como, etcétera,
+4625000	4627000	y etcétera aparecen muchas veces juntas.
+4628000	4629000	Entonces,
+4630000	4633000	y entonces digamos,
+4634000	4637000	es muy raro que si aparece con un punto en el medio,
+4638000	4640000	ese punto sea de separación.
+4641000	4643000	El ejemplo que dijiste horrible el año que viene o que elegí uno bueno,
+4644000	4647000	pero ese punto es raro que sea de separación,
+4648000	4650000	porque siempre que aparecen juntas, digamos,
+4651000	4652000	yo digo,
+4655000	4656000	de nuevo,
+4656000	4659000	esto es horrible, pero no es tan malo como el anterior.
+4659000	4661000	De nuevo, siempre aparece así.
+4662000	4663000	¿De acuerdo?
+4663000	4665000	Si hay ningún momento aparece con un punto acá,
+4665000	4667000	probablemente esto hace un fin de ración.
+4669000	4670000	¿De acuerdo?
+4671000	4672000	Pésimo el ejemplo.
+4673000	4675000	Y luego las palabras iniciales frecuentes,
+4676000	4678000	es decir, cuando aparece una malleúscula,
+4681000	4683000	digamos, esa palabra que apareció,
+4684000	4687000	que tan candidata es hacer el comienzo de una oración,
+4687000	4689000	a hacer una malleúscula,
+4689000	4690000	en vez de ser un nombre,
+4690000	4691000	es ser un comienzo de oración.
+4692000	4694000	Y vemos que hay palabras que es mucho más frecuentemente aparecen
+4694000	4695000	al comienzo de oración.
+4695000	4697000	La con malleúscula,
+4698000	4702000	es una buena candidata a hacer comienzo de oración.
+4703000	4706000	Porque hay muchos lá al comienzo de las oraciones.
+4707000	4710000	Entonces, eso aumenta mi probabilidad de que sea entonces,
+4710000	4712000	en base un estudio de conteo y de frecuencias
+4713000	4715000	y de lo que se llama la Eclipse Jude,
+4715000	4716000	o verosimilitud,
+4718000	4719000	de San Vivo en el punto.
+4719000	4721000	Dice, bueno, esto es un punto de abreviatura
+4721000	4723000	o es un punto de oración.
+4725000	4728000	Y de esa forma, separan oraciones.
+4732000	4734000	Eso en el Entecac existe.
+4734000	4736000	Y yo le voy a mostrar un poco el corpus.
+4742000	4745000	No está, ¿y feisu no, ¿no lo吗o yo?
+4772000	4780000	Esto es la base de jurisprudencia del Poder Judicial del Uruguay.
+4795000	4796000	Esto está publicado.
+4796000	4797000	¿Dónde dice Paul?
+4799000	4800000	Ah, por favor.
+4813000	4814000	¿Qué dice?
+4819000	4821000	Esto es una sentencia del...
+4827000	4831000	La base de sentencias de ejemplo del Poder Judicial del Uruguay.
+4832000	4833000	¿Si se fijan?
+4835000	4836000	Este es el texto.
+4839000	4840000	No era interesante.
+4841000	4842000	No eran todas iguales.
+4844000	4847000	Fíjese que si yo quiero separar el texto acá...
+4848000	4850000	No tengo mucho problema, pero acá aparecen cosas raras.
+4850000	4853000	No como este es punto que me interesa.
+4854000	4855000	Fue de dentro de la relación.
+4856000	4861000	Pero me sorprendió un poco, acá hay un número que aparece con punto también.
+4862000	4867000	Pero además hay otras sentencias que terminan en punto y raya, ¿no?
+4868000	4869000	punto y guión.
+4870000	4873000	punto y guión, o sea que hay el separador totalmente raro.
+4874000	4877000	Para lo que se le está a andar y que uno tiene que ver cómo modificar la tokenización.
+4878000	4882000	Este corpus es el que van a usar usted para el laboratorio.
+4883000	4885000	Así que vayan a ser haciendo amigos de él.
+4888000	4890000	Mira referencias de tan por ahí.
+4891000	4892000	Los invito a leerlas.
+4896000	4897000	¿Alguna pregunta?
+4900000	4901000	Acá, que...
+4908000	4910000	Bueno, tal vez ya ha sido demasiado para ustedes.
+4912000	4914000	Si no hay dudas, dejamos por acá en la clase que viene.
+4915000	4919000	Vamos a hablar de distancia mínima edición para empezar.
+4921000	4925000	¿Qué es cómo ver cuál es la distancia entre dos palabras?
+4926000	4928000	Una noción de distancia entre dos palabras.
+4929000	4931000	Que esencialmente captura la idea de parecido.
+4932000	4934000	Es un punto de vista ortográfico.
+4935000	4939000	Y podemos seguir hablando de morfología.
+4941000	4942000	Gracias.

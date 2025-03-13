@@ -1,0 +1,2036 @@
+1
+00:00:00,000 --> 00:00:06,280
+En la clase pasada entonces lo que estuvimos viendo es fundamentalmente lo que es
+
+2
+00:00:06,280 --> 00:00:11,280
+recuperación de información como una aplicación en donde tendemos a utilizar
+
+3
+00:00:11,280 --> 00:00:19,080
+procesamiento del lenguaje natural en alguna de las tareas que se hacen
+
+4
+00:00:19,080 --> 00:00:24,680
+sobre todo antes o durante el proceso de recuperación, los algoritmos que
+
+5
+00:00:24,680 --> 00:00:29,960
+implementan el proceso de de recuperación y después comentamos también lo
+
+6
+00:00:29,960 --> 00:00:34,400
+que es la extracción de información como otra disciplina diferente a la
+
+7
+00:00:34,400 --> 00:00:38,920
+recuperación que a veces se entre mezclan o se confunden y que se
+
+8
+00:00:38,920 --> 00:00:42,320
+está hablando de lo mismo y en realidad son como complementarias, si yo
+
+9
+00:00:42,320 --> 00:00:45,120
+tengo un proceso de recuperación de información que me recupera
+
+10
+00:00:45,120 --> 00:00:49,680
+documentos donde se supone que está la información que yo estoy
+
+11
+00:00:49,680 --> 00:00:54,560
+buscando usuario y el proceso de extracción de información lo que hace es
+
+12
+00:00:54,560 --> 00:00:58,440
+a partir de un conjunto de documentos que se supone que son de interés
+
+13
+00:00:58,440 --> 00:01:04,520
+extrae a aquellas partes que efectivamente hablan de lo que yo estoy queriendo
+
+14
+00:01:04,520 --> 00:01:10,080
+que incluso algunos comentaban que hoy si pensamos en Google que solamente
+
+15
+00:01:10,080 --> 00:01:14,840
+le ponés las palabras y ya te trae la porción de texto donde están las
+
+16
+00:01:14,840 --> 00:01:18,200
+palabras que vos estuviste buscando
+
+17
+00:01:18,720 --> 00:01:25,560
+decíamos la extracción de información es una una disciplina que
+
+18
+00:01:25,560 --> 00:01:31,640
+típicamente lo que hace es extraer atributos, relaciones, perdonentidades,
+
+19
+00:01:31,640 --> 00:01:40,760
+relaciones y eventos y comúnmente lo que se hace es se trata de generar una
+
+20
+00:01:40,760 --> 00:01:45,440
+suerte de plantilla con pares atributo valor donde ahí se cargan los
+
+21
+00:01:45,440 --> 00:01:51,120
+valores de los valores de los atributos, los nombres de los atributos y el valor que
+
+22
+00:01:51,120 --> 00:01:58,360
+tienen en función de lo que yo quiero extraer, eso genera una estructura que
+
+23
+00:01:58,360 --> 00:02:05,920
+es después mucho más manipulable por un usuario experto digamos o algún
+
+24
+00:02:05,920 --> 00:02:12,240
+sistema que después permita generar hacer otras cosas. Dentro de las tareas
+
+25
+00:02:12,240 --> 00:02:17,400
+de extracción información y quedamos más o menos en eso, este tenemos, el
+
+26
+00:02:17,400 --> 00:02:21,200
+reconocimiento de entidades con nombres, la resolución de con referencias,
+
+27
+00:02:21,200 --> 00:02:25,040
+extracción de relaciones semánticas, entre entidades, resolución y
+
+28
+00:02:25,040 --> 00:02:28,120
+reconocimiento de expresiones temporales, asignación de relaciones semánticos,
+
+29
+00:02:28,120 --> 00:02:35,560
+entre otras tareas, lo que queríamos, hoy es ver, algún ejemplo de qué
+
+30
+00:02:35,560 --> 00:02:40,880
+consiste por ejemplo en la extracción de reconocimiento de entidades con nombres.
+
+31
+00:02:42,240 --> 00:02:50,760
+Nosotros esencialmente en entidades con nombres lo que tenemos que pensar es que
+
+32
+00:02:50,760 --> 00:02:57,120
+típicamente lo que uno quiere extraer son tres grandes conjuntos, organizaciones,
+
+33
+00:02:57,120 --> 00:03:04,760
+personas y lugares. Después uno puede seguir queriendo poniéndole nombres
+
+34
+00:03:04,760 --> 00:03:09,400
+de otra cosa, pero esencialmente las entidades que tienen nombres son algún tipo de
+
+35
+00:03:09,400 --> 00:03:15,800
+organización, algún tipo de lugar o algún nombre de persona. Entonces un poco
+
+36
+00:03:15,800 --> 00:03:21,560
+acabemos el ejemplo y vemos el ejemplo y vemos que un poco lo que es lo que se
+
+37
+00:03:21,560 --> 00:03:28,360
+pretende mostrar es que ellas dificultades que se pueden presentar. Barcelona
+
+38
+00:03:28,360 --> 00:03:33,760
+autorizó noticias vieja, autorizó a Luis Suárez a viajar el lunes a Montevideo
+
+39
+00:03:33,760 --> 00:03:39,320
+para estar a la orden de la selección para los partidos discriminatorios.
+
+40
+00:03:41,820 --> 00:03:46,920
+¿Qué entidades con nombres ustedes reconocen ahí o que el sistema debería detectar?
+
+41
+00:03:46,920 --> 00:03:56,920
+Pensamos de vuelta, ¿no? Organizaciones, lugares, personas, empiezan. Luis Suárez,
+
+42
+00:03:57,480 --> 00:04:07,600
+Barcelona, Argentina, Paraguay, Montevideo, Liga española, bien, lo vemos como una
+
+43
+00:04:07,600 --> 00:04:18,080
+organización. Eliminatorias, ¿qué sería eliminatorias?
+
+44
+00:04:18,080 --> 00:04:26,020
+Eliminatorias como el partido de los partidos de la organización, ¿qué es el saberlo?
+
+45
+00:04:26,020 --> 00:04:33,120
+Sí, bien, me interesa saberlo, pero es una organización, es una persona, es un lugar.
+
+46
+00:04:33,120 --> 00:04:40,000
+Capaz que me interesa después hacer cosas, un poco justamente, el chiste es
+
+47
+00:04:40,000 --> 00:04:44,680
+borre, reconocer sentidades con nombres y después lo que vas a querer reconocer son
+
+48
+00:04:44,680 --> 00:04:50,400
+relaciones entre esas sentidades o cosas por el estilo. Pero es un paso que viene después,
+
+49
+00:04:50,400 --> 00:04:54,560
+después de que yo detecto las sentidades, empiezo a jugar, empiezo, bueno, ¿qué otra cosa
+
+50
+00:04:54,560 --> 00:04:59,960
+quiero hacer con esas sentidades? Es como un primer paso, correcto. Capaz que eliminatorias
+
+51
+00:04:59,960 --> 00:05:05,040
+me puede servir, porque quiero saber, ¿para qué, por ejemplo, para preguntar, ¿para qué
+
+52
+00:05:05,040 --> 00:05:10,560
+es que este Luis Suárez quería venir a Montevideo? Porque quería venir a jugar las eliminatorias,
+
+53
+00:05:11,560 --> 00:05:15,440
+pero eso ya entra en la siguiente etapa que sería la detección de las relaciones.
+
+54
+00:05:25,200 --> 00:05:32,240
+La segunda guerra mundial, ¿cómo lo vas a encasillar? Podría ser un evento, después vamos a hablar
+
+55
+00:05:32,240 --> 00:05:39,560
+de eventos y de las dificultades de eventos. Pero bueno, es algo que, comúnmente,
+
+56
+00:05:39,560 --> 00:05:44,760
+uno lo que tiene, o por lo menos para arrancar, o podrías llegar a tener son listas de palabras
+
+57
+00:05:44,760 --> 00:05:50,040
+que tienen todas las organizaciones, todos los nombres o que se yo. Ahí yo podría usar esas
+
+58
+00:05:50,040 --> 00:05:55,560
+listas eventualmente para desambiguar y segunda guerra mundial, ahí yo lo tomo, todo como una
+
+59
+00:05:55,560 --> 00:06:02,840
+sola entidad y es, pero que es una persona, es una organización, es un nombre. No, entonces,
+
+60
+00:06:02,840 --> 00:06:10,120
+ver cómo lo categorizas. Eso es algo que me va a interesar tenerlo determinado, pero no,
+
+61
+00:06:10,120 --> 00:06:15,440
+en principio, no es una entidad con nombre. Si viene por el lado de lo que decía el compañero
+
+62
+00:06:15,440 --> 00:06:25,760
+después de eliminatoria o las relaciones o los eventos. Exacto. Bueno, ahí están, ¿no?
+
+63
+00:06:25,760 --> 00:06:33,200
+Este Barcelona, Suárez, está, se nota, están más como ahora, vamos a saber. Ahí, en Negritas,
+
+64
+00:06:33,200 --> 00:06:40,560
+Barcelona, Montevideo, Argentina, Paraguay. Bien, en Negritas están un poquito las entidades que
+
+65
+00:06:40,560 --> 00:06:48,480
+se encontraron. Después está, encontrar las entidades, tratamos de acá, ponerle el discuito color,
+
+66
+00:06:48,480 --> 00:06:55,720
+el cuáles son nombres, cuáles son lugares y cuáles son organizaciones. En rojo organizaciones,
+
+67
+00:06:55,720 --> 00:07:03,600
+en verde, lugares y en azul nombres. Pero Barcelona es este club. Perfecto. Eso quería llegar.
+
+68
+00:07:03,600 --> 00:07:10,440
+¿Qué Barcelona? Barcelona es un lugar, es una ciudad preciosa que queda allá en el noreste de paña.
+
+69
+00:07:10,440 --> 00:07:18,200
+Pero no es un club. De hecho, acá está haciendo referencia a un club. Con a la vez pasa lo mismo.
+
+70
+00:07:18,200 --> 00:07:22,560
+Bueno, en España pasa mucho porque, bueno, porque hay las ciudades, los equipos de fútbol tienen
+
+71
+00:07:22,560 --> 00:07:30,040
+nombres de ciudades, muchos de ellos. Entonces, acá ya tenemos un problema. ¿Cómo vas a, digamos,
+
+72
+00:07:30,040 --> 00:07:36,840
+potencialmente tenemos un problema? Es decir, ¿cómo vas a tratar esa entidad como un nombre de
+
+73
+00:07:36,840 --> 00:07:48,360
+una persona o como un nombre de un lugar? ¿Van? Entonces, si lo podemos acá, como en realidad,
+
+74
+00:07:48,360 --> 00:07:53,640
+nosotros sabemos que es un club o que acá en el texto está haciendo referencia a club, lo
+
+75
+00:07:53,640 --> 00:08:01,240
+ponemos en rojo. Pero es algo que yo lo hago o lo debería hacer a posterior y de una
+
+76
+00:08:01,240 --> 00:08:11,320
+primera reconocimiento. ¿Ok? Y después está lo que interesa de bien. Yo tengo de las
+
+77
+00:08:11,320 --> 00:08:19,840
+sentidades con nombres y me puedo querer, me pueden querer encontrar relaciones en tres
+
+78
+00:08:19,840 --> 00:08:25,960
+ascentidades. ¿Cómo se combinan esas sentidades? Y entonces aparece ahí con un color medio rosadito,
+
+79
+00:08:25,960 --> 00:08:33,360
+este autorizar, ¿no? La organización, Barcelona, autorizó a luizar a viajar. Entonces, ahí tenemos,
+
+80
+00:08:33,360 --> 00:08:39,000
+más, tenemos. Lo autorizó a viajar, tenemos dos relaciones. O autorizar a viajar podría ser
+
+81
+00:08:39,000 --> 00:08:45,440
+tratada como uno, todo depende como uno lo, interpreto o lo que quiere hacer. Y ahí aparece, no se nota
+
+82
+00:08:45,440 --> 00:08:50,080
+mucho, porque hablamos de las tareas de extracción de información y hablamos de las sentidades con
+
+83
+00:08:50,080 --> 00:08:55,720
+nombres. También dijimos el tema de las correspondencias. Fíjense acá, no sé si se nota que está
+
+84
+00:08:55,720 --> 00:09:05,200
+con otro colorcito. Pese a que el jugador no fue incluido, ¿quién es el jugador? El Luis Juárez.
+
+85
+00:09:05,200 --> 00:09:13,680
+O sea, tengo que de alguna forma también determinar que ese término hace referencia en este caso
+
+86
+00:09:13,680 --> 00:09:21,200
+del Luis Juárez. Lo mismo acá, lo de Club Catalan hace referencia a Barcelona. Ok, estas son
+
+87
+00:09:21,200 --> 00:09:28,040
+todas cosas o tareas que uno hace en ese proceso de extracción de entidad con nombres. Estraer nombres,
+
+88
+00:09:28,040 --> 00:09:38,000
+estraer relaciones. Bueno, lo que está diciendo. La mayor parte de los trabajos es traer relaciones,
+
+89
+00:09:38,000 --> 00:09:46,240
+entre entidades mencionadas en la misma oración. Siempre se trata uno, ya después cuando analiza con
+
+90
+00:09:46,240 --> 00:09:53,220
+referencia, el texto analizar es un poco más, o puede decir, ser un poco más largo. Las
+
+91
+00:09:53,220 --> 00:09:58,520
+correspondencias pueden ser en esa misma oración, pero más complicado es cuando la correspondencia está
+
+92
+00:09:58,520 --> 00:10:11,360
+en otra oración después, ¿verdad? Bueno, esto es una desafío. La mayor parte decía relaciones
+
+93
+00:10:11,360 --> 00:10:18,200
+predeterminadas, dirección de la empresa, club de jugador, etcétera. Por relaciones de más de
+
+94
+00:10:18,200 --> 00:10:25,520
+dos argumentos donde muchas veces se habrá de extracción de eventos. Ahora vamos a hablar un
+
+95
+00:10:25,520 --> 00:10:31,880
+poquito de eventos. Entonces, en relación, lo que decíamos, la relación autorizar que requiere
+
+96
+00:10:31,880 --> 00:10:39,600
+dos argumentos, A, autoriza, A, B. Y pues, bueno, podemos agregar cuando, ¿a qué, para qué lo
+
+97
+00:10:39,600 --> 00:10:46,480
+autorizó, etcétera? Entonces, ahí aparece otro concepto que quizás no está puesto acá,
+
+98
+00:10:46,480 --> 00:10:55,840
+acá el evento podría ser viajar que lo autorizó a viajar. No sé si dice cuando, dice para
+
+99
+00:10:55,840 --> 00:11:03,680
+qué, para estar a la orden. En fin, hay una serie de textos ahí que uno podría, o de expresiones
+
+100
+00:11:03,800 --> 00:11:11,400
+que uno podría quedar llegar a determinar. Se tiene, entonces, la idea, bien, viajar, estar a la
+
+101
+00:11:11,400 --> 00:11:18,760
+orden incluido, como decíamos recién en general se procede por etapas, primero en las entidades y luego
+
+102
+00:11:18,760 --> 00:11:28,160
+después que tengo las entidades, cuáles son las relaciones. Entonces, otra cosa y otro desafío
+
+103
+00:11:28,200 --> 00:11:34,600
+importante es lo que podríamos decir la extracción de eventos. Un evento es una actividad en el mundo
+
+104
+00:11:34,600 --> 00:11:42,680
+real que ocurre durante cierto periodo de tiempo en un cierto espacio geográfico, una definición. Y para
+
+105
+00:11:42,680 --> 00:11:49,880
+eso yo lo que tengo, o muchas veces tengo, alguna vez se lo puedo reconocer por sacar por lo, por lo que
+
+106
+00:11:49,880 --> 00:11:53,840
+decíamos recién. Por ejemplo, el evento de las eliminatorias podríamos determinar que es un
+
+107
+00:11:53,840 --> 00:12:03,280
+evento, que a lo que hablábamos hoy. Pero a veces es una tarea en sí misma la detección de
+
+108
+00:12:03,280 --> 00:12:09,960
+eventos donde yo tengo un conjunto de también, de términos o de palabras disparadoras del evento y por
+
+109
+00:12:09,960 --> 00:12:18,200
+ahí me puede llegar a querer interesar encontrar. Fíjense la primera, el primer de los ejemplos,
+
+110
+00:12:18,200 --> 00:12:25,800
+una tormenta de arriba, perdón, acá. Una tormenta de arriba, centenares de árboles en
+
+111
+00:12:25,800 --> 00:12:31,760
+Montevideo. ¿Cómo yo puedo detectar? Bueno acá, Montevideo, sería un metíaco nombre,
+
+112
+00:12:33,040 --> 00:12:42,600
+pero tengo algo que me indica que se dio un evento, ¿qué es? Tormenta. No? Tormenta me da
+
+113
+00:12:42,600 --> 00:12:51,600
+la idea de que hubo algo, pasó algo. Un motociclista de 38 años falleció en un accidente de
+
+114
+00:12:51,600 --> 00:13:00,840
+tránsito, tal vez la palabra accidente sea el evento. También bueno, que falleció, pero accidente
+
+115
+00:13:00,840 --> 00:13:06,960
+es una palabra disparadora que me dice, bueno acá hay un evento y está ya es un desafío más
+
+116
+00:13:06,960 --> 00:13:15,520
+grande que se está. Colóñe y requenas una mugre, a priori por qué va a ser un evento,
+
+117
+00:13:15,520 --> 00:13:23,560
+pero en realidad sí me está marcando un evento de que hay un problema de limpieza en Colóñe y
+
+118
+00:13:23,560 --> 00:13:32,640
+requena. Entonces a veces yo tengo palabras disparadoras que me ayúen a detectar eventos y a veces
+
+119
+00:13:33,360 --> 00:13:45,000
+tengo que encontrar alguna otra técnica para detectar esos eventos. ¿De acuerdo? Bien, arquitectura
+
+120
+00:13:45,000 --> 00:13:52,880
+genérica, esta es una propuesta que hizo Hobbes en la década en los 80, si más no recuerdo,
+
+121
+00:13:52,880 --> 00:13:57,440
+que plantea cuál es una arquitectura en general de un sistema de extracción de información.
+
+122
+00:13:58,440 --> 00:14:06,800
+Como ven aparecen un montón de cosas y determinos que estuvimos haciendo, análisis lexico
+
+123
+00:14:06,800 --> 00:14:12,040
+gráfico, nos basamos en diccionarios, análisis sintáctico, reconocimiento de entidades,
+
+124
+00:14:12,040 --> 00:14:16,400
+reconocimiento de patrones, siempre acá en realidad todos estos reconocimientos de patrones
+
+125
+00:14:16,400 --> 00:14:22,760
+de alguna manera, análisis sintáctico, con referencias y acá abajo, lo que decíamos generación
+
+126
+00:14:22,760 --> 00:14:31,640
+de plantillas, donde se van a cargar esos datos. Y lo se enfoque para la construcción de un sistema
+
+127
+00:14:31,640 --> 00:14:38,560
+de extracción de información, tengo por un lado reglas o por otro lado los sistemas mediante
+
+128
+00:14:38,560 --> 00:14:47,240
+aprendizaje automático. No voy a entrar a ser juicio de valor, yo creo que los dos son
+
+129
+00:14:47,240 --> 00:14:57,360
+válidos, el término de generar reglas, requiere un conocimiento lingüístico, sin duda,
+
+130
+00:14:57,360 --> 00:15:02,880
+técnicas de reconocimiento de patrones, voy a tener que generar esas listas que me permitan a mí,
+
+131
+00:15:02,880 --> 00:15:07,040
+porque yo lo puedo hacer todas estas cosas que estuvimos viendo, lo puedo hacer con grandes listas,
+
+132
+00:15:07,040 --> 00:15:15,680
+y no necesito entrenar nada, pero tengo que tener claro este tipo de cosas, ¿no?
+
+133
+00:15:17,680 --> 00:15:23,680
+como Barcelona o Uruguay, ¿qué es? ¿A qué estoy haciendo referencia? Es un lugar,
+
+134
+00:15:23,680 --> 00:15:32,000
+es el Rio Uruguay, es el país Uruguay, es la selección Uruguaya, ¿se entiende? Entonces tengo
+
+135
+00:15:32,000 --> 00:15:41,560
+dificultades que por ahí las tengo que resolver más adelante, ¿no? Con sistemas, bueno, la contra
+
+136
+00:15:41,560 --> 00:15:47,160
+que puede llegar a tener los sistemas de reglas es en algún caso que no tengo las capacidades ni
+
+137
+00:15:47,160 --> 00:15:53,240
+los recursos como para poder hacer todo eso. Además, si yo le quiero incorporar después nuevos
+
+138
+00:15:53,240 --> 00:15:59,600
+documentos por ahí, tengo que entrar a redefinir reglas y esas reglas nuevas que agrego, capaz
+
+139
+00:15:59,600 --> 00:16:06,440
+que me repercuten en las que ya tenía, en fin, es un proceso que es muy bueno, que funciona,
+
+140
+00:16:06,440 --> 00:16:11,240
+pero tiene algunas limitaciones por el lado de los recursos y por el lado de las escrituras de las
+
+141
+00:16:11,240 --> 00:16:24,360
+reglas. Para esto la clave es que lo que yo necesito que es, para estos.
+
+142
+00:16:29,600 --> 00:16:37,160
+Claro, datos, corpus. Necesito corpus en los sistemas de Machine Learning, de aprendizaje
+
+143
+00:16:37,160 --> 00:16:43,440
+automático, si no tengo datos prácticamente seguramente tenga problemas a la hora de resolver
+
+144
+00:16:43,440 --> 00:16:50,800
+un desafío. La clave está en la cantidad de datos que yo tengo para entrenar mi modelo.
+
+145
+00:16:50,800 --> 00:17:01,040
+Bueno, lo estamos diciendo, los criterios para decidir un enfoque de punidad de recursos,
+
+146
+00:17:01,040 --> 00:17:06,160
+por la posibilidad de escritura de reglas, los datos de entrenamiento, cambios posibles en
+
+147
+00:17:06,160 --> 00:17:11,160
+la especificación y la performance. El capaz que algún algoritmo puede ser un poco más
+
+148
+00:17:11,160 --> 00:17:20,720
+eficiente que otro. Bien, la idea es ahora hablar de un par de temitas más en donde también
+
+149
+00:17:21,440 --> 00:17:32,800
+el procedimiento del lenguaje natural tiene una participación, porque cuando estamos manejando
+
+150
+00:17:32,800 --> 00:17:39,120
+texto, estas técnicas que estamos hablando se aplican a muchas otras, a muchos otros temas,
+
+151
+00:17:39,120 --> 00:17:41,920
+a los que nosotros nos interesa a esa procesamiento de texto.
+
+152
+00:17:41,920 --> 00:17:51,000
+Uno es clasterin y el otro es la detección del vuelvo del lado de tópicos. Entonces, lo
+
+153
+00:17:51,000 --> 00:18:01,080
+primero que lo gustaría ser una cierta precisión es porque nosotros hasta ahora vimos, creo que
+
+154
+00:18:01,080 --> 00:18:07,160
+no sé si lo vieron con la idea, la creo que con Luis, el tema de clasificación. Entonces,
+
+155
+00:18:07,720 --> 00:18:15,440
+muchas veces hacer clasterin implica que yo en definitiva estoy haciendo clasificación,
+
+156
+00:18:15,440 --> 00:18:21,800
+lo que yo estoy haciendo es o qué significa clasterin es agrupar, dar un conjunto de datos,
+
+157
+00:18:21,800 --> 00:18:28,480
+ir agrupándose en datos que tengan un comportamiento similar o sean similares en algún sentido.
+
+158
+00:18:29,440 --> 00:18:38,440
+Cuando yo hago clasificación es un método en donde yo ya sé que es lo que yo pretendo
+
+159
+00:18:38,440 --> 00:18:45,640
+clasificar, que se yo autos de determinado tipo o determinada marca, entonces los tengo
+
+160
+00:18:45,640 --> 00:18:52,360
+donde autos y los clasificos, por lo si es algo, mientras que es y además está asociado a
+
+161
+00:18:52,360 --> 00:18:58,280
+técnicas de aprendizaje supervisado, yo tengo un conjunto de datos en donde yo ya sé y cuando
+
+162
+00:18:58,280 --> 00:19:05,840
+cae un nuevo dato sea donde lo mando, o debería saber, ya está pre establecido cuáles son los
+
+163
+00:19:05,840 --> 00:19:14,040
+términos de clasificación. En clasterin está más asociado a lo que serían técnicas de
+
+164
+00:19:14,040 --> 00:19:20,000
+aprendizaje no supervisado, donde en general no necesariamente, dependiendo del algoritmo que
+
+165
+00:19:20,000 --> 00:19:29,760
+yo utilice, sé la cantidad de conjuntos o clasters que yo voy a determinar. La estrategia es después
+
+166
+00:19:29,760 --> 00:19:37,080
+ver en base a qué es que yo genero esos clasters, esos agrupamientos, qué es lo que hace de que
+
+167
+00:19:38,080 --> 00:19:49,040
+dos datos o dos textos sean similares y ese justamente es el desafío, entonces simplemente
+
+168
+00:19:49,040 --> 00:19:55,520
+presentar el tema, presentar dos modelos un poquito distintos o dos enfocues de algoritmos de
+
+169
+00:19:55,520 --> 00:20:07,960
+clasterización y en una donde yo, a priori digo bueno quiero que tenga x que cae clasidad de
+
+170
+00:20:07,960 --> 00:20:15,440
+clasters, entonces en función de eso no sé cuáles son pero lo que hace el algoritmo es tratar de
+
+171
+00:20:15,440 --> 00:20:24,800
+encontrarlos esos agrupamientos, tienen sus prosios contra. Entonces el clasterin es como
+
+172
+00:20:24,800 --> 00:20:28,840
+decíamos, si en una tarea que tiene como finalidad lograr agrupamiento de conjuntos de objetos
+
+173
+00:20:28,840 --> 00:20:39,000
+que están no etiquetados y esos agrupamientos reciben el nombre de clasters. Los elementos de
+
+174
+00:20:39,000 --> 00:20:45,240
+cada uno de esos conjuntos poseen algunas características que los distinguen de otro, esto es importante porque
+
+175
+00:20:45,240 --> 00:20:50,840
+la idea es que cada uno de los elementos pertenezca a uno y solo uno de los conjuntos determinados.
+
+176
+00:20:59,240 --> 00:21:06,240
+Esa última oración acá queda nuestro criterio darles una interpretación semántica, por ahí yo
+
+177
+00:21:06,240 --> 00:21:12,280
+no sé por qué los estoy agrupando de esa manera y muchas veces sucede, después de que los agrupe
+
+178
+00:21:12,280 --> 00:21:18,040
+yo trato de ver y de ponerle un nombre a cada uno de esos conjuntos, se entiende, a priori no
+
+179
+00:21:18,040 --> 00:21:27,160
+necesariamente tengo por qué conocer de qué trata cada uno de esos clasters, simplemente los agrupo
+
+180
+00:21:27,160 --> 00:21:35,760
+y después le pongo un nombre. Algunos usos de técnicas de clasterin, algunos son más conocidos,
+
+181
+00:21:36,760 --> 00:21:46,200
+seguramente o enseguida le suene, la biología en el estudio de las células, en medio ambiente,
+
+182
+00:21:46,200 --> 00:21:56,720
+en marketing, en marketing, segmentación de mercado, muchas veces se habla de hacer clasterin en marketing,
+
+183
+00:21:56,720 --> 00:22:01,880
+lo que estamos haciendo es segmentar, tratar de hacer agrupaciones de clientes, con determinado
+
+184
+00:22:01,880 --> 00:22:07,160
+perfil, determinado comportamiento, y eso es justamente un determinado claster a donde yo le
+
+185
+00:22:07,160 --> 00:22:14,280
+voy a mandar o mi empresa le va a mandar esa tal o buena información. En sociología, bueno, en
+
+186
+00:22:14,280 --> 00:22:23,440
+análisis de redes sociales, eso se hace mucho cuando se estudian los perfiles de lo que actúan
+
+187
+00:22:23,440 --> 00:22:30,600
+en redes sociales, y bueno, en función de eso, te tiran en Twitter, por ejemplo, y te tiran
+
+188
+00:22:30,600 --> 00:22:36,640
+qué, cómo es, qué tweet, promocionado, determinado producto, te puedes llegar a interesar, eso
+
+189
+00:22:36,640 --> 00:22:43,560
+está relacionado en las dos, es algo de segmentación de mercado, pero también implica análisis de redes sociales.
+
+190
+00:22:43,560 --> 00:22:49,480
+Por mismo, lo que veis, tipo, es una gran social, no va a sacar todos los tweets, por ejemplo,
+
+191
+00:22:50,000 --> 00:22:55,860
+los tweets primero y ahí también en segmentación en clasters, ¿qué haces? ¿Puedes
+
+192
+00:22:55,860 --> 00:22:59,920
+abrubar a su usuario con intereses, no? Pero eso es lo que haría vos después,
+
+193
+00:22:59,920 --> 00:23:05,480
+está, eso lo haces, lo haces vos después cuando tenés los tweets, yo me sé que cuando
+
+194
+00:23:05,480 --> 00:23:09,600
+empezaste, ahora pensé que hablabas de cuando vos entras a Twitter y ves lo que le aparece, yo me
+
+195
+00:23:09,600 --> 00:23:14,880
+refería a que vos entras a Twitter y de repente te parece algo, un tweet que no sabe es por qué
+
+196
+00:23:14,880 --> 00:23:20,420
+te lo ponen, y eso es porque alguien sabe, a este le gusta el futo, entonces seguramente le
+
+197
+00:23:20,420 --> 00:23:26,040
+va a hacer un tweet de la final de la Copa, esta que está haciendo ahora, ¿enderte? Porque
+
+198
+00:23:26,040 --> 00:23:31,660
+detectan que hay un interés en vos, entonces ese tipo de cosas agrupan, claro, el tweet no te
+
+199
+00:23:31,660 --> 00:23:38,340
+lo mandan a vos, te lo mandan a todos aquellas personas que tienen un perfil similar, entonces es un
+
+200
+00:23:38,340 --> 00:23:55,680
+poco en ese sentido. Bien, hay como dos clases de algoritmos principales, por decirlo alguna
+
+201
+00:23:55,680 --> 00:24:05,580
+forma, manera, uno es el que se denomina camins, que es el que en el que yo sé a priori, como
+
+202
+00:24:05,580 --> 00:24:14,100
+decía, quiero conseguir cada cláster distintos, ese algoritmo de camins en donde yo prefijo un
+
+203
+00:24:14,100 --> 00:24:22,580
+K es, trato de terminar en un, este es un dibujito para que se entienda más fácil en dos dimensiones,
+
+204
+00:24:24,300 --> 00:24:32,740
+ahí hay un montón de, piensen que pueden ser documentos, pueden ser, no importa qué, demasiado,
+
+205
+00:24:32,740 --> 00:24:38,460
+representados por mundos, entonces el algoritmo de camins, lo que dice es bueno, ¿cuánto
+
+206
+00:24:38,460 --> 00:24:48,180
+vale cada tres? Entonces trata de determinar tres puntos que son, van a ser los centróides de esos
+
+207
+00:24:48,180 --> 00:25:01,180
+cláster, de esos conjuntos. Cada cláster se representa mediante un punto en el espacio, tengo cada
+
+208
+00:25:01,180 --> 00:25:08,220
+de esos puntos, los puntos que queden más cerca del centroide, se subí, que de cualquier otro
+
+209
+00:25:08,220 --> 00:25:16,300
+centroide corresponden al cláster, se subí. Y eso es un proceso iterativo, es decir, yo agaro y
+
+210
+00:25:16,300 --> 00:25:27,060
+pongo, ahí elijo, tres puntos, a priori cualquiera, y empiezo a calcular las distancias, y ahí está
+
+211
+00:25:27,060 --> 00:25:33,620
+la clave, que es lo que utilizo para que fórmula es la que utilizo para calcular la distancia de
+
+212
+00:25:33,620 --> 00:25:39,660
+cada uno de los puntos a esos que constituirían mis centróides. Esos centróides en definitiva,
+
+213
+00:25:39,660 --> 00:25:47,820
+por eso que dice que es un proceso iterativo, yo voy a cambiarlo, es decir, yo tiro una vez y
+
+214
+00:25:47,820 --> 00:25:54,540
+empiezo a grupar, y después eventualmente en función de lo que me da, puedo determinar nuevos
+
+215
+00:25:54,540 --> 00:26:00,780
+centróides, porque algunos me quedaron medios lejos o lo que sea, digo, capaz que hay otra
+
+216
+00:26:00,780 --> 00:26:07,940
+agrupación, que es un poco mejor, acá es como en el ejemplito, este es como bastante obvio,
+
+217
+00:26:07,940 --> 00:26:15,300
+que en definitiva, si yo eligiera, un puntito acá, un puntito acá y un puntito por acá,
+
+218
+00:26:15,300 --> 00:26:21,500
+en seguida esos grupos, pareciera que están cerca de esos puntos, pero si yo hubiera puesto
+
+219
+00:26:22,460 --> 00:26:30,540
+una de las x por acá arriba, o por acá, bueno esto, el puntito, capaz que los agrupamientos
+
+220
+00:26:30,540 --> 00:26:35,780
+hubieran sido otros, y entonces necesito más de una iteración para armarlos los conjuntos que
+
+221
+00:26:35,780 --> 00:26:50,420
+aparecen ahí, ¿ok? Entonces, como decía recién, acá todo depende de cuántos conjuntos o cuánto
+
+222
+00:26:50,420 --> 00:26:55,820
+vale acá, acá yo podría decir, bueno, yo tengo todos estos puntos y quiero hacer dos
+
+223
+00:26:55,820 --> 00:27:04,700
+clasters, entonces parece intuitivo que están agrupados de esa manera, y así podría elegir
+
+224
+00:27:04,700 --> 00:27:10,460
+6 clasters, entonces en definitiva los puntitos que están más cerca, o sea no está marcado
+
+225
+00:27:10,460 --> 00:27:19,980
+acá cuál es el centro oído, pero un poco podemos intubir en función de los colores, ¿ok?
+
+226
+00:27:19,980 --> 00:27:28,340
+Bueno, 2 clasters, 6 clasters, 4 clasters, lo que fuera, para el cálculo de la distancia entre
+
+227
+00:27:28,340 --> 00:27:34,820
+los puntos, lo que se utiliza es la distancia euclidia, también se podría utilizar el
+
+228
+00:27:34,820 --> 00:27:41,820
+coceno del ángulo, entre eso que se forma entre los 2 puntos, en general es un algoritmo muy rápido
+
+229
+00:27:42,700 --> 00:27:50,580
+que convergen pocas iteraciones y esto es una cosa importante, en los clasters no hay solapamiento
+
+230
+00:27:50,580 --> 00:27:59,180
+de objetos, es decir, cada uno de los elementos va a partencer a un conjunto sol, el desafío obviamente
+
+231
+00:27:59,180 --> 00:28:11,060
+va a hacer elegir los mejores casas centroides, acá hay un ejemplo justamente que iteran más de un
+
+232
+00:28:11,060 --> 00:28:16,500
+caso que muestra lo que lo que decíamos hace un ratito, yo tengo un conjunto de puntos,
+
+233
+00:28:17,700 --> 00:28:27,860
+ahí los verdes y elijo estos dos, como centroides, estas dos x en azul y en rojo, entonces en una
+
+234
+00:28:27,860 --> 00:28:35,820
+primera pasada del algoritmo lo que me dice es divido así y así, ese agrupamiento, algunos son
+
+235
+00:28:35,820 --> 00:28:46,460
+azul y otros, pero será la mejor iteración, vuelvo a iterar, elijo, cálculo de estos puntos
+
+236
+00:28:46,460 --> 00:28:51,820
+que yo harás tan todos azul, a ver si no hay algún otro x, no sé si se ve ahí, acá hay otro,
+
+237
+00:28:53,340 --> 00:29:01,980
+acá está la x y acá hay está la x en rojo, entonces si yo defino esos otros centroides,
+
+238
+00:29:01,980 --> 00:29:14,660
+el agrupamiento es distinto, itero de vuelta, centro de acá, centro de acá y el agrupamiento
+
+239
+00:29:14,660 --> 00:29:23,060
+algunos cambian, pero después de, acá muestra que después de un par de iteraciones ya no cambia más,
+
+240
+00:29:23,060 --> 00:29:29,940
+entonces la partición final sería este, o sea tiende a converger después de un cierto número de
+
+241
+00:29:29,940 --> 00:29:35,500
+pasos, ¿cómo pasa la información de esas alas dimensiones para ayudar a hacer el ejemplo?
+
+242
+00:29:35,500 --> 00:29:41,380
+No, pero esto es como, esto es un ejemplo, no más, de visualización, acá lo están mostrando en
+
+243
+00:29:41,380 --> 00:29:46,020
+dos dimensiones, vuelvo a que podés tener si pueden ser en dimensiones de ellos, que es ellos, el espacio
+
+244
+00:29:46,020 --> 00:29:55,700
+en edimensional, en principio, esto va a mostrar más que nada el ejemplo, entonces un modelo de clástering
+
+245
+00:29:55,700 --> 00:30:05,180
+es el camins, y otro modelo, otro, otro esquema es el modelo gerárquico, en donde al revés del camins,
+
+246
+00:30:05,180 --> 00:30:10,860
+donde yo conocía a los K, sabía que yo quería hacer K-conjuntos, en el gerárquico yo no tengo
+
+247
+00:30:10,860 --> 00:30:15,460
+predeterminido a priori, ¿cuáles son esos K-conjuntos que yo quiero determinar?
+
+248
+00:30:16,460 --> 00:30:27,220
+Entonces, yo se plantea como que los datos o las observaciones o los textos, si fueran textos,
+
+249
+00:30:27,220 --> 00:30:33,660
+serían las hojas, y en principio trato de ver alguna forma en que estén correlacionadas
+
+250
+00:30:33,660 --> 00:30:40,300
+cierta similitud, y ahí tendremos que ver cuál es pueden ser las distancias de similitud entre
+
+251
+00:30:40,300 --> 00:30:47,420
+si son documentos, o si son este, que si yo cualquier otro caso, esto, a ver, como decíamos
+
+252
+00:30:47,420 --> 00:30:52,300
+hoy, esto se aplica a lo que sea, a nosotros nos interesa ver cómo estas cosas las aplicamos a
+
+253
+00:30:52,300 --> 00:31:02,220
+los documentos, a los textos, pero en principio son algoritmos de clástering genericos, cada hoja
+
+254
+00:31:02,220 --> 00:31:09,300
+representa un elemento de observación, repito para nuestro caso serían documentos, y a medida
+
+255
+00:31:09,300 --> 00:31:14,660
+de que se sube, alguna de esas hojas se van funcionando en función de cierto grado de
+
+256
+00:31:14,660 --> 00:31:25,100
+similitud, algunas características comunes, y la idea en este ejemplo que está puesto acá es que
+
+257
+00:31:25,100 --> 00:31:34,140
+a nivel horizontal yo voy marcando, oí, yo voy marcando, acá sería en la de apositiva
+
+258
+00:31:34,140 --> 00:31:41,580
+de la izquierda sería un solo cláster, son todos iguales, pero los cortes estos horizontales acá
+
+259
+00:31:41,580 --> 00:31:50,180
+en las ramas es como que si yo digo, bueno acá marco estos tengo dos clásters, tengo dos
+
+260
+00:31:50,180 --> 00:31:54,260
+conjuntos de elemento que se parecen, y este de la izquierda tengo tres, dependiendo aquí
+
+261
+00:31:54,260 --> 00:32:02,940
+altura corto es donde yo a grupo conjuntos de elementos que se consideran parecidos, que tengan
+
+262
+00:32:02,940 --> 00:32:17,740
+algún verado de similitud, hay otro, algunos otros, perdón, hay otro modelo, también que
+
+263
+00:32:17,740 --> 00:32:26,540
+se llama Debescan, que también se utiliza, se utiliza en clástering de textos, en donde es
+
+264
+00:32:26,540 --> 00:32:30,860
+un algoritmo que también se basa en la densidad de puntos, en la representación como veíamos
+
+265
+00:32:30,900 --> 00:32:38,780
+hoy en el Camins, pero también es un modelo que no conoce de prioridad lo ca, sino que yo
+
+266
+00:32:38,780 --> 00:32:46,940
+voy tratando de agrupar conjuntos que tengan alguna similitud, el problema que puedes llegar a tener
+
+267
+00:32:46,940 --> 00:32:52,380
+es que yo lo que hago es para cada uno de los puntitos de mis observaciones o mis textos,
+
+268
+00:32:52,380 --> 00:33:02,580
+trato de generar un cierto círculo, digamos un cierto epsilom de cercanía, de correlación,
+
+269
+00:33:02,580 --> 00:33:08,340
+y en función de eso voy agrupando aquellos que se queden cerca, esta es el concepto de lo que
+
+270
+00:33:08,340 --> 00:33:15,220
+están adentro, lo que están en la frontera o lo que están quedan muy lejos, y en función de eso
+
+271
+00:33:15,220 --> 00:33:24,300
+yo voy viendo cuáles son los que puedo ir agrupando de alguna manera, lo que pasa ahí es que como
+
+272
+00:33:24,300 --> 00:33:28,500
+en cualquiera de estos otros casos yo puedo tener documentos que no se parezcan a nada y que me
+
+273
+00:33:28,500 --> 00:33:35,700
+quedan muy aslados, y entonces también en cualquiera estos algoritmos, eso puede generarme,
+
+274
+00:33:37,860 --> 00:33:44,060
+puede generarme, si son muy dispersos, los documentos muy distintos, documentos, digo documentos
+
+275
+00:33:44,060 --> 00:33:52,980
+o elementos, puede generarme algunos elementos que no estén relacionados con ninguno de los clasca,
+
+276
+00:33:52,980 --> 00:34:04,300
+entonces bueno hay que ver qué tratamiento se hace con eso, preguntas, seguimos, bien,
+
+277
+00:34:04,300 --> 00:34:14,260
+y el otro tema es que queríamos comentar, bueno es el modelado de tópicos,
+
+278
+00:34:18,780 --> 00:34:26,220
+que es un tópico, que es un tópico, también lo que es un tópico, más allá del que está acá,
+
+279
+00:34:26,220 --> 00:34:32,620
+vamos a hacer así, si no le hicieron rápido, qué es un tópico, qué le se llama un tópico,
+
+280
+00:34:32,620 --> 00:34:41,060
+escucharnos en el tema modelado de tópicos, tópico modeling, no le suena, bien,
+
+281
+00:34:42,580 --> 00:34:51,620
+qué es un tópico, un tema, ¿por qué usamos la palabra tópico?
+
+282
+00:34:52,620 --> 00:35:00,980
+hay ninguna circunstancia, ¿eh? para vos era la tema, bien, claro, se utiliza algunos,
+
+283
+00:35:00,980 --> 00:35:08,180
+se habló de determinado tópico, y eso es, se habló de determinado tema, correcto,
+
+284
+00:35:08,180 --> 00:35:15,220
+es que es un poco esa idea, lo que pasa es que no necesariamente, y esa es un poco,
+
+285
+00:35:15,220 --> 00:35:20,900
+vamos a, primero vamos a ver un par de definiciones de la RAI, fíjense en la cincada,
+
+286
+00:35:20,900 --> 00:35:28,180
+es lo que vos decís, tema, ¿no? elemento de una enunciado, fíjense acá, esta buena también,
+
+287
+00:35:28,180 --> 00:35:33,100
+elemento de una enunciado normalmente es helado entre pausas que introduce alguno de los elementos
+
+288
+00:35:33,100 --> 00:35:37,700
+de la radiación, o bien aporta el marco del punto vista pertinente para la enunciación,
+
+289
+00:35:37,700 --> 00:35:51,540
+en definitiva la pregunta o la dos es tópico, es igual la tema, si como yo determino o como
+
+290
+00:35:51,540 --> 00:35:59,620
+debería yo tener las formas de identificar los tópicos o los temas,
+
+291
+00:35:59,620 --> 00:36:18,100
+es decir, cuando yo hago model, modelado de tópicos, lo que trato hacer y ahora nos vamos
+
+292
+00:36:18,100 --> 00:36:25,780
+a concentrar directamente en textos, pensemos en textos en palabras, yo trato de ver o de agrupar,
+
+293
+00:36:25,780 --> 00:36:37,100
+tratar de detectar de qué tópico habla, tal o cual documento en función de las palabras
+
+294
+00:36:37,100 --> 00:36:42,940
+que tienen ese documento, pensemos en un texto que no sabemos nada y que hemos de decir determinar
+
+295
+00:36:42,940 --> 00:36:48,020
+de qué tópico habla, para eso lo que hago es analizó las palabras que contiene,
+
+296
+00:36:48,020 --> 00:37:00,900
+analizó las palabras que contiene, y después ya hay algunas discusiones, ¿no?, porque bueno,
+
+297
+00:37:00,900 --> 00:37:09,340
+claro, las palabras que contenga si son palabras que hablan, están siempre aparecen medio relacionadas
+
+298
+00:37:09,340 --> 00:37:15,060
+en todos los tópicos en perdón, en todos los documentos, capaz que están hablando de lo mismo,
+
+299
+00:37:15,060 --> 00:37:25,740
+universidad, estudiante, clase, materia, profesor, capaz que todo eso está relacionado a algo
+
+300
+00:37:25,740 --> 00:37:36,020
+que podríamos decir tópico, educación, se entiende? y le estamos dando, le estamos dando como un
+
+301
+00:37:36,580 --> 00:37:45,580
+justamente un tema semántico, pero sin retrocedemos un casillero y lo pensamos como conjunto
+
+302
+00:37:45,580 --> 00:37:51,700
+de palabras, hay un ejemplo que está muy lindo que yo digo, bueno, en primer lugar, en segundo
+
+303
+00:37:51,700 --> 00:37:57,660
+lugar, en tercer lugar, finalmente, son ciertos marcadores o palabras que también suelen
+
+304
+00:37:57,660 --> 00:38:02,420
+aparecer juntas en un montón de documentos, pero en realidad de qué están hablando, ¿cuál
+
+305
+00:38:02,420 --> 00:38:07,940
+es el tópico? ¿qué que están hablando? son palabras que sí están relacionadas en algún
+
+306
+00:38:07,940 --> 00:38:11,540
+sentido, porque aparecen siempre juntas, lo que decía Marciano, aparecen siempre juntas,
+
+307
+00:38:11,540 --> 00:38:17,180
+pero en realidad no tienen un tema semántico, entonces hay que saber discriminar ese tipo de cosas,
+
+308
+00:38:19,860 --> 00:38:25,780
+se ve la dificultad o se ve el tema, ¿sí?
+
+309
+00:38:25,780 --> 00:38:35,620
+El origen de todo esto es lo que se conoce con el nombre de las colocaciones, o podríamos decir que
+
+310
+00:38:35,620 --> 00:38:42,220
+uno de los orígenes, que es una combinación, que son las colocaciones, es una combinación de
+
+311
+00:38:42,220 --> 00:38:59,860
+palabras, cerrar una ventana, cometer un error, que tienden a aparecer juntas, mientras estas
+
+312
+00:38:59,860 --> 00:39:08,940
+otras términos que aparecen acá, meter la pata, tomar el pelo, cortar por los anos, son palabras
+
+313
+00:39:08,940 --> 00:39:16,860
+que aparecen juntas, pero que en realidad tienen significado en sí mismo, o sea todas juntas
+
+314
+00:39:16,860 --> 00:39:33,260
+constituyen un solo elemento o un término, meter la pata que es, cuando decís meter la pata y si
+
+315
+00:39:33,260 --> 00:39:39,940
+te agomada el cometís un error, entonces yo tendría que mi algoritmo, tendría que determinar que
+
+316
+00:39:39,940 --> 00:39:46,300
+meterla, si aparece, meter la pata, o cometer un error deberían de estar juntas, por decir algo,
+
+317
+00:39:48,700 --> 00:39:55,180
+entonces esos son el tipo de cosas o los desafíos que uno puede llegar a encontrar cuando estás
+
+318
+00:39:55,180 --> 00:40:12,420
+haciendo estas cosas, bien, tópicos, es definitiva, o debería ser el asunto principal del que
+
+319
+00:40:12,420 --> 00:40:19,660
+se habla, del que se predica, o del que se comunica alguna cuestión, y el tema es que dado un
+
+320
+00:40:19,660 --> 00:40:27,580
+documento no necesariamente fácil determinar el tópico, y ese es justamente el desafío que se
+
+321
+00:40:27,580 --> 00:40:38,300
+que convoca cuando uno hace modelado de tópicos o tópicos de diga, tratar de encontrar o determinar
+
+322
+00:40:38,420 --> 00:40:48,860
+el tema o un determinado tema del que hable un documento. Fíjense este ejemplo muy lindo,
+
+323
+00:40:48,860 --> 00:40:58,780
+leamos arriba, a partir de este martes cada club solo podrá sumar nueve puntos, unidades que
+
+324
+00:40:58,780 --> 00:41:04,900
+solo definirán el último módulo del Campeonato Uruguayo, sino que también decidirán quiénes se
+
+325
+00:41:04,900 --> 00:41:16,780
+mantienen en primera, ¿de qué hablar eso? Ahora, tiene un montón de palabras,
+
+326
+00:41:19,280 --> 00:41:27,460
+enseguida y te cuenta que hablaba de fútbol. Cambía club por estudiante Campeonato Uruguayo por curso y
+
+327
+00:41:27,460 --> 00:41:34,760
+primera por carrera y le damos la segunda abrasión. A partir de este martes cada estudiante solo podrá
+
+328
+00:41:34,760 --> 00:41:40,520
+sumar nueve puntos, unidades que solo definirán el último módulo del curso actual, sino que también
+
+329
+00:41:40,520 --> 00:41:48,440
+decidirán quiénes se mantienen en carrera. ¿Y qué estamos hablando acá? A puntar, estudios,
+
+330
+00:41:48,440 --> 00:42:01,280
+educación, entonces la clave está en ver cuáles son las palabras que en definitiva son las
+
+331
+00:42:01,280 --> 00:42:10,760
+que me marcan el tópico y hay un montón de palabras que pueden aparecer en varios textos y
+
+332
+00:42:10,760 --> 00:42:19,960
+en varios tópicos, porque la palabra martes aparece en tanto en los tópicos de carrera como en el
+
+333
+00:42:19,960 --> 00:42:29,800
+tópico de fútbol. ¿Se entiende? Entonces, ¿pero qué pasa? En alguna va a aparecer o más frequentemente,
+
+334
+00:42:29,800 --> 00:42:41,720
+o menos frecuentemente, y ahí la estrategia o el modelado que más se adecúa a este tema es
+
+335
+00:42:41,720 --> 00:42:45,720
+trabajar con provenidades y hacer distribución de probabilidades.
+
+336
+00:42:50,640 --> 00:42:56,960
+Entonces, y ya vamos a eso. El modelado tópico nos permite organizar, entender y resumir grandes
+
+337
+00:42:56,960 --> 00:43:04,520
+colectiones de documentos, intentar detectar patrones de ocurrencia de las palabras, agrupándolas
+
+338
+00:43:04,520 --> 00:43:09,120
+en base a distribuciones de esas palabras en un conjunto de documentos, un poco lo que estábamos
+
+339
+00:43:09,120 --> 00:43:17,600
+comentando con ese ejemplo. Es útil identificar los temas para poder agrupados, eso está claro.
+
+340
+00:43:18,480 --> 00:43:24,600
+Entonces, ¿en qué consiste el modelo de tópicos? En construir un modelo justamente que busque y
+
+341
+00:43:24,600 --> 00:43:32,760
+encuentre las palabras que están relacionadas de alguna manera. Esas agrupaciones de palabras lo
+
+342
+00:43:32,760 --> 00:43:41,280
+que van a conformar, justamente son clasters. Y esa, o sea, que lo que estuvimos viendo antes está
+
+343
+00:43:41,280 --> 00:43:50,480
+implicitamente relacionado con esto que está moviendo ahora. Y la estrategia claramente es que
+
+344
+00:43:51,480 --> 00:43:58,800
+mis tópicos, los distintos clasters que yo vas a juntar sean los más distintos que pueda, entre
+
+345
+00:43:58,800 --> 00:44:05,720
+sí. Pero eso no necesariamente lo puedo, porque lo que nos va a estar pasando es que
+
+346
+00:44:05,720 --> 00:44:14,720
+palabras, muchas palabras pueden aparecer en muchos tópicos, lo que va a tener, lo que van a tener,
+
+347
+00:44:14,720 --> 00:44:21,000
+o lo que deberían detener son distintas frecuencias de aparición, o distintas probabilidades que
+
+348
+00:44:21,000 --> 00:44:24,280
+ocurran en tal o cual palabra, en tal o cual tópico.
+
+349
+00:44:28,320 --> 00:44:31,880
+¿Pero puede tener un documento que habla de los tópicos?
+
+350
+00:44:31,880 --> 00:44:35,800
+¿Dió? Porque en el clasterín, un clasterín, un claster.
+
+351
+00:44:35,800 --> 00:44:42,960
+Sí, exacto. Y ese es todo un desafío. Porque justamente lo que va a estar a tener no solamente
+
+352
+00:44:43,960 --> 00:44:51,600
+un documento va a pertenecer, ahora lo vamos a ver, el acorismo tradicional de esto,
+
+353
+00:44:51,600 --> 00:44:58,640
+es el LDA, que lo que hace es justamente una distribución de donde este documento puede quedar
+
+354
+00:44:58,640 --> 00:45:07,120
+en este tópico, en este tópico o en este tópico. Entonces, pero con distintas probabilidades y ese
+
+355
+00:45:07,120 --> 00:45:13,560
+es justamente el desafío. No solamente tengo palabras que pueden pertenecer a más de
+
+356
+00:45:13,560 --> 00:45:19,520
+un documento y a más de un tópico, sino documentos que pueden pertenecer a más de un tópico.
+
+357
+00:45:19,520 --> 00:45:25,680
+Y ese es todo un problema, sí duda. Lo que pasa aquí es lo que yo trato de hacer es generar un
+
+358
+00:45:25,680 --> 00:45:36,160
+modelo en base a distribuciones de probabilidades. En el modelado de tópicas, yo tengo que cada tópico
+
+359
+00:45:36,160 --> 00:45:44,280
+es una bolsa de palabras y que cada documento es una mezcla de tópicos, que era un poco la pregunta que
+
+360
+00:45:44,280 --> 00:45:52,920
+vos hacía. Cada documento puede tener cierto porcentaje de palabras que con mayor o menor
+
+361
+00:45:52,920 --> 00:45:59,560
+frecuencia aparecen en más de un tópico. Y eso es justamente la estrategia que hacen los
+
+362
+00:45:59,560 --> 00:46:15,560
+algoritmos de tópico de língua. Tengo un conjunto de documentos y lo que trato de hacer es
+
+363
+00:46:15,560 --> 00:46:24,160
+agruparlos bajo un determinado tópico. Claro, uno me dirán, pero pensemos y pensamos noticias de
+
+364
+00:46:24,160 --> 00:46:35,360
+prensa. Por lo general, tengo ya metadatos, que me dice de hecho pasa, esto pertenece a economía o
+
+365
+00:46:35,360 --> 00:46:41,240
+esta es una noticia de fútbol o esta es una noticia de, ahí pueden haber tópicos que están
+
+366
+00:46:41,240 --> 00:46:48,760
+fregamente determinados, pero no necesariamente tengo esos metadatos en donde yo me pueda basar para
+
+367
+00:46:49,280 --> 00:47:00,840
+aplicar mi tópico de línguamos, mi modelado. Y no necesariamente, o sea, acá yo le estoy diciendo esto.
+
+368
+00:47:04,880 --> 00:47:13,600
+T1, T2 y T3, yo después a este T1, T2 y T3, le voy a poner una etiqueta. Y el desafío va a ser
+
+369
+00:47:13,600 --> 00:47:18,720
+después, bueno, y cuando yo le incorporo un nuevo texto a ver si encajan a algunos de esos tres
+
+370
+00:47:18,720 --> 00:47:25,280
+que definía ahí, o tengo que hacer un nuevo, una nueva pasada para determinar capas otra cosa.
+
+371
+00:47:28,280 --> 00:47:33,640
+Tampoco es una cuestión de que yo diga, bueno hago un modelado tópico, voy a seleccionar en
+
+372
+00:47:33,640 --> 00:47:42,240
+10 tópicos, porque 10, capas que son 5, capas que son 20, capas que son 50, capas que son 2,
+
+373
+00:47:42,240 --> 00:47:47,960
+o sea, tampoco necesariamente se conocen a priori, cuáles son los tópicos o la cantidad de tópicos
+
+374
+00:47:47,960 --> 00:48:03,120
+que existen en un corpus. Y hay 12 foques, ¿no? Por un lado, me vuelta, la lista de palabras y por
+
+375
+00:48:03,120 --> 00:48:11,160
+otro lado es tratar de detectar patrones de aquellas ocurrencias de palabras que se agrupen en
+
+376
+00:48:11,160 --> 00:48:17,840
+base a ciertas distribuciones dentro del conjunto de documentos. Ahora son 12 foques distintos.
+
+377
+00:48:19,680 --> 00:48:26,320
+Y uno podía hacer este, hace un tiempo habíamos hecho un trabajo con la gente de cisces
+
+378
+00:48:26,320 --> 00:48:32,000
+económicas, entonces justamente trataban para otra cosa, el estudio de un indicador y que se
+
+379
+00:48:32,000 --> 00:48:40,400
+basaba en cosa de este estilo, trataba de ver cuáles son aquellas palabras que hablan de
+
+380
+00:48:40,400 --> 00:48:48,080
+determinado tópico o determinado tema, ¿no? Ahí dice economía, económica, económica, economista,
+
+381
+00:48:48,080 --> 00:48:54,800
+comercio, inflación, entonces el tópico es economía, insertidumbre, inserto, inserta, riesgo,
+
+382
+00:48:54,800 --> 00:49:03,800
+país, insertidumbre. Fíjense que riesgo país lo toman como un token, o sea no estamos necesariamente
+
+383
+00:49:03,800 --> 00:49:10,920
+hablando de palabras, sino que estamos hablando de tokens. Esto también le da la pauta, hoy no lo
+
+384
+00:49:10,920 --> 00:49:22,360
+vimos en el ejemplo, que entonces estas cosas, yo cada vez que vaya a aplicar, y ahí ya metemos
+
+385
+00:49:22,360 --> 00:49:28,800
+un peléne, antes de aplicar estas cosas, que lo que tengo que hacer con los textos, que yo les
+
+386
+00:49:28,800 --> 00:49:38,640
+dije que está minimizada esa tarea cuando hacemos peléne. Depurar, preprocesar, limpiar el texto,
+
+387
+00:49:38,640 --> 00:49:44,600
+sacar un URL, ver que hacer con las fechas, normalizar, ver que hacer con los puntos,
+
+388
+00:49:45,600 --> 00:49:50,220
+he decidido esa tarea de preprocesamiento, la tengo que hacer antes, qué hago con las palabras?
+
+389
+00:49:53,820 --> 00:50:00,320
+Las limpios, las consideros no las considero, se entiende, esas palabras, estas palabras,
+
+390
+00:50:00,320 --> 00:50:08,000
+estos temas no, algunos algoritmos las dejan adentro, pero claro esas me van a aparecer en
+
+391
+00:50:08,000 --> 00:50:12,320
+todos los tópicos, se aparecen en casi todos los documentos, conjunciones, artículos,
+
+392
+00:50:13,840 --> 00:50:19,520
+estas van a aparecer en todos los documentos, esas no son palabras que me identifiquen un tema. De hecho,
+
+393
+00:50:19,520 --> 00:50:24,940
+algunas veces uno lo que hace, algunos algoritmos dicen bueno, genero todo un tópico con las
+
+394
+00:50:24,940 --> 00:50:29,180
+etropores, y algunas palabras que no creen contenido, y te hacen un tópico con eso.
+
+395
+00:50:29,180 --> 00:50:42,460
+Para este tipo de cosas, cuando uno trabaja con listas de palabras, ahí lo que se requiere es el
+
+396
+00:50:42,460 --> 00:50:47,580
+conocimiento de un juicio experto, también de que diga bueno, cuáles son las palabras asociadas
+
+397
+00:50:47,580 --> 00:50:54,780
+a tal tópico. O sea que hay un trabajo no solamente de algoritmos que tratan de identificar,
+
+398
+00:50:54,780 --> 00:50:59,540
+sino un trabajo de arranque que me identifique, cuáles son aquellos, aquellas palabras asociadas
+
+399
+00:50:59,540 --> 00:51:12,140
+a tal tópico. Bueno, por otro lado tenemos algoritmos un enfoque basado en distribución de las
+
+400
+00:51:12,140 --> 00:51:23,380
+palabras. El EDA es un algoritmo bastante, es el de los más utilizados, el EDA y algunas
+
+401
+00:51:23,380 --> 00:51:30,820
+variantes, en esto de modelado estópicos, sobre todo en este último tiempo. Pero fíjense
+
+402
+00:51:30,820 --> 00:51:37,300
+que aparecen, son trabajos que aparecen ya en la década del 2000, ¿no? Y leí es uno de los que
+
+403
+00:51:37,300 --> 00:51:46,500
+es el que propone el algoritmo del EDA. El EDA genera tópicos proponiendo una distribución de
+
+404
+00:51:46,500 --> 00:51:52,380
+todas las palabras del corpus y calcula una distribución de estos tópicos en cada documento.
+
+405
+00:51:53,380 --> 00:52:02,300
+Entonces, cada documento en ese corpus es atribuible con una cierta probabilidad a alguno de los
+
+406
+00:52:02,300 --> 00:52:10,060
+tópicos. O sea, un poco de la pregunta que vas a hacidas, un documento puede pertenecer,
+
+407
+00:52:10,060 --> 00:52:17,260
+ser del tópico T1 con un 95% de probabilidad, pero tiene un 5% de probabilidad de que ese tópico
+
+408
+00:52:17,260 --> 00:52:22,380
+también pertenece, ese documento también pertenece al tópico T2. Y es un poco lo que hace
+
+409
+00:52:22,380 --> 00:52:29,700
+el EDA. ¿Cuea con eso? Pero un documento puede tener más de todo. Exacto.
+
+410
+00:52:29,700 --> 00:52:36,420
+Pero no tengo probabilidad, sino que hablo de buscoso. Bueno, ese es otro tema, pero vos
+
+411
+00:52:36,420 --> 00:52:45,100
+y vos querés encasiñarlo en uno de los tópicos, es decir, este habla de 95 por 50% de economía
+
+412
+00:52:45,100 --> 00:52:55,140
+y 50% de política, política. Exacto. Y te lo deja así. Después vos después tendrás que ver
+
+413
+00:52:55,140 --> 00:53:04,100
+qué lo que haces con eso. Pero sí, exacto, puede pasar. Bueno, un poco lo que decíamos recién.
+
+414
+00:53:04,100 --> 00:53:08,980
+Cada tópico es una distribución probabilística de palabras, entonces tengo el tópico turismo,
+
+415
+00:53:08,980 --> 00:53:19,540
+como educación, economía. Y entonces, como ven hay palabras que aparecen, estos son números
+
+416
+00:53:19,540 --> 00:53:27,900
+truchos, ¿no? Pero palabras que aparecen o que pueden aparecer en más duto pico. Turismo,
+
+417
+00:53:27,900 --> 00:53:41,980
+argentinos, bilateral, blu, educación. Bueno, ven acá en economía también. Aparecen
+
+418
+00:53:41,980 --> 00:53:51,260
+blu, pesos, dólar. Entonces, hay palabras que capaz que blu, cuando tengas que procesar
+
+419
+00:53:51,260 --> 00:53:55,540
+un documento, bueno, adónde lo pongo y tiene la palabra blu muchas veces y bueno,
+
+420
+00:53:55,540 --> 00:54:00,820
+capaz que lo pongo en el tópico turismo, pues es más probable que el tópico economía.
+
+421
+00:54:00,820 --> 00:54:09,460
+Pero bueno, es parte de las cosas que yo tengo que decidir cuando aplico este tipo de
+
+422
+00:54:09,460 --> 00:54:16,660
+voces. Entonces, decíamos, cada tópico es una distribución probabilística de palabras.
+
+423
+00:54:16,660 --> 00:54:23,860
+Y cada documento es una distribución probabilística de tópicos, de vuelta lo que decíamos es
+
+424
+00:54:23,860 --> 00:54:28,700
+un rato. Entonces, si yo tengo este texto que está acá, un poco en base a lo que preguntaba
+
+425
+00:54:28,700 --> 00:54:35,780
+a vos, y bueno, en función de lo que aparece ahí, va así para el Ministerio de Turismo,
+
+426
+00:54:35,780 --> 00:54:39,740
+el Observatorio de Nado por el Economista, Javier Adedea, señaló que el primer trimestre
+
+427
+00:54:39,740 --> 00:54:46,420
+este año el gasto de gruvaya alcanzó, no sé cuánto, tanto de los uruguayos, millones.
+
+428
+00:54:46,420 --> 00:54:51,900
+Bueno, parece acá el tema, no parece la palabra dólar, aparece el signo, un poco lo que
+
+429
+00:54:51,900 --> 00:54:57,920
+decíamos hoy de el prepresentamiento. En fin, aparece acá sí, la aparece la palabra
+
+430
+00:54:57,920 --> 00:55:05,460
+dólar, aparece el blue, aparece pesos. En fin, el proceso me podría decir que este
+
+431
+00:55:05,460 --> 00:55:12,260
+documento tiene un 25% de que sea de turismo, un 7% de educación, porque capaz que tiene
+
+432
+00:55:12,260 --> 00:55:18,700
+algunas palabras del tópico educación y un 19% de economía, por decir algo. Y otras
+
+433
+00:55:18,700 --> 00:55:29,260
+que por ahí no aparecen ahí, ¿ok? Bien, se asinen inicialmente una probabilidad y lo que
+
+434
+00:55:29,260 --> 00:55:36,460
+la D es de Dirichlet, porque lo que utiliza es la distribución de Dirichlet, una distribución
+
+435
+00:55:36,460 --> 00:55:44,940
+de Dirichlet. Permite que un documento sea parte de varios tópicos, cada uno con un peso
+
+436
+00:55:44,940 --> 00:55:53,260
+diferente, y lo interesante es esto, que son las métricas, ¿cómo yo mido? Si mi algoritmo
+
+437
+00:55:53,260 --> 00:56:01,140
+es bueno o malo, se comporta bien, se comporta mal. Lo puedo medir con cuerencia y perplejidad,
+
+438
+00:56:01,140 --> 00:56:11,980
+perplejidades, ¿cómo se comporta cuando yo le agrego un documento? Sabes donde ir,
+
+439
+00:56:11,980 --> 00:56:17,820
+encajan en uno de los tópicos que ya definimos, o no, entonces una medida de perplejidad me dice a
+
+440
+00:56:17,820 --> 00:56:22,900
+mi cuál efectivo es el algoritmo que yo acabo de aplicar. Y cuerencia es bueno, que haya una
+
+441
+00:56:22,900 --> 00:56:32,980
+cuerencia, sea completo entre en su globalidad, que sea cuarente lo que acabo de mi distribución
+
+442
+00:56:32,980 --> 00:56:39,620
+de documentos, a lo largo de todo el corpus, de que todos estén dentro de algunos de los tópicos
+
+443
+00:56:39,620 --> 00:56:50,860
+que he estado trabajando. Hay algunas variantes de la idea STM, BTM, la STM es una variante que
+
+444
+00:56:50,860 --> 00:56:56,620
+lo que hace es cambiar la distribución de probabilidad por una normal logística. BTM está bueno, es
+
+445
+00:56:56,620 --> 00:57:02,620
+una variante, ¿por qué que pasa? El idea, estamos acostumbrados a trabajar con textos largos,
+
+446
+00:57:02,620 --> 00:57:07,140
+donde tienen una gran cantidad de palabras, entonces bueno, eso juego con la frecuencia de las
+
+447
+00:57:07,140 --> 00:57:18,820
+palabras de STM y BTM lo que hace es incluir el concepto de BTM y es de ver si utiliza es como una
+
+448
+00:57:18,820 --> 00:57:25,220
+versión aplicada a textos cortos, como podrían ser textos de Twitter o cosas por el estilo,
+
+449
+00:57:25,220 --> 00:57:32,900
+en donde yo puedo tratar de encontrar pequeñas palabras que ocurren en un texto, es la misma idea,
+
+450
+00:57:32,900 --> 00:57:45,460
+pero para textos mucho más cortitos. Es interesante que si yo son ejemplos, después hay literatura
+
+451
+00:57:45,460 --> 00:57:56,340
+que hable de estos acolípticos. Quería llegar a este. Esta es una eleda extendida con
+
+452
+00:57:56,340 --> 00:58:05,100
+embeddings, es una propuesta bastante reciente en donde yo hago una representación de mi
+
+453
+00:58:05,100 --> 00:58:18,900
+conjunto de documentos vectorial, entonces un vector de dimensiones de las palabras de un
+
+454
+00:58:18,900 --> 00:58:26,300
+vocabulario de conjunto de todas las palabras del vocabulario. Y lo interesante es que utiliza
+
+455
+00:58:26,300 --> 00:58:32,740
+aventores para determinar, o sea, para representar a los documentos y para representar a los tópicos,
+
+456
+00:58:32,740 --> 00:58:38,180
+los documentos están representados por palabras y los tópicos están representados por palabras.
+
+457
+00:58:38,180 --> 00:58:47,500
+Entonces para saber, cuando un nuevo documento entra en tal o cual tópico calcula la distancia
+
+458
+00:58:47,500 --> 00:58:53,780
+euclidia o la distancia cosena entre los vectores del tópico y el documento que estoy agregando,
+
+459
+00:58:53,780 --> 00:59:06,380
+o sea, lo que le agrega este, este m, es al LEDA vectores, embeddings.
+
+460
+00:59:06,380 --> 00:59:17,820
+Entonces, yo tengo ahí ciertos hiperparámetros, ¿cuál es el número de tópicos que yo quiero
+
+461
+00:59:17,820 --> 00:59:23,940
+inferir, cuál es el espacio, la dimensión de los vectores, tal y la cantidad de vocabularios.
+
+462
+00:59:23,940 --> 00:59:29,380
+Entonces, tengo una matriz, bueno, embeddings con dimensión de por B, una matriz de tópicos,
+
+463
+00:59:29,380 --> 00:59:38,980
+una red neuronal, con entrada de tamaño B y salida de tamaño B. Entonces, un esquema
+
+464
+00:59:38,980 --> 00:59:47,940
+simplemente de lo que como haría para un nuevo documento entra la red y metida. ¿Cuáles
+
+465
+00:59:47,940 --> 00:59:56,900
+son los tópicos inferidos por la red con su porcentaje de probabilidad y cuál va a ser la distribución
+
+466
+00:59:56,900 --> 01:00:04,500
+de las palabras de ese texto en esos tópicos, o sea, las dos cosas. Es más probable que
+
+467
+01:00:04,500 --> 01:00:11,740
+tenga sea de economía o de política, tal probabilidad y bueno, y el porcentaje de estas palabras
+
+468
+01:00:11,740 --> 01:00:20,340
+y yo después de Pueblo, si lo ve pa' adelante, si sí o si no, ya queda en función del usuario.
+
+469
+01:00:21,060 --> 01:00:30,100
+Esto es simplemente un ejemplo para bajar a tierra estos conceptos, ¿no? Yo tengo estas palabras,
+
+470
+01:00:30,100 --> 01:00:37,140
+¿no? Club, campeonato, primera, tantos medios por acá, este cláster de palabras,
+
+471
+01:00:37,140 --> 01:00:43,820
+están medio juntos, por acá tengo estudiante, carrera, curso, creo que son los mismos
+
+472
+01:00:43,820 --> 01:00:47,420
+ejemplos que estaban en el anterior, ¿no? Y tengo esta noticia,
+
+473
+01:00:52,020 --> 01:00:54,380
+¿qué quiero ver a dónde va?
+
+474
+01:00:58,020 --> 01:01:06,220
+Tengo el tópico 1, ¿oops, que está acá? Tópico 1, fíjense, lo del centro y el que decíamos
+
+475
+01:01:06,940 --> 01:01:17,940
+hoy, tengo el tópico 2, yo lo que tengo que ver es calcular la distancia del vector de esta noticia
+
+476
+01:01:17,940 --> 01:01:25,180
+con respecto a cada uno de los tópicos, de los factores de los tópicos, y bueno, esto
+
+477
+01:01:25,180 --> 01:01:31,500
+es simplemente a modo de ejemplo, me dio que esta noticia, fíjense, hablamos de texto,
+
+478
+01:01:31,500 --> 01:01:36,980
+hablamos de multimedia, ¿no? Acá está propósito para mostrarles de que aparece una fotito
+
+479
+01:01:36,980 --> 01:01:43,340
+que probablemente sea de deporte de esa noticia, pero bueno, en función de las palabras que
+
+480
+01:01:43,340 --> 01:01:52,020
+tiene el texto, esto dice que pertenece al tópico T1, 90 y al tópico T2, 10, con esa probabilidad,
+
+481
+01:01:52,020 --> 01:01:58,260
+y esta es la distribución de probabilidad de las palabras de la noticia que aparece ahí,
+
+482
+01:01:59,260 --> 01:02:07,260
+esto es simplemente a modo de ejemplo, ¿qué está la probabilidad de las palabras del tópico?
+
+483
+01:02:13,260 --> 01:02:17,460
+Bien, ¿se entendió? ¿Alguna pregunta?
+
+484
+01:02:18,460 --> 01:02:27,860
+Obviamente, devuelta, ¿dónde engancha BLN acá, prácticamente en todas las etapas?
+
+485
+01:02:27,860 --> 01:02:33,900
+Rickamente en todas las etapas estoy aplicando técnicas de procedimiento de lenguaje natural,
+
+486
+01:02:33,900 --> 01:02:38,380
+porque trabajo con las palabras, trabajo con documentos, en cualquiera de estas dos casos,
+
+487
+01:02:38,380 --> 01:02:44,140
+más ya que clástarlo mismo con algunos ejemplitos medios aislados, el mismo, acá aparece el mismo
+
+488
+01:02:44,660 --> 01:02:51,380
+concepto de agrupamiento, de agrupamiento de palabras, de agrupamiento de documentos, y bueno,
+
+489
+01:02:51,380 --> 01:02:58,340
+después está la manera de cómo yo represento esos documentos para luego procesados.
+
+490
+01:03:01,140 --> 01:03:02,980
+Bien, ¿no hay preguntas?
+
+491
+01:03:05,140 --> 01:03:12,660
+Estos sabrimos, son unos prohibizados, no le decís el tópico en el maíz, exacto, exacto,
+
+492
+01:03:14,140 --> 01:03:20,700
+es más, hoy lo, en este ejemplito, ¿no?
+
+493
+01:03:23,700 --> 01:03:31,460
+O sea, los tópicos son t1, t2, t3, después yo, humano, bueno, mira, al t1 me fijó en las
+
+494
+01:03:31,460 --> 01:03:38,380
+palabras y digo economía, al t2 le pongo deportes. Si pensamos en noticias, ¿no?
+
+495
+01:03:38,900 --> 01:03:47,020
+Pensamos en noticias de un diario, no necesariamente un diario que lo coloque en el tópico política,
+
+496
+01:03:47,020 --> 01:03:57,420
+capaz que en realidad para mí es el tópico economía. O sea, me puede servir tener esos metadatos,
+
+497
+01:03:57,420 --> 01:04:02,460
+si fueran, si estuvieran analizando texto o emprensa y tengo los metadatos, me puede servir como
+
+498
+01:04:02,460 --> 01:04:12,980
+para validar o no validar. Pero a priori, el tipo te tira, t1, t2, t3, t4, t5, los que vos quieras,
+
+499
+01:04:12,980 --> 01:04:19,460
+o digamos, de vuelta, esto se va refinando, llega un punto donde vos desis, ¿no?
+
+500
+01:04:19,460 --> 01:04:26,540
+Llego hasta diez tópicos, o llegó hasta cuatro tópicos, o llegó hasta 20 tópicos, porque después
+
+501
+01:04:26,540 --> 01:04:33,260
+ya la distribución es la misma, no cambia, por más que a grande el número de tópicos esto no
+
+502
+01:04:33,260 --> 01:04:43,420
+cambia, o sea, no va a borear la economía. Pero bueno, después se requiere de un juicio experto
+
+503
+01:04:43,420 --> 01:04:49,820
+que te diga, bueno, t1 es tal, t2 es tal, y cuando venga un nuevo documento entre hace el
+
+504
+01:04:49,820 --> 01:04:56,460
+algoritmo, y ves, si enganchó en el t1, que era la economía, y ahí como que validas si estaba bien
+
+505
+01:04:56,460 --> 01:05:15,380
+o está mal. No preguntas? Bien, bueno, entonces dejamos por acá, fin del curso, y seguimos ahora
+
+506
+01:05:15,380 --> 01:05:22,540
+la semana que viene libre, y luego empezamos con las presentaciones. En el foro tienen para
+
+507
+01:05:22,540 --> 01:05:31,980
+preguntar por la tarea laboratorio, vamos a tratar de estar atentos a las preguntas. Y
+
+508
+01:05:31,980 --> 01:05:39,020
+tal, y después ya les digo, hoy publicamos en un rato publicamos la nómina de artículos
+
+509
+01:05:39,020 --> 01:05:40,020
+de cada uno de los grupos.
+

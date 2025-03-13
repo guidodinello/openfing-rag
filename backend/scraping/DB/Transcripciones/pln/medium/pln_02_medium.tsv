@@ -1,0 +1,868 @@
+start	end	text
+0	22360	Bueno, bienvenidos a la segunda clase de Introducción al Procesamiento del Lenguaje Natural de esta
+22360	29640	edición 2016. Hoy vamos a hablar del idioma español. Vamos a ver algunas cosas que no
+29640	35640	ven desde el liceo, algunas cosas que probablemente nunca vieron. Y, bueno, va a ser un poco
+35640	41160	como repaso en parte de lo que fue idioma español del liceo. Y probablemente algunos
+41160	44440	de ustedes digan, qué embole idioma español del liceo, no me gustaba nada, me embolaba.
+44440	49120	Entonces, bueno, vamos a tratar de ver que si bien desde un punto de vista ingenieril,
+49120	55240	yo que sé, no están solos, hay mucha gente que piensa igual, en realidad hay algunas
+55240	58480	cosas que son un poco arbitrarias en el idioma, pero hay muchas otras cosas que desde un punto
+58480	63160	de vista ingenieril se pueden analizar bien y se pueden formalizar y se pueden construir
+63160	70200	modelos y teorías que funcionan bien. Entonces, claro, lo que pasa con el idioma es que es
+70200	74080	una herramienta cultural, es algo que es compartido por un grupo de gente. Entonces, ese grupo
+74080	78240	de gente se pone de acuerdo de alguna manera en cómo se comunican, establecen un protocolo,
+78240	83920	establecen mensajes que tienen que intercambiar entre ellos. Y por el hecho de que es cultural,
+83920	88280	entonces esto ha ido evolucionando a lo largo de la historia. Entonces, lo que pasa es que
+88280	91960	el idioma siempre tiene una parte lógica, porque se necesita para describir el universo,
+91960	96640	se necesita para poder comunicarse y todo eso obedece ciertas reglas lógicas. Y tiene
+96640	100360	otra parte histórica que, bueno, la gente decidió hablar de esa manera y además fue
+100360	103960	evolucionando a lo largo del tiempo. Entonces, hay cosas que hoy nos parecen raras como funcionan,
+103960	108560	pero porque históricamente tenían un sentido. Entonces, por eso es como que tiene las dos
+108560	112920	partes. En la parte lógica, los ingenieros en general nos sentimos bastante bien porque,
+112920	117840	bueno, tiene reglas, es más o menos estable, lo podemos predecir. La otra parte, no tanto,
+118200	122080	como que se escapa un poco y hay cosas que parecen un poco arbitrarias. Pero vamos a ver que,
+122080	127360	en realidad, todo es igual, se puede formalizar o gran parte de eso se puede formalizar y se
+127360	138200	puede ver bien desde un punto de vista de la ingeniería. Entonces, bueno, un poco la idea
+138200	143760	detrás de esta clase, la de hoy y la clase que viene, es tratar de nivelarnos a todos en un nivel
+143760	149480	mínimo del conocimiento necesario que necesitan tener para el idioma español. Porque después,
+149480	154200	al final de estas dos clases, después ya va a empezar el resto del curso de Procesamiento
+154200	158640	del Lenguaje Natural. Y, bueno, ya se asume que ustedes ya van a conocer qué es un nombre,
+158640	162680	qué es un verbo, qué es un grupo nominal, qué es un sujeto, etcétera. Todo ese tipo de cosas.
+162680	166320	Se asume que ya lo van a saber, entonces no lo vamos a estar explicando de vuelta. Así que,
+166320	170960	bueno, al final de estas dos clases deberían tener todo ese conocimiento incorporado.
+170960	177000	Bueno, vamos a ver, viendo un poco el resumen de los temas que vamos a tratar en estas dos clases.
+177000	185800	Primero vamos a ver cuál es, digamos, la gramática. O sea, qué significa gramática y cuál es su
+185800	190520	objeto de estudio. En particular, vamos a concentrar en qué es una oración. Después vamos a hablar un
+190520	194800	poco de las palabras y cómo se catalogan las palabras del lenguaje. Y después las estructuras
+194800	198320	más grandes que la palabra. Yo puedo agrupar palabras de distintas maneras en cosas que se
+198320	203960	llaman sintagmas. Y, bueno, esos también tienen categorías. Y después vamos a ver un poco cómo
+203960	207880	esos sintagmas actúan dentro de una oración. Pueden tener cierta función, pueden tener cierto rol.
+207880	212200	Y, bueno, vamos a hablar un poco de la estructura argumental de los verbos. Esto va a ser en esta
+212200	222200	clase y la que viene. Bueno, ¿qué es la gramática? Ustedes vieron ya en la carrera gramáticas en
+222200	230200	alguna materia, ¿no? ¿En qué materia vieron gramáticas? ¿Se acuerdan? En teoría del lenguaje.
+230200	237320	¿Qué veían ahí? Entre el lenguaje veían una cosa llamada gramática libre de contexto. No sé si
+237320	246800	les suena de algo. Bien, las gramáticas libres de contexto son un tipo de gramática formal que sirve
+246800	250840	para describir cierto tipo de lenguajes, lenguajes formales. En particular, lenguajes libres de
+250840	257600	contexto. También se utilizan para modelar el lenguaje natural, pero no son las mejores. Digamos,
+257600	261520	en este curso vamos a ver ejemplos de gramáticas libres de contexto usadas para modelar el lenguaje
+261520	267000	natural. Pero, bueno, no son lo ideal. Igual lo que se refiere en esta slide sobre gramática no se
+267000	273480	refiere tanto a la gramática como formalización, como una descripción del lenguaje, sino que es
+273480	278160	¿qué es la gramática en el estudio? O sea, ¿qué estudia la gramática en general? La gramática en
+278160	281600	general es una disciplina que estudia cuáles son las unidades del lenguaje. Agarra un lenguaje
+281600	285960	natural y estudia sus unidades, como por ejemplo las palabras, las oraciones, y cómo se combinan
+285960	292840	esas unidades para formar, bueno, todo el lenguaje, digamos. Entonces estudia las unidades significativas
+292840	298240	del lenguaje y su combinatoria. Hay otras definiciones que además incluyen la semántica,
+298240	302000	o sea, el estudio del significado. Nosotros no vamos a entrar en esas definiciones, no vamos a
+302000	308840	quedar más que nada en la, bueno, en la definición que es más bien sintáctica. Entonces la gramática
+308840	314240	como disciplina compone estas dos partes que están acá, que son la morfología y la sintaxis. La
+314240	320440	morfología estudia la formación de las palabras. Digamos, tiene como unidad de estudio las palabras,
+320440	324600	va desde los morfemas, que son unidades más pequeñas, hasta palabras. Y después la sintaxis
+324960	328600	estudia las palabras y la forma en que se combinan para generar oraciones.
+331280	336120	Entonces la morfología tiene como unidad mínima el morfema. De ahí aparece una palabra separada
+336120	341000	en morfemas, la palabra prehistóricos, que está compuesta por el morfema histor, digamos, tiene esa
+341000	345280	raíz, que se refiere a algo de historia. Después le agregamos un prefijo pre, que significa que voy
+345280	349880	a hablar algo que está antes de la historia. Y después le agrego sufijos eco y ese y lo transformo
+349880	357840	en un sustantivo plural. Entonces esa descomposición en morfemas de la palabra ya me está dando un
+357840	361560	montón de información acerca de qué es esa palabra. Entonces la morfología estudia eso,
+361560	365520	estudia cómo descomponer las palabras en morfemas y la unidad máxima de estudio es la palabra.
+367520	374520	Un caso interesante de esto es, por ejemplo, cuando yo tengo una palabra en español como perro,
+374520	381400	la morfología en general la descompone como para decir, bueno, yo tengo una raíz que es perro y le
+381400	386520	agrego un sufijo o y eso lo que hace es transformarlo en algo que es masculino singular. Pero además yo
+386520	393320	puedo tener algo similar, que es esa misma raíz, pero con una a y se transforma en femenino singular.
+393320	398280	O si no, le puedo agregar a cualquiera de las dos, le puedo agregar una s y los transformo en plurales.
+398760	404960	Esa descomposición en morfemas es algo que estudia la morfología. Y bueno, el conjunto de todas estas
+404960	409280	palabras, digamos, todas las que salen de la misma raíz y yo les agrego, las puedo transformar en
+409280	414520	masculino o en femenino y las puedo transformar en plural o en singular. Vamos a poner los otros
+414520	423080	ejemplos. Este efecto de agarrar una palabra y poder transformarla a plural y a singular o transformarla
+423080	427160	masculino o femenino se llama flexión de la palabra. O sea, yo digo que tengo una palabra base
+429280	436360	yo tengo una palabra base como perro y la puedo flexionar de manera de transformarla en femenino,
+436360	441320	transformarla en plural o transformarla en femenino plural. Entonces, todo esto se conoce como el
+441320	451280	paradigma flexivo de una palabra. ¿Por qué les digo esto ahora? Porque lo vamos a necesitar un
+451280	456440	poquito después en esta clase. Un poco, alguna idea esa de que las palabras se flexionan para
+456440	461040	tener distintos atributos. Pero en realidad en esta clase no vamos a hablar mucho más de
+461040	464920	morfología, sino que solamente es un breve pantallazo. Más adelante en el curso se va a dar
+464920	469840	nociones bastante más profundas. Lo que sí nos vamos a concentrar es en la segunda parte,
+469840	475680	la parte de sintaxis. La sintaxis no se concentra en los morfemas, sino que asume que ya tengo
+475680	481640	palabras, el idioma ya está compuesto por palabras, y estudia desde la palabra cómo se combina hasta
+481840	485800	una oración. Y en el medio, las cosas que están, las estructuras intermedias que aparecen,
+485800	490880	se denominan sintagmas. Son cosas que no llegan a hacer oraciones, sino que son grupos de palabras
+490880	495880	que se quedan en el medio. Y bueno, vamos a ver un poco de qué se trata todo esto. Bueno,
+495880	501560	este diagrama aparece lo que les decía. La morfología estudia desde el morfema hasta la palabra y la
+501560	505320	palabra, digamos, es como la unidad base de la sintaxis que estudia desde la palabra hasta la
+505320	510360	oración. Bueno, y todo eso compone la gramática que es, bueno, el estudio de todo esto, de las
+510360	517840	unidades del lenguaje y cómo se combina. Bueno, lo que les decía. Lo que vamos a ver ahora son
+517840	523480	algunos elementos de sintaxis. La morfología se va a ver más adelante en otras partes del curso.
+531480	535080	Entonces, empecemos definiendo lo que es una oración. Todos tenemos una idea media intuitiva
+535080	537680	de qué es una oración. ¿Alguien me puede dar un ejemplo de oración?
+541160	542200	¿Una oración cualquiera?
+543720	548240	El perro va a pasear. Es una oración válida. O sea, ¿cómo sabemos que eso es una oración?
+548240	553320	Si yo tengo un texto en español, digamos, tengo un montón de palabras en español tiradas y quiero
+553320	558600	separarlas en oraciones. ¿Cómo puedo hacer? ¿A quién se le ocurre una forma?
+562240	567520	Con un punto. O sea, una forma puede ser entonces este criterio que es el criterio
+567520	572120	lexicográfico. Agarro las secuencias que empiezan en una mayúscula y terminan en un punto.
+572120	577160	Y esa será la idea, ¿no? Bien. Ese es un criterio. Entonces yo tengo una secuencia de texto,
+577160	580280	empiezo buscando mayúscula, llego hasta el punto, después siguiente mayúscula,
+580280	585040	llego hasta el punto, etcétera, y con eso parto en oraciones. ¿Qué problemas puede tener esto?
+591040	595680	Claro, bien. Y además, o sea, hay problemas por todos lados.
+597680	601080	¿Tenéis más o no? ¿Puede tener muchas oraciones o no?
+601080	605040	Claro, porque si solamente nos guiamos por el criterio lexicográfico, alguien puede venir a escribir
+605040	609720	algo como esto de acá. El doctor Foster visitó la ONU, esta es otra oración nueva, y ahí aparecen
+609720	613720	puntos en el medio y aparecen mayúsculas que no son inicios de oraciones. Entonces es como que
+613720	619600	rápidamente se nos rompe. Directamente podemos, o sea, si utilizáramos esta estrategia para parcear
+619600	625160	ahí, para cortar ese texto en oraciones, nos quedaría una oración el doctor y después Foster
+625160	629640	visitó la O y después otra oración que es N y otra oración que es U. Entonces es como que ya
+629640	635400	rápidamente se rompe y no estaría funcionando ese criterio. Entonces vamos a tratar de dar otras
+635400	642000	definiciones. Vamos a dar una que es el criterio gramatical de cómo reconocer oraciones. Decimos
+642000	648520	que una porción de texto, un conjunto de palabras, si es una oración, si es un verbo conjugado y
+648520	654440	además esa porción de texto tiene independencia sintáctica. Entonces esa definición es bárbara
+654440	658000	porque ahora no sabemos qué es independencia sintáctica. O sea, en realidad les cambié una
+658000	663200	definición por otra. Pero bueno, vamos a tratar de, primero vamos a tratar de dar una idea un poco
+663200	667440	intuitiva de qué se trata eso y después vamos a tratar de verlo un poco más formalmente en esta
+667440	672480	clase en la que viene. Pero bueno, hay algo que sí sabemos reconocer que son los verbos conjugados.
+672480	678400	Los verbos conjugados son palabras de ese estilo, como corremos, cantan, estábamos. Existen otro
+678400	683680	tipo de verbos que son los verbos no conjugados, formas verbales no personales, como por ejemplo
+683680	691360	correr, corriendo y corrido, que son el infinitivo, el gerundio y el participio. Digamos que si una
+691360	694960	oración contiene uno de esos verbos y no contiene un verbo conjugado, entonces no diríamos que es
+694960	699280	una oración y tal. Vamos a ver un poco en realidad de qué otro tipo de estructura se trata.
+702640	708200	Bueno, hay otro criterio más que se llama criterio semántico que decimos que una porción de texto es
+708200	713880	una oración si es una unidad de sentido. O sea, si yo puedo agarrar esa porción de texto,
+713880	718640	testearla contra el universo y eso me puede devolver proposicionalmente si es verdadero o falso.
+718640	723400	Entonces, si yo tengo una oración como el perro está ladrando, yo puedo agarrar esa oración y
+723400	727240	tratar de buscar una situación en el universo, decir, bueno, hay un perro, ese perro está ladrando,
+727240	732560	entonces eso me devuelve verdadero. Y ahí yo digo, bueno, eso que tenía es una oración. En cambio,
+732560	737760	si yo tengo una porción de texto que solamente dice el perro, entonces yo puedo tratar de testearlo
+737760	741000	contra el universo, pero no voy a encontrar algo que me devuelva verdadero o falso. O sea,
+741000	744160	yo puedo encontrar una instancia de perro, por ejemplo, pero no es una proposición que
+744160	748840	pueda ser verdadero o falsa. Entonces ahí digo que eso con lo que yo estaba trabajando no era
+748840	753240	una oración. En realidad nos vamos a concentrar más en el criterio gramatical, pero bueno,
+753240	758200	sepan que hay diferentes formas de definir oración. Todas son más o menos complementarias,
+758200	761920	o sea, todas más o menos llegan a lo mismo, pero bueno, hay como distintos criterios.
+761920	767960	Bueno, tenemos un ejemplo de texto. Sabiendo lo que sabemos ahora,
+767960	771840	¿podemos separar ese texto en oraciones? Tenemos un texto que dice,
+771840	775480	los artistas ofrecieron a colaborar desde el principio. Muchos, solo para hacer pinta,
+775480	781800	otros sinceramente se quedaron a trabajar siempre que se necesitó. ¿Cómo lo separo en oraciones?
+781800	793960	Ahí mayúscula de punto podría andar bien. A ver, entonces te quedaría,
+793960	798640	los artistas ofrecieron a colaborar desde el principio, te quedaría una. Después te quedaría
+798640	803680	mucho solo para hacer pinta y después te quedaría otro, sinceramente se quedaron a trabajar siempre
+803680	808600	que se necesitó. Bien, de la otra definición que vimos de oración.
+811800	827120	No estoy tan seguro que no puedas encontrar el criterio semántico,
+827120	830320	pero lo que no puedes encontrar es el criterio gramatical, porque esa oración,
+830320	836440	muchos solo para hacer pinta, no tiene ningún verbo conjugado. El único verbo que hay en esa
+836440	843320	oración es hacer y está infinitivo. O sea, en definitiva eso no sería una oración propia,
+843320	848200	según la definición que nosotros tenemos. La primera sí, la primera tiene un verbo conjugado,
+848200	854960	¿cuál es? Ofrecieron. La última también tiene un verbo conjugado, ¿cuál es? Quedaron. De hecho,
+854960	858640	hay otro que es necesitó, pero bueno, en realidad ese no sería el principal y después vamos a ver
+858640	869160	un poco por qué. Sí, está elidido. O sea, es como una cosa más rara todavía y en realidad no lo
+869160	874000	vamos a considerar oración, por lo menos en esta primera instancia. Entonces claro, lo que está
+874000	879960	pasando, lo que dice la compañera tiene razón, es que muchos solo para hacer pinta, hay un pedazo
+879960	884080	de oración que falta y uno tiene que ir a buscarlo antes. Entonces dice, los artistas ofrecieron a
+884080	889000	colaborar desde el principio y en muchos solo para hacer pinta, lo que está queriendo decir es,
+889000	894160	muchos ofrecieron a colaborar solo para hacer pinta y hay todo un pedazo que está oculto,
+894160	899120	digamos, que no se menciona de vuelta y se necesitaría ese pedazo para poder completar la
+899120	904040	oración. Pero en definitiva, si solamente tenemos ese fragmento de texto, ya no sería una oración,
+904040	910840	por lo menos según este criterio. Entonces, para tratar de resolver esto, no resolver,
+910840	915840	pero para tratar de dar una idea de cómo funciona esto, vamos a tratar de definir que hay dos tipos
+915840	921840	de objetos distintos en nuestro texto. Vamos a definir cuál es el concepto de enunciado y vamos
+921840	927080	a darlo como algo separado del concepto de oración. Entonces, cuando yo tengo un texto,
+927080	934440	un texto físico que es una secuencia de palabras escritas, yo voy a decir que contengo enunciados
+934440	939040	y los enunciados más o menos se corresponden con el criterio lexicográfico. Van desde una
+939040	946040	mayúscula hasta un punto, más o menos, o sea como en el ejemplo anterior servía ese criterio. De
+946040	950920	estos enunciados, algunos que contienen un vero conjugado van a ser cosas que son oraciones,
+950920	955720	van a tener forma de oración. Y hay otros que no, hay otros que simplemente van a ser enunciados.
+955720	960760	Entonces, lo que queremos decir acá es que la oración es un objeto teórico,
+960760	964360	es un objeto que la gramática puede estudiar, puede analizar, puede encontrarle una estructura
+964360	970600	dentro. El enunciado es, en vez de eso, es un objeto que está dentro de un texto. Dentro de un texto,
+970600	975400	yo tengo una secuencia de palabras, agarro la isla y digo que eso es un enunciado. Algunos
+975400	979720	de esos enunciados van a ser oraciones y otros no. Entonces, vamos a tratar de reconocer cuáles de
+979720	988320	esos enunciados son oraciones. Bueno, acá está marcado como era, digamos, el ejemplo anterior,
+988320	993560	cómo se resolvería. Decíamos que los enunciados están entre corchetes y los que están subrayados
+993560	997680	son enunciados que además son oraciones. Los artistas ofrecieron a colaborar desde el principio,
+997680	1002440	es una oración. Otros, sinceramente, se quedaron a trabajar siempre que se necesitó esa oración. Y
+1002440	1007120	muchos, sólo para hacer pinta, sería un enunciado que no es oración, por lo menos en esta definición
+1007120	1008120	que tenemos.
+1008120	1022640	Claro, eso es un problema que es, digamos, complicado para resolver automáticamente. No es el
+1022640	1028640	problema más complicado de todos, pero es el problema de tokenización que se va a ver más
+1028640	1033680	adelante en el curso. Cómo se para reconocer cuáles de esos puntos están siendo parte de una
+1033680	1038240	sigla, por ejemplo. Entonces, tenés que reconocer toda la sigla entera. Cuál punto es un punto final
+1038240	1041640	y cuál, por ejemplo, es el punto de doctor, pero en realidad no es un punto final, sino que tenés
+1041640	1047480	que seguir. Ese es un problema que, bueno, hay técnicas para resolverlo. Bueno, se va a ver más
+1047480	1052320	adelante. Entonces, en este caso estamos diciendo, bueno, la oración va hasta un punto que
+1052320	1061000	realmente es el punto final, suponiendo que lo podés resolver de otra manera. Bueno, entonces
+1061000	1068360	ahora hablemos un poco de las palabras. Vamos a empezar hablando de las palabras y después vamos a
+1068360	1074320	ver cómo se combinan esas palabras para generar unidades más grandes. Bueno, entonces vamos a
+1074320	1079560	hablar de categorías gramaticales. Para las palabras, las palabras del idioma se pueden
+1080240	1085960	clasificar, se pueden separar en grupos según sus propiedades combinatorias, según cómo yo puedo
+1085960	1090680	poner esas palabras junto con otras palabras. Bueno, esas clases en las cuales, esas clases
+1090680	1095240	equivalencias las cuales yo se separo, se llaman categorías léxicas. Además, las palabras se van
+1095240	1099800	combinando en unidades un poco más grandes que se denominan sintagmas y esos sintagmas también se
+1099800	1105040	pueden categorizar en lo que se llama categorías sintagmáticas. Bueno, el conjunto de todas esas
+1105040	1109800	categorías le llamamos categorías gramaticales. Entonces empecemos por cuáles son las categorías
+1109800	1114240	léxicas, las categorías de las palabras. Y estas sí, las conocen probablemente desde la escuela,
+1114240	1120320	desde el liceo. Las categorías léxicas son cosas como nombres, verbos, adjetivos, adverbios, etcétera.
+1121280	1125800	Un nombre o sustantivo, en el liceo probablemente le llamaban sustantivo, pero en este curso le vamos
+1125800	1131000	a llamar nombre. Es, bueno, las palabras que son nombres representan objetos del mundo, como por
+1131000	1138680	ejemplo casa, casa, felicidad, digamos, cosas de ese estilo, objetos dentro del universo. Los verbos
+1138680	1145080	representan acciones, representan eventos, representan, bueno, ese tipo de cosas, como por
+1145080	1150240	ejemplo cantar, cantando, cantaremos, sabe, sé, etcétera. Los adjetivos son palabras que se utilizan
+1150240	1155960	para modificar a los nombres y lo que hacen es como dar más descripción acerca de los nombres y le
+1155960	1162160	agregan características, como por ejemplo alto, alta, lindo, inteligente, solo. Los adverbios
+1162160	1167040	también son modificadores, pero en vez de modificar nombres, modifican tanto a los, o sea, modifican
+1167040	1171640	el resto de las cosas, modifican a los verbos, a los adjetivos o a otros adverbios, como por ejemplo
+1171640	1177680	medio, simplemente, solo, ayer. Esas cuatro categorías que les acabo de decir, nombre, verbo, adjetivo y
+1177680	1182080	adverbio, son categorías abiertas. Son clases abiertas porque todos los días se están inventando
+1182080	1186200	palabras nuevas, el lenguaje es como muy productivo y la gente empieza a inventar palabras todos los
+1186200	1191480	días, entonces, las palabras casi todo el tiempo van a parar en una de esas cuatro categorías.
+1191480	1197320	En cambio, las de abajo son clases cerradas, son clases que o bien no cambian, digamos, yo puedo escribir
+1197320	1202840	una lista con todas las palabras, o bien cambian muy lentamente en el tiempo. Y bueno, una de esas
+1202840	1207240	categorías son los determinantes. Los determinantes incluyen a los artículos, como el, una, unos,
+1207880	1214400	incluyen algunas otras cosas como los cuantificadores, muchos, algunos, etcétera. Bueno, esa es la
+1214400	1218320	categoría de los determinantes. Después las preposiciones, que para las preposiciones también
+1218320	1225720	puedo escribir una lista de a, de, por, contra, hacia, desde y otras más. Las preposiciones tienen
+1225720	1231280	una característica en español que, en español y en otras lenguas romances como el francés, de que yo
+1231280	1237120	no puedo terminar una oración en una preposición. O sea, me parece que no hay ejemplos de oraciones
+1237120	1241600	que también en preposición, sino que la preposición siempre va antes de otro grupo de palabras.
+1242960	1246400	Y bueno, con la preposición se arman estructuras más grandes que sirven, como por ejemplo,
+1246400	1253440	para poner los argumentos a un verbo, digamos. En contra, estoy en contra de algo. Ahí estás,
+1254520	1258640	ah, claro, pero estás elidiendo, estás omitiendo la parte de la que estás en contra.
+1258640	1267760	Está bien, o sea, venías hablando de algo y lo que hiciste fue sacar el, ¿no? Veníamos hablando de
+1267760	1273320	algo y estás en contra. Claro, estás omitiendo.
+1273320	1281320	No sé, ahí en contra. Ese contra sería preposición también.
+1281320	1292640	Es el contra, no sé si es una preposición. Capaz que sí. Capaz que no. Habría que averiguarlo.
+1292640	1298200	El en seguro que es una preposición, pero el contra no sé. Bien.
+1301320	1307760	OK, claro, porque contra puede ser una preposición, pero el en contra, ahí ya no estoy tan seguro.
+1308760	1310760	¿Es preposición ahí?
+1315760	1322760	Claro, pero cuando estás en contra de, ahí no sé, capaz que contra está actuando como otra cosa.
+1325760	1332760	Claro, pero el contra está actuando también como preposición. Bien. Ah, es un ejemplo interesante.
+1332760	1335760	Igual, es bastante raro.
+1335760	1337760	¿De qué?
+1340760	1347760	Sí, pero bueno, pero en inglés, por ejemplo, es perfectamente válido terminar una oración en una preposición.
+1347760	1352760	Pero claro, en las lenguas romances que vienen del latín, no. No terminás nunca en una preposición o en una oración.
+1352760	1359760	Entonces, por eso es raro decirlo de en contra. Ahí habría que ver, porque capaz que, o no está actuando como preposición, o es un caso medio particular.
+1359760	1368760	Pero bueno, como les decía, el lenguaje tiene eso. Tiene cosas que son muy lógicas porque se usa para describir situaciones lógicas y tiene cosas que van evolucionando a lo largo de la historia.
+1368760	1379760	Hoy las miramos y decimos, pa, qué raro esto, qué extraño, pero probablemente tuvo su historia y de alguna manera la gente se puso de acuerdo de que se decía así y se utilizaba el protocolo de esa manera.
+1379760	1391760	Bueno, después, la otra categoría son los pronombres, como los pronombres personales, yo, vos, nosotros, ellos, etcétera, o pronombres posesivos o algunos otros pronombres.
+1391760	1404760	Bueno, después las conjunciones, las conjunciones como y, o, sí, qué, pero, alguna más, son palabras que me permiten agarrar dos pedacitos de oración y pegarlos juntos y construir una estructura más grande.
+1404760	1413760	Como por ejemplo y, que es una conjunción coordinante, me permite agarrar dos cosas de la misma clase, pegarlas y generar otra cosa que también es de la misma clase que esas dos.
+1413760	1425760	Y bueno, más o menos esas son las categorías léxicas que vamos a considerar. Existen algunas más y dependiendo de la fuente que lean puede que agregue diferentes.
+1425760	1436760	Como por ejemplo las interjecciones son otra categoría que no está en esta slide, pero también es una clase de palabras bastante común como ay, uy, opa y todo ese tipo de cosas.
+1436760	1444760	Ese tipo de palabras como que no entra en ninguna de estas categorías y bueno, hay una nueva que es interjección y bueno, dependiendo de a quien lean puede que haya otras.
+1444760	1448760	Pero estas como que son las más importantes y las más comunes que vamos a considerar.
+1449760	1457760	Bueno, lo que les decía hace un ratito, hay categorías que son abiertas y categorías que son cerradas, clases abiertas y clases cerradas.
+1457760	1465760	Las clases abiertas como nombres, verbos, adjetivos y algunos adverbios, en particular los adverbios que vienen de adjetivos y terminan en mente, entran ahí.
+1465760	1471760	Bueno, son clases en las cuales todos los días se están inventando palabras nuevas y se van agregando palabras nuevas a esas clases.
+1472760	1479760	Y las categorías cerradas son categorías en las cuales normalmente no se agregan palabras nuevas, sino que yo puedo escribir una lista con todas las que existen.
+1479760	1483760	Por ejemplo, una lista con todos los determinantes, con todos los pronombres, con todas las preposiciones.
+1483760	1488760	Y bueno, en algunos adverbios particulares también yo podría escribir una lista y listarlos todos.
+1488760	1496760	Pero claro, esto no quiere decir que esté escrito en piedra y que nunca cambie, sino que a lo largo del tiempo, a lo largo de los siglos y de la historia,
+1496760	1503760	hay palabras que empiezan a moverse, a mutar su significado y se empiezan a parecer más a preposiciones, por ejemplo.
+1503760	1507760	Entonces al final se lo agrega a la lista de preposiciones como que es una preposición nueva.
+1507760	1510760	Pero claro, eso es algo que pasa después de muchos años.
+1510760	1514760	Entonces como que en el análisis de texto del día a día no nos va a molestar demasiado.
+1517760	1519760	Bueno, veamos ejemplos entonces.
+1519760	1524760	Tenemos un texto que es, no sé si se llega a ver las palabras que están en negrita.
+1524760	1526760	¿Se llega a ver? ¿Sí?
+1526760	1534760	De su padre aprendió desde niño, desde muy niño el dominio de las armas de fuego, el amor por los caballos y la maestranza de las aves de presas altas.
+1534760	1537760	Pero de él aprendió también las buenas artes del valor y la prudencia.
+1537760	1541760	Y hay algunas palabras ahí que están en negrita, como por ejemplo la palabra su.
+1541760	1545760	¿Cuál es la clase, la categoría léxica de la palabra su?
+1547760	1548760	¿Cuál?
+1548760	1551760	Es un determinante, exacto. Es un determinante posesivo.
+1551760	1552760	Bueno, ¿qué otras tenemos?
+1552760	1553760	¿Aprendió?
+1556760	1557760	Verbo. Bien.
+1557760	1558760	¿Desde?
+1559760	1560760	Es una preposición.
+1561760	1562760	Maestranza.
+1565760	1567760	Maestranza es un nombre.
+1568760	1570760	Claro, sustantivo o nombre.
+1570760	1571760	Altas.
+1573760	1574760	Un adjetivo.
+1574760	1575760	Un adjetivo.
+1575760	1580760	Pero es una conjunción exactamente.
+1580760	1581760	El, ¿qué es?
+1582760	1583760	El es un pronombre.
+1583760	1584760	El es un pronombre.
+1584760	1585760	Y también.
+1587760	1588760	Adverbio.
+1588760	1590760	Exacto, la que falta. Adverbio.
+1591760	1593760	Y un poco pasa eso en general.
+1593760	1596760	Cuando uno no logra encontrar que es una palabra, probablemente sea un adverbio.
+1596760	1600760	O sea, empezase a decir, no, no es preposición, no es pronombre, no sé qué y tal.
+1600760	1601760	Termina siendo un adverbio.
+1601760	1605760	Pero bueno, sí, los adverbios son como una clase un poco extraña.
+1605760	1608760	Todo lo que no puede estar en otro lado termina parando ahí.
+1608760	1612760	Y entonces como que tiene distintas propiedades combinatorias y son un poco raros.
+1612760	1614760	Tienen algunas propiedades comunes, pero otras que no tanto.
+1614760	1620760	Pero bueno, también sí, es un adverbio y es uno de esos adverbios que les decía que no cambia, digamos.
+1620760	1625760	Pertenece a la clase de adverbios que no es, digamos, que es cerrada.
+1625760	1627760	Bueno, entonces muy bien.
+1628760	1630760	Estuvieron bien todas las respuestas.
+1630760	1632760	Subo es un determinante posesivo.
+1632760	1633760	Aprendido es un verbo.
+1633760	1634760	Desde es una preposición.
+1634760	1635760	Maestranza es un nombre.
+1635760	1637760	Alta es un adjetivo, pero es una conjunción.
+1637760	1641760	El es un pronombre y también es un adverbio.
+1643760	1644760	¿Qué pasa con estas palabras?
+1647760	1649760	¿De qué categoría es la palabra sobre?
+1653760	1654760	Depende del contexto.
+1654760	1655760	¿Qué puede ser sobre?
+1665760	1667760	¿Pueden ser un sustantivo, cómo?
+1671760	1673760	¿Eso es un sustantivo?
+1676760	1677760	Ahí está, el sobre de carta.
+1677760	1680760	El sobre donde pongo una carta es un nombre, es un sustantivo.
+1680760	1682760	Bien, ¿qué otro sobre puede haber entonces?
+1684760	1685760	Preposición, ahí está.
+1685760	1688760	Está sobre la mesa, es una preposición y hay otro más.
+1692760	1693760	¿Quién dijo?
+1694760	1695760	Bien, ¿qué?
+1695760	1696760	¿Algún ejemplo?
+1698760	1699760	Lo sobre.
+1699760	1704760	Ese tiene tilde, pero me comí la comida para que no sobre o algo así.
+1704760	1707760	Ahí sí, ahí es el verbo, del verbo sobrar.
+1708760	1709760	Y bueno, esas son las tres categorías.
+1709760	1711760	No sé si puede tener alguna otra, supongo que no.
+1711760	1714760	Joven, ¿de qué categoría es?
+1716760	1717760	Sustantivo adjetivo.
+1717760	1718760	A ver, ¿ejemplos?
+1720760	1722760	El joven es, ¿ahí qué es?
+1723760	1725760	Sí, bueno, es un sustantivo, ahí está.
+1725760	1726760	¿Y el otro?
+1727760	1729760	El es joven, ahí está el adjetivo.
+1729760	1730760	Bien, ¿y cómo?
+1734760	1737760	Puede ser un verbo de comer, como manzanas o ¿qué otra cosa?
+1745760	1747760	¿Ahí es una preposición o es una conjunción?
+1748760	1749760	Ahí es un adverbio.
+1749760	1752760	También puede ser una conjunción subordinante.
+1754760	1756760	Pero no me relativo.
+1756760	1758760	No tengo muy claro cuál es la diferencia.
+1758760	1761760	Cuando dice, como nunca va, no lo invitan.
+1761760	1763760	Por ejemplo, ese cómo, ¿qué vendría a ser?
+1763760	1764760	Adverbio relativo.
+1764760	1765760	Ahí está, bien.
+1765760	1770760	O sea, el cómo es medio complicado y puede tener como muchas categorías.
+1771760	1776760	Pero bueno, como ven, hay palabras que pueden pertenecer a más de una categoría.
+1777760	1780760	Y eso significa que hay ambigüedad.
+1780760	1783760	Y la ambigüedad ocurre en todo nivel en el lenguaje natural.
+1783760	1786760	Y bueno, ya empezamos desde lo más abajo.
+1786760	1787760	Las palabras son ambigüas.
+1787760	1789760	Las categorías léxicas que tienen las palabras son ambigüas.
+1790760	1793760	Entonces, bueno, necesitamos poder desambiguarlas.
+1793760	1796760	Necesitamos poder sacar, levantar esa ambigüedad de alguna manera.
+1796760	1801760	Saber si cuando dice sobre está hablando de un nombre, está hablando de una carta.
+1801760	1804760	O está hablando de una preposición o está hablando de un verbo.
+1804760	1805760	¿Cómo hacemos?
+1805760	1809760	Alguien había dicho hoy qué es lo que hacemos para poder darnos cuenta cuál es la categoría correcta.
+1811760	1812760	Miramos contexto.
+1813760	1816760	Entonces nosotros agarramos y miramos la oración de dónde está y dice...
+1818760	1820760	No sé, me comí la comida para que no sobre.
+1820760	1822760	Entonces me doy cuenta de que es un verbo.
+1826760	1831760	Y bueno, ¿qué podría hacer una computadora en este caso si quisiéramos hacerlo automáticamente?
+1831760	1835760	En realidad la computadora también utiliza contexto.
+1835760	1839760	También los métodos que existen para poder desambiguar estas cosas se basan en el contexto
+1839760	1845760	y que hay palabras alrededor que me van a dar información importante acerca de cuál es la categoría de esa palabra.
+1845760	1848760	Entonces existen métodos que son basados en reglas.
+1848760	1851760	Los primeros que se inventaron, digamos, son métodos basados en reglas
+1851760	1856760	donde personas hablantes del lenguaje que tienen mucho conocimiento acerca de la lengua
+1856760	1861760	empiezan a decir, bueno, si sobre está cerca de carta, entonces digo que es un sustantivo
+1861760	1867760	y si sobre está cerca de, no sé, alguna otra cosa, entonces digo que es una preposición, etc.
+1867760	1874760	Entonces se armaban como grandes compilaciones de reglas con muchísimas reglas y muchísima información.
+1874760	1879760	Y bueno, esos eran los primeros métodos para poder reconocer, para poder identificar
+1879760	1882760	cuál es la categoría gramática de una palabra que es ambigua.
+1882760	1890760	Pero otro gran grupo de técnicas en vez de, digamos, de utilizar personas para que escriban esas reglas,
+1890760	1892760	tratan de inferirlas automáticamente.
+1892760	1896760	Agarran un montón de texto que tiene ya etiquetado cuáles son las categorías correctas
+1896760	1899760	y tratan de inferir las reglas mediante aprendizaje automático.
+1899760	1902760	Entonces, inicialmente, los métodos más exitosos eran basados en reglas,
+1902760	1906760	o sea, había lingüistas que escribían un montón de reglas con un montón de conocimiento.
+1906760	1912760	Pero aún así, digamos, es bastante complejo y se vuelve como bastante intratable.
+1912760	1918760	Entonces, después de cierto momento en la historia, empezaron a ser más precisos los métodos automáticos.
+1918760	1923760	Basándome en una gran colección de texto que ya está etiquetado, yo puedo entrenar algo que aprende a reconocer
+1923760	1925760	cualquier texto que a mí se me ocurra.
+1926760	1931760	Eso lo vamos a ver más adelante en el curso, cómo es que funcionan estos métodos.
+1932760	1940760	Bien, entonces, por ejemplo, la palabra medio es una palabra que tiene dos posibles categorías léxicas.
+1940760	1942760	Medio puede ser un adjetivo o medio puede ser un adverbio.
+1942760	1945760	Y acá yo puedo ver una diferencia interesante entre adjetivo y adverbio.
+1945760	1950760	Cuando yo digo, estoy hablando de un tomate, digo que quiero medio tomate.
+1950760	1953760	Si estoy hablando de naranja, digo que quiero media naranja.
+1953760	1956760	Y ahí la palabra medio cambió, en realidad.
+1956760	1959760	Cambió porque tomate es, ¿por qué cambió?
+1964760	1966760	No es el artículo, estamos hablando del nombre.
+1966760	1968760	El nombre tomate es un nombre masculino.
+1970760	1973760	Claro, pero en realidad el artículo también cambia por lo mismo.
+1973760	1976760	Cambia porque el artículo se adapta a que el nombre es masculino.
+1976760	1978760	Entonces el artículo va a pasar a ser masculino.
+1978760	1981760	Si el nombre es femenino, el artículo también.
+1981760	1983760	Entonces eso se llama concordancia.
+1983760	1989760	En español existe concordancia entre un determinante y el sustantivo que está determinando y el nombre que está determinando.
+1989760	1993760	Y también entre un adjetivo y el nombre que está modificando.
+1993760	1995760	Entonces eso es lo que pasa con medio en este caso.
+1995760	2002760	Cuando yo digo tomate, que es un nombre masculino, entonces el adjetivo que lo está modificando también tiene que ser masculino.
+2002760	2008760	Cuando digo naranja, que es un nombre femenino, el adjetivo que lo está modificando también pasa a ser femenino.
+2008760	2010760	Y eso es parte de lo que decíamos del paradigma flexivo.
+2010760	2017760	La palabra medio puede flexionarse de manera de volverse femenina o puede también flexionarse de manera de volverse plural.
+2020760	2026760	Y va a tener las mismas categorías, digamos, la misma flexión que va a tener el sustantivo que está acompañando.
+2027760	2030760	En cambio, en los ejemplos de abajo, cuando se trata de un adverbio, esto no ocurre.
+2030760	2034760	Yo digo están medio cansadas y no digo están medias cansadas.
+2036760	2038760	¿Cómo le suena están medias cansadas?
+2041760	2044760	¿Le suena raro?
+2045760	2048760	Sí, suena un poco como las medias están cansadas.
+2049760	2052760	Pero ¿qué pasa si digo mi vecina está media loca?
+2055760	2056760	¿Ahí cómo le suena?
+2057760	2058760	Ahí suena bien, ¿no?
+2059760	2060760	Suena menos mal.
+2061760	2064760	Pero lo correcto es decir mi vecina está medio loca.
+2065760	2069760	Que de alguna manera suena bien también, pero capaz que media loca no suena más natural.
+2070760	2075760	Y eso es raro en realidad, porque lo normal es que ese medio que estoy diciendo ahí es un adverbio.
+2075760	2077760	Y los adverbios nunca cambian.
+2077760	2081760	Los adverbios no tienen flexión, sino que siempre se comportan de la misma manera.
+2082760	2085760	Pero por algún motivo, por lo menos en Uruguay, no sé si pasa en el resto del mundo,
+2085760	2090760	para decir medio, para utilizar el adverbio medio, nosotros solemos flexionarlo.
+2090760	2094760	Y decir está media loca o están medias locas o lo que sea.
+2094760	2099760	Y no sé si eso es universal en todo el español, pero por lo menos en Uruguay nos suena bastante natural decir eso.
+2100760	2103760	Entonces, esto es otro ejemplo de una cosa que es histórica.
+2103760	2106760	Probablemente nosotros nos pusimos de acuerdo todos, como sociedad,
+2106760	2110760	de que sonaba mejor decir está media loca que está medio loca.
+2111760	2116760	Y eso trae problemas al analizar las cosas mediante reglas.
+2116760	2120760	Porque yo digo, bueno, la regla correcta es decir está medio loca.
+2120760	2125760	Y si digo cualquier otra cosa, está mal. No lo puedo reconocer porque es incorrecto.
+2126760	2131760	Pero probablemente a alguien se le ocurra escribirlo porque a alguien le suena natural y lo escribe de esa manera.
+2131760	2135760	Entonces después mi procedimiento va a fallar porque tenía un error,
+2135760	2139760	lo que yo considero que es un error, pero a esa persona le sonaba natural.
+2139760	2144760	Y bueno, ese es uno de los problemas grandes que tiene el procesamiento del lenguaje.
+2144760	2150760	O sea, uno tiene que ser tolerante ante ese tipo de errores porque capaz que en realidad no está tan mal.
+2150760	2154760	Capaz que hay, yo que sé, un conjunto de personas que hablan de esa manera y eso.
+2154760	2160760	Entonces los errores son un problema y lo vamos a ver a lo largo del curso.
+2160760	2166760	Cuando hay errores, digamos, de análisis de una oración, uno puede directamente decir, bueno,
+2166760	2170760	corto acá mi análisis y no sigo analizando porque esta oración tiene errores.
+2170760	2175760	O puede decir, bueno, hay errores pero con cierta probabilidad en realidad quiso decir esta otra cosa.
+2176760	2182760	Y bueno, ese es otro problema que está bueno para, es complicado y está bueno para analizarlo después.
+2183760	2188760	Bien, ¿qué otro problema tengo cuando quiero identificar la categoría léxica de una palabra?
+2188760	2193760	Hay palabras desconocidas. O sea, como decíamos, hay clases abiertas, todos los días se están inventando palabras
+2193760	2199760	y si bien yo puedo tener un diccionario que tiene un montón de palabras y decirme para cada una cuál es su categoría léxica,
+2199760	2202760	es muy probable que alguien venga mañana y me invente una palabra nueva.
+2202760	2206760	Como en este que dice, digo veinte y diría cincuenta porque esos eran los que representaba
+2206760	2211760	con su esgunfiamiento de mascarón chino y sus ojos enturbeados como los de un antiguo lavaplatos.
+2212760	2216760	Esgunfiamiento. ¿Alguien sabe lo que es un esgunfiamiento?
+2217760	2221760	No. Probablemente Art inventó esa palabra en ese momento.
+2222760	2226760	Pero más o menos podemos saber de qué categoría es. ¿Qué se les ocurre que es esgunfiamiento?
+2227760	2230760	Un adverbio. ¿Por qué?
+2231760	2237760	¿Por miento? Los sabidurios, te está confundiendo en los que terminan en mente, ¿no?
+2238760	2242760	Hay un determinante, ¿entonces? Es un nombre, exacto.
+2242760	2247760	Esgunfiamiento es un nombre y las dos pautas que me lo dicen es por la terminación miento que se utiliza
+2247760	2255760	en muchas ocasiones para pasar de verbo a nombre como en entrenamiento, casamiento, cuestionamiento,
+2255760	2261760	cosas de ese estilo y además porque está precedido por un determinante y el determinante se aplica a nombres.
+2261760	2266760	¿Y el nombre que es esgunfiamiento es un nombre para decir que es un nombre?
+2266760	2267760	¿Cómo?
+2267760	2269760	Un sinónimo para nombre.
+2269760	2270760	¿Sustantivo?
+2270760	2271760	Sustantivo.
+2271760	2272760	¿Nombre y sustantivo, sí?
+2272760	2273760	El nombre es sustantivo.
+2273760	2274760	Es lo mismo.
+2274760	2278760	Bien, acá tenemos otro ejemplo. Las mediciones de transaminazas o aminotransferazas son exámenes
+2278760	2281760	que indican inflamación hepática, etcétera, etcétera, etcétera.
+2281760	2285760	Transaminazas o aminotransferazas. Esas dos palabras, ¿qué son?
+2287760	2290760	También son nombres o sustantivos. ¿Por qué?
+2290760	2292760	¿Qué es lo que nos da la pauta?
+2292760	2296760	Porque conocemos mucho de química y sabemos cómo funciona.
+2302760	2307760	Son exámenes, o sea, en realidad lo que son exámenes no son las transaminazas o aminotransferazas,
+2307760	2309760	sino las mediciones de eso.
+2310760	2311760	¿Y qué pasa?
+2311760	2315760	Cuando yo digo medición de algo, en realidad ese algo que estoy midiendo probablemente sea un nombre,
+2315760	2319760	porque yo no hago una medición de leer o hago una medición de, no sé,
+2319760	2324760	o sea, en general lo que va después de una medición de algo es un nombre, es un objeto.
+2324760	2332760	También, si conociera acerca de cómo funciona la morfología de las palabras que son sustancias químicas,
+2332760	2335760	vería que las que terminan en asa también son siempre nombres.
+2336760	2340760	Entonces, en definitiva, siempre utilizo este tipo de técnicas para reconocer que hay un nombre
+2340760	2342760	cuando tengo una palabra desconocida.
+2342760	2346760	Entonces, el tipo de evidencia que yo puedo sacar para saber que esgunfiamento es un nombre
+2346760	2349760	es por su terminación, porque está precedido un determinante,
+2349760	2353760	y bueno, transaminaza y aminotransferaza más o menos lo mismo.
+2355760	2358760	Bueno, otro problema que hay al reconocer categorías léxicas
+2358760	2362760	es la existencia de este tipo de cosas que se llaman locuciones
+2362760	2365760	o palabras compuestas o expresiones multipalabra.
+2365760	2369760	Son como conceptos similares que se refieren más o menos a la misma cosa.
+2369760	2373760	Y son secuencias de palabritas que siempre van juntas.
+2373760	2377760	O sea, son secuencias de palabras que no actúan como si fuera cada palabra por separado,
+2377760	2379760	sino que tienen una sola unidad de sentido.
+2379760	2381760	Entonces, acá hay un ejemplo que es a partir de.
+2381760	2385760	Lo invitaron a partir de que demostró estar interesado en el tema.
+2385760	2390760	Ese a partir de no es, o sea, no estoy utilizando el verbo partir para nada,
+2390760	2392760	o sea, no hay nadie que vaya a partir,
+2392760	2395760	sino que lo estoy usando como una expresión multipalabra
+2395760	2398760	que funciona como una especie de preposición,
+2398760	2402760	una especie de macro preposición que funciona para decir lo que viene después.
+2402760	2406760	Lo invitaron a partir de que demostró estar interesado en el tema.
+2406760	2410760	En cambio, hay otros casos en los cuales yo voy a encontrar el string a partir de,
+2410760	2416760	y va a querer decir explícitamente que está el verbo partir
+2416760	2418760	y que hay otras cosas alrededor.
+2418760	2422760	Por ejemplo, en lo obligaron a partir de aquel lugar inmediatamente.
+2422760	2427760	En ese caso no estoy usando esa locución prepositiva a partir de,
+2427760	2431760	sino que estoy diciendo hay una persona que tenía que partir,
+2431760	2434760	entonces lo obligaron a partir de aquel lugar inmediatamente.
+2434760	2437760	En ese caso estoy haciendo el análisis explícito.
+2437760	2440760	Y es complicado para un analizador automático saber
+2440760	2443760	cuándo tiene que usar uno de los casos y cuándo tiene que usar el otro.
+2444760	2449760	Y locuciones de este estilo hay para todos los gustos, digamos, en todas las categorías.
+2449760	2453760	Tenemos locuciones que son nominales como, por ejemplo, ojo de buey, lobo de mar,
+2453760	2457760	otras que son verbales como dar un beso, dar la mano, dar las gracias, tomar el pelo,
+2457760	2459760	otras más.
+2459760	2463760	Entonces, por ejemplo, ojo de buey, ¿qué es un ojo de buey?
+2463760	2466760	Es una ventanita redonda que se ponen los barcos.
+2466760	2471760	Digamos, ahí no hay ningún buey, ningún ganado vacuno,
+2471760	2473760	y no se está hablando de ningún ojo.
+2473760	2476760	En cambio, si yo tengo un texto, digamos, y me aparece ojo de buey,
+2476760	2480760	¿cómo reconozco si está hablando de bueyes o está hablando de barcos?
+2480760	2483760	Bueno, yo podría mirar alrededor y veo si hay un contexto marítimo
+2483760	2485760	donde habla de barcos, si habla de mar, etcétera.
+2485760	2489760	Entonces digo, bueno, acá se refiere al ojo de buey marino.
+2489760	2492760	Y si habla de vacas, si habla de cabezas de ganado, etcétera.
+2492760	2496760	Entonces digo, se está refiriendo al otro ojo de buey, puedo separarlo.
+2496760	2499760	Entonces, bueno, usando el contexto también se puede llegar
+2499760	2502760	a distinguir este tipo de cosas.
+2505760	2514760	Bueno, entonces estos son tres tipos de problemas,
+2514760	2517760	tres fuentes de problemas que tenemos al identificar categorías léxicas
+2517760	2519760	dentro de un texto.
+2519760	2521760	Uno es, el principal es la ambigüedad, o sea,
+2521760	2524760	palabras que tienen más de una categoría, yo tengo que poder distinguirlo.
+2524760	2529760	Otro es, ¿cómo hago para encontrar la categoría léxica de una palabra desconocida?
+2529760	2533760	Y el otro es la identificación de palabras compuestas o expresiones multipalabra.
+2533760	2536760	Y bueno, estos problemas, y otros muchos, estos son algunos ejemplos,
+2536760	2539760	son problemas que se enfrenta el procesamiento del lenguaje.
+2539760	2543760	Y bueno, en el curso vamos a estar viendo algunos de estos.
+2555760	2558760	Bueno, vamos a abandonar las palabras entonces, que es la unidad mínima
+2558760	2563760	que he estudiado en la sintaxis, y vamos a pasar a estructuras
+2563760	2565760	un poco más grandes que las palabras.
+2565760	2567760	Vamos a hablar de los sintagmas.
+2567760	2570760	Los sintagmas son grupos de palabras dentro del texto,
+2570760	2573760	grupos de palabras que siempre tienen un núcleo
+2573760	2575760	y siempre tienen una estructura interna.
+2575760	2579760	Y esa estructura es como, es una palabra rodeada de otras palabras
+2579760	2584760	que siempre están de alguna manera vinculadas al núcleo.
+2584760	2588760	Y bueno, los sintagmas pueden cumplir diversas funciones dentro de la oración.
+2588760	2591760	Y ahora vamos a ver ejemplos de qué son los sintagmas.
+2591760	2594760	Sintagma es una de las formas de decirles en español,
+2594760	2597760	otra forma de decirles grupo y otra forma de decirles frase.
+2597760	2600760	Y en inglés se dice phrase y pueden usar esa, o sea,
+2600760	2602760	pueden ver esa nomenclatura en muchos lados.
+2602760	2604760	Y ahora vamos a ver ejemplos de eso.
+2604760	2608760	El estudiante de letras de Montevideo es un ejemplo de sintagma.
+2608760	2612760	Lo que está, en estos ejemplos lo que está marcado en negrita es el núcleo.
+2612760	2615760	El estudiante de letras de Montevideo tiene como núcleo estudiante.
+2615760	2618760	Entonces decimos que, estudiante de qué categoría es.
+2620760	2623760	Estudiante es un nombre, entonces decimos que
+2623760	2626760	el estudiante de letras de Montevideo es un grupo nominal.
+2626760	2631760	El siguiente es muy propenso a las infecciones respiratorias en primavera.
+2631760	2633760	El núcleo de ese es propenso.
+2633760	2635760	¿Qué es propenso?
+2636760	2640760	Propenso es un adjetivo, así que esto es un grupo adjetival o sintagma adjetival.
+2640760	2644760	El siguiente es casi compra otro libro por equivocación.
+2646760	2648760	¿Qué sería ese?
+2648760	2650760	Sería verbal, esto es un sintagma verbal.
+2650760	2653760	El siguiente es bastante cerca de la escuela.
+2653760	2659760	Y en ese caso, cerca es un adverbio en realidad.
+2659760	2661760	Entonces esto sería un sintagma adverbial.
+2661760	2664760	Y después más hacia la derecha.
+2666760	2668760	¿Qué les parece?
+2669760	2672760	Es una preposición, así que esto es un sintagma preposicional.
+2672760	2674760	Y ahí están estos.
+2674760	2677760	Mira, ahí cambié letras por ingeniería porque era más apropiado para acá.
+2677760	2680760	El estudiante de ingeniería de Montevideo es un sintagma nominal.
+2680760	2683760	Muy propenso a las infecciones respiratorias en primavera es un sintagma adjetival.
+2683760	2689760	Sintagma nominal, grupo nominal, frase nominal o noun phrase.
+2689760	2692760	En general van a poder encontrar esa nomenclatura en todos lados.
+2692760	2697760	Dependiendo del artículo o dependiendo de lo que están leyendo,
+2697760	2702760	puede que aparezca como SN o como NP, porque lo está tratando en inglés, etc.
+2702760	2704760	Pero bueno, son cosas que hablan de lo mismo.
+2704760	2708760	Es un grupo de palabras que se asocian alrededor del núcleo,
+2708760	2710760	que el núcleo en este caso es estudiante,
+2710760	2716760	y después van a tener cierta estructura y van a cumplir ciertos roles.
+2716760	2719760	Bueno, entonces esos son ejemplos de sintagmas.
+2719760	2721760	¿Qué es lo que pasa con un sintagma?
+2721760	2723760	Un sintagma siempre tiene un núcleo.
+2723760	2726760	En este caso estoy viendo el estudiante de ingeniería de Montevideo.
+2726760	2729760	El núcleo es estudiante.
+2729760	2734760	Y el resto de las palabras del sintagma se estructuran alrededor del núcleo.
+2734760	2737760	Tienen cierta vinculación o cierta relación respecto al núcleo.
+2737760	2740760	Entonces, en el estudiante de ingeniería de Montevideo,
+2740760	2742760	yo lo que digo es que estudiante es el núcleo.
+2742760	2744760	Y después le voy a agregar de ingeniería,
+2744760	2746760	voy a hacer que estudiante de ingeniería, digamos,
+2746760	2748760	forme una unidad mayor,
+2748760	2750760	y a ese de ingeniería lo voy a llamar complemento.
+2750760	2752760	Le voy a decir que es un complemento de estudiante.
+2752760	2754760	Después voy a agarrar de Montevideo
+2754760	2757760	y lo voy a pegar a la estructura que ya venía armando
+2757760	2759760	y voy a decir que es un adjunto.
+2759760	2761760	Y en el medio, cuando yo hago eso,
+2761760	2765760	lo que va pasando es que se van armando estas cosas.
+2765760	2768760	O sea, yo partí de un núcleo nominal,
+2768760	2770760	partí de una palabra que es un nombre,
+2770760	2772760	y armé una proyección.
+2772760	2775760	Eso que dice n' se denomina una proyección.
+2775760	2778760	Después le pegué un adjunto y armé otra proyección.
+2778760	2780760	Y al final le puse un especificador,
+2780760	2782760	que en este caso es un determinante,
+2782760	2785760	y termino armando un sintagma.
+2785760	2791760	Eso se llama la proyección máxima del nombre,
+2791760	2793760	que termina siendo un sintagma nominal.
+2794760	2797760	Esta cosa que está acá, esta estructura en forma de árbol,
+2797760	2799760	que puede parecer un poco rara al principio,
+2799760	2804760	es parte de una teoría que se inventó en los 70.
+2804760	2808760	Está basada en las ideas de Noam Chomsky.
+2808760	2810760	Lo tienen a Chomsky, ¿no?
+2810760	2812760	Bien, Chomsky en los 70 inventó esto.
+2812760	2815760	Después Ray Jakendoff, creo que lo llamaba,
+2815760	2817760	fue el que lo formalizó,
+2817760	2820760	y se llama la teoría de la X barra.
+2820760	2823760	Y se escribe X',
+2823760	2826760	y creo que originalmente era con una barra arriba.
+2826760	2828760	Escribían así.
+2828760	2832760	Pero en la máquina de escribir la época era difícil,
+2832760	2837760	entonces al final lo que también lo hicieron es ponerle un apóstrofe.
+2837760	2840760	Bien, entonces, eso se llama teoría de la X barra.
+2840760	2843760	Y la teoría de la X barra dice que todos los sintagmas del mundo,
+2843760	2845760	en realidad, para la teoría,
+2845760	2849760	todos los sintagmas de todos los lenguajes naturales del mundo,
+2849760	2851760	se pueden analizar de esta manera.
+2851760	2854760	Yo siempre puedo encontrar un núcleo dentro del sintagma,
+2854760	2856760	y después le puedo pegar un complemento,
+2856760	2857760	le puedo pegar un adjunto,
+2857760	2859760	y al final le termino pegando un especificador,
+2859760	2861760	y eso me arma un sintagma.
+2861760	2865760	Esto es una vista como súper simplificada de lo que es la teoría de la X barra,
+2865760	2870760	pero bueno, un poco para que tengan una idea de qué se trata.
+2870760	2872760	Entonces, esto es un sintagma nominal.
+2872760	2874760	El sintagma nominal se arma de esa manera.
+2874760	2879760	Acá notar que yo dije que agregué de ingeniería como complemento
+2879760	2881760	y de Montevideo como adjunto.
+2881760	2884760	¿Por qué uno de los dos es complemento y por qué el otro es un adjunto?
+2884760	2889760	Adjunto es un tema que es bastante discutido,
+2889760	2892760	pero bueno, vamos a tratar con otro ejemplo de ver
+2892760	2895760	si se entiende cuál es la diferencia entre complemento y adjunto.
+2895760	2897760	Este es otro sintagma de los que teníamos ahí,
+2897760	2900760	muy propenso a las infecciones respiratorias en primavera.
+2900760	2904760	En este caso el núcleo es el adjetivo propenso,
+2904760	2907760	y le agrego un complemento que es a las infecciones respiratorias,
+2907760	2908760	eso es un complemento,
+2908760	2911760	y le agrego un adjunto que es en primavera,
+2911760	2913760	y después le pongo un especificador,
+2913760	2916760	que en este caso es un adverbio, el adverbio muy.
+2916760	2921760	Eso de agregarle como especificador el adverbio al grupo adjetival
+2921760	2924760	también es medio discutido, pero bueno, en este caso,
+2924760	2927760	para este análisis vamos a suponer que es así.
+2927760	2931760	Entonces, bueno, observemos esto que está acá.
+2931760	2934760	Empiezo con el núcleo, que es el adjetivo propenso,
+2934760	2938760	y después digo que tengo un complemento que es a las infecciones respiratorias.
+2939760	2941760	¿Qué pasa con el adjetivo propenso?
+2941760	2943760	¿Qué tiene de particular?
+2946760	2948760	¿Yo puedo decir Juan es propenso?
+2951760	2954760	Claro, es como que propenso necesita que yo le diga propenso a qué,
+2954760	2957760	porque en realidad propenso solo no está funcionando.
+2957760	2960760	Entonces ahí es como que propenso me obliga a ponerle un complemento,
+2960760	2964760	propenso a algo, propenso a las infecciones respiratorias.
+2964760	2966760	Sin embargo, en primavera no pasa eso,
+2966760	2971760	o sea, en primavera es una cosa, digamos, una frase que se la puedo agregar a cualquier cosa.
+2971760	2974760	Yo puedo decir flores rojas en primavera, por ejemplo,
+2974760	2977760	y no importa tanto que yo haya puesto propenso ahí.
+2977760	2980760	Entonces, como que la diferencia entre complemento y adjunto viene a ser eso.
+2980760	2985760	Complemento es algo que el núcleo pide que se agregue de alguna manera,
+2985760	2988760	y adjunto es algo que el núcleo, bueno, no le importa si está o no,
+2988760	2993760	es como que me agrega más información, pero es independiente de cuál es el núcleo que yo estoy poniendo.
+2996760	2999760	Entonces, bueno, eso es un poco la diferencia entre complemento y adjunto.
+2999760	3001760	Después, cuando veamos la estructura de la oración,
+3001760	3005760	va a quedar capaz que un poco más claro de cuáles son esas diferencias.
+3005760	3011760	Bueno, y lo otro que hay es un especificador que en el caso de el sintagma nominal,
+3011760	3014760	el especificador era un determinante.
+3014760	3016760	Entonces, en el caso del sintagma nominal,
+3016760	3021760	una cosa que ocurre en español y que no ocurre en otros idiomas,
+3021760	3026760	a ver, creo que esto ocurre sí en otros idiomas,
+3026760	3032760	es que el núcleo tiene que concordar con el especificador.
+3032760	3039760	Entonces, en el caso del estudiante, yo estoy diciendo estudiante es una palabra que es singular y es masculina,
+3039760	3043760	y entonces puedo ponerle un determinante que es singular y masculino.
+3043760	3049760	Si dijera estudiantes, entonces tendría que ponerle un determinante que es plural
+3049760	3052760	y tendría que decir los estudiantes.
+3052760	3056760	Eso se llama concordancia entre determinante y nombre.
+3056760	3061760	Y bueno, eso ocurre, digamos, en español ocurre entre el determinante y el nombre
+3061760	3065760	y también ocurre entre el nombre y el adjetivo,
+3065760	3069760	que es algo que vimos hace un ratito.
+3069760	3073760	Bien.
+3073760	3078760	OK. Entonces, ¿qué son los sintagmas?
+3078760	3083760	Los sintagmas son grupos de palabras que tienen cierta estructura interna
+3083760	3088760	y sirven para como expandir, digamos, lo que son las categorías básicas.
+3088760	3094760	Todos los sintagmas tienen un núcleo y ese núcleo les va a dar cuál es la categoría del sintagma.
+3094760	3098760	O sea, si el núcleo es un nombre, entonces yo digo que es un sintagma nominal.
+3098760	3101760	Y tienen similitud en cómo funcionan internamente.
+3101760	3104760	Internamente siempre tienen esa forma de árbol.
+3104760	3108760	Pero claro, en realidad no es que, digamos, ahora vamos a ver algunos ejemplos,
+3108760	3114760	pero no es que siempre tengan esa forma de árbol completa, sino que a veces les faltan partes.
+3114760	3119760	Bien. Entonces, la estructura que yo puedo encontrar siempre dentro de un sintagma sigue estas reglas.
+3119760	3124760	Siempre tengo un núcleo, siempre puedo encontrar complementos, ajuntos o un especificador.
+3124760	3128760	Y acá tenemos algunos ejemplos. Ejemplos de sintagmas nominales.
+3128760	3132760	Por ejemplo, el libro negro es un sintagma nominal con núcleo libro.
+3132760	3135760	La vieja casa de la colina es un sintagma nominal con núcleo casa.
+3135760	3140760	Ese primer ativo de alegría, el estudiante de ingeniería de Montevideo o Juan.
+3140760	3145760	¿Qué pasa con Juan? ¿Qué es lo que ven de raro respecto a los otros sintagmas?
+3152760	3157760	No tiene determinante, ni tiene nada en realidad. No tiene determinante, ni complementos, ni nada.
+3158760	3163760	En realidad eso, en la teoría, está planteado y dice, bueno, lo podemos analizar igual,
+3163760	3171760	diciendo que tenemos el núcleo Juan, que es un N, y a esto le pongo un complemento vacío,
+3171760	3181760	y a esto le pongo un adjunto vacío, y al final le pongo un especificador vacío y me queda un sintagma nominal.
+3182760	3189760	¿Por qué es esto? En realidad porque en español no es usual que uno le ponga determinante a los nombres propios.
+3189760	3194760	Yo no digo el Juan. Entonces claro, en definitiva lo que me queda es un montón de lugares vacíos.
+3194760	3199760	En la teoría formalmente uno debería decir, bueno, tengo este sintagma que tiene un montón de lugares vacíos.
+3199760	3206760	En la práctica vamos a ir directamente de sintagma nominal a Juan y decir que es un nombre propio.
+3206760	3213760	Pero bueno, en realidad esta teoría que le estoy dando, esta versión super light de la X barra,
+3213760	3220760	es solamente como a modo de ejemplo. En realidad vamos a ver durante el curso otras formas de gramáticas
+3220760	3225760	que son un poco más simples que eso y que sirven para poder modelar las oraciones que vamos a ver.
+3225760	3240760	Bien. Bueno, ejemplos de sintagmas adjetivales son por ejemplo fácil de leer y ahí tengo el complemento de fácil que es de leer
+3240760	3247760	y tan débil que en ese caso tiene un especificador que es tan. Y después tengo un sintagma adjetival solo,
+3247760	3251760	el mismo caso que pasaba con Juan, pero solamente un adjetivo que es curioso.
+3251760	3258760	Y acá hay más ejemplos, ejemplos preposicionales. Los preposicionales son los que tienen como núcleo la preposición
+3258760	3264760	como en un comienzo para que lo vean a la casa. Adverbiales son los que tienen como núcleo un adverbio,
+3264760	3272760	como muy tarde y lejos de tu casa. Y los verbales son los que tienen como núcleo un verbo, comí una manzana y canto.
+3272760	3278760	Una cosa que tienen los sintagmas verbales, después vamos a ver, es que cuando están completos y tienen todas las partes
+3278760	3284760	que les falta en realidad lo que pasa es que se transforma en oraciones. Un sintagma verbal viene a ser como una oración.
+3284760	3291760	Entonces, ¿cómo es esto de el análisis de los sintagmas? Yo tengo por ejemplo este ejemplo que dice
+3291760	3304760	la vieja casa de la colina. Y eso lo analizaría de esta manera. Yo digo que casa, digo que casa es un nombre,
+3304760	3322760	después dice que es la vieja casa de la colina, digo que tengo de la colina y esto es un adjunto.
+3322760	3330760	Después digo que tengo la palabra vieja y esto también es un adjunto.
+3330760	3339760	Y después, arriba del todo, termino agregándole la, que es el determinante que está actuando como especificador.
+3339760	3349760	Bien, esa es la forma de analizar la vieja casa de la colina. Pero si me fijo bien, en realidad acá no tengo una sola palabra,
+3349760	3353760	sino que tengo varias palabras. Tengo de la colina. Entonces, ¿qué es esto que está acá?
+3353760	3360760	Esto en realidad es otro sintagma que a su vez lo puedo analizar y puedo decir, bueno, esto es un sintagma preposicional
+3360760	3370760	que empieza con el núcleo de, esto es una preposición, vamos a ponerle P, y tiene el complemento la colina.
+3371760	3382760	Este es el complemento. Entonces, esto se transforma en un P' y después tiene un especificador vacío y se transforma en un SP.
+3382760	3389760	Y todo esto de acá está actuando como adjunto de casa.
+3389760	3395760	O sea, yo originalmente dije, bueno, yo tenía el núcleo casa y lo que estaba como complemento era de la colina.
+3395760	3402760	Bueno, ahora puedo seguir un paso más y volver a analizar ese de la colina y abrirlo como si fuera también un sintagma.
+3402760	3408760	Que de hecho lo es, es un sintagma preposicional. Pero a su vez, este de acá, yo en este caso tengo la colina
+3408760	3412760	y la colina también lo puedo llegar a analizar como otro sintagma.
+3416760	3420760	Entonces vamos a tratar de hacerlo acá, a ver si se llega a entender.
+3420760	3431760	Yo digo que tengo colina, no tiene ningún complemento y tiene el determinante la, que es el especificador.
+3431760	3434760	Y esto me genera un sintagma nominal.
+3436760	3446760	Entonces, y esto está actuando como un complemento, esto está actuando como complemento de D.
+3446760	3454760	Y a su vez todo esto que está acá está actuando como adjunto de casa.
+3454760	3459760	Entonces en definitiva yo puedo agarrar cualquier sintagma de estos y puedo empezar a descomponerlo
+3459760	3464760	y ver cada una de las unidades que me van apareciendo por ahí, lo puedo volver a descomponer y volver a descomponer.
+3464760	3466760	Y al final me va quedando un árbol binario.
+3466760	3473760	Me va quedando un árbol binario donde aparecen todas las palabras de ese sintagma que yo estaba escribiendo.
+3473760	3480760	Y bueno, todas esas palabras al final me quedan todas organizadas en un árbol binario.
+3480760	3487760	La teoría de la X barra siempre plantea dibujar árboles binarios a partir de todas las estructuras.
+3487760	3492760	Bueno, y en definitiva fue un poco criticada por eso más adelante.
+3492760	3499760	Pero bueno, en definitiva esta es una forma de darle estructura a todas las unidades que hay en el lenguaje,
+3499760	3500760	en este caso los sintagmas.
+3500760	3505760	Después vamos a ver que las oraciones también se pueden estructurar de esta manera.
+3505760	3510760	Y bueno, fue una teoría que en su momento fue bastante utilizada.
+3510760	3513760	Porque claro, ellos planteaban que todos los idiomas del mundo, en todos los lenguajes naturales,
+3513760	3517760	ya sea el inglés, el español o el chino, todos se pueden analizar de esta manera.
+3517760	3522760	Yo puedo descomponer los sintagmas de esta forma y al final siempre me va a terminar quedando un árbol binario
+3522760	3527760	en los cuales yo identifico ciertos núcleos y otras cosas que se le van pegando al núcleo.
+3529760	3532760	¿No hay forma de probar eso?
+3532760	3534760	¿En qué sentido no hay forma de probar?
+3534760	3537760	Solo en el mundo de cualquier clase puede.
+3537760	3540760	¿Y cómo lo probarías?
+3540760	3544760	Y empezás agarrando frases y hasta que en algún momento hay una que no la puedas hacer.
+3544760	3547760	Y ahí lo falseaste, ahí es el método científico.
+3547760	3549760	Claro, pero bueno, eso sí se puede falsear.
+3549760	3554760	Claro, pero digamos, si es incorrecto se va a poder falsear, si no, no vas a poder.
+3554760	3557760	Claro, pero es como el correcto efecto estructural.
+3557760	3561760	Como todas las teorías científicas.
+3561760	3567760	Claro, o sea, si esto fuera completamente formal, estuviéramos en un punto de vista lógico, entonces lo podrías hacer.
+3567760	3571760	Pero claro, acá estás describiendo una situación del universo.
+3571760	3574760	Estás describiendo una cosa que ya existe ahí que es el lenguaje.
+3574760	3579760	Entonces vos estás haciendo un modelo y tratando de ver si ese modelo se aplica al lenguaje que es algo que ya existe.
+3579760	3584760	Entonces es más parecido a las leyes físicas que a las leyes matemáticas.
+3584760	3588760	Bueno, leyes matemáticas no. Es más parecido a las leyes físicas que a un teorema matemático.
+3588760	3595760	O sea, vos estás describiendo una situación del universo y tratando de encontrar el mejor modelo posible que le explique.
+3595760	3601760	Y bueno, este es un modelo que en su momento hizo mucho ruido porque explicaba un montón de situaciones y andaba bastante bien en un montón de casos.
+3601760	3603760	Más adelante se empezaron a ver otros.
+3603760	3606760	En el curso vamos a ver algo un poco más simple que esto.
+3606760	3613760	No vamos a hacerlo de esta manera, sino que vamos a ver algo más parecido a lo que son las gramáticas libres de contexto con algunos cambios.
+3613760	3623760	Pero bueno, después vamos a empezar a hablar un poco más de cómo es la estructura de la relación respecto a esto, a esto de la estructura de los sintagmas.
+3623760	3625760	Y bueno, va a quedar un poco más claro, capaz.
+3625760	3633760	Bien, entonces, lo siguiente que vamos a ver son los constituyentes sintácticos.
+3633760	3640760	Hasta ahora lo que tenemos eran palabras. Las palabras se pueden agrupar de alguna manera en sintagmas.
+3640760	3647760	Los sintagmas tienen una estructura. Esa estructura implica que tienen un núcleo y tienen cosas alrededor que se le van pegando el núcleo.
+3647760	3653760	Y ahora vamos a ver que algunos de estos sintagmas resulta que son constituyentes de la oración.
+3653760	3660760	Entonces, miremos este ejemplo que hay acá que dice, el informativista de la televisión anunció fuertes tormentas para los próximos días.
+3660760	3665760	¿Qué sintagmas podemos identificar ahí en esa oración?
+3665760	3672760	Sintagmas de cualquier tipo, ¿no? Traten de encontrar sintagmas nominales, sintagmas verbales.
+3672760	3674760	¿El informativista de la televisión?
+3674760	3679760	El informativista de la televisión sería uno. Bien, nominal, exactamente. ¿Qué otro?
+3679760	3681760	¿Anunció fuertes tormentas para los próximos días?
+3681760	3683760	¿Anunció fuertes tormentas para los próximos días?
+3683760	3684760	¿Varual?
+3684760	3687760	Podría llegar a ser un sintagma verbal, sí. ¿Qué otro?
+3687760	3689760	¿Para los próximos días?
+3690760	3693760	Para los próximos días, es un sintagma de qué tipo?
+3696760	3699760	Preposicional, porque para es una preposición.
+3699760	3701760	¿Qué otro?
+3703760	3705760	¿El informativista?
+3708760	3712760	¿Fuertes tormentas para los próximos días o fuertes tormentas?
+3714760	3716760	¿Informativista solo?
+3716760	3717760	Puede ser.
+3717760	3722760	Ahí se empieza a poner un poco más, claro, se empieza a poner un poco más turbio.
+3722760	3725760	Yo diría que el informativista solo no sería un sintagma.
+3725760	3729760	Y me queda la duda de si el informativista es un sintagma o no.
+3729760	3733760	Porque en realidad uno diría el informativista de la televisión y eso sería todo junto.
+3733760	3735760	Pero capaz que en algunos casos se pueda analizar así.
+3735760	3738760	La televisión sí, seguro que es un sintagma.
+3738760	3740760	Los próximos días es otro sintagma.
+3740760	3743760	Para los próximos días es otro sintagma.
+3744760	3747760	De la televisión también y el informativista de la televisión también.
+3747760	3749760	Y después la oración entera.
+3749760	3751760	El informativista de la televisión anunció fuertes tormentas para los próximos días.
+3751760	3754760	En realidad eso también es todo un sintagma verbal.
+3758760	3759760	¿Cuál?
+3759760	3761760	Sí, Juan era un sintagma.
+3762760	3766760	Juan no lleva determinante en español porque no decimos el Juan.
+3767760	3770760	Pero el informativista sí puede llevar determinante, digamos.
+3770760	3771760	Debería llevar determinante.
+3771760	3773760	Entonces le ponemos el informativista.
+3773760	3776760	Lo que queda la duda es si es el informativista solo o lo puedes considerar un sintagma.
+3776760	3778760	O tenés que decir todo el informativista de la televisión.
+3778760	3784760	Para mí debería ser todo porque en ese caso de la televisión sí está modificando a informativista.
+3787760	3792760	Sí, bueno, hay casos de españoles que, digamos...
+3792760	3794760	Español que se...
+3796760	3804760	Claro, o sea, hay casos de uso de español por parte de personas que utilizan el determinante para los nombres.
+3804760	3807760	Capaz que no es lo más aceptado, pero bueno, es algo que se usa.
+3807760	3811760	Y de vuelta, eso es algo que tienen que tener en cuenta los sistemas automáticos.
+3811760	3815760	Porque bueno, si yo obligo a decir que según la regla el nombre propio no puede tener determinante.
+3815760	3821760	Y después alguien escribe el Juan y le digo que no es posible, que no es válido.
+3821760	3824760	Entonces bueno, estaría mal.
+3825760	3827760	Bueno, entonces.
+3827760	3831760	Dentro de estos sintagmas que acabamos de reconocer.
+3831760	3835760	Digamos, acabamos de reconocer un montón de sintagmas dentro de la oración.
+3842760	3845760	Algunos de ellos van a ser constituyentes de la oración.
+3847760	3849760	Y vamos a tratar de ver cuáles son.
+3849760	3853760	En este caso, el informativista de la televisión anunció fuertes tormentas para los próximos días.
+3853760	3858760	Yo me voy a quedar con que esto es una oración que tiene el verbo conjugado anunció.
+3860760	3865760	Y anunció está siendo, digamos, está siendo acompañado por diferentes estructuras.
+3865760	3867760	Que son como argumentos de ese verbo.
+3867760	3872760	Son como las cosas que se dicen acerca de anunció.
+3873760	3875760	Entonces yo puedo preguntar acá, ¿quién anunció algo?
+3875760	3878760	Bueno, el que anunció algo es el informativista de la televisión.
+3878760	3883760	Entonces, bueno, eso es como una especie de sintagma que está directamente aplicado sobre anunció.
+3883760	3885760	¿Qué fue lo que anunció?
+3885760	3887760	¿Qué fue lo que anunció?
+3887760	3888760	Fuertes tormentas.
+3888760	3891760	Fuertes tormentas anunció y ¿para cuándo lo anunció?
+3891760	3892760	Para los próximos días.
+3892760	3895760	Entonces, en definitiva, ya acá puedo reconocer tres cosas.
+3895760	3897760	Puedo dividir esto.
+3897760	3898760	Tres cosas, en realidad cuatro cosas.
+3898760	3900760	Que es anunció, el verbo principal.
+3900760	3903760	Y después puedo ver cuáles son los argumentos que están alrededor.
+3903760	3906760	El informativista de la televisión es uno de ellos.
+3906760	3908760	Fuertes tormentas es lo anunciado.
+3908760	3912760	Y los próximos días, para los próximos días es para cuándo lo anunció.
+3912760	3916760	Hay esos sintagmas que vienen a ser como sintagmas maximales.
+3916760	3921760	Yo puedo descomponer la oración en un grupo de sintagmas y un verbo conjugado.
+3921760	3924760	A eso le vamos a llamar constituyentes.
+3924760	3928760	Entonces, ahora les digo esta definición que es un poco light.
+3928760	3933760	Que son como sintagmas maximales que van acompañando al verbo conjugado.
+3933760	3939760	Y después vamos a tratar de ver una formalización un poco mejor de qué significan estos constituyentes de la oración.
+3939760	3942760	Y cómo se clasifican, para qué sirven, etc.
+3942760	3945760	Pero todo eso lo vamos a ver la clase que viene.
+3945760	3947760	Así que por ahora vamos a dejar por acá.

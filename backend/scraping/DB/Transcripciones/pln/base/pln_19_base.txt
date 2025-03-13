@@ -1,0 +1,540 @@
+Una vez que elegí en mi, con el paso 1, elegí cuántas palabras en español e usar,
+en el paso 2 lo que voy a elegir es una lineación, una función de lineación que me dice
+cada palabra con cuál se va a corresponder, cada palabra al lado del español, con qué palabra
+en inglés se va a corresponder. Este modelo asume de manera muy naï que todas las
+lineaciones que yo puedo tener son equiprobables, o sea, asume que yo voy a tener un conjunto
+de lineaciones posibles y todas van a tener la misma probabilidad. Bien, entonces, la probabilidad
+de elegir una lineación en particular, si yo tengo un montón de lineaciones, digamos,
+la probabilidad de elegir una lineación en particular va a ser uno sobre la cantidad de
+lineaciones que tengo, porque en realidad todas van a ser equiprobables. Bien, entonces,
+¿cuántas lineaciones puedo tener entre dos oraciones, una oración en inglés que tiene
+largo y una oración en español que tiene largo jota? ¿Cómo puedo calcular cuántas
+lineaciones existen? Más o menos, sí, casi de la jota. Recuerden que el lado de inglés
+yo tenía ciertas palabras, en inglés tenía la palabra E1, E2 hasta E subí y en español
+tenía las palabras E1, E2 hasta E subjota. Entonces, yo podía trazar líneas para
+alinear, pero además, en inglés yo siempre considerado que tenía un token null, entonces
+todas las palabras que no estaban alineadas del lado del español y van a parar ahí. Así
+que en inglés en realidad no tengo y posibilidades, tengo una más, tengo y más uno. Entonces,
+¿cuántas formas tengo yo de mapear estas jota posibilidades en español con las E de
+inglés? Exacto, y más uno de la jota, porque yo tengo y más uno opciones para la primera
+y más uno opciones para la segunda, etcétera, hasta que yo al final. Así que son y más uno
+a las jota lineaciones posibles.
+Ojo, el null es como una pizadita que he oye para alinear cosas que no tienen un correspondiente,
+o sea, yo tenía una palabra en español que...
+Estar varias de las CF buenas alineadas de ese null, no importa en qué orden están.
+Bien, entonces eran y más uno a las jota posibles alineaciones, por lo tanto. La probabilidad
+de elegir una alineación A, dada la elaboración en inglés, la probabilidad de elegir una alineación
+cualquiera, dada la oración en inglés, va a ser el producto de la probabilidad de haber
+sorteado un valor jota primero, que era Epsilon, por la probabilidad de elegir una alineación
+cualquiera para ese jota, que es uno sobre y más uno a la jota.
+Bien, entonces esto lo resubimos como Epsilon sobre y más uno a la jota.
+Epsilon sobre y más uno a la jota es la probabilidad de dada una oración en inglés,
+elegir cierta alineación que yo voy a utilizar. Bien, ese fue el segundo paso.
+El tercer paso es, una vez que ya tengo la alineación, voy mirando cada palabra de lado
+en inglés y le voy poniendo una palabra correspondiente de lado español.
+Para acá voy a sumir que yo tengo una tabla de traducción, una tabla de traducción que me dice
+que tiene de un lado todas las palabras en español y de otro lado todas las palabras en inglés,
+entonces mi tabla va a tener una forma como, por ejemplo, hace una tabla así,
+de lado decir las palabras en español como banco, perro, gato y más cosas y de otro lado
+va a tener las correspondientes en inglés como bank, bench, cat, tree y más cosas.
+Y entonces esta tabla va a decir la probabilidad de traducir una cosa en la jota,
+entonces banco probablemente tenga cierta probabilidad para bank y cierta probabilidad para bench,
+0.4 y 0.6, 0.06. Y para acá no va a tener ninguna probabilidad y para tree tampoco y después perro
+no va a tener nada de esto, pero sí después y cat va a ser 0.8 en este caso, etcétera.
+Voy a tener una tabla bastante grande que tiene todas las posibilidades de traducir una palabra como otra.
+Entonces, si yo tengo esa tabla lo que puedo decir es que la forma de calcular la probabilidad
+de esa oración final que yo tradujé va a depender de cuáles son las palabras que yo elija,
+va a depender de cuáles son las palabras que yo haya puesto dentro de mi oración para traducir.
+Entonces, esa tabla que está ahí definida le llamamos acá en la slide aparece como tdf sux su y
+y dice que la probabilidad de traducir la palabra su y como f sux.
+Entonces, saca de una cosa importante.
+Si tenemos la oración en inglés, la oración en inglés recuerdan que tenía las palabras,
+es su 1, es su 2 hasta de su vn, la oración en español tenía las palabras, es su 1, f su 1, f su 2 hasta f su j,
+y yo tenía en el medio una función de alineación que me decía qué palabras se correspondía con cuál.
+Entonces, no era de su vn ni f su j, era su y y f su j.
+Entonces, si yo tengo una palabra cualquiera dentro de la oración en español, tengo un f su j da chica,
+dentro de la oración en español, esto se va a corresponder con algún f su y chica en la oración en inglés,
+digamos.
+Yo sé que esto se cumple por la función de alineación, porque agarra y mapea todas las palabras que está en español con algo que está lado del inglés.
+Potencialmente con el doque en vacío null.
+Bien, entonces, tengo una palabra del lado del español que es f su j y una palabra del lado del inglés que es su v.
+¿Cuál es la relación entre ese j y su y? ¿Cómo se relaciona entre sí?
+Yo puedo decir que el y es igual a algo de j,
+de alguna manera.
+La función de alineación, ahí está, o sea, el y es igual a la función de alineación aplicada j,
+como la y, el índice de acá es igual a la función de alineación aplicada j,
+entonces yo puedo decir que la palabra es su y es igual a la palabra su a su j,
+así que puedo decir que en realidad los que están alineados son la palabra,
+es f su j está alineado con la palabra e su a su j,
+y ahí me saqué el y de encima, digamos.
+Simplemente, itero sobre las palabras y tirándose la j,
+puedo establecer la correspondencia entre las dos palabras.
+Y eso es un poco lo que dice acá para terminar de armar lo que es el modelo de traducción.
+Para terminar de armar el modelo de traducción dicen que en el tercer paso
+yo voy a elegir cuáles son las palabras,
+entonces lo que voy a hacer es iterar sobre todas las palabras y haciendo el producto de todas las probabilidades,
+o sea, el producto de dado que hecho tenía la palabra f su j,
+dado que yo tenía la palabra, eso va a su j en inglés,
+entonces elegir la palabra f su j en español,
+eso a una productoria con todos los valores de las distintas palabras.
+Bien, entonces ahí llegué a el último de los valores que quería calcular,
+que es la probabilidad de f dado que conozco a y es igual a la productoria,
+con j igual 1 hasta j grande, de el valor de la tabla de traducción,
+que es f su j, t de f su j e suba su j.
+Bueno, está, entonces ahí tengo como en cada paso fui calculando cosas,
+este se correspondía al paso 1 del modelo, paso 1,
+este se corresponde con el paso 2 del modelo, en realidad,
+este ya tiene el paso 1 del paso 2 juntos porque ya tengo el epsilon acá,
+y este se corresponde con el paso 3 del modelo,
+el paso 3 de la historia de generación.
+Mi objetivo con todos estos valores que están acá es calcular pd fedadue.
+¿Qué parámetros introduje? ¿Qué parámetros fueron surgiendo a medida que lleva
+y tirando sobre estos pasos? Bueno, en primer lugar, el epsilon aquel que estábamos viendo,
+este es un valor que yo tendría que estimar a partir de mirar en los corpus,
+como son los largos de las oraciones relativas,
+y el otro parámetro importante es aquella tabla allá,
+aquella tabla de traducciones que me dice banco, con qué probabilidad lo puedo traducir como banco,
+que probabilidad lo puedo traducir como bench, etcétera, etcétera,
+esa tabla en realidad es un parámetro del modelo,
+es un parámetro del sistema que si yo lo tuviera me alcanzaría con eso
+para poder construirme este modelo y calcular la probabilidad de cualquier par de braciones.
+Bien, y entonces, antes de continuar,
+vamos a terminar de armar cuál es la imagen de esto,
+que es decir, yo en realidad lo que quería calcular era pd fedadue,
+que eso va a ser mi modelo de traducción,
+y de hecho va a ser el encargado de medir la adecuación de una frase.
+Pd fedadue, lo puedo calcular con esta descomposición de paso,
+que dice acá, en realidad, porque lo hago de la siguiente manera.
+Yo quiero calcular pd fedadue,
+y entonces voy a mirar lo que dice acá,
+pd fedadue es igual de la sumatoriana de pd fedadue,
+que significa eso, que para traducir entre una variación en español y una variación en inglés,
+o más bien, para el sí, bueno, para traducir entre una variación en inglés y una variación en español,
+hay muchas formas de alinear las palabras entre el inglés y en español,
+y una vez que yo elegí una forma alinear,
+hay muchas formas de elegir las palabras que vienen después,
+digamos, yo miro la traducción y capaz que hay varias maneras de elegir distintas palabras.
+Entonces, lo que eso significa es que no existe una sola manera de traducir una variación en inglés a una variación en español.
+Yo puedo encontrar varias formas de alinear las palabras y de varias formas de elegir las palabras,
+de manera de que muchas alineaciones son posibles.
+Entonces, para saber cuál es la probabilidad de traducir fd fedadue,
+entonces yo voy a tener que sumar sobre todo las alineaciones posibles,
+sobre todo las formas de alinear las dos oraciones fie,
+voy a tener que iterar sobre eso y para cada una voy a tener que alcular la probabilidad parcial.
+Entonces, digamos, yo tengo cinco formas alinear las dos oraciones,
+cinco es un número un poco raro, pero digamos, tengo n formas alinear las dos oraciones,
+voy a tener que mirar, bueno, para la primera alineación,
+cuál es la probabilidad de encontrar la oración f,
+para la segunda alineación, cuál es la probabilidad de encontrar la oración f,
+para la tercera alineación y así hasta llegar al final y agarrar el sumo todo eso.
+Eso lo puedo hacer porque las alineaciones son una descomposición del espacio de probabilidades.
+En realidad yo puedo descomponer el espacio de probabilidades en pedacitos disjuntos
+y cada alineación va a ser uno de ellos.
+Así que, digamos que para calcular el modelo de traducción fd fedadue,
+necesito sumar sobre todo las alineaciones posibles.
+Ahora, lo que me falta es saber cómo calculo este valor acá.
+Así que lo que estoy diciendo es que la probabilidad de fd fedadue es la suma
+sobre las alineaciones de la probabilidad de f y esa alineación dado de.
+Eso es simplemente lo que dice ahí en la slide.
+Lo que me falta a calcular entonces es esta parte de acá.
+Y esa parte de acá la calculo de esta manera.
+Yo digo que la probabilidad de fdado es igual,
+ahí está más o menos al resultado final pero podemos sacar
+que es lo que tendría que poner de este lado.
+Y ahora sí me acuerdo bien.
+Ah, ahí está.
+Por definición de probabilidad condicional.
+Eso.
+Fd fedadue, de verdad, lo haría manera hacerlo.
+Pero esto se puede definir como pdf a e sobre pd.
+¿No?
+Por definición de probabilidad condicional.
+Pero además esto, si quiero, podría llegar a decir esto es lo mismo que pdf a e sobre pd por,
+podría que me faltaba.
+No, ahí.
+Por pd a e sobre pd a e.
+¿Ela esto lo quería?
+Sí, el esto lo quería.
+O sea, yo puedo arrar esta probabilidad que está acá y multiplicarla
+y dividirla por el mismo número que sea que son mayores que cero,
+eso es la división me va a dar uno y ahí yo puedo tomar y así no este con este y este con este
+en definitiva lo que me queda es si asocio estos dos me va a quedar pdf dado a e y si asocio
+estos dos de acá me va a quedar pd a dado e qué es lo que dice allá la probabilidad de pdf a dado
+de bueno sí de los dos de f e a dado e es igual a la probabilidad de f dados a y es por la
+probabilidad de a dado e bien y estos dos valores que están acá no los elegimos casualidad sino que
+son los valores que tenía antes en el modelo o sea yo tenía que el pd a dado e es igual a epsilón
+sobre y más uno a la j y el otro era la productoria desde j igual 1 hasta j grande de las valores
+de traducción el f subj y el e suba subj entonces en definitiva puedo calcular pdf a dado e y
+además puedo calcular haciendo una suma sobre todas las alineaciones posibles puedo calcular el pdf
+dado e bien con eso y con todo ese montón de cociones llegamos a construir lo que es un modelo de
+traducción o sea solamente teniendo una tabla de traducciones que me diga cuál es la probabilidad de
+traducir una palabra como otra palabra yo puedo llegar a definirme cuál es la probabilidad de traducir
+una oración dada otra oración bien y hay una cosa más bueno esto ya lo estoy moviendo que
+aplicamos en cada paso y hay una cosa más que es si yo tuviera las dos oraciones digamos la
+oración en inglés y la oración en español y además tuviera la tabla de esta con todas las
+probabilidades yo podría hacer un algoritmo de programación dinámica un algoritmo estilo
+británico que vaya recorriendo alineaciones y media cuál es la alineación más probable no vamos
+a ver los detalles del algoritmo pero hay una forma de decir bueno voy recorriendo las dos
+oraciones y me voy quedando con las sus secciones más probables y al final me termina devolviendo
+cuál es la alineación más probable dadas esas oraciones o sea que si yo tuviera ya esa tabla de
+traducciones esa tabla de probabilidad de traducción podría construirme las alineaciones del corpus
+así que bueno hasta el momento decíamos bueno suponemos que tenemos esta tabla de traducción que
+me dice para bank si se traduce para bank si se traduce como bank o como bench etc. estaba
+diciendo que tenía esa tabla pero en realidad la realidad es que no tengo esa tabla y me gustaría
+poder construirlo entonces no gustaría poder estimar esas probabilidades para poder construir
+esa tabla si yo tuviera un corpus para el hilo simplemente podría ir recorriendo el corpus y
+contando cuántas veces aparece de banco alineado con bench y cuántas veces aparece alineado con
+bench y ahí sacaría una probabilidad pero no tengo las alineaciones y con lo que vimos digamos
+recién si yo tuviera la tabla entonces yo además podría ir recorriendo el corpus y construirme
+las alineaciones así que si yo tuviera las alineaciones podría contar y sacar la tabla si yo
+tuviera la tabla podría pasarle un algoritmo y construir las alineaciones pero la verdad que no
+tengo ninguna de las dos cosas entonces se vuelve un problema de huevo y lagallina o sea si yo
+tuviera las alineaciones construiría el modelo construir la tabla probabilidades si yo tuviera la
+tabla probabilidades podría construir las alineaciones para este tipo de problemas en los cuales yo
+tengo como dos variables interdependentes y no conozco exactamente el valor de ninguna de las
+dos si utiliza lo que se conoce como el algoritmo de expectation maximización o maximización de
+la esperanza y bueno es un algoritmo que sirve exactamente para este tipo de problemas en
+realidad lo que va a hacer el algoritmo es iterar es un algoritmo iterativo que va tratando de
+converger a una solución y lo que hace es decir bueno yo no tengo ninguno de los dos valores o
+sea si yo tuviera mi tabla de probabilidades de traducción me podría calcular las alineaciones y
+tuviera mis alineaciones me podría calcular las probabilidades de traducción entonces lo que
+hace es decir bueno asumo que mi tabla de traducción va a ser uniformes digamos cualquier
+palabra se puede traducir como cualquier otra palabra con la misma probabilidad a partir de eso
+calculo alineaciones y a partir de esas nuevas alineaciones calculo otra vez la tabla
+y de vuelta con esa tabla que calculé vuelvo a medir las alineaciones y de vuelta con esas nuevas
+alineaciones vuelvo a calcular la tabla entonces aunque no me crean estos después de muchas
+iteraciones va convergiendo a algo y parece mágico no parece como que tal realidad si yo no
+tengo ninguno de los valores no debería nada debería como dar fruta pero voy a tratar de
+comenzarlos de que en realidad esto sí funciona con un ejemplito bien tenemos entonces vamos a
+construir un sistema que es de traducción entre frances y inglés donde hay un cuerpo muy grande
+pero bueno vamos a concentrar solo en tres pequeñas oraciones que dicen la mesón se traduce como
+de house la mesón blu se traduce como de luz house y la flaus se traduce como de flauer
+entonces al principio lo que hago es decir bueno todas las traducciones entre todas las palabras
+son equiprobables así que lo que me va a quedar es cuando reparta entre las alineaciones todas
+van a tener el mismo peso entre la y mesón la probabilidad de que la se traduja como de o que se
+traduja como house va a ser la misma en realidad porque todas las alineaciones son equiprobables
+en la mesón blu también va a ser lo mismo la probabilidad de traducirla como de como blu o como
+house va a ser la misma y en la flauer pasa igual entonces eso es la primera
+el primer paso digamos en el primer paso yo voy a tener todas las alineaciones equiprobables y
+todas las los valores de las palabras iguales
+entonces en mi algoritmo yo empecé con una tabla de traducción que era toda uniforme digamos
+yo tenía la probabilidad de traducir cualquier palabra en cualquier otra era la misma a partir de
+eso yo me construí estas alineaciones que también parece que son todas equiprobables y parece
+que no tienen como mucha información entonces lo que voy a hacer ahora a partir de esto es tratar
+de construirme de vuelta la tabla de traducciones pero mirando estas nuevas alineaciones que hay
+entonces lo que voy a construir es una tabla que tiene todas las palabras de la de francés tiene
+la mesón blu flado y de house blu flado y para llenar esta nueva tabla lo que tengo que hacer es
+iterar sobre las alineaciones mirar cada una de las palabras cuantas veces esta alinear con las
+otras y contar o sea y digamos y sumar los pesos de cada una de las alineaciones entonces la alineación
+entre la y de en total mirando ese ejemplo de corpus cuánto me daría de cómo cuál sería el
+peso de esa alineación para verlo en realidad lo que hago es contar miro cuántas veces la y de
+están alineados entonces tengo 0.5 de peso en la primera en la segunda tengo 0.33 y en la última tengo
+0.5 de vuelta así que en total tengo como 1.33 de peso entre la y de después miro entre la y house
+cuantos peso tengo cuánta masa de probabilidad tengo bueno tengo 0.5 en la primera relación 0.33 en
+la segunda y nada en la tercera por lo tanto en total tengo 0.83 de probabilidades entre la y house
+después miro entre la y blu cuantos peso tengo
+0.33 solo solamente 0.33 solo está en la del med y entre la y flero cuánto tengo no entre la
+y flower cuánto tengo 0.5 solo aparecen la del final bien como tenemos la siguiente entre
+emesón y de cuánto tendría 0.83 está en la primera en la segunda entre emesón y
+house entre emesón y house sí 0.83 porque aparecen en las dos bien entre emesón y blu solamente
+aparecen la segunda así que voy a tener 0.33 y entre emesón y flower no tengo nada después
+entre blu y de solamente aparece en la segunda así que voy a tener 0.33 entre blu y house creo que
+de vuelta tengo 0.33 y entre blu y blu también 0.33 y no aparece junto con flower y para después para
+flower tengo 0.5 con de 0 con house 0.5 con flower bien entonces hice una pasada por todas las
+alineaciones y me calculé cuáles son los pesos relativos de cada uno de estos pares lo
+siguiente que hago como esto va a ser una probabilidad es normalizar entonces me voy a construir una
+tabla digamos normalizando por digamos voy a sumar en cada fila y voy a dividir entre la cantidad
+que aparece para cada fila así que de vuelta también construye la tabla que me queda la me son
+blu y de este lado de la house acá de house blu flower y lo que voy a hacer normalizar entonces
+si yo sumo estos de acá creo que me da 2 en total no 3 en total tengo los valores acá
+no tiene que hacer los cálculos pero sí me da 3 en total entonces lo que pasa cuando yo normalizo
+es que acá me queda 0.44 acá me queda 0.28 acá me queda 0.11 y acá me queda 0.17 pues el
+segundo también lo normalizo esta vez entre dos y me queda 0.42 0.42 0.16 0 el tercero ya
+suma 1 así que me queda 0.23 0.33 0.33 0 y el último también queda igual 0.5 0 0 0.5 bien
+entonces me construí una nueva tabla de probabilidad de traducción dado que ahora las alineaciones
+serían estas y no tenlo que pasó acá si yo miro la fila correspondiente a la que es lo que
+pasa ahora con esta fila recuerde que yo empecé teniendo todas las alineaciones todas las
+traducciones pero todas las probabilidades de traducción de que parecen palabras eran
+equiprobables si yo ahora miro la fila de la que es lo que pasa
+exacto aparece claramente que la asociación entre la id es más fuerte tengo un 0.44 de probabilidad de
+traducirla como de y tengo bastante menos en los otros tengo 0.28 0.11 0.17 y yo había
+empezado diciendo que eran equiprobables entonces yo probablemente tenía 0.25 0.25 0.25 0.25
+cada una y después de un paso de la iteración descubrió que la id tienen más chance de ser una
+traducción de la otra en vez de traducirla como chaos o la como blue o la como flower eso pasa en
+el primer paso en la primera iteración el tipo descubre el algoritmo descubre que la asociación
+entre la id es bastante más fuerte como pasa eso lo que va a pasar es que cuando yo reparta de
+vuelta en las alineaciones estas líneas que se corresponden a la asociación entre la id van a
+estar más fuertes van a tener un poco más de peso y como esto es una distribución de probabilidades
+esa masa que ganó la asociación entre la id se va a tener que sacar de otras alineaciones
+posibles o sea si la está asociada con de entonces no está asociada con las otras que están
+alrededor entonces esa masa que se pierde digamos o sea que que gana en la de se tiene que repartir en
+las otras alineaciones posibles o sea en las que no son entre la id entonces después de una
+iteración la asociación entre la id empieza a ser más fuerte y como pasa eso en la siguiente
+iteración va a empezar a descubrir que como la estaba alineado con de entonces me son tiene que
+estar alineado con haus y como me son esta alineado con haus digamos esa esa misma masa de probabilidades
+se va a traducir a transferir a la segunda y lo mismo como le ha estado alineado con de entonces
+flea tiene que estar alineado con flauer entonces si yo sigo iterando en estos pasos en cada paso
+lo que va a pasar es que se va a mover un poco más de probabilidad hasta que al final va a terminar
+descubriendo cuál es la alineación real de las palabras o sea va a descubrir que la va a
+social con con de me son con haus lu con blu la ver con flauer como que va a descubrir eso porque en
+cada paso lo que va pasando es que alguna de las asociaciones como están como aparecen como ocurren
+digamos en más oraciones tiene más fuerza que otras entonces el peso que esas asociaciones ganan
+lo va sacando otro lado y eso hace que de otro lado se empiecen a generar otras alineaciones
+diferentes entonces al final esto termina convergiendo y termina revelando lo que es la estructura su
+yasente de las palabras y cómo se alinean unas con otras bueno y una vez que yo termine de hacer
+esto puedo agarrar y construirme efectivamente la tabla final de traducciones que es simplemente busco cada
+una de las posibles traducciones digamos de los posibles pares y saco las probabilidades
+y qué pasó acá mientras yo estaba construyendo mi modelo de traducción mientras yo estaba construyendo
+la tabla de traducciones además de como efecto secundario se construyo un corbuz alineado un corbuz
+que está alineado a nivel de palabra así que bueno el algoritmo de expectations maximizaciones
+funciona de esa manera tiene siempre dos pasos un paso de expectations y un paso de maximizaciones
+en este caso la expectation era decir el paso de expectations es tratado de agarrar la tabla de
+probabilidad de traducción que tengo y con eso me armó alineaciones y después el de maximización
+es al revés agarró las alineaciones que acabo de construir y me armó una nueva tabla y voy
+iterando todos esos pasos hasta que eventualmente converge bien dijimos que eran cinco modelos
+dvm no vamos a ver muy en detalle los otros o sea solo mencionar que empiezan a agregar
+complejidad en este modelo uno habíamos dicho que todas las alineaciones eran equiprobables en el
+modelo dos abandonan esa noción y dicen bueno en vez alineaciones equiprobables yo voy a tener un
+modelo de reordenamiento de las palabras para decir bueno tengo cierta probabilidad de que las
+palabras que están si yo tengo y palabras en inglés jada palabras en español tengo cierta
+probabilidad de mover la palabra ahí y la palabra jota y bueno y así siguen subiendo en complejidad
+hasta llegar al modelo 5 que el modelo 5 es el que anda mejor pero de todas maneras estos
+modelos que ya no se usan digamos esto es del año 93 y en general se han obtenido mejor
+resultados abandonando estos modelos entonces el que vamos a pasar a ver a continuación es un
+modelo bastante más moderno que es lo que sí se utiliza hoy en día en traductores como los de google
+es que en realidad lo claro a ver estos modelos estadísticos no utilizan ningún tipo de
+analizador morfuelo o egoí nada para sacarlo hay otros modelos que sí lo hacen no vamos a dar
+ninguno en esta clase de brota hay dos modelos que sí hacen uso de esa información igual son como
+un refinamiento creo que ninguno lo tiene como en la base del modelo el uso de de parto
+speech pero pero sí cuando vos no sabes una palabra de una palabra que es desconocida en realidad
+a utilizar información sobre parto speech y eso probablemente te ayude en estos modelos
+porómenos no lo habían tenido en cuenta bien entonces si lo que vamos a ver ahora es el modelo
+de frases que es algo más moderno y es o sea el google translate o bin translate se basan
+en modelos de este estilo y bueno y antes de ver cómo se modelo de frases voluamos un poco a lo que
+era la alineación entre palabras yo tenía esta frase clásica no mariano de una ofitada
+la bruja verde en ingles era mary de not slap green witch y una alineación entre esas
+dos oraciones en realidad se vería como algo así yo tengo que maría se alinea con mary no se
+alinea con this not slap se alinea con da una ofitada de se alinea con ala podría ser solamente
+con la y el a que no esté alineado nada green se alinea con verde y bruja con witch
+qué diferencia tiene esto con la la otra alineación que habíamos visto hoy
+a ver si se les ocurre algo distinto que tiene esta alineación y la que habíamos visto hoy
+era not con no sí y qué es lo que cambia acá para que pase eso
+lo que estaba pasando hoy era que yo partida de las palabras en español iba a las palabras en
+inglés y yo tenía una función que me mapeaba las palabras en español con las palabras en inglés
+entonces yo a cada palabra en español como máximo le podía hacer corresponder una palabra en
+inglés entonces me quedaba que yo podía expresar cosas como que daba una ofitada daba esta
+asociado a slap una esta asociado slap bofeta esta asociado slap eso lo podía expresar pero no
+podía expresar algo como esto que no esta asociado did not porque no sería una función yo no
+puedo asociar uno de los valores de la función con dos cosas del lado del codominio y acá en
+realidad no puedo hacerlo ni en este sentido ni en el otro sentido con una función no me sirve
+porque de vuelta me pasa que slap esta asociado tres cosas entonces con una función de alineación yo
+no puedo construir este tipo de expresiones en realidad necesito algo como un poco más poderoso
+esto es lo que decíamos los modelos dvm siempre usan un mapeo de uno a muchos usan a una función
+de alineación mapeo uno a muchos pero en realidad lo que necesito para poder capturar realmente
+con función en el en el lenguaje es mapeo de muchos a muchos yo voy a tener que un conjunto de
+palabras se va a traducir en otro conjunto de palabras definitiva lo que pasa es que pequeñas
+frases se traducen como otras pequeñas frases por eso necesito un mapeo de muchos a muchos
+entonces bueno hay algoritmos que agarran estos mapeos que como el construimos recién el mapeo de uno a
+muchos en los dos en las dos direcciones digamos y a partir de eso construyen este mapeo de muchos a
+muchos por ejemplo el algoritmo de la herramienta guisamas más lo que hace es decir bueno yo tengo un
+corpus en inglés en español alineo utilizando los modelos dvm digamos voy alineo por un lado de
+inglés español y por otro lado de español inglés y acá me quedan dos mapeos de uno a n digamos dos
+mapeos con funciones y después lo que hago es intersectar esos dos esas dos alineaciones que
+me quedaron y unirlas cuando las intersecto obtengo lo que se conoce como puntos de alta confianza
+los puntos negros son los puntos de alta confianza que son los de la intersección y los puntos
+grises son lo que están en la unión o sea los que pertenecían algunos de los modelos
+entonces la herramienta lo que hace es decir bueno una vez que yo tengo la intersección y la
+unión hago crecer los puntos que están en la intersección colonizando otros puntos que
+estén en la unión hasta que al final terminó completando digamos toda la imagen este punto
+que quedó solito ahí ese no sería parte de la alineación al final sólo los que puede llegar
+moviéndote a través de puntos ya conocidos entonces bueno eso es una forma que utiliza se llama
+el algoritmo de ox y ney que partiendo alineaciones unidireccionales digamos me permite construir una
+alineación completa muchos a muchos entre las palabras bien eso le quería mencionar acerca de
+las alineaciones en de palabras y ahora sí vamos a ver cómo funciona un modelo basado en frases
+un modelo basado en frases tiene cierta semejanza con el modelo anterior que hayamos visto pero es un
+poco más expresivo en realidad yo parte de una oración por ejemplo en alemán que decía Morgan
+Fliggs ganas ganas de su conference lo primero que hace el modelo cuando quiere traducir digamos en
+este caso es decir bueno yo voy a segmentar esa oración de origen en cierta cantidad de frases
+después voy a traducir cada una de esas frases usando una tabla de traducción y esta vez no es una
+tal de traducción de palabras sino que es una tal de traducción de frases que me dice para cada
+frase con que otra frase se corresponde y una vez que yo traduje cada una esa frase las voy a
+reordenar de alguna manera buscando que suene lo manatural posible buscando aumentar la fluidez
+de esa oración entonces como que la historia de generación es un poco más simple que la otra no
+tenía que ir sortiendo cosas simplemente digo separo mi oración en segmentos que les voy a
+llamar frases los traducos y los reordenos esa segmentación en frases no tiene porque tener
+una un significado lingüístico yo no voy a separarla sin grupo nominal grupo verbal grupo
+profesional etcétera no tengo por qué o sea capaz que yo segmento las frases y justo me queda
+un grupo proposicional capaz que no lo único que tiene que pasar es que estos segmentos que yo
+construyo tienen que estar en mi tabla de traducción de frases alcanza con eso como para que yo
+puedo utilizarlos en mi traducción pero no tienen por qué tener una motivación lingüística
+bueno entonces un modelo bastante frases tiene estos componentes parecido la anterior porque
+de vuelta yo lo que quiero hacer es encontrar la probabilidad de fdb digamos sigo teniendo la misma
+ecuación fundamental de la traducción automática estadística la quiero resolver necesito pdf
+db y pd sólo que ahora el pdf db lo voy a calcular una manera distinta voy a decir que para
+calcular esto tengo un modelo de traducción de frases y un modelo de ordenamiento un modelo de
+una gran tabla de frases que me dice cada frase con qué probabilía la traducción otra y después
+una forma de decir cómo reordenó esa frase para tener mejores oraciones y bueno como siempre
+voy a tener otro componente que es el que mide la la fluidez que es el modelo del lenguaje
+porque los modelos de frases funcionan mejor que los modelos basados en palabras porque la
+frase ya tienen cierto contexto las frases en realidad son como pequeños grupos de palabras que
+yo puedo traducir uno en el otro entonces cosas como dar la mano dar una ofetada a tomar el pelo
+etcétera todas esas cosas como expresiones son mucho más fáciles de traducir si en realidad
+yo ya sé que esta presión que son tres cuatro palabras le puedo traducir en esta otra expresión que
+son tres cuatro palabras es como más expresivo entonces puede aprender más cosas y bueno obviamente
+cuanto más cuanto más atostenga cuanto más largo sea el corpo que yo tengo yo puedo aprender
+la frase más largas mejores probabilidades y mejores frases bueno acá hay un ejemplo de cómo
+sería una tabla de traducción de frases o sea es parecido la tabla de traducción de palabras o
+lo que acá tengo de en borslac o sea si yo busco la fila asociado en borslac o sea encontraría
+todas estas traducciones de propósal con sesenta dos por ciento de probabilidad posesivo propósal con
+diez por ciento a propósal con tres por ciento etcétera o sea como vence traducen frases en frases bueno
+y cómo hago para aprender una tabla de traducción de frases yo parto de esta alineación de palabras
+digamos esta alineación completa que ya no es una función sino que es digamos una alineación de
+muchos a muchos y voy a tratar de encontrar todos los todas las frases todos los pares de frases que
+son consistentes con la alineación a que me refiero con que son consistentes acá hay ejemplos yo quiero
+decir que mariano y maría did not son son un par de frases que son consistentes con esta alineación
+en cambio mariano y maría did no lo son cómo es que miro esto lo que pasa es que cuando yo tengo
+mariano y maría did la palabra no está alineada con did not y el did not digamos el not no
+pertenece hasta alineación que yo estoy tratando de decir entonces digo que es no consistente lo mismo
+pasa con si yo dato alinear mariano daba y maría did not lo que pasa ahí es que daba no está digamos
+los puntos alineación de daba no están dentro de este cuadrante que estoy tratando de buscar entonces
+en definitiva digo que no es consistente las alineaciones consistentes correctas son las que consideran
+todos los puntos dentro de ese cuadrante entonces mariano está asociado con mariano did not y
+es así es consistente así que como aprendo frases consistentes empiezo por las alineaciones digamos
+empiezo con la alineación de palabra después busco de alguna palabra y digo bueno me quedo con
+todas esas traducciones de palabras y las pongo mi tabla de frases y después voy tomando de
+dos y me quedo con todas esas otras frases y las voy agregando mi tabla de frases después me
+puedo avanzar en uno tomada tres tomada de cuatro y llegar a tomar incluso toda la elaboración como
+frases entonces a partir de estas oraciones que tenían no sé este 1 2 3 4 5 6 7 8 no es
+palabras yo terminó aprendiendo como 17 frases digamos cada vez más grandes y bueno
+vi hoy sacando esto de todo el corpus y calculando mi tabla de probabilidades de qué manera calculo
+esas probabilidades yo lo que puedo hacer es como siempre ver cuánta vez aparece en el corpus y
+contar o si no si yo tenía construido el modelo anterior el modelo de la tabla de traducciones de
+palabra a palabra en realidad lo que puedo hacer es aprovechar ese modelo de traducción de palabra
+a palabra y decir bueno me armo una traducción entre un par de frases basándome en las traducciones
+palabra a palabra son como dos formas distintas de construirlo y a veces hasta complementarias
+bien eso fue el modelo de frases los modelos de frases son los más usados hoy en día en realidad en
+lo que es la traducción automática son los que han dado mejores resultados y bueno y no
+faltaba una cosa para terminar toda la imagen de lo que es la traducción automática estadística
+que es la decodificación entonces vamos un resumen de lo que teníamos hasta ahora hasta ahora
+yo partí de yo quería resolver la cocción fundamental de la traducción automática estadística
+y yo tenía un corpus para el hilo que tenía texto en el idioma origen y el idioma destino y a
+partir de haciendo análisis estadístico yo me construí un modelo de traducción que lo que
+vimos en esta clase además yo tenía cierta cantidad de texto en el idioma destino y a partir
+de cierto análisis estadístico me construí un modelo de lenguaje que me dice que tan fluido es
+una oración en el lenguaje destino entonces ahora lo que me falta recuerden que yo lo que
+tenía que hacer era iterar sobre todas las oraciones el lenguaje destino y pasar las
+atraves del modelo de traducción y del modelo de lenguaje para que me dé la probabilidad de esa
+oración bueno lo que me falta es el algoritmo de codificación que en vez de probar con toda
+la oración del lenguaje destino me va a decir unas cuantas oraciones para probar capaz que me
+dice 150 oraciones para probar sobre las cuales utilizar el modelo de traducción y el modelo
+de lenguaje entonces esto es como un diagrama de de módulos en los cuales el algoritmo de codificación
+utiliza los dos módulos tanto el de traducción como el de lenguaje bueno cómo funciona el
+algoritmo de codificación y que vamos a ver es un algoritmo de codificación de tipo
+beam search y bueno funciona de así de manera yo tengo la oración María no dio una ofetada
+a la bruja verde y la quiero traducir al inglés y tengo una tabla de traducción de frases
+entonces mi oración María no dio una ofetada a la bruja verde yo busco en la tabla de frases
+cuales de esas digamos cuales segmentos cuales sus segmentos de esa oración yo puedo encontrar en
+la tabla de traducción de frases entonces voy a encontrar por ejemplo que María lo puedo
+traducir como Mary no lo busco en la tabla y lo puedo traducir como Not como Did Not o como No
+dio lo puedo traducir como Guid pero además no dio esa frase entera yo lo busco en la tabla
+y me aparece que lo puedo traducir como Did Not Guid dio una ofetada a toda esa frase lo
+puedo traducir como Slap una ofetada lo puedo decir como a Slap y bueno otras cosas bruja lo
+puedo decir como Witch verde como Green pero además en algún lado de la tabla tengo que bruja verde
+lo puedo traducir como Green Witch y así digamos yo puedo encontrar tengo diferentes maneras de
+segmentar la oración y además para cada uno de esos segmentos pueden encontrar distintas formas de
+traducirlo en el lenguaje destino con mi tabla de frases entonces el algoritmo de codificación
+funciona de la siguiente manera empezamos teniendo en cada paso de la algoritmo vamos a tener un
+conjunto de hipótesis de traducción se llega a ver ahí lo que dice de ojos más o menos
+acá quedaron mal los correditos bueno en cada uno de los pasos yo voy a tener un conjunto de hipótesis
+de traducción al principio el algoritmo voy a empezar con una hipótesis vacía como se le
+potecis dice que lo importante de leer es la parte de la F que tiene un montón de guiones significa
+que no hay ninguna palabra del español cubierta esas son todas las nueve creo nueve palabras en
+español ninguna esta cubierta y esta hipótesis tiene probabilidad uno entonces en cada paso del
+algoritmo lo que voy a hacer es elegir un par de frases tal que una traducción de la otra y
+voy a crear una hipótesis nueva a partir de una que ya tengo entonces en este paso lo que hice
+fue decir el hijo el par de frases María Mary y ahí me creo una nueva hipótesis que cubre la
+primera palabra por eso parece una serie con este caso elige la frase en inglés Mary y ahora
+tiene una probabilidad de 0 punto 534 ese número de esa probabilidad va a servir para guiar un
+poco en el algoritmo pero vamos a ver después como es que se calcula por ahora que se es solamente
+con el número bien pero entonces yo tenía otra opción en realidad yo podía haber elegido
+empezar en vez de traducir María por Mary podía haber elegido empezar por traducir brujo por
+witch y ahí me crearía otra hipótesis de traducción donde cubro la penúltima de las de las
+palabras en español agarró la palabra witch del hijo de la palabra witch y tiene una probabilidad de
+0 punto 182 entonces en cada paso del algoritmo lo que hace es elegir una hipótesis que tiene elegir un
+par de frases y expandir así que lo siguiente que puedo hacer es elegir la frase did not
+expandirla a partir de la hipótesis que tenía con Mary y bueno eso me cubre ahora dos palabras en
+español y me tiene medio otra probabilidad y después sigo avanzando y sigo avanzando hasta que
+llevo a cubrir en algún momento si yo sigo avanzando y sigo arregando hipótesis en algún momento voy
+a llegar a cubrir todas las palabras del idioma español todas las palabras de la abrasión en
+español entonces ahí una vez que yo cubri todas las palabras digo bueno esto es una hipótesis
+completa y esto lo devuelvo como una potencial candidata digamos una oración candidata a traducción
+pero claro a medida que yo fui avanzando una cosa que pasó es que fui dejando hipótesis colgadas
+y esas hipótesis podrían tener otras traducciones posibles yo acá lo que devolí era una posible
+traducción pero a medida que yo tenía las otras hipótesis si yo hubiera seguido por las otras hipótesis
+hubiera podido devolver otras cosas entonces yo necesito hacer un backtracking para poder devolver todas
+las posibilidades poder volver a ver las hipótesis a revisitar las hipótesis y cabilladas y volver a explorar
+los otros caminos entonces necesitaría ser un backtracking para recorrerlas todas y si hago un
+backtracking lo que va a pasar es que voy a ocurrir una explosión de exponencial del espacio de
+búsqueda porque en realidad todas las posibilidades que se abren son exponenciales y ahí esto como
+que se vuelve bastante lento entonces yo quería un decodificador para volver este problema un
+problema tratable en vez de agarrar las infinitas oraciones del idioma me quedo con algunas que
+sean más probables con este acorimo de codificación logré reducir de infinito a algo finito pero aun
+así es demasiado lento porque hay una explosión combina explosión combinatoria digamos de
+hipótesis y me queda una cantidad exponencial de hipótesis entonces como es tan grande este problema
+digamos como la cantidad de hipótesis es ponencial y este es un problema en el completo entonces se
+utilizan técnicas para reducir el espacio de búsqueda y hay como dos tipos de técnicas algunas
+son con riesgo y otras son sin riesgo las técnicas sin riesgo lo que quiere decir es que si yo
+aplico una técnica de reducción de hipótesis sin riesgo la solución ideal que yo tenía dentro de
+mi búsqueda no la voy a perder utilizando una técnica sin riesgo en cambio en la con riesgo si yo
+podría llegar a perder la solución óptima bien entonces la técnica sin riesgo que conocemos es la
+de recombinación de hipótesis que dice que si yo tengo dos hipótesis voy avanzando por dos
+caminos dentro del acorimo y llevo a dos hipótesis iguales por lo menos dos hipótesis que cubren las
+mismas palabras entonces me pudo quedar con la que tiene mayor probabilidad de las dos y descartar
+la otra porque porque a medida que yo voy a seguir avanzando en el acorimo lo que va a pasar es
+que van a bajar las probabilidades digamos eligiendo más palabras y eligiendo más frases me
+va a bajar la probabilidad y nunca me va a pasar que una de las hipótesis que tenía menos probabilidad
+vaya a subir en realidad siempre va a tener menos entonces en definitiva yo puedo con seguridad
+descartar la que tiene menos probabilidad bueno esa es recombinación de hipótesis pero ni si
+quiera con eso alcanza digamos para la reducción del espacio de búsqueda lo suficiente aún queda
+muchísimas hipótesis entonces se suele utilizar técnicas de podado con riesgo la técnica de
+histograma la técnica de lumbral el histograma significa que a cada paso digamos en cada paso del
+acorimo yo me quedo con los n las n hipótesis de traducción más probable y descarto las otras y
+la técnica con humbral dice que a cada paso del acorimo me quedo con la hipótesis de mayor
+probabilidad y las que estén a una distancia alpha máximo de esa cuál es el riesgo de las
+técnicas de podado que si la mejor traducción y la traducción óptima tenía algunas frases muy
+poco probables al principio entonces probablemente yo descarte esa solución de en los primeros pasos y
+no llegan a contar la solución óptima digamos la perdí por el hecho de arpodado
+sin embargo bueno tiene como ventaja que en realidad reduce muchísimo el espacio de búsqueda y vuelve
+este problema un problema tratable bueno y ahora sí qué significaba esa probabilidad que estaba
+viendo en cada una de las hipótesis o sea el podado necesita tener las mejores hipótesis y bueno para
+la recomendación también necesito saber la probabilidad de la hipótesis bueno la forma de
+calcular la probabilidad de la hipótesis se divide en dos digamos tengo lo que encontré hasta el
+momento la hipótesis lleva cubierta a cierta cantidad de palabras entonces para esa cantidad
+palabra que ya llevo cubiertas utilizo los tres modelos el modelo de traducción el modelo de
+ordenamiento del modelo de lenguaje utilizo los tres modelos para calcular la probabilidad de la
+frase hasta el momento pero para lo que me falta traducir yo no puedo utilizar todo porque no tengo
+toda la información de traducción entonces lo que hago es utilizar solamente el modelo de traducción
+y el modelo de lenguaje descarto el modelo de reordenamiento y bueno entonces hago calcula una
+probabilidad que es una parte con todos los tres modelos y otra parte sínimo del modelo de
+reordenamiento bien este algoritmo que acabamos de describir que hace esta búsqueda basándose
+hipótesis que utiliza recomendación hipótesis y bueno el calcula de las probabilidades de esta
+manera se conoce como algoritmo búsqueda esterisco es un algoritmo de vincers que se usa muchísimo
+en lo que es traducción automática estadística por ejemplo el sistema Moses acá tenemos este
+ejemplo de herramientas open source o gratuita que sirven para construcción de traducciones automáticos
+el sistema Moses es un sistema open source para desarrollar este tipo de traducciones automáticos
+estadísticos y implementa este algoritmo de codificación búsqueda a esterisco y bueno lo que
+tiene el sistema Moses de bueno es que en realidad lo que hace además de implementar el
+codificadores utiliza a los otros sistemas y los integra de alguna manera entonces integra
+este otro sistema el ircdlm que es una herramienta para crear modelos de lenguaje basados en
+en enegramas y el otro sistema se guiza más más que lo vió mencionado hoy que es el sistema
+que me permite alinear corpus de variaciones en los distintos idiomas llegando los modelos
+del 1 al 5 de traducción de IBM bueno entonces estas tres herramientas sirven si uno quiere
+construir un traducador automático estadístico entre cualquier par de diomas puede utilizar estas
+tres herramientas y teniendo un corpus para el hilo y un corpus monolingue puede construirse un
+traducador pero bueno además otra cosa que mencionamos en la clase pasada pero eran los sistemas
+basados en reglas los sistemas basados en reglas han caído un poco este digamos no tienen tanta
+popularidad como antes sin embargo algunos es inusando y el sistema apertym es un sistema open source
+para construir sistema de traducción basados en reglas que tienen con un montón de pares de
+lenguajes y bueno ya anda relativamente bien digamos entonces sigue desarrollando hasta hoy
+entonces es una alternativa open source que está basado en reglas en vez de estar basado en estadísticas
+y bueno esto es un resumen de lo que vimos así que dejamos por acá

@@ -1,0 +1,716 @@
+La clase de hoy y la clase que viene vamos a ver el tema de traducción automática y bueno vamos a
+arrancar por esto que se conoce como la nota de weaver o el memorando de weaver warren weaver
+era un matemático norteamericano de primera mitad de siglo 20 y el tipo trabajó durante la guerra
+especialmente en cosas de criptografía en análisis estadístico de códigos etcétera entonces en un
+momento dijo lo siguiente dijo es muy tentador decir que un libro escrito en chino es simplemente un
+libro escrito en inglés que ha sido codificado en el código chino si tenemos métodos útiles para
+resolver casi cualquier problema criptográfico no será que con la interpretación apropiada
+ya tendríamos métodos útiles para traducción el opinaba digamos en este memorándum que los códigos
+o los métodos que se utilizan para romper códigos criptográficos que son métodos estadísticos se
+podían aplicar al problema de la traducción automática y bueno esto introduce algunas
+ideas clave como que puede existir un mapeo automático entre un lenguaje y otro y que codificar
+de codificar en un lenguaje es análogo a codificar de codificar en un algoritmo criptográfico y
+bueno el tiro esa idea en 1949 tomó como 50 años para que esa idea madurara digamos y después
+de 50 años los métodos más utilizados hoy en día son métodos estadísticos que bueno que se
+basan un poco en estos principios pero claro en esa época era como muy difícil ver qué era lo que
+iba a ocurrir entonces bueno vamos a ver un poco esta esta es la agenda de lo que vamos a mirar
+vamos a llegar más o menos hasta la mitad hoy y después la clase siguiente y empecemos con un poco
+de historia de lo que es la traducción automática esto empezó como muchas otras tecnologías como
+una tecnología militar con fines militares inicialmente era durante la guerra fría era resultado
+de interés traducir rápidamente y a bajo costo traducir entre el ruso y el inglés digamos a los
+norteamericanos les convenía poder traducir entre el inglés y el ruso y bueno en aquella época se
+imaginan lo que era los inicios de la computación las computadoras eran caras en las lentas no tenía
+mucho poder de computó pero igual había como mucho optimismo de que en poco tiempo si va a poder
+resolver todos los problemas íbamos a tener sistemas que iban a traducir bárbaro y bueno era
+más o menos la época del desarrollo de la lingüística computacional inspirado un poco en las teorías
+de chonsky estaba la idea que se podía escribir reglas para todo y que a partir de eso se podría
+llegar a hacer cosas muy muy buenas en particular para traducción hasta que en 1964 apareció el
+reporte al pac al pac que era un comité que estaba estudiando cuál eran los avances en
+lingüística computacional porque se estaba poniendo se estaba poniendo mucha plata en muchas
+esas cosas y eso se mostraron escépticos acerca de la traducción automática acerca de los logros
+que se habían logrado después de todos esos años de meter plata y decía bueno pero se puso
+mucho dinero pasó en pasar muchos años pero todavía los humanos lo hacen más barato con
+mayor precisión más rápido entonces como que para qué estamos gastando en esto como resultado
+de eso hubo un recorte de fondos especialmente en estados unidos para todo lo que es traducción
+automática y esto fue parte de lo que se conoció como el invierno de la inteligencia artificial que
+un montón de proyectos de inteligencia artificial también no tenía buenos resultados entonces
+separó la financiación que había para todo eso durante unos cuantos años entonces se detuvo el
+desarrollo de unas cuantas cosas durante unos cuantos años y bueno después empezaron a resurgir de
+a poco pero después de esto digamos en los 70 y hasta los 90 más o menos eso logró que la
+investigación se frenara un poco en estados unidos pero empezara a aparecer en otros lados del mundo
+como por ejemplo en europa o en japón y ahí empezó llano con con files bélicos sino más bien con
+fines comerciales entonces había necesidad de tener traducciones o por lo menos dar soporte a los
+traductores humanos con algunas traducciones aunque no estuvieran del todo bien pero bueno dar
+algunas traducciones de inicio para que los doctores pudieran los doctores humanos pudieran
+continuar además las computadoras empezaron a bajar de precio a tener mayor poder de cómputo
+y ésta fue como la era de oro de los sistemas de traducción basados en reglas y vamos a caer unos
+ejemplos sistemas distrán que todavía se desarrolla aunque ya no está completamente basado en reglas y
+bueno y sistemas que se realizaron en japón y en europa y bueno o sea estos sistemas tenían fines
+comerciales y no tanto fines militares pero bueno fines de los 90 y después del 2000 en adelante
+empezaron a dejarse de usar un poco los sistemas basados en reglas porque porque empezó a ver mayor
+poder de cómputo y mayor cantidad de datos disponibles especialmente con la aparición de
+internet empezaron a ver muchísimos datos de texto disponibles y eso permitía construir buenos
+modelos estadísticos que pudieran explotar las regularidades de los idiomas entonces aparecieron
+distintos tipos de modelos estadísticos los primeros los que llamamos traducciones automáticas
+estadísticas el otro traducción basado en ejemplos y aparecían las primeras aplicaciones
+comerciales que funcionaban bien que utilizaban modelos estadísticos la primera fue lengua
+y luego los traductores que más conocemos hoy en día el bing translate de microsoft y bueno el
+translate que probablemente lo conozcan lo hayan usado en algún momento y son traductores que la
+verdad que hoy en día se puede decir que funcionan bastante bien entonces bueno los métodos
+estadísticos empezaron su boom alrededor del año 2000 y siguen siendo el estado del arte
+pero bueno primero vamos a ver un poco de lo que son los sistemas basados en reglas que eran estos
+primeros sistemas que mencionamos antes en 1968 un investigador de traducción automática se
+llamaba pernar bocua hizo un relevamiento de todos los sistemas que se habían construido más o
+menos por la época y los clasificó todos dentro de este diagrama el dibujó un triángulo que ahora
+se llama el triángulo de bocua y bueno y en este triángulo se ubican los distintos tipos de
+sistemas de traducción basados en reglas se ponen como escalones dentro de este triángulo y los
+lados del triángulo tienen como distinta interpretación el lado izquierdo si yo voy subiendo por
+este lado en realidad lo que aumenta es la cantidad o el esfuerzo de análisis que tengo que
+hacer del lenguaje origen yo siempre quiero traducirlo en lenguaje origen o lenguaje destino
+bueno entonces de este lado aumenta el esfuerzo de traducción del lenguaje origen y si voy
+bajando del lado derecho aumenta bueno si voy subiendo del lado derecho quiero decir aumenta
+el esfuerzo de generación en el lenguaje destino entonces qué quiere decir esto yo ubico distintos
+sistemas de traducción la traducción directa es simplemente buscar en el diccionario las palabras
+y traducir palabra palabra con poca información más entonces eso casi no necesita ningún tipo
+de análisis y casi no necesita generación pero para que son de bien yo necesito ponerle muchas
+ganas a las reglas o sea las reglas de traducción tienen que ser muy buenas y tienen que tomar en
+cuenta muchos casos para que esa traducción llegue a ser buena entonces es como que la flecha de la
+transferencia la flecha de la traducción es mucho más larga en cambio si yo hago un poco de análisis
+por ejemplo llegó hasta el nivel de análisis intactico tengo un parcer puedo escribir otro
+tipo de reglas que pueden ser un poco más expresivas me resulta un poco más fácil y después si tengo
+un generador puedo llegar a traducir entonces si sigo subiendo de vuelta voy a necesitar mayor
+esfuerzo de análisis de generación pero las reglas pueden ser más expresivas y más fácil de
+escribir y probablemente la traducción sea mejor hasta que si llegamos al al vértice del
+triángulo llegamos a la interlingua que es una especie de noción en la cual no necesito ningún
+tipo de transferencia vamos a ver un poco dentro de un rato de que se trata eso pero bueno empecemos
+a ver los distintos niveles de este triángulo de bocua el de más abajo era la traducción directa
+es el enfoque más simple lo único que necesito para este para este enfoque es un diccionario
+bilingüe yo quiero traducir entre los idiomas y necesito un diccionario que tenga la correspondencia
+entre palabras de un idioma y palabras del otro y lo que voy a hacer es traducir palabra-palabra
+o sea puedo agregarle alguna cosa extra como por ejemplo algún reordenamiento local yo que
+sé para traducir entre español inglés yo diría que en español el nombre se sigue al adjetivo y
+en inglés en realidad lo hacen al revés ponen el adjetivo seguido el nombre entonces ese tipo de
+reglas simples se las puedo agregar al sistema y bueno el sistema funcionaría un poco así yo tengo
+una oración de entrada en el idioma origen mary didn't slap de greenwich le pasa un analizador
+morfológico bastante de superficie que no hace mucho en realidad simplemente me dice que esto era
+el verbo du en pasado y seguido por un not y bueno el resto de los tokens siguen igual y acá viene
+la parte de diccionario digamos lo siguiente que tengo que hacer es buscar en mi diccionario cada
+una de las palabras y poner la palabra correspondiente del otro lado entonces mary queda maría du en
+pasado como en español no se usa el du usamos simplemente el marcador de pasado no es no slap es
+dar una ufetada de es la green es verde witch es bruja con el diccionario voy poniendo todas las
+traducciones y después puedo usar mis reglas de reordenamiento local reordenamiento simple como
+por ejemplo que el adjetivo seguido en nombre en inglés en realidad en español se corresponde con
+nombre seguido adjetivo entonces verdad de bruja lo cambió por bruja verde acá hay otro reordenamiento
+digamos donde tengo una marca de pasado y se la pasó para adelante a lo largo y finalmente lo que
+hago es una pequeña generación morfológica con estas marcas y digo bueno este dar en pasado se
+transforma en dio entonces me queda maría no dio una ufetada a la bruja verde así que partí de
+el texto en el idioma origen merited en slap de green witch y llegué a una oración en el idioma
+estino maría no dio una ufetada la bruja verde que parece está bastante bien digamos bastante
+bien la traducción entonces así es como funcionaría un poco un sistema de traducción directa como les
+parece que funcionan estos sistemas en la práctica digamos que también se comportan en la práctica
+este tipo de sistemas pues acá vimos un ejemplo que anda bastante bien digamos pero no sé que
+claro y hay otro problema más y es
+que no tenga todas las palabras pero además que palabras que se pueden traducir de más de
+una manera entonces necesitas saber qué palabra tenés que usar entonces bueno
+la web está llena de ejemplos de lo que puede salir mal si yo utilizo un sistema de traducción
+directa como éste entonces lo que estábamos viendo recién era los sistemas de traducción directa
+vamos a subir un poco en la complejidad de los sistemas y llegar a la transferencia sintáctica
+entonces para transferencia sintáctica yo lo que voy a necesitar primero es tener un pársar del
+lenguaje origen que me lleva a una una análisis sintáctico y además voy a necesitar un generador
+del lenguaje destino que agarra un árbol sintáctico del lenguaje destino y genera una oración
+entonces yo lo que puedo hacer es escribir reglas que transforma un árbol en el otro y esas reglas
+son un poco más fáciles digamos que lo que necesitaría para un sistema de traducción directa
+entonces para el inglés por ejemplo para tu siguiente el inglés y el español yo diría que
+si tengo un nominal que es un adjetivo nombre un adjetivo sería un nombre en inglés lo transformaría
+en un nombre seguir un adjetivo en español y la regla se escribiría algo así diría tengo
+un nominal adjetivo nombre entonces lo cambio por nominal nombre adjetivo
+entonces ahora que sabemos cómo funciona esto tratemos de hacer el ejemplo en japonés digamos
+cómo serían las reglas para transformar el árbol en inglés de giador soliciendo music a el
+japonés kareha ongaku uokiku no kadaizuki desu donde está tenemos la correspondencia de cada una de
+las palabras pero claro los árboles son un poco distintos el inglés y el español se caracterizan
+por ser lenguajes de tipo no sé si esto lo hemos visto ya en el curso pero son lenguajes de tipo
+sbo que significa que habitualmente yo suelo escribir un sujeto se dio un verbo seguido de
+un objeto el japonés en cambio es un lenguaje de tipo sb porque habitualmente se escribió
+el sujeto seguido del objeto seguido del verbo hay muchos lenguajes que pertenecen a esta otra
+categoría entonces bueno queremos escribir reglas de transferencia para transformar este árbol en
+aquel otro árbol cómo escribiríamos esas reglas que les parece que reglas utilizaría yo para
+transformar un árbol en el otro ahí está una de esas en inglés yo escribo
+una frase verbal un grupo verbal como un verbo seguido de un grupo precaucional esta es la que
+está y la cambio por qué otra cosa
+la cambio por un grupo preposicional que sigue un verbo esa es una qué otra regla tendría que
+agregar cuál la elaboración que tiene la operación la operación según esto en inglés es un
+pronombre seguido de un verbo seguido de un grupo verbal por qué tendría a cambiarlo
+ahora en japonés la operación va a ser el pronombre seguido del verse seguido del verbo
+bien alguna otra
+ahí está el grupo preposicional que está formado por un tú seguido de un nombre
+eso es en inglés y en japonés que va a pasar voy a tener un grupo preposicional que es un nombre
+seguido de tú bien entonces con eso más o menos creo que tendría las reglas suficientes para
+transformar un árbol en el otro los sistemas de traducción vamos a ver si está bien
+son los que escribimos esta es la solución del ejercicio
+los sistemas de traducción basados en sintaxis en realidad los sistemas de reglas basados en
+sintaxis hacen esto a alto nivel digamos tienen un montón de pares de árboles hay gente que
+los analiza y escribe reglas de cómo se transforma uno en el otro a veces las reglas son complicadas
+porque se pueden super poner entonces hay que definir prioridades y ese tipo de cosas bueno
+esos transferencias sintácticas si seguimos subiendo en la en el triángulo de bocua llegamos
+a lo que es la transferencia semántica transferencia semántica uno puede pensarla un poco como lo
+que habíamos en la clase pasada utilizando roles semánticos yo tengo un etiquetador de
+roles semánticos que agarra la oración juan fue a la tienda y me devuelve los roles de los
+constituyentes me dice que juan es el agente y a la tienda es el objetivo o gol digamos es el nombre
+del rol entonces yo para ciertos idiomas podría escribir reglas más específicas por ejemplo en
+chino ocurre que los sintamas preposicionales que son de tipo objetivo se escriben antes del verbo
+pero los demás sintamas preposicionales escriben después o sea el chino es un lenguaje de tipo
+sbo igual que el inglés o el español pero cuando el objeto es de tipo gol lo que hacen es ponerlo
+antes del verbo entonces yo podría escribir una regla un poco más expresiva para este caso del
+chino si yo tuviera los roles semánticos yo diría que un grupo verbal es un verbo seguido de esto no
+está tachado sino que era la barrita que quedó arriba es un verbo seguido de una de un grupo
+preposicional de tipo gol en chino lo cambiaría por un verbo seguido de perdón por un grupo
+producción de tipo gol seguido de un verbo es más costoso para generar y para parcer digamos
+necesito tener más esfuerzo de par sin más esfuerzo de generación pero puede escribir mejores
+reglas que capturan ciertas particularidades de los lenguajes y si yo sigo subiendo en el
+triángulo llego a lo que se conoce como interlingua cuál es la gracia del interlingua cuál es la
+idea estos sirve si nosotros estamos en un contexto multicultural estamos trabajando por
+ejemplo en la ONU o en el parlamento europeo o algo de eso donde se hablan muchos idiomas si
+yo quiero mantener un montón de documentos que estén en todos los idiomas a la vez voy a necesitar
+para los sistemas que estuve viendo hasta el momento voy a necesitar tener n parsers uno
+para acá de idioma n generadores también uno para acá de idioma y después para cada
+parte de idiomas voy a necesitar reglas de transferencia entonces voy a necesitar tener
+en total n por n menos un set de transferencia yo tengo 20 idiomas voy a necesitar 380 conjuntos
+de reglas de transferencia y esos conjuntos de referencia son largos son grandes son complejos
+hay que mantenerlos pueden tener errores entonces esto claramente no escala es como muy difícil
+poder mantener un entorno de todos esos idiomas y poder mantener la traducción en base a reglas
+entonces la idea del interlingua es decir qué tal si pudiéramos parsear lo suficiente o analizarlo
+lo suficiente como para llevar a una representación común una representación que capture el
+significado de todos los idiomas a la vez y además tuviéramos un generador para cada uno de los
+idiomas si eso pasara si nosotros pudiéramos capturar con una representación el significado de
+los idiomas a la vez no necesitaríamos transferencia simplemente parseamos y llevamos a esa interlingua
+y después generamos en el otro idioma esto está muy bien digamos del punto de vista ideal pero es
+muy difícil de obtener en la práctica que se podría usar como representación de interlingua que
+podría ser un candidato bueno podríamos usar la lógica de primer orden que era lo que veíamos
+en las primeras clases de semántica como representar veraciones en los primer orden o alguna de sus
+variantes que dan cuenta mejor de lo que es la lógica del lenguaje natural como la mínima
+recurso semánticos o la whole semántics o si no algo más parecido lo que veíamos en la clase
+anterior de frames construirme frames con el estado de las cosas como por ejemplo esta era la
+misma oración de hoy mary didn't slap de green wish pero escrita como un frame es hay un evento de
+slapping el agente es mary ocurre en pasado la polaridad negativa el tema de ese evento es la
+bruja y la bruja de más es verde yo podría construirme este tipo de frames y usarlos como
+representaciones pero bueno el problema que tiene crear o pensar en crear una interlingua es que
+esa interlingua seguro que va a ser muy compleja y seguro que va a tener que modelar las características
+de todos los idiomas al mismo tiempo y hay características que son complicadas en los
+distintos idiomas y algunas que ni nos ni nos imaginamos o sea por ejemplo en chino existen
+palabras distintas para decir hermano mayor y hermano menor y no hay una palabra para decir
+hermano o sea no hay una palabra que quiere decir solamente hermano en español si y en inglés
+también en inglés puede decir brother pero en chino no en chino tenés que elegir cuando vas a decir
+hermano si es hermano mayor o hermano menor entonces imagínense que si yo estoy traduciendo del español
+al inglés y estoy utilizando una interlingua la interlingua en su parcer necesita poder distinguir
+en algún momento si estoy hablando de un hermano mayor o un hermano menor porque tiene que lograr
+la representación suficiente como para poder traducir al chino entonces necesita esa información y
+no sé dónde la va a sacar la puede sacar de contexto lo puede sacar inventar de algún lado
+pero en algún momento va a tener que averiguar el hermano que se está hablando en español si es un
+hermano mayor o menor como para poder tener la representación y después de información se va
+a perder porque cuando baja de vuelta al lado del inglés de vuelta vuelve a ser brother y no importa si
+es mayor o menor y esto solamente un caso de un fenómeno que ocurre en chino pero digamos imagínense
+los fenómenos que ocurren en el idioma en en en todo el tiempo digamos y todas las pequeñas
+variantes que hay y como en realidad no es cierto que podamos traducir exactamente los mismos conceptos
+como que es muy difícil encontrar conceptos que se correspondan 100 por ciento de un idioma y otro
+hay una cosa que llama el principio de incertidumbre la traducción y dice eso que en realidad cuando
+yo tengo un idioma y otro los conceptos no siempre se van a traducir 100 por ciento bien o sea no
+siempre la traducción es exacta sino que hay cierto solopamiento y a veces va a funcionar y a veces
+no bien pero a pesar de que es una utopía tener una interlingua que funcione para todo para todos
+los lenguajes bien este tipo de tecnología si se utilizan para dominios más acotados para dominios
+pequeños como por ejemplo el de meteorología yo puedo escribir perfectamente puedo construir una
+representación de todos los estados meteorológicos que hay si hay viento si hay lluvias y nieve hacia
+y granizo la temperatura la presión etcétera y traducir los distintos las distintas palabras
+que se usan los distintos idiomas para dar cuenta de estos conceptos entonces ese dominio acotado
+es bastante bien manejable con una interlingua y otro ejemplo son los manuales técnicos hay empresas
+que tienen un montón de documentación técnica o describen las apis de sus productos etcétera y
+uno suele dar cuando cuando mira la página web digamos que aparece como que con su fijo es porque
+está en español pero si se lo cambia por n automáticamente te genera otra página exactamente
+igual pero en inglés en realidad lo que hacen es como mantener una representación abstracta de
+lo que están escribiendo y generarla en los distintos idiomas
+bien entonces hasta ahí lo que vimos era como un paneo de lo que son los distintos
+sistemas basados en reglas ahora vamos a pasar a hablar de lo que es la traducción estadística
+que es el estado del arte hoy en día y vamos a empezar con un ejemplo un ejemplo de una frase
+en hebreo que es adona y roi que la traducción sería el señor es mi pastor o del or y es
+my shepherd y esta frase en realidad funciona bien porque nosotros conocemos que son las ovejas
+digamos la cultura en la que surgió esta frase conocía que eran las ovejas tenían pastores
+los pastores este cuidaban las ovejas la llevaban a donde estaban los mejores pastos etcétera
+entonces esta esta metáfora funcionaba bien digamos la gente describía como se sentía
+en respecto a dios utilizando esta metáfora pero qué tal si quisiéramos expresar esta misma frase
+a una cultura que no conoce a las ovejas como por ejemplo los primeros misioneros que vendrían
+de europa y tendrían contacto con los indígenas americanos no conocían ovejas entonces cómo
+hacemos para expresarles el concepto de adona y roi una forma de expresarlo es decir bueno
+traduzco la metáfora el significado de la metáfora digo significa el señor me cuidará que en
+definitiva es un poco la metáfora quiere decir eso aunque pierda un poco del contenido o si no lo
+que lo otro que puedo hacer es tratar de ser más fiel al significado original y tratar de traducirlo
+más literalmente y decir bueno el señor será para mí como un hombre que cuida de animales que tiene
+el pelo como algodón que es bastante más fiel al original pero sin embargo se entiende mucho menos
+como que te van a mirar y decirte qué me estás hablando y bueno un poco este es el problema que
+hay que se enfrentan los traductores humanos todos los días o sea es muy difícil tener las dos
+cosas ser fiel al original y sonar natural que suene bien en el lenguaje destino una traducción
+queremos que tenga esas dos propiedades pero muy difícil lograrlo a la vez entonces los traductores
+humanos saben que esto es imposible en la práctica lo que hacen es tratar de traducir de manera
+de encontrar un punto intermedio en el cual bueno suene bastante bien pero además sea fiel al
+significado original entonces esto significa que lo que estamos tratando de hacer al traducir es que
+estamos tratando de maximizar dos cosas a la vez como dos medidas que queremos maximizar una medida
+es que tan fiel es mi oración traducida a la oración original a esa medida le vamos a llamar
+adecuación o fidelidad y en inglés es adecuación fidelidad y la otra medida es que tan natural suena
+la oración que yo traduje en el lenguaje destino y a esa medida le voy a llamar fluidez o en inglés
+fluency entonces esta idea de que estoy tratando de maximizar dos medidas a la vez después vamos a
+ver que en realidad lo que vamos a total maximizar es el producto de las dos medidas porque eso
+significa maximizar ambas al mismo tiempo es una idea que sirve para poder inferir o para poder
+construir mecanismos para crear los traductores automáticos y también mecanismo para testarlos
+y vamos a ver un poco cómo es que funciona eso yo voy a intentar traducir a partir de ahora del
+resto de la clase y la clase que viene vamos a hablar siempre de que voy a traducir de un lenguaje
+origen f a un lenguaje destino e vamos a ponerlo acá si no nos olvidamos
+f es el lenguaje origen
+y es el lenguaje destino
+esos nombres surgen porque el paper inicial en donde se empezó a hablar de estas cosas
+de los métodos estadísticos traducía del francés al inglés entonces sacó los nombres
+ahí dijo en francés f el inglés e entonces traducimos del origen al destino bueno yo quiero
+traducir una frase del idioma f a otra frase del idioma e lo que quiero tratar de encontrar es el mejor
+etecho que maximice a la vez la adecuación y la fluidez o sea de todos los e posibles del lenguaje
+destino quiero encontrar el que maximice la fluidez de o sea que suene natural y además la
+adecuación entre la oración origen f y ese que estoy buscando esto esta fórmula así escrita
+de esa manera estás a acordar algo que hayamos visto ya en el curso en algún momento les suena
+a algún lado entropía si
+valles si o sea viene por ese lado se parece al modelo de valles porque esto es otra aplicación
+del modelo de canal ruidoso el modelo de canal ruidoso lo habíamos visto en el curso cuando
+vimos correcciones de errores hace ya bastante tiempo y también es una aplicación de lo que es la
+regla de valles entonces el modelo de canal ruidoso aplicado acá funciona de la siguiente manera yo
+tengo una oración origen en el lenguaje f que es f chica que tiene m palabras y es bueno f sub 1
+f sub 2 hasta f sub m y quiero encontrar la mejor oración en el lenguaje destino etecho que es
+es sub 1 hasta vez es su bene hasta es su bene que maximiza y en realidad lo que yo quiero maximizar
+originalmente como todos esperaríamos es decir bueno yo quiero encontrar la oración e que maximice
+la probabilidad de e dado f digamos eso es lo que uno se le ocurriría primero diría bueno yo quiero
+estoy traduciendo la oración f quiero encontrar la e que me de máximo la probabilidad de e dado
+f bien pero en realidad yo esto lo puedo descomponer por valles digamos y por definición de probabilidad
+condicional puede decir que la probabilidad de e dado f es igual a la probabilidad de f dado e por la
+probabilidad de divido la probabilidad de f digamos esa equivalencia es directa por definición de
+probabilidad condicional y además como estoy maximizando en e esta f se mantiene constante porque
+lo que voy variando es la e entonces la tacho o sea maximizar sobre una constante no no hace ningún
+cambio entonces lo que me queda el final es que yo busco un etecho que es el e que hace máximo la
+probabilidad de f dado e por la probabilidad de y eso que tenemos escrito ahí se parece mucho a la
+otra ecuación que teníamos antes digamos se parece mucho a esta ecuación de adecuación de f e y
+fluidez de entonces esto se conoce como la ecuación fundamental de la traducción automática estadística
+la vamos a ver unas cuantas veces en estas dos clases la vamos a estar refrescando y funciona
+de la siguiente manera yo quiero encontrar el etecho que es el e que maximiza el producto de estas
+dos probabilidades la primera probabilidad pdf dado e es la que se encarga de medir qué tal la
+adecuación digamos de la frase que tan adecuada es la frase f para la frase e la segunda probabilidad
+la pd es la que se encarga de la fluidez que tan natural suena esa frase en el lenguaje destino
+y se calculan con modelos distintos la primera se calcula con lo que se conoce como modelo de traducción
+y la segunda con lo que se conoce como modelo de lenguaje de hecho los modelos del lenguaje ya
+los hemos visto en el curso vamos a dar un breve repaso de qué se trataba bueno porque esto es
+una aplicación de canal ruidoso es una aplicación de canal ruidoso por lo siguiente nosotros estamos
+tratando de traducir del lenguaje f efe la lenguaje origen al lenguaje que es el lenguaje destino y lo
+estamos pensando al revés estamos pensando como que alguien emitió los sonidos de la oración e
+la oración del lenguaje destino eso pasó a través de un canal ruidoso y cuando llegó hasta mí yo
+escuché los sonidos de la oración efe estoy pensando como esa especie de metáfora alguien emitió
+e pasó por un canal ruidoso y llegaron los ruidos de efe entonces lo que yo trato de hacer como
+proceso de traducción es encontrar cuál tiene que haber sido esa e original para que yo haya
+escuchado la efe cuál es la e original que me da probabilidad máxima de que yo haya escuchado esta efe
+y bueno por eso es una aplicación de canal ruidoso y bueno la realidad es que en realidad
+damos vuelta esta probabilidad porque nos da toda otra forma de calcular lo que no podríamos
+hacerlo si calculamos la probabilidad directa es como que hay mejores herramientas para hacer eso
+bueno de vuelta esto es la ecuación fundamental de la traducción automática estadística e
+techo es el argumento que hace máximo la probabilidad de efe dado e por la probabilidad e y para poder
+resolver esta ecuación necesitamos tres cosas necesitamos un modelo de lenguaje pde que es el
+que se va a encargar de la fluidez esto se calcula mediante la técnica de negramas en general
+los engramas son bastante fáciles de construir digamos porque yo necesito texto en un solo
+idioma solo en el idioma destino pdf dado e es la componente que se encarga de la adecuación y
+se resuelve mediante el modelo de traducción el modelo de traducción no es tan fácil de
+construir como el modelo de lenguaje porque para el modelo de traducción voy a necesitar
+texto bilingüe de hecho voy a necesitar un corpus paralelo que sea texto en dos idiomas que además
+tengan su correspondencia y además necesito una tercera componente esta tercera componente se
+llama decodificador y se trata de lo siguiente yo cuando estoy buscando cuando se resuelve esta
+ecuación yo veo la oración efe y quiero buscar la mejor e que maximice esa ecuación pero en
+realidad lo que tendría que hacer es probar con todas las oraciones e del idioma destino todas las
+oraciones posibles que cuántas son las oraciones del idioma estino son infinitas oraciones posibles
+en el idioma estino entonces yo estaría probando con infinitas oraciones hasta que una de ellas me
+dé el máximo obviamente esto no es un problema tratable yo no puedo probar con infinitas oraciones
+lo que necesito es un proceso que me limites a cantidad de búsqueda de infinitas oraciones a
+algo tratable entonces el decodificador va a ser un algoritmo de búsqueda que va a agarrar la oración
+en origen y va me va a devolver las 100 200 mil oraciones destino candidatas más probable que
+a veces lo ocurra para que yo pueda resolver y calcular esa ecuación para esas para esas oraciones
+en vez de para todas las posibles entonces lo que hace es volver este problema tratable vamos a ver
+también un algoritmo de codificación que se llama beam search bueno entonces un poco más sobre
+modelos de lenguaje la componente pde de la ecuación era la que medida la fluidez y se
+calculaba mediante un modelo de lenguaje los modelos de lenguaje son relativamente fáciles de
+construir porque necesitamos información monolingua información solamente en el lenguaje destino
+entonces en la web tenemos montón toneladas información de muchos idiomas entonces como
+solo necesitamos información idiomas sacamos texto web noticias blogs etcétera y compilamos un gran
+corpus del lenguaje destino los modelos que se utilizan para traducción automática en general
+son modelos basados en engramas que ya hemos visto en el curso cómo funcionaban se suele usar orden
+de 4 o 5 en otras tareas de pdn se suelen usar órdenes más chicos pero para acá da buenos
+resultados en 4 o 5 y bueno lo importante es tener una gran cantidad de material de entrenamiento o
+sea los mejores modelos que usan google translate y otras empresas usan trillones de palabras y bueno
+son necesitan hardware especial especialmente diseñado para poder ir rápido y recuperar la
+información o si no bueno si estoy hablando un dominio acotado puedo usar datos de dominio para
+entrenar que también va a ser buenos resultados las técnicas de mutin es cuando vos haya alguna
+engrama que no viste lo que te va a pasar es que la probabilidad cero y ahí te va a dar todo cero
+en realidad las mejores técnicas de mutin significa darle una buena probabilidad a eso a pesar de que
+nunca lo has visto se dice que las mejores mejoras digamos las más grandes mejoras en los modelos
+en la traducción automática de los últimos años se han dado porque hay mejor en modelo
+el lenguaje que me dan traducciones que son más fluidas y y bueno y usualmente hay como
+cierta cierta correlación o cierta inclinación hacia las fluidez la gente prefiere cuando las
+oraciones son sonan más naturales acá un ejemplo esto era sacado un sistema de traducción del
+chino al inglés el sistema estadístico basado en sintaxis que cuando no utilizaba modelo
+lenguaje tenía un puntaje de 25 con 2 al incorporar modelo lenguaje subió como un 20
+por ciento su su performance y llegó a 31 con 2 como 6 puntos esos puntos corresponden a una
+medida que vamos a ver dentro un rato que se llama medida blu que es una medida muy utilizada en lo
+que es traducción estadística traducción automática en general pero bueno ahora solamente
+saber que 6 puntos es una mejora que es muchísimo y como es que mejora esto mejora haciendo que
+las traducciones que devuelve en general sean más fluidas son más natural en el lenguaje
+destino y acá hay un ejemplo de traducciones de ese mismo sistema yo tenía una traducción de
+referencia que era I don't have enough money with me to buy a new airplane ticket el sistema sin el
+modelo lenguaje devolvía esta traducción decía don't have enough bag on me change please go a
+new by plane que no nos entiende mucho que lo que dice no es gramatical pero al agregar el modelo
+de traducción su traducción es la siguiente I have enough money to buy a new one by air que
+suena mucho mejor que les parece acerca del significado el significado se lo puesto digamos
+acá está diciendo que tiene suficiente plata para comprar uno por aire y acá dice que no tiene
+suficiente plata para comprar un pasaje de avión o sea este suena muchísimo mejor porque
+está ni siquiera gramatical pero está por lo menos mantenía la negación digamos mantenía que
+era una oración negativa entonces hay cuidado con esto la traducción suena mucho mejor pero
+a veces podemos estar sacrificando fidelidad sacrificando adecuación de la traducción
+bien esos son los modelos de lenguaje ahora pasemos a la otra los modelos de traducción
+la componente pdf dado de la ecuación mide lo que es la ecuación o fidelidad de una traducción
+y la otra y para esto necesito corpus paralelos o corpus bilingües que para poder entrenar
+estos modelos los corpus bilingües son bastante más difíciles de construir que los corpus
+monolingües digamos no alcanza con hacer una pasada por la web y obtener texto de un idioma
+y bueno los modelos que vamos a ver son los propuestos por brown brown y su equipo en 1993
+que trabajan en ibm ellos construyeron cinco modelos de cómo construir cinco modelos digamos
+en creciente complejidad de cómo construir un modelo de traducción para traducción estadística
+y bueno los modelos la diferencia entre cada modelo se es en la historia de generación de
+las de las oraciones candidatas y bueno después vamos a ver también otro modelo un poco más
+moderno pero bueno vamos a empezar viendo más bien los modelos de brown a qué me refiero con
+historia de generación de las oraciones candidatas una historia de generación esto lo digo ahora
+pero en realidad lo vamos a profundizar después una historia de generación en realidad es como
+una especie de proceso mental que seguiría un traductor cuando quiere pasar de una oración a la
+otra entonces estas historias se basan en decir bueno un traductor agarra una oración en el idioma
+origen y después elige la cantidad de palabras que voy a tener el idioma destino reordena palabras
+después va traduciendo una a una según un diccionario después agrega palabras nuevas que
+no estaban en la oración ese tipo de cosas digamos el tipo de pasos me lo voy a escribir en
+la historia de generación y para qué sirve eso sirve para que a cada uno de esos pasos yo le
+puedo dar un valor numérico un valor en cuanto a probabilidades y después lo que voy a hacer
+cuando entreno mi sistema es tunear esos valores numéricos tunear todas esas probabilidades para
+darme el cálculo de probabilidad total vamos a profundizar más de en esto después
+pero antes de pasar a lo que son los modelos de traducción vamos a hablar un poco de cómo
+se evaluan estos sistemas en general siempre es importante evaluar todo en el pln digamos porque
+no hay soluciones perfectas entonces voy a tener sistemas que andan mejor o peor que otros y bueno
+y la traducción automática obviamente no es la excepción entonces me sirve poder evaluar los
+sistemas para poder saber qué sistema mejor que el otro y además si yo hago cambios en mi
+sistema poder evaluar de vuelta a ver si mejoré o no entonces qué puedo considerar una buena
+traducción para empezar eso es una pregunta que es abierto en su
+digamos es abierto en su respuesta no o sea yo tenía en un sistema de traducción tenía una
+referencia un candidato de referencia que era de katsat on the mat digamos esa era una traducción
+de referencia y un sistema me dio seis posibles candidatos para esa traducción o sea originalmente
+había una frase por ejemplo en chino la traducción de referencia de katsat on the mat y mi sistema
+a traducir el chino me dio estas opciones tengo de katsat on mat de on the mat de cat de cat on
+the floor a katsat on the mat de katsat on the mat con minúscula o de katsat on the straw mat
+cuáles les parecen que son buenas traducciones de estos candidatos que me dio el sistema
+cuáles les gustan más la e que es de katsat on the mat pero con minúscula en vez de comayúscula
+que otra la b on the mat de cat que otra la de les gusta también a katsat on the mat
+capaz que no calienta tanto dependiendo del uso que le vas a dar esa frase en contexto capaz que no
+calienta tanto y bueno si la verdad no se ve nada cuando están las cosas marcadas en rojo pero bueno
+en fin créanme acá la cosa macaza en rojo son las que acaban de decir una buena traducción podemos
+decir que es una traducción que le gusta a la gente que la gente dice si es una buena traducción
+entonces acá se elige on the mat sat de cat a katsat on the mat y de katsat on the mat en
+minúscula y bueno como como decimos es le preguntamos a la gente a ver qué traducciones le gustan y
+bueno y ahí ponemos cuáles son las mejores traducciones o si no le damos a un conjunto de
+jurados las traducciones y le decimos que hagan un análisis un poco más preciso y nos digan bueno
+cuánto le dan en uno al diez de adecuación y cuánto le dan en uno al diez de fluidez
+esa es otra forma de valor digamos y ahí ya nos están dando las dos medidas en general a los
+humanos nos cuesta realizar esta evaluación en general tenemos una preferencia de la fluidez
+como pasaba hoy con el caso de traducción del chino al inglés por los pasajes de avión
+además la gente no se pone de acuerdo además hay un problema que es que hacer este tipo de
+evaluaciones con usuarios humanos lleva tiempo digamos hay que pagarles a los usuarios por
+hora para que estén evaluando sistemas y después yo les di un conjunto de traducciones ellos me
+las evaluaron y si hay un cambio en mi sistema para mejorarlo y de vueltas le tengo que darle
+conjunto de traducciones a los humanos y de vuelta lo tienen que evaluar y de vuelta tengo que pagar
+horas de usuarios humanos para que lo evaluen entonces es difícil de reutilizar yo estar
+haciendo cambios constantemente en mi sistema y bueno y necesito tener una forma más rápida de
+evaluar a ver si estoy haciendo las cosas mejor entonces como este proceso de evaluación es largo
+es engorroso es caro lo que se ha vuelto más popular son los métodos automáticos de evaluación
+y a continuación vamos a ver uno que es muy utilizado en lo que es la traducción automática
+bueno cómo funciona un método de evaluación en realidad lo que hace alguien alguien que
+está diseñando un sistema es crearse un conjunto de oraciones con una traducción cada
+uno con una traducción de referencia que está bien digamos una traducción hecha a mano entonces
+yo quiero evaluar un sistema que va del español al inglés lo que tengo es un conjunto de oraciones
+en español y alguien algún traductor humano me tradujo todas esas oraciones en español y
+me dio un candidato o más candidato tal vez para cada una digamos a eso le voy a llamar referencias
+traducciones de referencia lo siguiente que tengo que hacer es poder diseñar una métrica de
+similitud para que cuando mi sistema me da un candidato a traducción yo puedo establecer una
+similitud entre ese candidato y alguna de las referencias y bueno después lo que voy a hacer
+es aplicar esa métrica para los pares candidato y referencias y bueno y sacar como un promedio de
+todos los valores de similitud que tengo entonces se han inventado muchos métodos de este estilo
+muchos métodos automáticos que vamos a ver en particular se llama blue que es este una
+métrica muy difundida en lo que es la traducción automática estadística y bueno primero algunas
+definiciones le vamos a llamar referencia a una traducción que está traducida manualmente
+o sea consideramos que es una oración correcta eso es una referencia y le vamos a llamar candidato
+a una traducción que no tiene porque estar correcta porque le tradujo el sistema automático y le
+vamos a llamar documento al conjunto de todas las oraciones candidatas al conjunto de todas las
+oraciones traducidas por el sistema que es lo que vamos a estar evaluando así que recuerden tenemos
+referencia candidato y documento y bueno qué es lo primero que se nos puede ocurrir hacer cuando
+queremos saber si un candidato es bueno para la referencia o no lo primero que podemos hacer es
+tratar de contar las palabras que ocurren en ambos entonces yo puedo tratar de contar
+palabras que ocurren en el candidato y palabras que ocurren en la referencia y ahí diría que la
+elección de las palabras del candidato si están las palabras del candidato si están también la
+referencia yo diría que eso se acerca un poco la adecuación se acerca que bueno por lo menos
+usó palabras que son fieles a la traducción de referencia pero si además esas palabras están
+usadas en el mismo orden ahí se acerca un poco más a la fluidez o sea si están usadas en ese
+mismo orden puede sonar tan natural como la referencia y esto se puede hacer automáticamente haciendo
+conteos de n gramas acá yo tengo un una referencia que es de cazad mi sistema me tenía que haber
+devuelto de cazad y tenía dos candidatos candidato a era de caz y el candidato b era cazad de entonces
+en éldogs вел extraordinary lo que puedo hacer es prevailer de n grams cuáles en gramas de los
+candidatos pertenecen a la referencia entonces para el caso de deidad en la en grama de pertenece
+la referencia en el en grama cat pertenece a referencia al en grama de cad o sea el bigama de
+que también pertenece a la referencia para el caso del candidato de el Unic 1999 pertenece el
+pertenece, el unigrama D pertenece, pero SatCat este bigrama no pertenece la referencia
+y CatD tampoco pertenece a la referencia. Y además el único trigrama que hay, SatCatD
+tampoco está en la referencia. Entonces lo que aparece a la derecha son los engramas
+que sí pertenecen tanto al candidato como a la referencia. Así que bueno, resumiendo,
+yo puedo contar la cantidad de hits de unigramas, de bigramas, de trigramas y para el candidato
+hace cumple que todos los unigramas que hay pertenece a la referencia, así que voy a
+tener dos de dos hits, para los bigramas voy a tener uno de uno, pero para el candidato
+B los unigramas me dan tres de tres, digamos tres hits, los bigramas no, o sea tengo dos
+bigramas posibles si ninguno estaba bien y los trigramas tampoco, tengo un trigrama
+posible y no estaba bien. Entonces por ahora parece que le va ganando de Cat, el candidato
+A de Cat le va ganando a SatCatD como traducción. Bien, ¿qué puedo hacer con los conteos de
+engramas? Lo que hago habitualmente, o sea contar engramas, contar unigramas, bigramas
+y gramas, se acerca un poco a lo que es la noción de una precisión de algo. Entonces
+lo que voy a hacer es contarlos por separado, voy a decir voy a contar todos los unigramas
+por un lado, todos los bigramas por otro, todos los trigramas por otro y para cada uno
+de esos me voy a armar una precisión. Voy a decir que tengo el candidato CSUB, digamos
+un candidato que voy a considerar, voy a contar los hits de orden N de CSUB, digamos los hits
+de unigrama de CSUB, le voy a llamar H de CSUB y voy a contar la cantidad de unigramas
+totales que hay, le voy a llamar T de CSUB. Pero además voy a hacer esto en vez de hacerlo
+para una sola oración, para un candidato y su referencia, le voy a hacer para todo
+el documento, voy a contar todos los unigramas que estaban en mis candidatos, voy a ver cuánto
+de esos estaban bien y voy a hacer esta división, entonces me va a dar que cuál es la precisión
+en unigramas. Que va a ser, bueno, tanta cantidad de unigramas estaban bien dividido, toda la
+cantidad de unigramas que genero en los candidatos. Después voy a hacer eso para bigramas, voy
+a contar toda la cantidad de bigramas que estaban bien, porque estaban en el candidato
+en la referencia, dividido toda la cantidad de bigramas que hay en el candidato. Voy
+a hacer lo mismo para trigramas y voy a hacer lo mismo para 4g, en general se suele llegar
+hasta 4, digamos en traducción automática estadística, la medida blue llega a calcular
+hasta 4. Entonces bueno, lo que me defino ahí es lo que se llama probabilidad de orden
+n, la probabilidad, perdón, precisión de orden n, la precisión para unigrama, la precisión
+para bigramas, la precisión para trigramas, etcétera. Bien, esta métrica que estamos
+construyendo es bastante fácil de engañar, en realidad yo me definí una probabilidad,
+por ejemplo la probabilidad de orden 1 y la puedo engañar muy fácil, porque yo me
+puedo construir un candidato que tiene siempre la misma palabra. Puedo decir, bueno, un candidato
+para la referencia de katsato nemat es el candidato DDDDD. Como yo justo le envoqué
+a una palabra que está en la referencia, entonces cuento los unigramas y me da que
+hay 6 hits de 6, a pesar de que la traducción es horrible. Entonces como hago para evitar
+esto, lo que se suele hacer es clipping, lo que significa que cuento cuánto es la cantidad
+máxima de palabras en la referencia y no permito que haya más de eso, entonces yo acá tengo
+hasta dos palabras D, entonces no puedo contar 6 de 6, tendría que contar máximo 2 de 6.
+Entonces ahí evitamos ese problema de que bueno alguien se haga el vivo y genere simplemente
+una sola palabra. Bien, entonces hasta ahora vimos dos cosas, calculamos la precisión
+de orden n, la precisión de cada uno de los unigramas o bigramas o trigramas, lo segundo
+que vimos es que vamos a hacer clipping para evitar pasarnos de conteo en las palabras
+que aparecen más de una vez. Lo tercero que pasa es, veíamos en este ejemplo de acá,
+acá tenemos dos candidatos de CAT y SAT-CAT-D y lo que pasaba acá era que le estaba yendo
+mejor a la traducción de de CAT porque tenía todos los unigramas que están en la traducción,
+están también en la referencia y todos los bigramas también, en cambio el candidato
+B no, el candidato B tiene unigramas que están pero bigramas y trigramas que no están,
+entonces en cuanto a precisión el candidato A va bastante mejor. ¿Por qué va bastante
+mejor el candidato A? Porque es un candidato que es más corto que la referencia, o sea
+es un candidato que tiene menos palabras. Como venimos definiendo la métrica, si yo
+tengo una referencia y después tengo un candidato que es justo un prefijo de la referencia,
+entonces va a cumplir que ese prefijo anda bien en todas las medidas de precisión porque
+todos los enigramas que tiene van a pertenecer a la referencia. Así que lo que hace la medida
+blue es penalizar ese tipo de comportamiento, penaliza los candidatos que son muy cortos
+para que digamos le dé menos puntaje. Entonces, ¿por qué se penalizan los candidatos cortos
+y no los candidatos largos? ¿Por qué les parece? Candidatos que son demasiado cortos
+se penalizan pero los demasiado largos no. La respuesta está en la slide, pero bueno.
+Se penaliza los candidatos cortos porque los candidatos largos, si yo genero un candidato
+que es mucho más largo que la referencia, lo que va a pasar es que ese candidato tiene
+enigramas, seguramente tiene enigramas que no pertenecen a la referencia. Entonces, en
+el conteo de precisión me va a dar un puntaje más bajo. Candidatos largos ya están penalizados
+por la precisión, candidatos cortos no están penalizados por la precisión. Entonces, necesito
+otro tipo de penalización para evitar eso. Bien, entonces, lo que vamos a dar es una cosa
+que se llama penalización por brevedad o brevity penalty, que es un puntaje que se
+le da en referencia a que tan corto es un candidato respecto a la referencia y bueno,
+se calcula teniendo en cuenta todo el largo del documento, todo el largo del documento
+traducido. Entonces acá yo defino que R' es el largo total de todas las referencias,
+R' es el largo total de todos los candidatos y entonces si el largo de los candidatos es
+mayor a largo de las referencias, no hay penalización, le pongo un 1, si el largo total de los candidatos
+es menor a largo de las referencias, entonces lo calculo como e a la 1 menos la división
+entre los largos. Esto es una definición de probabilidad exponencial, digamos, no es
+más que eso y en realidad lo que trata de hacer es penalizar traducciones que son
+muy cortas. Entonces, si yo tenía un candidato que tenía 5 palabras, mientras la referencia
+tenía 10, lo voy a penalizar fuertemente, le voy a dar un 0.37 de penalización. Si yo
+tenía un candidato que estaba que era menor pero era más cercano, entonces la penalización
+no es tanta de 0.78 y después si los largos son iguales o si el candidato es más largo,
+no penalizo nada, le doy un 1 de puntaje. Bueno, entonces la métrica Blue, que es una
+métrica muy usada en traducción automática, pone todos estos juntos, digamos, todos estos
+pedacitos que estuvimos viendo los pone juntos en un solo cálculo. Blue se calcula como
+la penalización por probabilidad, el brevite penalti, por e a la suma de las precisiones
+que se ordenen. ¿Qué palabra es ruido? Por ejemplo, Stro. Bueno, esta palabra es un
+unigrama que le va a dar 0 de precisión, digamos, porque no está. Además, participan
+un unigrama que también le va a dar mala precisión porque tampoco está el unigrama.
+Entonces lo que resta en realidad porque no está sumando la precisión. Acá yo tengo
+1, 2, 3, 4, 5, 6, 7 unigramas de los cuales 6 están bien pero hay uno que no. En cambio,
+en este tengo 6 unigramas de los cuales los 6 están bien. Entonces acá el hecho de agregar
+palabras que no están bien, que no están en la referencia ya te penaliza. La diferencia
+es cuando yo tengo una traducción que es más corta. Si yo diría solo de cut-sat-on,
+entonces ahí es más corta y no tengo forma de penalizarlo solo con la precisión. Entonces
+tengo el otro penalizador que es porque la traducción es muy corta. Bien, entonces,
+les estaba comentando. Acá. La medida Blue se define como una media geométrica, definición
+de media geométrica, de las precisiones de orden N. También tienes un peso por precisión
+que se puede variar pero en general se utiliza el mismo peso para todos. Multiplicado por
+la penalización por brevedad. Bien, eso. O sea, esa es la definición de la métrica
+Blue que es una métrica que se utiliza muchísimo. Esos puntajes que vemos hoy de 25,2 y 31 con
+algo eran ejemplos de métrica Blue aplicados a un sistema. Y bueno, una cosa importante,
+algunos comentarios importantes sobre la métrica Blue es que en general cuando un
+sistema le da mejor, digamos, un conjunto de traducciones le va mejor en métrica Blue,
+también le va mejor con un conjunto de humanos que evalúen el sistema. O sea, que tiene una
+correlación bastante buena con lo que es la evaluación subjetiva humana. Pero como
+contra, es difícil de interpretar estos puntajes. O sea, si yo tengo un puntaje de, como nos
+pasaba hoy, que tenía un puntaje de 31, en realidad un 31 es un número que puede ser
+muy bueno, muy malo, dependiendo del idioma. Pero, o sea, si todo saliera bien y yo tradujer
+exactamente lo mismo que están las referencias, por construcción la medida me daría uno.
+Pero en realidad es muy difícil traducir exactamente lo que están las referencias,
+porque no es cierto que exista una única traducción posible en la traducción, digamos, humana.
+Oraciones se pueden traducir de manera distinta y estar igualmente bien. Entonces es muy difícil
+tener un conjunto de referencias que contemple todas las posibilidades. Así que mi traductor,
+no es el papás que anda bárbaro, pero el puntaje aún no es uno, no es 100, digamos,
+porque está eligiendo palabras distintas o eligiendo formas de escribir las oraciones
+distintas. Entonces bueno, por eso es difícil interpretar. Yo tengo un puntaje blue de 30
+o de 50, o sea, de 0.3 o de 0.5, y puede ser buenísimo para ese sistema. Pero para algo
+que sí me sirve muchísimo el porcentaje, digamos, el puntaje de blue es para decir,
+yo tengo mi sistema, lo evaluo, después hago algunos cambios, evaluo de vuelta, y si subió
+la performance con el puntaje blue, entonces estoy seguro de que mejoró porque hay una
+correlación con la evaluación subjetiva.
+Para pasar el español inglés, en realidad lo que pasa es que entrenás otro traductor.
+No, acá estoy hablando uno solo. Acá estoy hablando solamente en un sentido. Yo tenía
+un sistema en español, por ejemplo, digo, una oración en español, el gato se sentó,
+y alguien me dijo, bueno, la traducción de referencia de eso es de cat-sat, y mi sistema
+me dijo, bueno, pero mis traducciones posibles son de cat y sat-cat-de. Entonces yo tenía
+un sistema en español, pero que traduce al inglés, digamos, un sistema de traducción
+de español al inglés, pero no estoy traduciendo en el otro sentido. No, no es como las canciones.
+Acá, partí del español y llegué al inglés, y estoy tratando de evaluar comparando las
+frases en inglés esperadas con las frases en inglés generadas. Claro. Probablemente…
+Acá está el mismo idioma, se entendí. Claro, pero está en el mismo idioma, o sea, lo
+que nos mostramos acá era cuál era la oración o origen, porque para evaluar no nos importa
+en realidad, para evaluar nos importa que comparar solamente la oración candidato con
+la referencia, y la origen nos olvidamos. Sabemos que los dos intentaron traducir de la misma
+oración, y bueno, y alguno le fue mejor que a otro. Bien, esos son comentarios de
+Blue, esto era evaluación de los sistemas. Lo siguiente que vamos a ver es el problema
+de los corpus paralelos. Antes de pasar a lo que son modelos de traducción, vamos a
+hablar un poco de lo que son los corpus paralelos, que son necesarios para construir un modelo
+de traducción. Un corpus paralelo consiste en pares de textos en dos idiomas, por ejemplo,
+tener textos en español y en inglés, pero además yo tengo que tener algún nivel, tengo
+que tener una correspondencia entre esos textos. De alguna forma, yo tengo que saber cómo
+se corresponde un texto con el otro. Entonces, bueno, tiene que estar con conjuntos, digamos,
+ordenados de textos en el lenguaje origen, en el lenguaje destino, y bueno, existen,
+en el mundo existen corpus paralelos para algunos idiomas, o sea, hay muchos idiomas
+en el mundo, pero no todos los pares de idiomas tienen corpus paralelo construido, entonces
+existen paralela de inglés, el chino inglés para la mayoría de los lenguajes europeos,
+debido a su uso en la Unión Europea, digamos, existen también corpus paralelos para ellos,
+pero para la gran mayoría de pares de lenguas no hay, digamos, no tengo un par que traduzca
+entre el chino y el guaraní, por ejemplo, o sea, es poco probable que se construya
+un par de estilos. Bien, ¿qué es un corpus paralelo? Ya que no se ve nada, de vuelta.
+Acá hay un ejemplo, que no sé si lo conocen, es un ejemplo famoso de corpus paralelo.
+Tiene idea de lo que es, lo han visto alguna vez, ¿sí? La piedra de Rosetta. La piedra de Rosetta
+fue una piedra que la construyeron, o por lo menos la tallaron en el año 196 a.C. y hablaba
+sobre la coronación de Tolomeo V y su adoración como semi-dios, etcétera, etcétera. Y bueno,
+estuvo perdida un montón de años hasta que durante las campañas napoleónicas 1799 la
+encontraron en Egipto, en lugar Rosetta, casualmente, y se la llevaron para Francia y ahí la empezaron
+a analizar lingüistas, empezaron a tratar de entender qué es lo que decía. Y bueno, descubrieron
+que tiene tres textos, vieron que tiene como tres regiones, tres textos y después de estudiarla un
+rato se dieron cuenta que en realidad lo que tiene es el mismo texto en tres idiomas distintos. Y los
+idiomas eran, el de arriba eran jeroglíficos egipcios, del estilo de lo que uno encuentra dentro de las
+pirámides, el del medio era egipcio demótico, que era el egipcio vulgar que se usaba digamos en el
+día a día, y el de abajo el todo era griego antiguo. Entonces, si bien ninguno de los tres idiomas se
+hablaban, el momento que se encontró la piedra, los tres idiomas antiguos, el griego antiguo por lo
+menos sí se sabía, digamos, se conocía como idioma, se sabía qué significaba y digamos, había gente
+que lo estudiaba, los otros dos no, los otros dos eran lenguas completamente perdidas que nadie sabía
+identificarlas. Pero gracias al hecho de que en realidad se descubrió que los tres textos hablan de
+lo mismo, son el mismo texto en tres idiomas, entonces ahí se empezó a hacer un trabajo de
+alineación, digamos, los arqueólogos empezaron a decir, bueno, esta porción de texto acá se
+corresponde con esta de acá, se corresponde con esta de acá, y etcétera, y a tratar de encontrar
+correspondencias en los idiomas, y como sabían qué quería decir en griego antiguo, empezaron a poder
+descubrir qué querían decir en los otros idiomas. Entonces, a raíz de eso, es que empezó, digamos,
+la egiptología moderna, se pudo empezar a descifrar, que dicen, por ejemplo, los jeroglíficos están en
+las pirámides y bueno, un montón de cultura egipcia antiguas se conoce gracias a que se pudo descifrar
+lo que decía esta piedra. Y en definitiva, esto es un ejemplo de corpus paralelos, o sea, tengo el mismo
+texto en tres idiomas y con un poco de esfuerzo logro alinear cuáles son cada uno de los elementos
+de mis lenguajes y logro saber la traducción de los tres. Bueno, entonces, eso no llega al concepto
+de alineación, los corpus paralelos tienen distintos niveles de alineación, lo más fácil de encontrar
+son corpus que están alineados a nivel de documentos, yo tengo una colección de documentos en
+español y una colección de documentos en chino y yo sé qué documento se corresponde con qué
+otro, pero no sé nada más. Sería mejor incluso que estuvieran alineados a nivel de alineación,
+además de conocer los documentos, yo sé cuál es la relación en español o con cuál es la
+relación en chino, digamos, tengo una correspondencia entre esas dos, pero sería aún mejor y esto es lo
+que más nos serviría si estuvieran alineados a nivel de palabra. Cada uno de los caracteres que
+están en chino se corresponde con qué palabra en español o qué grupo de palabras y cada una de las
+palabras en español, con qué grupo de caracteres se corresponde en chino. Esto es el ideal, pero claro,
+o sea, si ya es difícil conseguir cosas que estén alineadas a nivel documento, se imaginan que
+nadie va a ir a mano alinear a nivel de palabra cada uno de las palabras de los idiomas. Entonces,
+en la práctica nunca vamos a encontrar un corpus alineado a nivel de palabra, pero vamos a ver que,
+como resultado de la construcción de los modelos de lenguaje, se produce también como un producto
+secundario, se produce la alineación de los corpus, entonces obtenés las dos cosas a la vez.
+Bueno, y otra cosa es que a diferencia del texto monolingua que yo usaba para los modelos
+de lenguaje, es muy raro que naturalmente se produzcan textos en dos idiomas a la vez, o sea,
+hay que buscarlos bastante, digamos, bastante cuidadosamente. Existen algunos contextos en
+donde eso se produce. Por ejemplo, en algunos portales de noticias puede pasar que tengan
+versiones en distintos idiomas y lo que hagan es traducir las noticias en distintos idiomas.
+Entonces, si yo puedo encontrar uno de esos, es una buena fuente para construirme un corpus
+paralelo alineado a nivel de documento. Yo sé, esta noticia se corresponde con esta otra en el otro
+idioma. Pero un lugar en donde se producen naturalmente este tipo de textos es en los países que
+son bilingües o multilingües. Por ejemplo, en Canadá, que hablan inglés y francés,
+las discusiones del Parlamento canadiense siempre por ley tienen que transcribirse en los dos
+idiomas, tienen que traducirse, si están en inglés se traducen en francés, si están en francés se
+traducen en inglés, y guardan una correspondencia entre eso, guardan los documentos de todas las
+discusiones del Parlamento en los dos idiomas. Entonces, ahí, naturalmente se produce un corpus
+paralelo en el nivel de documentos para el inglés y el francés, ese se conoce como el corpus
+Hansard. Eso también ocurre en Hong Kong, en Hong Kong se habla inglés y chino, son los idiomas
+oficiales. Entonces, el corpus más grande que se tiene para inglés y chino está hecho como una
+compilación de lo que son las discusiones del Parlamento de Hong Kong. Y también pasa en la
+Unión Europea, en el Parlamento Europeo también tienen la costumbre de traducir todas las discusiones
+a todos los idiomas o a muchos de los idiomas que se usan en la Unión Europea. Entonces,
+hay corpus paralelos para casi todos los idiomas de la Unión Europea. Pero claro, todos estos
+están alineados a nivel de documentos. Yo sé qué documento se corresponde con cuál es otro en el
+otro idioma, pero no a nivel de oraciones y mucho menos a nivel de palabras. Pero bueno, partiendo
+de un corpus alineado a nivel de documentos, yo puedo llegar a construirme por lo menos una
+alineación a nivel de oraciones. Si en un proceso relativamente sencillo, esto se conoce como el
+algoritmo de Gale y Church, que es un algoritmo relativamente fácil para alinear corpus, o sea,
+para pasar corpus que están alineados a nivel de documentos, pasarlos a que estén alineados a
+nivel de oración. Y bueno, esto es un algoritmo que funciona, está un poco basado en lo que era el
+algoritmo de distancia de edición de Levenstein, que vimos hace bastante tiempo en el curso.
+Es como muy parecido, también es un algoritmo de programación dinámica, similar a ese, funciona de
+la siguiente manera. O sea, no vamos a dar lo mucho en detalle, pero vamos a dar una idea de cómo
+es que funciona. El algoritmo de Gale y Church dice, yo voy a tener un conjunto de oraciones en un idioma
+y otro conjunto de oraciones en el otro idioma. Entonces considero que un traductor para cada
+oración pudo haber tenido tres opciones, digamos, para pasarlas al otro idioma. Un traductor,
+supongan un traductor humano, agarró oraciones que estaban en español y oraciones que estaban en
+francés. Vamos a no ponerles EIF porque lo que puede confundir con las otras cosas. Así que vamos
+a decir, el lenguaje origen era F, francés y el lenguaje destino era español. Bien, entonces un
+traductor humano cada vez que se enfrentaba una oración tenía tres posibilidades. O bien traducía
+una oración por otra oración, o bien parte esta oración en dos y traduce una oración por dos,
+o bien borra esta oración. Decide que no es tan importante y agarra y borra la oración. Entonces
+las tres operaciones que se hacen a nivel de oración son la de transformarla en cero, una o dos
+oraciones del otro lado. Eso es una cosa. Lo otro es el costo relativo de alinear estas dos oraciones
+depende del largo relativo de las oraciones. Entonces, si yo tengo dos oraciones que tienen un
+largo muy parecido, le voy a dar un costo menor para alinearlos, era menor o mayor, si menor. Si
+tiene un largo muy parecido le voy a dar un valor menor para alinear, si tiene un largo muy
+distinto, una es muy corta y la otra es muy larga, entonces le doy un valor mayor para alinear. Entonces
+lo que ellos hacen es pensando en todo este tipo de operaciones que hay, todas las combinaciones
+de operaciones posibles, o sea, partir esta operación en dos o no partirla o eliminarla o dejarla
+como está. Entonces, con programación dinámica ven todas las posibilidades, ven todas las posibilidades
+de operar distinto para llegar al otro lado y calculan las que le da un costo menor. O sea,
+para cada una de las posibilidades calcula cuál es el costo de cada par de oraciones,
+suman todos los costos del documento y se quedan con el caso que les dé un costo menor en alineación,
+eso se puede hacer eficientemente usando programación dinámica, lo mismo que
+hacíamos con la distancia de edición de Levenstein. Bueno, y este algoritmo que es relativamente
+sencillo, digamos, es una solución bastante simple, logra una tasa de error muy buena,
+que es de un 4%, digamos, sobre todo para idiomas relacionados, para idiomas que se
+parecen como el inglés y el español, etcétera, logra una tasa bastante baja de error de un 4%,
+hay algunas mejoras que se pueden hacer, pero en realidad un 4% es algo que está bastante bien.
+Hay un catch que es que para sistemas de traducción distintos o traducciones no literales,
+esto se rompe un poco, por ejemplo, para traducir entre inglés y chino, que en chino
+ni siquiera está claro cuáles son los límites de las palabras y eso es más difícil de ver.
+Entonces, bueno, este tipo de algoritmos no funcionan tan bien. Y bueno,
+hay variantes que funcionan un poco mejor. Así que bueno.
+Hoy vamos a dejar por acá y vamos a continuar la próxima con modelos de traducción.

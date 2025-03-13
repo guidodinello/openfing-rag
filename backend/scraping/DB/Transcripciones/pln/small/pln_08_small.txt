@@ -1,0 +1,1853 @@
+Vamos a la clase de hoy. En la clase de hoy seguimos avanzando en nuestro análisis
+del texto. Acá se pasaba si se acuerdan. En la clase pasada hablamos de engramas.
+Fernando era tu nombre ¿verdad? Más uno. Tiene más uno de los que vinieron el otro día con la
+lluvia también. Hablamos de engramas que es el repaso rápidamente de que ustedes lo pueden
+ver en OpenFing los que nos vinieron. Cuando hablamos de engramas lo que tratamos de hacer es
+identificar la probabilidad de una oración. Eso es lo que se llama un modelo de lenguaje. Trato
+de asignarle una probabilidad de una oración con el objetivo de generalmente con el objetivo de
+utilizar eso en un contexto más amplio de análisis. Por dar un ejemplo, si yo tengo dos
+candidatos a traducción de una oración y mis dos candidatos son uno es este y el otro es este.
+Esto es muy común que surjan las traducciones porque el orden de la palabra entre idiomas
+realmente difiere. Yo puedo tener estos dos candidatos a traducción, pero seguramente esta
+oración tenga una probabilidad más alta que la segunda ¿de acuerdo? ¿Por qué? Porque nosotros nos
+decimos los comen perros huesos y entonces yo, si bien mi sugerencia por mi método de
+reconocimiento de traducción podría decir que la mejor candidata es esta, yo al combinarlo
+vía regla de valles como vimos la otra vez con la probabilidad de la oración puedo mejorar mi
+predicción. Entonces los modelos engramas esencialmente lo que tratan de hacer es eso,
+de calcular la probabilidad de una oración y para eso lo que hacen es basarse en las
+ocurrencias que hubo en un corpus y hablamos un poco de la que hace pasada de corpus, digamos,
+no decir yo tengo grandes cantidades de texto y quiero ver qué tan comunes decir comen perros y
+los perros ¿de acuerdo? Y a partir de la probabilidad, yo calculo la probabilidad de la primera,
+la probabilidad de la segunda, la primera, la probabilidad de la tercera dada, la primera y la
+segunda y así y voy calculando utilizando la regla de la cadena la probabilidad de toda la oración.
+Un poco eso de la idea de los engramas, la que hace pasada de lo que vimos fue cómo calcular
+todas estas probabilidades a partir de conteos de frecuencia de los corpus utilizando usualmente
+principio de máxima verosimilitud. Bueno, en la clase de hoy vamos a pasar a algo un poquito más,
+vamos a agregar un poco más de análisis. ¿Cómo hago para chicar esto?
+Vamos a hablar de una siguiente tarea, vamos a enriquecer un poco más el texto. Hasta ahora
+nosotros no habíamos agregado información adicional en el texto, es decir, teníamos todo
+el texto, lo que hicimos separarlo por oraciones, separar las palabras. Sí, claro, cuando hicimos
+análisis morfológico le dimos una estructura a cada palabra, ahí sí se puede decir que hay,
+hay una, pero no a nivel de todo el texto, es decir, nosotros empezamos ahora a subir nuestro
+nivel de análisis y agregar más información. Y una de las primeras tareas medio cantadas para
+hacer es la de análisis léxico. La análisis léxico consiste esencialmente en, se acuerdan
+la categoría gramatical de las palabras, que una palabra es un subactivo, un determinante,
+un adjetivo o lo que sea. Bueno, el proceso de asignarle a una palabra su,
+lo que se llama part of speech, esto, se le llama también, nosotros le llamamos
+categoría gramatical pero es muy usual llamarlas así, post tag. Sí, post tag es la marca de part
+of speech de una, de una palabra. Sí, los perros comen huesos. ¿De acuerdo?
+Esa marca es la categoría gramatical principal. ¿Por qué nos interesa? Ahora vamos a ver
+por qué nos interesa. Sí, eso es un poco la idea de, lo que hablábamos recién. ¿De acuerdo? Bueno,
+¿y cómo podemos, cómo podemos automatizar esta tarea? ¿Cómo se les ocurre enfrentar esta tarea
+a ustedes? Yo tengo un texto y quiero asignarle una categoría gramatical. ¿Qué, qué es lo que
+haríamos? ¿Qué tenemos que empezar por hacer? Identificar una serie de categorías que existen.
+Eso no es trivial. Cada vez que se ponen a discutir eso hay mil teorías diferentes,
+teorías lingüísticas diferentes, sobre todo cuando vamos a afinando, pues está claro que es un
+sustantivo, no sé qué, pero cuando uno empieza a hablar del qué y del rol que cumple el qué hay
+como ocho qué diferentes y no sé qué. Porque cumplen diferentes roles y no sé qué y no se ponen
+de acuerdo de los lingüístas sobre qué. Al final, lo informático lo terminamos poniendo qué,
+barra qué. O sea, le ponemos una categoría gramatical propia y otra cosa. No sé si es lo más serio,
+pero tal. Este, porque, porque no es lo mismo el qué de, porque bueno,
+además que tiene tilde ese qué, o sea que es otro qué, el qué sin tilde, el qué sin.
+Además, el quiero qué me digas es un qué y dijo qué y ahí introduce una oración subordinada,
+dijo qué iba a ir otro lado, es otro qué, me importa, me importa. Cuestión qué, hay que definir
+un conjunto de tas, ¿de acuerdo? Y luego, por ejemplo, ¿cómo?
+Tengo que tener un diccionario, esencialmente, ¿no? Decisionario es una cosa que tenemos en general.
+También, claro, el que no, tenemos nuestro problema de morfología, supongamos que nos
+queda aunque sabemos el lema. Pero además, ¿qué otro problema tenemos?
+Justo ahí,
+justo ahí no tengo grandes problemas. Pero si por ejemplo aparece Banco,
+¿qué pasa con Banco? Puede ser un sustantivo, un verbo, ¿no? Banco de sentarse, no te banco.
+Las palabras son ambigüas, y las que son ambigüas son las que nos traen nuestro problema,
+porque sino nosotros simplemente buscaríamos la palabra en un diccionario y le ponemos
+a un categoría otra cosa más hipos. El gran problema que surge, como en todas las tareas,
+de la cual en la primera clase, es que tenemos ambigüedad. ¿Y cómo podríamos llegar a resolver
+esa ambigüedad? ¿Cómo se les ocurre que yo pueda saber si estoy hablando de Banco con...
+Tengo borrador.
+Pero si tienes un borrador, ya caes en los patológicos.
+Pero borrador, borrador ahí nos salió, ¿no?
+Ah, sí, y había marca Breta, ¿eh? En serio, ella trae. Bueno, ¿y cómo sabemos lo de qué pasa con Banco?
+El contexto. ¿Qué es el contexto? ¿Qué es el contexto? ¿Contesto? ¿Tienes a lo que es contexto?
+Las palabras que rodean a la palabra, a mi palabra, el contexto son las palabras que están antes o después,
+es decir, el contexto, ¿sí? Entonces, yo sé que si dice antes, T, esto que probablemente que es un verbo, ¿por qué?
+Porque sí.
+¿Por qué te...?
+Sí. Sí.
+Pero ¿por qué este tema dice que esto es un verbo?
+Puede haber dos respuestas. Una es porque si nosotros logramos armar la estructura de cómo hablamos cuando yo digo T, que me refiero a vos,
+no sé qué es este, este que es un clítico. Cuando hay un clítico antes, el verbo que viene, el verbo asociado a eso, asociado a eso tiene que haber un verbo, quiero decir.
+Esta es una explicación de si logra armar la estructura, pero además porque usualmente, la clase pasada ya lo vimos con los enegramas,
+porque usualmente o ha ocurrido que en los corpus que yo miré todas las veces que aparecía T y después banco,
+o muchas veces o muy frecuentemente sucedía que este banco era un verbo, o sea, yo aprendo de corpus anotados, ¿sí?
+No sé por qué sucede bien, pero de hecho sucede mucho, entonces yo digo, bueno, entonces este verbo, este debe ser un verbo porque este T,
+porque hay un T antes, ¿de acuerdo? No es mayor misterio en esto y los métodos que vamos a ver de análisis se basan en eso justamente,
+en deducir a partir del contexto cuál es la categoría, levantar la ambigüedad. ¿Sí?
+Pero podemos creer más información además, esto es el análisis del gato como he pescado hecho con Freelink, ¿sí?
+Y acá Freelink cuando analiza un texto nos devuelve, no sólo el lema de la palabra, esto se llama en etiquetas Eagle,
+que es un formato para justamente anotar part of pitch, pero no sólo part of pitch, sino agregarle nuevos atributos.
+Acá es un determinante, está, si no me equivoco, quiere decir que es un artículo, pero además es masculino y singular.
+Las marcas que van apareciendo dependen de la primera, o sea, gato es un nombre común, masculino y singular, y los otros tres pasiones los uso.
+Y así yo lo voy especificando, ¿de acuerdo? Comer es un verbo masculino e imperativo, ¿sí?
+No, no, género, no, es masculino, verbo, no sé qué es esta M, no, pues esta M tiene que decir algo.
+Bueno, revisen después la etiqueta Eagle, podemos buscarla si quieren acá.
+No, no, tercera persona en singular, presente tercera persona en singular.
+Y este es el come de la orden, el imperativo, la M creo que es imperativo y este es indicativo, si no me equivoco.
+No, pero no sé, porque estamos hablando de come, ¿no? Come es el lema.
+Esto es indicativo, esta M no me acuerdo, ¿verdad? Pero, digamos, uno tiene una codificación que le asocia.
+Se imaginarán que es mucho más difícil anotar un corp, solo el postal, que toda la...
+Necesito mayor cantidad de información, pero los principios son más o menos los mismos.
+Le decía, acá yo lo que estoy haciendo es al mismo tiempo, part of the, part of the time y análisis morfológico, ¿de acuerdo?
+Justamente en el laboratorio, una de las cosas que van a tener que hacer es correr este análisis y mapearlo a las otras fituras, a las universales.
+Las universales, part of the time, son justamente el intento, porque hay casi tanto formato como gente que se puso a hacer herramientas.
+La historia del pensamiento en el hogar natural está en una etapa en la que están convergiendo cosas, digamos.
+Cómo ocurre casi toda la disciplina. Se abrieron muchas, pues ya hay cada uno hacía su codificación de cómo codificar un texto, cómo codificar un...
+Porque hasta ahora veníamos lindos, separación en palabra, todo bien.
+Si bien cada uno podía toquenizar un poquito diferente, ya cuando empezaban a ponerle las marcas, como no hay un criterio estándar,
+y más, yo estoy seguro que muchos lingüistas deben estar en desacuerdo con el universal part of pitch,
+porque está restringiendo la junto categoría y claramente hay cosas que no va a resolver, digamos.
+Es una solución más computacional que otra cosa, para poder decir, bueno, pues yo tengo que anotar mucho texto y tengo que tener un criterio, ¿se entiende?
+Y este es un signo de computación.
+Como ven acá, lo que sucedió fue que acá no sólo me dio el análisis, sino que me dio las candidatas.
+Y no me está diciendo acá...
+Me está asignando una probabilidad, o sea, me está dando una distribución. No me está diciendo cuál de la dos más probable.
+Bueno, sumamos por orden bien acá arriba, pero... porque yo acá podría tener muchas combinaciones, ¿no?
+Y guarda, y acá me parece muy importante, el hecho de que ésta sea más probable que ésta,
+que esto sea un 0.75, tengo miedo de estar diciendo algo mal porque depende cómo esté hecho el análisis, ¿no?
+Este 0.75 hay que ver si se corresponde a... seguramente se corresponde a la probabilidad en este lugar, ¿tá?
+Pero yo... o sea, que si yo pusiera acá la probabilidad de que sea esta excepción versus ésta, en general,
+no me sirve de mucho la probabilidad, porque cuando aparece en este contexto debería ser esta probabilidad.
+Y eso yo tengo que tenerlo en cuenta.
+Cuando yo hago partos pitagin, a mí lo que me interesa es conocer la probabilidad,
+la asignación de tags con mayor probabilidad para toda la oración.
+Creo que me enredé un poco en decirlo, pero el concepto es éste.
+Yo no me interesa solamente cuál es la excepción más probable para cada palabra,
+sino que yo necesito tener una visión global de la oración. ¿Se entiende?
+Por eso es un problema de clasificación secuencial.
+Eso es lo que se llama un problema de clasificación secuencial.
+Un problema de clasificación, la clase que viene lo vamos a ver, es yo tomo un objeto,
+para el caso una palabra, y le asigno una categoría.
+Es un problema de clasificación. Tengo un conjunto de categorías discreto y le tengo que poner uno.
+O hacer una distribución de probabilidad entre las categorías que existen.
+En un problema de clasificación secuencial, yo tengo que asignarle una asignación
+de categorías que maximice la probabilidad de toda la oración.
+Eso es un problema de clasificación secuencial, que es lo que vamos a ver ahora.
+El problema de análisis léxico es un problema de clasificación secuencial. ¿De acuerdo?
+Bueno, un poco ya hemos mencionado algunos, pero tenemos, ¿no?
+Acá tenemos bajo, que es un verbo, con el nombre bajo, que es un adjetivo,
+a tocar el bajo, que es un nombre, y bajo la escalera, este bajo es una preposición.
+El señor mesa se mesa la barra al lado de la mesa.
+Fíjese que este mesa es un nombre propio y este mesa es un nombre común.
+Dejan la barra la barra de pan. Acá barra y barra estos dos son sustantivos.
+Aunque tienen diferentes significados, desde el punto de vista de la análisis léxico es lo mismo.
+La distinción se da a un nivel posterior, a un nivel semántico.
+Para que el mozo barra, este barra no, porque este barra es este, es un verbo.
+Y acá, este es interesante porque y es una conjunción,
+pero acá funciona todo dentro de un nombre propio.
+Es decir, acá hay que identificar toda la entidad con nombre red, es decir, el rol es diferente.
+¿Por qué nos puede interesar hacer análisis léxico?
+Bueno, el ejemplo más obvio es para poder seguir analizando después.
+Si yo quiero armar la estructura de una oración, necesito saber las categorías,
+porque hay cosas que no se combinan con otras en el análisis sintáctico.
+Vamos a ver, cuando veamos análisis sintáctico, que yo, para armar la estructura de una oración,
+me baso en las clases de las palabras, más que las palabras en sí.
+Quiero decir, uno, cuando dice el perro, ese perro, puede ir cualquier nombre,
+pero no puede ir un verbo, el saltar, el salta.
+También hay algunas motivaciones adicionales que en español no pasa,
+pero en inglés sí, por ejemplo, hay palabras que se pronuncian diferente según su categoría.
+Discount, cuando funciona como sustantivo, discount, cuando funciona como un verbo.
+O object, objeto, object de objetar.
+La pronunciación es diferente, eso por supuesto en el español no se da.
+También, claro, hacer lematización, que ya vimos un poco cuando yo quiero recuperar algo,
+me quedo con el lema.
+Y si yo estoy haciendo, por ejemplo, resumen automático,
+un texto puede interesarme, ponderar más, por decir algo,
+los párrafos que incluyan más sustantivos o verbos o así, explico.
+Es decir, quiero destacar las partes del texto que tiene más contenido,
+entonces quiero saber dónde están los verbos y dónde están los sustantivos.
+Nunca funciona, pero igual.
+Bueno, también, por supuesto, para estudiar fenómenos lingüísticos.
+Es decir, ¿qué pasa? ¿cuántas veces en el español aparece un nombre propio?
+Entre dos.
+Dos nombres propios separados por una I, para alguien que está estudiando los fenómenos.
+Hay un... los invito a pasar después por acá, el Corpudo del Español, el Punto Org,
+se puede hacer este tipo de consultas, se puede consultar este tipo de ocurrencias
+para ver cómo funciona y te las muestra en un contexto.
+Entonces lo pruebo acá porque la interfaz es tan rara que se nunca logra solo andar bien,
+pero un poco de esfuerzo uno lo hace y muestra el contexto en el que aparece,
+entonces nos permite estudiar ese fenómeno, lo que se llama estudio de corpo.
+Por ejemplo, acá había una prueba que era formas del verbo servir, más una preposición.
+Acá siempre uno cuando habla de un corpo acuerden sí tiene que aclarar de qué corpo está hablando,
+una breve descripción del corpus.
+No es lo mismo un corpus de sentencia que un corpus de texto periodístico del siglo XX.
+Bueno, ahí tenemos 387 ocurrencias de servir de, servía de tren de aterrizaje,
+servir para, servía para transformar, servir a, servir en, servir con, servir con el red y tal, ¿no?
+Y bueno, y esta es la gran motivación.
+Allá en el Camino Perú, en el Camino Perú, en el Camino Perú,
+y bueno, y esta es la gran motivación.
+Allá en el Camino para poder hacer un análisis sintáctico.
+Bueno, el etiquetado eléxico es eso que está ahí.
+Yo tengo un texto, ahora lo vemos desde el punto de vista de la tarea computación, ¿no?
+Yo tengo un texto, tengo el conjunto de etiquetas y devuelvo el texto etiquetado.
+Recordamos algunas de las principales categorías gramaticales que ustedes vieron en la segunda clase.
+¿Sí? Terminantes, preposiciones, etcétera, etcétera.
+Ustedes ya lo vieron en la clase, no me voy a comentar mucho.
+Y él muestra unas cuantas categorías que están ahí.
+Como le decía, siempre hay mucha discusión entre cuáles son las categorías postas.
+Esencialmente no hay categorías postas. Depende un poco de la teoría.
+Porque, por ejemplo, no está bien claro que la cifra tenga que ser una categoría.
+O las fechas y las obras.
+Pero también tenerlas todas por separado parece ser un problema, digamos, no para el análisis.
+Como le decía, a veces acá tenemos más preguntas que respuestas.
+De eso se trata la investigación.
+Bueno, esas son las categorías IGEL.
+Como yo le decía, esto es un poco las que vimos en Freelance, ¿no?
+Lo primero es el postag, la categoría.
+Y dependiendo de lo que haya acá, lo que hay después.
+Por ejemplo, para nombres tenemos común y propio, género, masculino, femenino.
+O común, número singular, plural o invariable.
+La clasificación semántida que no se usa.
+Y el grado apreciativo que no tengo en la menor idea de lo que es.
+Pueden averiguarlo.
+Otro corpus es el famoso Brown.
+El corpus Brown es el primer corpus anotado en inglés.
+Es un corpus de un millón de palabras.
+Y mal no recuerdo que tiene diferentes formas de anotar.
+Completamente diferentes.
+¿Sí?
+Si se fijan acá, tiene, por ejemplo, marcados con diferentes talos,
+a los verbos según el tiempo que fue expresado.
+¿Por qué me interesa tener estos corpus a mí?
+¿Por qué me interesa tener corpus anotado?
+¿Para qué quiero tener corpus anotado?
+Por el aspecto vaso.
+Por el aspecto vaso.
+Por el aspecto vaso.
+¿Para qué quiero tener corpus anotado?
+Por el aspecto vaso.
+Es muy importante, ¿no?
+Yo tengo corpus anotado porque la forma que tengo de contar,
+todo lo que aprendo, lo aprendo del corpus.
+Es un esfuerzo, digamos,
+ahora con todo el humo que hay con la inteligencia artificial,
+la prensa automática, todas esas cosas,
+a veces se transmite la idea como que yo tengo grandes volúmenes de datos
+y con eso estoy cambiando el mundo,
+y en realidad no es tan así,
+yo necesito grandes volúmenes de datos anotados.
+Y la parte de grandes volúmenes,
+cuando vienen los de anotados ya se relativizan.
+Me sigue mi compañero y festejaba que tenía 2.000 tweets anotados,
+y hoy todo el mundo habla de millones y dos millones,
+pero no es que haya mucha gente que tenga 100.000 tweets anotados,
+porque 100.000 quiere decir 100.000 personas mirando el tweet
+y anotando esto,
+esto tiene tal aspecto que quiero estudiar,
+y no siempre la tarea de anotación del cuerpo es una tarea muy costosa, típicamente,
+porque imagínense que ustedes tienen que elegir entre todas estas categorías
+para ponerla a cada palabra,
+y con perro es fácil,
+pero con que ella se complica
+y se empiezan a generar discusión y que los criterios,
+cuando el proceso de anotar un cuerpo es todo un proceso muy interesante,
+porque generalmente, por ejemplo, para anotar el cuerpo,
+por lo menos se utilizan dos anotadores,
+para ver qué tan de acuerdo se ponen entre ellos,
+y cuando entramos a,
+por ejemplo, por el rol que cumple una palabra,
+entonces generalmente cuando se anota un cuerpo,
+lo que se hace es que se definen los criterios de anotación,
+y se, bueno, vamos a anotar de esta forma, de esta forma,
+esta forma, en tal caso vamos a tomarte el criterio,
+y se lo da por lo menos a dos anotadores,
+que son expertos en el tema,
+o sea que esencialmente cobran bastante bien, digamos,
+porque es una tarea muy difícil,
+y luego se comparan sus resultados,
+y se llega a un valor que es lo que se llama el interanoteitor agreement,
+que es, a ver, si dos seres humanos se pusieron en el cuerpo en el 95% de los tags,
+un método que llegue al 98% sí para nada,
+está claro, porque está haciendo algo mejor que la mejor anotación,
+¿se entiende?
+va a estar de acuerdo con uno, porque yo, a ver,
+cuando tengo los dos anotadores,
+yo al final tengo que llegar a un gol de estándares,
+llegar a una definición, pero,
+esa definición a veces puede ser un poco forzada, digamos,
+porque tengo que elegir entre uno de los dos, ¿se entiende?
+ese interanoteitor agreement es un valor que es muy interesante,
+porque nos da un techo para lo que los métodos hacen,
+entonces cualquier método que diga que está arriba del interanoteitor agreement,
+en realidad es muy relativo su utilidad, ¿de acuerdo?
+porque no hay un gol de estándar contra el cual comparar,
+todos los métodos y todas las evaluaciones que hacemos,
+la clase de clasificación lo vamos a ver también,
+todos los cosas que nosotros hacemos,
+las evaluamos contra un cuerpo anotado,
+que nos sirve de referencia,
+y esa medida va a depender mucho de ese gol de estándar,
+asumiendo que ese gol de estándar siempre está bien,
+por eso, al armar el cuerpo de gol de estándar,
+el cuerpo donde voy a evaluar,
+tengo que ser muy cuidadoso,
+no puede ser un cuerpo anotado automáticamente, juzgamente,
+tiene que ser hecho a mano,
+tiene que haber un ser humano que diga,
+esto vale tanto,
+me parece muy interesante,
+y que hace tiempo que vengo proponiendo sin éxito,
+una tesis anotada al respecto,
+sin éxito porque no tengo alumno,
+este es todos los procesos que nosotros conocemos de evaluación,
+asumen que el estándar es fijo,
+es decir, que hay una verdadera categoría para esta palabra,
+que acá yo puedo equivocarme en ponerle nombre a gato,
+pero que de última sé lo que el algoritmo tiene que darme,
+ahora hay casos donde eso no es tan claro,
+porque, por ejemplo, si yo tengo un tuit
+y quiero decir si es gracioso o no,
+es una opinión subjetiva,
+entonces, yo puedo hacer un corpus,
+donde diga, bueno,
+la mayoría de las personas dijeron que era gracioso,
+entonces, por lo tanto, lo declaro como gracioso,
+y un algoritmo que dice que no es gracioso se equivoca,
+o en realidad, de alguna forma,
+tendría que incorporar en el corpus esa distribución,
+eso no he visto que esté hecho,
+para mí hay un campo de investigación ahí,
+perdón, me debió un poco,
+cuestión que teníamos, ya no sé qué estaba hablando,
+ah, las categorías del corpus gran,
+y esto es nuevo,
+esto es nuevo, lo agregué para este año,
+porque me pareció muy interesante,
+hay un proyecto que se llama Dependencias Universales,
+que es ese que hoy les mostré allá encima,
+en el tema del laboratorio,
+que lo que trata de hacer es tener un formato consistente
+para anotación de tribancas,
+los tribancas son cosas que tienen anotados
+los partos hospitales y más cosas,
+información sintáctica y tal,
+pero lo que busca es tener una forma de anotar
+que sea universal, que pueda atravesar los idiomas,
+con todo lo que tengan en común,
+y dejando las especificidades de cada idioma
+para el costado, digamos, en un campo específico,
+¿de acuerdo?
+Este proyecto está avanzando mucho,
+está basado en las dependencias
+que se definieron en Stanford
+y una propuesta de postage universal
+que Google había hecho en un momento,
+pero es un proyecto de colaboración abierta,
+porque hay gente muy pesada, digamos,
+que ha trabajado mucho en el parcing de dependencias,
+yo creo que va a andar bien
+y por eso les estamos pidiendo que transformen
+eso en el formato este.
+En los postage tienen ciertas etiquetas universales de postage,
+son muy sencillas, son muy poquitas,
+fíjense que tiene una posición muy conservadora,
+no se pone muy...
+Esto va a abrir el...
+Ven, acá tienen unas poquitas categorías,
+clases abiertas, ¿acuerdan lo que era clases abiertas
+y cerradas de palabras no abiertas?
+Son las que admiten nuevos elementos
+y las cerradas son como las preposiciones,
+por ejemplo, que son fijas.
+O sea, tratan de humildemente
+poner una notación muy básica,
+pero que pueda servir para generar intercambio
+entre diferentes investigadores, digamos.
+Y luego tienen otras características
+que son características universales,
+como género, número, forma verbal
+y algunas específicas para algunos idiomas
+que solo aparecen en algunos idiomas.
+Fenómenos lingüísticos que no se enganen en todos los idiomas.
+Bueno, para realizar este análisis eléxico,
+nosotros tenemos dos categorías principales.
+Una es, como casi todas estas cosas que hemos estado hablando,
+una es un enfoque por relas,
+que es la aproximación más clásica,
+que es, bueno, esto que decíamos hoy,
+después de alguien se pone a estudiar
+y dice, bueno, si aparece T banco,
+entonces banco, toda la palabra banco
+que aparezca después de T
+es un verbo, regla número 1.
+Se robó un banco.
+Este banco aparece después de un,
+entonces yo lo voy a notar como un nombre.
+Sí.
+Pero acá yo digo no banco a
+Juan.
+Y acá no banco a,
+a mí me gusta más el contexto de la derecha.
+Bueno, todo esto y casos más complicados pueden haber.
+Por supuesto, si uno se pone a mirar los corpos,
+entonces lo que hace es
+empieza a mirar todas las posibilidades que hay,
+trabaja durante años
+y genera una lista de reglas
+para este,
+desamiguar.
+Es el enfoque tradicional,
+es muy, muy costoso,
+porque necesito lingüistas estudiando,
+pero este aquí,
+que este tipo de métodos
+funciona muy bien en esta tarea
+y por acá
+no lo tengo notado a,
+pero hay un,
+un, un tagger en inglés
+que utiliza este tipo métodos,
+ahora lo vamos a ver
+y que llega a un 99,5% de accuracy.
+Es decir, que etiqueta muy bien.
+Es una tarea que con mucho trabajo
+y muchas reglas
+se puede resolver así.
+La otra aproximación,
+ahora vamos a dar los detalles,
+pero la otra aproximación
+es el enfoque estadístico.
+Bueno, a partir de los grandes corpos
+que tenemos,
+grandes entre comillas,
+son corpos anotados,
+no es que tenemos
+miles de millones de palabras, no?
+Entreno modelos a partir de grandes,
+grandes corpos.
+Y estimó la probabilidad
+de la palabra,
+de la categoría según el contexto.
+Y también hay enfoques híbridos
+que son, por ejemplo,
+el tagger de Bril,
+que lo vamos a ver un poquito después.
+Como acá hemos
+virado para lo estadístico,
+veí rápidamente por el tema de los derrelas,
+pero esencialmente en los años 60
+el análisis léxico se empieza haciendo así,
+una arquitectura de dos capas.
+Le asignó categorías potenciales
+a partir de un diccionario.
+Es decir, qué cosas puede tener.
+Esto es lo primero que toca hacer.
+Era lo que hablamos al principio de la clase, no?
+Banco puede ser o un verbo o un nombre.
+No puede ser una preposición.
+Porque no está en la lista de preposición.
+Si fuera bajo, sí.
+Y el acabado se utiliza reglas
+de desambiguación
+para eliminar categorías.
+Es lo que nos imaginaríamos,
+que haríamos de análisis, no?
+Por ejemplo,
+en Siji Tiger,
+que hace una cosa así,
+para cada palabra,
+le asignan partos pitch y alguna cosa adicional.
+No, miento.
+Esto es el lexicón.
+Tiene 56.000 palabras,
+con morfología a dos niveles,
+como vimos en la clase de morfología,
+con un postag y además
+con ciertas características lingüísticas.
+Por ejemplo,
+all es un determinante,
+pero además es un cuantificador.
+Algo que es un predeterminador,
+que yo no sé lo que es, etcétera, no?
+Reglas hechas a mano.
+Esto está hecho a mano.
+Entonces,
+yo tengo la grabación Pablo,
+John Dutt, Salivation,
+y tengo todas las categorías posibles.
+Tengo Pablo,
+que es un hombre singular propio,
+Jav,
+que tiene dos posibilidades.
+Jav, perdón.
+John, Dutt,
+y Dutt, que tiene cuatro.
+Dutt es complicado.
+Dutt es qué?
+Tiene cuatro candidaturas, no?
+Entonces, yo tengo que desambiguar
+en esta oración lo que pasa.
+¿Y cómo desambigúo?
+Uo.
+Diguo.
+Con reglas.
+3.744 reglas para quitar las etiquetas incorrectas.
+Un laburo de la hostia, no?
+Porque digamos,
+cada regla puede romper otra, además, no?
+Porque la regla es lo que dice,
+bueno, Dutt, que tengo Dutt,
+si la siguiente palabra es un adjetivo,
+un adverbio, un cuantificador,
+elimino los que no sean adverbios.
+O sea, lo estoy calificando como adverbio.
+O, y además, no, perdón,
+si la siguiente palabra y la demás
+aparecen al final de una oración,
+y la palabra siguiente no es un,
+anterior no es un verbo,
+como consider que permite adjetivo.
+Esto es un lenguaje para especificar este tipo de reglas.
+Entonces, eliminarlo y dejarlo como adverbio.
+¿Se entiende?
+Son reglas.
+Mucho trabajo, pero con buenos resultados.
+Generalmente, lo que sucede con los métodos de regla,
+lo que han demostrado los métodos de regla,
+es que vos,
+tu accuracy, que es la,
+se acuerdan, no sé si lo hablamos,
+pero la accuracy es la capacidad de clasificar bien
+en un problema de clasificación,
+de si en que hay, cuántas clasifico bien.
+La accuracy va creciendo,
+con el método va mejorando,
+pero sigan a un techo.
+Crece rápidamente, pero crea un techo.
+Los métodos de aprendizaje automático general,
+o general no,
+pueden crecer más despacio,
+pero tienen más alto el, el, el techo.
+Sí, y lo que ha pasado últimamente,
+es que las redes neuronales son un poquito más altos.
+Entonces, estos pasaron los últimos cinco años,
+últimos cinco.
+Yo, yo vi,
+una de las señales de que,
+de que esto progresa,
+o de que yo estoy viejo,
+una de las dos,
+es que yo vi este fenómeno,
+los métodos que estaban por regla,
+cómo los métodos de aprendizaje automáticos,
+tomaron el estado del arte en diferentes tareas,
+y ahora estamos viendo
+cómo los métodos del redes neuronales
+de deep learning están superando los.
+Es más,
+recuerdo que,
+cuando se hacía el chiste de bueno,
+a ver,
+vamos a, vamos a hacer que las conferencias
+dejen de ser,
+miren este, miren esta tarea
+que antes se resolvía con regla,
+cómo la resolvo con aprendizaje automático,
+y, y me mejoró.
+Y ahora el chiste,
+bueno, vamos a dejar de,
+ah, miren esta tarea que antes la resolvía bien
+con aprendizaje automático,
+la resolvo con deep learning,
+y también mejoró,
+aplicando los mismos métodos.
+Estamos viviendo este momento.
+Pero,
+esencialmente,
+la información de base
+de la que se prende la misma.
+Bueno,
+la otra alternativa,
+¿Cómo estamos ahora?
+¿Qué hora es?
+No hay cinco.
+No hay cinco,
+está muy bien.
+La otra alternativa,
+es,
+hacer part hospital
+con un modelo de clasificación secuencial.
+¿Tá?
+El modelo de clasificación secuencial
+en el que vamos a poner énfasis,
+y que vamos a presentar acá,
+los Hiedemarco Models.
+¿Tá?
+Hoy en día,
+los Hiedemarco Models
+no son el método más
+utilizado
+para las tareas de clasificación secuencial.
+Los Hiedemarco Models
+nacieron en los años 60,
+tomaron fuerza en los años 90,
+son un modelo de clasificación secuencial.
+En la primera década del siglo XXI,
+fueron sustituidos,
+estoy hablando en general,
+por métodos
+que se basan en otros
+principios,
+que son discriminativos y no generativos,
+capaz que en un par de clases lo vemos,
+y ahora están
+de moda las redes neuronales,
+pero me parece que son muy interesantes,
+porque muestra,
+permiten ver el problema
+que estamos resolviendo,
+y una forma de aproximarse a él.
+Y realmente funciona bastante bien,
+digamos, además, ¿no?
+Entonces, por eso,
+me parece que es muy interesante,
+ah, y además se aplican a una cantidad de problemas.
+Son un modelo.
+En particular,
+los otros los hemos ver aplicados al Parto Hospital.
+Entonces,
+los modelos de Marco, de estados ocultos,
+son un caso particular
+de la inferencia vallesiana, de la inferencia que vimos,
+se acuerdan cuando hablamos de la clasificación de errores,
+que vimos de cómo clasificar una palabra,
+cómo buscar la candidata
+y la regla de valles y demás.
+Bueno, esto es,
+los modelos de Marco, de estados ocultos,
+son como una versión
+secuencial
+donde aplicamos la regla de valles.
+Lo que decíamos hoy,
+el post-haggin se puede ver como una tarea de clasificación de secuencias,
+dado una secuencia de palabra,
+una secuencia apropiada de categorías gramaticales.
+Para toda la secuencia.
+No solo para cada palabra.
+No es que yo clasifico la primera, la segunda,
+sino clasifico toda a la vez.
+Eso es un problema de clasificación secuencial.
+Un problema de clasificaciones,
+dado una observación, se intenta terminar
+a cuál conjunto de clases pertenece.
+No.
+¿A cuál clase de un conjunto pertenece?
+¿Tá?
+Un problema de clasificaciones,
+es un problema de que tengo un conjunto discreto de valores
+y un objeto a la que le quiero asignar una categoría.
+Eso se llama clasificación.
+¿De acuerdo?
+Si yo aquí veo un animal
+y me dan la cantidad de patas que tiene
+o la foto
+si quieren hacer lo más complicado,
+yo tengo que decidir si es un perro, un gato,
+un camecho, un león.
+Eso es un problema de clasificación.
+Si yo quiero saber cuánto me puede ese animal,
+cuánto lo puedo llegar a vender en el mercado libre,
+eso es un problema de regresión,
+porque lo estoy asignando una,
+un valor real, la veo contigo.
+¿De acuerdo?
+Acá, en el negocio, en el pensamiento y en el juego natural,
+típicamente se habla de problemas de clasificación.
+Nosotros hemos visto una cantidad de problemas ya de clasificación.
+Por ejemplo, el primero que vimos
+fue el de la separación de oraciones,
+que esencialmente consiste en clasificar
+cada punto en punto final
+o otra cosa.
+Por ejemplo,
+voy a usar este ejemplo del libro,
+cada año me propongo
+hacer la versión español, pero nunca...
+Yo tengo este ejemplo, ¿no?
+Secretariat
+que es un caballo.
+Se espera que corra mañana.
+Y yo tengo que asignarle
+su parto espiritual.
+¿Verdad?
+Una nueva versión simplificada,
+tenemos las categorías que son poquitas
+y solo los post-arts.
+La idea cuál es,
+bueno, de todas las posibles
+secuencias de etiqueta que tengo,
+dijo la secuencia de etiqueta que es la más probable
+para la secuencia de observación
+de las n palabras.
+¿De acuerdo?
+¿Cómo puedo hacer eso yo pensando
+lo de pensando como en la clase pasada?
+¿Cómo podría llegar a hacer eso yo?
+¿Cómo se le ocurre que pueda hacer eso?
+¿Cómo?
+Contando, ¿no?
+Cuento todas las veces que apareció de una forma
+y cual todas las veces que apareció
+de la otra
+y me quedo con la más común.
+¿Qué problema tiene eso?
+No, pero yo digo toda la oración.
+¿Qué problema tiene eso?
+Tiene dos problemas.
+Tirando a imposible, ¿no?
+Es poco probable que esto haya aparecido
+ya en el cuerpo antes
+y se apareció una vez,
+no suficientemente cantidad de veces
+que va a pastimar su probabilidad.
+Problema número 1.
+Problema número 2, no me acuerdo cuál.
+Este, me olvidé cuál era la otra
+característica que iba a mencionar,
+no importa, ya me voy a acordar.
+El problema es que no tengo forma
+de estimar así contando
+Entonces,
+pero observemos
+que lo que nosotros tenemos es una secuencia
+de palabras.
+Y queremos saber
+sus ciertos tags.
+¿De acuerdo?
+Esencialmente, en nosotros,
+lo que queremos es esto.
+Una estimación
+de alguna forma
+de la probabilidad
+de la secuencia,
+este 1 a la n
+dado que tengo las palabras.
+¿De acuerdo?
+Esto, si les parece parecido
+a lo que vimos para la...
+para el candidato
+a mejores palabras
+para la corrección, es porque es lo mismo.
+Esencialmente, es lo mismo una más consecuencia.
+Yo tengo una secuencia de palabras
+y quiero
+el argumento
+que maximiza
+esta probabilidad.
+¿De acuerdo?
+Yo quiero
+no la probabilidad de esto, sino la que maximiza
+esa probabilidad.
+Esencialmente acá,
+en este ejemplo nuestro
+si se fijan,
+sólo tengo 2...
+Ah, ese era el otro problema.
+Que en este ejemplo, yo sólo tengo 2 posibilidades.
+Porque estas no son ambigüas,
+según mi dicionario.
+La unidad de esa ambigüa es RACE
+que puede ser un verbo o un nombre.
+RACE, la carrera
+y RACE correr.
+Entonces, yo sólo tengo 2 secuencias.
+El otro problema que yo les digo hoy es que además
+la combinación de palabras
+de categorías explota.
+Para oraciones muy largas
+tengo muchísimas combinaciones
+porque yo acá tengo 2, pero la otra porque son los 1.
+Donde se empiecen a multiplicar
+tengo N1 por N2 por N3 por N4
+según la cantidad de categorías que tenga cada palabra.
+O sea que tampoco puedo
+si quiera probarlas todas.
+Cuanto menos contar.
+Poder podría, pero sería
+computacionalmente muy costoso.
+Podría probar todas las combinaciones, generarlas
+y contar en cada uno.
+Dijimos, esa es nuestra tarea.
+Nosotros queremos la secuencia
+de TAQ que maximice esa probabilidad.
+Bueno, pero como computo
+esta fórmula?
+Si les parece que ya lo vieron es porque ya lo vieron.
+Lo vimos para clasificación.
+Aplico la regla de valles
+para llevarlo a otras probabilidades
+que son más fáciles de computar.
+Entonces, damos vuelta
+la fórmula
+y como nos va a quedar?
+Nos va a quedar
+la probabilidad
+de la secuencia
+de TAQs dada la secuencia
+de palabras
+es igual a la probabilidad
+de la secuencia de palabras
+dada la secuencia
+de TAQs
+por la probabilidad de la secuencia de TAQs
+dividida la secuencia de palabras.
+Y fíjense
+que lo que me queda acá es
+Parece como un problema más complicado todavía
+porque es
+dada una secuencia de TAQs
+¿Qué tan probable es
+que esos TAQs sean esas palabras?
+¿Qué tan probable son que esos TAQs
+sean las palabras?
+¿De acuerdo?
+O sea, de todas las veces
+que aparecieron estas secuencias de TAQs
+¿Cuántas veces eran esas las palabras?
+Seguimos teniendo un problema de decir
+porque está claro que no podemos contar eso, ¿no?
+Pero además lo vimos vuelta
+y por otra parte la secuencia de TAQs
+¿Qué tan común es la secuencia de TAQs?
+Esto parece un poco más razonable.
+Es más parecido a lo que vimos
+en la enigrama de la clase pasada.
+¿Por qué desaparece este de acá abajo?
+A ver si se acuerdan.
+¿Por qué no depende
+de mi argumento?
+Si yo
+quiero maximizar esta probabilidad
+es lo mismo que maximizar esta.
+Entonces ahora sí, me quedo con estas dos
+la probabilidad de los TAQs
+por la probabilidad de las palabras.
+¿De acuerdo?
+Eso es lo que vamos a querer calcular.
+Igual sigue teniendo muchos problemas
+como decíamos, ¿no?
+Porque yo tengo que ver todas las combinaciones posibles.
+Yo podría llegar a contar en un corpus
+de todas las veces que apareció T1 o TN
+o sea, todas las veces que apareció
+determinante nombre
+por ejemplo, determinante
+adjetivo, nombre, verbo.
+¿Cuál de todas esas veces
+¿Cuál de todas esas veces
+esto generó
+el lindo perro
+conmigo la comida?
+Es eso lo que estoy contando.
+Multiplicado el mapa
+por la probabilidad de que esa secuencia de TAQ
+se haya dado en el corpus.
+¿Sí?
+Y usted fíjense
+que nosotros lo que vemos
+son las observaciones.
+No vemos los TAQs, obviamente.
+Por eso se llama modelos tabulos
+porque se llama modelos tabulos.
+Para solucionar este problema
+los GDMarco model
+¿Se acuerdan que
+los modelos vallesianos
+como
+simplificación que los TAQs
+eran independientes entre ellos?
+¿Se acuerdan?
+Bueno, los GDMarco model hacen
+dos simplificaciones que son bestiales
+que es increíble que funcionen
+y es. La primera
+dicen bueno
+yo para simplificar digo que
+la probabilidad de que
+una palabra ocurra
+de que se emita
+solo depende de la etiqueta.
+¿Sí?
+Es decir
+que esto sea la o el
+no depende del contexto.
+¿Aguardo?
+Es una simplificación muy fuerte ¿no?
+Entonces esta probabilidad
+es mucho más sencilla
+porque es la probabilidad
+de cada palabra dado su contexto
+dado su TAQ
+¿Sí? ¿De acuerdo?
+¿Por qué?
+Porque esto es probabilidad
+W1n
+dado T1n
+es igual como son independientes
+la probabilidad de W1n
+es dado
+perdón
+la probabilidad de W1 dado T1n
+pero como cada palabra
+depende
+porque las palabras
+son independientes entre ciertas
+¿Cómo es diciendo?
+Esto
+yo lo asumo
+por la segunda regla
+porque las etiquetas
+las categorías solo dependen entre ellas
+las palabras son independientes entre sí
+entonces
+y además la otra
+es que
+esto de lo que se llama
+hipótesis marcoviana
+que es
+la probabilidad de que una etiqueta ocurra
+depende solo de la previa
+es muy simplificador
+lo único que me condiciona
+que acá hay un adjetivo
+es que
+antes hubo un determinante
+si bien
+yo estoy generando una cadena
+es una cadena como muy sencilla
+que tiene muy fuerte simplificación
+¿Por qué hacemos eso y bueno
+para volverlo computacionalmente posible?
+simplemente
+porque yo teniendo eso puedo empezar a contar
+porque
+es mucho más fácil saber decir
+cuántas veces untaba parecido después de otro
+es un número
+que es mucho más contable en un cuerpo
+y lo mismo cuántas veces
+emitió la palabra porque yo quiero saber
+esta pregunta
+el determinante gelo la es más fácil
+puedo contar y tengo
+10.000 veces fue el
+8.500 fue la y etc
+3.200 fue
+un y así
+entonces
+lo que llegamos acá
+el modelo de Markov de estado oculto es
+la secuencia de tags es la que maximiza
+esto
+que es más o menos
+porque dice estas simplificaciones
+maximiza
+la probabilidad de la palabra
+por el tag de la dotar anterior
+esto es el modelo de Markov de estado oculto
+aplicado al análisis lexy
+se entiende más o menos
+y cómo calculamos
+la probabilidad de transición
+y bueno
+contando
+la probabilidad
+dado que tenga un tag
+otro por ejemplo la probabilidad de que
+dado un determinante venga un verbo
+es simplemente contar
+la cantidad de veces que apareció
+un determinante y un verbo
+dividido la cantidad de veces que apareció un determinante
+cuántas veces
+el determinante
+estuvo seguido un verbo
+¿se acuerdan cómo se llamaba esto?
+estimar esto
+se llamaba estimar
+por medio del principio
+de máxima verosimilitud
+y eso se llama un estimador de máxima
+verosimilitud
+maximum likelihood
+en inglés
+bueno entonces
+acá hicimos la cuenta y dijimos
+¿qué pasa con Reis?
+Reis
+yo puedo calcular la probabilidad
+que sea un nombre
+dado que antes había un determinante
+¿se acuerda?
+antes hay un tú
+acá esto es una cuenta
+no, perdón, no tiene que ver con la solución
+yo
+también ¿cómo aplico esto
+a una intuición que yo tengo?
+bueno, los determinantes suelen presentar
+adjetivos y nombres, entonces la probabilidad
+de que haya un nombre después de un determinante
+o un adjetivo deberían ser altas
+y efectivamente en el Corpus Brown
+la mitad de las veces después
+de un determinante viene un nombre
+y acá
+y acá tenemos la probabilidad
+de que
+por ejemplo
+dado que hay un verbo
+bbz creo que era conjugado
+sea is
+el verbo de esta la probabilidad de misión
+y es 047
+la mayoría de las veces el verbo
+de ser en inglés
+empiezo a sacar conclusión a partir
+del corpus anotado
+entonces, yo quiero resolver
+este problema
+yo podría llegar a modelarlo
+a esto
+como un
+como un modelo
+que marcó de estado oculto, es decir
+como lo que se llama un gráfico del modelo
+un grafo que modela las probabilidades
+acá lo que estamos diciendo
+es que
+la palabra
+solo depende del tag
+y que cada tag depende del anterior
+esta es una forma gráfica a través de grafos
+de modelar y toda una teoría
+que se llama graphical models
+que estudia
+cómo representar probabilidades a través de grafos
+y acá lo que tenemos es
+lo que estamos diciendo es
+lo único que incide en esto
+es la categoría armatical
+y lo único que incide
+en cada categoría armatical es el anterior
+y yo lo que trato de hacer
+es buscar
+cuál de estas dos es la mejor
+para esta
+secuencia
+¿de acuerdo?
+lo estoy pensando como un proceso donde yo tengo estados
+que están ocultos, que son estos
+yo quiero calcular
+probabilidades de transición entre ellos
+yo quiero sacar la probabilidad de transición acá
+pero lo que yo veo son las palabras
+no veo los estados
+¿de acuerdo?
+entonces yo a partir
+de lo que veo
+con el tag asociado
+necesito inferir
+cuál es el mejor cual es
+la probabilidad de tocar arriba
+entonces
+si queremos desambiguar reis
+necesitamos saber
+la probabilidad
+fíjense que las probabilidades
+que me interesan a mí en este caso
+son
+estas que están marcadas negritas
+esta
+esta
+y esta
+las otras son comunes
+o sea que no me importan
+me van a dar lo mismo
+entonces yo voy a calcular estas probabilidades
+y ahí están
+la probabilidad que sea un nombre
+que después de tu
+venga un nombre que es muy baja
+y que venga un verbo muy alta
+pero en cambio
+reis como nombre
+es mucho más común
+que reis como verbo
+¿sí?
+nr lo mejor que es adjetivo
+no que es nr
+que después venga
+un adverbio
+después de un verbo
+venga un adverbio es mucho menos probable
+que venga después de un nombre
+es el doble probable
+entonces yo tengo que combinar esa probabilidad
+para ver cuál es la mejor que me da para la secuencia
+lo que decíamos al principio, yo tengo que tener en cuenta toda la secuencia
+y entonces acá nos da que esto es mucho más probable
+que reis, según esta cuenta
+sea un
+verbo
+y en bocán, en este caso le pegamos
+me dio mucho más probable
+fíjense
+sobre todo por esto
+por el peso de esto
+un problema que tenemos con esto cuál es
+o sea resolvimos uno de los problemas
+que es
+que desde el punto de vista de las cuentas
+digamos ¿no? del conteo
+resolvimos uno de los problemas
+cómo estimar a partir del conteo
+lo que no resolvimos acá
+es que ¿qué pasa con la explosión
+de combinaciones?
+porque acá solo teníamos dos combinaciones posibles
+pero si yo acá hubiera tenido varios candidatos
+en cada palabra
+tenía que probar todas las combinaciones posibles
+entre ellas
+¿de acuerdo? si acá
+yo hubiera tenido que calcular
+si hubiera más de un candidato acá
+se abre la lista
+exponencialmente ¿no?
+¿tiene?
+entonces ese problema no lo hemos resuelto
+pero si ustedes se fijan
+lo que parece un problema muy difícil
+no lo es tanto
+porque las mismas restricciones que pusimos nos permite
+facilitar la cosa
+porque nosotros como sabemos que cada palabra
+solo depende del anterior
+el mejor camino hasta acá
+digamos el mejor camino total
+que va a estar compuesto por caminos más cortos
+óptimos
+porque
+para llegar acá solo tengo que saber
+el mejor hasta acá y la transición
+¿se entiende?
+porque si hubiera uno mejor
+ya lo hubiera procesado antes
+¿se acuerdan alguna cosa que ya hemos hecho
+parecida a esa?
+la distancia de edición
+lo que vamos a usar es una agorimoprogramación dinámica
+para resolver este tema
+el tema de que yo puedo tener muchas combinaciones
+pero que yo solo llego hasta cierto lugar
+¿por qué?
+porque yo tengo mi hipótesis marcoviana que dice
+mi futuro solo depende de este estado en el que estoy
+¿de acuerdo?
+entonces
+vamos a primero a caracterizar
+el modelo general
+de hidden mark on models
+porque esto se utiliza para muchas cosas
+pero el hidden mark on model es como una extensión
+de un automata finito
+donde yo le voy a asignar probabilidades
+voy a tener estados
+voy a tener probabilidades de transición
+¿si?
+y
+observaciones
+asociadas a cada estado
+perdón
+pasa que le puse n a las observaciones
+y no está bien
+voy a tener un conjunto de observaciones
+y voy a tener la probabilidad de emitir
+para cada
+observación posible
+la probabilidad de emitirla en cierto estado dado
+¿de acuerdo?
+no
+perdón
+dije mal
+la probabilidad de emisión
+depende de las observaciones posibles
+no del estado en el que estamos
+es independiente del estado
+¿si?
+no, está bien
+depende del estado
+para cada observación
+yo voy a tener de 0 1
+de 0 2 de 0 3
+perdón de 1 2 3 la posibilidad de emitir
+lo vamos a ver bien
+y estados finales
+iniciales y finales
+entonces
+vamos a...
+voy a bajar otra cosa
+esto es en general
+lo que es un modelo de marco
+yo tengo un conjunto de estados ocultos
+que no sé dónde están
+y tengo observaciones
+que ocurren en cada estado
+yo en cada estado emito algo
+si lo vemos
+desde el punto de vista del postal
+nuestros estados ocultos que son
+son los postals
+las posibles
+etiquetas gramaticales
+y lo que emitimos
+es la palabra
+y este a de 0 1 y a 0 2
+es la probabilidad de transición entre estados
+ya que todo de sumar 1
+¿de acuerdo?
+si yo lo veo
+desde el punto de vista de
+esto lo estoy sacando
+estas tramparecias
+la estoy sacando de un curso que dio
+un profesor
+de Oregón
+que se llama Brian Rohr
+que vino a dar un curso acá
+y me quedé con las presentaciones
+de esto porque me parece que estaba muy clara
+yo tengo una secuencia de palabras
+si
+en tiempos unos n
+primera, segunda, tercera
+que discretizamos el tiempo
+vocabulario
+y los tags
+y yo digo bueno
+la probabilidad de emitir
+la palabra tal
+va a depender solamente
+del tag que ya estaba
+solo depende del tag J
+si en el momento J
+va a depender del tag que tengo en la posición J
+J acá es la posición
+y es la palabra
+y las probabilidades de transición van a ser
+la probabilidad de pasar de un tag al otro
+¿de acuerdo?
+y al principio tengo unas ciertas probabilidades
+que son
+la probabilidad de arrancar con un tag
+es la distribución inicial
+la probabilidad de arrancar
+con un tag
+y la probabilidad de terminar
+con un tag
+que son las que necesito para completar
+para que me quede consistente
+al principio tengo que establecer una distribución
+de probabilidad entre las que comienzan
+yo para eso meto un tag adicional
+y acá son los conteos simplemente
+acá lo que hicimos fue
+suavizarlo con la técnica Laplace
+y esta forma
+una toda complicada es
+la probabilidad en el tiempo
+T estar en el estado J
+habiendo visto toda la secuencia
+que tuve hasta el momento
+es decir yo voy avanzando
+por mi secuencia de palabra ahora voy a mover un ejemplo
+y el alfa
+me dice
+la probabilidad de que
+al principio estoy en uno ¿no? la probabilidad que estar en el principio es uno
+en el tiempo T es
+el alfa
+de T-1
+el tiempo anterior
+por la probabilidad de transición
+por la probabilidad de emitir
+y me quedo con el máximo
+de todos esos
+mi mejor probabilidad
+es el máximo de todos esos
+la más probable es eso
+y como ven en cada paso
+T yo solo dependo del alfa anterior
+la mejor secuencia
+en el tiempo T
+va a estar formado por la mejor secuencia
+del tiempo T-1
+si
+mejor dicho
+va a estar formado por
+lo que me maximice la mejor secuencia
+de T-1 multiplicada por la emisión
+yo voy a tener una mejor secuencia
+para el TAG 1, 2, 3 y 4
+yo para los 4 hago la cuenta
+digo bueno
+la mejor secuencia para que estuviera
+en un adjetivo
+en la posición T-1
+era tal
+un nombre
+mi mejor secuencia es la que más inmice
+la mejor secuencia para el TAG T-1
+adjetivo multiplicada por la transición
+de un adjetivo, un nombre
+multiplicada por la probabilidad de emitir
+y eso lo hago para todos los TAG anteriores posibles
+y me quedo con el mejor
+ahora lo voy a mover en un ejemplo
+pero le des esa
+y además guardo cuál fue el estado del que vine
+para saber cuál es la secuencia
+yo todo eso lo puedo resolver
+como yo dependo solo
+de la posición en la que estoy
+puedo resolverlo con una tablita
+y eso es lo que voy a hacer
+hacer lo que se llama un trellis, una tabla
+donde yo voy guardando esas probabilidades
+supongamos que nosotros
+tenemos este ejemplo
+que
+fruit flies fast
+quiere decir
+las frutas vuelan rápido
+las
+fast
+no pero es este
+es una gente
+esto se puede leer como la fruta
+frut flies fast
+ahi va
+claro
+es la que buscamos
+vamos a ver si nos va
+pero si se fijan
+fruit no es ambigua
+pero flies si
+puede ser las
+las moscas o el verbo volar
+y fast es este verbo
+que es eso
+de ayunar
+un adverbio
+o un adjetivo
+si
+entonces yo voy a tener que calcular
+todas las combinaciones posibles
+que son 3 por 2
+6 posibles
+y acá tengo la probabilidad
+de transición entre tags
+no acá lo que estoy diciendo es
+la probabilidad
+de que un adjetivo
+venga despues de otro adjetivo
+es 0 1
+todo esto lo hice contando en el corpus
+se entiende
+conté todas las veces que en el corpus
+un adjetivo y otro adjetivo
+la probabilidad de que despues
+de un adjetivo venga
+siempre tengo que mirar la jota
+venga un nombre es 0 3
+y asi
+acá lo que estamos diciendo es imposible
+que despues de un verbo verga otro verbo
+por supuesto esto no
+acá solo tengo la tabla
+que son todos los que me interesan a mi
+pero esto seria una tabla
+fiquese que no es tan grande esta tabla
+son todas las combinaciones
+es n por n donde n son mis tags posibles
+y despues tengo la probabilidad de emisión
+la probabilidad de emitir
+frut
+en el tag 2
+se acuerda de lo que la duda de si tenian si el estado es
+dado que es un nombre
+la probabilidad que sea fruta es 0 1
+por supuesto que esta probabilidad es un juguete
+lo que estoy diciendo de una de cada 10 veces
+que aparece un sustantivo en el corpus es fruto
+que a mi de acá
+nosotros vamos a dejar su probabilidad muy pequeña
+y por eso usualmente lo que hacemos en la realidad
+es sumarlo a ritmo
+multiplicar porque si no tenemos problemas
+de underflow o horribles
+bueno y asi
+la probabilidad de emitir para cada una de ellas
+con las posibles categorias
+es 1
+entonces
+lo que yo quiero saber es cuál es la probabilidad
+de cada oración
+de cada secuencia
+digamos
+mejor dicho
+en
+para viterbi
+nosotros tenemos tres grandes problemas
+a resolver
+hay tres problemas fundamentales
+en los modelos de los hedemarco model
+que es
+dado a un hedemarco model este modelo que tenemos acá
+yo ya con estas
+transiciones tengo
+el modelo no tengo los tags
+que son los de tag oculto
+las palabras
+la probabilidad de transición y la probabilidad de emisión
+en el estado inicial en el final
+tengo un modelo de marcó
+cuál es mi problema bueno uno de los problemas es
+calcular la verosimilitud es decir dado un hedemarco model
+y una secuencia
+o de palabras quiero calcular la probabilidad
+esto es ni más ni menos un modelo de lenguaje
+otra tarea es la de decodificar
+que es
+dado un hedemarco model y una secuencia
+calcular la mejor secuencia de estado oculto
+en el parto hospital lo que hacemos
+es esto decodificar
+y hay otra tercera tarea
+que es la de aprender
+que es
+aprender las probabilidades de transición a partir
+de texto arbitrario
+que es algo que en esta clase
+en este curso no lo vemos
+entonces yo voy a tratar de resolverla
+segunda tarea
+no, ¿quiere que tiene que ser yo?
+muy difícil esto
+bueno
+entonces nosotros hemos tratado de resolver la segunda tarea
+la tarea es de decodificar, asignarla a mejor secuencia
+entonces arrancamos con una tablita así
+que dice bueno
+acá yo tengo la posible categoría
+y acá tengo las posibles palabras
+fíjense que ahí
+uno es fruit
+flies
+fast
+¿tá?
+al principio y hay bueno tenemos la categoría
+cero que es el tag de comienzo de la eración
+¿tá?
+al principio de mi algoritmo
+la probabilidad es uno de estar en el estado cero
+el estado cero es el
+s ¿no?
+¿de acuerdo?
+no, no dije nada
+la probabilidad es uno acá
+y no puede estar nunca
+en el estado cero
+al lado a la 3
+en la 4 lo voy a reutilizar
+el cero para el final
+por eso no lo puse acá
+eso es lo que sabemos, que al principio necesariamente
+esto toca
+¿tá?
+luego
+tenemos que calcular
+viene la primera palabra
+que es fruit
+¿sí?
+frut, dijimos que podía ser según nuestras
+probabilidad de transición
+siempre tengo todos los años tengo un problema
+puede ser un nombre
+solamente un nombre
+¿sí?
+entonces yo acá que tengo que calcular
+yo sé que esto acaba a haber cero
+porque no puedo estar en este estado acá
+solo voy a poder estar acá
+y yo tengo que calcular la probabilidad de estar acá
+que no es uno
+es uno por la probabilidad de que sea frutado
+exactamente es uno
+por la probabilidad de que sea fruta
+perdón
+por la probabilidad de que venga un nombre
+después del comienzo
+por la probabilidad de que sea
+frutado a un nombre
+¿de acuerdo?
+la dos probabilidades que tengo siempre
+la de transición y la de misión
+si verifican eso
+es 002
+001
+probabilidad de
+perdón, probabilidad de nombre
+al comienzo 002
+¿sí?
+que sea fruta o que es un nombre
+001
+o sea que debería ser 002
+002
+¿de acuerdo?
+y le indico acá que vengo del estado 0
+obviamente
+esto no tiene sentido
+ahora voy a ir al segundo
+que es flies
+que dijimos que tenemos
+nombres
+o verbos
+si
+entonces
+¿de dónde puedo venir acá?
+¿de cuál puedo venir acá?
+¿de cuál de esta categoría puedo venir?
+para mi cálculo
+¿cuál puede ser la anterior a ésta?
+solo nombre, porque las otras tienen probabilidad 0
+no es posible que hubiera otra cosa
+que nombre al principio, lo cual tiene sentido
+porque es la única teoría posible
+entonces yo voy a calcular
+pero
+podría ser cualquiera de estas 5
+¿de acuerdo?
+yo tengo que calcular la probabilidad de ir de nombre
+adjetivo
+de nombre a nombre
+plural
+de nombre a verbo
+de nombre a verbo
+para eso voy a multiplicar
+la probabilidad que tengo acá
+002, el alfa
+este es el alfa
+multiplicado por la probabilidad de transición
+multiplicado por la probabilidad de emisión
+en realidad la probabilidad de emisión es común para todos
+¿por qué no depende del estado?
+no, no es como
+sigo cometiendo el mismo error
+entonces fíjense que acá
+aparecen estas dos porque son las únicas
+dos que pueden tener emisión
+puede haber emisión
+dijimos que flies puede ser un nombre o un verbo
+¿de acuerdo?
+y solo pueden venir de acá
+o sea que necesariamente
+este nombre
+la única forma a calcularlo
+es la probabilidad de esto, el alfa
+por la probabilidad de transición
+entre nombre y nombre en NS
+por la probabilidad de emisión
+de
+flies dado en NS
+acá no hago máximo, sigo teniendo una sola
+¿de acuerdo? porque solo pueden venir acá
+¿de acuerdo? y lo mismo para acá abajo
+¿sí?
+y lo que estoy diciendo es que en ambos casos
+vienen de nombre
+lo cual tiene sentido porque es lo único que había
+¿de acuerdo? porque yo tengo que recordar de donde viene
+porque ahora voy a tener el problema
+porque ahora en la columna 3
+que tiene
+nuestro gran problema viene ahora
+porque acá yo tengo 3 candidatas
+tengo 3 candidatas
+y 2 candidatas de previa
+entonces
+yo tengo que calcular
+empiezo con un adjetivo acá
+quiero saber
+¿puedo venir de acá o de acá?
+si viene de acá
+el alfa es la probabilidad
+esta 004
+por la probabilidad de transición para acá
+por la probabilidad de emisión
+de la palabra
+flies dado
+que es un adjetivo
+o esa es una posibilidad
+o la otra posibilidad que sea esta
+por la probabilidad de transición
+por la probabilidad de emisión otra vez la misma
+pero eso fue con lo que me confundí hoy
+¿de acuerdo?
+¿se entiende?
+entonces yo
+de estas dos
+acá es donde aplico
+mi condición de Marco Vial
+porque
+si es la mayor
+para llegar acá no es posible
+que sea otra esta
+por como yo tengo definido mi proceso
+que solo dependo de la anterior
+¿de acuerdo?
+entonces yo voy a hacer
+la cuenta de transición
+esto por esto
+esto por la transición
+por la emisión
+y me voy a quedar con el mayor de las dos
+y lo voy a poner acá
+ahí es el único lugar donde yo hago máximo
+esto no quiere decir que va a ser un adjetivo
+quiero decir que mi probabilidad
+de un adjetivo es esta
+hasta el momento
+es mi probabilidad de que esto sea un adjetivo
+dado que se dio esta secuencia de observaciones
+no quiere decir tampoco que termino el partido
+mi partido termina solamente cuando yo llevo al final
+por eso estoy guardando los estados de los que venía
+porque si ustedes ven yo sigo multiplicando
+para avanzar
+y puede haber una probabilidad muy pequeña
+que me mate un camino
+¿de acuerdo?
+entonces
+acá puede ser
+adjetivo, verbo
+o adverbo
+y si se fijan
+si es un adjetivo
+el alfa más probable
+viene de 4, viene de verbo
+pero si es
+un
+verbo
+lo más probable es que el anterior fuera un nombre
+¿se entiende?
+dependiendo de donde yo estoy es el camino mejor
+como que hasta el momento
+yo tengo el camino
+bueno, comienzo obviamente
+perdón
+al revés ¿no?
+lo tengo que hacer
+es
+adjetivo
+precedido por un
+verbo
+precedido por un nombre
+la otra es un verbo
+precedido por un
+nns, precedido por un nombre
+y el último es un adverbio
+precedido por
+un verbo
+precedido por un nombre
+¿se entiende?
+según mis cuentas
+si acá llega un adjetivo
+no es lo mismo que si acá llega un verbo
+mi secuencia
+y todavía no tengo el partido ganado
+porque tengo que hacer la última
+contar qué pasa con la última transición
+en la última transición
+lo que tiene de bueno entre comillas
+es que eso solo tengo que calcular acá
+porque los otros no son posibles
+pero tengo que hacer las tres cuentas
+qué pasa si viene este al final
+este al final o este al final
+y quedarme con el máximo
+si?
+entonces
+lo que me dice es que
+mi mejor
+opción es venir desde acá
+por cómo dan las cuentas
+en cuenta
+y entonces la secuencia que yo voy a elegir
+es esta
+creo que está mal
+si el eligió la fruta
+abuela en rápido
+¿no?
+así la vía
+este es
+bueno en realidad
+y la de la
+si tenés razón
+tenés razón
+¿se entendió?
+¿entendió?
+si
+porque acá tengo
+la probabilidad de
+barra S
+dada la categoría última
+tiene medio trampa
+esta categoría es
+como la estoy reutilizando
+dejamela así
+pero acá lo que dijimos fue que es
+improbable
+cualquiera me sirve igual
+contando el corpo
+¿cuántas veces terminaste la oración?
+si
+que como son equiprobables
+ganó esta
+no que era la que venía con mayor probabilidad
+pero eso podría haber cambiado
+si fuera mucho menos probable
+que algo terminar en adverbio por ejemplo
+si yo
+mi cuerpo me dice que lo más probable
+que termine en adjetivo
+en verbo podía cambiarme el resultado
+y cambiarme toda la cadena para atrás
+lo que me importa transmitir es eso
+uno maximiza la probabilidad de toda la oración
+no de uno
+bueno y los otros son las cuentas
+para calcular para atrás
+los adverbios
+las clases
+bueno ya terminamos
+espero un poquito
+estoy haciendo lo mismo 40 veces
+si se fijan yo calcule
+la secuencia
+de
+la secuencia de estados ocultos
+que maximiza la probabilidad
+¿tamo acuerdo?
+hay otra tarea
+que es la de
+calcular la verosimilitud
+es decir
+da uje de marco modo
+de la oje de marco modo
+de la oje de marco modo
+de la oje de marco modo
+es decir
+da uje de marco modo de una secuencia
+a calcular la probabilidad
+de la secuencia
+bueno este algoritmo que acabamos de ver
+se llama algoritmo de viterbi
+y tiene una muy linda
+y larga historia
+porque lo han usado todos
+lo han descubierto independientemente
+de los años 60 o 50 para acá
+el otro algoritmo
+que tenemos para verlo queda un algoritmo más
+todavía, que saben que son las 10
+que es el algoritmo forward el que calcula la verosimilitud
+es decir calcular la probabilidad de la secuencia
+la buena noticia es que hay
+que hacerle solo un cambio muy menor
+al algoritmo de viterbi para obtener
+el algoritmo de forward
+porque si ustedes se fijan
+nosotros acá
+vamos calculando la probabilidad
+desde donde venimos
+y ante la dudada hacemos el máximo
+si yo quisiera saber la probabilidad
+de todos los caminos acá
+que tendría que hacer
+sumar las probabilidades
+en lugar de calcular el máximo sumo las probabilidades
+nuevamente
+mi modelo dice que solo depende
+del estado anterior
+y tengo las probabilidades en el estado que estoy
+y tengo todos los posibles
+para las que maximizan
+entonces el algoritmo forward es igual
+que el viterbi nada más que en lugar de calcular
+máximo sumamos
+y eso nos permite la probabilidad de una eración
+dado al modelo
+la probabilidad de la eración es un modelo de lenguaje
+si se acuerdan de la clase pasada
+o sea que esa es una forma alternativa
+para el modelo de lenguaje
+y hay una tercera tarea
+que es la de
+aprender
+esto es como muy raro
+yo tengo solo texto
+y los estados
+del key de marco model
+o sea
+las clases posibles
+y aprendo
+de texto sin anotar
+que es clasificación
+aprendizaje no supervisado
+aprendo las transiciones
+ese algoritmo se llama
+forward-backward
+o bound-welch
+y no logro entender nunca cómo funciona
+digo sé cómo funciona pero
+es como increíble porque lo que hace es
+a partir de grandes volúmenes de texto
+hace una estimación
+de las probabilidades de transición
+y con esas probabilidades
+de transición recalculas
+es una versión específica
+de un algoritmo más general
+que se llama expectation maximization
+donde yo
+tengo algo a la que quiero ver
+cuál estructura tiene que calcularla
+estimar sus parámetros
+y lo que hago es
+tiro una aproximación primera
+y hago cuentas en base al modelo
+y me devuelvo un ajuste de esos parámetros
+no lo vamos a ver en detalle
+pero lo importante
+es que eso nos permite
+estimar probabilidades
+a partir de texto irrestricto
+si yo podía tener grandes volúmenes de texto
+que son mucho más fáciles de conseguir
+y estimar probabilidades
+en los hechos igual depende mucho
+de cómo inicias
+bueno
+y por acá quedamos
+hoy avanzamos mucho
+nos pusimos al día

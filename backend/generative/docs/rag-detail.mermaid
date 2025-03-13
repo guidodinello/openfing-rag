@@ -1,0 +1,40 @@
+flowchart TD
+    subgraph Input
+        A[Video Clase] --> B[Whisper ASR]
+        B --> C[Texto Raw]
+    end
+
+    subgraph Processing
+        C --> D[Chunking]
+        D --> E[Embedding Generation]
+        E --> F[pgvector Storage]
+    end
+
+    subgraph Retrieval
+        G[Query Usuario] --> H[Query Embedding]
+        H --> I[Vector Search]
+        F --> I
+        I --> J[ReRanking]
+    end
+
+    subgraph Generation
+        J --> K[Context Assembly]
+        K --> L[LLM Local/Phi-2]
+        L --> M[Response]
+    end
+
+    subgraph Storage
+        N[(PostgreSQL)]
+        F --> N
+        O[(Redis Cache)]
+        M --> O
+    end
+
+    subgraph Monitoring
+        P[Quality Metrics]
+        Q[Performance Logs]
+        R[Usage Analytics]
+        M --> P
+        I --> Q
+        G --> R
+    end

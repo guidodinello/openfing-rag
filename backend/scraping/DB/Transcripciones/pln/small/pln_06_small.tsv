@@ -1,0 +1,828 @@
+start	end	text
+0	26400	Hoy vamos a tener este, vamos a tener, vamos a terminar de ponernos al día, espero con
+26400	36400	luego de las dos clases que suspendimos por razones de fuerza mayor, este va a ser un
+36400	45400	poquito larga y vamos a hablar de dos temas bien, bien diferentes, si yo mira que planificar,
+45400	50240	bueno de hecho tengo que planificar pero no tengo margen, este no pondría estos dos
+50240	55720	temas en la misma clase porque son dos temas bien, bien, bien, bien diferentes y capaz que
+55720	60320	es interesante marcar cuando lo veamos y ese puede ser un valor agregado la diferencia entre
+60320	68240	los dos desde el punto de vista de los métodos utilizados. Vamos a ver dos temas, uno va a
+68240	77400	hacer, se acuerdan que en la clase pasada hablamos de morfología, va, introdujimos un formalismo
+77400	82480	que es el de los transportores de Tau finito y su alje, bien dicho, su alje de expresiones
+82480	89800	regulares extendida a relaciones, se acuerdan que así como teníamos una alje de expresiones
+89800	93320	regulares para los lenguajes ahora teníamos una alje de expresiones regulares para los
+93320	101640	transportores o para las relaciones en realidad que eran computadas por los, por los transportores
+101640	106840	de Tau finito y después introdujimos un problema que era el de la morfología, es decir encontrar
+106840	114200	la estructura interna de las palabras, dar una palabra, analizar su estructura y devolverla,
+114200	119960	digamos devolver su estructura interna y viceversa, es una cosa que se llama análisis y la otra
+119960	124160	se llama generación, viceversa quiere decir yo te doy la estructura y me das la palabra,
+124160	130560	si? Y vimos un poco que la morfología dependía un poco de los lenguajes pero que esencialmente
+130560	142400	de lo que se trataba era de tener o que podía modelarse como la existencia de raíces que
+142400	147880	eran los morfemas, la palabra estaba dividida en morfemas y que esos morfemas se dividían
+147880	154440	en dos, en raíces que son lo que contenían la mayor parte del significado de la palabra,
+154440	160560	la porción de la palabra que tiene la mayor parte significado y los afijos, que esencialmente
+160560	166360	por lo menos para nuestro idioma son dos, son prefijos y sufijos, prefijo van antes,
+166360	176720	sufijo van del. En la clase de hoy lo que vamos a ver en la primera parte es justamente
+177000	185040	cómo los transductores o la algebra de estado finito no sirven para modelar los problemas
+185040	189760	de morfología, los problemas de análisis y generación y algunas ventajas que ya vimos
+189760	198520	que los transductores tienen y cómo se aplican a esto. Este método es un método esencialmente
+198520	215320	determinista o orientado a reglas, a un estado de reglas más que determinista, me deciré, van a ver
+215320	220600	que mi solución consiste en, bueno, dado una palabra aplico tales reglas y me devuelvo el análisis.
+222160	226120	En la segunda parte de la clase vamos a ver un método que no tiene nada que ver desde su
+226120	231280	principio, desde su fundamento porque es un método probabilista que esencialmente aprende
+231280	241880	de los datos y esos son esencialmente los dos grandes grupos que tenemos de métodos que tenemos
+241880	246480	en el análisis del lenguaje natural como una otra cantidad de cosas que involucran datos,
+246480	253560	métodos orientados a las reglas donde un experto especifica de alguna forma reglas a aplicar para
+253560	261520	resolver el problema y otro conjunto de métodos donde yo aprendo de los datos, los estadísticos son
+261520	268720	uno de ellos, hay otro tipo, pero donde yo esencialmente infiero el conocimiento necesario a partir
+268720	273160	de los datos. Esos métodos son los que usualmente llamamos métodos de aprendizaje automático.
+275680	281280	Van a ver que en muchos de los problemas hay de los dos enfocas.
+283640	288520	En algunos andan mejor unos y otros mejor otros hay una vieja guerra en el procesamiento del lenguaje
+288520	299080	natural sobre cuáles métodos predominan sobre otros. El siglo XXI ha mostrado una
+299080	309800	prevalencia de los métodos basados en datos como vamos a ver acá, pero hay dominios donde los
+309800	314440	orientados a reglas funcionan muy bien y cuando funcionan bien, cuando yo puedo describir la
+314440	319520	realidad completamente a través de reglas funcionan mejor. Hay veces que las realidades son
+319520	323360	demasiado complejas para modelarlas con reglas y ahí donde ganan son los métodos de aprendizaje
+323360	327400	automáticos. En general los métodos de aprendizaje en el procesamiento del lenguaje natural son
+327400	332360	lo más adecuados porque el lenguaje natural como hemos visto es muy ambiguo, es muy creativo,
+332360	340560	es muy cambiante. Bueno, probamos a lo que nos convoca hoy y lo que vamos a hablar es
+340560	346000	de morfología de estado finito. Esto es modelar los problemas de morfología que vimos en la clase
+346000	352960	pasada con a través de herramientas de estado finito. Esto es un desambigador morfocintáctico
+352960	371480	Otro problema de morfología es bueno acá lo que es único que hizo fue separar palabras
+371480	379520	por palabras y dice la que puede ser un sustantivo, un pronombre, un artículo, esto es clasificación,
+379520	398320	pero además, puedo ver las flexiones ¿no? Vamos con una palabra un poco más. Por ejemplo,
+398320	413320	bella, que es un adjetivo, la forma canónica es bella y la flexión es, bueno, qué tanto
+413320	432640	bien. Masculino singular es bello. La forma intrusiva es bella. Y se acuerdan que la flexión
+432640	437720	es cambiando los morfemas ¿no? Yo cambio el final de la palabra y la flexión. Pensé
+437720	447520	que este, la verdad que pensé que este tenía, marcaba los sufijos y prefijos, pero no me
+447520	453720	equivoqué de cosa. Pero bueno, lo importante es que nosotros vamos a admitir, flexionar cada palabra,
+453720	459640	lavar, por ejemplo, que es un verbo, se flexiona diferente, justamente porque es un verbo.
+469520	480280	Lavó, lavas, lavas, lavamos, lavas. Entonces, la morfología es lavamos, yo tengo que decir de
+480280	486040	alguna forma que esto es un verbo que está conjugado en la primera persona del plural en el
+486040	492040	presente indicativo ¿de acuerdo? Esa es la, las características que tendrían, las marcas que
+492040	497040	tendríamos que asociarle a la palabra, en el análisis ¿se entiende? Como lo vimos la que hace
+497040	513200	pasadora a mover un poco más en algunos casos. Por ejemplo, yo se ve que en la edición perdí una,
+513200	526960	una. Por ejemplo, lo que veíamos la vez pasada que yo quiero llevar a que gatito si es gato que
+526960	537920	la forma canónica o lema, lema en realidad, más masculino, más es una marca nada más ¿no?
+538640	551520	Es una forma estanda de masculino, singular, diminutivo ¿de acuerdo? Mi problema de ir de acá,
+551520	566760	acá se llama análisis. Y ir de acá, acá se llama generación ¿de acuerdo? Esto se llama forma de
+566760	576680	superficie y esto se llama forma eléxica ¿tá? ¿cuál de lo, levante la mano el que le parece más
+576680	583280	fácil el análisis que la generación? ¿y a quién le parece más fácil la generación que la análisis?
+585280	591120	pensé que no iban a votar bien, lo dejamos por ahí, yo también me parece más fácil la generación
+591120	596440	que la análisis ¿no? Eso también no, a mí también. Bueno, vamos a dejarlo por ahí,
+596440	612880	vamos, después vamos a ver. Bueno, ya en fines de los años 60, las reglas morfológicas son
+612880	620120	muy parecidas a las reglas fonéticas, es decir, cómo transformar una palabra en sonidos ¿de acuerdo?
+620120	626680	Hay una similitud, yo tengo la forma de superficie y después la mapeo a los fonemas que la producen
+626680	634560	y al revés ¿de acuerdo? Es un problema muy similar. De hecho, lo que se llama en alternaciones en
+634560	641200	la fonética, ya en los años 60 se describían por reglas de reescritura que decía bueno,
+642200	656120	reglas de este tipo ¿no? Si hay una I adelante y una P después, la N se transforma en N ¿de acuerdo?
+656120	662480	Entonces la palabra que podría ser pegar IN, con posible en realidad debería ser imposible.
+665600	670280	Pero no estaba claro cómo usarlas para analizar, se sabía que había reglas que
+670280	676160	uno usaba este tipo de reglas engascadas para generar la palabra, pero no se sabía bien cómo
+676160	681840	usarlas para el análisis. ¿Por qué este tipo de reglas, en su formato más genérico, son igual
+681840	692920	de expresivas que una máquina de Turing? O sea, que podría expresar lenguajes tan complejos como
+692920	697720	se quisiera y cuando uno es muy expresivo en un formalismo, el costo que paga cuál es,
+698720	705880	que es computacionalmente muy costoso en el caso general. Los automáticos finitos son muy sencillos,
+707640	712960	los automáticos finitos no son muy expresivos, no son tan expresivos, pero son muy eficientes
+712960	720080	computacionalmente. En cambio, si yo modelo con máquinas de Turing tengo problemas de
+720080	727680	eficiencia, potenciales problemas de eficiencia, así me siento una computadora completa para el poder
+727680	733400	computacional igual a la computadora. Bueno, entonces quedaron por ahí, esas reglas quedaron por
+733400	743240	ahí por allá por los años 60. En 1972, un señor que se llamaba Johnson dijo, bueno, pero esto,
+743240	754640	esto es medio difícil de aplicar sin más contexto, pero los fonologistas siempre asumían que si yo
+754640	763720	cambiaba la n por la m, yo estoy analizando esta palabra, ¿no? Y yo cambio la n por la m,
+764600	772000	luego sigo avanzando haciendo otros cambios en la palabra, no utilizo esa n como nuevo,
+772000	780520	esta m que puse como parte de otra regla. Eso computacionalmente es muy importante,
+782920	789440	porque, porque permite, si yo saco esas restricciones, es decir, si yo siempre que digo después que
+789440	793840	reemplazo algo me sigo moviendo en la tira original, reemplazo en esta, al hacer esta
+793840	799720	transformación, ¿no? ¿Se entienden? Yo estoy, mi idea es ir por el lado de gatito e ir generando
+799720	804600	esto, ¿de acuerdo? Analizar esta entrada y ir generando esta salida, ese es nuestro problema.
+805800	810960	Si yo aplico una regla y me muevo hacia adelante una regla de este tipo de sustitución,
+813200	820600	de esta, pero este beta que yo sustituyo acá, este alfa que sustituyo por un beta, luego no lo
+820600	828520	uso con, para otra regla, las propiedades formales de esa transformación hacen que
+828520	835520	esas reglas se pueden escribir por transductores. Yo tengo la posibilidad de escribir este tipo
+835520	842880	de reglas de reescriptura con transductores, es decir, en el estado finito. Todo esto es un
+842880	846720	tema muy, muy, muy largo y como yo le decía en algún momento mismo un curso sobre esto,
+846800	856600	pero la idea de esto es que entendieron que ese tipo de sustituciones que yo hago eran
+856600	860760	computacionalmente equivalentes a un transductor de estado finito y por lo tanto estaban en el,
+860760	865760	en el lado del estado finito. O sea que eran potencialmente eficientes. Nadie se enteró
+865760	871400	porque en esa época no había internet. Bueno, voy a parar unos pocos, de los cuales Johnson se ve que
+871400	881200	no estaba. Por allá por 1980 aparece en Kaplan y Kei que dicen bueno, redescubren esto de Johnson.
+881200	885720	Dicen bueno, pero entonces las reglas de reescriptura, si yo puedo escribir reglas de
+885720	891640	reescriptura para modelar la morfología, yo voy a escribir relaciones regulares. ¿Se acuerdan
+891640	895320	de las relaciones regulares que vimos en la clase pasada, no? Las relaciones esas que los
+895320	902880	transductores representaban, las reglas de reescriptura se pueden ver como relaciones
+902880	908160	regulares. Yo puedo modelar las de esa forma y entonces yo podría representar todas estas
+908160	911440	sustituciones con transductores. El problema era que en ese momento los transductores los hacían
+911440	915520	a mano como tratamos de hacer nosotros los trans, el transductor que hacía el plural, ¿se acuerdan?
+915520	919720	Que empezamos a hacer un estado de autómodo y nos armamos un lío de bárbaro porque los hacían
+919720	928920	a mano, pero sobre esa base teórica se empezaron a implementar operaciones genéricas que permitían
+928920	939280	representar más sencillamente ese tipo de sustitución. Pero además había otro problema y era el siguiente,
+939280	964960	que si yo tengo una palabra que dice esto es fonología, ¿no? K-N-PAT. Acá es como es la
+964960	970600	estructura de la palabra, yo estoy generándola a la palabra. Acá es lo que dice que hay una regla
+970600	979760	que si esta N fonológica se transforma en una M si hay una P después, o sea que suena como una M
+979760	986560	después. Esto es una representación abstracta del sonido, ¿tá? Es como que fuera, está acá abajo,
+987560	994200	¿de acuerdo? La regla dice esta N grandota que es una marca de fonema, digamos, no sé exactamente
+994200	1002920	como se dice en coso de fonólogos, se transforma en una M, en una N, perdón, antes de una P.
+1002920	1015560	Sí, en una M, antes de una P, entonces yo acá esto digo K-M-PAT, ¿de acuerdo?
+1018840	1030600	Pero además, pero además, la P, por una cuestión de ortografía, se transforma en una M
+1030600	1042280	si lo que hay antes es una M misma, ¿tá? Entonces esta palabra se debería expresar como K-M-PAT, ¿de acuerdo?
+1043600	1050760	Hay una transformación acá y hay otra transformación acá. Y esta es mi palabra destino. De una
+1050760	1059560	representación fonológica, léxica, pasé una representación de superficie, ¿sí? Pero el problema
+1059600	1068280	es que si yo tengo esta representación de superficie, ¿cuál es el análisis? ¿El análisis lo tengo por acá?
+1072800	1076560	¿De acuerdo? Todas estas palabras,
+1078760	1088960	sí, todas estas análisis de palabras pueden ser válidas para generar esta forma de superficie.
+1090560	1096120	Porque todas darían lo mismo si yo, aunque yo, porque esta regla solo aplica cuando hay una
+1096120	1103360	N grande, si no hay una N grande, no aplica. ¿Se entiende cuál es la situación? Que yo tengo
+1103360	1109760	problemas de no determinismo, que yo para generar, no tengo problemas, pero para volverme pueden
+1109760	1118840	generar muchas, ¿sí? Entonces, ¿no saben qué hacer con esto? Porque decían, bueno, pero entonces
+1118840	1126640	acá ¿qué hago yo con él? ¿Cuál de estas tres es la aposta? ¿Cuál es la buena, digamos?
+1128760	1133120	¿Cómo sé que esta es buena y esta dos no?
+1133120	1145120	Y lo que descubrieron por allá por los años 80 es que yo sé que es la buena,
+1145120	1150840	yo, que esta puede ser buena, porque esta no tienen sentido como forma eléxicas. Son
+1150840	1155720	formas aléxicas que no tienen, que si yo las busco en el dicionario formas eléxicas posibles,
+1157200	1162400	no van a aparecer. Pero acá tengo un problema, que es el de la que hace pasada. Yo no puedo meter
+1162400	1168520	todas las combinaciones en un dicionario posible, porque son demasiadas, pero lo que sí puedo hacer
+1168520	1177600	es meter otro transductor que lo único que haga es decirme cuáles son las posibles combinaciones
+1177600	1185680	que hay de prefijo y sufijo y afijos. Entonces yo, si construyo un transductor que haga estas
+1185680	1192080	reglas y la pego un transductor que identifique las posibles combinaciones, tengo algo que,
+1192080	1198120	daba una palabra, una combinación, me devuelve su forma de superficie y al revés también.
+1199160	1205200	Y eso es justamente lo que hace la morfología de Estado Finito. Yo tengo un repositorio para
+1205200	1211920	palabras que se llama lexicón, que eso en realidad es un repositorio de morfemas,
+1212920	1220560	que generalmente almacena los lemas, los prefijos y los sufijos y lo que llamamos morfotácticas.
+1220560	1228920	Las morfotácticas, lo que son son todas las combinaciones posibles que hay de morfemas en
+1228920	1234800	el lenguaje. ¿Qué morfemas se pegan con las cosas? ¿Se acuerdan de inelefantemente,
+1234800	1241440	que esto puede hacerlo y esto no? Bueno, esos son las morfotácticas. ¿Qué prefijo pueden seguir
+1241440	1246600	a otro? Es decir, yo no puedo tener dos plurales seguidos. Esa es una morfotáctica, es decir,
+1246600	1252880	yo tengo una palabra que termina en A, bueno, si es un sustantivo y además después puede
+1252880	1260320	opcionalmente tener una S para darle el plural, entre otras cosas. Entonces, yo puedo escribir
+1260320	1267680	reglas de ese tipo. Entonces, tengo que tener en cuenta estas cosas. Hay un morfema que es
+1267760	1271920	nocional, lo que acabo de decir, los afijos dependen del arraillo, puedo decir imposible,
+1271920	1279040	pero no inimportante, porque mi idioma no es válido, y en general la derivación es más complicada
+1279040	1282400	que la aflexión, porque la aflexión tiene un comportamiento más regular, principalmente porque
+1282400	1286040	es finito, porque no es creativa la aflexión. ¿Se acuerdan de la aflexión? Era para hacer
+1286040	1292360	los plurales, los que no cambiaban la clase de la palabra o el significado, plurales, género,
+1293080	1301240	verbos, conjugación de verbos. Entonces, bueno, los transductores léxico, que fue lo que en
+1301240	1306320	los años 80 se introdujeron para resolver el problema de la morfología, lo que hacen el
+1306320	1310960	parcin morfológico, y entonces dicen, bueno, yo lo que quiero es una correspondencia entre el nivel
+1310960	1320280	léxico, que es una colección de morfemas, y el nivel de superficie. Si yo veo los automatas
+1320280	1328440	de estado finito como automatas sobre dos cintas, yo podría ver la transformación entre una palabra
+1328440	1335400	y sus marcas como simplemente una transducción que me lleva de la g, la g, la a, la a, y por acá
+1335400	1341560	empieza a cambiar y a generar sobre el alfabeto del lado léxico. ¿De acuerdo? ¿Se tiende más o menos?
+1343160	1349160	¿Sí? Entonces yo voy a tener un transductor de estado finito que de un lado tiene la forma
+1349160	1361080	de superficie y la otra la eléxica. Pero además teníamos el tema de las reglas ortográficas,
+1361080	1369520	o sea, hasta ahora yo tengo, fíjense que yo tengo palabras y cómo pegar, perdón, morfema,
+1369520	1375480	tengo la lista de palabras posibles, de morfemas posibles, la raíz, el sofígráfico, lo tengo
+1375480	1384120	todo junto por un lado. Tengo la s solita, la a solita, la o, y después tengo gát, per, cas,
+1386120	1395120	murciélag, ¿no? Y mente, mente es para decir elefante mente. Y después tengo las morfas
+1395120	1400480	tácticas que dice que elefante mente no se puede. Si siguen luego esta clase lo que hemos introducido al
+1400480	1410480	idioma, entonces vamos a poder también. Pero nos falta la regla ortográfica. Si yo digo tengo
+1410480	1416560	in por un lado, tengo importante por el otro, pero yo no digo, bueno no, dijimos que era importante,
+1416560	1425480	no. Tengo in imposible, yo tengo imposible. La p me da imposible, que no es válido, porque la n
+1425480	1430880	tiene que cambiarse por una m, porque estaba adelante una p, como no se enseñan desde segundo
+1430880	1435480	año de escuela. Entonces nos falta la regla ortográfica. Y bueno, la regla ortográfica también
+1435480	1443720	pueden representarse por un traductor que modifique en una cascada lo que la regla anterior transformó.
+1447040	1452480	Entonces no queda una cosa así, el modelado sea una cosa así. Yo tengo la forma de superficie,
+1453480	1461200	una especie de forma intermedia, una especie de forma intermedia que dice bueno acá apareció
+1461200	1468880	Ito, la marca Ito, y luego el análisis posta. Ito quiere decir masculino singular diminutivo.
+1471040	1472760	Y todo eso lo represento con traduptores.
+1476440	1482080	Este era el modelo que proponía a Koskenyemi, que para la regla ortográfica proponía muchos
+1482080	1486440	traductor en paralelo, pero en realidad esto terminó evolucionando hacia otra cosa, que son
+1486440	1492680	una cascada de reglas, que es lo que vamos a ver ahora, que es lo que introdujeron Lauri Cartioune.
+1492680	1495440	Eran todos finlandeses, ¿sacuerdan del finlandés? Eran medio.
+1498160	1504480	Y este paper, que es muy famoso de los Badenetaria, del año 94, lo que dicen es
+1504480	1513000	Kaplan y Kei propone, muestran que los traduptores eran equivalentes a esa algebra que hablamos
+1513000	1518920	en la clase pasada de relaciones regulares, y es lo que dice la fortaleza de nuestro método surge
+1518920	1525560	de la equivalencia. Mientras razonamos, pero sus relaciones regulares en términos algebraico,
+1525560	1530200	de teoría y conjuntos, describimos los conjuntos de discusión por medio operaciones
+1530200	1534880	constructivas sobre los traduptores de estado finito correspondiente. Al final, por supuesto,
+1534880	1538840	es el traductor el que satisface nuestra necesidad de computacionales. ¿Qué quiere decir esto? Que
+1538840	1544360	yo puedo modelar con expresiones regulares y los traduptores me vienen gratis. Que yo tengo,
+1544360	1549800	al modelarlo a través de unas reglas, yo transformar los traduptores es una cosa automática.
+1549800	1561200	Y eso es justamente lo que vamos a hacer. Vamos a escribir reglas. Yo acá lo voy a mostrar con
+1561200	1566040	un lenguaje de expresiones regulares, que es el de Xerox, que es uno de los más conocidos.
+1567560	1577480	Vamos a ver rápidamente operaciones sobre expresiones regulares y cómo escribirlas
+1577640	1582400	y cómo se transforman esos traduptores. Y después vamos a escribir con eso la morfología
+1582400	1590640	de un lenguaje. Entonces, bueno, ¿qué quiere decir esto? Yo tengo. Voy a tener una expresión
+1590640	1602120	regular. Esto es como se escribe en el lenguaje o relación de acá al lado. Estos son lenguajes.
+1602840	1612480	Atacas uno. El Xero denota a Epsilon en el lenguaje vacío. O sea que yo estoy...
+1614800	1618560	Perdón, acabo de decir una cosa que si me escuchan mis compañeros de teoría del lenguaje,
+1618560	1626440	me matan. Epsilon no es el lenguaje vacío, sino el string vacío. Lo único que tiene es el string vacío.
+1632120	1638200	O la correspondiente relación de identidad, ¿no? En todo esto nosotros estamos denotando
+1638200	1643840	relaciones pares de strings. ¿Se acuerda, no? Es decir, yo tengo una entrada o una salida en el traductor.
+1643840	1650240	A un lenguaje yo lo puedo ver como un caso especial de una relación que es en la cual la entrada
+1650240	1659000	es igual que la salida. El mapeo es uno. Entonces yo acá el Epsilon denota o lenguaje o la relación
+1659000	1666920	correspondiente de identidad. Este símbolo quiere decir cualquier cosa que denota a cualquier
+1666920	1674120	string que tiene un símbolo suelo, excepto de Epsilon. Y si yo pongo A es el string hecho
+1674120	1678920	con solamente la letra A. ¿De acuerdo? Se acuerdan la diferencia entre símbolo y string, ¿no?
+1678920	1684680	El string son símbolos pegados, digamos. Yo tengo un string de un solo símbolo,
+1684680	1690200	pero no es lo mismo un símbolo, un string, así. Pero yo también puedo escribir en mi expresión y
+1690200	1695680	acá viene la novedad respecto a lo... cosas como esto. Especificar que este símbolo A lo leo en
+1695680	1704000	la entrada, pero en la salida no devuelvo la propiedad sino una vez. Y esto, A, 2 puntos A,
+1704000	1710440	es equivalente a A solo. Escribir A solo es lo mismo que escribir A, se mapea A. Por defecto,
+1710440	1714960	yo asumo que si no pongo nada, lo mapeo en la misma salida que la entrada, ¿sí?
+1717480	1726920	Excepto, y esto es una cuestión de notación, acá, ¿sí? ¿Qué quiere decir que cualquier cosa
+1726920	1730200	mapea con cualquier cosa quiere decir que valen todos contra todos, como el producto cartesiano de
+1730200	1737440	símbolos, yo? O sea, que yo escribir esto no es lo mismo que escribir esto, porque acá lo que
+1737440	1742560	estoy diciendo es cualquier símbolo y devuelvo el mismo y acá estoy diciendo cualquier símbolo y
+1742560	1750240	devuelvo cualquier símbolo, o sea que la salida es múltible. Bueno, y pasan más cosas, ¿no?
+1750240	1757200	Yo puedo usar paréntesis, puedo decir una o más veces lo que estaba antes, cero o más veces lo
+1757200	1761800	que estaba antes. ¿Esto qué quiere decir? Cualquier cosa cero o más veces, o sea que esto es
+1761800	1769680	el lenguaje universal, es decir, máster. Y esto es cualquier cosa, siempre y cuando tenga la
+1769680	1773200	misma relación de entrada y salida, el mismo largo de entrada y salida, es decir, mapeo cualquier
+1773200	1781400	símbolo a otro, pero a uno o uno. Y yo puedo definir el complemento que solo está definido
+1781400	1785600	por lenguaje, la negación, hay algunas presiones regulares que son muy interesantes, porque por
+1785600	1796960	ejemplo, contiene a, parece muy sencilla describir, pero en realidad no es tan fácil, es cualquier cosa,
+1796960	1801960	la expresión y cualquier cosa, pero tiene que ser cualquier cosa que no tenga a, esencialmente.
+1803960	1808440	Hay todo, cada uno de estos operadores tiene un paper, digamos, por decirlo de alguna forma.
+1809160	1816400	Esto es, la expresión A sin contar las cosas que también, estas muchas se usan para definir otros
+1816400	1828600	operadores más avanzados que vienen después. Acá tengo la unión, esa OV, la intersección,
+1828600	1832640	ojo que la intersección solo está definida para las expresiones regulares, para cuando son
+1832640	1836400	expresiones, porque las relaciones, si se acuerdan de las clases traductoras, no son en general
+1836400	1845680	cerradas bajo intersección. Y este es el producto cartesiano que es muy importante, es, si yo expreso
+1845680	1853520	acá un conjunto de tiras, cualquiera, tiras que empiezan con A, las mapeo a todas las tiras
+1853520	1866120	de la otra presión. Si yo digo, por ejemplo, Aaster, producto cartesiano Baster, lo que tengo es un
+1866160	1872120	traductor que me devuelve, para cada tira que empieza, cualquier tira que empieza con A me la devuelve
+1872120	1879400	en cualquier tira que empieza con B, si es el producto cartesiano de los dos conjuntos, sencillamente.
+1879400	1888320	Estas son las proyecciones, el reverso, el inverso, y este es muy importante, es la composición,
+1888320	1893800	¿se acuerdan cuál era la composición de traductoria? ¿Quién se acuerda cuál era la composición? Es muy importante.
+1897120	1899120	¿Aguien se acuerda, nadie, ¿se acuerda?
+1905120	1913120	La composición era, yo tenía un traductor por acá, que tomaba una entrada y devolvió una salida,
+1915120	1922120	y tenía otro acá, que también tenía una entrada y devolvió una salida, la composición era la aplicación
+1922120	1934120	cascada de los dos, es decir, yo tomo una entrada, tengo una salida y esa salida la paso por este
+1934120	1943120	traductor, y como los traduptores son cerrados bajo composición, eso quiere decir que si yo luego
+1943120	1951120	puedo modelar esto, una regla con esto, y luego la aplicación de, y luego otra que tiene la segunda,
+1951120	1959120	la aplicación de los dos en cascada se puede modelar por un traductor que hace las dos cosas a la vez,
+1959120	1961120	y nosotros vamos a usar eso.
+1962120	1972120	Bueno, hay toda una área de análisis ahí que son los operadores de reemplazo, que es forma de decir,
+1972120	1979120	bueno, cada vez que aparezca A, reemplazámelo por B en la salida, por ejemplo, cada vez que diga
+1979120	1987120	y pasámelo a masculino, por decir una pagada que no tiene sentido en este caso,
+1987120	1991120	pero ahora vamos a ver cómo combinamos todo esto.
+1991120	1996120	Hay un montón de operadores de reemplazo, dependiendo del contexto en el que aparecen,
+1996120	2000120	si yo reemplazo opcionalmente, etcétera.
+2005120	2012120	Los operadores de reemplazo tienen algún problema, o alguna complejidad, y es la siguiente,
+2013120	2021120	si yo tengo, por ejemplo, esta regla.
+2033120	2036120	¿Cómo leemos esta regla? Alguien me dice cómo leemos esta regla.
+2036120	2040120	¿Como leemos esta regla?
+2040120	2043120	Cómo leemos esta regla.
+2043120	2048120	Cualquier tira que empiece con la B, se supele por C.
+2048120	2052120	Cualquier tira. ¿Está bien?
+2052120	2055120	Cualquier tira.
+2055120	2058120	Bien.
+2058120	2063120	Ya le voy a dar un punto más para el fin de año, pero por hablar con él.
+2063120	2066120	Después me pasan los nombres.
+2066120	2071120	Exacto, es A y cualquier cantidad de B es lo mismo, que empiece con la B.
+2071120	2077120	No, no es cualquiera que empiece con la B, es A y cualquier cantidad de B.
+2077120	2080120	Se reemplaza por C.
+2080120	2084120	La pregunta es ¿cuál es la salida de esto?
+2084120	2086120	C.
+2086120	2088120	¿Cuál es?
+2088120	2090120	C.
+2090120	2092120	¿O?
+2092120	2094120	C.
+2094120	2096120	O, C.
+2096120	2098120	¿O, C.
+2098120	2100120	¿O, C.
+2100120	2102120	¿O, C.
+2102120	2104120	¿O, C.
+2104120	2106120	O, C.
+2106120	2108120	¿O, C.
+2108120	2110120	¿O, C.
+2110120	2112120	¿O, C.
+2112120	2114120	¿Y hay ahora más?
+2114120	2116120	C.
+2116120	2118120	¿Por qué pasa esto?
+2118120	2124120	La definición de transductor o de regla de reemplazo para estas tres es válida porque no es determinista.
+2124120	2127120	Pero muchas veces nosotros queremos decir algo.
+2127120	2132120	Queremos decir bueno, en realidad yo lo que quería decir acá era que hay todas las veces posibles.
+2132120	2143120	Entonces hay también operadores que permiten decir si yo maché o la más tira más larga o la más corta.
+2143120	2148120	Con la impresión regular si ustedes se acuerdan cuando uno busca tiene esa posibilidad.
+2148120	2150120	De decir maché o lo más largo o lo más corte.
+2150120	2154120	Entonces hay un operador especial que se llama...
+2154120	2160120	Bueno, el longest match sería C, ¿verdad?
+2160120	2164120	En lo más largo que puedo machar es A y todas las veces.
+2164120	2170120	Y el shortest match es solo mapear la A en esta presión regular.
+2170120	2173120	A, B, A, A, S.
+2173120	2177120	Hay operadores que permiten escribir eso justamente.
+2177120	2181120	Longest match.
+2181120	2185120	También tengo problemas similares, yo no voy a entrar en detalle acá.
+2185120	2192120	También puedo tener problemas porque muchas veces asumo que reemplazo de izquierda a derecha.
+2192120	2213760	Pero si yo por ejemplo en esta tira reemplazo A B por A, entonces yo lo que voy a hacer
+2213760	2228880	es sustituir esta A por una B y esta nueva A funciona de contexto para la siguiente expresión y eso no
+2228880	2232720	voy a entrar en detrás acá, lo puedo resolver de diferente forma porque yo podría resolverlo, yo
+2232720	2235640	estoy asumiendo que voy de izquierda a derecha pero podría ir de derecha a izquierda sin ningún
+2235640	2240240	problema porque nada me dice que yo analice la tira izquierda a derecha, entonces yo podría venir para
+2240240	2248040	atrás y encontrar, bueno acá no me va a aplicar porque la B no, acá me va a dar lo mismo porque la
+2248040	2260840	B recién encuentra acá, bueno no, está bien, esto me va a devolver A B B acá, en este caso da
+2260840	2264600	lo mismo porque no es amigo pero el caso es que de izquierda a derecha te da diferente que derecha
+2264600	2275680	de izquierda, y lo mismo y con todas sus combinaciones, no nos compliquemos mucho. Bien, entonces bueno
+2275680	2280520	todo esto que es una presentación muy rápida de la esjebra esencialmente lo que nos permite es
+2280520	2287400	como le decía escribir transducciones y el asunto es cómo usamos esto para representar la
+2287400	2291400	morfología en un lenguaje, bueno, entonces hagamos lo siguiente.
+2291400	2308440	No, exactamente no, son todas operaciones algunas muy complejas, muy complejas, el reemplazo por
+2308440	2315920	ejemplo es muy complejo y se construyen unas sobre otras, pero son todas syntactic sugar,
+2315920	2321120	digamos, es decir ninguna introduce nuevas operadores, al final del día son siempre los
+2321120	2328720	mismos operadores, hay algunos, al final del, al final de la presentación hay una bibliografía
+2328720	2335120	ahí y hay algunos artículos, hay un artículo que se llama The Replace Operator, el artículo
+2335120	2341120	muestra cómo definir el operador de reemplazo a partir de las operaciones primitivas, y hay otro
+2341120	2346880	que es el Longest Match y Shortest Match, y hay otro que dice cómo es el reemplazo
+2346880	2358240	opcional, eso fue toda una construcción de esa esja. Bueno, entonces vamos a ver un ejemplo
+2358240	2370160	de cómo funciona esto, que está en el práctico que publicamos y que dice, bueno yo tengo el
+2370160	2379440	uno ¿no? Bambona, sí, nosotros tenemos un lenguaje que se llama Bambona, que tiene sustantivos,
+2379440	2388720	vamos a hablar solo de los sustantivos de Bambona, y tiene la siguiente característica,
+2388720	2398240	hay siete vocales en Bambona, que son esas que están ahí, la I, la E, la E tilde, A, U, O y O,
+2398240	2404400	y no las vocales, ¿sí? Y los sustantivos en Bambona comienzan siempre con una raíz que
+2404400	2409040	usualmente sigue el patrón consonante, vocal, consonante, o consonante, vocal y dos consonante,
+2410000	2417760	por ejemplo, MAV quiere decir libro, COP quiere decir reactor nuclear y LER quiere decir chancho,
+2417760	2424400	por daros uno ejemplo ¿no? Esto es anecdótico lo que quieren decir en nuestro lenguaje,
+2424400	2429760	porque a nosotros lo que nos importa es que las raíces son estas, con lo que comienzan,
+2429760	2433520	pero siempre, ahí ya tenemos un dato, siempre comienzan con una raíz, o sea, no es siempre fijo.
+2439520	2447200	También después de eso, los sustantivos tienen un sufijo opcional, que puede ser ACK, ETH o HIG,
+2447200	2457360	o sea que NUT HIG es un gran circuito integrado, y LERET es un chanchito.
+2460400	2465440	Un máximo de uno de estos tres sufijos puede aparecer una palabra, y yo lo voy a marcar como
+2465920	2473680	PEJ, MADIM o AU, en el lado del éxico. ¿Se entiende lo que estamos haciendo, ¿no? Estamos,
+2473680	2478400	a partir de la palabra, estamos generando su estructura. Luego ha sido, opcionalmente,
+2478400	2488400	un sufijo único que indica la confianza del hablante, ISM, o sea que yo si digo SOBETH, ISM,
+2489120	2499440	estoy diciendo, es un pequeño dentista y lo estoy diciendo, y estoy manifestando lo que es evidente
+2499440	2505040	de la realidad. Hay cosas que nosotros no tenemos forma de expresar en una lenguaje, lo expresamos
+2505040	2511040	con gesto. Luego sigue un sufijo único que indica la confianza, no, ya lo dije, y lo voy a marcar como
+2511200	2517760	obvio, probable y supuesto. Luego sigue una especie de sufijo de plural que quiere decir
+2517760	2529680	IL o EHAC, quiere decir unos pocos, y todas estas cosas que yo no sé qué son, que marcan otras
+2529840	2542800	características. La cuestión que pueden tener, a nosotros que somos computadoras, nos interesa el
+2542800	2552160	mapeo y no quiere decir. Y al final tenemos que el genitivo OSC, puede terminar una palabra,
+2552160	2556880	puede estar seguido de un sufijo ON, que denota posesión inalienable. EMIOT puede estar seguido
+2556960	2562400	por un sufijo EL, que es un intensificador. Hay gente que no está bien. En las palabras de
+2562400	2567680	Bambona, y esto es interesante, las consonantes P, T y K nunca son seguidas de las vocales
+2567680	2573920	frontales I, E o E-contile, sino por sus correspondientes U o O-contile y los pares de símbolo,
+2573920	2583760	blablabla. ¿Qué hacemos con esto? ¿Cuál era la tarea que queremos resolver? ¿Cuál era la tarea
+2583760	2586880	que queremos resolver? Si no me dicen cuál era la tarea que queremos resolver, no vamos a poder
+2586880	2594320	resolverla. Casi que por definición. ¿Qué queremos hacer nosotros? ¿Cuál es nuestro problema a resolver?
+2598320	2608720	¿Cuál es nuestro problema a resolver? ¿Qué quiere decir eso? ¿Qué quiere decir eso? ¿Cómo
+2608800	2616640	modelo eso? ¿Qué quiere decir que modela eso más? ¿Aliciar o generar? Aliciar o generar,
+2616640	2620480	lo que empezamos diciendo en la clase. Es decir, tengo una palabra en Bambona, quiero usar su estructura.
+2620480	2626560	O tengo una estructura, una forma léxica y quiero, o sea, que si yo te digo,
+2626560	2651000	este, si yo digo, como dije hoy, nat, ak, nat, ak, ism, estoy diciendo algo así como nat,
+2651000	2668640	que es casa más pejorativo, más obvio que lo margo como obvio. ¿De acuerdo? Eso es lo que yo
+2668640	2675440	tengo que hacer, es lo mismo que dijimos allá, pasar de la forma de superficie a la forma léxica.
+2680440	2686920	Y entonces, de acuerdo a lo que vimos hasta ahora, ¿qué es lo que yo necesito saber para
+2686920	2696480	hacer esto? ¿Qué cosas necesito tener? Nosotros dijimos que había tres cosas que se necesitaban
+2696480	2709600	para modelar la morfología, ¿cuáles eran? Sí, el lexicón, en realidad son los morfemas,
+2709600	2718520	los lemas malos sufijos, ¿no? Toda la partecita de gombones. ¿Cuáles son los lemas ahí? ¿Cuáles son
+2718560	2735880	los raíces y los afijos? Los morfemas, no sabía la palabra. ¿Cuáles son? ¿Cuáles son? ¿Cuáles son los morfemas? ¿Cómo
+2735880	2744440	formo la palabra en este caso? Es más fácil la pregunta, ¿cuáles son los morfemas? ¿Qué son
+2744440	2748760	los morfemas? Son todas esas palabras. ¿Qué son los morfemas? La hace uno. Son las partes
+2748760	2753560	chiquitas con las que se compone la palabra. ¿De qué estamos hablando? Viñaron las que se pasaron.
+2754560	2760960	Hubo clase con el partido y yo no me... Bueno, son esto, ¿no? Root, milk, so, no sé qué.
+2763960	2770440	Y todas estas, no sé qué, no sé cuánto. ¿De acuerdo? Y además tengo que saber para cada una
+2770440	2783480	de ellas que cuando aparece este acto... Tengo los afijos, ¿no? De acuerdo. Ese es mi... ¿Y cómo
+2783480	2793080	hago para expresar eso con un transductor? ¿Cómo haría un transductor que guarde todas estas palabras?
+2793080	2806440	¿Cómo lo hago? ¿Cómo lo hago? ¿Cómo hago un transductor? Si yo le digo a alguien un transductor
+2806440	2817200	que me guarde todas las palabras y dice, ¿qué hacen ustedes? ¿Qué hacen con esas palabras?
+2817200	2824080	¿Cómo hacen ustedes si yo le digo a cada uno un diccionario? ¿Qué es lo que hacen cuando yo le digo?
+2824080	2829600	No diccionario, Python, un diccionario, así de lo que se buscan. Bueno, ahora vienen en formato
+2829600	2835440	electrónico, pero ¿cómo escribo cada una de las palabras que tengo? Esto es lo mismo. Yo para
+2835440	2840000	empezar a tener mi lexicón tengo que hacer un ordre de todas las palabras que tengo. Un transductor
+2840000	2846720	que me permita recorrer cada palabra posible. O sea, un embole. Tengo que ponerla a todas las
+2846720	2853360	palabras. Y más, yo lo que pueda hacer generando va a depender de acá. No va a haber más sufijo
+2853360	2858280	que estos. Si yo tengo algún otro animal además de chancho, mientras no tenga la raíz, no voy a
+2858280	2864960	poder decirlo. Haga, no descubrimos nada. Toda la información del lexicón está dentro del
+2864960	2870920	transductor. Lo que tiene que es muy sencillo, es un transductor que lo único que hace es recorre
+2870920	2887040	con el morphema correspondiente. ¿Y qué devuelve? ¿Qué devolvería? Devuelve lo mismo, ¿no?
+2888040	2894040	Vamos a suponer que esto es un símbolo de tres. Yo podría hacer tres arco de lo mismo. ¿Tá?
+2894040	2903440	Y con lo sufico pasa lo mismo. ¿Qué operación del álgebra me permite expresar esto? ¿Qué operación
+2903440	2914320	del álgebra me permite expresar esto? ¿Qué operación de las que vimos?
+2917040	2922800	Pues yo puedo escribir el transductor derecho. Pero lo que yo puedo hacer es un transductor que
+2922800	2928080	solo olía mal, porque además acá puede haber combinaciones, ¿no? Porque así hay dos que
+2928080	2936720	empiezan con la misma letra, no es eficiente. Por ejemplo, karg y kusm, la k debería ser común.
+2936720	2937800	Ella es una cosa así, ¿no?
+2954800	2961880	¿De acuerdo? El transductor que le le hago. ¿Sí? ¿Pero cómo hago yo para expresar todas las
+2961880	2964360	palabras? Con una de las operaciones que vimos.
+2966720	2980960	Unión. Simplemente hago un transductor por cada palabra y hago la unión de ellos. Y esa es lo que
+2980960	2985040	yo le decía y lo que realidad es lo que decía el Kaplan y Kei. La gracia es que como yo tengo una
+2985040	2989320	operación definida, dada dos presiones regulares, construir, dada dos transductores, construir
+2989320	2995960	la unión, yo tengo un método constructivo para hacerlo. No tengo que hacer nada. Ya el método
+2995960	2998680	existe, lo único que voy a hacer es decirle a la computadora, así es la unión de todo,
+2998680	3004680	él calcula el automata. Entonces yo modelo de esa forma, modelo con presión regulares
+3004680	3014040	y utilizo las operaciones de transductor. Bien, eso es el lexicon, o sea que así voy
+3014040	3020240	a tener todas mis palabras. ¿Qué otra parte tenía el transductor? Digo, ¿qué otra parte
+3020240	3027760	tenía nuestro analizador? ¿Se acuerdan esa palabra? Morfotácticas. ¿Qué eran las morfotácticas?
+3027760	3042080	¿Qué eran las morfotácticas? Exacto. ¿Cómo se combinan? ¿Cuáles son las versiones autorizadas
+3042080	3055480	de combinación? ¿Cómo serían mis morfotácticas en este caso? Y bueno, es lo que hice acá.
+3055480	3066240	Yo digo, bueno, primero viene una raíz, ¿sí? ¿Qué puede ser una de estas? O sea que yo
+3066240	3072720	la raíla defino como la unión de todas estas. Y después viene un sufijo opcional, o sea
+3072720	3078920	que tengo que definir los sufijos, que es un or de estos tres, que van, además de ser
+3078920	3087000	un or, van a devolver en la salida estas marcas. Van a sustituir esto por esta marca. Y así
+3087000	3096520	papapas sigo pegando cosas, ¿sí? Y la pregunta es, ¿cómo digo ese, cuando yo digo, viene
+3096520	3102120	tal raíz después, después, después? ¿Qué operaciones estoy usando ahí? ¿De las que
+3102120	3116440	vimos? No. No, yo estoy formando una palabra a partir de pedacitos. Es decir, primero viene
+3116440	3122320	la raíz, después viene esto, después viene esto, después viene esto. Con catenacía.
+3122320	3131480	Con catenacía. Muy bien. Yo lo que hago es con catenar las partes para formar una palabra.
+3131480	3142200	Vamos a ver esto como se expresa en… perdón. Vamos a ver, esto está hecho con una herramienta
+3142200	3152520	que se llama XFST. Ustedes pueden bajársela, probarla en el analizador. Acá lo que yo
+3152520	3156280	hice fue, acá lo que hago estoy haciendo es definir expresión irregular. Relación
+3156280	3163680	regular, exactamente con el álgebra que ya las vimos. Entonces yo digo, bueno, la raíz
+3163680	3171200	de un hombre en manbona, un sustantivo en manbona es cualquiera de estas palabras. Esta
+3171200	3175440	ya ve lo que quiere decir que son tres símbolos, una N, una A y una T, y no un símbolo solo,
+3175440	3181560	nada más que eso quiere decir. O sea, una raíz va a ser más NAT, POS, bla, bla. Y va
+3181560	3184600	a devolver lo mismo, o sea, acuerdan que si no poníamos lo que devolvía, devolvía lo
+3184600	3190680	mismo. O sea, esto va a calcular, esto se compila en un traductor que lo único que hace
+3190680	3197440	es tomar la entrada y devolver la salida y que solo acepta esta palabra. ¿De acuerdo?
+3198440	3202800	Y luego empiezo a definir de la misma forma lo sufijo, a hacer los traductores para
+3202800	3213800	lo sufijo. Y digo, bueno, el sufrijo acá me va a devolver como marca peyorativo. Acá
+3213800	3217480	en realidad estoy haciendo el orden para el otro lado, es decir, a partir del análisis
+3217480	3223160	genero la marca. O sea, que si tengo una marca de peyorativo, este porcentaje es para el
+3223160	3229680	escape del más. Si es peyorativo le agregó acá, si es diminutivo este, y etcétera.
+3229680	3240400	Y así defino todos los sufijos que fueron descritos en la letra. ¿Tá? Si ustedes lo
+3240400	3245920	revisan van a ver que se corresponde con la especificación que se vio. Hay algún caso
+3245920	3252200	particular que es, por ejemplo, si no tiene número, yo quiero marcarlo como que no tiene
+3252240	3257360	número, pero no se corresponde nada en el del lado de superficie. No hay marca eléxica.
+3257360	3265360	Es como el masculino en el español, no hay marca de masculino, no es que no tiene marca,
+3265360	3274000	no tiene una marca de superficie, no hay marca ortográfica. Entonces acá simplemente devuelvo
+3274000	3284040	cero que es éxil. O sea, que si no hay nada va a devolver eso. Y entonces la pregunta
+3284040	3291520	es, bueno, yo tengo esto. Tengo la raíz y los sufijos. ¿Cómo voy a definir el sustantivo?
+3291520	3299560	¿Cómo represento al sustantivo? A partir de esto. Este es el lezicón. ¿Cómo dijimos
+3299720	3313200	definir el sustantivo? Exactamente esto que dice. La raíz, esto quiere decir opcional, un sufijo
+3313200	3320560	1 opcional, un sufijo 2 opcional, un sufijo 3 y un sufijo 4. ¿Qué construimos acá? El lezicón,
+3320560	3333400	es decir, yo tengo para cualquier palabra, yo puedo, no solo la reconoce, sino que devuelve
+3333400	3341840	esa estructura eléxica. Y eso quiere decir que construí nada más ni nada menos con
+3341840	3355320	un transductor que de una recibe la palabra y devuelve el análisis. Y además de regalo
+3355320	3367480	viene la inversa. Como los transductores se acuerdan que eran cerrados bajo reverso. Simplemente
+3367480	3372040	devuelta la transidad. Lo que tiene de bueno esto es que el análisis y la generación, y vuelvo a la
+3372040	3380680	pregunta del principio de la clase, es exactamente igual. Es el costo computacional es el mismo,
+3380680	3386920	porque es simplemente leer el transductor de un lado o del otro. Y esa es una de las grandes ventajas
+3386920	3391200	de los transductores tajonitos que después no pasa más en otras cosas. El análisis y la generación
+3391200	3402520	son lo mismo. Pero, ¿qué le falta esto? ¿Qué le falta esto? Las reglas ortográficas. Porque esto
+3402520	3410120	me va a generar cosas, yo le voy a dar el análisis, me va a generar todo muy bien, pero va a tener
+3410120	3416120	problemas porque en las palabras de bambona, las consonantes nunca son seguidas, las vocales,
+3416120	3424340	sino por la verdad. ¿Y cómo vamos a hacer las reglas ortográficas? ¿Qué hacemos con la regla
+3424340	3435920	ortográfica? ¿Cómo hacemos la regla ortográfica? ¿Cómo la representamos? ¿La representamos con un
+3435920	3449500	transductor que haga la sustitución y correspondiente? Ahora vemos eso. Yo acá hice un transductor que
+3449500	3454120	hace las reglas. ¿Qué está utilizando el operador de reemplazo? Simplemente dice la I y la sustituimos,
+3454120	3458680	por eso no sirven los operadores de reemplazo. Porque dice, si hay una I, sustituímelas por una U,
+3458680	3469360	si antes hay una P, una T o una K. ¿O? Y después fíjate que si hay una E la cambió por una O,
+3469360	3475920	si hay una P de una O. Y después fíjate que hay una, y aplicar los dos en cascada. O sea,
+3475920	3484400	empezar con este, aplica este, aplica este. Pero esto lo único que hace es, dado una palabra,
+3484400	3492000	me cambia la cosa. Yo tengo esto que me da la palabra, dada el análisis, me da la palabra y tengo
+3492000	3500200	esto que dada la palabra me corrige la ortografía. ¿Cómo lo junto? ¿Con qué operación? Y ahí sí con
+3500200	3509000	oposición. ¿De acuerdo? Entonces, bambona es simplemente, y acá sí tenemos el transductor
+3509400	3516200	el lexicón compuesto con las reglas ortográficas. Si yo hubiera definido las reglas al revés,
+3516200	3524640	tendría que ser al principio, el autor. Pero como yo la definí de la análisis para el otro lado,
+3524640	3531840	esto queda pegado, digamos, el primer transductor, dado el análisis, te da la palabra con los
+3531840	3536920	errores ortográficos y el segundo transductor te corrige la ortografía. Y devuelve la versión correcta.
+3536920	3549000	¿De acuerdo? Entonces, implementamos exactamente lo que queríamos, es un solo transductor,
+3549000	3554120	porque la composición genera un transductor solo, un transductor muy complejo, construido a partir
+3554120	3560200	de parte muy chiquita, hicimos una especie, no, un poco de ingeniería, fuimos construyendo
+3560200	3564920	de partes y construyendo el gran transductor, que lo que hace es dar a cualquier sustantivo,
+3564920	3573640	me devuelve su estructura. Y, dada la estructura, me dice cómo se pronuncia. Si se fijan,
+3573640	3578600	este es un método que es completamente especificable o que fue completamente especificado por reglas.
+3580920	3590000	O sea, todas las palabras que están acá tengo la generación de su análisis y solo esas.
+3590080	3594000	Si hay una palabra nueva, acá no entra, tengo que modificar el transductor, ¿de acuerdo?
+3610000	3615760	Si, está muy bien la pregunta, no sabes, tenés que tenerlo en cuenta durante tu análisis.
+3616720	3620000	Es decir, vos tenés que tener en cuenta que en la cascada importa el orden.
+3622000	3626640	O sea, que si te pasa eso que vos decís, marchaste, es que tenés que modificar tu análisis,
+3626640	3634640	no hay una iteración, digamos. Sí, totalmente. Exactamente, totalmente.
+3634640	3639960	Pues lo que hace eso es, las reglas ortográficas son, siempre te pasa lo mismo, cuando aplicas
+3639960	3645440	reglas en cascada, tenés que saber que estás haciendo una cascada y que en esa cascada lo
+3645440	3649360	que vos hagas después no puedo estirarlo para atrás, digamos. Que si vos pusiste una marca
+3649360	3656720	de cambio, esa marca, quiero decir, el transductor de la cascada tiene que entender en qué posición
+3656720	3662720	de la cascada está. Porque, por ejemplo, vos podés poner una marca intermedia, porque
+3662720	3666160	va a pasar algo después. Este tipo tiene que saber que le puede venir una marca intermedia
+3666160	3673520	en su alfabeto. De hecho, lo que yo te decía hoy, el paper
+3673600	3678560	dice que hace que el operador de reemplazo hace una cantidad de operaciones sobre la tira,
+3678560	3684720	le mete símbolo, marquitas, coso, todo muy artesanal y las compone en una cascada para
+3684720	3691600	obtener un solo transductor que hace el reemplazo. Bueno, hay otras herramientas para este tipo
+3691600	3699200	de álgebra. En esta, esta es muy potente, en este yo escribí la tesilla de maestría
+3699200	3707520	con la esencia autílitis. Este es muy potente pero muy ineficiente, muy ineficiente. Y ahora
+3707520	3717040	los más populares son OpenFST. Bueno, hay un poco de bibliografía. Este es un libro,
+3717040	3721680	pero este paper resume bastante, de forma bastante interesante, en unas pocas páginas
+3721680	3739040	como ha sido la historia del asunto de Estado Finito. ¿Alguna pregunta? No. Si ustedes quieren
+3739040	3749520	pueden instalarse XFST y hacer pruebas, y efectivamente van a ver que al especificar
+3749520	3754240	estas cosas uno, y les permite aplicarlo al transductor. Es decir, bueno, ¿qué pasa
+3754240	3760080	con esta palabra? Y pronto ni bien se pone uno a probar y empiezan a aparecer las cosas
+3760080	3765640	como el no determinismo o cosas así. Además, esta herramienta permite hacer una cantidad
+3765640	3769560	de análisis internos, es decir, ¿qué tan complicado es el transductor? Uno de los grandes
+3769560	3776520	problemas que tienen los transductores, o el gran problema es que son muy eficientes
+3776520	3781720	para computar cosas, pero claro, toda la información que tenemos ahí está contenida
+3781720	3786360	dentro del transductor, no tiene noción de memoria externa a los transductores, todo
+3786360	3794440	tiene que estar ahí. Eso hace que crezcan muchísimo. Y generalmente los análisis hecho
+3794440	3798880	con transductores son muy eficientes, pero han sido tradicionalmente, necesitan mucha
+3798880	3803520	memoria para ejecutarse porque crecen muy rápido el componerse. Fíjense que yo cuando
+3803520	3807240	los compongo a una especie de producto cartesiano, digamos, en muchos casos, entonces empiezan
+3807240	3813120	a crecer y a crecer y a crecer. Yo creo que de un punto de vista, me estoy
+3813120	3818880	tal vez, me estoy arriesgando lo que estoy diciendo, pero me parece que de un punto
+3818880	3823440	de vista más, industriar los transductores es como que han pasado un poco de moda, porque
+3823440	3828960	las computadoras son tan potentes que tengo modelos más tradicionales, con lenguaje de
+3828960	3834760	programación y más presivo, digamos, y no tengo todo su problema de que me explote
+3834760	3841680	su tamaño. Pero debe haber algunas aplicaciones que trabajan contra autores, pero no en este
+3841680	3847480	marco tan genérico. ¿De acuerdo? Bueno, fin de la parte 1, vamos a pasar a la parte
+3847480	3856480	2. Capaz que están un poco cansados, pero tenemos que ponernos al día. La parte 2,
+3856480	3865120	como les decía, hay que cambiar un poco el chip, porque seguimos dentro de las palabras,
+3865120	3875000	pero vamos a hablar de otra cosa y vamos a usar un método también bastante diferente.
+3875000	3892000	Y es el tema de la detección y la corrección de errores ortográficos. Esto me interesa
+3892000	3901600	por dos motivos. Uno es porque el problema es un problema interesante y otro es porque
+3901600	3907720	es un modelo bastante claro de utilización de un método que se utiliza en muchas cosas,
+3907720	3912600	no solo el procesamiento de un bokeh natural, que se llama modelo del canal ruidoso, que
+3912600	3923520	es el primer modelo proailista que vamos a ver. Y van a ver que la aproximación es completamente
+3923520	3932240	diferente. Y yo me atrevería a decir que es el concepto más importante que podemos
+3932240	3939600	ver en este curso, como concepto general, como concepto nuevo. No digo que el tema valle
+3939600	3948320	sea nuevo, pero desde el punto de vista de los métodos que solemos utilizar los ingenieros,
+3948320	3954560	esto es bastante nuevo. ¿Por qué? Porque utiliza métodos de inferencia en lugar de
+3954560	3967180	métodos deductivos. Esto es, yo tradicionalmente hay dos escuelas filosóficas, si ustedes
+3967180	3973400	quieren que son los racionalistas y los empiricistas. Los racionalistas dicen, bueno, yo puedo construir
+3973400	3980120	un modelo del mundo y sacar conclusiones de ese modelo que construí, en mi cabeza. ¿No?
+3980120	3988840	Aristóteles. Pero los empiricistas, por allá, digamos, Francis Bacon, todas esas
+3988840	3994600	gente decían no, en realidad el mundo es el que hay, yo tengo que inferir los modelos
+3994600	4001120	a partir de los datos que existen. Esas dos corrientes filosóficas han recorrido la humanidad
+4001240	4008320	en esas dos visiones. Y ahora no es menos. Pero ahora, como tenemos muchos datos, ha
+4008320	4012040	tomado bastante importancia todo el tema del empiricismo. El empiricismo es el método
+4012040	4020760	científico, observo, mido y genero realidades, en lugar de construirme realidades teóricas
+4020760	4030640	puras. El método que vamos a ver del canal ruidoso es bien probabilística. Bueno,
+4030640	4053600	pero ¿cómo hacemos? Y bueno, supongamos que yo escucho una palabra. ¿Sí? Yo les digo la palabra.
+4053600	4066480	Vaso. ¿Qué dije? Vaso. Vaso. Vaso. ¿Alguien escuchó otras cosas? ¿Capaz que
+4066480	4079400	se en el fondo escucharon? Paso. ¿Puedo haber dicho perro? ¿Puedo haber dicho perro o no
+4079400	4085600	puedo haber dicho perro? ¿Por qué no? ¿Por qué probablemente no?
+4090600	4096280	Y si hubiera sido por lo que escuchamos, pero ¿que escucharon? Eso no es como una
+4096280	4102000	es. Es decir, no parece que hubiera sido perro. No es probable que el sonido haya llegado tan
+4102000	4114240	cambiado. ¿Puedo haber dicho? ¿Puedo haber dicho eso? ¿Por qué no? Porque no es una palabra.
+4114240	4128960	Entonces, ¿puedo haberlo dicho? No. La idea es que el modelo del canal ruidoso es lo que yo digo,
+4129000	4139080	lo que sucede es que yo recibo de alguna forma una señal y digo bueno modelo el problema digamos,
+4139080	4145480	cuando yo modelo el problema con canal ruidoso es yo tengo una observación ante mí que es eso
+4145480	4152200	que escucharon ustedes que además es diferente para todos porque es una distancia y quiero tratar de
+4152200	4158640	determinar cuán fue la palabra origen porque a mí lo que me interesa saber es que dije yo,
+4158640	4162840	no digo, se trata de la comunicación. A mí lo que me interesa no, a ustedes lo que me interesa es saber
+4162840	4176960	que dije yo. Y en mi definición del problema, yo asumo ya que mi señal pasó por un canal
+4176960	4188920	ruidoso que la tarji versó y que lo único que yo puedo saber es no tener la certeza de cuál
+4188920	4195720	fue la palabra sino lo mejor que puedo aspirar es una distribución de probabilidad. ¿Qué es? ¿Se
+4195720	4199360	acuerdan lo que es una distribución de probabilidad? Fijemos la definición. Yo tengo una serie de
+4199360	4206680	eventos, una distribución de probabilidad es un valor entre 0 y 1 que le doy a cada uno y que
+4206720	4211800	entre todo tiene que sumar uno. Esa es una distribución de probabilidad. Yo puedo hacer una
+4211800	4218800	distribución de probabilidad sobre todas las palabras posibles. Con lo cual descarto ya las
+4219320	4222200	pero
+4226800	4227520	digamos
+4233520	4237640	si supongamos que se llama Luis y yo le digo
+4237640	4249760	yo le hablo y le digo fuiz, ¿no? Él sabe que yo le estoy hablando a él, ¿verdad? Entonces
+4251080	4256960	él le sonó fuiz, o sea que la palabra más cercana le fui probablemente desde el punto de vista de
+4256960	4264760	bueno pero él sabe que le estoy hablando a él, entonces Luis es más probable digamos en su
+4264760	4269080	interpretación. Sigue siendo posible que yo hubiera dicho fuiz porque le voy a decir fui a
+4269080	4276040	tal lado y que se me cortó porque me pasó algo, pero es menos probable. Entonces es lo que arma
+4277240	4282360	cuando me escucha o lo que hacemos todo, cuando escuchamos es bueno o podemos modelar lo que
+4282360	4286040	lo hacemos, no quiere decir que lo hagamos, es generar una distribución de probabilidad sobre
+4286040	4290600	todas las palabras posibles que me dijeron y quedarme con la que es más probable según alguna
+4290600	4300680	regla. Eso se trata el modelado del canal ruidoso. Esto no tiene que ver, porque hoy
+4300680	4307280	día cuando estaba el proceso de mínima discusión. Y tengo entonces dada una palabra, tengo las
+4307280	4312640	originales, cuando tengo un error ortográfico tengo exactamente la misma configuración,
+4312640	4317720	yo tengo una palabra que veo ahí que no sé lo que es y trato de saber cuál es la más,
+4318680	4321600	la más razonable que sea la original.
+4325840	4331240	¿Qué pasa? ¿Cómo hacemos la detección del error? Y bueno, si a mí me aparece en un texto, mate.
+4335880	4342560	Yo puedo detectar que hay, que me equivoqué, ¿por qué? Porque esa palabra no existe,
+4342560	4347600	la detección de palabras inexistentes es muy fácil. Yo pongo un diccionario y no está,
+4347600	4350800	es lo que hacen todos los corretores ortográficos.
+4354800	4360800	Esa es una forma, esto es detección de palabras inexistentes, nada más. Después lo que tengo
+4360800	4372000	es la corrección aislada, que es, bueno, mate, la correjo con tomate. ¿Por qué?
+4377280	4381520	Por la mínima distancia. ¿Por qué es la más parecida? ¿Qué hay? No parece haber otro diccionario
+4381520	4386360	que sea más parecida. Esto, no hay otro candidato de base de tomate.
+4390880	4396960	Mate, puede ser, está bien, es verdad. ¿Verdad? Metí una T y...
+4400320	4407600	Y esto es la más difícil, ¿eh? No, en vez de poner calor, puse el color, está complicado,
+4407600	4411440	porque ahí tengo que conocer el contexto, es mucho más difícil. Con la palabra sola no puedo.
+4415280	4419760	Nunca vas a saber. ¿Es lo que le pasa a los corretores? ¿Cuántas veces dejamos una barbaridad
+4419840	4424240	en nuestros textos? Porque también, justo era una palabra, yo qué sé.
+4424240	4428240	Eso que vamos a hablar en esta clase, después vamos a hablar sobre esto, no se preocupen,
+4428240	4432240	pero vamos a hablar de este tipo de corrección. ¿De cuál es la más probable? Porque esto
+4432240	4436400	no siempre es tan fácil tomando la palabra sola, porque puede haber mucho, bueno, no
+4436400	4439680	siempre es tan fácil, no, ni siquiera era tan fácil. En el caso que el género de Mate
+4439680	4445120	aplica, acá tengo dos candidatas. Entonces, vamos a ver un poco de este caso. ¿Y cómo
+4445120	4452960	modelarlo con el modelo canal ruidoso? Esta clase está basada principalmente en
+4452960	4461120	un artículo que habla de una utilidad que hicieron para IUNE, que creo que se llama
+4461120	4465840	SPEL o correcto. No, SPEL es la clásica que te dice si está viendo mal la palabra,
+4465840	4471520	es correcto eso. ¿Qué te corrige la palabra? Ellos hicieron un análisis y dijeron, bueno,
+4471680	4476880	tomaron un corpo de errores, de errores cometidos, la gallena anotó esto, se cambió por esto,
+4476880	4481840	se cambió por esto, se cambió por esto, y se dio cuenta que entre el 1 y el 3% de
+4481840	4488960	las palabras según el corpus, son errores, eran corpus de transcripciones y mal no recuerdo.
+4488960	4498640	Y que el 80% de esos errores eran por la inserción de una letra o Mate, por el borrado de una
+4498720	4506960	letra, por la sustitución de una letra y por la transposición de dos letras, acá cambiaron
+4506960	4514920	la, de por la o. Sí, es más raro eso, metes dos dedos, eso te puede pasar más con una
+4514920	4524880	máquina a escribir. ¿Por qué les parece haber una pregunta, no? Esta sustitución por una
+4524880	4538640	p, es este, ¿Les parece que es igual para cualquier letra la sustitución acá? Está más
+4538640	4543600	cerca, es más fácil confundir una o con una p o una a en un teclado, por la distribución de la letra,
+4543600	4558960	bueno, eso nos da una pista. Y yo podría llegar a decir bueno, pero entonces lo que voy a hacer es
+4558960	4567080	agarro cualquier error, agarro cualquier error, cualquier palabra que es un error y busco la
+4567080	4572200	candidata más parecida cambiando con una serie de reglas por las que están más cerca en el teclado,
+4572640	4578480	pruebo la o por una p, no, hago todo un paquete de reglas, la pico la palabra y doy un canteón,
+4578480	4585080	algo parecido a lo que hice con la morfología. Bueno, no vamos a hacer eso, nuestra aproximación
+4585080	4591120	va a ser completamente diferente a esa, en lugar de aprender de nuestro modelo, de tomar esa visión
+4591120	4597520	racionalista, en la cual yo supongo una cantidad hipótesis como son demasiadas complicadas a
+4597520	4604720	hipótesis, pero yo qué sé cómo es, no sé si es una o o la p o la... no sé qué letra llama,
+4607720	4611920	no sé, no lo lo voy a dar, o p, no sé qué hay, este
+4614960	4625240	L, no, la L, acá, no, acá, no, después la pico, que pico, que pico,
+4627720	4630400	la I, la I, ¿Quién dijo la I? ¿Quién dijo la I?
+4630400	4639200	Bueno, no sabemos, no es fácil modelar eso, entonces nosotros no vamos a hacer nada, vamos a
+4639200	4647360	aplicar el modelo del canal ruidoso y vamos a decir, bueno, y acá viene el asunto de las
+4647360	4652240	probabilidades condicionales y todo eso, ¿se acuerdan de la probabilidad condicional, ¿no?
+4652440	4659200	Podría condicionales un número entre 0 y 1 bla bla, es una distribución de probabilidad entre
+4659200	4668760	eventos posibles, pero que está condicionada a que haya pasado algo, entonces yo lo que digo es,
+4669960	4678760	yo voy a querer la palabra W, W coso, pechito, gorrito, que maximiza
+4683000	4693480	la probabilidad de, ahora vamos a aplicar un poquito más, ¿se acuerdan, el large max,
+4693480	4698720	lo que quiere decir es, calcula la probabilidad y cuál es la W, que es el argumento para esa,
+4698720	4705960	para esa cuenta, esto es, yo tengo una observación no, que es mi palabra con error,
+4706600	4714280	¿sí? y yo quiero saber exactamente lo que estuvimos conversando ahora, la W, de todas las
+4714280	4725880	W posibles del vocabulario, ¿cuál es aquella para la cual la probabilidad es máxima?
+4728280	4732640	Lo cual solamente me modela el problema, no me lo resuelve, bueno, tengo ni idea,
+4732680	4738280	hasta el momento como calcular la probabilidad, pero mi problema ahora es, ¿cómo calculo
+4738280	4746400	esta probabilidad? Además de la taría titánica de encontrar todas las posibles W y probar con
+4746400	4751800	cada una, que bueno, además tengo que saber esta W, donde saco, donde la estimo, cómo hago,
+4751800	4758520	ese es mi problema en los métodos probabilísticos, ¿cómo calculo las probabilidades? Y la probabilidad
+4758520	4762840	la voy a calcular a partir de qué, ¿cómo podemos aprender esas probabilidades?
+4767920	4773080	Frecuencia, frecuencia de errores, exactamente, así funcionan todos los métodos de aprendizaje
+4773080	4781360	automático, todos los métodos de aprendizaje automático aprenden de corpus o de conjuntos
+4781360	4786640	previamente anotados, porque yo para saber frecuencia de errores, alguna persona me tuvo que anotar
+4786640	4793280	los errores, ese es el gran problema de los métodos de aprendizaje, los métodos de aprendizaje
+4793280	4797960	tienen la gran ventaja de que, esencialmente, no necesitan un experto porque aprenden de los
+4797960	4802880	datos, pero necesitan un experto para que le anote los datos, para que le diga, esto fue un error,
+4802880	4808240	esto fue un error, esto fue un error, esto fue un error, y ahí aprender, bueno, de eso se trata
+4808240	4815560	el modelo canal ruidoso, ¿y qué hace? Bueno, dice, aplica la vieja y querida regla de Valles,
+4818360	4827240	Valles, monje por allá del 1500, descubrió esta regla que es muy muy sencilla, es muy muy difícil
+4827240	4833720	explicar, intuitivamente, que lo que dice es que la probabilidad de un número dado a otro
+4833720	4842880	evento, es igual a la probabilidad, perdón, la probabilidad de un evento, dado a otro evento,
+4842880	4848280	es la probabilidad al revés, con la condición al revés multiplicada por la probabilidad del
+4848280	4860200	X, divida la probabilidad del Y, es decir, esto es bastante obvio porque la probabilidad de que se
+4860200	4867560	den dos eventos, X y Y, al mismo tiempo, es la probabilidad de que se dé X multiplicada por
+4867560	4875400	la probabilidad de que se dé Y, dado que se dio X, ¿sí? La probabilidad de que salga dos veces un 2,
+4875400	4880680	cuando tiene un dado, es la probabilidad de que salga un 2, multiplicado por la probabilidad de que
+4880680	4890180	salga otro 2, dado, el dado es el peor ejemplo porque soy independiente, pero se van a dar
+4890180	4902780	lo mismo, pero la probabilidad de que sea, si la primera palabra de un texto es la, es un artículo,
+4902780	4907580	la probabilidad de que sea un sustantivo, la siguiente seguramente es más alta,
+4908580	4919060	de acuerdo, que si la primera es un verbo, de acuerdo, entonces, pero lo mismo puedo decir al revés,
+4919060	4928860	la probabilidad de X y Y es igual a la probabilidad de Y por la probabilidad de X dado Y, de acuerdo,
+4929620	4938500	igual a estas dos cosas, igual a estas dos, y paso y divido por P su Y, y me da la regla de Valle,
+4938500	4943700	sencillamente, pero es muy interesante lo que dice la regla de Valle, porque dice, si yo condiciono
+4943700	4952060	en un evento, puedo, automáticamente, saber cómo se condiciona en el otro, si yo sé la probabilidad
+4952060	4962220	de que la segunda sea un sustantivo, dado que la primera es un artículo, puedo calcular al revés,
+4962220	4966500	puedo calcular la probabilidad de que sea un artículo, la primera, dado que la segunda es un
+4966500	4974020	sustantivo, hacerla de derecha, de adelante para atrás, digamos, y justamente lo que vamos a hacer
+4974020	4980260	nosotros es decir, bueno, nosotros queríamos calcular esto, la probabilidad, ah, perdón,
+4980260	4987860	nosotros teníamos esta probabilidad que queríamos calcular, P de W dado, si, entonces yo lo que digo
+4987860	4993100	es, aplico Valles y digo, la probabilidad de, de P, ahora vamos a ver por qué hago esto, no,
+4994860	5002380	la probabilidad de O dado W por la probabilidad de W dividido de la probabilidad de O, apliqué
+5002380	5007740	derechito viejo la regla de Valle, quería la probabilidad de la palabra, dada la observación y la
+5007780	5010900	transformo en algo que es la probabilidad de la observación dada la palabra,
+5013660	5022340	¿por qué yo hago esto? Porque yo en mi cuerpo tengo los errores, yo sé la palabra original y veo
+5022340	5028700	la palabra que se, que, en qué se transformó, entonces yo lo que veo fácilmente contando es la,
+5028700	5033420	ahora vamos a ver por qué veo fácilmente contando, la probabilidad de la observación dada la palabra
+5033420	5043780	original, si yo escribí tu mate, perdón, si, si, si yo escribo tu mate, qué tan probable es que
+5043780	5050460	escriba tu mate, te calculan, se entiende, estoy calculando al revés, estoy partiendo la palabra y
+5050460	5056140	viendo cuál es la probabilidad de equivocarme, que vamos a ver ahora que eso es más fácil de
+5056140	5063540	calcular, ahora lo vamos a ver, pero la cuestión es que si yo quiero maximizar esta función,
+5063540	5068460	si se fijan esta función depende, o sea esto es para todas las palabras posible,
+5069460	5078460	la probabilidad de que yo diga tu mate dado que dije perro, que dije caballo, o tomate, o mate,
+5078460	5086380	y si ustedes fijan acá esto varía con la palabra pero no varía con la observación,
+5086380	5092100	entonces si yo maximizar esta función es lo mismo que maximizar esta de arriba, porque esto es
+5092100	5102820	fijo, entonces acá llegó a esto, maximizo la probabilidad de la observación dada la palabra
+5102820	5109540	multiplicada por la probabilidad de la palabra, y miren que interesante ¿no? porque es estoy
+5109540	5113580	dividiendo en dos partes, la regla de bache lo que permite, lo que me permite hacer es dividir en dos
+5113580	5126220	partes bien claras mi estimación de la probabilidad y es la probabilidad a priori de la palabra
+5126220	5138220	¿Qué es? ¿Qué tan probable es en el caso de nuestro es que yo emita siquiera esa palabra? ¿Qué tan
+5138220	5149180	probable es que yo haya querido decir... yo qué sé, no sé, cualquier palabra rara, no se me ocurre
+5149180	5152500	ninguna, me hago, tengo que venir con el ejemplo preparado porque en clases jamás se me ocurre
+5153460	5158100	es un baque tengo, yo dije tomate y quise decir
+5162660	5166620	alguna palabra parecida tomate, pero rara
+5169860	5178900	quise decir mita, que sabemos que es algo, la probabilidad de que yo haya dicho mita es muy
+5178900	5183820	baja porque mita no es una palabra que nadie conozca, supongamos que existe, si no la tradicional
+5183820	5193140	la probabilidad a priori que así se llama es muy baja, es muy baja, ahora si yo hablo claro y digo
+5193140	5200580	mita por más baja que sea, ustedes me escucharon perfecto o sea que la probabilidad de la observación
+5200740	5209460	mita, dado que dije mita es muy alta, por más canal ruidoso que pasó, entonces ni más ni menos
+5209460	5215300	que la probabilidad es que yo estoy queriendo saber es la multiplicación de ambas, yo puedo
+5215300	5219940	tener una palabra que es muy probable que diga, es muy probable que yo haya querido decir este
+5221540	5229980	él o la o cualquier artículo que son las palabras más comunes, pero es muy raro que yo haya dicho él
+5229980	5235900	y que me haya salido tomate, se entiende, entonces esta probabilidad de ser muy alta pero estaba
+5235900	5242460	muy baja, de eso se trata ni más ni menos la regla de base, el canal ruidoso, entonces vamos
+5242460	5246780	a ver un ejemplo en este artículo de cómo corregimos errores basándonos en este algoritmo
+5246780	5254780	vallesiano, la hipótesis de trabajo de los tipos es, los errores son todos por inserción borrado
+5254780	5258540	sustitución y transposición, o sea eliminaron el 20% del corpo porque eran otros errores que
+5258540	5265980	no sabían cómo modelarlo, ellos dicen bueno si yo se me encuentro un error mi única aproximación
+5265980	5273820	es que alguien metió un dedo mal, un solo dedo mal, ¿de acuerdo? se entiende, entonces dicen bueno
+5275580	5279260	tengo la palabra observada que en nuestro caso es esta acrés
+5279260	5293340	si, que no es una palabra, y dice bueno ¿cuáles son? si yo le aplico todas las transformaciones
+5293340	5300180	posibles, una, recuerden una hipótesis que la única que hay es una inserción, o sea ya reduce
+5300180	5307420	mis aspiraciones, o sea ya sé que hay casos que no lo voy a detectar, así de triste es la vida,
+5307420	5313340	digamos, lo modelo probabilita realmente, todos los modelos, todos los modelos y la definición
+5313340	5323380	de modelo simplifican la realidad para poder trabajar, este, él dice bueno podría haber sido
+5323380	5330380	y busca todas las que están a distancia 1, a distancia 1 con estas operaciones y por ejemplo dice
+5331340	5342260	actrice que es que se perdió la T, o crees que es que metimos e insertamos una A
+5344580	5351100	y la posición cero, fíjense que además bueno y así todo ¿no? pero es curioso porque acrés
+5352500	5358540	con una S sola aparece dos veces, porque puede haberla insertado en la posición 4 de la posición
+5358580	5363140	5, tengo que modelar como las dos posibles casos, porque son las dos formas que tengo
+5363140	5370020	que llegar a la misma, y estas son todas las candidatas posibles, según nuestra regla,
+5370020	5383380	porque son la única que está en el dicionario, ¿te entiendes acá? bien, bueno, entonces yo lo que
+5383380	5394380	voy a hacer es esto, calcular la palabra, la palabra correcta como la función que maximiza
+5394380	5405380	la probabilidad del error, el tipo, el error, dada la palabra por la palabra, ¿cómo calculo
+5405380	5410780	la probabilidad de la palabra? ¿cómo calculo la probabilidad a priori de la palabra?
+5410780	5426980	en el corp, ¿no? estamos todos acuerdos que la más razonable aproximación, la que parece más
+5426980	5434180	seguido en el corpus, va a aparecer más seguido en el corpus, esos razonables se
+5434180	5440780	llaman principios de máxima verosimilitud, yo considero que lo que tengo en el corpus es
+5440780	5447780	mi mejor aproximación a la realidad, ¿de acuerdo? es decir, lo que maximice la probabilidad en el
+5447780	5456780	corpus maximiza mi probabilidad, pero tiene un problema, ¿qué pasa si la palabra nunca
+5456780	5463100	apareció en el corpus? porque el corpus de hecho no es infinito, ¿qué pasa si la palabra no apareció
+5463100	5474700	en el corpus? la probabilidad 0, ¿y eso qué hace, qué suceda? que sea imposible que yo le elija, aunque
+5474700	5480420	esté en mi vocabulario, aunque esté recontraparecida nunca le voy a elegir porque nunca apareció en
+5480420	5485620	el corpus, ese es el problema típico del conteo por frecuencias y la corrección típica que le vamos
+5485620	5489740	a ver un poquito más ya que hace que viene es, yo le voy a hacer sacarlo un poco de masa de probabilidad
+5490500	5495500	porque esto es lo que va a hacerme una distribución de probabilidad sobre todas las palabras, ¿no? normalizo
+5495500	5502580	sobre uno y me da una distribución por la frecuencia, ¿qué es esto? 1.343 actres y todas
+5502580	5508220	estas, ¿no? y esta es la probabilidad que es simplemente contar la cantidad de palabras que
+5508220	5515100	aparece sobre el total de palabras que hay, bueno yo lo que hago es sacarlo un poco más a probabilidad
+5515100	5520340	a estos y decir en lugar de dividir en la cuenta generalmente es esta cantidad de veces que aparece
+5520340	5525220	la palabra sobre total de palabra, lo que hago es agregarle un poquitito de masa de probabilidad,
+5525220	5535540	agrego un 0,5 al conteo para que nunca me ve cero, es la solución más ingenieril que se les ocurre,
+5535540	5542220	les saco un poquito más, ni siquiera es muy bueno eso pero funciona, se llama este conteo de las
+5542260	5546420	plazas, vamos a verlo un poquito más la que hace que viene, pero tengo que, ¿por qué le agregó este 0,5
+5546420	5554580	acá? ¿Por qué tengo que agregarle este 0,5B?
+5554580	5564260	es una operación, una cuestión bien operativa
+5574460	5578860	para mantener la probabilidad, prometí que dar 1, esto tiene que ser una distribución de probabilidad,
+5579740	5585220	cuando yo cuento y divido sobre n, lo que me da es una distribución de probabilidad, es decir todo
+5585220	5591060	suma uno, si yo le agrego 0,5 a cada uno deja de sumar uno, entonces yo tengo que normalizarlo y le
+5591060	5598260	agrego esto al total, es como que acá hubiera un poquito más de palabras, entonces yo tengo
+5598260	5604740	que sumarlas acá, y como agrego 0,5 por cada una palabra es como que yo agregar a 0,5 palabras,
+5605060	5612020	0,5 por la cantidad de palabras posibles, ¿no? ¿de acuerdo? esto aparece un montón de veces,
+5612020	5615380	un montón de veces se hace este tipo de cosas, yo siempre que tengo una probabilidad tengo que
+5615380	5619140	buscar la forma de normalizarla y cuando yo empiezo a hacer cuentas, a modificarlo sumando,
+5619140	5623860	puedo romper la probabilidad y yo tengo que asegurarme que sume uno, porque bueno,
+5623860	5628980	porque la base de todo mi teoría probabilística está basada en eso de que son eventos que
+5629620	5636380	son todos menores que uno, los que yo lo mapeo una función menor que uno y que la suma da uno,
+5636380	5642020	y después todo lo que hago es demasiado eso, bueno, pero cuestiono que con esta corrección
+5642020	5648420	llegamos a una distribución de probabilidad de la probabilidad priori, o sea, los más probables
+5648420	5657140	que yo haya querido decir, acces, de acuerdo, dada, si yo no supiera más nada que lo que,
+5659140	5665380	si yo no supiera más nada que las palabras posibles, lo más probable que haya querido decir,
+5665380	5670580	perdón, que quiere decir acros, que es la palabra más común en el corpus, tipo con probabilidad
+5670580	5679820	000019 acros, eso quiere decir que sacró, no, porque nos falta la segunda parte de la probabilidad,
+5679820	5686180	nosotros calculamos esta, la probabilidad a priori, es la probabilidad
+5689700	5699700	que en principio tiene la palabra, sin haber visto los datos, es como mi, si yo lo veo desde un punto de
+5699820	5705220	la probabilidad se pueden ver de dos familias de razonamiento principales, uno de frecuentistas
+5705220	5709060	que es una probabilidad, es la cantidad de veces que pasa algo, la proporción de veces
+5709060	5716780	que pasa algo, si yo lo repito suficientemente, yo tengo un dado un millón de veces, o n veces,
+5716780	5720780	va a atender a la probabilidad a calcular, el defino de eso como la probabilidad, hay
+5720780	5726500	otra visión alternativa de la de prioridad, que es la certeza o la confianza que yo tengo
+5726500	5730940	en algo que no está definida por una frecuencia, esa es la visión vallesiana de la probabilidad,
+5730940	5737740	es lo que yo pienso que, si usted ve en un dado, si yo tiene un dado, ustedes, a priori,
+5738740	5745820	¿cuál es la probabilidad de que salga uno? ¿Por qué?
+5746820	5755060	No tiraron el dado, no? No, no, no, es una pregunta, no tiraron el dado,
+5755060	5757820	¿tenés seis posibles? ¿y qué más?
+5762820	5765500	Sí, pero ¿qué más? ¿qué más estás asumiendo vos?
+5765500	5774900	Que el dado no está cargado, ahora, si yo tiro el dado 100 veces y me cayó 80 veces un 6,
+5776820	5784900	pero mi confianza a priori, antes de ver los datos, es 0, como dijimos, un sexto,
+5784900	5792540	¿por qué? Porque asumo, por algún motivo asumo, por algún motivo, o porque yo lo vi con cara de
+5792540	5797580	dado cargado y pensé que era 0, 8, es válida también, es una prioridad priori, después los
+5797580	5803700	datos me la cambian, de eso se trata la regla de valles. Bueno, perdón, esto es un tema que me gusta
+5803700	5810260	mucho y me entusiasmo. Bueno, pero tenemos que calcular esta. ¿Cómo vamos a hacer para
+5810260	5818100	calcular esta? La probabilidad de que se dé el error dado la clase. ¿Cómo se le ocurre que podríamos
+5818100	5818700	hacer algo así?
+5826460	5829900	Bueno, lo que hicieron estos muchachos fue...
+5833740	5839740	Fue ver qué pasado hacer lo mismo, pero con las sustituciones. ¿Cuántas veces en un
+5839740	5846380	corpo de errores, encontraron un cuerpo de errores, no es menor, cuántas veces se sustituye? Pero
+5847540	5852500	¿no buscaron cuántas veces se sustituye tomate por tomate? ¿Por qué no hicieron ese conteo?
+5854700	5858460	¿Por qué no contaron? Porque yo podía decir, bueno, ¿cuántas veces se cambió actres por
+5858460	5863180	actres, crees, crees, por crees? ¿Por qué no hicieron ese conteo? Igual le decimos con la palabra. ¿Por qué
+5863220	5865180	no aplicaron máxima valor, similitud y ya?
+5869180	5877460	Porque la cantidad de veces que yo casi seguramente es cero. Es decir, mi potencia es muy general,
+5877460	5884980	muy general tener un cuerpo de comunal. Entonces lo que hicieron fue no. Hicieron una matriz de
+5884980	5894180	confusión donde... Perdón, no la tengo acá. Donde contaron cuántas veces
+5897180	5905940	adelante de una O se ponía una A, una B, una C, una D, una E. ¿Cuántas veces después de una O se
+5905940	5911020	borraba la letra? Siguiente. ¿Cuántas veces la O se sustituía por una A, por una B, por una
+5911020	5919420	C, por una D? ¿Y cuántas veces la O se cambiaba por la siguiente? Con eso buscaron capturar esa
+5919420	5924180	intuición de que la O... ¿Por qué qué puede suceder? Y bueno, más probable que la O yo la
+5924180	5930580	sustituya por una P, porque están cerca. Pero no lo hago razonando que están cerca, sino simplemente
+5930580	5934420	contando. ¿Capaz que no es así? ¿Capaz que los datos me dicen otras cosas? ¿Capaz que me dicen
+5934420	5939740	que la O se sustituye por la letra esta que está acá, que no sé cuál es? Por la O,
+5939900	5945380	simplemente porque me confundo, yo qué sé, porque me confundo y le arrode dedo, digamos. Me meto
+5945380	5954260	el mismo dedo de la mano que no es. No importa, lo cuento a partir de los datos. ¿Tá? Y lo que
+5954260	5966580	hicieron fue bueno, dijeron, actres, la probabilidad exista, la probabilidad de que yo, las palabras
+5966580	5978260	acuerdan que era actres, de que yo borre una T antes de una R, es esta y la probabilidad combinada
+5978260	5993420	de ambas es esta. O sea, el producto de las dos, ¿sí? Si se fijan, Cres arranca con muy pocas
+5993420	5997820	expectativas de ganar, porque a priori no apareció nunca, o sea, que le da la probabilidad de esta
+5997820	6002540	residual que le dan métodos para que no de cero, tendría que ser muy alta la probabilidad para
+6002540	6009100	que se igualara. O sea, que insertar una A del antes de una C tendría que ser enorme, la probabilidad
+6009100	6013460	para que cambiara la ecuación acá. Y efectivamente no cambia nada, pero da mucho más chica.
+6013900	6027140	Al revés, la probabilidad más alta es haber insertado una, haber borrado la T. ¿De acuerdo?
+6030380	6039580	Y efectivamente, pero, pero, 5. Esta es bastante más probable, como palabra actres, es una palabra
+6039580	6049860	bastante más probable que actres. Por conteo, parece que una vez en el cuerpo, ¿sí? Y luego,
+6049860	6058940	lo que hicieron fue, bueno, ¿qué hicieron acá? Se quedaron con el porcentaje de aparición de
+6058940	6064060	cada una. ¿Qué hicieron? Volvieron a generar una distribución de probabilidad, porque todo el porcentaje
+6064060	6070380	es lo mismo con una distribución de probabilidad. Esto es 0,37, esto dan 0, 0 y 0. ¿Y cuál gana?
+6072300	6079100	¿Cuál gano? Actres. No, en realidad van no actres, porque puedo llegar de dos formas,
+6079100	6085380	pero sigue siendo la misma palabra. Entonces, estas dos se suman. O sea, que con un 0,4 de
+6085380	6090500	probabilidad, la palabra era actres. La palabra más probable, la corrección más probable,
+6090660	6098780	era actres. ¿Sí? Curiosamente, se ha equivocado, porque en ese contexto era actres.
+6100780	6103820	Pero bueno, ellos no tenían contexto para analizar.
+6112020	6119900	En la versión 3 del libro, me puse muy contento porque hay un capítulo dedicado
+6119980	6127700	especialmente a este tema, lo que muestra que es muy importante. Me puse muy contento
+6127700	6133620	porque piensa igual que yo. Qué bien que está ese tipo, dice lo mismo que yo. Y acá está el
+6133620	6139340	piper, si lo quieren leer. Sobre todo me interesaba más que por la aplicación, por el método,
+6139340	6143180	porque van a ver que este tipo de método se repita. Los métodos vallesianos se repiten
+6143180	6149100	usualmente. Y además porque tienen una cantidad, hay una cantidad de situaciones donde se puede
+6149260	6157460	utilizar este tipo de métodos. El otro día, les voy a contar una cosa. Por ejemplo, el otro día
+6161380	6166620	estaba tratando de argumentar por qué a uno en una institución le conviene publicar sus datos.
+6168300	6173540	Y la regla de valles es una buena forma de convencer a alguien de eso. Porque la regla de
+6173540	6182220	valles lo que dice es, si yo no tengo datos, como con el dado de hoy, me quedo con mi probabilidad
+6182220	6191500	que puedo traducirlos en una visión vallesiana como mi confianza, en algo, a priori. Es decir,
+6191500	6199860	si a mí lo que me preocupa es como institución que al publicar mi datos, mi imagen, en peor,
+6200180	6204980	porque me van a criticar las cosas que publico, pensemos primero cuál era la probabilidad priori,
+6204980	6209900	o decir cuál era tu imagen a priori, cuál era tu confianza a priori. Y muy probablemente,
+6209900	6217140	salvo que vos seas de verdad un desastre, cuando publicar tu dato las cosas mejoran. Eso es
+6217140	6224220	sencillamente aplicar la regla de valles en una situación de todos los días. Bueno, nos vemos en el martes.

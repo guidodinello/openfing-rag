@@ -1,0 +1,3905 @@
+WEBVTT
+
+00:00.000 --> 00:26.920
+Bueno, primero vamos a hablar de lenguajes regulares. Ustedes hicieron el curso de teoría
+
+00:26.920 --> 00:32.760
+de lenguajes y este año generalmente damos una introducción más teórica a lenguajes
+
+00:32.760 --> 00:38.920
+regulares. Este año decidí cortar esa parte porque en realidad ustedes ya sufrieron bastante
+
+00:38.920 --> 00:45.800
+a Prada y además y compañías en todos esos temas de lenguajes regulares y sus propiedades
+
+00:45.800 --> 00:52.960
+teóricas y propiedades de clausura y sus diferentes modelos. Hoy vamos a dar solo un repaso acá para
+
+00:52.960 --> 00:59.400
+nivelar un poco porque son del tipo de métodos que forman la base de otra cantidad y que para
+
+00:59.400 --> 01:10.000
+algunas tareas aplican directamente. Y arranco con esta frase porque como yo decía creo en la primera
+
+01:10.000 --> 01:21.840
+en la primera clase Chonky por allá por 1957 mostró que el inglés no era pues no era
+
+01:21.840 --> 01:27.920
+susceptible de ser representado con automatas finitos y eso hizo que la investigación en este
+
+01:27.920 --> 01:31.800
+tipo de automatas en el procedimiento de lenguajes natural se tuviera como oportunitas años digamos
+
+01:31.800 --> 01:38.600
+y después volvieron. Ahora vamos a hablar un poquito más de eso pero ¿qué son? ¿qué son los
+
+01:38.600 --> 01:44.960
+lenguajes regulares? Me queda el elegísimo el teclado de acá. ¿Por qué nos interesa los lenguajes
+
+01:44.960 --> 01:50.280
+regulares? Porque esencialmente la visto como herramienta para el procedimiento de lenguajes
+
+01:50.280 --> 01:59.480
+natural son una herramienta para especificar texto mediante patrones. Es decir yo quiero
+
+01:59.480 --> 02:07.800
+especificar un conjunto de textos con una expresión sola y generalmente puede utilizar
+
+02:07.800 --> 02:16.080
+expresiones regulares. Si yo quiero expresar todas las palabras que empiezan con C tengo que
+
+02:16.080 --> 02:29.200
+expresar de alguna forma algo como le voy a poner en P.C punto asterisco. Es una C seguida de cualquier
+
+02:29.200 --> 02:35.000
+cosa cualquier cantidad de veces. Ahora vamos a ver un poco más de eso pero esencialmente es una
+
+02:35.000 --> 02:39.840
+forma de expresar muchas y quiero encontrar en un texto todas las palabras que aparecen que empiezan
+
+02:39.840 --> 02:48.320
+con mayúscula y terminan con A sí voy a poner una cosa como H con H mayúscula que dice cualquier
+
+02:48.320 --> 02:56.560
+cosa terminan con A. ¿De acuerdo? Ya me aparecen algunas cosas como bueno pero acá tiene que haber
+
+02:56.560 --> 03:04.600
+no haber espacios en el medio por ejemplo ¿no? Pero y toda una serie de discusiones pero lo importante
+
+03:04.600 --> 03:14.040
+es que yo puedo expresar conjuntos un patrón a través de una expresión. Un conjunto de texto
+
+03:14.040 --> 03:20.640
+a partir de un patrón. Tienen expresividad limitada ¿se acuerdan de la jerarquía Chonki? No, es decir
+
+03:20.640 --> 03:28.560
+nosotros tenemos los los lenguajes regulares, los lenguajes libres de contexto y los lenguajes
+
+03:28.560 --> 03:36.440
+recursivamente enumerables por acá afuera. Los lenguajes regulares son solo un subconjunto
+
+03:36.440 --> 03:40.320
+de los lenguajes pero antes ¿qué son los lenguajes? ¿qué son los lenguajes formales? ¿se acuerdan
+
+03:40.320 --> 03:46.400
+lo que eran los lenguajes formales? ¿a quién se acuerda? Yo tengo un alfabeto finito de símbolos
+
+03:47.560 --> 03:57.960
+¿sí? Defino tiras de símbolos de acuerdo y los lenguajes son un subconjunto de las tiras
+
+03:57.960 --> 04:03.560
+que yo puedo formar sobre ese alfabeto. Solamente eso, es un conjunto de tiras, conjunto de palabras.
+
+04:06.560 --> 04:12.680
+Los lenguajes regulares solo hay uno de los lenguajes son regulares en tanto pueden ser
+
+04:12.680 --> 04:19.080
+expresados de la forma que lo vamos a ver ahora con este tipo de expresiones regulares. O sea,
+
+04:19.240 --> 04:28.920
+no puedo expresar cualquier cosa con lenguajes regulares. Por ejemplo, el ejemplo de manual es
+
+04:28.920 --> 04:37.920
+que yo no puedo expresar cosas de la forma igual cantidad de as que debes. ¿sí? Esto no lo puedo
+
+04:37.920 --> 04:43.960
+expresar con lenguajes regulares. Miran con cara, esto lo debían saberlo. No puedo expresar cosas
+
+04:43.960 --> 04:51.120
+como ésta. Una tía y su reverso. Eso no lo puedo expresar con expresiones regulares. Tiene
+
+04:51.120 --> 04:57.000
+presión limitada, pero a cambio de eso son muy, muy, muy, muy eficientes. Es decir,
+
+04:57.000 --> 05:02.800
+típicamente cuando yo quiero hacer algo, hacer una búsqueda eficiente de algo en un texto,
+
+05:02.800 --> 05:07.080
+si lo logro expresar esa búsqueda con una expresión regular sé que lo voy a encontrar
+
+05:07.080 --> 05:14.520
+de una forma muy eficiente. Si lo vuelvo determinístico, incluso de orden,
+
+05:14.520 --> 05:22.400
+en el largo de la palabra que te buscan. ¿te acuerdo? Y son fácilmente adaptables para
+
+05:22.400 --> 05:31.920
+buscar un patrón en un corpus. Si yo tengo que buscar un texto como en Unix, con Grep,
+
+05:32.920 --> 05:38.920
+o en un editor de texto cuando controlo de buscar o lo que sea. Si yo lo puedo
+
+05:38.920 --> 05:42.200
+especificar con un patrón, generalmente nosotros ponemos una palabra que de última es un patrón
+
+05:42.200 --> 05:48.600
+sencillo que solamente expresa una suntira. Pero yo podría, casi todos los editores
+
+05:48.600 --> 05:53.780
+profesionales permiten buscar expresiones regulares. Especificar esos patrones para
+
+05:53.780 --> 05:58.040
+buscar. Y casi todos los lenguajes, de hecho creo que todos los lenguajes de programación
+
+05:58.080 --> 06:03.400
+hoy en día tienen forma de especificar expresiones regulares. Por ejemplo, si yo tengo un problema
+
+06:03.400 --> 06:08.480
+de programación y quiero decir, bueno, si lo que encuentro es una url y quiero expresar
+
+06:08.480 --> 06:11.880
+una url de alguna forma, lo expreso con una expresión regular. No voy a escribir toda
+
+06:11.880 --> 06:17.120
+la url del mundo o que me pueden aparecer. ¿te entiendes? Es decir, yo estoy especificando
+
+06:17.120 --> 06:23.760
+conjuntos. Y esas expresiones regulares son fácilmente adaptables para buscar un corpus.
+
+06:23.920 --> 06:29.320
+Ahora vamos a ver lo que es un corpus devolviendo todas las ocurrencias del patrón. Un corpus
+
+06:29.320 --> 06:34.000
+para el pensamiento del lenguaje natural es una cosa muy utilizada y es nuestra base
+
+06:34.000 --> 06:44.640
+de trabajo, es un conjunto de textos. Nosotros llamamos corpus o el plural córpora cuando
+
+06:44.640 --> 06:50.600
+hablamos de un conjunto de textos. Si yo tengo un conjunto de textos, eso es un corpus. Ahora
+
+06:50.600 --> 06:54.320
+vamos a hablar un poquito más de corpus. Vamos a volver a hablar de corpus, pero por
+
+06:54.320 --> 07:04.040
+ahora lo que estamos hablando es que tengo textos. Bien, ¿qué pasa? Los lenguajes regulares
+
+07:04.040 --> 07:09.880
+están completamente estudiados y yo diría que podrían considerarse un problema resuelto.
+
+07:09.880 --> 07:19.680
+Se vienen al curso de teoría de lenguajes y saben lo que un ingeniero tiene que saber
+
+07:19.680 --> 07:31.360
+sobre lenguajes regulares y eso está en un libro de 1979. Y de hecho toda la teoría
+
+07:31.360 --> 07:39.280
+es anterior al año 1970, si no me equivoco, ¿de acuerdo? O sea que están muy bien estudiados
+
+07:39.280 --> 07:43.800
+y además están desde UNIX incorporados los lenguajes de programación. UNIX ya venía
+
+07:43.800 --> 07:55.200
+con expresiones regulares, con CED, con grep, con AWK, todos los herramientas que incluían
+
+07:55.200 --> 07:59.560
+las expresiones regulares dentro. Era en épocas maravillosa porque los mismos que
+
+07:59.560 --> 08:03.760
+definían la teoría de la depresión regular era los que trabajaban en implementarla, eso
+
+08:03.760 --> 08:11.760
+hoy ya no se ve tanto. Es decir, los que estaban creando los fundamentos eran los mismos Richie
+
+08:11.760 --> 08:20.440
+de Kernigan que eran los que lo implementaban en UNIX. Y bueno, y lo que les decía, todos
+
+08:20.440 --> 08:29.320
+los lenguajes hoy lo incluyen. Bueno, ¿y cómo son, cómo lucen las expresiones regulares?
+
+08:30.080 --> 08:36.600
+Por ejemplo, una expresión regular puede tener, ¿esto es cómo aparecen las expresiones
+
+08:36.600 --> 08:40.760
+regulares en los lenguajes de programación? Que no es lo mismo que las expresiones regulares
+
+08:40.760 --> 08:46.200
+que vieron en el curso de teoría del lenguaje que era con mucho menos operadores, con los
+
+08:46.200 --> 08:52.400
+mínimos operadores que permitían definirla. Pero la expresividad es la misma, acá lo
+
+08:52.400 --> 08:57.440
+que hay es forma de abreviar cosas, para no tener que escribir expresiones regulares
+
+08:57.560 --> 09:02.080
+monstruosas, digamos. Entonces, hay cosas como, la expresión regular cabeza encuentra
+
+09:02.080 --> 09:07.440
+el patrón acá a cabeza, la palabra en esta escrita. Este signo exclamación, reconoce
+
+09:07.440 --> 09:15.280
+el signo exclamación. Este B corta, B larga, B minúscula, B mayúscula, entre corchetes
+
+09:15.280 --> 09:21.920
+es como un or, digamos, ¿sí? Que sería lo mismo que buscar vagón con B corta o vagón
+
+09:21.920 --> 09:29.400
+con B larga. Esto busca A, B o C, ¿sí? Fíjese que acá lo que está devolviendo es la primera
+
+09:29.400 --> 09:35.800
+ocurrencia. Eso depende como yo programé la función de búsqueda, ¿no? Números del
+
+09:35.800 --> 09:46.480
+0 al 9, algo que no sea mayúscula, este corchete funciona como un not, y esto es que no sea
+
+09:46.480 --> 09:52.920
+una S, ¿de acuerdo? Esto no, nos voy a entrar en muchos detalles, digamos, la idea es que
+
+09:52.920 --> 09:59.360
+y acá así es como luce una búsqueda en Python, por ejemplo, con la biblioteca de presión
+
+09:59.360 --> 10:05.960
+regular de Python. A un search del patrón, y esto sería nuestro cuerpo, digamos, ¿no?
+
+10:05.960 --> 10:18.520
+Y ahí devuelve las ocurrencias. Más cosas, ¿no? Ahí sí. Fíjense que el símbolo de,
+
+10:18.520 --> 10:25.080
+¿cómo es? De aceto circunflejo al final no tiene ningún significado especial, y en el
+
+10:25.080 --> 10:33.800
+medio de a poco. Este signo de pregunta quiere decir que el carácter anterior es opcional,
+
+10:33.800 --> 10:49.120
+el punto macheda cualquier carácter, etcétera. Bueno, estos operadores son syntactic sugar,
+
+10:49.120 --> 10:54.120
+son formas de abreviar otras cosas, digamos, ¿no? Si yo pongo barra B, estoy pensando en
+
+10:54.120 --> 11:00.360
+un número, el 0 al 9 es otra forma de escribir 0 al 9, son facilidades, no agrega expresividad,
+
+11:00.520 --> 11:08.960
+vuelve la vida más fácil de que está programando. Y aquí hay forma de sustituir. Esto es utilizar
+
+11:08.960 --> 11:20.360
+una expresión en una sustitución. En casi todos los liguajes de programación, además,
+
+11:20.360 --> 11:26.000
+uno puede incluir cosas como decir, quiero que lo que dice acá sea exactamente lo mismo
+
+11:26.000 --> 11:35.240
+que lo que dice acá. ¿Se entiende? Por ejemplo, acá dice hoy quiero estar aquí mañana quiero,
+
+11:35.240 --> 11:46.880
+porque estamos apeando el quie, ¿sí? Con este. ¿De acuerdo? ¿Entiendes? Esto formalmente no son
+
+11:46.880 --> 11:54.200
+expresiones regulares, sino que son extensiones. De hecho, esto es más expresivo que la expresión
+
+11:54.200 --> 12:03.120
+regular. Esto es un poco de repaso, digamos, ¿no? Del tipo de cosas que puedo hacer, pero lo que nos
+
+12:03.120 --> 12:08.120
+interesa para este curso es que yo puedo buscar rápidamente y especificar muchas cosas a la vez
+
+12:08.120 --> 12:14.960
+buscar. Si yo, el asunto es, si yo puedo resolver algo en expresión regular, debería resolverlo
+
+12:14.960 --> 12:22.480
+con expresión regular. ¿Por qué? Porque hacerlo más complejo, me voy a perder eficiencia, porque
+
+12:22.480 --> 12:27.720
+no hay nada más eficiente que la expresión regular. ¿De acuerdo? Más o menos muchas veces no puedo,
+
+12:27.720 --> 12:38.480
+o me queda muy complicado describirlo. Porque la expresión regular, fíjense que uno tiene
+
+12:38.480 --> 12:43.400
+que cubrir toda la casuística que quiere identificar, lo cual es muy fácil cuando digo todas las
+
+12:43.400 --> 12:47.600
+palabras que empiezan con C, pero cuando yo quiero empezar a hacer cosas más complicadas como
+
+12:47.680 --> 12:55.560
+identificar, y ahora lo vamos a ver, separar palabras, por ejemplo, ahí digo, bueno, ¿pero qué separa una palabra,
+
+12:55.560 --> 13:01.480
+un espacio? Sí, pero también puede ser un signo de puntuación, sí, y un dos punto también. Entonces,
+
+13:01.480 --> 13:06.280
+yo podría decir buscar todos los signos de puntuación entre dos palabras, pero ¿y qué pasa si dieron
+
+13:06.280 --> 13:12.000
+enter, etcétera? Es decir, representar todo por una expresión regular a veces es bastante complicado.
+
+13:12.080 --> 13:17.320
+Ahora vamos a hablar un poco más de cómo se usan las expresiones regulares,
+
+13:20.040 --> 13:26.200
+pero como les decía, las expresiones regulares definen un conjunto de tiras que se llaman
+
+13:26.200 --> 13:34.000
+lenguajes regulares, ¿sí? Y que tienen interesantísimas propiedades de clausura,
+
+13:34.000 --> 13:39.960
+como vieron en el curso de teoria del lenguaje, lo cual hace que yo pueda, por ejemplo, si quiero
+
+13:39.960 --> 13:47.440
+buscar una cosa, algo que está representado por una expresión regular, y dos cosas que están
+
+13:47.440 --> 13:51.800
+representadas por expresiones, el or de ambas es cerrado, o sea que tengo una forma, no lo puse acá,
+
+13:51.800 --> 13:59.400
+tengo una forma inmediata de buscar ambos a la vez, es decir, es tan fácil buscar una cosa como
+
+13:59.400 --> 14:03.960
+buscar una cosa u otra, siempre es determinístico porque son cerrados bajo todas estas propiedades,
+
+14:03.960 --> 14:11.880
+o si yo quiero buscar, es tan fácil buscar algo que sea, que diga que si encuentro el string
+
+14:11.880 --> 14:19.000
+perro como algo que no sea perro, ¿no explicó? Porque son cerrados, porque si yo tengo un lenguaje
+
+14:19.000 --> 14:26.880
+regular que representa perro, inmediatamente tengo la negación, ¿sí? Pero lo más interesante de
+
+14:26.880 --> 14:35.600
+eso es que la demostración de que son clausuras son constructivas, ¿por qué? Porque los lenguajes
+
+14:35.600 --> 14:42.640
+regulares, además de poder ser expresados con una expresión regular, ¿sí? También pueden ser
+
+14:42.640 --> 14:48.240
+representados por un automata finito, que ahora vamos a ver lo que es, pero seguro que se acuerdan
+
+14:48.240 --> 14:53.560
+de ti del lenguaje, es decir, exactamente las mismas tiras que yo expreso con una expresión regular
+
+14:53.720 --> 15:02.440
+hay una automata, una máquina de estado que la reconoce, ¿sí? Un lenguaje regular es el conjunto
+
+15:02.440 --> 15:09.080
+de strings sobre un alfabeto sin más reconocidos por un automata finito, o sea, es una definición
+
+15:09.240 --> 15:23.960
+alternativa de lo mismo. Entonces, ¿cómo sería un automata finito para dirección? ¿Se acuerdan de
+
+15:23.960 --> 15:35.320
+cómo son los automatas finitos, ¿no? Este pizarrón. ¿Se acuerdan de cómo son los automatas finitos? Son
+
+15:35.320 --> 15:49.000
+esencialmente un conjunto de estados, ¿sí? Un estado por donde se comienza, ¿sí? Transiciones que
+
+15:49.000 --> 15:57.400
+tienen símbolos y que van de un estado al otro, ¿sí? Y algunos estados especiales que se llaman
+
+15:57.480 --> 16:05.640
+estados finales, ¿sí? ¿Se acuerdan de esto, ¿no? Todos símbolos sobre el alfabeto. ¿Cómo seguir
+
+16:05.640 --> 16:18.240
+un automata finito para direcciones de correo? Más o menos. Este automata. Vamos a suponer que yo
+
+16:18.240 --> 16:21.000
+acá escribo todos los símbolos, ¿no? Tengo que hacer un arco por cada símbolo.
+
+16:21.000 --> 16:30.040
+Supongamos que el alfabeto son miúsculas, mayúsculas de arroba y punto, ¿no?
+
+16:31.400 --> 16:35.880
+¿Este automata reconoce dirección de correo?
+
+16:39.360 --> 16:46.360
+Yo diría que sí, pero, pero, exactamente, reconoce eso y mucho más, o sea, que no es lo que queremos.
+
+16:46.360 --> 16:52.680
+Nosotros veremos un automata que genere exactamente, o tan exactamente como podamos, las direcciones
+
+16:52.680 --> 16:54.960
+de correo. Entonces, ¿cómo sería?
+
+17:03.800 --> 17:04.400
+¿Qué hago?
+
+17:05.000 --> 17:08.800
+En el primer estado, voy a instar de las normas, pero ¿cuándo se puede estar?
+
+17:08.800 --> 17:10.440
+¿Qué sería? A, Z, A, Z.
+
+17:12.720 --> 17:16.760
+Sí, ¿y después? Bueno, sacamos los puntos. Tenemos letras a punto y a arroba.
+
+17:18.760 --> 17:20.000
+A ver, una arroba.
+
+17:28.080 --> 17:28.600
+Sí.
+
+17:28.600 --> 17:37.080
+Y, punto, lo mismo, ¿no? Vamos a suponer que el arco ya sabemos esto, ¿sí?
+
+17:44.320 --> 17:45.280
+¿Con qué símbolo?
+
+17:47.960 --> 17:48.840
+¿Oye era esto?
+
+17:52.680 --> 17:53.640
+¿Qué le parece?
+
+17:56.480 --> 17:57.320
+¿Qué le parece?
+
+17:58.680 --> 17:59.640
+Es una basura.
+
+17:59.640 --> 18:00.080
+¿Sí?
+
+18:00.080 --> 18:00.880
+Es una basura.
+
+18:00.880 --> 18:01.400
+¿Por?
+
+18:01.400 --> 18:02.680
+Es un problema de su momento de arrobo.
+
+18:04.120 --> 18:04.880
+¿Cómo? ¿Cómo, perdón?
+
+18:04.880 --> 18:06.400
+No se puede poner arrobo a algo.
+
+18:06.400 --> 18:09.160
+¿Un problema que tiene que te pueden poner arrobo a algo? Sí.
+
+18:09.880 --> 18:11.480
+¿Qué otro, tiene algún otro problema más?
+
+18:15.120 --> 18:16.000
+¿Qué otra cosa pasa?
+
+18:17.320 --> 18:22.040
+Que solo me admite algo punto com, punto algo, no? Sólo punto, y podría tener más de uno.
+
+18:22.040 --> 18:30.120
+Y acá, si no le ponemos el épsil, lo necesariamente tiene que tener una letra, lo cual necesita
+
+18:30.120 --> 18:39.240
+mal. Especificar una expresión regular no siempre es este, del todo sencillo y determina
+
+18:39.240 --> 18:45.160
+y es parte de nuestro problema de especificación, igual que estuvimos bastante bien. Aquí hay
+
+18:45.160 --> 18:52.840
+una que no es mucho mejor que la que hicimos nosotros, no, porque ahí es más o menos. Ahí anda
+
+18:52.840 --> 19:04.360
+con gmail.com, pero no anda con un tío bui, pero tal. Es decir, lo que tiene de bueno es que, a ver,
+
+19:04.360 --> 19:08.320
+lo que tiene de bueno es reitero, es que si yo tengo eso rápidamente puedo encontrar esas,
+
+19:08.320 --> 19:13.560
+las expresiones, la iré yo de correo, cómo la especificé, la puedo rápidamente encontrar en un
+
+19:13.560 --> 19:21.720
+cuerpo. ¿Por qué las puedo, a ver, por qué las puedo? Porque yo siempre tengo la forma, y acá
+
+19:21.720 --> 19:26.840
+viene la explicación de por qué es eficiente, porque yo siempre tengo la forma de esto. Esto es
+
+19:26.840 --> 19:34.720
+un automata finito determinista. Quiere decir que yo simplemente leo la entrada, voy recorriendo
+
+19:34.720 --> 19:41.320
+el automata y si cuando terminé llegué a un estado final quiere decir que reconoce esa entrada. Eso
+
+19:41.360 --> 19:50.120
+lo hago en orden en tantos pasos como largo tenga la entrada. No importa y voy recorriendo el
+
+19:50.120 --> 19:55.400
+texto, ¿no? ¿Cómo se hace la búsqueda es otra cosa, pero la idea es que voy recorriendo y intentando
+
+19:55.400 --> 20:09.160
+detectarse aparece uno de esos. Entonces, en los asuntos así, los lenguajes regulares siempre
+
+20:09.160 --> 20:13.800
+pueden ser representados por una expresión regular. Es mucho más fácil escribir una expresión
+
+20:13.800 --> 20:19.480
+regular en general que dibujar el automata, que es una cosa que va a poder ir creciendo y quedar
+
+20:19.480 --> 20:24.720
+enorme, ¿no? Porque yo puedo hacer una expresión regular, como le decía la demostración de la
+
+20:24.720 --> 20:29.680
+clausura y es constructiva. Entonces yo hago, si yo quiero reconocer expresiones de correo o
+
+20:29.680 --> 20:35.400
+nombre de países de África, hago una expresión regular para la dirección del correo, otra
+
+20:35.400 --> 20:43.240
+expresión regular para los países de África, genero los automatas de ambos, ¿sí? Que hay
+
+20:43.240 --> 20:47.080
+algoritmos para convertir expresiones. Por eso le decía que acá está lo que tiene bueno que
+
+20:47.080 --> 20:54.280
+acá está todo resuelto. Genero los automatas de ambos y simplemente creo una automata nuevo que lo
+
+20:54.280 --> 21:01.760
+que tiene es un estado inicial y que me manda a una automata o al otro. Y eso me da el oro. Ahora
+
+21:01.760 --> 21:06.440
+vamos a lo que sería, pero está. ¿De acuerdo? Es decir, siempre puedo construir algo eficiente
+
+21:06.440 --> 21:15.400
+para reconocer cualquier cosa expresada con expresión regular. ¿Alguna duda? Bueno, esa es la
+
+21:15.400 --> 21:19.440
+definición de automata finito que coincide con lo que hablamos, ¿no? Tengo un conjunto finito de
+
+21:19.440 --> 21:28.760
+estados, un alfabeto, un estado inicial y un conjunto de estados finales. ¿De acuerdo? Y cuando
+
+21:28.760 --> 21:39.400
+reconozco y bueno, sí, la función que me dice ir desde un, hay una función delta extendido que va
+
+21:39.400 --> 21:46.000
+del estado inicial, lee una tira y llega otro estado, si esa función me llega a un final. Bueno,
+
+21:46.000 --> 21:51.160
+o sea, no importa si yo paso por un final en el camino, tengo que terminar mi tira en el estado final.
+
+21:51.360 --> 21:59.760
+La pregunta que les dejo de ver es cuál sería la expresión regular para las direcciones de
+
+21:59.760 --> 22:06.840
+correo. Y no solo eso, hay una tercera forma de representar lo que es a través de gramáticas
+
+22:06.840 --> 22:12.080
+regulares, ¿sí? Ya vamos a hablar luego de gramáticas, pero hay una gramática que permite
+
+22:12.080 --> 22:21.040
+expresar los lenguajes regulares, exactamente las mismas tiras. Pero siempre son visiones
+
+22:21.040 --> 22:26.360
+alternativas de un conjunto de tiras. Siempre vamos a estar hablando de conjunto de tira,
+
+22:26.360 --> 22:32.640
+en todos los lenguajes, un lenguaje es un conjunto de tiras, incluido los lenguajes naturales.
+
+22:32.760 --> 22:41.520
+Los automotafinitos además pueden ser, nosotros hablamos de no deterministas,
+
+22:41.520 --> 22:46.200
+de deterministas, perdón, pero pueden ser no deterministas. El lenguaje de las ovejas que
+
+22:46.200 --> 22:55.240
+tengo acá es de una cierta cantidad de S y una última E. Esto es no determinista porque no
+
+22:55.240 --> 23:02.400
+sé cuándo es la última. Acá puedo dar vuelta o no. ¿Te acuerdo? Los automotafinitos no deterministas
+
+23:02.400 --> 23:08.400
+reconocen una tira cuando algún camino lleva un estado final. Parecen más expresivos que los
+
+23:08.400 --> 23:19.040
+lenguajes deterministas, pero no lo son. Conocemos algoritmos para transformar de esto a un automotafinito
+
+23:19.040 --> 23:26.600
+determinista. Y no solo eso, conocemos cómo va a hacer para que esto, este automata, que no
+
+23:26.600 --> 23:30.120
+son los no deterministas, sino que tiene transiciones, es decir, que yo me puedo mover desde
+
+23:30.120 --> 23:37.800
+este estado a este estado sin consumir la entrada. Esto parece más expresivo, pero no lo es. Todos son
+
+23:37.800 --> 23:44.520
+los mismos lenguajes regulares. ¿De acuerdo? Entonces yo siempre puedo transformar un automata
+
+23:44.520 --> 23:48.600
+finito no determinista que a veces me queda más fácil especificar. El lenguaje de las ovejas es
+
+23:48.600 --> 23:54.800
+más fácil especificar con un no determinista. Por lenguaje cuya última letra es una A.
+
+23:55.560 --> 24:08.200
+Yo puedo transformar esto a uno determinista y reconocer en tiempo lineal. ¿Por qué no siempre me
+
+24:08.200 --> 24:14.120
+conviene, me convendría a hacer eso? ¿Por qué no siempre me convendría y hay algoritmo para
+
+24:14.120 --> 24:23.840
+reconocer automatas no deterministas? O sea, una forma que yo tengo es, yo quiero reconocer
+
+24:23.880 --> 24:31.040
+una expresión regular, la especifico con un automata no determinista, lo convierto a determinista y el
+
+24:31.040 --> 24:36.200
+algoritmo es sencillo de buscar recorrer los arcos, como hicimos acá con el dedo, ¿no? Programar eso.
+
+24:36.200 --> 24:41.600
+¿Por qué a mí me podía convenir directamente tratar un algoritmo de que recorra esto?
+
+24:41.600 --> 24:57.920
+¿Por qué? En teoría del lenguaje se quedaron con la idea de que era siempre mejor volar
+
+24:57.920 --> 25:01.360
+los deterministas porque son mucho mejores y más lindos, pero también son mucho más grandes,
+
+25:01.360 --> 25:07.920
+porque yo para resolver el no determinismo si bien puedo lo resuelvo creando estados nuevos
+
+25:08.920 --> 25:13.920
+y a mí me puede convenir en lugar de crear una nueva automata mucho más grande y que además tengo
+
+25:13.920 --> 25:20.640
+el costo de conversión, ¿no? Es mantener en memoria en qué posición estoy, mantener el no
+
+25:20.640 --> 25:27.520
+determinismo. Si ustedes se acuerdan, el algoritmo de Thompson, lo que permitía era pasar de este
+
+25:27.520 --> 25:32.480
+automata a uno determinista y lo que hiciera, ¿en qué estado estoy? Estoy en Q0, bien una B estoy en
+
+25:32.480 --> 25:43.160
+Q1. Si bien una E estoy en Q2. Si viene una E en Q2, yo puedo estar en Q2 o en Q3. Recuerdo la lista
+
+25:43.160 --> 25:48.080
+de los estados en que estoy. Seguramente lo aprendieron para hacerlo en el segundo parcial y
+
+25:48.080 --> 25:58.360
+pues se olvidaron. Entonces, en estos modelos el problema es elegir el camino adecuado para procesar
+
+25:58.360 --> 26:04.680
+la tira. Yo no voy a entrar mucho en detalle en esto, pero ¿cómo puedo elegir el camino adecuado
+
+26:04.680 --> 26:16.480
+para procesar la tira? ¿Cómo digo si un automata reconoce una tira? Y los caminos son varios,
+
+26:16.480 --> 26:28.320
+esencialmente uno es backup, es como es el viejo querido backtracking, es decir, si yo tengo este
+
+26:28.320 --> 26:40.400
+automata, ¿verdad? Cuando tengo una duda, tomo un camino, digo bueno, viene una E, me fui acá o me
+
+26:40.400 --> 26:45.640
+quede acá. Bueno, yo supongo que me quede acá y si después viene un signo de exclamación,
+
+26:45.640 --> 26:54.320
+quedo trancado, o sea que ese camino no me servía y tomo el camino alternativo, ¿de acuerdo? O sea,
+
+26:54.320 --> 27:01.280
+hago backtracking, pero también puedo hacer look ahead y es mirar adelante las transiciones que
+
+27:01.280 --> 27:05.440
+tengo, mirar los siguientes símbolos que vienen en la entrada para ver si son compatibles con lo
+
+27:05.520 --> 27:11.640
+que tengo en el automata, o eso que les contaba recién del algoritmo de Thompson, hacer paralelismo,
+
+27:11.640 --> 27:17.560
+es decir, contar todos los caminos que tengo, posibles, ¿de acuerdo?
+
+27:26.480 --> 27:31.920
+Bueno, esto es lo que ya les dije, ¿no? En general se utilizan automatas finitos no
+
+27:31.920 --> 27:38.200
+terminan con un algoritmo adecuado. Esto es solo una introducción, no pretende ser más que eso,
+
+27:38.200 --> 27:42.000
+hay un curso para eso. Como yo les decía, para cada cosa que yo, cada tema que damos acá,
+
+27:42.000 --> 27:47.400
+hay un curso. No es que siempre exista un curso, pero digamos, se podría dar un curso.
+
+27:49.720 --> 27:56.600
+Y acá volvemos un poco a lo que nos interesa en este curso y esto que hablamos, los lenguajes
+
+27:56.600 --> 28:05.080
+regulares son lenguajes formales, ¿sí? O sea, los lenguajes formales son conjunto de tiras
+
+28:05.080 --> 28:10.840
+sobre un alfabeto finito o palabras y estos conjuntos tienen en general gramáticas que los
+
+28:10.840 --> 28:17.520
+generan exactamente, sabemos exactamente cómo generarlos. Esos son los lenguajes formales,
+
+28:17.520 --> 28:20.280
+que son los lenguajes que ustedes han conocido hasta el momento en la carrera,
+
+28:20.360 --> 28:24.920
+todos los lenguajes de programación son lenguajes formales. Esencialmente,
+
+28:24.920 --> 28:31.800
+son no ambigos para empezar. No puedo fácilmente dar dos interpretaciones, no, no puedo dar
+
+28:31.800 --> 28:35.160
+dos interpretaciones y copilar a código máquina, digamos, no, no puedo hacer dos cosas a la vega.
+
+28:36.640 --> 28:45.720
+Los lenguajes naturales son los que la gente habla. Es muy difícil modelar con un lenguaje
+
+28:45.720 --> 28:56.640
+formal al lenguaje natural porque son ambigos, más, ¿se acuerdan de l'héritier? Porque son
+
+28:56.640 --> 29:02.240
+vagos, porque hay cosas que uno dice que se puede interpretar de una forma, que no son claras,
+
+29:02.240 --> 29:06.720
+que uno lo interpreta por el contexto. ¿Se acuerdan lo que vimos, no? Que según como yo diga,
+
+29:07.480 --> 29:16.120
+venía a cenar, te espero, o vení que te espero, digamos, depende del contexto, pues son
+
+29:16.120 --> 29:21.440
+diferentes. Bueno, y un poco de esto, ¿no? Depende del contexto. Las cosas que se dicen
+
+29:21.440 --> 29:28.560
+dependen de dónde les tú dicen. Sin embargo, yo acá les dejo algún link. Uno podría llegar
+
+29:28.560 --> 29:33.960
+a discutir si no puede representarlo con un lenguaje de obra. Entonces, eso no es fácil,
+
+29:34.000 --> 29:37.840
+eso está clarísimo. Que no es sencillo, yo no puedo hacer expresiones regulares para todo
+
+29:37.840 --> 29:46.320
+el lenguaje natural. Pero dado que la cantidad de palabras se finita, yo eventualmente podría
+
+29:46.320 --> 29:51.000
+llegar a armar algo, que representar a todas las palabras que se pudieran decir. Sería muy difícil,
+
+29:52.000 --> 29:55.720
+sobre todo por la creatividad del lenguaje, porque el lenguaje está movimentando palabras todo el
+
+29:55.720 --> 30:06.200
+tiempo. Hay un artículo que es de 1962, 69, creo, que discute un poquito de eso.
+
+30:10.920 --> 30:14.800
+¿Y qué pasa con las expresiones regulares y el lenguaje natural? Bueno, hay un fenómeno
+
+30:15.800 --> 30:21.960
+en el lenguaje natural que se llama center embedding, que yo puedo decir un hombre llora,
+
+30:22.960 --> 30:29.400
+puedo decir un hombre que una mujer ama llora, puedo decir un hombre que una mujer que un niño
+
+30:29.400 --> 30:43.320
+adora ama llora. Y así puedo seguir a infinito. La estructura de estas oraciones es grupo nominal
+
+30:43.320 --> 30:54.040
+verbo. Grupo nominal 1, verbo 1. Grupo nominal 1, grupo nominal 2, verbo 2, verbo 1. Grupo nominal
+
+30:54.040 --> 31:00.960
+1 y supuestamente de alguna forma yo tengo que mostrar que este verbo está pegado a este grupo
+
+31:00.960 --> 31:05.280
+nominal, este verbo está pegado a este grupo nominal y este verbo está pegado a este grupo
+
+31:05.280 --> 31:12.800
+nominal. ¿Sí? ¿Tan relacionado desde el punto de vista que llora? ¿Quién es que llora? ¿Quién llora
+
+31:12.800 --> 31:24.120
+acá? Un hombre. No es la mujer la que talla. Si ustedes ven esta estructura, 1, 2, 3, 3, 2, 1,
+
+31:24.120 --> 31:29.960
+es muy parecido a esto que teníamos acá, bueno, que lo borré. W, W, reverso, que es el tipo de
+
+31:29.960 --> 31:34.840
+cosas que sabemos que no se pueden representar con el precio regular. Esto fue lo que hizo,
+
+31:34.840 --> 31:42.440
+si yo mal no recuerdo decir a Chonky que el lenguaje, el lenguaje natural no era expresable. Es decir,
+
+31:42.440 --> 31:46.160
+yo no tengo forma de modelar con el precio regular, es esto, teóricamente no puedo.
+
+31:47.160 --> 31:55.140
+¿Sí? Ahora, también yo puedo decir que yo lo des... A mí no saben lo que me contó Armarete
+
+31:55.140 --> 32:01.660
+por ejemplo, porque yo con esto ya me mareo y probablemente una malla no seamos capaces de
+
+32:01.660 --> 32:08.340
+entenderlo, no seamos capaces de procesarlo. Entonces, yo digo bueno, pero esto sí es
+
+32:08.340 --> 32:12.780
+arbitrariamente largo, pero si yo supongo que lo más que puedo llegar es a 3, ahí sí puedo
+
+32:12.780 --> 32:21.100
+expresarlo con una presión regular. ¿De acuerdo? ¿Se entiende? Es decir, nuestra capacidad teóricamente
+
+32:21.100 --> 32:24.560
+podemos armar la llave, pero no la podemos volar, no la podemos compilar, digamos, en otra cabeza.
+
+32:24.560 --> 32:30.940
+Entonces, un poco ponen discusión que vos no puedas... Esto como argumento de, ah bueno,
+
+32:30.940 --> 32:33.740
+dejar estudiar el precio regular es porque para el lenguaje natural nunca te van a servir para nada.
+
+32:39.980 --> 32:42.340
+¿Y esto qué pasó?
+
+32:45.660 --> 32:48.660
+No podemos modelar el lenguaje natural con expresiones regulares.
+
+32:52.100 --> 32:57.620
+Pero sí podemos modelar algunos fenómenos. Típicamente se modelan con expresiones regulares.
+
+32:57.620 --> 33:01.820
+La fonología se ha representado durante mucho tiempo en el estudio de los sonidos, ¿no?
+
+33:01.820 --> 33:07.740
+¿De cómo los sonidos forman las palabras? La morfología que lo vamos a ver, la que hace que viene.
+
+33:07.740 --> 33:19.900
+Y la sintaxis de superficie, digamos, superficial, reconocer los grupos nominales y grupos verbales
+
+33:19.900 --> 33:25.500
+se ha resuelto con expresiones regulares. Es decir, ciertos subgrupos de problemas se pueden
+
+33:25.500 --> 33:41.660
+resolver. ¿De acuerdo? ¿Hasta acá? ¿Alguna pregunta? No, ninguna duda. Esas son nuestras,
+
+33:41.660 --> 33:53.860
+nuestro primer modelo que es el de las expresiones regulares. Ahí tienen el capítulo 2 del libro
+
+33:53.860 --> 34:00.700
+de Martin Yuravsky, es lo que usamos para la clase de hoy. Si lo pueden encontrar en líneas,
+
+34:00.700 --> 34:04.660
+hasta porque sea tan en la tercera edición, están los drafts de algunos capítulos de tercera
+
+34:04.660 --> 34:30.380
+edición, los pueden encontrar si no me aparecen por ahí. ¿Lo acuerdo? Bien. Bueno, eso fue un poco el
+
+34:30.380 --> 34:44.420
+repaso de expresión regulares. Y ahora vamos a ir a la primera tarea que enfrentamos como en el
+
+34:44.420 --> 34:48.660
+procesamiento de Lemos Genatural Trisionemente. En realidad hay una primera tarea que está
+
+34:48.660 --> 34:56.300
+siempre subestimada y que lleva mucho tiempo en general que es la de preprocesamiento. Es decir,
+
+34:56.300 --> 35:07.900
+yo puedo partir de un texto escrito en un formato electrónicamente amigable, un texto en ansio,
+
+35:07.900 --> 35:13.380
+en un icode, pero generalmente para llegar del mundo real a ese texto yo tengo que hacer todo
+
+35:13.380 --> 35:22.700
+el procesamiento porque los textos vienen en páginas web, con marcas de HTML o hay que extraerlo
+
+35:22.700 --> 35:28.340
+de un PDF. Yo me acuerdo que en una época que hacíamos algunos trabajos con gente del
+
+35:28.340 --> 35:33.260
+Pasteur, la gente decía, había un compañero que me decía, bueno, no sabes nada, me venía a decir
+
+35:33.260 --> 35:38.420
+que venía ese procesamiento de Lemos Genatural y no sabía sacar el texto de un PDF. Porque su problema
+
+35:38.420 --> 35:44.260
+ante eso era sacar de los PDF, de los Papers, a texto puro. Qué bastante difícil por entreparer
+
+35:44.260 --> 35:51.220
+decir porque el PDF es una cosa de imprimir. Ese trabajo lleva mucho, es muy engorroso,
+
+35:51.220 --> 35:56.500
+lleva mucho tiempo y está generalmente subestimado el tiempo que lleva y en este curso lo vamos a seguir
+
+35:56.500 --> 36:01.620
+subestimando porque vamos a asumir que partimos un texto como la gente, digamos, sin ese tipo de cosas.
+
+36:02.620 --> 36:11.980
+O sea que yo tengo un texto escrito. Vamos a suponer también, bueno, no tenemos por qué suponerlo,
+
+36:11.980 --> 36:19.060
+pero si les queda cómodo, que es un texto razonable, que no tiene cosas muy raras como
+
+36:19.380 --> 36:26.820
+como Twitter o como poesía incluso, no? Yo creo que analizar poesía había
+
+36:26.820 --> 36:31.020
+tenido otros problemas, seguramente. De hecho se hace, de hecho tenemos un proyecto de grado
+
+36:31.020 --> 36:34.740
+o varios que analizan cosas de Twitter, pero ahí cambian un poquito las reglas.
+
+36:34.740 --> 36:44.060
+Ahora vamos a suponer un texto, un texto narrativo, una noticia, pues así, gente normática.
+
+36:45.060 --> 36:49.640
+Y lo que nos va a interesar es ver el tema de la normalización de los textos. Es decir,
+
+36:49.640 --> 37:01.980
+yo agarro ese texto y quiero de alguna forma analizarlo. Bueno, para empezar tenemos que ver
+
+37:01.980 --> 37:07.540
+cuáles son las unidades del texto. Y ahí yo puse una definición que dice segmento del discurso
+
+37:07.540 --> 37:16.140
+unificado, perdón, segmento del discurso, todos los años, me pongo la pausa, segmento del
+
+37:16.140 --> 37:21.300
+discurso unificado habitualmente por el acento, el significado y pausas potenciales, inicial y
+
+37:21.300 --> 37:36.100
+final. Eso es la definición de, ¿qué es eso? Acento, no, más chico, porque la pregunta es
+
+37:36.100 --> 37:43.580
+cuáles son las más pequeñas, ¿no? Palabras, ¿no? Las palabras, ustedes vieron que en todas
+
+37:43.580 --> 37:46.780
+estas definiciones siempre se ponen muy cuidadosos porque siempre apasionan, pero tal coste
+
+37:46.780 --> 37:52.020
+una palabra y no. Unificado habitualmente por el acento, no sé por qué el acento. Ah,
+
+37:52.020 --> 37:57.500
+porque por claro, porque tienen el brujo y las esas cosas, ¿no? El significado, tienen
+
+37:57.500 --> 38:02.260
+un significado, la clase que viene va a hablar de morfología, donde hay parte más chica
+
+38:02.380 --> 38:07.220
+en la palabra, pero que no tiene significado independiente. Y pausas potenciales, inicial
+
+38:07.220 --> 38:12.340
+y final, porque nosotros nos creemos que las palabras tienen espacios, pausas, pero nosotros
+
+38:12.340 --> 38:18.860
+no hablamos. Ah, sí, no, así no, así. ¿Lo acuerdo? Bueno, esa es la definición de
+
+38:18.860 --> 38:23.620
+palabra, o sea, nuestra primera aproximación va a ser, bueno, vamos a identificar las palabras
+
+38:23.620 --> 38:37.100
+de todo el texto, ¿sí? Y vamos a ver ahí, por ejemplo, un pedacito, un texto de un cuento
+
+38:37.100 --> 38:47.900
+muy lindo de Borje que se llama la elef. ¿Qué palabras hay ahí? Díganme palabras.
+
+38:47.900 --> 38:57.140
+¿Qué palabras vamos encontrando? Bueno, yo les digo, si no se animan. La, candente,
+
+38:57.140 --> 39:05.900
+mañana, de, fácil, ¿no? Los espacios se paran palabras. Febrero, en, qué, ¿verdad?
+
+39:05.900 --> 39:15.460
+Puedo seguir hasta el final. Vea tribitervos, son dos palabras y una sola. Son dos palabras,
+
+39:15.460 --> 39:25.660
+¿no? Pero a mí me podría interesar, para, posteriores análisis, decir que esto se comporta
+
+39:25.660 --> 39:30.380
+como un nombre propio solo, ¿no? Eso podría ser interesante. Si yo quiero saber todos los
+
+39:30.380 --> 39:36.060
+textos que hablan de Beatriz y Terbo, este, me podría dar a interesar de identificarlo
+
+39:36.060 --> 39:41.060
+como una sola cosa. Ella llama multibord expression, o tiares con nombre, que muchas veces me puede
+
+39:41.060 --> 39:53.060
+interesar identificarlas. ¿Murió? ¿Coma? ¿Coma el palabra o no es palabra? ¿Pende para qué?
+
+39:53.060 --> 40:03.020
+No tiene acento, o sea, de la definición de la Academia de Pañola no, no es una palabra
+
+40:03.020 --> 40:08.020
+pero está. Pero a mí me puede, me destacó más algo hace ahí, ¿no? Sepadre a dos. Enunciado,
+
+40:08.020 --> 40:15.020
+creo. Después de una imperiosa, blá, blá. Acá tenemos la Plaza Constitución, que es,
+
+40:15.020 --> 40:30.860
+es un lugar. Puticoma. Y acá hay otra cosa también muy interesante, ¿qué es lo que termina acá?
+
+40:33.020 --> 40:37.020
+La oración, ¿no? ¿Cómo saben que termina la oración?
+
+40:40.020 --> 40:47.020
+Pueden un punto, ¿no? Punto, sin una pregunta o sin exclamación termina la oración.
+
+40:47.020 --> 40:51.020
+Este punto podría ser en una abreviatura, ¿no?
+
+40:51.020 --> 40:57.020
+Podemos cortar la oce al medio y tenemos problema.
+
+40:57.020 --> 41:06.020
+¿El punto y cómo separa oraciones? Sí, yo qué sé. Cómo que sí, ¿no?
+
+41:06.020 --> 41:11.020
+Yo les avise que en este curso no esperen todas las respuestas porque no siempre están.
+
+41:11.020 --> 41:16.020
+Trabajamos con un lenguaje, a ver, trabajamos con un material que es ambiguo, que es, es
+
+41:16.020 --> 41:22.020
+movedizo, digamos, no podemos pretender tener todo determinístico. Pero si no sería muy fácil.
+
+41:22.020 --> 41:26.020
+Por eso un cuerpo en español no es igual que un cuerpo en inglés, porque las características
+
+41:26.020 --> 41:30.020
+son diferentes y ni les digo un cuerpo en chino.
+
+41:30.020 --> 41:36.020
+Acá hay más cosas. En realidad no sé qué aporta esto, pero este es lindo, te cuento.
+
+41:36.020 --> 41:40.020
+Mentón son tres puntos subvencibles. Al final eso termina oración.
+
+41:40.020 --> 41:45.020
+Bueno, toquenizar es un problema que en general es bastante fácil.
+
+41:45.020 --> 41:50.020
+Pero para llegar a un nivel completo de análisis tiene sus problemitas.
+
+41:50.020 --> 41:56.020
+Hay un típico muy clásico que se llama what is a word, what is a sentence.
+
+41:56.020 --> 42:03.020
+Están las referencias que habla de los problemas que hay al toquenizar, que no son tan sencillos como...
+
+42:03.020 --> 42:08.020
+¿Qué hace que no sea un problema tan sencillo? Un problema típico de problemático que en realidad con la...
+
+42:08.020 --> 42:15.020
+Un problema típico que en realidad con el advenimiento de los formatos directamente digitales,
+
+42:15.020 --> 42:19.020
+eso está menos que el corte de guiones en el borde.
+
+42:19.020 --> 42:22.020
+Yo creo que metí un artificial por acá, porque esto no lo tenía.
+
+42:22.020 --> 42:26.020
+La primera, comu nión.
+
+42:28.020 --> 42:36.020
+Comu nión es una palabra sola, pero yo en el texto la tengo separado por un guión.
+
+42:36.020 --> 42:41.020
+Y yo tengo que ver si ese guión se parte de una palabra al medio o es una palabra compuesta con un guión.
+
+42:41.020 --> 42:47.020
+Echos se pasan en español, no hay, pero bueno, pero no siempre trabajamos en español.
+
+42:50.020 --> 42:52.020
+Bueno, y entonces un poquito de...
+
+42:52.020 --> 42:57.020
+Además de otra cosa, yo tengo que identificar para el análisis...
+
+42:57.020 --> 43:00.020
+¿Cuáles son las palabras que aparecen?
+
+43:00.020 --> 43:02.020
+Ah, hay otra pregunta, a ver.
+
+43:02.020 --> 43:10.020
+Por ejemplo, este de... y este de, ¿son el mismo?
+
+43:10.020 --> 43:15.020
+Va, justo agarre una, porque de nuevo es una... no es lo que hice preguntar.
+
+43:15.020 --> 43:18.020
+Esto es una expresión, ¿no? Que generalmente se interpreta toda junta,
+
+43:18.020 --> 43:22.020
+a mí me podría convenir... pero más allá de eso, a ver, déjame buscar otro.
+
+43:22.020 --> 43:32.020
+No lo tengo, bueno, pero aparte de lo que es de nuevo, que es una expresión,
+
+43:32.020 --> 43:34.020
+este deeta en mayúscula y deeta en minúscula.
+
+43:34.020 --> 43:37.020
+¿Son la misma palabra o no?
+
+43:40.020 --> 43:42.020
+Son, en general son.
+
+43:42.020 --> 43:46.020
+¿Me interesa pasarlas a minúscula?
+
+43:47.020 --> 43:49.020
+¿A la dos?
+
+43:49.020 --> 43:51.020
+Para pensando en cómo analizar.
+
+43:51.020 --> 43:56.020
+Cuando yo normalizo, trato de dejar el texto, lo más fácil de analizar para después.
+
+43:56.020 --> 43:59.020
+Separo las palabras claramente y digo, esto es una palabra.
+
+43:59.020 --> 44:02.020
+No me confío, solo en el espacio, porque si acá hay dos espacios,
+
+44:02.020 --> 44:05.020
+sigue siendo una separación entre palabras.
+
+44:09.020 --> 44:13.020
+Lo importante es la distinción entre lo que se llama word type.
+
+44:14.020 --> 44:20.020
+En español le decimos más bien palabra, o palabra diferente,
+
+44:20.020 --> 44:22.020
+no hay una traducción directa que es...
+
+44:22.020 --> 44:26.020
+Si yo tengo un texto, las palabras son las palabras diferentes que hay.
+
+44:26.020 --> 44:31.020
+Y a cada uno de estos, como lo llamamos, lo llamamos tokens.
+
+44:31.020 --> 44:35.020
+Las apariciones de una palabra en un texto se llama tokens.
+
+44:35.020 --> 44:40.020
+Y la tarea de partir esto en así, se llama tokenización.
+
+44:41.020 --> 44:43.020
+No es lo mismo la palabra que el token.
+
+44:43.020 --> 44:46.020
+Geniamente un corpus, que es un conjunto de textos,
+
+44:46.020 --> 44:51.020
+tiene muchísimas más tokens que palabras, porque se repiten.
+
+44:52.020 --> 44:57.020
+Vamos a ver algunas definiciones de cosas sobre las que vamos a hablar.
+
+44:57.020 --> 44:59.020
+Bueno, como le decía, el corpus es una colección de textos,
+
+44:59.020 --> 45:03.020
+seguramente lo vamos a usar en todo el curso.
+
+45:04.020 --> 45:10.020
+La oración, yo cuando hice el curso español uno me dijeron,
+
+45:10.020 --> 45:14.020
+la oración es una estructura anidada por un verbo,
+
+45:14.020 --> 45:19.020
+lo cual me suena a definición más sintáctica que otra cosa.
+
+45:19.020 --> 45:21.020
+Busqué la definición que hay en la Wikipedia,
+
+45:21.020 --> 45:24.020
+me casi no la puedo copiar todo porque era demasiado,
+
+45:24.020 --> 45:30.020
+pero más o menos es un constituyente sintático,
+
+45:30.020 --> 45:32.020
+un constituyente sintático más pequeño y necesario
+
+45:32.020 --> 45:38.020
+para expresar un predicado completo, lo que quiera que eso sea.
+
+45:38.020 --> 45:40.020
+No, es decir, afirmamos algo,
+
+45:40.020 --> 45:43.020
+la demás la miro a ella porque me da miedo meter la pata.
+
+45:43.020 --> 45:48.020
+Nosotros ven oraciones, oraciones, no digamos, oraciones.
+
+45:48.020 --> 45:52.020
+El perro comió el hueso, oraciones.
+
+45:52.020 --> 45:57.020
+Tienen un verbo, un verbo tiene, llueve, es oración.
+
+45:57.020 --> 46:02.020
+Tenemos la versión hablada, que son los enunciados,
+
+46:02.020 --> 46:07.020
+o uterans, que es la versión para lenguaje hablado,
+
+46:07.020 --> 46:09.020
+que por ahora queda como conocimiento general
+
+46:09.020 --> 46:12.020
+porque acá no vamos a hablar de lenguaje hablado.
+
+46:12.020 --> 46:17.020
+Y después tenemos también los lemas.
+
+46:17.020 --> 46:21.020
+La forma de superficie es la palabra como la conocemos,
+
+46:21.020 --> 46:24.020
+con todas sus flexiones,
+
+46:24.020 --> 46:25.020
+no vamos a hablar de la clase que viene,
+
+46:25.020 --> 46:27.020
+inflesiones, derivaciones, pero es...
+
+46:27.020 --> 46:32.020
+Las flexiones son las que, por ejemplo, dan el género y el número,
+
+46:32.020 --> 46:35.020
+y las derivaciones son las que construyen una palabra a partir de otra,
+
+46:35.020 --> 46:38.020
+como ve los mentes.
+
+46:38.020 --> 46:42.020
+Mente es una derivación, inflesión de derivativa,
+
+46:42.020 --> 46:44.020
+una derivación.
+
+46:44.020 --> 46:45.020
+¿La palabra cómo está?
+
+46:45.020 --> 46:51.020
+Pero el lema es cuando nosotros representamos
+
+46:51.020 --> 46:56.020
+una palabra a un conjunto de ellas que tienen el mismo significado,
+
+46:56.020 --> 46:59.020
+que tienen la misma raíz, la misma categoría gramatical,
+
+46:59.020 --> 47:02.020
+¿qué es la categoría gramatical?
+
+47:02.020 --> 47:06.020
+¿Qué es la categoría gramatical?
+
+47:06.020 --> 47:09.020
+Tiene que saber eso, tiene que saber eso.
+
+47:09.020 --> 47:12.020
+Si es un verbo, si es un sustantivo.
+
+47:12.020 --> 47:17.020
+Y el mismo significado, o sea, gato, gata, gato, gatas,
+
+47:18.020 --> 47:21.020
+todos tienen un lema que es gato.
+
+47:21.020 --> 47:28.020
+¿Para qué puede servir identificar el lema de una palabra?
+
+47:34.020 --> 47:36.020
+Por ejemplo...
+
+47:39.020 --> 47:45.020
+Sí, pero ¿por qué me interesa reconocer, distinguir gato de gata de gato
+
+47:45.020 --> 47:47.020
+de gatos?
+
+47:51.020 --> 47:54.020
+Típicamente en la recuperación de información.
+
+47:54.020 --> 47:57.020
+Cuando yo quiero traer los documentos que hablan de gato,
+
+47:57.020 --> 47:59.020
+yo pongo gato,
+
+47:59.020 --> 48:03.020
+si hay un documento que dice gatos, seguramente me va a salir.
+
+48:03.020 --> 48:06.020
+Por eso me interesa, y es típico de recuperación de información,
+
+48:06.020 --> 48:10.020
+buscar por lema, no por la palabra, por la forma aflecionada,
+
+48:10.020 --> 48:14.020
+por la surface phone.
+
+48:14.020 --> 48:17.020
+Entonces, estos son conceptos.
+
+48:17.020 --> 48:28.020
+El lema es como el representante canónico de las formas de superficie afleccionada, digamos.
+
+48:28.020 --> 48:30.020
+Bueno, vamos a hablar más de eso en la clase que viene.
+
+48:33.020 --> 48:36.020
+Bien, como le decía en un corpus, yo tengo los word types,
+
+48:36.020 --> 48:38.020
+que son las palabras distintas en el corpus,
+
+48:38.020 --> 48:41.020
+y los tokens que son el total de palabras en el corpus.
+
+48:42.020 --> 48:45.020
+Total de apariciones de palabras en el corpus.
+
+48:45.020 --> 48:47.020
+¿Qué pasa?
+
+48:47.020 --> 48:49.020
+Por ejemplo...
+
+48:55.020 --> 48:57.020
+Bueno, esto queda de ver porque es muy fácil.
+
+48:57.020 --> 48:59.020
+¿Cuántas palabras hay ahí? ¿Cuántos tokens?
+
+48:59.020 --> 49:01.020
+Y la discusión que tuvimos, ¿no?
+
+49:01.020 --> 49:03.020
+Tengo que ver si cuento como tokens a las comas,
+
+49:03.020 --> 49:05.020
+generalmente se consideran tokens a las comas,
+
+49:05.020 --> 49:07.020
+porque a mí me interesa que aparezcan en el texto.
+
+49:08.020 --> 49:12.020
+A veces las unifico como signos de puntuación en el análisis.
+
+49:12.020 --> 49:14.020
+Muchas veces se hace eso.
+
+49:14.020 --> 49:17.020
+Pero yo creo que eso se hace para facilitar el análisis,
+
+49:17.020 --> 49:21.020
+no porque esté bien, porque a mí me interesaría separar una coma de un punto.
+
+49:21.020 --> 49:23.020
+Muchas veces no se hace.
+
+49:23.020 --> 49:25.020
+Es decir, para el etapa subsidente,
+
+49:25.020 --> 49:27.020
+esto se identifica con una marca que es un signo de puntuación.
+
+49:29.020 --> 49:32.020
+Pero por acá hay palabras que seguramente van a haber más tokens,
+
+49:32.020 --> 49:34.020
+¿qué palabra?
+
+49:34.020 --> 49:36.020
+Porque acá hay un la...
+
+49:38.020 --> 49:40.020
+Acá hay dos A.
+
+49:45.020 --> 49:47.020
+Bueno...
+
+49:48.020 --> 49:50.020
+Y bueno, por ejemplo,
+
+49:50.020 --> 49:54.020
+hay tradicionalmente uno en este tipo de análisis
+
+49:54.020 --> 49:56.020
+trabaja sobre corpus grandes.
+
+49:57.020 --> 50:02.020
+Los corpus que nos permiten analizar las diferentes ocurrencias de cosas
+
+50:02.020 --> 50:04.020
+en el lenguaje son corpus grandes,
+
+50:04.020 --> 50:06.020
+porque yo necesito ver la casuística.
+
+50:06.020 --> 50:08.020
+Los lingüistas hace muchos...
+
+50:08.020 --> 50:10.020
+hace décadas que trabajan sobre corpus,
+
+50:10.020 --> 50:12.020
+donde identifican la...
+
+50:13.020 --> 50:18.020
+¿Cómo se comporta el verbo ser en el lepaño?
+
+50:18.020 --> 50:20.020
+Y bueno, tengo que ver todas las ocurrencias de ser que aparecen
+
+50:20.020 --> 50:22.020
+y estudiar cómo se...
+
+50:22.020 --> 50:24.020
+es bien empilco esto.
+
+50:25.020 --> 50:28.020
+Si nosotros nos creemos que la real academia pañola sabe todo,
+
+50:28.020 --> 50:31.020
+pero en realidad primero que de algún lado tuve que aprender
+
+50:32.020 --> 50:34.020
+y luego que...
+
+50:34.020 --> 50:38.020
+uno tiene que estudiar la casuística, ¿de acuerdo?
+
+50:38.020 --> 50:41.020
+Entonces, hay un corpus bastante conocido que es el corpus crea,
+
+50:41.020 --> 50:43.020
+el corpus de referencia del español actual,
+
+50:43.020 --> 50:45.020
+que junta...
+
+50:45.020 --> 50:47.020
+acá tienen un link para verlo,
+
+50:47.020 --> 50:50.020
+los detalles, pero junta textos de diferentes lugares,
+
+50:51.020 --> 50:53.020
+mayormente de España, pero también de América Latina,
+
+50:53.020 --> 50:55.020
+de diferentes temas.
+
+50:55.020 --> 50:59.020
+Cuando uno construye un corpus es todo un trabajo,
+
+50:59.020 --> 51:01.020
+porque primero uno tiene que identificar
+
+51:01.020 --> 51:03.020
+de qué quiere armar el corpus, porque como le decía,
+
+51:03.020 --> 51:06.020
+un corpus de inglés es igual a un corpus español, obviamente,
+
+51:06.020 --> 51:10.020
+pero un corpus de noticias no es lo mismo que un corpus de...
+
+51:10.020 --> 51:12.020
+poemas,
+
+51:12.020 --> 51:14.020
+porque las cosas que hay,
+
+51:14.020 --> 51:16.020
+incluso las frecuencias de la palabra van a ser diferentes.
+
+51:16.020 --> 51:18.020
+Seguramente la cantidad de palabras desconocidas
+
+51:18.020 --> 51:21.020
+en un corpus de noticias sea muchísimo menor
+
+51:21.020 --> 51:23.020
+que la cantidad de palabras desconocidas
+
+51:23.020 --> 51:25.020
+en un corpus de poemas,
+
+51:25.020 --> 51:28.020
+porque uno cuando cree poemas se le da por inventar cosas.
+
+51:30.020 --> 51:32.020
+Por inventar palabras, cosas también.
+
+51:32.020 --> 51:37.020
+Por ejemplo, el corpus crea tiene 125 millones de tokens,
+
+51:38.020 --> 51:40.020
+es un corpus bastante grande
+
+51:40.020 --> 51:42.020
+para los parámetros del año 2000,
+
+51:42.020 --> 51:44.020
+para este, ahora no,
+
+51:44.020 --> 51:46.020
+ahora vamos a ver un poquito más,
+
+51:46.020 --> 51:50.020
+y tiene 737.799 palabras distintas.
+
+51:51.020 --> 51:54.020
+Esto debería converger, digamos,
+
+51:54.020 --> 51:57.020
+al tamaño del vocabulario que existe,
+
+51:57.020 --> 51:59.020
+que no es lo mismo que el vocabulario,
+
+51:59.020 --> 52:01.020
+que no es el número, me olvidé de notarlo,
+
+52:01.020 --> 52:03.020
+que no me lo acuerdo,
+
+52:03.020 --> 52:05.020
+de un diccionario, porque otra forma mira, un diccionario.
+
+52:06.020 --> 52:08.020
+El diccionario me dice todas las palabras,
+
+52:08.020 --> 52:10.020
+pero me lo dice, me trae los lemas.
+
+52:12.020 --> 52:14.020
+Entonces va a ser más chico, digamos.
+
+52:14.020 --> 52:16.020
+Esto es como un diccionario, palabras flexionadas.
+
+52:17.020 --> 52:23.020
+Por supuesto, no son las palabras del lenguaje,
+
+52:23.020 --> 52:25.020
+porque si yo no lo emití en este corpus,
+
+52:25.020 --> 52:27.020
+no, no existe.
+
+52:31.020 --> 52:34.020
+El corpus crea está separado en diferentes secciones,
+
+52:34.020 --> 52:36.020
+es típico de los corpus eso también,
+
+52:36.020 --> 52:38.020
+que vos tenés diferentes secciones,
+
+52:38.020 --> 52:40.020
+estos son de Venezuela, estos son de...
+
+52:43.020 --> 52:45.020
+Generalmente vos en los corpus tenés eso,
+
+52:45.020 --> 52:47.020
+de dividir su corpus, digamos.
+
+52:48.020 --> 52:50.020
+Por si vos querés especificar cosas,
+
+52:50.020 --> 52:52.020
+por ejemplo, si querés hablar del lepaño y del río La Plata,
+
+52:52.020 --> 52:54.020
+te remitía ese corpus.
+
+52:55.020 --> 52:57.020
+Y todos los análisis que uno hace en esto,
+
+52:57.020 --> 52:59.020
+de todo lo que hablan en el curso,
+
+52:59.020 --> 53:01.020
+siempre tiene que decir sobre qué corpus los hizo.
+
+53:01.020 --> 53:03.020
+Porque uno,
+
+53:03.020 --> 53:05.020
+entra en lo que sea,
+
+53:05.020 --> 53:07.020
+que significa entrenar,
+
+53:07.020 --> 53:10.020
+porque uno aprende ya sea mano,
+
+53:10.020 --> 53:12.020
+o automáticamente de un corpus,
+
+53:12.020 --> 53:14.020
+pero además tiene que evaluar sobre un corpus.
+
+53:14.020 --> 53:16.020
+A ver cómo le fue, eso lo vamos a hablar luego.
+
+53:17.020 --> 53:19.020
+Siempre va a ser sobre...
+
+53:19.020 --> 53:21.020
+uno tiene que decir sobre qué corpus es.
+
+53:21.020 --> 53:23.020
+A mí esto me dio tal resultado en el corpus crea.
+
+53:24.020 --> 53:26.020
+Lo cual no quiere decir que me va a averiguar el resultado
+
+53:26.020 --> 53:28.020
+en un corpus de Twitter.
+
+53:30.020 --> 53:32.020
+Hace poquito se aprobó,
+
+53:32.020 --> 53:35.020
+hubo un proyecto grado del grupo nuestro,
+
+53:35.020 --> 53:38.020
+se aprobó ahora, es un par de meses,
+
+53:38.020 --> 53:42.020
+que construyeron a partir de fuentes de noticias,
+
+53:42.020 --> 53:44.020
+de la wikipedia,
+
+53:44.020 --> 53:46.020
+y otros foros,
+
+53:46.020 --> 53:48.020
+y otros fuentes,
+
+53:48.020 --> 53:51.020
+un corpus de 6 mil millones de tokens.
+
+53:51.020 --> 53:53.020
+Esto es un muy buen corpus.
+
+53:53.020 --> 53:55.020
+Incluso,
+
+53:55.020 --> 53:57.020
+a nivel de lo que hay para el inglés,
+
+53:57.020 --> 53:59.020
+que son de 8 mil millones más o menos,
+
+53:59.020 --> 54:01.020
+y...
+
+54:01.020 --> 54:06.020
+ahí aparecieron 1.460 millones de palabras de...
+
+54:06.020 --> 54:08.020
+no, no puedes ver.
+
+54:08.020 --> 54:10.020
+Perdón.
+
+54:10.020 --> 54:12.020
+Un millón,
+
+54:12.020 --> 54:14.020
+un millón 460...
+
+54:15.020 --> 54:18.020
+1,5 millones de palabras de tinta.
+
+54:18.020 --> 54:20.020
+Fíjense...
+
+54:21.020 --> 54:23.020
+que para...
+
+54:23.020 --> 54:25.020
+125 millones de tokens,
+
+54:25.020 --> 54:27.020
+había 737 mil palabras,
+
+54:27.020 --> 54:29.020
+para 6 mil millones,
+
+54:29.020 --> 54:31.020
+había el doble.
+
+54:32.020 --> 54:34.020
+Lo que decíamos, debería ir convergiendo,
+
+54:34.020 --> 54:36.020
+pero si no apareciendo cosa rara.
+
+54:36.020 --> 54:38.020
+Esto es un corpus del español.
+
+54:38.020 --> 54:40.020
+Es un corpus...
+
+54:40.020 --> 54:42.020
+no anotado.
+
+54:42.020 --> 54:44.020
+Quiere decir que nadie lo miró a mano,
+
+54:44.020 --> 54:46.020
+obviamente.
+
+54:46.020 --> 54:48.020
+Solamente, y no es poco,
+
+54:48.020 --> 54:50.020
+una gran cantidad de textos.
+
+54:50.020 --> 54:52.020
+No puedo aprender yo de un corpus...
+
+54:52.020 --> 54:54.020
+de ese tipo de cosas.
+
+54:54.020 --> 54:56.020
+¿Cómo se agrupan las palabras?
+
+54:56.020 --> 54:58.020
+La frecuencia de las palabras.
+
+54:58.020 --> 55:00.020
+Cuanto más grande sea el corpus,
+
+55:00.020 --> 55:02.020
+más clara va a ser mi noción
+
+55:02.020 --> 55:04.020
+de la frecuencia de las palabras.
+
+55:04.020 --> 55:06.020
+La palabra más común en español creo que es D.
+
+55:06.020 --> 55:08.020
+Saber esas frecuencias,
+
+55:08.020 --> 55:10.020
+saberlas contando,
+
+55:10.020 --> 55:12.020
+supongo que es muy representativo
+
+55:12.020 --> 55:14.020
+de mi lenguaje, porque es todo...
+
+55:14.020 --> 55:16.020
+es una cantidad de cosas que ha dicho
+
+55:16.020 --> 55:18.020
+una cantidad de gente.
+
+55:19.020 --> 55:21.020
+Esto, este tipo de cosas,
+
+55:21.020 --> 55:23.020
+son los que ha hecho que
+
+55:23.020 --> 55:25.020
+radicalmente cambiara el pasamiento
+
+55:25.020 --> 55:27.020
+de lenguaje natural en los últimos años.
+
+55:27.020 --> 55:30.020
+Porque tengo muchos elementos nuevos.
+
+55:30.020 --> 55:32.020
+Y hoy en día es prácticamente
+
+55:32.020 --> 55:35.020
+impensable hacer análisis a mano.
+
+55:38.020 --> 55:40.020
+Subestimando el poder
+
+55:40.020 --> 55:42.020
+de todas estas cosas.
+
+55:42.020 --> 55:44.020
+Lo cual no quiere decir que uno no haga estudios analíticos,
+
+55:44.020 --> 55:46.020
+pero tiene otras herramientas totalmente nuevas.
+
+55:46.020 --> 55:48.020
+Si yo quiero saber cómo es
+
+55:48.020 --> 55:50.020
+el verbo ser en el español,
+
+55:50.020 --> 55:52.020
+bueno, tengo corpus muy grande
+
+55:52.020 --> 55:54.020
+para probar mis hipótesis.
+
+55:59.020 --> 56:01.020
+Bueno, la toquenización es
+
+56:01.020 --> 56:03.020
+identificar las palabras, dijimos que era bastante fácil,
+
+56:03.020 --> 56:05.020
+pero parecían cosas como los que fuimos
+
+56:05.020 --> 56:07.020
+encontrando.
+
+56:07.020 --> 56:09.020
+Por ejemplo,
+
+56:09.020 --> 56:12.020
+esto que está entre comillas,
+
+56:12.020 --> 56:14.020
+tengo que ver si lo puedo considerar
+
+56:14.020 --> 56:16.020
+solo o una entidad.
+
+56:16.020 --> 56:18.020
+O varios toquen con una entidad.
+
+56:18.020 --> 56:20.020
+Tengo que ver si las comillas las considero toquen aparte.
+
+56:20.020 --> 56:22.020
+Las fechas,
+
+56:22.020 --> 56:24.020
+los números,
+
+56:24.020 --> 56:26.020
+las direcciones web.
+
+56:26.020 --> 56:28.020
+Fenómenos que en el español no tenemos
+
+56:28.020 --> 56:30.020
+que son estos...
+
+56:30.020 --> 56:32.020
+¿Cómo que se llaman?
+
+56:32.020 --> 56:34.020
+Son...
+
+56:34.020 --> 56:36.020
+Contracciones, pero con...
+
+56:36.020 --> 56:38.020
+Apóstrafo.
+
+56:40.020 --> 56:42.020
+Nosotros tenemos contracciones,
+
+56:42.020 --> 56:44.020
+como sabe cualquiera que hizo
+
+56:44.020 --> 56:46.020
+Crucigramas a Idel,
+
+56:46.020 --> 56:48.020
+pero...
+
+56:48.020 --> 56:50.020
+esto no lo tenemos.
+
+56:50.020 --> 56:52.020
+Esto también hay que ver cómo separarlo.
+
+56:52.020 --> 56:54.020
+Y Idel, son todos problemas al Idel
+
+56:54.020 --> 56:56.020
+en el mundo real de la análisis,
+
+56:56.020 --> 56:58.020
+porque uno viene muy contento
+
+56:58.020 --> 57:00.020
+separando por palabras y se encuentra con al,
+
+57:00.020 --> 57:02.020
+que es una palabra, pues son dos.
+
+57:02.020 --> 57:04.020
+Entonces, después,
+
+57:04.020 --> 57:06.020
+uno armó un modelo
+
+57:06.020 --> 57:08.020
+de toque.
+
+57:08.020 --> 57:10.020
+Pus un ponense una lista de palabras,
+
+57:10.020 --> 57:12.020
+me olvidé de la separación.
+
+57:12.020 --> 57:14.020
+Sí, pero cuando lo quieren machear
+
+57:14.020 --> 57:16.020
+contra el texto original,
+
+57:16.020 --> 57:18.020
+dice, bueno, primera palabra, segunda palabra,
+
+57:18.020 --> 57:20.020
+no, para... Después que hizo la análisis,
+
+57:20.020 --> 57:22.020
+quiere volver al texto para mostrarlo.
+
+57:22.020 --> 57:24.020
+Cuando vuelve, hubo dos palabras
+
+57:24.020 --> 57:26.020
+que se le transformaron en una,
+
+57:26.020 --> 57:28.020
+o mejor dicho, una palabra que se le transformó en dos,
+
+57:28.020 --> 57:30.020
+cuando vuelve se equivoca, muestra
+
+57:30.020 --> 57:32.020
+las cosas corridas, de hecho, sucede.
+
+57:32.020 --> 57:34.020
+¿Todo por qué? Por Idel, que son
+
+57:34.020 --> 57:36.020
+una palabra que se pagó.
+
+57:36.020 --> 57:38.020
+También,
+
+57:38.020 --> 57:40.020
+también, ese es otro problema
+
+57:40.020 --> 57:42.020
+al de los críticos. Si a usted puede
+
+57:42.020 --> 57:44.020
+interesar sacar el de sí,
+
+57:44.020 --> 57:46.020
+porque para la análisis es muy importante.
+
+57:46.020 --> 57:48.020
+Exactamente,
+
+57:48.020 --> 57:50.020
+para la análisis son dos palabras.
+
+57:50.020 --> 57:52.020
+Y yo tengo
+
+57:52.020 --> 57:54.020
+que conservar de alguna forma,
+
+57:54.020 --> 57:56.020
+y perdón, porque parece,
+
+57:56.020 --> 57:58.020
+parece trivial, si yo no tengo,
+
+57:58.020 --> 58:00.020
+dice, bueno, yo hago una lista y se paro con los espacios,
+
+58:00.020 --> 58:02.020
+pero no, pues yo de alguna forma tengo que tener,
+
+58:02.020 --> 58:04.020
+y es un lío de implementación, le digo,
+
+58:04.020 --> 58:06.020
+muchas veces.
+
+58:06.020 --> 58:08.020
+Uno queda muy contento con su lista,
+
+58:08.020 --> 58:10.020
+trabaja con su lista de palabras,
+
+58:10.020 --> 58:12.020
+después hace,
+
+58:12.020 --> 58:14.020
+ahora, pues, en el clase que viene
+
+58:14.020 --> 58:16.020
+lo vamos a ver, le hace análisis
+
+58:16.020 --> 58:18.020
+gramatical,
+
+58:18.020 --> 58:20.020
+análisis sintáctico, arma el arbolito,
+
+58:20.020 --> 58:22.020
+bla, bla, cuando quiere volver
+
+58:22.020 --> 58:24.020
+a mostrar la oración, no sabe dónde la tenía.
+
+58:24.020 --> 58:26.020
+De un punto de vista de implementación,
+
+58:26.020 --> 58:28.020
+estamos hablando, ¿no?
+
+58:28.020 --> 58:30.020
+Sí.
+
+58:30.020 --> 58:32.020
+Cuando vamos a aprovechar un texto,
+
+58:32.020 --> 58:34.020
+¿vás tardado por lo que
+
+58:34.020 --> 58:36.020
+vamos a hacer?
+
+58:36.020 --> 58:38.020
+No.
+
+58:38.020 --> 58:40.020
+Vás tardado por lo que vos quieras hacer.
+
+58:40.020 --> 58:42.020
+Es decir,
+
+58:42.020 --> 58:44.020
+depende más de la tarea que estés completando.
+
+58:44.020 --> 58:46.020
+Por ejemplo, si vos vas a hacer
+
+58:46.020 --> 58:48.020
+un conteo simple
+
+58:48.020 --> 58:50.020
+de palabras,
+
+58:50.020 --> 58:52.020
+no te calienta esto.
+
+58:52.020 --> 58:54.020
+De hecho,
+
+58:54.020 --> 58:56.020
+capaz que te interesa tenerlo junto,
+
+58:56.020 --> 58:58.020
+porque tem
+
+58:58.020 --> 59:00.020
+es algo que
+
+59:00.020 --> 59:02.020
+es una colocación,
+
+59:02.020 --> 59:04.020
+digamos, un dos palabras, se da mucho junto,
+
+59:04.020 --> 59:06.020
+yo qué sé.
+
+59:06.020 --> 59:08.020
+Ahora, si vos querías hacer análisis sintáctico,
+
+59:08.020 --> 59:10.020
+cómo se organiza
+
+59:10.020 --> 59:12.020
+el arbol de la oración, esto te va a interesar
+
+59:12.020 --> 59:14.020
+separarlo sin duda.
+
+59:14.020 --> 59:16.020
+¿De acuerdo?
+
+59:16.020 --> 59:18.020
+Eso depende mucho de tu tarea.
+
+59:20.020 --> 59:22.020
+Si de todos modos
+
+59:22.020 --> 59:24.020
+es bastante estándar
+
+59:24.020 --> 59:26.020
+estas cosas tenerla separada.
+
+59:26.020 --> 59:28.020
+De hecho, hay un estándar muy sencillo.
+
+59:28.020 --> 59:30.020
+Ah, bueno, porque además hay otro problema
+
+59:30.020 --> 59:32.020
+y eso también lo he vivido.
+
+59:32.020 --> 59:34.020
+Que es, vos toquenizas
+
+59:34.020 --> 59:36.020
+con una herramienta.
+
+59:36.020 --> 59:38.020
+Esto es un problema
+
+59:38.020 --> 59:40.020
+bien de herramientas.
+
+59:40.020 --> 59:42.020
+Uno toqueniza de alguna forma en su programa
+
+59:42.020 --> 59:44.020
+y después utiliza una otra
+
+59:44.020 --> 59:46.020
+herramienta para ponerle la categoría
+
+59:46.020 --> 59:48.020
+gramatical a cada palabra.
+
+59:48.020 --> 59:50.020
+Si esta herramienta,
+
+59:50.020 --> 59:52.020
+al hacer el análisis gramatical,
+
+59:52.020 --> 59:54.020
+a la vez toqueniza según su criterio,
+
+59:54.020 --> 59:56.020
+lo toqué muchas veces.
+
+59:56.020 --> 59:58.020
+Yo tenía un tágar
+
+59:58.020 --> 01:00:00.020
+para hacer mi tesis
+
+01:00:00.020 --> 01:00:02.020
+en textos biológicos,
+
+01:00:02.020 --> 01:00:04.020
+de biología molecular,
+
+01:00:04.020 --> 01:00:06.020
+que aparecen muchas palabras raras.
+
+01:00:06.020 --> 01:00:08.020
+Y tenía un toque
+
+01:00:08.020 --> 01:00:10.020
+en etiqueta gramatical propio.
+
+01:00:12.020 --> 01:00:14.020
+Específico de lo entrenado
+
+01:00:14.020 --> 01:00:16.020
+sobre un corpus de ese tipo.
+
+01:00:16.020 --> 01:00:18.020
+Y no era una herramienta
+
+01:00:18.020 --> 01:00:20.020
+cerrada, lo que hacía era.
+
+01:00:20.020 --> 01:00:22.020
+Tomaba el texto, lo toquenizaba y lo notaba.
+
+01:00:22.020 --> 01:00:24.020
+Para machear este texto
+
+01:00:24.020 --> 01:00:26.020
+que me había toquenizado con mi texto original,
+
+01:00:26.020 --> 01:00:28.020
+como no toquenizaba igual,
+
+01:00:28.020 --> 01:00:30.020
+yo me lo sé, había cosas que
+
+01:00:30.020 --> 01:00:32.020
+por ejemplo decía 25 guión
+
+01:00:32.020 --> 01:00:34.020
+hidro, nunca entendí nada de lo que estaban haciendo.
+
+01:00:34.020 --> 01:00:36.020
+25
+
+01:00:36.020 --> 01:00:38.020
+hidroxil, no sé qué,
+
+01:00:38.020 --> 01:00:40.020
+y mi
+
+01:00:40.020 --> 01:00:42.020
+toquenizador, mi método de toquenización
+
+01:00:42.020 --> 01:00:44.020
+de 7 guión, es una palabra.
+
+01:00:44.020 --> 01:00:46.020
+El toquenizador
+
+01:00:48.020 --> 01:00:50.020
+del otro
+
+01:00:50.020 --> 01:00:52.020
+lo partí acá para devaluar el 25 por un lado
+
+01:00:52.020 --> 01:00:54.020
+y yo después tenía que
+
+01:00:54.020 --> 01:00:56.020
+volver a unificarlos para poder
+
+01:00:56.020 --> 01:00:58.020
+seguir trabajando.
+
+01:00:58.020 --> 01:01:00.020
+Esto era un nombre
+
+01:01:00.020 --> 01:01:02.020
+y esto era un número, yo qué sé.
+
+01:01:04.020 --> 01:01:06.020
+Bueno,
+
+01:01:06.020 --> 01:01:08.020
+acá hay un estándar de toquenización
+
+01:01:08.020 --> 01:01:10.020
+bastante conocido, es el del pen-triban.
+
+01:01:10.020 --> 01:01:12.020
+El pen-triban es
+
+01:01:12.020 --> 01:01:14.020
+un corpus
+
+01:01:14.020 --> 01:01:16.020
+de podemos ver qué es, anotado.
+
+01:01:16.020 --> 01:01:18.020
+Es decir, no sólo tomaron textos,
+
+01:01:18.020 --> 01:01:20.020
+sino que analizaron cada oración.
+
+01:01:20.020 --> 01:01:22.020
+Le pusieron la categoría gramatical
+
+01:01:22.020 --> 01:01:24.020
+a cada palabra.
+
+01:01:24.020 --> 01:01:26.020
+Y para eso tuvieron primero
+
+01:01:26.020 --> 01:01:28.020
+que toquenizar. La toquenización
+
+01:01:28.020 --> 01:01:30.020
+del pen-triban es muy sencilla.
+
+01:01:30.020 --> 01:01:32.020
+Se separan los signos
+
+01:01:32.020 --> 01:01:34.020
+de fundación de las palabras.
+
+01:01:34.020 --> 01:01:36.020
+Se separan las contracciones
+
+01:01:36.020 --> 01:01:38.020
+y las separan en it.
+
+01:01:40.020 --> 01:01:42.020
+Y las comillas dobles se transforman
+
+01:01:42.020 --> 01:01:44.020
+en comillas
+
+01:01:44.020 --> 01:01:46.020
+de apertura de cierre para separarlas
+
+01:01:46.020 --> 01:01:48.020
+y los paréntesis
+
+01:01:48.020 --> 01:01:50.020
+y los corchetes y las llaves
+
+01:01:50.020 --> 01:01:52.020
+se transforman en símbolos así.
+
+01:01:52.020 --> 01:01:54.020
+Esto por un tema de facilitar el par sin nada más.
+
+01:01:54.020 --> 01:01:56.020
+Es un estándar. Lo que tiene de bueno
+
+01:01:56.020 --> 01:01:58.020
+es que es un estándar. Que si yo aplico el pen-triban
+
+01:01:58.020 --> 01:02:00.020
+sé lo que me da.
+
+01:02:00.020 --> 01:02:02.020
+En vez de estar inventando
+
+01:02:02.020 --> 01:02:04.020
+yo mi propio
+
+01:02:04.020 --> 01:02:06.020
+algoritmo de toquenización.
+
+01:02:08.020 --> 01:02:10.020
+Pero bueno, después yo puedo querer
+
+01:02:10.020 --> 01:02:12.020
+post-processar, digamos,
+
+01:02:12.020 --> 01:02:14.020
+porque me aparece cierta realidad.
+
+01:02:14.020 --> 01:02:16.020
+Identificar nombres o cosas así.
+
+01:02:20.020 --> 01:02:22.020
+Bueno, el chino y el japonés
+
+01:02:22.020 --> 01:02:24.020
+tienen algún problema y es que no marcan
+
+01:02:24.020 --> 01:02:26.020
+los límites de las palabras.
+
+01:02:26.020 --> 01:02:28.020
+Sino que
+
+01:02:28.020 --> 01:02:30.020
+cada simbolito hansi
+
+01:02:30.020 --> 01:02:32.020
+del chino
+
+01:02:32.020 --> 01:02:34.020
+representa morfemas o sílabas.
+
+01:02:36.020 --> 01:02:38.020
+Entonces, toquenizar acá
+
+01:02:38.020 --> 01:02:40.020
+es un poco más difícil.
+
+01:02:44.020 --> 01:02:46.020
+¿Cómo?
+
+01:02:46.020 --> 01:02:48.020
+¿Cómo?
+
+01:02:48.020 --> 01:02:50.020
+No, son normales.
+
+01:02:50.020 --> 01:02:52.020
+Para ellos son normales.
+
+01:02:52.020 --> 01:02:54.020
+Ah, romana.
+
+01:02:54.020 --> 01:02:56.020
+No, no, no.
+
+01:02:56.020 --> 01:02:58.020
+Acá hay una palabra de hecho.
+
+01:02:58.020 --> 01:03:00.020
+De hecho, hay palabras.
+
+01:03:02.020 --> 01:03:04.020
+¿Tenés un analizador que va sobre el chino?
+
+01:03:10.020 --> 01:03:12.020
+No. Analizan derecho.
+
+01:03:12.020 --> 01:03:14.020
+Sí.
+
+01:03:14.020 --> 01:03:16.020
+Analizan derecho sobre los caracteres hansi.
+
+01:03:20.020 --> 01:03:22.020
+Bueno, el problema es que no tenemos espacio
+
+01:03:22.020 --> 01:03:24.020
+para separar, pero de hecho las palabras
+
+01:03:24.020 --> 01:03:26.020
+existen en tanto unidades con significado.
+
+01:03:26.020 --> 01:03:28.020
+Pero no la ve en el texto.
+
+01:03:28.020 --> 01:03:30.020
+Es lo mismo que nos pasa cuando hablamos.
+
+01:03:30.020 --> 01:03:32.020
+Si vos querés toquenizar
+
+01:03:32.020 --> 01:03:34.020
+el texto hablado, vas a tener un problema.
+
+01:03:38.020 --> 01:03:40.020
+Hay un algoritmo muy popular,
+
+01:03:40.020 --> 01:03:42.020
+muy básico, pero muy popular.
+
+01:03:42.020 --> 01:03:44.020
+Se llama MaxMatch.
+
+01:03:44.020 --> 01:03:46.020
+¿Qué tiene? ¿Una lista de palabras?
+
+01:03:46.020 --> 01:03:48.020
+De palabras, digamos.
+
+01:03:48.020 --> 01:03:50.020
+No de morfemas como de nada.
+
+01:03:50.020 --> 01:03:52.020
+Y es muy sencillo.
+
+01:03:52.020 --> 01:03:54.020
+Comienza al principio de la entrada.
+
+01:03:54.020 --> 01:03:56.020
+De la entrada que tiene del texto.
+
+01:03:56.020 --> 01:03:58.020
+Elige siempre la palabra más larga
+
+01:03:58.020 --> 01:04:00.020
+en la posición actual de la entrada.
+
+01:04:00.020 --> 01:04:02.020
+Y si no encuentra ninguna
+
+01:04:02.020 --> 01:04:04.020
+se queda con una letra sola.
+
+01:04:04.020 --> 01:04:06.020
+Y avanza.
+
+01:04:06.020 --> 01:04:08.020
+¿Verdad?
+
+01:04:08.020 --> 01:04:10.020
+Por ejemplo,
+
+01:04:12.020 --> 01:04:14.020
+si yo tengo la entrada, me saca
+
+01:04:14.020 --> 01:04:16.020
+de la cancha sin motivo.
+
+01:04:16.020 --> 01:04:18.020
+Acá ubica
+
+01:04:18.020 --> 01:04:20.020
+mesa
+
+01:04:24.020 --> 01:04:26.020
+K,
+
+01:04:26.020 --> 01:04:28.020
+el símbolo del K es calcio,
+
+01:04:28.020 --> 01:04:30.020
+D
+
+01:04:32.020 --> 01:04:34.020
+y la cancha es larga.
+
+01:04:34.020 --> 01:04:36.020
+Y acá ves la mesa
+
+01:04:36.020 --> 01:04:38.020
+de la... no anda muy bien.
+
+01:04:38.020 --> 01:04:40.020
+En español en inglés no funciona muy bien
+
+01:04:40.020 --> 01:04:42.020
+el MaxMatch, porque las palabras son más largas,
+
+01:04:42.020 --> 01:04:44.020
+pero en el chino funciona bastante bien.
+
+01:04:44.020 --> 01:04:46.020
+A nadie usa esto
+
+01:04:46.020 --> 01:04:48.020
+en español.
+
+01:04:48.020 --> 01:04:50.020
+Es el método más básico
+
+01:04:50.020 --> 01:04:52.020
+de cosas.
+
+01:04:52.020 --> 01:04:54.020
+Y hay mejoras sobre esto,
+
+01:04:54.020 --> 01:04:56.020
+empezando a la vez de izquierda a derecha,
+
+01:04:56.020 --> 01:04:58.020
+por ejemplo, de la izquierda a derecha
+
+01:04:58.020 --> 01:05:00.020
+o de derecha a izquierda,
+
+01:05:00.020 --> 01:05:02.020
+al mismo tiempo de los dos lados,
+
+01:05:02.020 --> 01:05:04.020
+como yo le decía, hay variantes.
+
+01:05:04.020 --> 01:05:06.020
+Y esto
+
+01:05:06.020 --> 01:05:08.020
+nos lleva
+
+01:05:08.020 --> 01:05:10.020
+a una cosa bastante interesante que es
+
+01:05:10.020 --> 01:05:12.020
+si yo tengo
+
+01:05:12.020 --> 01:05:14.020
+qué tan bueno, hay todo
+
+01:05:14.020 --> 01:05:16.020
+un tema en el procesamiento de lenguaje natural
+
+01:05:16.020 --> 01:05:18.020
+que es la evaluación.
+
+01:05:18.020 --> 01:05:20.020
+Yo cuando ejecuto una tarea
+
+01:05:20.020 --> 01:05:22.020
+tengo que
+
+01:05:22.020 --> 01:05:24.020
+evaluar mi resultado.
+
+01:05:26.020 --> 01:05:28.020
+Sobre qué la tengo que
+
+01:05:28.020 --> 01:05:30.020
+evaluar y esto vale siempre
+
+01:05:30.020 --> 01:05:32.020
+sobre un cuerpo que no sé para aprender.
+
+01:05:32.020 --> 01:05:34.020
+Si de alguna forma
+
+01:05:34.020 --> 01:05:36.020
+yo aprendo a toquenizar viendo
+
+01:05:36.020 --> 01:05:38.020
+cómo se separan las palabras con los textos de esto
+
+01:05:38.020 --> 01:05:40.020
+que tuve mirando y no sé qué,
+
+01:05:40.020 --> 01:05:42.020
+no puede utilizar, esto vale
+
+01:05:42.020 --> 01:05:44.020
+como regla general, después lo vamos a ver más
+
+01:05:44.020 --> 01:05:46.020
+en detalle con los métodos de aprendizaje automático, pero
+
+01:05:46.020 --> 01:05:48.020
+yo no puedo utilizar
+
+01:05:48.020 --> 01:05:50.020
+el mismo texto del que aprendí
+
+01:05:50.020 --> 01:05:52.020
+para evaluar mi resultado, porque
+
+01:05:54.020 --> 01:05:56.020
+me va a dar todo bien
+
+01:05:56.020 --> 01:05:58.020
+o por lo menos
+
+01:05:58.020 --> 01:06:00.020
+me va a dar mejor que
+
+01:06:00.020 --> 01:06:02.020
+si yo siempre tengo que evaluar sobre texto no visto
+
+01:06:02.020 --> 01:06:04.020
+o sea, yo siempre
+
+01:06:04.020 --> 01:06:06.020
+que tengo un cuerpo sobre el cual trabajar
+
+01:06:06.020 --> 01:06:08.020
+tengo que agarrar una porción
+
+01:06:08.020 --> 01:06:10.020
+del texto, típicamente 15-20%
+
+01:06:10.020 --> 01:06:12.020
+o podemos ver más en detalle.
+
+01:06:12.020 --> 01:06:14.020
+Y lo guardo a un costado
+
+01:06:14.020 --> 01:06:16.020
+hasta que llegue el momento de evaluar.
+
+01:06:16.020 --> 01:06:18.020
+Y cómo valúo la toquenización
+
+01:06:18.020 --> 01:06:20.020
+y bueno, si yo
+
+01:06:20.020 --> 01:06:22.020
+tengo la nuestra entrada
+
+01:06:24.020 --> 01:06:26.020
+y tengo lo que se llama un gold standard
+
+01:06:26.020 --> 01:06:28.020
+un texto
+
+01:06:28.020 --> 01:06:30.020
+correctamente segmentado
+
+01:06:32.020 --> 01:06:34.020
+alguien, un ser humano
+
+01:06:34.020 --> 01:06:36.020
+me dijo, bueno, la toquenización correcta
+
+01:06:36.020 --> 01:06:38.020
+es, me saca
+
+01:06:38.020 --> 01:06:40.020
+de la cancha sin motivo.
+
+01:06:42.020 --> 01:06:44.020
+Y cómo se calcula
+
+01:06:44.020 --> 01:06:46.020
+la performance
+
+01:06:46.020 --> 01:06:48.020
+de un toquenizador
+
+01:06:48.020 --> 01:06:50.020
+y bueno, con la word error rate
+
+01:06:50.020 --> 01:06:52.020
+o sea, el
+
+01:06:52.020 --> 01:06:54.020
+ratio de error de las palabras
+
+01:06:54.020 --> 01:06:56.020
+que es
+
+01:06:56.020 --> 01:06:58.020
+entre estos dos
+
+01:07:00.020 --> 01:07:02.020
+entre estos dos
+
+01:07:04.020 --> 01:07:06.020
+lista de palabras
+
+01:07:06.020 --> 01:07:08.020
+que tengo que cambiar
+
+01:07:08.020 --> 01:07:10.020
+para llegar de esta a esta
+
+01:07:10.020 --> 01:07:12.020
+si?
+
+01:07:12.020 --> 01:07:14.020
+que hay, como sería
+
+01:07:14.020 --> 01:07:16.020
+que sería lo que tendría que hacer yo
+
+01:07:16.020 --> 01:07:18.020
+y donde cambiar
+
+01:07:18.020 --> 01:07:20.020
+quiere decir insertar, borrar o
+
+01:07:20.020 --> 01:07:22.020
+sustituir
+
+01:07:22.020 --> 01:07:24.020
+que tengo que hacer?
+
+01:07:24.020 --> 01:07:26.020
+mesa
+
+01:07:26.020 --> 01:07:28.020
+mesa por
+
+01:07:28.020 --> 01:07:30.020
+me
+
+01:07:30.020 --> 01:07:32.020
+y que más?
+
+01:07:32.020 --> 01:07:34.020
+y k por
+
+01:07:34.020 --> 01:07:36.020
+saca, no?
+
+01:07:38.020 --> 01:07:40.020
+ah, porque me coqué
+
+01:07:40.020 --> 01:07:42.020
+le guardo
+
+01:07:42.020 --> 01:07:44.020
+entonces
+
+01:07:44.020 --> 01:07:46.020
+eso es la tasa de error
+
+01:07:46.020 --> 01:07:48.020
+acá tengo un error de 2, cuanto más baja mejor
+
+01:07:48.020 --> 01:07:50.020
+si tengo 0 de porque son igual
+
+01:07:50.020 --> 01:07:52.020
+luego eso se llama
+
+01:07:52.020 --> 01:07:54.020
+distancia mínima de edición
+
+01:07:54.020 --> 01:07:56.020
+y lo vamos a ver luego
+
+01:07:56.020 --> 01:07:58.020
+distancia mínima de edición, pero
+
+01:07:58.020 --> 01:08:00.020
+en palabras
+
+01:08:00.020 --> 01:08:02.020
+¿de acuerdo?
+
+01:08:06.020 --> 01:08:08.020
+bueno, además de
+
+01:08:08.020 --> 01:08:10.020
+toquenizar
+
+01:08:10.020 --> 01:08:12.020
+además de toquenizar
+
+01:08:12.020 --> 01:08:14.020
+bueno
+
+01:08:14.020 --> 01:08:16.020
+ya lo hemos hablado prácticamente
+
+01:08:16.020 --> 01:08:18.020
+todo
+
+01:08:18.020 --> 01:08:20.020
+la normalización implica
+
+01:08:20.020 --> 01:08:22.020
+llevar las palabras a un formato
+
+01:08:22.020 --> 01:08:24.020
+estándar para procesarlas
+
+01:08:24.020 --> 01:08:26.020
+llevar los números
+
+01:08:26.020 --> 01:08:28.020
+a un formato único
+
+01:08:28.020 --> 01:08:30.020
+porque así no metemos ruido
+
+01:08:30.020 --> 01:08:32.020
+para nuestro análisis posterior
+
+01:08:32.020 --> 01:08:34.020
+acuérdense que esto es la base
+
+01:08:34.020 --> 01:08:36.020
+de una cascada de tareas
+
+01:08:36.020 --> 01:08:38.020
+el principio de una cascada de tareas
+
+01:08:38.020 --> 01:08:40.020
+la url y otra forma
+
+01:08:40.020 --> 01:08:42.020
+de identificarlas y marcarlas
+
+01:08:42.020 --> 01:08:44.020
+detectar entidades con nombre
+
+01:08:44.020 --> 01:08:46.020
+y este
+
+01:08:46.020 --> 01:08:48.020
+que es folding o llevar toda minúscula
+
+01:08:48.020 --> 01:08:50.020
+o mayúscula que a veces lo hacemos a veces no
+
+01:08:50.020 --> 01:08:52.020
+según nuestra tarea
+
+01:08:52.020 --> 01:08:54.020
+bueno
+
+01:08:54.020 --> 01:08:56.020
+tradicionalmente la toquenización
+
+01:08:56.020 --> 01:08:58.020
+y la normalización se han realizado
+
+01:08:58.020 --> 01:09:00.020
+utilizando automata finito
+
+01:09:00.020 --> 01:09:02.020
+porque son problemas bastante sencillos
+
+01:09:04.020 --> 01:09:06.020
+y porque además son
+
+01:09:06.020 --> 01:09:08.020
+como son el comienzo de la cascada
+
+01:09:08.020 --> 01:09:10.020
+necesitamos que sean rápido
+
+01:09:10.020 --> 01:09:12.020
+yo necesito toquenizar rápidamente
+
+01:09:12.020 --> 01:09:14.020
+para poder después empezar el análisis
+
+01:09:14.020 --> 01:09:16.020
+entonces
+
+01:09:16.020 --> 01:09:18.020
+y porque además los automatas de hecho funcionan
+
+01:09:18.020 --> 01:09:20.020
+esa
+
+01:09:20.020 --> 01:09:22.020
+esa especificación
+
+01:09:22.020 --> 01:09:24.020
+del
+
+01:09:24.020 --> 01:09:26.020
+del algoritmo del PEN-Tribank
+
+01:09:26.020 --> 01:09:28.020
+tiene su equivalente
+
+01:09:28.020 --> 01:09:30.020
+en un pequeño programita en sed
+
+01:09:30.020 --> 01:09:32.020
+la herramienta UNIX para toquenizar con eso
+
+01:09:32.020 --> 01:09:34.020
+de acuerdo
+
+01:09:34.020 --> 01:09:36.020
+y cualquier
+
+01:09:36.020 --> 01:09:38.020
+biblioteca presionamiento del lenguaje natural decente
+
+01:09:38.020 --> 01:09:40.020
+por ejemplo en el ETK
+
+01:09:40.020 --> 01:09:42.020
+te permite especificar un toquenizador
+
+01:09:42.020 --> 01:09:44.020
+en base a una expresión regular
+
+01:09:44.020 --> 01:09:46.020
+como quiere separar las palabras
+
+01:09:46.020 --> 01:09:48.020
+y
+
+01:09:48.020 --> 01:09:50.020
+y lo hace
+
+01:09:56.020 --> 01:09:58.020
+bueno
+
+01:09:58.020 --> 01:10:00.020
+también lematizar
+
+01:10:00.020 --> 01:10:02.020
+a veces nos puede interesar tener solo el lema
+
+01:10:02.020 --> 01:10:04.020
+por ejemplo si mis documentos lo voy a usar para recuperar información
+
+01:10:04.020 --> 01:10:06.020
+con tenerlo el lema me alcanza
+
+01:10:06.020 --> 01:10:08.020
+hay una forma mucho más sencilla
+
+01:10:08.020 --> 01:10:10.020
+porque
+
+01:10:10.020 --> 01:10:12.020
+lematizar implica hacer un análisis morfológico
+
+01:10:12.020 --> 01:10:14.020
+de la palabra
+
+01:10:14.020 --> 01:10:16.020
+sacar es lo que va a ver la clase que viene
+
+01:10:16.020 --> 01:10:18.020
+la carla raíz
+
+01:10:18.020 --> 01:10:20.020
+y las derivaciones
+
+01:10:20.020 --> 01:10:22.020
+o los afijos
+
+01:10:22.020 --> 01:10:24.020
+o sea la pedacita
+
+01:10:26.020 --> 01:10:28.020
+es un poco más costoso
+
+01:10:28.020 --> 01:10:30.020
+hay un método muy viejo
+
+01:10:30.020 --> 01:10:32.020
+que se llama STEMIN
+
+01:10:32.020 --> 01:10:34.020
+que es mucho más simple
+
+01:10:34.020 --> 01:10:36.020
+que simplemente cortar las palabras
+
+01:10:36.020 --> 01:10:38.020
+yo sé que perros
+
+01:10:38.020 --> 01:10:40.020
+perritos
+
+01:10:40.020 --> 01:10:42.020
+perro
+
+01:10:42.020 --> 01:10:44.020
+es el STEM
+
+01:10:44.020 --> 01:10:46.020
+y yo lo puedo utilizar como una aproximación al lema
+
+01:10:46.020 --> 01:10:48.020
+va a cometer errores
+
+01:10:48.020 --> 01:10:50.020
+pero
+
+01:10:50.020 --> 01:10:52.020
+es muchísimo más rápido
+
+01:10:52.020 --> 01:10:54.020
+y no necesito ningún tipo
+
+01:10:54.020 --> 01:10:56.020
+análisis morfológico
+
+01:10:58.020 --> 01:11:00.020
+eso es el famoso
+
+01:11:00.020 --> 01:11:02.020
+STEMIN
+
+01:11:02.020 --> 01:11:04.020
+que mal que bien se sigue usando
+
+01:11:04.020 --> 01:11:06.020
+y ya pasaron como 30 y pico de años
+
+01:11:06.020 --> 01:11:08.020
+de que se le hizo
+
+01:11:08.020 --> 01:11:10.020
+si
+
+01:11:14.020 --> 01:11:16.020
+de eso vamos a hablar en la clase que viene
+
+01:11:16.020 --> 01:11:18.020
+que es hemorfología
+
+01:11:18.020 --> 01:11:20.020
+y no solo la irregularidad del lugar
+
+01:11:20.020 --> 01:11:22.020
+sino la ortográfica también
+
+01:11:22.020 --> 01:11:24.020
+lo imposible
+
+01:11:24.020 --> 01:11:26.020
+y eso
+
+01:11:26.020 --> 01:11:28.020
+si
+
+01:11:28.020 --> 01:11:30.020
+se puede resolver la clase que viene
+
+01:11:30.020 --> 01:11:32.020
+igual se resuelve
+
+01:11:32.020 --> 01:11:34.020
+también
+
+01:11:34.020 --> 01:11:36.020
+se puede resolver con algo mismo de estado finito
+
+01:11:38.020 --> 01:11:40.020
+bueno
+
+01:11:40.020 --> 01:11:42.020
+también hay otro tema
+
+01:11:42.020 --> 01:11:44.020
+y con esto vamos a terminar
+
+01:11:44.020 --> 01:11:46.020
+voy a hacer trabajar hoy
+
+01:11:46.020 --> 01:11:48.020
+y con esto vamos al último tema
+
+01:11:48.020 --> 01:11:50.020
+de la cosa que además nos interesa
+
+01:11:50.020 --> 01:11:52.020
+segmentar en oraciones
+
+01:11:52.020 --> 01:11:54.020
+y ustedes diosme cómo separamos
+
+01:11:54.020 --> 01:11:56.020
+en oraciones
+
+01:11:58.020 --> 01:12:00.020
+cómo separamos
+
+01:12:00.020 --> 01:12:02.020
+¿dónde están las oraciones?
+
+01:12:02.020 --> 01:12:04.020
+supongamos que los punticomas no son oraciones
+
+01:12:04.020 --> 01:12:06.020
+más fácil es la goma
+
+01:12:06.020 --> 01:12:08.020
+eh
+
+01:12:08.020 --> 01:12:10.020
+empiezan con mayúscula
+
+01:12:10.020 --> 01:12:12.020
+empiezan con mayúscula
+
+01:12:12.020 --> 01:12:14.020
+y terminar
+
+01:12:14.020 --> 01:12:16.020
+con un punto
+
+01:12:16.020 --> 01:12:18.020
+problemas
+
+01:12:18.020 --> 01:12:20.020
+ahí llegamos
+
+01:12:20.020 --> 01:12:22.020
+como un 90 y pico de precisión
+
+01:12:22.020 --> 01:12:24.020
+vamos a ver
+
+01:12:24.020 --> 01:12:26.020
+pero algún problema tiene
+
+01:12:26.020 --> 01:12:28.020
+las abreviaturas
+
+01:12:30.020 --> 01:12:32.020
+que pasa con la abreviatura
+
+01:12:32.020 --> 01:12:34.020
+tiene punto
+
+01:12:34.020 --> 01:12:36.020
+hay punto que son internas la oración
+
+01:12:40.020 --> 01:12:42.020
+nombre propio
+
+01:12:42.020 --> 01:12:44.020
+se puede marear con el tema de la mayúscula
+
+01:12:44.020 --> 01:12:46.020
+claro
+
+01:12:46.020 --> 01:12:48.020
+si todo el mundo es más bueno encontrar problemas
+
+01:12:48.020 --> 01:12:50.020
+encontrando problemas
+
+01:12:50.020 --> 01:12:52.020
+que hay otro problema
+
+01:12:52.020 --> 01:12:54.020
+si empiezan con un número
+
+01:12:54.020 --> 01:12:56.020
+por ejemplo
+
+01:12:56.020 --> 01:12:58.020
+empiezan con mayúscula
+
+01:12:58.020 --> 01:13:00.020
+es más difícil
+
+01:13:00.020 --> 01:13:02.020
+no se me ocurre pero puede haber
+
+01:13:02.020 --> 01:13:04.020
+si buscan un córpul de 6 mil millones de palabras
+
+01:13:04.020 --> 01:13:06.020
+les aseguro que encuentran todos los casos
+
+01:13:06.020 --> 01:13:08.020
+este
+
+01:13:08.020 --> 01:13:10.020
+y es eso
+
+01:13:10.020 --> 01:13:12.020
+efectivamente es eso
+
+01:13:12.020 --> 01:13:14.020
+reconocer oraciones
+
+01:13:14.020 --> 01:13:16.020
+se puede hacer con expresión regulares
+
+01:13:16.020 --> 01:13:18.020
+como dice el que
+
+01:13:18.020 --> 01:13:20.020
+tratando de
+
+01:13:20.020 --> 01:13:22.020
+buscar algunos casos especiales
+
+01:13:22.020 --> 01:13:24.020
+pero
+
+01:13:24.020 --> 01:13:26.020
+esta gente
+
+01:13:28.020 --> 01:13:30.020
+los métodos más
+
+01:13:30.020 --> 01:13:32.020
+el estado del arte en separación de oraciones
+
+01:13:32.020 --> 01:13:34.020
+es
+
+01:13:34.020 --> 01:13:36.020
+utiliza
+
+01:13:36.020 --> 01:13:38.020
+una especie
+
+01:13:38.020 --> 01:13:40.020
+una especie anal
+
+01:13:40.020 --> 01:13:42.020
+lo que se llama análisis no supervisado
+
+01:13:42.020 --> 01:13:44.020
+o clasificación no supervisado
+
+01:13:44.020 --> 01:13:46.020
+cuando yo digo análisis
+
+01:13:46.020 --> 01:13:48.020
+no supervisado
+
+01:13:48.020 --> 01:13:50.020
+luego el curso movió mucho
+
+01:13:50.020 --> 01:13:52.020
+pero no supervisado quiere decir que yo no tengo ningún
+
+01:13:52.020 --> 01:13:54.020
+texto anotado
+
+01:13:54.020 --> 01:13:56.020
+nadie me dijo cómo eran las oraciones
+
+01:13:56.020 --> 01:13:58.020
+simplemente me dieron el texto en crudo
+
+01:13:58.020 --> 01:14:00.020
+y yo hice mi análisis adentro de ese texto
+
+01:14:00.020 --> 01:14:02.020
+cuando yo hablo de clasificación supervisada
+
+01:14:02.020 --> 01:14:04.020
+alguien me dijo
+
+01:14:04.020 --> 01:14:06.020
+acá empieza la oración y acá termina
+
+01:14:06.020 --> 01:14:08.020
+¿de acuerdo?
+
+01:14:08.020 --> 01:14:10.020
+alguna anotador humano
+
+01:14:10.020 --> 01:14:12.020
+como cuando comparamos hoy con el toquenizador
+
+01:14:12.020 --> 01:14:14.020
+tengo un gol de estándar
+
+01:14:14.020 --> 01:14:16.020
+acá no
+
+01:14:16.020 --> 01:14:18.020
+esta gente lo que hizo fue
+
+01:14:18.020 --> 01:14:20.020
+crear un toquenizador entrenado
+
+01:14:20.020 --> 01:14:22.020
+agarró un gran conjunto de textos
+
+01:14:22.020 --> 01:14:24.020
+y tomó ciertas hipótesis
+
+01:14:24.020 --> 01:14:26.020
+y dijo bueno
+
+01:14:28.020 --> 01:14:30.020
+identifica candidatos
+
+01:14:30.020 --> 01:14:32.020
+a abreviaturas
+
+01:14:32.020 --> 01:14:34.020
+y dice bueno
+
+01:14:34.020 --> 01:14:36.020
+en general
+
+01:14:36.020 --> 01:14:38.020
+las palabras que terminan en punto
+
+01:14:40.020 --> 01:14:42.020
+son abreviaturas
+
+01:14:42.020 --> 01:14:44.020
+¿sí?
+
+01:14:44.020 --> 01:14:46.020
+en general
+
+01:14:46.020 --> 01:14:48.020
+las abreviaturas son cortas
+
+01:14:48.020 --> 01:14:50.020
+o sea que si una palabra es corta es más probable
+
+01:14:50.020 --> 01:14:52.020
+que sea abreviatura que no otra vez
+
+01:14:52.020 --> 01:14:54.020
+y en general
+
+01:14:54.020 --> 01:14:56.020
+tienen puntos internos
+
+01:14:58.020 --> 01:15:00.020
+¿de acuerdo?
+
+01:15:00.020 --> 01:15:02.020
+y con eso
+
+01:15:04.020 --> 01:15:06.020
+trataron de ver
+
+01:15:06.020 --> 01:15:08.020
+contar en un texto
+
+01:15:08.020 --> 01:15:10.020
+las frecuencias
+
+01:15:10.020 --> 01:15:12.020
+contar en un texto
+
+01:15:12.020 --> 01:15:14.020
+la cantidad de veces
+
+01:15:14.020 --> 01:15:16.020
+que esa palabra
+
+01:15:16.020 --> 01:15:18.020
+la misma palabra aparecía con y sin punto
+
+01:15:18.020 --> 01:15:20.020
+si yo por ejemplo
+
+01:15:20.020 --> 01:15:22.020
+la palabra
+
+01:15:22.020 --> 01:15:24.020
+etcétera
+
+01:15:24.020 --> 01:15:26.020
+casi todas las veces aparece con punto
+
+01:15:26.020 --> 01:15:28.020
+o de hecho todas las veces aparecen con punto
+
+01:15:28.020 --> 01:15:30.020
+en el corpus
+
+01:15:30.020 --> 01:15:32.020
+o sea que fuertemente candidata
+
+01:15:32.020 --> 01:15:34.020
+hacer una abreviatura
+
+01:15:34.020 --> 01:15:36.020
+pero si yo
+
+01:15:36.020 --> 01:15:38.020
+y aparece Guillermo
+
+01:15:38.020 --> 01:15:40.020
+como un punto al final
+
+01:15:42.020 --> 01:15:44.020
+seguramente no sea una abreviatura
+
+01:15:44.020 --> 01:15:46.020
+sino que sea el final de enhoración
+
+01:15:46.020 --> 01:15:48.020
+¿de acuerdo?
+
+01:15:48.020 --> 01:15:50.020
+entonces lo que hacían
+
+01:15:50.020 --> 01:15:52.020
+en ese tipo de conteos en el texto
+
+01:15:52.020 --> 01:15:54.020
+para ver cuáles eran más candidatas
+
+01:15:54.020 --> 01:15:56.020
+digamos a
+
+01:15:56.020 --> 01:15:58.020
+a priori hacer
+
+01:15:58.020 --> 01:16:00.020
+abreviaturas
+
+01:16:00.020 --> 01:16:02.020
+¿por qué se trataba esto de desambivar el punto?
+
+01:16:02.020 --> 01:16:04.020
+que es nuestro problema
+
+01:16:04.020 --> 01:16:06.020
+que mencionamos hoy ¿no?
+
+01:16:06.020 --> 01:16:08.020
+con la palabra
+
+01:16:08.020 --> 01:16:10.020
+con la palabra
+
+01:16:10.020 --> 01:16:12.020
+lo mismo hacía cuando eran palabras cortas
+
+01:16:12.020 --> 01:16:14.020
+palabras largas
+
+01:16:16.020 --> 01:16:18.020
+con esa lista de candidato
+
+01:16:18.020 --> 01:16:20.020
+después veían en qué contexto aparecían
+
+01:16:20.020 --> 01:16:22.020
+metían una segunda fase
+
+01:16:22.020 --> 01:16:24.020
+dice bueno, pero dice Guillermo punto
+
+01:16:24.020 --> 01:16:26.020
+y la palabra que la sigue empieza en minúscula
+
+01:16:26.020 --> 01:16:28.020
+entonces capaz que sí era una abreviatura
+
+01:16:30.020 --> 01:16:32.020
+no se me ocurre porque Guillermo punto
+
+01:16:32.020 --> 01:16:34.020
+es una abreviatura pero ta
+
+01:16:34.020 --> 01:16:36.020
+de acuerdo
+
+01:16:36.020 --> 01:16:38.020
+o
+
+01:16:38.020 --> 01:16:40.020
+colocaciones
+
+01:16:40.020 --> 01:16:42.020
+por ejemplo cuando yo digo
+
+01:16:42.020 --> 01:16:44.020
+saben lo que son las colocaciones
+
+01:16:44.020 --> 01:16:46.020
+son palabras que aparecen juntas
+
+01:16:46.020 --> 01:16:48.020
+de nuevo
+
+01:16:48.020 --> 01:16:50.020
+es una colocación
+
+01:16:50.020 --> 01:16:52.020
+no sé si dice colocación
+
+01:16:52.020 --> 01:16:54.020
+pero en inglés dice colocation
+
+01:16:54.020 --> 01:16:56.020
+no debe ser colocación
+
+01:16:56.020 --> 01:16:58.020
+por ejemplo si yo digo
+
+01:16:58.020 --> 01:17:00.020
+y etcétera
+
+01:17:00.020 --> 01:17:02.020
+y etcétera
+
+01:17:02.020 --> 01:17:04.020
+o coma etcétera
+
+01:17:04.020 --> 01:17:06.020
+y etcétera
+
+01:17:06.020 --> 01:17:08.020
+parecen muchas veces juntos
+
+01:17:08.020 --> 01:17:10.020
+entonces
+
+01:17:10.020 --> 01:17:12.020
+y entonces
+
+01:17:12.020 --> 01:17:14.020
+digamos
+
+01:17:14.020 --> 01:17:16.020
+es muy raro que se aparece
+
+01:17:16.020 --> 01:17:18.020
+con un punto en el medio
+
+01:17:18.020 --> 01:17:20.020
+ese punto sea de separación
+
+01:17:20.020 --> 01:17:22.020
+el ejemplo que dijí es horrible
+
+01:17:22.020 --> 01:17:24.020
+el año que viene voy a elegir uno bueno
+
+01:17:24.020 --> 01:17:26.020
+pero ese punto es raro
+
+01:17:26.020 --> 01:17:28.020
+que sea de separación
+
+01:17:28.020 --> 01:17:30.020
+porque siempre que aparecen juntas
+
+01:17:30.020 --> 01:17:32.020
+digamos yo digo
+
+01:17:34.020 --> 01:17:36.020
+de nuevo
+
+01:17:36.020 --> 01:17:38.020
+este es horrible pero no es tan malo como en el anterior
+
+01:17:38.020 --> 01:17:40.020
+de nuevo siempre aparece así
+
+01:17:42.020 --> 01:17:44.020
+de acuerdo si en algún momento aparece
+
+01:17:44.020 --> 01:17:46.020
+con un punto acá probablemente se hace
+
+01:17:46.020 --> 01:17:48.020
+un fin de eración
+
+01:17:48.020 --> 01:17:50.020
+de acuerdo
+
+01:17:50.020 --> 01:17:52.020
+pensimo el ejemplo
+
+01:17:52.020 --> 01:17:54.020
+y luego las palabras
+
+01:17:54.020 --> 01:17:56.020
+iniciales frecuentes es decir
+
+01:17:56.020 --> 01:17:58.020
+cuando aparece una mayúscula
+
+01:18:00.020 --> 01:18:02.020
+digamos
+
+01:18:02.020 --> 01:18:04.020
+esa palabra que apareció
+
+01:18:04.020 --> 01:18:06.020
+que tan candidata es
+
+01:18:06.020 --> 01:18:08.020
+hacer el comienzo de una oración
+
+01:18:08.020 --> 01:18:10.020
+a hacer una mayúscula
+
+01:18:10.020 --> 01:18:12.020
+en vez de ser un hombre ser un comienzo de oración
+
+01:18:12.020 --> 01:18:14.020
+y vemos que hay palabras que mucho más frecuentemente
+
+01:18:14.020 --> 01:18:16.020
+aparecen al comienzo de la oración
+
+01:18:16.020 --> 01:18:18.020
+la con mayúscula
+
+01:18:18.020 --> 01:18:20.020
+es una buena candidata a hacer
+
+01:18:20.020 --> 01:18:22.020
+comienzo de oración
+
+01:18:22.020 --> 01:18:24.020
+porque hay muchos la
+
+01:18:24.020 --> 01:18:26.020
+al comienzo de las oraciones
+
+01:18:26.020 --> 01:18:28.020
+entonces eso aumenta
+
+01:18:28.020 --> 01:18:30.020
+mi probabilidad de que sea
+
+01:18:30.020 --> 01:18:32.020
+entonces en base a un estudio de conteo
+
+01:18:32.020 --> 01:18:34.020
+y de frecuencias
+
+01:18:34.020 --> 01:18:36.020
+de lo que se llama likelyhood
+
+01:18:36.020 --> 01:18:38.020
+o verosimilitud
+
+01:18:38.020 --> 01:18:40.020
+desanvivo en el punto
+
+01:18:40.020 --> 01:18:42.020
+dicen bueno esto es un punto de abreviatura
+
+01:18:42.020 --> 01:18:44.020
+o es un punto de oración
+
+01:18:46.020 --> 01:18:48.020
+y de esa forma se paran oraciones
+
+01:18:48.020 --> 01:18:50.020
+si
+
+01:18:52.020 --> 01:18:54.020
+eso en el entecac existe
+
+01:18:54.020 --> 01:18:56.020
+y yo les voy a mostrar un poco el corpus
+
+01:19:04.020 --> 01:19:06.020
+hay firefox hablando lo que veo
+
+01:19:18.020 --> 01:19:20.020
+y
+
+01:19:36.020 --> 01:19:38.020
+esto es una base
+
+01:19:38.020 --> 01:19:40.020
+de jurisprudencia del Poder Judicial del Uruguay
+
+01:19:48.020 --> 01:19:50.020
+¿que es eso?
+
+01:19:54.020 --> 01:19:56.020
+esto esta publicado
+
+01:19:56.020 --> 01:19:58.020
+donde dice
+
+01:20:12.020 --> 01:20:14.020
+¿que dice?
+
+01:20:18.020 --> 01:20:20.020
+estas son las sentencias
+
+01:20:20.020 --> 01:20:22.020
+de
+
+01:20:26.020 --> 01:20:28.020
+una base de sentencias
+
+01:20:28.020 --> 01:20:30.020
+de ejemplo
+
+01:20:30.020 --> 01:20:32.020
+del Poder Judicial Uruguayo
+
+01:20:32.020 --> 01:20:34.020
+si se fijan
+
+01:20:34.020 --> 01:20:36.020
+este es el texto
+
+01:20:38.020 --> 01:20:40.020
+que interesante
+
+01:20:40.020 --> 01:20:42.020
+no eran todas iguales
+
+01:20:44.020 --> 01:20:46.020
+fíjense que si yo quiero
+
+01:20:46.020 --> 01:20:48.020
+parar el texto
+
+01:20:48.020 --> 01:20:50.020
+no tengo muchos problemas
+
+01:20:50.020 --> 01:20:52.020
+pero acá parecen cosas raras
+
+01:20:52.020 --> 01:20:54.020
+como este es punto que me interesaría
+
+01:20:54.020 --> 01:20:56.020
+que quedara dentro de la oración
+
+01:20:56.020 --> 01:20:58.020
+pero
+
+01:20:58.020 --> 01:21:00.020
+me sorprendí un poco
+
+01:21:00.020 --> 01:21:02.020
+acá hay un número que aparece con punto
+
+01:21:02.020 --> 01:21:04.020
+pero además hay otras sentencias
+
+01:21:04.020 --> 01:21:06.020
+que
+
+01:21:06.020 --> 01:21:08.020
+terminan en punto y raya
+
+01:21:08.020 --> 01:21:10.020
+punto y guión
+
+01:21:10.020 --> 01:21:12.020
+punto y guión
+
+01:21:12.020 --> 01:21:14.020
+hay el separador totalmente raro
+
+01:21:14.020 --> 01:21:16.020
+para lo que es el estandar
+
+01:21:16.020 --> 01:21:18.020
+y que uno tiene que ver como modificar la toquenización
+
+01:21:22.020 --> 01:21:24.020
+este corpus es el que van a usar
+
+01:21:24.020 --> 01:21:26.020
+ustedes para el laboratorio
+
+01:21:26.020 --> 01:21:28.020
+así que vayan a seguir haciendo amigos de él
+
+01:21:28.020 --> 01:21:30.020
+este
+
+01:21:30.020 --> 01:21:32.020
+mira referencias
+
+01:21:32.020 --> 01:21:34.020
+están por ahí
+
+01:21:34.020 --> 01:21:36.020
+los invito a le darlas
+
+01:21:40.020 --> 01:21:42.020
+alguna pregunta
+
+01:21:42.020 --> 01:21:44.020
+acá
+
+01:21:48.020 --> 01:21:50.020
+bueno tal vez ya ha sido demasiado
+
+01:21:50.020 --> 01:21:52.020
+para ustedes
+
+01:21:52.020 --> 01:21:54.020
+si no hay dudas
+
+01:21:54.020 --> 01:21:56.020
+vamos a hablar
+
+01:21:56.020 --> 01:21:58.020
+de distancia mínima de edición
+
+01:21:58.020 --> 01:22:00.020
+para empezar
+
+01:22:00.020 --> 01:22:02.020
+que es como ver
+
+01:22:04.020 --> 01:22:06.020
+cuál es la distancia entre dos palabras
+
+01:22:06.020 --> 01:22:08.020
+una noción de distancia entre dos palabras
+
+01:22:08.020 --> 01:22:10.020
+que esencialmente captura la idea
+
+01:22:10.020 --> 01:22:12.020
+de parecido
+
+01:22:12.020 --> 01:22:14.020
+es un punto de vista
+
+01:22:14.020 --> 01:22:16.020
+ortográfico
+
+01:22:16.020 --> 01:22:18.020
+y después vamos a seguir hablando
+
+01:22:18.020 --> 01:22:20.020
+de morfología
+
+01:22:20.020 --> 01:22:22.020
+gracias
+

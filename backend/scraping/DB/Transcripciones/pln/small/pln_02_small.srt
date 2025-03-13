@@ -1,0 +1,1994 @@
+WEBVTT
+
+00:00.000 --> 00:22.360
+Bienvenidos a la segunda clase de Introducción al Procesamiento del Lenguaje Natural de esta
+
+00:22.360 --> 00:29.600
+edición 2016. Hoy vamos a hablar de el idioma español. Vamos a ver algunas cosas que no
+
+00:29.600 --> 00:36.040
+vende desde el liceo. Algunas cosas que probablemente nunca vieron. Y bueno, va a ser un poco como
+
+00:36.040 --> 00:41.440
+repaso en parte de lo que fue idioma español del liceo. Y probablemente algunos de ustedes
+
+00:41.440 --> 00:46.800
+digan que embole idioma español del liceo, no me gustaba nada, me embolaba. Entonces bueno,
+
+00:46.800 --> 00:49.680
+vamos a tratar de ver que si bien desde un punto de vista ingenieril, yo que sé, no
+
+00:49.680 --> 00:55.720
+están solos, hay mucha gente que piensa igual. En realidad, hay algunas cosas que son un
+
+00:55.720 --> 00:59.080
+poco arbitrarias en el idioma, pero hay muchas otras cosas que desde un punto de vista ingenieril
+
+00:59.080 --> 01:04.760
+se pueden analizar bien y se pueden formalizar y se pueden construir modelos y teorías que
+
+01:04.760 --> 01:10.920
+funcionan bien. Entonces claro, lo que pasa con el idioma es que es una herramienta cultural,
+
+01:10.920 --> 01:14.960
+es algo que es compartido por un grupo de gente. Entonces ese grupo de gente se pone de acuerdo
+
+01:14.960 --> 01:19.240
+de alguna manera en cómo se comunican, establecen un protocolo, establecen mensajes que tienen que
+
+01:19.240 --> 01:25.400
+intercambiar entre ellos. Y por el hecho de que es cultural, entonces esto ha ido evolucionando a
+
+01:25.400 --> 01:29.840
+lo largo de la historia. Entonces lo que pasa es que el idioma siempre tiene una parte lógica,
+
+01:29.840 --> 01:34.280
+porque se necesita para describir el universo, se necesita para poder comunicarse y todo eso
+
+01:34.280 --> 01:38.600
+obedece a ciertas reglas lógicas. Y tiene otra parte histórica, que bueno, la gente decidió
+
+01:38.600 --> 01:42.040
+hablar de esa manera y además fue evolucionando a lo largo del tiempo, entonces hay cosas que
+
+01:42.040 --> 01:47.120
+hoy nos parecen raras como funcionan, pero porque históricamente tenían un sentido. Entonces por
+
+01:47.120 --> 01:51.960
+eso es como que tiene las dos partes. En la parte lógica los ingenieros en general nos sentimos
+
+01:51.960 --> 01:57.080
+bastante bien, porque bueno, tiene reglas, es más o menos estable, lo podemos predecir. La otra parte,
+
+01:57.080 --> 02:01.600
+no tanto, la otra parte como que se escapa un poco y hay cosas que parecen un poco arbitrarias. Pero
+
+02:01.600 --> 02:06.360
+vamos a ver que en realidad todo es igual, se puede formalizar o gran parte de eso se puede
+
+02:06.360 --> 02:17.960
+formalizar y se puede ver bien desde un punto de vista de la ingeniería. Entonces bueno, un poco la
+
+02:17.960 --> 02:23.480
+idea detrás de esta clase, la de hoy y la clase que viene, es tratar de nivelarnos a todos en un
+
+02:23.480 --> 02:27.840
+nivel mínimo del conocimiento necesario que necesitan de tener para el idioma español,
+
+02:27.840 --> 02:34.080
+porque después, al final de estas dos clases, después ya va a empezar el resto del curso de
+
+02:34.080 --> 02:38.360
+procesamiento del lenguaje natural y bueno, ya se asume que ustedes ya van a conocer que es un
+
+02:38.360 --> 02:42.680
+nombre, que es un verbo, que es un grupo nominal, que es un sujeto, etcétera, todo ese tipo de cosas,
+
+02:42.680 --> 02:46.560
+se asume que ya lo van a saber, entonces no lo vamos a estar explicando de vuelta. Así que bueno,
+
+02:46.560 --> 02:50.960
+al final de estas dos clases deberían tener todo ese conocimiento incorporado.
+
+02:53.080 --> 02:56.640
+Bueno, vamos a ver, viendo un poco el resumen de los temas que vamos a tratar en estas dos
+
+02:56.640 --> 03:04.560
+clases, primero vamos a ver cuál es, digamos, la gramática, o sea qué significa gramática y
+
+03:04.560 --> 03:10.080
+cuál es su objeto de estudio, en particular nos vamos a concentrar en qué es una oración. Después
+
+03:10.080 --> 03:14.120
+vamos a hablar un poco de las palabras y cómo se catalogan las palabras del lenguaje y después
+
+03:14.120 --> 03:17.880
+las estructuras más grandes que la palabra, yo puedo agrupar palabras de distintas maneras en
+
+03:17.880 --> 03:23.560
+cosas que se llaman sintagmas y bueno, esos también tienen categorías y después vamos a ver un
+
+03:23.560 --> 03:26.880
+poco cómo esos sintagmas actúan dentro de una oración, pueden tener cierta función,
+
+03:26.880 --> 03:30.800
+pueden tener cierto rol y bueno, vamos a ver un poco de la estructura argumental de los verbo,
+
+03:30.800 --> 03:36.240
+esto va a ser en esta clase y la que viene. Bueno, ¿qué es la gramática?
+
+03:37.240 --> 03:43.760
+Ustedes vieron ya en la carrera gramáticas en alguna materia, ¿no?, ¿en qué materia
+
+03:43.760 --> 03:51.280
+veron gramáticas? ¿Se acuerdan? En teoría del lenguaje, ¿qué veían ahí?
+
+03:53.760 --> 03:56.960
+Entre el lenguaje veían una cosa que se llamaba gramática libre de contexto,
+
+03:56.960 --> 04:06.000
+no sé si le suena de algo. Bien, las gramáticas libres de contexto son un tipo de gramática
+
+04:06.000 --> 04:09.320
+formal que sirve para describir cierto tipo de lenguajes, lenguajes formales,
+
+04:09.320 --> 04:14.400
+en particular lenguajes libres de contexto. También se utilizan para modelar el lenguaje
+
+04:14.400 --> 04:19.260
+natural pero no son las mejores, digamos en este curso vamos a ver ejemplos de gramática
+
+04:19.260 --> 04:23.240
+libre de contexto usadas para modelar el lenguaje natural, pero bueno, no son lo ideal.
+
+04:23.240 --> 04:30.040
+Igual, lo que se refiere en esta slide sobre gramática no se refiere tanto a la gramática
+
+04:30.040 --> 04:34.440
+como formalización, como una descripción del lenguaje, sino que es qué es la gramática en el
+
+04:34.440 --> 04:39.360
+estudio, o sea qué estudia la gramática en general. La gramática en general es una disciplina que
+
+04:39.360 --> 04:43.000
+estudia cuáles son las unidades del lenguaje, agarra un lenguaje natural, estudia sus unidades
+
+04:43.000 --> 04:47.680
+como por ejemplo las palabras, las oraciones y cómo se combinan esas unidades para formar
+
+04:49.360 --> 04:53.320
+bueno, todo el lenguaje, digamos. Entonces estudia las unidades significativas del lenguaje y su
+
+04:53.320 --> 04:58.880
+combinatoria. Hay otras definiciones que además incluyen la semántica, o sea el estudio del
+
+04:58.880 --> 05:02.840
+significado, nosotros no vamos a entrar en esas definiciones, no vamos a quedar más que nada en
+
+05:02.840 --> 05:09.880
+la definición que es más bien sintáctica. Entonces la gramática como disciplina compone
+
+05:09.880 --> 05:16.080
+estas dos partes que están acá, que son la morfología y la sintaxis. La morfología estudia la
+
+05:16.080 --> 05:21.360
+formación de las palabras, digamos tiene comunidad de estudio las palabras, va desde los morphemas
+
+05:21.360 --> 05:26.800
+que son unidades más pequeñas hasta palabras y después la sintaxis estudia las palabras y la
+
+05:26.800 --> 05:33.760
+forma en que se combinan para generar oraciones. Entonces la morfología tiene comunidad mínima,
+
+05:33.760 --> 05:38.600
+el morfema y allá aparece una palabra separada de morfemas, la palabra prehistóricos que está
+
+05:38.600 --> 05:43.000
+compuesto por el morfema histor, digamos tiene esa raíz, que se refiere a algo de historia,
+
+05:43.000 --> 05:46.440
+después le agregamos un prefijo pre que significa que voy a hablar algo que está antes de la
+
+05:46.440 --> 05:54.640
+historia y después le agrego sus fijos ICO y S y lo transformo en un sustantivo plural. Entonces
+
+05:54.680 --> 05:58.960
+esa descomposición en morfemas de la palabra ya me está dando un montón de información acerca
+
+05:58.960 --> 06:02.600
+de qué es esa palabra. Entonces la morfología estudia eso, estudia cómo descomponer las
+
+06:02.600 --> 06:09.160
+palabras en morfemas y la unidad máxima de estudio es la palabra. Un caso interesante de esto es,
+
+06:09.160 --> 06:18.360
+por ejemplo, cuando yo tengo una palabra en español como perro, la morfología en general la
+
+06:18.360 --> 06:22.960
+descompone como para decir yo tengo una raíz que es perr y le agrego un sufijo O y eso lo que hace
+
+06:22.960 --> 06:28.400
+es transformarlo en algo que es masculino singular pero además yo puedo tener algo similar que es
+
+06:28.400 --> 06:34.600
+esa misma raíz pero con una A y se transforma en femenino singular o si no le puedo agregar a
+
+06:34.600 --> 06:39.920
+cualquiera de las dos le puedo agregar una S y lo transformo en plurales. Esa descomposición en
+
+06:39.920 --> 06:45.400
+morfemas es algo que estudia la morfología y bueno y el conjunto de todas estas palabras,
+
+06:45.400 --> 06:50.600
+digamos todas las que salen de la misma raíz y yo les agrego las puedo transformar en masculino o en
+
+06:50.600 --> 07:00.160
+femenino y las puedo transformar en plural o en singular. Este efecto de agarrar una palabra y
+
+07:00.160 --> 07:05.120
+poder transformarla a plural y a singular o transformarla masculino femenino se llama flexión de la
+
+07:05.120 --> 07:14.480
+palabra o sea yo digo que tengo una palabra base yo tengo una palabra base como perro y la puedo
+
+07:14.480 --> 07:18.640
+flexionar de manera de transformarla en femenino transformarla en plural o transformarla en femenino
+
+07:18.640 --> 07:23.240
+plural entonces todo esto se conoce como el paradigma flexivo de una palabra.
+
+07:28.480 --> 07:33.400
+¿Por qué les digo esto ahora? Porque lo vamos a necesitar un poquito después en esta clase un
+
+07:33.400 --> 07:39.320
+poco alguna idea esa de que las palabras se flexionan para tener distintos atributos pero en
+
+07:39.320 --> 07:42.480
+realidad en esta clase no vamos a hablar mucho más de morfología sino que solamente es un
+
+07:42.480 --> 07:47.080
+breve pantalla eso más adelante en el curso se va a dar nociones bastante más profundas.
+
+07:47.360 --> 07:53.280
+Lo que sí nos vamos a concentrar es en la segunda parte la parte de sintaxis. La sintaxis no se
+
+07:53.280 --> 07:57.240
+concentra en los morfemas sino que asume que ya tengo palabras el idioma ya está compuesto por
+
+07:57.240 --> 08:04.000
+palabras y estudia desde la palabra cómo se combina hasta formar una oración y en el medio las cosas
+
+08:04.000 --> 08:08.960
+que están las estructuras intermedias que aparecen se denominan sintagmas son cosas que no llegan a
+
+08:08.960 --> 08:13.280
+ser oraciones sino que son grupos de palabras que se quedan en el medio y bueno vamos a ver un
+
+08:13.280 --> 08:19.560
+poco de qué se trata todo esto. Bueno este diagrama parece lo que les decía la morfología
+
+08:19.560 --> 08:23.520
+estudia desde el morfema hasta la palabra y la palabra digamos es como la unidad base de
+
+08:23.520 --> 08:28.600
+las sintaxis que estudia desde la palabra hasta la oración bueno y todo eso compone la gramática
+
+08:28.600 --> 08:32.800
+que es bueno el estudio de todo esto de las unidades del lenguaje y cómo se combinan.
+
+08:35.200 --> 08:39.480
+Bueno lo que les decía lo que vamos a ver ahora son algunos elementos de sintaxis la
+
+08:39.480 --> 08:45.360
+morfología se va a ver más adelante en otras partes del curso bueno
+
+08:51.240 --> 08:54.880
+entonces empecemos definiendo lo que es una oración todos tenemos una idea media
+
+08:54.880 --> 08:57.640
+intuitiva que es una oración no alguien me puede dar un ejemplo de oración
+
+09:01.120 --> 09:07.680
+oración cualquiera el perro va a pasear es una oración válida o sea como sabemos que
+
+09:07.680 --> 09:11.440
+eso es una oración si yo tengo un texto en español digamos tengo un montón de palabras
+
+09:11.440 --> 09:18.560
+en español tiradas y quiero separarlas en oraciones como puedo hacer a quién se le ocurre una forma
+
+09:22.240 --> 09:27.560
+con un punto o sea una forma puede ser entonces este criterio que es el criterio
+
+09:27.560 --> 09:32.120
+lexicográfico agarro las secuencias que empiezan en una mayoscula termina en un punto
+
+09:33.120 --> 09:38.640
+bien es un criterio entonces yo tengo una secuencia de texto empiezo buscando mayoscula
+
+09:38.640 --> 09:41.880
+llegó hasta el punto después siguiente mayoscula llegó hasta el punto etcétera y con eso
+
+09:41.880 --> 09:45.040
+parto en oraciones qué problemas puede tener esto
+
+09:51.080 --> 09:55.880
+claro bien y además o sea hay hay problemas o sea hay problemas por todos lados
+
+09:55.880 --> 10:04.400
+claro porque si solamente nos guiamos por el criterio lexicográfico hay quien puede
+
+10:04.400 --> 10:08.200
+venir a escribir algo como esto de acá el doctor foster visitó la ONU esta es otra
+
+10:08.200 --> 10:12.880
+oración nueva y ahí aparecen puntos en el medio y aparecen mayosculas que no son inicios de oraciones
+
+10:12.880 --> 10:18.000
+entonces es como que rápidamente se nos rompe directamente podemos este o sea si utilizáramos
+
+10:18.000 --> 10:23.680
+esta estrategia para parcer ahí para cortar ese texto en oraciones nos quedaría una oración el
+
+10:23.680 --> 10:27.720
+doctor y después foster visitó la o y después otra oración que sene y otra oración que su
+
+10:27.720 --> 10:34.280
+entonces como que ya rápidamente se rompe y no estaría funcionando ese criterio entonces vamos
+
+10:34.280 --> 10:41.120
+a tratar de dar otras definiciones vamos a dar una que es el criterio gramatical de cómo reconocer
+
+10:41.120 --> 10:47.400
+oraciones decimos que una porción de texto un conjunto de palabras es una oración si es un
+
+10:47.400 --> 10:52.040
+verbo conjugado y además esa porción de texto tiene independencia sintáctica entonces esa
+
+10:52.800 --> 10:57.640
+definición es bárbara porque ahora no sabemos qué es independencia sintáctica en realidad les
+
+10:57.640 --> 11:03.200
+cambia una definición por otra pero bueno vamos a tratar de primero vamos a dar una idea un poco
+
+11:03.200 --> 11:07.240
+intuitiva de que se trata eso y después vamos a tratar de verlo un poco más formalmente en
+
+11:07.240 --> 11:11.920
+esta clase en la que viene pero bueno hay algo que sí sabemos reconocer que son los verbos
+
+11:11.920 --> 11:16.680
+conjugados los verbos conjugados son palabras de ese estilo como corremos cantan estábamos
+
+11:17.480 --> 11:22.440
+existen otro tipo de verbos que son los verbos no conjugados formas verbales no
+
+11:22.440 --> 11:27.520
+personales como por ejemplo correr corriendo y corrido que son bueno el infinitivo el
+
+11:27.520 --> 11:33.080
+gerundio y el participio digamos que si una oración contiene uno de esos verbos y no
+
+11:33.080 --> 11:36.760
+contiene un verbo conjugado entonces no diríamos que es una oración y tal y vamos a ver un poco
+
+11:36.760 --> 11:39.280
+en realidad de qué otro tipo de estructura se trata
+
+11:40.280 --> 11:48.080
+bueno hay otro criterio más que se llama criterio semántico que decimos que una porción de texto
+
+11:48.080 --> 11:53.880
+es una oración si es una unidad de sentido o sea si yo puedo agarrar esa porción de texto
+
+11:53.880 --> 11:58.600
+testearla contra el universo y eso me puede volver proposicionalmente si es verdadero falso
+
+11:58.600 --> 12:03.400
+entonces si yo tengo una oración como el perro está ladrando yo puedo agarrar esa oración y
+
+12:03.400 --> 12:07.240
+tratar de buscar una situación del universo decir bueno hay un perro ese perro está ladrando
+
+12:07.240 --> 12:12.640
+entonces me devuelvo verdadero y ahí yo digo bueno eso que tenía es una oración en cambio si
+
+12:12.640 --> 12:17.120
+yo tengo una porción de texto que solamente dice el perro entonces yo puedo tratar de
+
+12:17.120 --> 12:20.760
+testearlo contra el universo pero no voy a encontrar algo que me devuelvo a verdadero falso o
+
+12:20.760 --> 12:24.280
+sea yo puedo encontrar una instancia de perro por ejemplo pero no es una proposición que pueda
+
+12:24.280 --> 12:29.240
+ser verdadero falso entonces ahí digo que eso con lo que yo estaba trabajando no era una oración
+
+12:30.360 --> 12:33.640
+en realidad nos vamos a concentrar más en el criterio gramatical pero bueno sepan que hay
+
+12:33.640 --> 12:39.040
+diferentes formas de definir oración todas son más o menos complementarias o sea todas más
+
+12:39.040 --> 12:45.480
+o menos llegan a lo mismo pero bueno hay como distintos criterios bueno tenemos un ejemplo
+
+12:45.480 --> 12:51.560
+de texto sabiendo lo que sabemos ahora podemos separar ese texto en oraciones tenemos un texto
+
+12:51.560 --> 12:55.440
+que dice los artistas ofrecieron a colaborar desde el principio mucho sólo para ser pinta
+
+12:55.440 --> 13:01.800
+otros sinceramente se quedaron a trabajar siempre que se necesitó como lo separan oraciones
+
+13:03.640 --> 13:14.920
+ahí mayúscula de punto podrían dar bien a ver entonces te quedaría los artistas ofrecieron
+
+13:14.920 --> 13:20.000
+a colaborar desde el principio te quedaría una después te quedaría mucho sólo para ser pinta
+
+13:20.000 --> 13:24.240
+y después te quedaría otros sinceramente se quedaron a trabajar siempre que se necesitó
+
+13:25.120 --> 13:28.560
+bien de la otra definición que vimos de oración
+
+13:44.600 --> 13:48.440
+no estoy tan seguro que no pasa en el criterio semántico pero que no puedes encontrar ese
+
+13:48.440 --> 13:53.320
+criterio gramatical porque esa oración mucho sólo para ser pinta no tiene ningún verbo
+
+13:53.320 --> 14:01.880
+conjugado el único algo que hay en esa oración es hacer y está infinitivo o sea en definitiva
+
+14:01.880 --> 14:06.400
+eso no sería una oración propia según la oración la definición que nosotros tenemos la
+
+14:06.400 --> 14:11.720
+primera sí la primera tiene un verbo conjugado que cuál es ofrecieron la última también tiene
+
+14:11.720 --> 14:17.320
+verbo conjugado cuál es quedaron de hecho hay otro que es necesitó pero bueno en realidad ese
+
+14:17.320 --> 14:26.080
+no sería el principal y después vamos a ver un poco porque sí sí está lidido o sea es como
+
+14:26.080 --> 14:31.520
+una cosa más rara todavía y en realidad no lo vamos a considerar oración por lo menos en esta
+
+14:31.520 --> 14:35.680
+primera instancia entonces claro lo que está pasando es lo que lo que dice la compañera
+
+14:35.680 --> 14:41.400
+tiene razón es que mucho sólo para ser pinta ahí hay un pedazo de oración que falta y uno
+
+14:41.400 --> 14:45.160
+tiene que ir a buscarlo antes entonces dice los artistas ofrecieron a colaborar desde el principio
+
+14:45.880 --> 14:49.880
+y en mucho sólo para ser pinta quiere lo que está queriendo decir es mucho se ofrecieron
+
+14:49.880 --> 14:54.840
+a colaborar sólo para ser pinta y hay un to un pedazo que está este oculto digamos que no se
+
+14:54.840 --> 15:01.200
+menciona de vuelta y se necesitaría ese pedazo para poder completar la oración pero en definitiva
+
+15:01.200 --> 15:05.440
+si solamente tenemos ese fragmento de texto ya no sería una oración por lo menos según este
+
+15:05.440 --> 15:12.920
+criterio entonces para tratar de resolver esto no resolver pero para tratar de dar una idea de
+
+15:12.920 --> 15:17.640
+cómo funciona esto vamos a tratar de definir que hay dos tipos de objetos distintos en nuestro texto
+
+15:19.240 --> 15:23.600
+vamos a definir cuál es el concepto denunciado y vamos a darlo como algo separado del concepto
+
+15:23.600 --> 15:29.760
+de oración entonces cuando yo tengo un texto un texto físico así que es una secuencia de
+
+15:29.760 --> 15:35.720
+palabras escritas yo voy a decir que contengo anunciados y los anunciados más o menos se
+
+15:35.720 --> 15:41.160
+corresponden con el criterio lexicográfico van desde una mayúscula hasta un punto más o menos o
+
+15:41.200 --> 15:49.080
+sea como en el ejemplo anterior servía ese criterio de estos anunciados algunos algunos que contienen
+
+15:49.080 --> 15:53.600
+un vero conjugado van a hacer cosas que son oraciones van a tener forma de oración y hay
+
+15:53.600 --> 15:57.720
+otros que no hay otros que simplemente van a ser anunciados entonces lo que queremos decir
+
+15:57.720 --> 16:02.600
+acá es que la oración es un objeto teórico es un objeto que la gramática puede estudiar puede
+
+16:02.600 --> 16:08.480
+analizar puede encontrarle una estructura dentro el enunciado es en vez de eso es un objeto que
+
+16:08.480 --> 16:13.880
+está dentro de un texto dentro de un texto yo tengo una secuencia de palabras agarro la islo y
+
+16:13.880 --> 16:18.240
+digo que eso es un enunciado algunos de esos anunciados van a ser oraciones y otros no entonces
+
+16:18.240 --> 16:26.200
+vamos a tratar de reconocer cuáles esos anunciados son oraciones bueno y acá está marcado como era
+
+16:26.200 --> 16:32.200
+digamos el ejemplo anterior como se resolvería decíamos que los anunciados están entre corchetes
+
+16:32.200 --> 16:36.800
+y los que están subrayados son anunciados que además son oraciones los artistas ofrecían a
+
+16:36.800 --> 16:41.000
+colaborar desde el principio es una oración otros sinceramente se quedaron a trabajar siempre
+
+16:41.000 --> 16:46.000
+que se necesitó es otra oración y mucho sólo para ser pinta sería un enunciado que no es oración
+
+16:46.000 --> 17:01.480
+por lo menos en esta definición que tenemos claro eso es un problema que es digamos complicado para
+
+17:01.480 --> 17:06.520
+resolver automáticamente no es el problema más complicado de todos pero hay este digamos es el
+
+17:06.520 --> 17:10.560
+problema de tokenización que se va a dar más adelante en el curso como se para reconocer
+
+17:10.560 --> 17:15.560
+cuáles de esas de esos puntos están siendo parte de una sigla por ejemplo entonces tenés que
+
+17:15.560 --> 17:19.840
+reconocer toda la sigla entera cuál punto es un punto final y cuál por ejemplo es el punto de
+
+17:19.840 --> 17:24.040
+doctor pero en realidad no es un punto final sino que tienes que seguir ese es un problema que bueno
+
+17:24.040 --> 17:29.720
+hay técnicas para resolverlo bueno se va a dar más adelante entonces en este en este caso estamos
+
+17:29.720 --> 17:33.480
+diciendo bueno la oración va hasta un punto que realmente es el punto final
+
+17:34.760 --> 17:41.880
+suponiendo que lo puedes resolver de otra manera bueno entonces ahora hablemos un poco
+
+17:43.760 --> 17:49.160
+de las palabras vamos a empezar hablando las palabras y después vamos a ver cómo se combinan
+
+17:49.160 --> 17:54.920
+esas palabras para generar unidades más grandes bueno entonces vamos a hablar de categorías
+
+17:54.920 --> 18:02.480
+gramaticales para las palabras las palabras del idioma se pueden clasificar se pueden separar
+
+18:02.480 --> 18:07.440
+en grupos según sus propiedades combinatorias según cómo yo puedo poner esas palabras junto con
+
+18:07.440 --> 18:11.600
+otras palabras bueno esas clases en las cuales esas clases equivalencias las cuales yo se
+
+18:11.600 --> 18:16.400
+separo se llaman categorías léxicas además las palabras se van combinando en unidades un
+
+18:16.400 --> 18:22.040
+poco más grandes que se denominan sintagmas y esos sintagmas también se pueden categorizar en lo
+
+18:22.040 --> 18:25.840
+que se llama categorías sintagmáticas bueno del conjunto de todas esas categorías le llamamos
+
+18:25.840 --> 18:30.320
+categorías gramaticales entonces empecemos por cuáles son las categorías léxicas las
+
+18:30.320 --> 18:34.680
+categorías de las palabras y estas sí las conocen probablemente desde las cuales al liceo
+
+18:35.560 --> 18:42.400
+las categorías léxicas son cosas como nombres verbos adjetivos adverbios etcétera un nombre o
+
+18:42.400 --> 18:46.080
+sustantivo en el liceo probablemente le llamaban sustantivo pero en este curso le vamos a llamar
+
+18:46.080 --> 18:51.360
+nombre es bueno las palabras que son nombres representan objetos del mundo como por ejemplo
+
+18:51.360 --> 18:59.240
+casa casa felicidad digamos cosas de estilo objetos dentro del universo los verbos representan
+
+18:59.240 --> 19:06.160
+acciones representan eventos representan bueno ese tipo de cosas como por ejemplo cantar cantando
+
+19:06.160 --> 19:11.640
+cantaremos sabe c etcétera los adjetivos son palabras que se utilizan para modificar a los
+
+19:11.640 --> 19:17.560
+nombres y lo que hacen es como dar más descripción acerca de los nombres y le agregan características
+
+19:17.560 --> 19:23.440
+como por ejemplo alto alta lindos inteligente solo los adverbios también son modificadores pero en
+
+19:23.440 --> 19:28.040
+vez modificar nombres modifican tanto a los o sea modifican el resto de las cosas modifican a
+
+19:28.040 --> 19:34.800
+los verbos a los adjetivos o a otros adverbios como por ejemplo medios simplemente solo ayer esas
+
+19:34.800 --> 19:39.520
+cuatro categorías que les acabo de decir nombre verbo adjetivo y adverbio son categorías abiertas
+
+19:39.520 --> 19:43.320
+son clases abiertas porque todos los días se están inventando palabras nuevas el lenguaje
+
+19:43.320 --> 19:47.680
+como muy productivo y la gente empieza a inventar palabras todos los días entonces las palabras
+
+19:47.680 --> 19:53.400
+casi todo el tiempo van a parar en una de esas cuatro categorías en cambio las de abajo son
+
+19:53.400 --> 19:58.000
+clases cerradas son clases que o bien no cambian digamos yo puedo escribir una lista con todas las
+
+19:58.000 --> 20:03.480
+palabras o bien cambian muy lentamente en el tiempo y bueno una de esas categorías son los
+
+20:03.480 --> 20:08.760
+determinantes los determinantes incluyen a los artículos como el una unos e incluyen algunas
+
+20:08.760 --> 20:14.800
+otras cosas como los cuantificadores muchos alguno etcétera bueno esa es la categoría de
+
+20:14.800 --> 20:18.800
+los determinantes después las preposiciones que para la preposiciones también puedo escribir
+
+20:18.800 --> 20:26.480
+una lista de ad por contragasia desde y otras más las preposiciones tienen una característica en
+
+20:26.480 --> 20:31.640
+español que en español y en otras lenguas romances como el francés de que yo no puedo
+
+20:31.640 --> 20:37.160
+terminar una oración en una preposición o sea me parece que no hay ejemplos de oraciones que
+
+20:37.160 --> 20:41.600
+también en preposición sino que la preposición siempre va antes de otro grupo de palabras
+
+20:42.920 --> 20:46.600
+y bueno con la preposición se arman estructuras más grandes que sirven como por ejemplo para
+
+20:46.600 --> 20:53.400
+poner los argumentos a un verbo digamos en contra estoy en contra de algo y estás
+
+20:54.520 --> 20:58.640
+claro que estás elidiendo estás omitiendo la parte de la que estás en contra
+
+20:58.800 --> 21:08.080
+bien o sea venías hablando de algo lo que hiciste fue sacar el no venimos hablando de algo te
+
+21:08.080 --> 21:13.280
+estás en contra estás omitiendo
+
+21:18.040 --> 21:21.280
+no se ve ahí en contra ese contra sería preposición también
+
+21:28.640 --> 21:34.120
+ese contra no sé si es una preposición capaz de sí capaz no estaría a averiguarlo el en seguro
+
+21:34.120 --> 21:38.120
+es una preposición pero el contra no sé bien
+
+21:41.320 --> 21:47.720
+ok claro porque contra puede ser una preposición pero el en contra y ya no estoy tan seguro
+
+21:49.000 --> 21:50.080
+es preposición a
+
+21:50.080 --> 22:02.400
+claro pero cuando estás en contra de ahí no sé capaz que contra está actuando como otra cosa
+
+22:05.920 --> 22:11.920
+claro pero el contra está actuando también como como preposición bien es un ejemplo interesante
+
+22:12.840 --> 22:14.720
+igual es bastante raro
+
+22:21.040 --> 22:26.160
+sí pero bueno pero en inglés por ejemplo es perfectamente válido terminar una una
+
+22:26.160 --> 22:31.680
+oración en una preposición pero claro en las lenguas romances que vienen de latín no no terminás
+
+22:31.680 --> 22:36.000
+nunca en una preposición oración entonces por eso es raro decirlo en contra y habría que ver
+
+22:36.000 --> 22:41.440
+porque capaz que no está actuando como preposición o es un caso medio particular pero bueno como les
+
+22:41.440 --> 22:46.360
+decía el lenguaje tiene eso tiene cosas que son muy lógicas porque se usa para describir situaciones
+
+22:46.360 --> 22:50.600
+lógicas y tiene cosas que van evolucionando a largo de la historia hoy las miramos y decimos
+
+22:50.600 --> 22:56.640
+pa que raro esto que extraño pero probablemente tuvo su historia y de alguna manera la gente se
+
+22:56.640 --> 23:01.800
+puso de acuerdo que se decía así y se utilizaba el protocolo de esa manera bueno después la otra
+
+23:01.800 --> 23:07.960
+categoría son los pronombres como los pronombres personales yo vos nosotros ellos etcétera o
+
+23:07.960 --> 23:14.960
+pronombres posesivos o algunos otros pronombres bueno después las conjunciones las conjunciones
+
+23:14.960 --> 23:22.920
+como yo sí que pero alguna más son palabras que me permiten agarrar dos pedacitos de de oración
+
+23:22.920 --> 23:27.120
+y pegarlos juntos y construir una estructura más grande como por ejemplo y que es una conjunción
+
+23:27.120 --> 23:32.200
+coordinante me permite agarrar dos cosas de la misma clase pegarlas y generar otra cosa de que
+
+23:32.200 --> 23:37.960
+también es de la misma clase que esas dos y bueno más o menos esas son las categorías
+
+23:37.960 --> 23:43.520
+cátedorías léxicas que vamos a considerar existen algunas más y dependiendo de la fuente
+
+23:43.520 --> 23:48.720
+que le dan puede que agregue diferentes como por ejemplo las interjecciones son otra otra
+
+23:48.720 --> 23:53.880
+categoría que no están está en esta slide pero la también es una clase de palabras bastante
+
+23:53.880 --> 23:58.760
+común como hay ui opa y todo ese tipo de cosas ese tipo de palabras como que no entra en ninguna
+
+23:58.760 --> 24:03.720
+en ninguna de estas categorías y bueno hay una nueva que es interjección y bueno dependiendo de
+
+24:03.720 --> 24:07.360
+a quien le dan puede que haya otras pero estas como son las más importantes y las más comunes
+
+24:07.360 --> 24:14.120
+que vamos a considerar bueno lo que les decía hace un ratito hay categorías que son abiertas y
+
+24:14.120 --> 24:19.040
+categorías que son cerradas clases abiertas y clases cerradas las clases abiertas como nombres
+
+24:19.040 --> 24:23.960
+verbos adjetivos y algunos advergios en particular los advergios que vienen de adjetivos y terminan
+
+24:23.960 --> 24:29.120
+el mente entran ahí bueno son clases en las cuales todos los días se están inventando
+
+24:29.120 --> 24:34.880
+palabras nuevas y se van agregando palabras nuevas a esas clases y las categorías cerradas son
+
+24:34.880 --> 24:38.920
+categorías en las cuales normalmente no se agregan palabras nuevas sino que yo puedo escribir
+
+24:38.920 --> 24:42.080
+una lista con todas las que existen por ejemplo una lista con todos los determinantes con todos
+
+24:42.080 --> 24:46.560
+los pronombres con todas las preposiciones y bueno hay algunos advergios particulares también
+
+24:46.560 --> 24:52.320
+yo podría escribir una lista y listarlos todos pero claro esto no quiere decir que esté escrito
+
+24:52.320 --> 24:56.960
+en piedra y que nunca cambie sino que a lo largo del tiempo a lo largo de los siglos y la historia
+
+24:56.960 --> 25:02.280
+hay palabras que empiezan a moverse a mutar su significado y se empiezan a aparecer más a
+
+25:02.280 --> 25:06.480
+preposiciones por ejemplo entonces al final se le agrega la lista de preposiciones como que es una
+
+25:06.480 --> 25:11.800
+preposición nueva pero claro eso es algo que pasa después de muchos años entonces como que en el
+
+25:11.800 --> 25:19.280
+análisis de texto del día a día no nos va a molestar demasiado bueno veamos ejemplos entonces
+
+25:19.280 --> 25:27.800
+tenemos un texto que es no sé si llega a ver las palabras que están en negrita de su padre aprendió
+
+25:27.800 --> 25:32.000
+desde niño de su padre aprendió desde muy niño el dominio de las armas de fuego el amor por los
+
+25:32.000 --> 25:36.840
+caballos y la maestranza de las aves de presas altas pero él aprendió también las buenas artes
+
+25:36.840 --> 25:41.360
+del valor y la prudencia y algunas palabras ahí que están en negrita como por ejemplo la palabra
+
+25:41.360 --> 25:50.320
+su cuál es la clase la categoría eléctrica de la palabra su cual es un determinante exacto es un
+
+25:50.320 --> 26:01.280
+determinante posesivo bueno que otras tenemos aprendió verbo bien desde es una preposición
+
+26:01.440 --> 26:12.040
+maestranza maestranza es un nombre claro sustantivo o nombre altas
+
+26:14.480 --> 26:16.200
+un adjetivo pero
+
+26:19.200 --> 26:25.040
+es una conjunción exactamente el que es él es un pronombre y también
+
+26:25.360 --> 26:35.440
+exactamente la que falta y un poco pasa eso en general cuando uno no no logra encontrar que
+
+26:35.440 --> 26:39.760
+es una palabra probablemente sea un aduario o sea empezó a decir no no es preposición no
+
+26:39.760 --> 26:44.640
+es pronómico y tal termina siendo un aduario pero bueno si los aduario son como una clase un poco
+
+26:44.640 --> 26:49.960
+un poco extraña todo lo que no puede estar en otro lado termina parando ahí y entonces como que tiene
+
+26:49.960 --> 26:53.880
+distintas propiedades combinatorias y son son un poco raros tiene algunas propiedades comunes pero
+
+26:54.200 --> 27:01.040
+bueno también si es un aduario y es este uno de esos aduarios que les decía que que no cambia
+
+27:01.040 --> 27:07.120
+digamos pertenece a la clase de aduario que no es digamos que cerrada bueno entonces muy bien
+
+27:07.120 --> 27:13.480
+este tuvieron bien todas las respuestas sube es un determinante posesivo aprendió es un verbo
+
+27:13.480 --> 27:18.840
+desde su una preposición maestranza es un nombre alta es un adjetivo pero es una conjunción él
+
+27:18.840 --> 27:29.840
+es un pronombre y también es un aduario qué pasa con estas palabras de qué categoría es la palabra
+
+27:29.840 --> 27:36.360
+sobre depende del contexto que puede ser sobre
+
+27:45.680 --> 27:47.000
+puede ser un sustantivo como
+
+27:49.240 --> 27:53.360
+eso es eso es un sustantivo
+
+27:56.120 --> 28:01.280
+ahí está el sobre de carta el sobre donde pongo una carta es un nombre es un sustantivo bien
+
+28:01.280 --> 28:07.960
+qué otro sobre puede haber entonces preposición ahí está está sobre la mesa es una preposición y
+
+28:07.960 --> 28:08.400
+hay otro más
+
+28:12.960 --> 28:16.760
+quien dijo bien que algún ejemplo
+
+28:19.000 --> 28:26.280
+lo sobre ese tiene tilde pero pero me comí la comida para que no sobre o algo así ahí sí ahí
+
+28:26.280 --> 28:31.440
+es el verbo del verbo sobrar y bueno esas son las tres categorías no sé si pueden alguna otra
+
+28:31.440 --> 28:38.160
+supongo joven que de qué categoría es sustantivo adjetivo a ver ejemplos
+
+28:38.480 --> 28:46.680
+el joven es ahí que es sí pues una es un sustantivo está y el otro
+
+28:48.200 --> 28:51.280
+el joven ahí está el adjetivo bien y cómo
+
+28:54.920 --> 28:58.240
+puede ser un verbo de comer como manzanas o qué otra cosa
+
+28:58.240 --> 29:11.240
+ahí es una precaución es una conjunción a ese es un adorio también puede ser una
+
+29:11.240 --> 29:18.680
+conjunción subordinante pero no me relativo no tengo muy claro cuál es la diferencia cuando
+
+29:18.680 --> 29:24.520
+cuando dice como nunca va no lo invitan por ejemplo ese como que vendría a ser adorio
+
+29:24.560 --> 29:30.360
+ahí está bien o sea el como es medio es medio complicado y puede tener con muchas categorías
+
+29:32.360 --> 29:39.880
+pero bueno como ven hay palabras que puede pertenecer a más de una categoría y eso
+
+29:39.880 --> 29:43.520
+significa que hay ambigüedad y la ambigüedad ocurre en todo nivel en el lenguaje natural
+
+29:43.520 --> 29:48.800
+y bueno ya empezamos desde lo más abajo las palabras son ambigüas las categorías lexicas
+
+29:48.800 --> 29:53.960
+que tienen las palabras son ambigüas entonces bueno necesitamos poder desambiguar las necesitamos
+
+29:53.960 --> 29:59.160
+poder sacar es levantar esa ambigüedad de alguna manera a saber si cuando dice sobre está hablando
+
+29:59.160 --> 30:03.840
+de un nombre está hablando de un sobre de una carta o está hablando de una preposición o está
+
+30:03.840 --> 30:08.280
+hablando de un verbo como hacemos alguien había dicho hoy que es lo que hacemos para podernos
+
+30:08.280 --> 30:15.400
+nos cuenta cuál es la categoría correcta miramos con texto entonces nosotros agarramos y miramos
+
+30:15.400 --> 30:21.520
+la oración donde está dice este no se me comí la comida para que nos sobre entonces me doy cuenta
+
+30:21.520 --> 30:30.720
+de que es un verbo y bueno que podría ser una computadora en este caso si quisiéramos
+
+30:30.720 --> 30:37.000
+hacerlo automáticamente en realidad la computadora también utiliza contexto también los métodos que
+
+30:37.000 --> 30:40.840
+existen para poder desambigüedad estas cosas se basan en el contexto y que hay palabras
+
+30:40.840 --> 30:46.360
+alrededor que me van a dar información importante acerca de cuál es la categoría esa palabra
+
+30:46.360 --> 30:50.880
+entonces existen métodos que son basados en reglas los primeros que se inventaron digamos
+
+30:50.880 --> 30:56.160
+son métodos basados en reglas donde personas hablantes del lenguaje que tienen mucho conocimiento
+
+30:56.160 --> 31:01.640
+acerca de la lengua empiezan a decir bueno si sobre está cerca de carta entonces digo que es un
+
+31:01.640 --> 31:06.800
+sustantivo y si sobre está cerca de no sé alguna otra cosa entonces digo que es una preposición
+
+31:06.800 --> 31:13.680
+etcétera entonces se armaban como grandes compilaciones de reglas con muchísimas reglas y
+
+31:13.680 --> 31:18.880
+muchísima información y bueno eso sean los primeros métodos para poder reconocer para poder
+
+31:18.880 --> 31:24.920
+identificar cuál es la categoría gramática de una palabra que es ambigua pero otro gran otro
+
+31:24.920 --> 31:30.880
+gran este grupo de técnicas en vez de digamos de utilizar personas para que escriban esas
+
+31:30.880 --> 31:35.080
+reglas tratan de inferirlas automáticamente agarran un montón de texto que tiene ya etiquetado
+
+31:35.080 --> 31:39.800
+cuáles son las categorías correctas y tratan de inferir las reglas mediante aprendizaje automático
+
+31:39.800 --> 31:44.520
+entonces inicialmente los métodos más exitosos eran basados en reglas o sea había lingüistas que
+
+31:44.520 --> 31:50.400
+escribían un montón de reglas con un montón de conocimiento pero aún así digamos es bastante
+
+31:50.400 --> 31:55.240
+complejo y se vuelve como bastante intratable entonces lo después de cierto momento de la
+
+31:55.240 --> 32:00.120
+historia empezaron a ser más precisos los métodos automáticos basándome en una gran colección de
+
+32:00.120 --> 32:05.120
+texto que ya está etiquetado yo puedo entrenar algo que aprende a reconocer cualquier texto que
+
+32:05.120 --> 32:11.520
+a mí se me ocurra eso lo vamos a ver más adelante en el curso cómo es que funcionan estos métodos
+
+32:11.520 --> 32:17.760
+bien entonces por ejemplo la palabra medio es una palabra que tiene dos posibles
+
+32:19.360 --> 32:24.000
+categorías léxicas medio puede ser un adjetivo o medio puede ser un adverbio y acá yo puedo
+
+32:24.000 --> 32:29.480
+ver una diferencia interesante entre adjetivo y adverbio cuando yo digo estoy hablando de un
+
+32:29.480 --> 32:33.400
+tomate digo que quiero medio tomate si estoy hablando un naranja naranja digo que quiero
+
+32:33.400 --> 32:39.760
+media naranja y ahí la palabra medio cambio en realidad cambio porque tomate es porque cambió
+
+32:41.520 --> 32:48.760
+no es el artículo no estamos hablando del nombre el nombre tomate es un nombre masculino
+
+32:51.240 --> 32:55.960
+claro pero en realidad artículo también cambia por lo mismo cambia porque el artículo se adapta
+
+32:55.960 --> 33:00.880
+a que el nombre es masculino entonces el artículo va a pasar a ser masculino si el nombre femenino
+
+33:00.880 --> 33:06.120
+el artículo también entonces eso se llama concordancia en español existe concordancia entre
+
+33:06.120 --> 33:10.440
+un determinante y el sustantivo que está determinando y el nombre que está determinando
+
+33:10.440 --> 33:15.440
+y también entre un adjetivo y el nombre que está modificando entonces eso es lo que pasa con
+
+33:15.440 --> 33:20.920
+medio en este caso cuando yo digo tomate que es un nombre masculino entonces el adjetivo que lo
+
+33:20.920 --> 33:26.080
+está modificando también tiene que ser masculino cuando digo naranja que es un nombre femenino el
+
+33:26.080 --> 33:30.120
+adjetivo lo está modificando también pasa a ser femenino y eso es parte de lo que decíamos el
+
+33:30.120 --> 33:36.600
+paradigma flexivo la palabra medio puede flexionarse de manera de volverse femenina o puede también
+
+33:36.600 --> 33:44.200
+flexionarse de manera de volverse plural y va a tener la misma las mismas categorías digamos la
+
+33:44.200 --> 33:48.840
+misma flexión que va a tener el sustantivo que está acompañando en cambio en los ejemplos
+
+33:48.840 --> 33:54.000
+abajo cuando se trata de un adverbio esto no ocurre yo digo están medio cansadas y no digo
+
+33:54.000 --> 33:58.560
+están medias cansadas cómo le suena están medias cansadas
+
+34:03.280 --> 34:04.240
+es una raro
+
+34:05.760 --> 34:11.840
+si suena un poco como las medias están cansadas pero qué pasa si digo mi vecina está medio
+
+34:12.000 --> 34:16.640
+ahí cómo le suena
+
+34:17.640 --> 34:26.040
+ahí suena bien no suena menos mal pero lo correcto es decir mi vecina está medio loca que de alguna
+
+34:26.040 --> 34:32.240
+manera suena bien también pero capaz que media loca no suena más natural y eso raro en realidad
+
+34:32.240 --> 34:37.680
+porque lo normal es que a ese medio que estoy diciendo ahí es un adverbio y los adverbios nunca
+
+34:37.680 --> 34:42.000
+cambian los adverbios no tienen flexión sino que simple siempre se comportan de la misma manera
+
+34:42.000 --> 34:47.440
+pero por algún motivo por lo menos en uruguay no sé si pasa en el resto del mundo para para decir
+
+34:47.440 --> 34:53.200
+medio para utilizar el adorio medio este nosotros solemos flexionarlo y decir esta media loca o están
+
+34:53.200 --> 34:58.440
+medias locas o lo que sea y no sé si eso es universal en todo el español pero por lo menos en uruguay
+
+34:58.440 --> 35:04.280
+nos suena bastante natural decir eso entonces esto es otro ejemplo de una cosa que es histórica
+
+35:04.280 --> 35:09.040
+probablemente nosotros nos pusimos de acuerdo todos como sociedad de que sonaba mejor decir
+
+35:09.040 --> 35:15.480
+esta media loca que está medio loca y eso trae problemas al analizar las cosas este
+
+35:16.480 --> 35:22.320
+mediante reglas porque yo digo bueno la regla correcta es decir está medio loca y si digo
+
+35:22.320 --> 35:28.760
+cualquier otra cosa está mal no lo puedo reconocer porque es incorrecto pero probablemente alguien se
+
+35:28.760 --> 35:31.920
+le ocurre escribirlo porque alguien le suena natural y lo escribe de esa manera entonces
+
+35:31.920 --> 35:38.000
+pues mi procedimiento va a fallar porque tenía un error lo que yo considero que es un error pero
+
+35:38.000 --> 35:44.380
+esa persona le sonaba natural y bueno ese es uno de los problemas grandes digamos que tiene el
+
+35:44.380 --> 35:49.280
+procesamiento de lenguaje o sea uno tiene que ser tolerante ante ese tipo de errores porque capaz
+
+35:49.280 --> 35:53.760
+que en realidad no está tan mal capaz que hay que ser un subconjunto de personas que hablan de esa
+
+35:53.760 --> 36:01.840
+manera y eso entonces los errores son un problema y lo vamos a ver a lo largo del curso cuando hay
+
+36:01.840 --> 36:07.760
+errores digamos de análisis de una oración uno puede directamente decir bueno este corto a
+
+36:07.760 --> 36:12.160
+cambio análisis y no no sigo analizando porque esta oración tiene errores o puede decir bueno hay
+
+36:12.160 --> 36:17.520
+errores pero con cierta probabilidad en realidad quiso decir esta otra cosa y bueno está ese es
+
+36:17.520 --> 36:24.840
+otro problema que está bueno para es complicado y está bueno para analizarlo después bien que otro
+
+36:24.840 --> 36:29.760
+problema tengo cuando quiero identificar la categoría lexica de una palabra hay palabras
+
+36:29.760 --> 36:33.280
+desconocidas o sea como decíamos hay clases abiertas todos los días se están inventando
+
+36:33.280 --> 36:37.560
+palabras y si bien yo puedo tener un diccionario que tiene un montón de palabras y decirme para cada
+
+36:37.560 --> 36:42.880
+una cuál es su categoría lexica es muy probable que alguien venga mañana y me envente una palabra
+
+36:42.880 --> 36:47.480
+nueva como en este que dice digo 20 diría 50 porque esos eran los que representaba con su
+
+36:47.480 --> 36:51.560
+desgunfiamiento de mascarón chino y sus ojos enturbiados como los de un antiguo lavabatos
+
+36:52.560 --> 37:01.160
+es un fiamiento alguien sabe lo que es un confiamiento no probablemente art inventó esa
+
+37:01.160 --> 37:06.240
+palabra en ese momento pero más o menos podemos saber de qué categoría es que se les ocurre que
+
+37:06.240 --> 37:16.160
+ese es un fiamiento una adverbio porque por miento los adorios te está confundiendo en
+
+37:16.560 --> 37:24.720
+mente no hay determinante entonces es un nombre exacto el confiamiento es un nombre y las dos
+
+37:24.720 --> 37:30.480
+pautas que me lo dicen es por la terminación miento que se utiliza para en muchas ocasiones para
+
+37:30.480 --> 37:37.520
+pasar de vergo a nombre como en entrenamiento casamiento cuestionamiento cosas de estilo y
+
+37:37.520 --> 37:41.960
+además porque está precedido por un determinante y el determinante se aplica a nombres
+
+37:47.160 --> 37:56.680
+como sustantivo nombre y sustantigo sí es lo mismo bien acá tenemos otro ejemplo en las
+
+37:56.680 --> 38:00.640
+mediciones de transaminazas o aminotranferazas son exámenes que indican inflamación hepática
+
+38:00.640 --> 38:05.640
+etcétera etcétera transaminazas o aminotranferazas esas dos palabras que son
+
+38:08.120 --> 38:13.840
+también son nombres o sustantivos porque qué es lo que nos da la pauta porque conocemos
+
+38:13.840 --> 38:25.860
+mucho de química y sabemos cómo funciona son exámenes o sea en realidad lo que son
+
+38:25.860 --> 38:31.760
+exámenes no son las transaminazas o aminotranferazas sino las mediciones de eso y qué pasa cuando
+
+38:31.760 --> 38:35.840
+yo digo medición de algo en realidad ese algo que estoy midiendo probablemente sea un nombre
+
+38:35.840 --> 38:41.640
+porque yo no no no a una medición de leer o a una medición de no sé o sea en general lo que lo que
+
+38:41.640 --> 38:47.000
+va después de una medición de algo es es un nombre es un objeto también si conociera acerca
+
+38:47.000 --> 38:53.480
+de cómo funciona el la morfología de las de las palabras que son sustancias químicas vería
+
+38:53.480 --> 38:58.920
+que las que terminan en asa también son siempre nombres entonces en definitiva siempre utilizo
+
+38:58.920 --> 39:02.880
+este tipo de técnicas para reconocer que hay un nombre cuando tenga una palabra desconocida
+
+39:02.880 --> 39:07.280
+entonces el tipo de evidencia que yo puedo sacar para saber que un fiamento es un nombre es por
+
+39:07.280 --> 39:12.800
+su terminación porque está precedido en determinante y bueno transaminazas y aminotranferazas más
+
+39:12.800 --> 39:19.920
+o menos lo mismo bueno otro problema que hay al reconocer categorías lexicas es la existencia
+
+39:19.920 --> 39:25.600
+de este tipo de cosas que se llaman locuciones o palabras compuestas o expresiones multipalabras
+
+39:25.600 --> 39:31.520
+son como conceptos similares que se refieren más o menos a la misma cosa y son secuencias de
+
+39:31.640 --> 39:37.640
+palabras que siempre van juntas o sea son secuencias de palabras que no actúan como si fuera cada
+
+39:37.640 --> 39:41.720
+palabra por separado sino que tienen una sola unidad de sentido entonces acá hay un ejemplo que es
+
+39:41.720 --> 39:48.080
+a partir de lo invitaron a partir de que demostró estar interesado en el tema ese a partir de no
+
+39:48.080 --> 39:53.080
+es este o sea no estoy utilizando luego partir para nada sino que no o sea no hay nadie que vaya a
+
+39:53.080 --> 39:58.880
+partir sino que lo estoy usando como una expresión multipalabra que es funciona como una especie de
+
+39:58.880 --> 40:03.760
+preposición una especie de macro preposición que funciona para decir lo que viene después lo
+
+40:03.760 --> 40:09.240
+invitaron a partir de que demostró estar interesado en el tema en cambio hay otros casos en los cuales
+
+40:09.240 --> 40:16.920
+yo voy a encontrar el string a partir de y va a querer decir explícitamente que está el verbo
+
+40:16.920 --> 40:22.000
+partir y que hay otras cosas alrededor por ejemplo en lo obligaron a partir de aquel lugar
+
+40:22.000 --> 40:28.480
+inmediatamente en ese caso no estoy usando la esa locución prepositiva a partir de sino que
+
+40:28.480 --> 40:33.520
+estoy diciendo hay una persona que tenía que partir entonces lo obligaron a partir de aquel
+
+40:33.520 --> 40:40.000
+lugar inmediatamente en ese caso estoy haciendo el análisis explícito y es complicado para un
+
+40:40.000 --> 40:43.960
+analizador automático saber cuándo tiene que usar uno de los casos y cuándo tiene que usar el otro
+
+40:43.960 --> 40:50.160
+y locuciones de este estilo hay de para todos los gustos digamos en todas las categorías tenemos
+
+40:50.160 --> 40:55.360
+locuciones que son nominales como por ejemplo ojo de wey logo de mar otras que son verbales como dar
+
+40:55.360 --> 41:01.920
+un beso dar la mano dar las gracias tomar el pelo otras más entonces por ejemplo ojo de wey que es
+
+41:01.920 --> 41:09.240
+un ojo de wey es una ventanita redonda que se pone los barcos digamos ahí no hay ningún ningún
+
+41:09.240 --> 41:15.200
+buen ningún este ganado vacuno y nos está hablando de ningún ojo en cambio si yo tengo un
+
+41:15.200 --> 41:20.760
+texto digamos y me aparece ojo de wey como reconozco si está hablando de de weyes o está hablando de
+
+41:20.760 --> 41:25.200
+barcos bueno yo podría mirar alrededor y veo si hay un contexto marítimo donde habla de barcos y
+
+41:25.200 --> 41:31.760
+habla de mar y etcétera entonces digo bueno acá se refiere al ojo de wey marino y si habla de vacas
+
+41:31.760 --> 41:36.280
+y habla de cabezas de ganado etcétera entonces digo se está refiriendo al otro ojo de wey puedo
+
+41:36.280 --> 41:42.920
+separarlo entonces bueno usando el contexto también se puede llegar a distinguir este tipo de cosas
+
+41:45.760 --> 41:47.200
+bueno entonces estos son
+
+41:47.400 --> 41:58.280
+tres tipos de problemas tres fuentes de problemas que tenemos al identificar categorías léxicas
+
+41:58.280 --> 42:02.880
+dentro de un texto uno es el principal es la ambigüedad o sea de palabras que tienen más de
+
+42:02.880 --> 42:09.160
+una categoría yo tengo que poder distinguirlo otro es cómo hago para encontrar una la categoría
+
+42:09.160 --> 42:13.440
+léxica de una palabra desconocida y el otro es la identificación de palabras compuestas o expresiones
+
+42:13.440 --> 42:18.440
+multipalabra y bueno estos problemas y otros muchos estos son algunos ejemplos son problemas que
+
+42:18.440 --> 42:23.800
+se enfrenta el procesamiento del lenguaje y bueno en el curso vamos a estar viendo algunos de estos
+
+42:36.000 --> 42:40.040
+bueno vamos a abandonar las palabras entonces que la unidad mínima que estudiaba la sintaxis
+
+42:40.120 --> 42:46.400
+y vamos a pasar a estructuras un poco más grandes que las palabras vamos a hablar de los
+
+42:46.400 --> 42:53.160
+intactos los intactos son grupos de palabras dentro del texto grupos de palabras que siempre
+
+42:53.160 --> 42:58.960
+tienen un núcleo y siempre tiene una estructura interna y esa estructura es como son es una palabra
+
+42:58.960 --> 43:06.320
+rodeada de otras palabras que siempre están de alguna manera vinculadas al núcleo y bueno
+
+43:06.320 --> 43:09.560
+los intactos pueden cumplir diversas funciones dentro de la vibración y ahora vamos a ver
+
+43:09.560 --> 43:15.200
+ejemplos de qué son los intactos el sintagma es una de las formas de decirles en español otra forma
+
+43:15.200 --> 43:21.520
+de decirles grupo y otra forma de decirle frase y en inglés se dice phrase y pueden usar esa o sea
+
+43:21.520 --> 43:26.720
+pueden ver esa nomenclatura en muchos lados y ahora vamos a ver ejemplos de eso el estudiante de letras
+
+43:26.720 --> 43:31.960
+de montevideo es un ejemplo de sintagma lo que está en estos ejemplos lo que está marcado en
+
+43:31.960 --> 43:36.520
+negrita es el núcleo el estudiante de letras de montevideo tiene como núcleo estudiante entonces
+
+43:36.520 --> 43:43.960
+decimos que estudiante de qué categoría es estudiante es un nombre entonces decimos que el
+
+43:43.960 --> 43:50.040
+estudiante de letras de montevideo es un grupo nominal el siguiente es muy propenso a las infecciones
+
+43:50.040 --> 43:57.880
+respiratorias en primavera el núcleo de ese es propenso que es propenso propenso son adjetivos
+
+43:57.880 --> 44:04.040
+y que esto es un grupo adjetival o sintagma adjetiva el siguiente es casi compra otro libro por
+
+44:04.040 --> 44:12.160
+equivocación que sería ese sería verbal esto es un sintagma verbal el siguiente es bastante
+
+44:12.160 --> 44:20.680
+cerca de la escuela y en ese caso cerca es un adverbio en realidad entonces esto sería un
+
+44:20.680 --> 44:31.280
+sintagma adverbial y después más hacia la derecha que les parece es una preposición así
+
+44:31.280 --> 44:36.120
+que esto es un sintagma preposicional y ahí están estos mirad y cambié letras por ingeniería
+
+44:36.120 --> 44:40.200
+porque era más apropiado para acá el estudiante de ingeniería de montevideo es un sintagma
+
+44:40.200 --> 44:44.440
+nominal muy propenso a las infecciones respiratorias en primavera es un sintagma adjetival sintagma
+
+44:44.440 --> 44:51.280
+nominal grupo nominal frase nominal o noun phrase en general van a poder encontrar esa
+
+44:51.280 --> 44:57.320
+nomenclatura en todos lados y bueno yo que sé dependiendo de del artículo dependiendo de lo que
+
+44:57.320 --> 45:03.040
+están leyendo puede que aparezca como sn o como np porque lo está tratando en inglés etcétera pero
+
+45:03.040 --> 45:08.000
+bueno son cosas que hablan de lo mismo son este grupo es un grupo de palabras que se asocian
+
+45:08.000 --> 45:13.920
+alrededor del núcleo que el núcleo en este caso es estudiante y bueno después van a cumplir van a
+
+45:13.960 --> 45:18.520
+tener cierta estructura y van a cumplir ciertos roles bueno entonces esos son ejemplos de sintagmas
+
+45:19.800 --> 45:24.280
+qué es lo que pasa con un sintagma un sintagma siempre tiene un núcleo en este caso estoy
+
+45:24.280 --> 45:31.360
+viendo el estudiante de ingeniería de montevideo el núcleo es estudiante y el resto de las palabras
+
+45:31.360 --> 45:37.120
+del sintagma se estructuran alrededor del núcleo tienen cierta vinculación o cierta relación
+
+45:37.120 --> 45:41.440
+respecto al núcleo entonces en el estudiante de ingeniería de montevideo yo lo que digo es que
+
+45:41.440 --> 45:46.640
+estudiante es el núcleo y después le voy a agregar de ingeniería voy a hacer que estudiante
+
+45:46.640 --> 45:51.280
+de ingeniería digamos forma en una unidad mayor y a ese de ingeniería le voy a llamar complemento
+
+45:51.280 --> 45:56.240
+le voy a decir que es un complemento de estudiante después voy a agarrar de montevideo y lo voy a
+
+45:56.240 --> 46:01.480
+pegar a la estructura que ya venía armando y voy a decir que es un adjunto y en el medio cuando
+
+46:01.480 --> 46:08.960
+yo hago eso lo que va pasando es que se van armando estas cosas o sea yo partí de un núcleo nominal
+
+46:08.960 --> 46:15.640
+partido una palabra que es un nombre y armé una proyección eso que dice n prima es se denomina
+
+46:15.640 --> 46:20.720
+una proyección después le pegue un adjunto y armé otra proyección y al final le puse un
+
+46:20.720 --> 46:26.960
+especificador que en este caso es un determinante y termino armando un sintagma eso se llama la
+
+46:26.960 --> 46:33.520
+proyección máxima de la proyección máxima del nombre que termina siendo un sintagma nominal
+
+46:34.520 --> 46:39.160
+esta cosa que está acá esta estructura en forma de árbol que puede parecer un poco raro
+
+46:39.160 --> 46:47.200
+de principio es es parte de una teoría que se inventó en los 70 lo inventó digamos está
+
+46:47.200 --> 46:52.920
+basada en las ideas de no anchonski lo tiene a chonski no bien chonski en los 70 inventó esto
+
+46:52.920 --> 46:59.280
+después rey jackendorf creo que llamaba fue el que lo formalizó y se llama la teoría de la
+
+46:59.280 --> 47:07.760
+x barra y se escribe x prima y bueno creo que originalmente era con una barra arriba escribían
+
+47:07.760 --> 47:13.880
+así pero en las en la máquina escribir a la época era difícil entonces al final lo que lo que
+
+47:13.880 --> 47:21.680
+terminaron haciendo ponerle un apóstrofe bien entonces eso se llama teoría de la x barra y la
+
+47:21.680 --> 47:26.560
+teoría de la x barra dice que todos los sintagmas del mundo en realidad para la teoría todos los
+
+47:26.560 --> 47:31.200
+sintagmas de todos los lenguajes de todos los lenguajes naturales del mundo se pueden analizar
+
+47:31.200 --> 47:36.320
+esta manera yo siempre puedo encontrar un núcleo adentro del sintagma y después le puedo pegar
+
+47:36.320 --> 47:40.760
+un complemento le puedo pegar un adjunto y al final le termino pegando un especificador y eso me
+
+47:40.760 --> 47:46.120
+arma un sintagma esto es una una vista como súper simplificada de lo que es la teoría de la x barra
+
+47:46.120 --> 47:52.680
+pero bueno este un poco para que tengan una idea de qué se trata entonces esto es un sintagma
+
+47:52.680 --> 47:58.920
+nominal el sintagma nominal se arma de esa manera acá notar que yo dije que agregué de
+
+47:58.920 --> 48:04.080
+ingeniería como complemento y de montevideo como adjunto porque uno de los dos es complemento y
+
+48:04.080 --> 48:12.000
+porque el otro es un adjunto es un tema que es bastante discutido pero vamos a tratar con otro
+
+48:12.000 --> 48:17.120
+ejemplo de ver si se entiende cuál es la diferencia entre complemento y adjunto este es otro sintagma
+
+48:17.120 --> 48:22.160
+de los que teníamos ahí muy propenso las infecciones respiratorias en primavera en este caso el núcleo
+
+48:22.160 --> 48:28.280
+es el adjetivo propenso y le agregó un complemento que es a las infecciones respiratorias eso es un
+
+48:28.280 --> 48:34.240
+complemento y le agregó un adjunto que es en primavera y después le pongo un especificador que en
+
+48:34.240 --> 48:40.520
+este caso es un adverbio el adverbio muy eso de que de agregarle como especificador el adverbio al
+
+48:40.520 --> 48:46.040
+al grupo adjetival también es medio discutido pero bueno en este caso para este análisis vamos a
+
+48:46.040 --> 48:53.800
+suponer que es así entonces bueno os haremos esto que está acá empiezo con el núcleo que es el
+
+48:53.800 --> 48:57.920
+adjetivo propenso y después digo que tengo un complemento que es a las infecciones respiratorias
+
+48:59.680 --> 49:03.080
+qué pasa con el adjetivo propenso qué tiene de particular
+
+49:06.600 --> 49:08.320
+yo puedo decir juan es propenso
+
+49:08.320 --> 49:16.360
+claro es como que propenso necesita que yo le diga propenso a qué porque en realidad propenso
+
+49:16.360 --> 49:21.480
+sólo no está funcionando entonces ahí es como que propenso me obliga a ponerle un complemento
+
+49:21.480 --> 49:28.600
+propenso algo propenso las infecciones respiratorias sin embargo en primavera no pasa eso o sea en
+
+49:28.600 --> 49:33.240
+primavera es una cosa es digamos una una frase que se la puede agregar a cualquier cosa yo puedo
+
+49:33.240 --> 49:37.720
+decir flores rojas en primavera por ejemplo y no importa tanto que yo haya puesto propenso ahí
+
+49:38.160 --> 49:42.520
+entonces como que la diferencia entre complemento de adjunto viene a ser eso complemento es algo
+
+49:42.520 --> 49:48.800
+que el núcleo pide que se agregue de alguna manera y adjunto es algo que el núcleo bueno no le
+
+49:48.800 --> 49:52.680
+importa si está o no ese es como que me agrega más información pero es independiente de cuál
+
+49:52.680 --> 49:58.840
+es el núcleo que yo estoy poniendo entonces bueno es un poco la diferencia entre complemento
+
+49:58.840 --> 50:03.280
+de adjunto después cuando veamos la estructura de elaboración va a quedar capaz que un poco más
+
+50:03.280 --> 50:08.720
+claro de cuáles son esas diferencias bueno y lo otro que hay es un especificador que en el caso
+
+50:08.720 --> 50:16.000
+de el sintagma nominal el especificador era un determinante entonces en el caso de sintagma
+
+50:16.000 --> 50:21.760
+nominal una cosa que ocurre en español y que no ocurre en en otros idiomas
+
+50:23.760 --> 50:27.880
+no creo que esto ocurre si en otros idiomas es que el
+
+50:28.200 --> 50:36.700
+el núcleo tiene que concordar con el especificador entonces en el caso de el estudiante yo estoy
+
+50:36.700 --> 50:42.640
+diciendo estudiante es una palabra que es singular y es masculina y entonces puedo ponerle un
+
+50:42.640 --> 50:47.680
+determinante que es singular y masculino si dijera estudiantes entonces tendría que ponerle un
+
+50:48.680 --> 50:55.960
+un determinante que es plural y tendría que decir los estudiantes eso se llama concordancia entre
+
+50:55.960 --> 51:02.080
+determinante y nombre y bueno eso ocurre este digamos en español ocurre entre el determinante
+
+51:02.080 --> 51:06.960
+del nombre también ocurre entre el determinante entre el nombre y el adjetivo que es algo que
+
+51:06.960 --> 51:11.040
+vimos hace un ratito bien
+
+51:14.200 --> 51:16.840
+ok entonces qué son los sintagmas
+
+51:19.920 --> 51:25.440
+los sintagmas son grupos de palabras que tiene cierta estructura interna y sirven para
+
+51:25.960 --> 51:31.280
+como expandir digamos lo que son las categorías básicas todos los sintagmas tienen un núcleo
+
+51:31.280 --> 51:36.400
+y ese núcleo les va a dar cuál es la categoría del sintagma o sea si el núcleo es un nombre
+
+51:36.400 --> 51:42.080
+entonces yo digo que es un sintagma nominal y tienen similitud en cómo funcionan internamente
+
+51:42.080 --> 51:47.040
+internamente siempre tienen esa forma de árbol pero claro en realidad no es que
+
+51:47.040 --> 51:51.240
+vamos ahora vamos a ver algunos ejemplos pero no es que siempre tengan esa forma de árbol
+
+51:51.240 --> 51:57.920
+completa sino que a veces le faltan partes bien entonces la estructura que yo puedo encontrar
+
+51:57.920 --> 52:01.720
+siempre entre un sintagma sigue estas reglas siempre tengo un núcleo siempre puedo encontrar
+
+52:01.720 --> 52:08.040
+complementos a juntos o un especificador y acá tenemos algunos ejemplos ejemplo de sintagmas
+
+52:08.040 --> 52:13.880
+nominales por ejemplo el libro negro es un sintagma nominal con núcleo libro la vieja
+
+52:13.880 --> 52:18.520
+casa de la colina es un sintagma nominal con núcleo casa ese primera tijos de alegría el
+
+52:18.520 --> 52:24.520
+estudiante de ingeniería de montevideo o juan que pasa con juan que es lo que ven de raro respecto
+
+52:24.520 --> 52:36.080
+a los otros sintagmas no tiene determinante ni tiene nada en realidad no tiene ni determinante
+
+52:36.080 --> 52:42.520
+ni complementos y nada en realidad eso en la teoría está planteado dice bueno está lo
+
+52:42.520 --> 52:49.920
+podemos analizar igual diciendo que tenemos el núcleo juan que es un n y a esto le pongo un
+
+52:49.920 --> 53:00.200
+complemento vacío y a esto le pongo un adjunto vacío y al final le pongo un especificador vacío y
+
+53:00.200 --> 53:06.920
+me queda un sintagma nominal porque es esto en realidad porque en español no digamos no es
+
+53:06.920 --> 53:12.720
+usual que uno le ponga determinante a los nombres propios yo no digo el juan entonces claro en
+
+53:12.720 --> 53:17.000
+definitiva lo que me queda es un montón de lugares vacíos en la teoría formalmente uno debería
+
+53:17.000 --> 53:21.000
+decir bueno está tengo esto este sintagma que tiene un montón de lugares vacíos en la práctica
+
+53:21.000 --> 53:27.840
+vamos a ir directamente de sintagma nominal a juan y decir que es un nombre propio pero bueno
+
+53:27.840 --> 53:35.000
+en realidad esta teoría que le estoy dando esta versión super light de la x barra es solamente
+
+53:35.000 --> 53:39.920
+como modo de ejemplo en realidad vamos a ver durante el curso otras formas de gramáticas
+
+53:39.920 --> 53:45.480
+que son un poco más simples que eso y que sirven para poder modelar las oraciones que vamos a ver
+
+53:50.720 --> 53:51.320
+bien
+
+53:55.120 --> 53:59.240
+bueno ejemplo de sintagmas adjetiva son por ejemplo fácil de leer y ahí tengo el
+
+53:59.240 --> 54:04.440
+complemento de fácil que es de leer y tan débil que en ese caso tiene un este especificador que
+
+54:04.440 --> 54:09.440
+están y después tengo un sintagma adjetiva al solo en el mismo caso que pasaba con juan pero
+
+54:09.440 --> 54:16.120
+solamente un adjetivo que es curioso y acá hay más ejemplos ejemplos preposicionales los preposicionales
+
+54:16.120 --> 54:22.600
+son los que tienen como núcleo la preposición como en un comienzo para que lo vean a la casa
+
+54:22.600 --> 54:27.720
+adorviales son los que tienen como núcleo de adorio como muy tarde y lejos de tu casa y los
+
+54:27.720 --> 54:34.200
+verbales son los que tienen como núcleo un verbo comía una manzana y canto una cosa que
+
+54:34.200 --> 54:38.560
+tienen los sintagmas verbales después vamos a ver es que cuando están completos y tienen todas
+
+54:38.560 --> 54:42.880
+las partes que le falta en realidad lo que pasa que se transforma en oraciones un sintagma
+
+54:42.880 --> 54:49.120
+verbal viene a ser como una oración entonces cómo es esto de el análisis de los sintagmas yo
+
+54:49.120 --> 54:55.600
+tengo por ejemplo este ejemplo que dice la vieja casa de la colina y eso lo analizaría de esta
+
+54:55.600 --> 55:04.880
+manera yo digo que casa digo que casa es un nombre
+
+55:10.000 --> 55:15.760
+después dice que es la vieja casa de la colina digo que tengo de la colina
+
+55:15.760 --> 55:30.920
+y esto es un adjunto después digo que tengo la palabra vieja y esto también es un adjunto
+
+55:32.360 --> 55:38.920
+y después arriba del todo termino agregándole la que es el determinante que está actuando como
+
+55:39.080 --> 55:47.440
+especificador bien esa es la forma de analizar la vieja casa de la colina pero si me fijo bien en
+
+55:47.440 --> 55:51.840
+realidad acá no tengo una sola palabra sino que tengo varias palabras tengo de la colina
+
+55:51.840 --> 55:58.440
+entonces qué es esto que está acá esto en realidad es otro sintagma que a su vez lo puedo
+
+55:58.440 --> 56:03.720
+analizar y puedo decir bueno esto es un sintagma preposicional que empieza con el núcleo de esto
+
+56:03.720 --> 56:17.480
+es una preposición y tiene el complemento la colina este es el complemento entonces esto se
+
+56:17.480 --> 56:23.720
+transforma en un p prima y después tiene un especificador vacío y se transforma en un sp y
+
+56:23.720 --> 56:33.240
+todo esto de acá está actuando como adjunto de casa o sea yo originalmente dije bueno yo tenía
+
+56:33.240 --> 56:37.680
+el núcleo casa y lo que estaba como complemento era de la colina bueno ahora puedo seguir un paso
+
+56:37.680 --> 56:43.880
+más y volver a analizar ese de la colina y abrirlo como si fuera también un sintagma que de hecho
+
+56:43.880 --> 56:48.920
+lo es es un sintagma preposicional pero a su vez este de acá yo en este caso tengo la colina y la
+
+56:48.920 --> 56:58.200
+colina también lo puedo llegar a analizar como otro sintagma entonces vamos a tratar de hacerlo
+
+56:58.360 --> 57:10.200
+yo digo que tengo colina no tiene ningún complemento y tiene el determinante la que
+
+57:10.200 --> 57:19.800
+es el especificador y esto me genera un sintagma nominal entonces y esto está actuando como un
+
+57:20.200 --> 57:24.120
+complemento
+
+57:24.120 --> 57:30.240
+esto está actuando como complemento de D y a su vez todo esto que está acá está actuando como
+
+57:30.240 --> 57:39.520
+adjunto de casa entonces en definitiva yo puedo agarrar cualquier sintagma de estos y puedo empezar
+
+57:39.520 --> 57:43.760
+a descomponerlo y ver cada una de las unidades que me van apareciendo por ahí lo puedo volver a
+
+57:43.760 --> 57:47.880
+descomponer y volver a descomponer y al final me va quedando un árbol binario me va quedando un
+
+57:47.880 --> 57:54.480
+árbol binario donde aparecen todas las palabras de ese sintagma que yo estaba escribiendo y bueno
+
+57:54.480 --> 58:01.800
+y todas esas palabras al final me quedan todas organizadas en un árbol binario la teoría
+
+58:01.800 --> 58:07.160
+de la x barra siempre plantea dibujar árboles binarios a partir de todas las estructuras
+
+58:08.960 --> 58:14.280
+bueno y en definitiva fue un poco criticada por eso más adelante pero bueno en definitiva
+
+58:14.280 --> 58:20.560
+esta es una forma de darle estructura a todas las unidades que hay en el lenguaje en este
+
+58:20.560 --> 58:23.520
+caso los sintagmas después vamos a ver que las oraciones también se pueden estructurar de esta
+
+58:23.520 --> 58:32.160
+manera y bueno fue una teoría que en su momento fue bastante utilizada porque claro ellos planteaban
+
+58:32.160 --> 58:35.800
+que todos los idiomas del mundo en todos los lenguajes naturales ya sea el inglés el español
+
+58:35.800 --> 58:40.240
+o el chino todo se pueden analizar de esta manera yo puedo descomponer los sintagmas de esta forma y
+
+58:40.240 --> 58:44.440
+al final siempre me va a terminar quedando un árbol binario en los cuales yo identificó ciertos
+
+58:44.440 --> 58:54.080
+núcleos y otras cosas que se le van pegando al núcleo en qué sentido no hay forma de probar
+
+58:57.600 --> 59:04.280
+y pero y cómo lo probarías y empecé agarrando frases y hasta que en algún momento hay una que
+
+59:04.280 --> 59:07.200
+no la puedas hacer y ahí lo lo falciaste es el método científico
+
+59:09.320 --> 59:14.960
+claro pero digamos si es incorrecto se va a borrefalciar si no no vas a poder
+
+59:17.840 --> 59:19.600
+como todas las teorías científicas
+
+59:22.040 --> 59:27.200
+claro o sea si esto fuera completamente formal estuviéramos en un punto de vista lógico entonces
+
+59:27.200 --> 59:31.320
+lo podrías hacer pero claro acá estás describiendo una situación del universo
+
+59:31.560 --> 59:36.040
+estás describiendo una cosa que ya existe ahí que es el lenguaje entonces vos estás haciendo un
+
+59:36.040 --> 59:40.640
+modelo y tratando de ver si ese modelo se aplica al lenguaje que es algo que ya existe entonces
+
+59:40.640 --> 59:46.000
+es más parecido a las leyes físicas que a las leyes matemáticas digamos leyes matemáticas no
+
+59:46.000 --> 59:50.480
+es más parecido a la física que un teorema matemático claro o sea vos estás describiendo una
+
+59:50.480 --> 59:54.720
+situación del universo y tratando de encontrar el mejor modelo posible que le explique
+
+59:56.120 --> 59:59.920
+y bueno esta es un modelo que en su momento hizo mucho ruido porque explicaba un montón de
+
+59:59.920 --> 01:00:03.720
+situaciones y andaba bastante bien en un montón de casos más adelante se empezaron a ver otros
+
+01:00:03.720 --> 01:00:08.840
+en el curso vamos a ver algo un poco más simple que esto no vamos a hacerlo de esta manera sino
+
+01:00:08.840 --> 01:00:13.360
+que vamos a ver algo más parecido a lo que son las gramáticas libres de contexto con algunos
+
+01:00:13.360 --> 01:00:21.120
+cambios pero bueno después este vamos a empezar a hablar un poco más de cómo la estructura de
+
+01:00:21.120 --> 01:00:25.680
+la eración respecto a esto a esto de la estructura de los intangmas y bueno va a quedar un poco más
+
+01:00:25.680 --> 01:00:34.040
+claro capaz bien entonces lo siguiente que vamos a ver son los constituyentes sintácticos
+
+01:00:34.040 --> 01:00:39.920
+hasta ahora lo que tenemos eran palabras las palabras se pueden agrupar de alguna
+
+01:00:39.920 --> 01:00:44.960
+manera en sintagmas los intangmas tiene una estructura esa estructura implica que tienen
+
+01:00:44.960 --> 01:00:50.720
+un núcleo y tienen cosas alrededor que se le van pegando el núcleo y ahora vamos a ver que algunos
+
+01:00:50.720 --> 01:00:56.560
+de estos sintagmas resulta que son constituyentes de la oración entonces miremos este ejemplo que
+
+01:00:56.560 --> 01:01:00.920
+hay acá que dice el informativista de la televisión anunció fuertes tormentas para los próximos días
+
+01:01:02.200 --> 01:01:06.120
+que sintagmas podemos identificar ahí en esa en esa oración
+
+01:01:09.440 --> 01:01:13.480
+sintagmas de cualquier tipo no tratan de encontrar sintagmas nominales sintagmas verbales
+
+01:01:15.120 --> 01:01:20.160
+el informativista de la televisión sería uno bien nominal exactamente que otro
+
+01:01:21.720 --> 01:01:27.520
+anunció fuertes tormentas para los próximos días podría llegar a ser un sintama verbal si
+
+01:01:27.520 --> 01:01:32.880
+que otro para los próximos días es un sintama de qué tipo
+
+01:01:36.920 --> 01:01:41.200
+preposicional porque para es una preposición que otro
+
+01:01:43.920 --> 01:01:45.160
+el informativista
+
+01:01:45.160 --> 01:01:51.920
+fuertes tormentas para los próximos días o fuertes tormentas
+
+01:01:55.040 --> 01:02:01.400
+informativista solo puede ser ahí se empieza a poner un poco más este claro se pone se
+
+01:02:01.400 --> 01:02:05.760
+empieza a poner un poco más turbio yo diría que el informativista solo no sería un sintagma
+
+01:02:05.760 --> 01:02:11.160
+y me queda la duda de si el informativista es un sintagma o no porque en realidad uno diría
+
+01:02:11.320 --> 01:02:15.480
+informativista de la televisión y eso sería todo junto pero capaz que en algunos casos se
+
+01:02:15.480 --> 01:02:20.640
+puede analizar así la televisión si seguro que es un sintama los próximos días es otro
+
+01:02:20.640 --> 01:02:26.920
+sintama para los próximos días es otro sintama de la televisión también y el informativista
+
+01:02:26.920 --> 01:02:30.360
+de la televisión también y después la eración entera el informativista de la televisión
+
+01:02:30.360 --> 01:02:34.160
+anunció fuertes tormentas para próximos días en realidad eso también es todo un sintama verbal
+
+01:02:34.160 --> 01:02:46.400
+cual si juan era un sintagma juan no lleva determinante en español porque no decimos el
+
+01:02:46.400 --> 01:02:51.640
+juan pero un informativista si puede llevar determinante digamos debería llevar determinante
+
+01:02:51.640 --> 01:02:55.720
+entonces le ponemos el informativista lo que queda la duda es si es el informativista solo
+
+01:02:55.720 --> 01:02:59.200
+lo puedes considerar un sintagma o tenés que decir todo el informativista de la televisión para
+
+01:02:59.200 --> 01:03:03.880
+mí debería ser todo porque en ese caso de la televisión si está modificando a informativista
+
+01:03:04.160 --> 01:03:14.280
+si bueno hay casos de españoles que digamos español que se
+
+01:03:17.280 --> 01:03:23.920
+claro o sea hay casos de uso de español por parte de no sé de personas que utilizan el
+
+01:03:23.920 --> 01:03:28.600
+determinante para los nombres capaz que no es lo más aceptado pero bueno es algo que se usa y de
+
+01:03:28.600 --> 01:03:32.600
+vuelta eso es algo que tienen que tener en cuenta los los sistemas automáticos porque bueno si yo
+
+01:03:32.600 --> 01:03:36.720
+obligo a decir que según la regla del nombre propio no puede tener determinante y después
+
+01:03:36.720 --> 01:03:43.240
+escribe alguien escribe el juan y le digo que no que no es posible que no es válido entonces bueno
+
+01:03:43.240 --> 01:03:52.160
+estaría mal bueno entonces dentro de estos sintagmas que acabamos de reconocer digamos
+
+01:03:52.160 --> 01:03:54.800
+acá vamos a reconocer un montón de sintagmas adentro de la oración
+
+01:04:02.800 --> 01:04:05.280
+algunos de ellos van a ser constituyentes de la oración
+
+01:04:08.040 --> 01:04:11.840
+y vamos a tratar de ver cuáles son en este caso el informativista de la televisión anunció
+
+01:04:11.840 --> 01:04:16.880
+fuertes tormentas para los próximos días yo me voy a quedar con que esto es una oración que tiene
+
+01:04:16.880 --> 01:04:24.280
+el verbo conjugado anunció y anunció está siendo digamos está siendo acompañado por
+
+01:04:24.280 --> 01:04:31.480
+diferentes estructuras que son como argumentos de ese verbo son como las cosas que se dicen acerca
+
+01:04:31.480 --> 01:04:37.480
+de anunció entonces yo puedo preguntar acá quién anunció algo bueno el que anunció algo es el
+
+01:04:37.480 --> 01:04:42.120
+informativista de la televisión entonces bueno eso es como una especie de sintagma que está
+
+01:04:42.120 --> 01:04:48.880
+directamente aplicado sobre anunció qué fue lo que anunció qué fue lo que anunció fuertes
+
+01:04:48.880 --> 01:04:53.920
+tormentas fuertes tormentas anunció y para cuándo lo anunció para los próximos días entonces en
+
+01:04:53.920 --> 01:04:59.520
+definitiva ya puedo reconocer tres cosas puedo dividir esto tres cosas en realidad cuatro cosas que
+
+01:04:59.520 --> 01:05:04.240
+es anunció el verbo principal y después puedo ver cuáles son los argumentos que están alrededor
+
+01:05:04.240 --> 01:05:08.880
+el informativista de la televisión es uno de ellos fuertes tormentas es lo anunciado y los
+
+01:05:08.880 --> 01:05:15.440
+próximos días para los próximos días es para cuándo lo anunció a esos sintagmas que vienen
+
+01:05:15.440 --> 01:05:21.520
+a ser como sintagmas maximales yo puedo descomponer la oración en un grupo de sintagmas y un verbo
+
+01:05:21.520 --> 01:05:27.480
+conjugado a eso le vamos a llamar constituyentes entonces ahora les digo esta definición que es
+
+01:05:27.480 --> 01:05:33.720
+un poco un poco light de que son como sintagmas maximales que van acompañando al al verbo conjugado
+
+01:05:34.160 --> 01:05:39.560
+y después vamos a tratar de ver una formalización un poco mejor de qué significan estos constituyentes
+
+01:05:39.560 --> 01:05:44.360
+de la oración y bueno y cómo se clasifican para qué sirven etcétera pero todo eso lo vamos a ver
+
+01:05:45.360 --> 01:05:47.800
+la clase que viene así que por ahora vamos a dejar por acá
+

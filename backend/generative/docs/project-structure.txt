@@ -1,0 +1,263 @@
+educational_rag/
+├── LICENSE
+├── README.md
+├── .env.example
+├── .gitignore
+│
+├── .github/
+│   └── workflows
+│
+├── docker/
+│   ├── docker-compose.yml
+│   ├── Dockerfile.backend
+│   └── Dockerfile.frontend
+│
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_audio/
+│   ├── test_ingestion/
+│   ├── test_retrieval/
+│   └── test_llm/
+│
+├── scripts/
+│   ├── setup_dev.sh
+│   └── run_tests.sh
+│   ├── setup_flows.py
+│   └── clear_cache.py
+│
+├── docs/
+│
+
+
+
+
+
+
+
+├── backend/
+│   ├── requirements-dev.txt
+│   ├── requirements-prod.txt
+    NEEDS TO BE UPDATED TO POETRY
+│   ├── setup.py
+│   ├── __init__.py
+│   │
+│   ├── audio/
+│   │   ├── __init__.py
+│   │   ├── transcriber.py        # Clase para manejo de Whisper/ASR
+│   │   ├── preprocessor.py       # Preprocesamiento de audio
+│   │   └── utils.py             # Utilidades de audio
+│   │
+│   ├── ingestion/
+│   │   ├── __init__.py
+│   │   ├── chunker.py           # Lógica de segmentación de texto
+│   │   ├── cleaner.py           # Limpieza y normalización
+│   │   └── metadata.py          # Extracción de metadatos
+│   │
+│   ├── vectorstore/
+│   │   ├── __init__.py
+│   │   ├── embeddings.py        # Generación de embeddings
+│   │   ├── store.py            # Interfaz con vector store
+│   │   └── cache.py            # Manejo de caché
+│   │
+│   ├── retrieval/
+│   │   ├── __init__.py
+│   │   ├── searcher.py         # Lógica de búsqueda
+│   │   ├── reranker.py         # Reordenamiento de resultados
+│   │   └── filters.py          # Filtros de búsqueda
+│   │
+│   ├── llm/
+│   │   ├── __init__.py
+│   │   ├── chain.py            # Cadenas de LangChain
+│   │   ├── prompts.py          # Templates de prompts
+│   │   └── validator.py        # Validación de respuestas
+│   │
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── main.py             # App FastAPI
+│   │   ├── routes/
+│   │   │   ├── __init__.py
+│   │   │   ├── chat.py
+│   │   │   └── admin.py
+│   │   └── middleware/
+│   │       ├── __init__.py
+│   │       └── auth.py
+│   │
+│   ├── config/
+│   │   ├── __init__.py
+│   │   └── settings.py         # Configuraciones
+│   │
+│   ├── db/
+│   │   ├── __init__.py
+│   │   ├── models.py           # Modelos SQLAlchemy
+│   │   └── session.py          # Manejo de sesiones DB
+│   │
+
+│   ├── flows/                    # Nuevo directorio para Prefect flows
+│   │   ├── __init__.py
+│   │   ├── deployments/          # Configuraciones de deployment
+│   │   |   ├── __init__.py
+│   │   |   ├── production.py
+│   │   |   └── development.py
+│   │   ├──  tasks/               # Tareas reutilizables
+│   │   |   ├── __init__.py
+│   │   |   ├── audio_tasks.py
+│   │   |   ├── ingestion_tasks.py
+│   │   |   ├── vector_tasks.py
+│   │   |   └── monitoring_tasks.py
+│   │   └── pipelines/           # Flujos principales
+│   │       ├── __init__.py
+│   │       ├── video_processing.py
+│   │       ├── maintenance.py
+│   │       └── retraining.py
+│   │ 
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── logger.py           # Configuración de logging
+│   │   └── helpers.py          # Funciones auxiliares
+│   │
+│   └── notebooks/
+│       ├── 1_audio_pipeline.ipynb
+│       ├── 2_ingestion_pipeline.ipynb
+│       └── 3_rag_testing.ipynb
+│
+
+
+
+.
+├── api
+│   ├── __init__.py
+│   ├── main.py
+│   ├── middleware
+│   │   ├── auth.py
+│   │   └── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-312.pyc
+│   │   └── main.cpython-312.pyc
+│   ├── routes
+│   │   ├── admin.py
+│   │   ├── chat.py
+│   │   └── __init__.py
+│   └── static
+├── audio
+│   ├── __init__.py
+│   ├── preprocessor.py
+│   ├── transcriber.py
+│   └── utils.py
+├── config
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-312.pyc
+│   │   └── settings.cpython-312.pyc
+│   └── settings.py
+├── db
+│   ├── __init__.py
+│   ├── models.py
+│   └── session.py
+├── flows
+│   ├── deployments
+│   │   ├── deployment.py
+│   │   ├── __init__.py
+│   │   └── production.py
+│   ├── __init__.py
+│   ├── pipelines
+│   │   ├── __init__.py
+│   │   ├── mainteinance.py
+│   │   ├── retraining.py
+│   │   └── video_processing.py
+│   ├── prefect_demo.py
+│   └── tasks
+│       ├── audio_tasks.py
+│       ├── ingetion_tasks.py
+│       ├── __init__.py
+│       ├── monitoring_tasks.py
+│       └── vector_tasks.py
+├── ingestion
+│   ├── chunker.py
+│   ├── cleaner.py
+│   ├── __init__.py
+│   ├── metadata.md
+│   ├── metadata.py
+│   └── modulo.md
+├── __init__.py
+├── llm
+│   ├── chain.py
+│   ├── __init__.py
+│   ├── prompts.py
+│   └── validator.py
+├── notebooks
+│   ├── 1_audio_pipeline.ipynb
+│   ├── 2_ingestion_pipeline.ipynb
+│   ├── 3_rag_testing.ipynb
+│   ├── conftest.py
+│   ├── __init__.py
+│   ├── test_audio
+│   ├── test_ingestion
+│   ├── test_llm
+│   └── test_retrieval
+├── poetry.lock
+├── pyproject.toml
+├── README.md
+├── requirements-dev.txt
+├── retrieval
+│   ├── filter.py
+│   ├── __init__.py
+│   ├── reranker.py
+│   └── searcher.py
+├── schemas/                 # Nuevo directorio para Pydantic models
+│   ├── __init__.py
+│   ├── audio.py
+│   └── vector.py
+├── storage/                # Nuevo directorio para almacenamiento
+│   ├── __init__.py
+│   └── helpers.py
+├── tests
+│   ├── conftest.py
+│   ├── flows
+│   ├── __init__.py
+│   ├── test_audio
+│   ├── test_ingestion
+│   ├── test_llm
+│   └── test_retrieval
+├── utils
+│   ├── helpers.py
+│   ├── __init__.py
+│   └── logger.py
+└── vectorstore
+    ├── cache.py
+    ├── embeddings.py
+    ├── __init__.py
+    └── store.py
+
+32 directories, 68 files
+
+
+
+
+
+
+
+├── frontend/
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   │   ├── lib/
+│   │   │   ├── components/
+│   │   │   │   ├── Chat.svelte
+│   │   │   │   ├── Message.svelte
+│   │   │   │   └── MessageInput.svelte
+│   │   │   └── types/
+│   │   │       └── chat.ts
+│   │   ├── app.css
+│   │   ├── app.d.ts
+│   │   ├── App.svelte
+│   │   └── main.ts
+│   ├── index.html
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── svelte.config.js
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
+    NEEDS TO BE UPDATED

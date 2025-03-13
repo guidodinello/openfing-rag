@@ -1,0 +1,2483 @@
+WEBVTT
+
+00:00.000 --> 00:26.400
+Hoy vamos a tener este, vamos a tener, vamos a terminar de ponernos al día, espero con
+
+00:26.400 --> 00:36.400
+luego de las dos clases que suspendimos por razones de fuerza mayor, este va a ser un
+
+00:36.400 --> 00:45.400
+poquito larga y vamos a hablar de dos temas bien, bien diferentes, si yo mira que planificar,
+
+00:45.400 --> 00:50.240
+bueno de hecho tengo que planificar pero no tengo margen, este no pondría estos dos
+
+00:50.240 --> 00:55.720
+temas en la misma clase porque son dos temas bien, bien, bien, bien diferentes y capaz que
+
+00:55.720 --> 01:00.320
+es interesante marcar cuando lo veamos y ese puede ser un valor agregado la diferencia entre
+
+01:00.320 --> 01:08.240
+los dos desde el punto de vista de los métodos utilizados. Vamos a ver dos temas, uno va a
+
+01:08.240 --> 01:17.400
+hacer, se acuerdan que en la clase pasada hablamos de morfología, va, introdujimos un formalismo
+
+01:17.400 --> 01:22.480
+que es el de los transportores de Tau finito y su alje, bien dicho, su alje de expresiones
+
+01:22.480 --> 01:29.800
+regulares extendida a relaciones, se acuerdan que así como teníamos una alje de expresiones
+
+01:29.800 --> 01:33.320
+regulares para los lenguajes ahora teníamos una alje de expresiones regulares para los
+
+01:33.320 --> 01:41.640
+transportores o para las relaciones en realidad que eran computadas por los, por los transportores
+
+01:41.640 --> 01:46.840
+de Tau finito y después introdujimos un problema que era el de la morfología, es decir encontrar
+
+01:46.840 --> 01:54.200
+la estructura interna de las palabras, dar una palabra, analizar su estructura y devolverla,
+
+01:54.200 --> 01:59.960
+digamos devolver su estructura interna y viceversa, es una cosa que se llama análisis y la otra
+
+01:59.960 --> 02:04.160
+se llama generación, viceversa quiere decir yo te doy la estructura y me das la palabra,
+
+02:04.160 --> 02:10.560
+si? Y vimos un poco que la morfología dependía un poco de los lenguajes pero que esencialmente
+
+02:10.560 --> 02:22.400
+de lo que se trataba era de tener o que podía modelarse como la existencia de raíces que
+
+02:22.400 --> 02:27.880
+eran los morfemas, la palabra estaba dividida en morfemas y que esos morfemas se dividían
+
+02:27.880 --> 02:34.440
+en dos, en raíces que son lo que contenían la mayor parte del significado de la palabra,
+
+02:34.440 --> 02:40.560
+la porción de la palabra que tiene la mayor parte significado y los afijos, que esencialmente
+
+02:40.560 --> 02:46.360
+por lo menos para nuestro idioma son dos, son prefijos y sufijos, prefijo van antes,
+
+02:46.360 --> 02:56.720
+sufijo van del. En la clase de hoy lo que vamos a ver en la primera parte es justamente
+
+02:57.000 --> 03:05.040
+cómo los transductores o la algebra de estado finito no sirven para modelar los problemas
+
+03:05.040 --> 03:09.760
+de morfología, los problemas de análisis y generación y algunas ventajas que ya vimos
+
+03:09.760 --> 03:18.520
+que los transductores tienen y cómo se aplican a esto. Este método es un método esencialmente
+
+03:18.520 --> 03:35.320
+determinista o orientado a reglas, a un estado de reglas más que determinista, me deciré, van a ver
+
+03:35.320 --> 03:40.600
+que mi solución consiste en, bueno, dado una palabra aplico tales reglas y me devuelvo el análisis.
+
+03:42.160 --> 03:46.120
+En la segunda parte de la clase vamos a ver un método que no tiene nada que ver desde su
+
+03:46.120 --> 03:51.280
+principio, desde su fundamento porque es un método probabilista que esencialmente aprende
+
+03:51.280 --> 04:01.880
+de los datos y esos son esencialmente los dos grandes grupos que tenemos de métodos que tenemos
+
+04:01.880 --> 04:06.480
+en el análisis del lenguaje natural como una otra cantidad de cosas que involucran datos,
+
+04:06.480 --> 04:13.560
+métodos orientados a las reglas donde un experto especifica de alguna forma reglas a aplicar para
+
+04:13.560 --> 04:21.520
+resolver el problema y otro conjunto de métodos donde yo aprendo de los datos, los estadísticos son
+
+04:21.520 --> 04:28.720
+uno de ellos, hay otro tipo, pero donde yo esencialmente infiero el conocimiento necesario a partir
+
+04:28.720 --> 04:33.160
+de los datos. Esos métodos son los que usualmente llamamos métodos de aprendizaje automático.
+
+04:35.680 --> 04:41.280
+Van a ver que en muchos de los problemas hay de los dos enfocas.
+
+04:43.640 --> 04:48.520
+En algunos andan mejor unos y otros mejor otros hay una vieja guerra en el procesamiento del lenguaje
+
+04:48.520 --> 04:59.080
+natural sobre cuáles métodos predominan sobre otros. El siglo XXI ha mostrado una
+
+04:59.080 --> 05:09.800
+prevalencia de los métodos basados en datos como vamos a ver acá, pero hay dominios donde los
+
+05:09.800 --> 05:14.440
+orientados a reglas funcionan muy bien y cuando funcionan bien, cuando yo puedo describir la
+
+05:14.440 --> 05:19.520
+realidad completamente a través de reglas funcionan mejor. Hay veces que las realidades son
+
+05:19.520 --> 05:23.360
+demasiado complejas para modelarlas con reglas y ahí donde ganan son los métodos de aprendizaje
+
+05:23.360 --> 05:27.400
+automáticos. En general los métodos de aprendizaje en el procesamiento del lenguaje natural son
+
+05:27.400 --> 05:32.360
+lo más adecuados porque el lenguaje natural como hemos visto es muy ambiguo, es muy creativo,
+
+05:32.360 --> 05:40.560
+es muy cambiante. Bueno, probamos a lo que nos convoca hoy y lo que vamos a hablar es
+
+05:40.560 --> 05:46.000
+de morfología de estado finito. Esto es modelar los problemas de morfología que vimos en la clase
+
+05:46.000 --> 05:52.960
+pasada con a través de herramientas de estado finito. Esto es un desambigador morfocintáctico
+
+05:52.960 --> 06:11.480
+Otro problema de morfología es bueno acá lo que es único que hizo fue separar palabras
+
+06:11.480 --> 06:19.520
+por palabras y dice la que puede ser un sustantivo, un pronombre, un artículo, esto es clasificación,
+
+06:19.520 --> 06:38.320
+pero además, puedo ver las flexiones ¿no? Vamos con una palabra un poco más. Por ejemplo,
+
+06:38.320 --> 06:53.320
+bella, que es un adjetivo, la forma canónica es bella y la flexión es, bueno, qué tanto
+
+06:53.320 --> 07:12.640
+bien. Masculino singular es bello. La forma intrusiva es bella. Y se acuerdan que la flexión
+
+07:12.640 --> 07:17.720
+es cambiando los morfemas ¿no? Yo cambio el final de la palabra y la flexión. Pensé
+
+07:17.720 --> 07:27.520
+que este, la verdad que pensé que este tenía, marcaba los sufijos y prefijos, pero no me
+
+07:27.520 --> 07:33.720
+equivoqué de cosa. Pero bueno, lo importante es que nosotros vamos a admitir, flexionar cada palabra,
+
+07:33.720 --> 07:39.640
+lavar, por ejemplo, que es un verbo, se flexiona diferente, justamente porque es un verbo.
+
+07:49.520 --> 08:00.280
+Lavó, lavas, lavas, lavamos, lavas. Entonces, la morfología es lavamos, yo tengo que decir de
+
+08:00.280 --> 08:06.040
+alguna forma que esto es un verbo que está conjugado en la primera persona del plural en el
+
+08:06.040 --> 08:12.040
+presente indicativo ¿de acuerdo? Esa es la, las características que tendrían, las marcas que
+
+08:12.040 --> 08:17.040
+tendríamos que asociarle a la palabra, en el análisis ¿se entiende? Como lo vimos la que hace
+
+08:17.040 --> 08:33.200
+pasadora a mover un poco más en algunos casos. Por ejemplo, yo se ve que en la edición perdí una,
+
+08:33.200 --> 08:46.960
+una. Por ejemplo, lo que veíamos la vez pasada que yo quiero llevar a que gatito si es gato que
+
+08:46.960 --> 08:57.920
+la forma canónica o lema, lema en realidad, más masculino, más es una marca nada más ¿no?
+
+08:58.640 --> 09:11.520
+Es una forma estanda de masculino, singular, diminutivo ¿de acuerdo? Mi problema de ir de acá,
+
+09:11.520 --> 09:26.760
+acá se llama análisis. Y ir de acá, acá se llama generación ¿de acuerdo? Esto se llama forma de
+
+09:26.760 --> 09:36.680
+superficie y esto se llama forma eléxica ¿tá? ¿cuál de lo, levante la mano el que le parece más
+
+09:36.680 --> 09:43.280
+fácil el análisis que la generación? ¿y a quién le parece más fácil la generación que la análisis?
+
+09:45.280 --> 09:51.120
+pensé que no iban a votar bien, lo dejamos por ahí, yo también me parece más fácil la generación
+
+09:51.120 --> 09:56.440
+que la análisis ¿no? Eso también no, a mí también. Bueno, vamos a dejarlo por ahí,
+
+09:56.440 --> 10:12.880
+vamos, después vamos a ver. Bueno, ya en fines de los años 60, las reglas morfológicas son
+
+10:12.880 --> 10:20.120
+muy parecidas a las reglas fonéticas, es decir, cómo transformar una palabra en sonidos ¿de acuerdo?
+
+10:20.120 --> 10:26.680
+Hay una similitud, yo tengo la forma de superficie y después la mapeo a los fonemas que la producen
+
+10:26.680 --> 10:34.560
+y al revés ¿de acuerdo? Es un problema muy similar. De hecho, lo que se llama en alternaciones en
+
+10:34.560 --> 10:41.200
+la fonética, ya en los años 60 se describían por reglas de reescritura que decía bueno,
+
+10:42.200 --> 10:56.120
+reglas de este tipo ¿no? Si hay una I adelante y una P después, la N se transforma en N ¿de acuerdo?
+
+10:56.120 --> 11:02.480
+Entonces la palabra que podría ser pegar IN, con posible en realidad debería ser imposible.
+
+11:05.600 --> 11:10.280
+Pero no estaba claro cómo usarlas para analizar, se sabía que había reglas que
+
+11:10.280 --> 11:16.160
+uno usaba este tipo de reglas engascadas para generar la palabra, pero no se sabía bien cómo
+
+11:16.160 --> 11:21.840
+usarlas para el análisis. ¿Por qué este tipo de reglas, en su formato más genérico, son igual
+
+11:21.840 --> 11:32.920
+de expresivas que una máquina de Turing? O sea, que podría expresar lenguajes tan complejos como
+
+11:32.920 --> 11:37.720
+se quisiera y cuando uno es muy expresivo en un formalismo, el costo que paga cuál es,
+
+11:38.720 --> 11:45.880
+que es computacionalmente muy costoso en el caso general. Los automáticos finitos son muy sencillos,
+
+11:47.640 --> 11:52.960
+los automáticos finitos no son muy expresivos, no son tan expresivos, pero son muy eficientes
+
+11:52.960 --> 12:00.080
+computacionalmente. En cambio, si yo modelo con máquinas de Turing tengo problemas de
+
+12:00.080 --> 12:07.680
+eficiencia, potenciales problemas de eficiencia, así me siento una computadora completa para el poder
+
+12:07.680 --> 12:13.400
+computacional igual a la computadora. Bueno, entonces quedaron por ahí, esas reglas quedaron por
+
+12:13.400 --> 12:23.240
+ahí por allá por los años 60. En 1972, un señor que se llamaba Johnson dijo, bueno, pero esto,
+
+12:23.240 --> 12:34.640
+esto es medio difícil de aplicar sin más contexto, pero los fonologistas siempre asumían que si yo
+
+12:34.640 --> 12:43.720
+cambiaba la n por la m, yo estoy analizando esta palabra, ¿no? Y yo cambio la n por la m,
+
+12:44.600 --> 12:52.000
+luego sigo avanzando haciendo otros cambios en la palabra, no utilizo esa n como nuevo,
+
+12:52.000 --> 13:00.520
+esta m que puse como parte de otra regla. Eso computacionalmente es muy importante,
+
+13:02.920 --> 13:09.440
+porque, porque permite, si yo saco esas restricciones, es decir, si yo siempre que digo después que
+
+13:09.440 --> 13:13.840
+reemplazo algo me sigo moviendo en la tira original, reemplazo en esta, al hacer esta
+
+13:13.840 --> 13:19.720
+transformación, ¿no? ¿Se entienden? Yo estoy, mi idea es ir por el lado de gatito e ir generando
+
+13:19.720 --> 13:24.600
+esto, ¿de acuerdo? Analizar esta entrada y ir generando esta salida, ese es nuestro problema.
+
+13:25.800 --> 13:30.960
+Si yo aplico una regla y me muevo hacia adelante una regla de este tipo de sustitución,
+
+13:33.200 --> 13:40.600
+de esta, pero este beta que yo sustituyo acá, este alfa que sustituyo por un beta, luego no lo
+
+13:40.600 --> 13:48.520
+uso con, para otra regla, las propiedades formales de esa transformación hacen que
+
+13:48.520 --> 13:55.520
+esas reglas se pueden escribir por transductores. Yo tengo la posibilidad de escribir este tipo
+
+13:55.520 --> 14:02.880
+de reglas de reescriptura con transductores, es decir, en el estado finito. Todo esto es un
+
+14:02.880 --> 14:06.720
+tema muy, muy, muy largo y como yo le decía en algún momento mismo un curso sobre esto,
+
+14:06.800 --> 14:16.600
+pero la idea de esto es que entendieron que ese tipo de sustituciones que yo hago eran
+
+14:16.600 --> 14:20.760
+computacionalmente equivalentes a un transductor de estado finito y por lo tanto estaban en el,
+
+14:20.760 --> 14:25.760
+en el lado del estado finito. O sea que eran potencialmente eficientes. Nadie se enteró
+
+14:25.760 --> 14:31.400
+porque en esa época no había internet. Bueno, voy a parar unos pocos, de los cuales Johnson se ve que
+
+14:31.400 --> 14:41.200
+no estaba. Por allá por 1980 aparece en Kaplan y Kei que dicen bueno, redescubren esto de Johnson.
+
+14:41.200 --> 14:45.720
+Dicen bueno, pero entonces las reglas de reescriptura, si yo puedo escribir reglas de
+
+14:45.720 --> 14:51.640
+reescriptura para modelar la morfología, yo voy a escribir relaciones regulares. ¿Se acuerdan
+
+14:51.640 --> 14:55.320
+de las relaciones regulares que vimos en la clase pasada, no? Las relaciones esas que los
+
+14:55.320 --> 15:02.880
+transductores representaban, las reglas de reescriptura se pueden ver como relaciones
+
+15:02.880 --> 15:08.160
+regulares. Yo puedo modelar las de esa forma y entonces yo podría representar todas estas
+
+15:08.160 --> 15:11.440
+sustituciones con transductores. El problema era que en ese momento los transductores los hacían
+
+15:11.440 --> 15:15.520
+a mano como tratamos de hacer nosotros los trans, el transductor que hacía el plural, ¿se acuerdan?
+
+15:15.520 --> 15:19.720
+Que empezamos a hacer un estado de autómodo y nos armamos un lío de bárbaro porque los hacían
+
+15:19.720 --> 15:28.920
+a mano, pero sobre esa base teórica se empezaron a implementar operaciones genéricas que permitían
+
+15:28.920 --> 15:39.280
+representar más sencillamente ese tipo de sustitución. Pero además había otro problema y era el siguiente,
+
+15:39.280 --> 16:04.960
+que si yo tengo una palabra que dice esto es fonología, ¿no? K-N-PAT. Acá es como es la
+
+16:04.960 --> 16:10.600
+estructura de la palabra, yo estoy generándola a la palabra. Acá es lo que dice que hay una regla
+
+16:10.600 --> 16:19.760
+que si esta N fonológica se transforma en una M si hay una P después, o sea que suena como una M
+
+16:19.760 --> 16:26.560
+después. Esto es una representación abstracta del sonido, ¿tá? Es como que fuera, está acá abajo,
+
+16:27.560 --> 16:34.200
+¿de acuerdo? La regla dice esta N grandota que es una marca de fonema, digamos, no sé exactamente
+
+16:34.200 --> 16:42.920
+como se dice en coso de fonólogos, se transforma en una M, en una N, perdón, antes de una P.
+
+16:42.920 --> 16:55.560
+Sí, en una M, antes de una P, entonces yo acá esto digo K-M-PAT, ¿de acuerdo?
+
+16:58.840 --> 17:10.600
+Pero además, pero además, la P, por una cuestión de ortografía, se transforma en una M
+
+17:10.600 --> 17:22.280
+si lo que hay antes es una M misma, ¿tá? Entonces esta palabra se debería expresar como K-M-PAT, ¿de acuerdo?
+
+17:23.600 --> 17:30.760
+Hay una transformación acá y hay otra transformación acá. Y esta es mi palabra destino. De una
+
+17:30.760 --> 17:39.560
+representación fonológica, léxica, pasé una representación de superficie, ¿sí? Pero el problema
+
+17:39.600 --> 17:48.280
+es que si yo tengo esta representación de superficie, ¿cuál es el análisis? ¿El análisis lo tengo por acá?
+
+17:52.800 --> 17:56.560
+¿De acuerdo? Todas estas palabras,
+
+17:58.760 --> 18:08.960
+sí, todas estas análisis de palabras pueden ser válidas para generar esta forma de superficie.
+
+18:10.560 --> 18:16.120
+Porque todas darían lo mismo si yo, aunque yo, porque esta regla solo aplica cuando hay una
+
+18:16.120 --> 18:23.360
+N grande, si no hay una N grande, no aplica. ¿Se entiende cuál es la situación? Que yo tengo
+
+18:23.360 --> 18:29.760
+problemas de no determinismo, que yo para generar, no tengo problemas, pero para volverme pueden
+
+18:29.760 --> 18:38.840
+generar muchas, ¿sí? Entonces, ¿no saben qué hacer con esto? Porque decían, bueno, pero entonces
+
+18:38.840 --> 18:46.640
+acá ¿qué hago yo con él? ¿Cuál de estas tres es la aposta? ¿Cuál es la buena, digamos?
+
+18:48.760 --> 18:53.120
+¿Cómo sé que esta es buena y esta dos no?
+
+18:53.120 --> 19:05.120
+Y lo que descubrieron por allá por los años 80 es que yo sé que es la buena,
+
+19:05.120 --> 19:10.840
+yo, que esta puede ser buena, porque esta no tienen sentido como forma eléxicas. Son
+
+19:10.840 --> 19:15.720
+formas aléxicas que no tienen, que si yo las busco en el dicionario formas eléxicas posibles,
+
+19:17.200 --> 19:22.400
+no van a aparecer. Pero acá tengo un problema, que es el de la que hace pasada. Yo no puedo meter
+
+19:22.400 --> 19:28.520
+todas las combinaciones en un dicionario posible, porque son demasiadas, pero lo que sí puedo hacer
+
+19:28.520 --> 19:37.600
+es meter otro transductor que lo único que haga es decirme cuáles son las posibles combinaciones
+
+19:37.600 --> 19:45.680
+que hay de prefijo y sufijo y afijos. Entonces yo, si construyo un transductor que haga estas
+
+19:45.680 --> 19:52.080
+reglas y la pego un transductor que identifique las posibles combinaciones, tengo algo que,
+
+19:52.080 --> 19:58.120
+daba una palabra, una combinación, me devuelve su forma de superficie y al revés también.
+
+19:59.160 --> 20:05.200
+Y eso es justamente lo que hace la morfología de Estado Finito. Yo tengo un repositorio para
+
+20:05.200 --> 20:11.920
+palabras que se llama lexicón, que eso en realidad es un repositorio de morfemas,
+
+20:12.920 --> 20:20.560
+que generalmente almacena los lemas, los prefijos y los sufijos y lo que llamamos morfotácticas.
+
+20:20.560 --> 20:28.920
+Las morfotácticas, lo que son son todas las combinaciones posibles que hay de morfemas en
+
+20:28.920 --> 20:34.800
+el lenguaje. ¿Qué morfemas se pegan con las cosas? ¿Se acuerdan de inelefantemente,
+
+20:34.800 --> 20:41.440
+que esto puede hacerlo y esto no? Bueno, esos son las morfotácticas. ¿Qué prefijo pueden seguir
+
+20:41.440 --> 20:46.600
+a otro? Es decir, yo no puedo tener dos plurales seguidos. Esa es una morfotáctica, es decir,
+
+20:46.600 --> 20:52.880
+yo tengo una palabra que termina en A, bueno, si es un sustantivo y además después puede
+
+20:52.880 --> 21:00.320
+opcionalmente tener una S para darle el plural, entre otras cosas. Entonces, yo puedo escribir
+
+21:00.320 --> 21:07.680
+reglas de ese tipo. Entonces, tengo que tener en cuenta estas cosas. Hay un morfema que es
+
+21:07.760 --> 21:11.920
+nocional, lo que acabo de decir, los afijos dependen del arraillo, puedo decir imposible,
+
+21:11.920 --> 21:19.040
+pero no inimportante, porque mi idioma no es válido, y en general la derivación es más complicada
+
+21:19.040 --> 21:22.400
+que la aflexión, porque la aflexión tiene un comportamiento más regular, principalmente porque
+
+21:22.400 --> 21:26.040
+es finito, porque no es creativa la aflexión. ¿Se acuerdan de la aflexión? Era para hacer
+
+21:26.040 --> 21:32.360
+los plurales, los que no cambiaban la clase de la palabra o el significado, plurales, género,
+
+21:33.080 --> 21:41.240
+verbos, conjugación de verbos. Entonces, bueno, los transductores léxico, que fue lo que en
+
+21:41.240 --> 21:46.320
+los años 80 se introdujeron para resolver el problema de la morfología, lo que hacen el
+
+21:46.320 --> 21:50.960
+parcin morfológico, y entonces dicen, bueno, yo lo que quiero es una correspondencia entre el nivel
+
+21:50.960 --> 22:00.280
+léxico, que es una colección de morfemas, y el nivel de superficie. Si yo veo los automatas
+
+22:00.280 --> 22:08.440
+de estado finito como automatas sobre dos cintas, yo podría ver la transformación entre una palabra
+
+22:08.440 --> 22:15.400
+y sus marcas como simplemente una transducción que me lleva de la g, la g, la a, la a, y por acá
+
+22:15.400 --> 22:21.560
+empieza a cambiar y a generar sobre el alfabeto del lado léxico. ¿De acuerdo? ¿Se tiende más o menos?
+
+22:23.160 --> 22:29.160
+¿Sí? Entonces yo voy a tener un transductor de estado finito que de un lado tiene la forma
+
+22:29.160 --> 22:41.080
+de superficie y la otra la eléxica. Pero además teníamos el tema de las reglas ortográficas,
+
+22:41.080 --> 22:49.520
+o sea, hasta ahora yo tengo, fíjense que yo tengo palabras y cómo pegar, perdón, morfema,
+
+22:49.520 --> 22:55.480
+tengo la lista de palabras posibles, de morfemas posibles, la raíz, el sofígráfico, lo tengo
+
+22:55.480 --> 23:04.120
+todo junto por un lado. Tengo la s solita, la a solita, la o, y después tengo gát, per, cas,
+
+23:06.120 --> 23:15.120
+murciélag, ¿no? Y mente, mente es para decir elefante mente. Y después tengo las morfas
+
+23:15.120 --> 23:20.480
+tácticas que dice que elefante mente no se puede. Si siguen luego esta clase lo que hemos introducido al
+
+23:20.480 --> 23:30.480
+idioma, entonces vamos a poder también. Pero nos falta la regla ortográfica. Si yo digo tengo
+
+23:30.480 --> 23:36.560
+in por un lado, tengo importante por el otro, pero yo no digo, bueno no, dijimos que era importante,
+
+23:36.560 --> 23:45.480
+no. Tengo in imposible, yo tengo imposible. La p me da imposible, que no es válido, porque la n
+
+23:45.480 --> 23:50.880
+tiene que cambiarse por una m, porque estaba adelante una p, como no se enseñan desde segundo
+
+23:50.880 --> 23:55.480
+año de escuela. Entonces nos falta la regla ortográfica. Y bueno, la regla ortográfica también
+
+23:55.480 --> 24:03.720
+pueden representarse por un traductor que modifique en una cascada lo que la regla anterior transformó.
+
+24:07.040 --> 24:12.480
+Entonces no queda una cosa así, el modelado sea una cosa así. Yo tengo la forma de superficie,
+
+24:13.480 --> 24:21.200
+una especie de forma intermedia, una especie de forma intermedia que dice bueno acá apareció
+
+24:21.200 --> 24:28.880
+Ito, la marca Ito, y luego el análisis posta. Ito quiere decir masculino singular diminutivo.
+
+24:31.040 --> 24:32.760
+Y todo eso lo represento con traduptores.
+
+24:36.440 --> 24:42.080
+Este era el modelo que proponía a Koskenyemi, que para la regla ortográfica proponía muchos
+
+24:42.080 --> 24:46.440
+traductor en paralelo, pero en realidad esto terminó evolucionando hacia otra cosa, que son
+
+24:46.440 --> 24:52.680
+una cascada de reglas, que es lo que vamos a ver ahora, que es lo que introdujeron Lauri Cartioune.
+
+24:52.680 --> 24:55.440
+Eran todos finlandeses, ¿sacuerdan del finlandés? Eran medio.
+
+24:58.160 --> 25:04.480
+Y este paper, que es muy famoso de los Badenetaria, del año 94, lo que dicen es
+
+25:04.480 --> 25:13.000
+Kaplan y Kei propone, muestran que los traduptores eran equivalentes a esa algebra que hablamos
+
+25:13.000 --> 25:18.920
+en la clase pasada de relaciones regulares, y es lo que dice la fortaleza de nuestro método surge
+
+25:18.920 --> 25:25.560
+de la equivalencia. Mientras razonamos, pero sus relaciones regulares en términos algebraico,
+
+25:25.560 --> 25:30.200
+de teoría y conjuntos, describimos los conjuntos de discusión por medio operaciones
+
+25:30.200 --> 25:34.880
+constructivas sobre los traduptores de estado finito correspondiente. Al final, por supuesto,
+
+25:34.880 --> 25:38.840
+es el traductor el que satisface nuestra necesidad de computacionales. ¿Qué quiere decir esto? Que
+
+25:38.840 --> 25:44.360
+yo puedo modelar con expresiones regulares y los traduptores me vienen gratis. Que yo tengo,
+
+25:44.360 --> 25:49.800
+al modelarlo a través de unas reglas, yo transformar los traduptores es una cosa automática.
+
+25:49.800 --> 26:01.200
+Y eso es justamente lo que vamos a hacer. Vamos a escribir reglas. Yo acá lo voy a mostrar con
+
+26:01.200 --> 26:06.040
+un lenguaje de expresiones regulares, que es el de Xerox, que es uno de los más conocidos.
+
+26:07.560 --> 26:17.480
+Vamos a ver rápidamente operaciones sobre expresiones regulares y cómo escribirlas
+
+26:17.640 --> 26:22.400
+y cómo se transforman esos traduptores. Y después vamos a escribir con eso la morfología
+
+26:22.400 --> 26:30.640
+de un lenguaje. Entonces, bueno, ¿qué quiere decir esto? Yo tengo. Voy a tener una expresión
+
+26:30.640 --> 26:42.120
+regular. Esto es como se escribe en el lenguaje o relación de acá al lado. Estos son lenguajes.
+
+26:42.840 --> 26:52.480
+Atacas uno. El Xero denota a Epsilon en el lenguaje vacío. O sea que yo estoy...
+
+26:54.800 --> 26:58.560
+Perdón, acabo de decir una cosa que si me escuchan mis compañeros de teoría del lenguaje,
+
+26:58.560 --> 27:06.440
+me matan. Epsilon no es el lenguaje vacío, sino el string vacío. Lo único que tiene es el string vacío.
+
+27:12.120 --> 27:18.200
+O la correspondiente relación de identidad, ¿no? En todo esto nosotros estamos denotando
+
+27:18.200 --> 27:23.840
+relaciones pares de strings. ¿Se acuerda, no? Es decir, yo tengo una entrada o una salida en el traductor.
+
+27:23.840 --> 27:30.240
+A un lenguaje yo lo puedo ver como un caso especial de una relación que es en la cual la entrada
+
+27:30.240 --> 27:39.000
+es igual que la salida. El mapeo es uno. Entonces yo acá el Epsilon denota o lenguaje o la relación
+
+27:39.000 --> 27:46.920
+correspondiente de identidad. Este símbolo quiere decir cualquier cosa que denota a cualquier
+
+27:46.920 --> 27:54.120
+string que tiene un símbolo suelo, excepto de Epsilon. Y si yo pongo A es el string hecho
+
+27:54.120 --> 27:58.920
+con solamente la letra A. ¿De acuerdo? Se acuerdan la diferencia entre símbolo y string, ¿no?
+
+27:58.920 --> 28:04.680
+El string son símbolos pegados, digamos. Yo tengo un string de un solo símbolo,
+
+28:04.680 --> 28:10.200
+pero no es lo mismo un símbolo, un string, así. Pero yo también puedo escribir en mi expresión y
+
+28:10.200 --> 28:15.680
+acá viene la novedad respecto a lo... cosas como esto. Especificar que este símbolo A lo leo en
+
+28:15.680 --> 28:24.000
+la entrada, pero en la salida no devuelvo la propiedad sino una vez. Y esto, A, 2 puntos A,
+
+28:24.000 --> 28:30.440
+es equivalente a A solo. Escribir A solo es lo mismo que escribir A, se mapea A. Por defecto,
+
+28:30.440 --> 28:34.960
+yo asumo que si no pongo nada, lo mapeo en la misma salida que la entrada, ¿sí?
+
+28:37.480 --> 28:46.920
+Excepto, y esto es una cuestión de notación, acá, ¿sí? ¿Qué quiere decir que cualquier cosa
+
+28:46.920 --> 28:50.200
+mapea con cualquier cosa quiere decir que valen todos contra todos, como el producto cartesiano de
+
+28:50.200 --> 28:57.440
+símbolos, yo? O sea, que yo escribir esto no es lo mismo que escribir esto, porque acá lo que
+
+28:57.440 --> 29:02.560
+estoy diciendo es cualquier símbolo y devuelvo el mismo y acá estoy diciendo cualquier símbolo y
+
+29:02.560 --> 29:10.240
+devuelvo cualquier símbolo, o sea que la salida es múltible. Bueno, y pasan más cosas, ¿no?
+
+29:10.240 --> 29:17.200
+Yo puedo usar paréntesis, puedo decir una o más veces lo que estaba antes, cero o más veces lo
+
+29:17.200 --> 29:21.800
+que estaba antes. ¿Esto qué quiere decir? Cualquier cosa cero o más veces, o sea que esto es
+
+29:21.800 --> 29:29.680
+el lenguaje universal, es decir, máster. Y esto es cualquier cosa, siempre y cuando tenga la
+
+29:29.680 --> 29:33.200
+misma relación de entrada y salida, el mismo largo de entrada y salida, es decir, mapeo cualquier
+
+29:33.200 --> 29:41.400
+símbolo a otro, pero a uno o uno. Y yo puedo definir el complemento que solo está definido
+
+29:41.400 --> 29:45.600
+por lenguaje, la negación, hay algunas presiones regulares que son muy interesantes, porque por
+
+29:45.600 --> 29:56.960
+ejemplo, contiene a, parece muy sencilla describir, pero en realidad no es tan fácil, es cualquier cosa,
+
+29:56.960 --> 30:01.960
+la expresión y cualquier cosa, pero tiene que ser cualquier cosa que no tenga a, esencialmente.
+
+30:03.960 --> 30:08.440
+Hay todo, cada uno de estos operadores tiene un paper, digamos, por decirlo de alguna forma.
+
+30:09.160 --> 30:16.400
+Esto es, la expresión A sin contar las cosas que también, estas muchas se usan para definir otros
+
+30:16.400 --> 30:28.600
+operadores más avanzados que vienen después. Acá tengo la unión, esa OV, la intersección,
+
+30:28.600 --> 30:32.640
+ojo que la intersección solo está definida para las expresiones regulares, para cuando son
+
+30:32.640 --> 30:36.400
+expresiones, porque las relaciones, si se acuerdan de las clases traductoras, no son en general
+
+30:36.400 --> 30:45.680
+cerradas bajo intersección. Y este es el producto cartesiano que es muy importante, es, si yo expreso
+
+30:45.680 --> 30:53.520
+acá un conjunto de tiras, cualquiera, tiras que empiezan con A, las mapeo a todas las tiras
+
+30:53.520 --> 31:06.120
+de la otra presión. Si yo digo, por ejemplo, Aaster, producto cartesiano Baster, lo que tengo es un
+
+31:06.160 --> 31:12.120
+traductor que me devuelve, para cada tira que empieza, cualquier tira que empieza con A me la devuelve
+
+31:12.120 --> 31:19.400
+en cualquier tira que empieza con B, si es el producto cartesiano de los dos conjuntos, sencillamente.
+
+31:19.400 --> 31:28.320
+Estas son las proyecciones, el reverso, el inverso, y este es muy importante, es la composición,
+
+31:28.320 --> 31:33.800
+¿se acuerdan cuál era la composición de traductoria? ¿Quién se acuerda cuál era la composición? Es muy importante.
+
+31:37.120 --> 31:39.120
+¿Aguien se acuerda, nadie, ¿se acuerda?
+
+31:45.120 --> 31:53.120
+La composición era, yo tenía un traductor por acá, que tomaba una entrada y devolvió una salida,
+
+31:55.120 --> 32:02.120
+y tenía otro acá, que también tenía una entrada y devolvió una salida, la composición era la aplicación
+
+32:02.120 --> 32:14.120
+cascada de los dos, es decir, yo tomo una entrada, tengo una salida y esa salida la paso por este
+
+32:14.120 --> 32:23.120
+traductor, y como los traduptores son cerrados bajo composición, eso quiere decir que si yo luego
+
+32:23.120 --> 32:31.120
+puedo modelar esto, una regla con esto, y luego la aplicación de, y luego otra que tiene la segunda,
+
+32:31.120 --> 32:39.120
+la aplicación de los dos en cascada se puede modelar por un traductor que hace las dos cosas a la vez,
+
+32:39.120 --> 32:41.120
+y nosotros vamos a usar eso.
+
+32:42.120 --> 32:52.120
+Bueno, hay toda una área de análisis ahí que son los operadores de reemplazo, que es forma de decir,
+
+32:52.120 --> 32:59.120
+bueno, cada vez que aparezca A, reemplazámelo por B en la salida, por ejemplo, cada vez que diga
+
+32:59.120 --> 33:07.120
+y pasámelo a masculino, por decir una pagada que no tiene sentido en este caso,
+
+33:07.120 --> 33:11.120
+pero ahora vamos a ver cómo combinamos todo esto.
+
+33:11.120 --> 33:16.120
+Hay un montón de operadores de reemplazo, dependiendo del contexto en el que aparecen,
+
+33:16.120 --> 33:20.120
+si yo reemplazo opcionalmente, etcétera.
+
+33:25.120 --> 33:32.120
+Los operadores de reemplazo tienen algún problema, o alguna complejidad, y es la siguiente,
+
+33:33.120 --> 33:41.120
+si yo tengo, por ejemplo, esta regla.
+
+33:53.120 --> 33:56.120
+¿Cómo leemos esta regla? Alguien me dice cómo leemos esta regla.
+
+33:56.120 --> 34:00.120
+¿Como leemos esta regla?
+
+34:00.120 --> 34:03.120
+Cómo leemos esta regla.
+
+34:03.120 --> 34:08.120
+Cualquier tira que empiece con la B, se supele por C.
+
+34:08.120 --> 34:12.120
+Cualquier tira. ¿Está bien?
+
+34:12.120 --> 34:15.120
+Cualquier tira.
+
+34:15.120 --> 34:18.120
+Bien.
+
+34:18.120 --> 34:23.120
+Ya le voy a dar un punto más para el fin de año, pero por hablar con él.
+
+34:23.120 --> 34:26.120
+Después me pasan los nombres.
+
+34:26.120 --> 34:31.120
+Exacto, es A y cualquier cantidad de B es lo mismo, que empiece con la B.
+
+34:31.120 --> 34:37.120
+No, no es cualquiera que empiece con la B, es A y cualquier cantidad de B.
+
+34:37.120 --> 34:40.120
+Se reemplaza por C.
+
+34:40.120 --> 34:44.120
+La pregunta es ¿cuál es la salida de esto?
+
+34:44.120 --> 34:46.120
+C.
+
+34:46.120 --> 34:48.120
+¿Cuál es?
+
+34:48.120 --> 34:50.120
+C.
+
+34:50.120 --> 34:52.120
+¿O?
+
+34:52.120 --> 34:54.120
+C.
+
+34:54.120 --> 34:56.120
+O, C.
+
+34:56.120 --> 34:58.120
+¿O, C.
+
+34:58.120 --> 35:00.120
+¿O, C.
+
+35:00.120 --> 35:02.120
+¿O, C.
+
+35:02.120 --> 35:04.120
+¿O, C.
+
+35:04.120 --> 35:06.120
+O, C.
+
+35:06.120 --> 35:08.120
+¿O, C.
+
+35:08.120 --> 35:10.120
+¿O, C.
+
+35:10.120 --> 35:12.120
+¿O, C.
+
+35:12.120 --> 35:14.120
+¿Y hay ahora más?
+
+35:14.120 --> 35:16.120
+C.
+
+35:16.120 --> 35:18.120
+¿Por qué pasa esto?
+
+35:18.120 --> 35:24.120
+La definición de transductor o de regla de reemplazo para estas tres es válida porque no es determinista.
+
+35:24.120 --> 35:27.120
+Pero muchas veces nosotros queremos decir algo.
+
+35:27.120 --> 35:32.120
+Queremos decir bueno, en realidad yo lo que quería decir acá era que hay todas las veces posibles.
+
+35:32.120 --> 35:43.120
+Entonces hay también operadores que permiten decir si yo maché o la más tira más larga o la más corta.
+
+35:43.120 --> 35:48.120
+Con la impresión regular si ustedes se acuerdan cuando uno busca tiene esa posibilidad.
+
+35:48.120 --> 35:50.120
+De decir maché o lo más largo o lo más corte.
+
+35:50.120 --> 35:54.120
+Entonces hay un operador especial que se llama...
+
+35:54.120 --> 36:00.120
+Bueno, el longest match sería C, ¿verdad?
+
+36:00.120 --> 36:04.120
+En lo más largo que puedo machar es A y todas las veces.
+
+36:04.120 --> 36:10.120
+Y el shortest match es solo mapear la A en esta presión regular.
+
+36:10.120 --> 36:13.120
+A, B, A, A, S.
+
+36:13.120 --> 36:17.120
+Hay operadores que permiten escribir eso justamente.
+
+36:17.120 --> 36:21.120
+Longest match.
+
+36:21.120 --> 36:25.120
+También tengo problemas similares, yo no voy a entrar en detalle acá.
+
+36:25.120 --> 36:32.120
+También puedo tener problemas porque muchas veces asumo que reemplazo de izquierda a derecha.
+
+36:32.120 --> 36:53.760
+Pero si yo por ejemplo en esta tira reemplazo A B por A, entonces yo lo que voy a hacer
+
+36:53.760 --> 37:08.880
+es sustituir esta A por una B y esta nueva A funciona de contexto para la siguiente expresión y eso no
+
+37:08.880 --> 37:12.720
+voy a entrar en detrás acá, lo puedo resolver de diferente forma porque yo podría resolverlo, yo
+
+37:12.720 --> 37:15.640
+estoy asumiendo que voy de izquierda a derecha pero podría ir de derecha a izquierda sin ningún
+
+37:15.640 --> 37:20.240
+problema porque nada me dice que yo analice la tira izquierda a derecha, entonces yo podría venir para
+
+37:20.240 --> 37:28.040
+atrás y encontrar, bueno acá no me va a aplicar porque la B no, acá me va a dar lo mismo porque la
+
+37:28.040 --> 37:40.840
+B recién encuentra acá, bueno no, está bien, esto me va a devolver A B B acá, en este caso da
+
+37:40.840 --> 37:44.600
+lo mismo porque no es amigo pero el caso es que de izquierda a derecha te da diferente que derecha
+
+37:44.600 --> 37:55.680
+de izquierda, y lo mismo y con todas sus combinaciones, no nos compliquemos mucho. Bien, entonces bueno
+
+37:55.680 --> 38:00.520
+todo esto que es una presentación muy rápida de la esjebra esencialmente lo que nos permite es
+
+38:00.520 --> 38:07.400
+como le decía escribir transducciones y el asunto es cómo usamos esto para representar la
+
+38:07.400 --> 38:11.400
+morfología en un lenguaje, bueno, entonces hagamos lo siguiente.
+
+38:11.400 --> 38:28.440
+No, exactamente no, son todas operaciones algunas muy complejas, muy complejas, el reemplazo por
+
+38:28.440 --> 38:35.920
+ejemplo es muy complejo y se construyen unas sobre otras, pero son todas syntactic sugar,
+
+38:35.920 --> 38:41.120
+digamos, es decir ninguna introduce nuevas operadores, al final del día son siempre los
+
+38:41.120 --> 38:48.720
+mismos operadores, hay algunos, al final del, al final de la presentación hay una bibliografía
+
+38:48.720 --> 38:55.120
+ahí y hay algunos artículos, hay un artículo que se llama The Replace Operator, el artículo
+
+38:55.120 --> 39:01.120
+muestra cómo definir el operador de reemplazo a partir de las operaciones primitivas, y hay otro
+
+39:01.120 --> 39:06.880
+que es el Longest Match y Shortest Match, y hay otro que dice cómo es el reemplazo
+
+39:06.880 --> 39:18.240
+opcional, eso fue toda una construcción de esa esja. Bueno, entonces vamos a ver un ejemplo
+
+39:18.240 --> 39:30.160
+de cómo funciona esto, que está en el práctico que publicamos y que dice, bueno yo tengo el
+
+39:30.160 --> 39:39.440
+uno ¿no? Bambona, sí, nosotros tenemos un lenguaje que se llama Bambona, que tiene sustantivos,
+
+39:39.440 --> 39:48.720
+vamos a hablar solo de los sustantivos de Bambona, y tiene la siguiente característica,
+
+39:48.720 --> 39:58.240
+hay siete vocales en Bambona, que son esas que están ahí, la I, la E, la E tilde, A, U, O y O,
+
+39:58.240 --> 40:04.400
+y no las vocales, ¿sí? Y los sustantivos en Bambona comienzan siempre con una raíz que
+
+40:04.400 --> 40:09.040
+usualmente sigue el patrón consonante, vocal, consonante, o consonante, vocal y dos consonante,
+
+40:10.000 --> 40:17.760
+por ejemplo, MAV quiere decir libro, COP quiere decir reactor nuclear y LER quiere decir chancho,
+
+40:17.760 --> 40:24.400
+por daros uno ejemplo ¿no? Esto es anecdótico lo que quieren decir en nuestro lenguaje,
+
+40:24.400 --> 40:29.760
+porque a nosotros lo que nos importa es que las raíces son estas, con lo que comienzan,
+
+40:29.760 --> 40:33.520
+pero siempre, ahí ya tenemos un dato, siempre comienzan con una raíz, o sea, no es siempre fijo.
+
+40:39.520 --> 40:47.200
+También después de eso, los sustantivos tienen un sufijo opcional, que puede ser ACK, ETH o HIG,
+
+40:47.200 --> 40:57.360
+o sea que NUT HIG es un gran circuito integrado, y LERET es un chanchito.
+
+41:00.400 --> 41:05.440
+Un máximo de uno de estos tres sufijos puede aparecer una palabra, y yo lo voy a marcar como
+
+41:05.920 --> 41:13.680
+PEJ, MADIM o AU, en el lado del éxico. ¿Se entiende lo que estamos haciendo, ¿no? Estamos,
+
+41:13.680 --> 41:18.400
+a partir de la palabra, estamos generando su estructura. Luego ha sido, opcionalmente,
+
+41:18.400 --> 41:28.400
+un sufijo único que indica la confianza del hablante, ISM, o sea que yo si digo SOBETH, ISM,
+
+41:29.120 --> 41:39.440
+estoy diciendo, es un pequeño dentista y lo estoy diciendo, y estoy manifestando lo que es evidente
+
+41:39.440 --> 41:45.040
+de la realidad. Hay cosas que nosotros no tenemos forma de expresar en una lenguaje, lo expresamos
+
+41:45.040 --> 41:51.040
+con gesto. Luego sigue un sufijo único que indica la confianza, no, ya lo dije, y lo voy a marcar como
+
+41:51.200 --> 41:57.760
+obvio, probable y supuesto. Luego sigue una especie de sufijo de plural que quiere decir
+
+41:57.760 --> 42:09.680
+IL o EHAC, quiere decir unos pocos, y todas estas cosas que yo no sé qué son, que marcan otras
+
+42:09.840 --> 42:22.800
+características. La cuestión que pueden tener, a nosotros que somos computadoras, nos interesa el
+
+42:22.800 --> 42:32.160
+mapeo y no quiere decir. Y al final tenemos que el genitivo OSC, puede terminar una palabra,
+
+42:32.160 --> 42:36.880
+puede estar seguido de un sufijo ON, que denota posesión inalienable. EMIOT puede estar seguido
+
+42:36.960 --> 42:42.400
+por un sufijo EL, que es un intensificador. Hay gente que no está bien. En las palabras de
+
+42:42.400 --> 42:47.680
+Bambona, y esto es interesante, las consonantes P, T y K nunca son seguidas de las vocales
+
+42:47.680 --> 42:53.920
+frontales I, E o E-contile, sino por sus correspondientes U o O-contile y los pares de símbolo,
+
+42:53.920 --> 43:03.760
+blablabla. ¿Qué hacemos con esto? ¿Cuál era la tarea que queremos resolver? ¿Cuál era la tarea
+
+43:03.760 --> 43:06.880
+que queremos resolver? Si no me dicen cuál era la tarea que queremos resolver, no vamos a poder
+
+43:06.880 --> 43:14.320
+resolverla. Casi que por definición. ¿Qué queremos hacer nosotros? ¿Cuál es nuestro problema a resolver?
+
+43:18.320 --> 43:28.720
+¿Cuál es nuestro problema a resolver? ¿Qué quiere decir eso? ¿Qué quiere decir eso? ¿Cómo
+
+43:28.800 --> 43:36.640
+modelo eso? ¿Qué quiere decir que modela eso más? ¿Aliciar o generar? Aliciar o generar,
+
+43:36.640 --> 43:40.480
+lo que empezamos diciendo en la clase. Es decir, tengo una palabra en Bambona, quiero usar su estructura.
+
+43:40.480 --> 43:46.560
+O tengo una estructura, una forma léxica y quiero, o sea, que si yo te digo,
+
+43:46.560 --> 44:11.000
+este, si yo digo, como dije hoy, nat, ak, nat, ak, ism, estoy diciendo algo así como nat,
+
+44:11.000 --> 44:28.640
+que es casa más pejorativo, más obvio que lo margo como obvio. ¿De acuerdo? Eso es lo que yo
+
+44:28.640 --> 44:35.440
+tengo que hacer, es lo mismo que dijimos allá, pasar de la forma de superficie a la forma léxica.
+
+44:40.440 --> 44:46.920
+Y entonces, de acuerdo a lo que vimos hasta ahora, ¿qué es lo que yo necesito saber para
+
+44:46.920 --> 44:56.480
+hacer esto? ¿Qué cosas necesito tener? Nosotros dijimos que había tres cosas que se necesitaban
+
+44:56.480 --> 45:09.600
+para modelar la morfología, ¿cuáles eran? Sí, el lexicón, en realidad son los morfemas,
+
+45:09.600 --> 45:18.520
+los lemas malos sufijos, ¿no? Toda la partecita de gombones. ¿Cuáles son los lemas ahí? ¿Cuáles son
+
+45:18.560 --> 45:35.880
+los raíces y los afijos? Los morfemas, no sabía la palabra. ¿Cuáles son? ¿Cuáles son? ¿Cuáles son los morfemas? ¿Cómo
+
+45:35.880 --> 45:44.440
+formo la palabra en este caso? Es más fácil la pregunta, ¿cuáles son los morfemas? ¿Qué son
+
+45:44.440 --> 45:48.760
+los morfemas? Son todas esas palabras. ¿Qué son los morfemas? La hace uno. Son las partes
+
+45:48.760 --> 45:53.560
+chiquitas con las que se compone la palabra. ¿De qué estamos hablando? Viñaron las que se pasaron.
+
+45:54.560 --> 46:00.960
+Hubo clase con el partido y yo no me... Bueno, son esto, ¿no? Root, milk, so, no sé qué.
+
+46:03.960 --> 46:10.440
+Y todas estas, no sé qué, no sé cuánto. ¿De acuerdo? Y además tengo que saber para cada una
+
+46:10.440 --> 46:23.480
+de ellas que cuando aparece este acto... Tengo los afijos, ¿no? De acuerdo. Ese es mi... ¿Y cómo
+
+46:23.480 --> 46:33.080
+hago para expresar eso con un transductor? ¿Cómo haría un transductor que guarde todas estas palabras?
+
+46:33.080 --> 46:46.440
+¿Cómo lo hago? ¿Cómo lo hago? ¿Cómo hago un transductor? Si yo le digo a alguien un transductor
+
+46:46.440 --> 46:57.200
+que me guarde todas las palabras y dice, ¿qué hacen ustedes? ¿Qué hacen con esas palabras?
+
+46:57.200 --> 47:04.080
+¿Cómo hacen ustedes si yo le digo a cada uno un diccionario? ¿Qué es lo que hacen cuando yo le digo?
+
+47:04.080 --> 47:09.600
+No diccionario, Python, un diccionario, así de lo que se buscan. Bueno, ahora vienen en formato
+
+47:09.600 --> 47:15.440
+electrónico, pero ¿cómo escribo cada una de las palabras que tengo? Esto es lo mismo. Yo para
+
+47:15.440 --> 47:20.000
+empezar a tener mi lexicón tengo que hacer un ordre de todas las palabras que tengo. Un transductor
+
+47:20.000 --> 47:26.720
+que me permita recorrer cada palabra posible. O sea, un embole. Tengo que ponerla a todas las
+
+47:26.720 --> 47:33.360
+palabras. Y más, yo lo que pueda hacer generando va a depender de acá. No va a haber más sufijo
+
+47:33.360 --> 47:38.280
+que estos. Si yo tengo algún otro animal además de chancho, mientras no tenga la raíz, no voy a
+
+47:38.280 --> 47:44.960
+poder decirlo. Haga, no descubrimos nada. Toda la información del lexicón está dentro del
+
+47:44.960 --> 47:50.920
+transductor. Lo que tiene que es muy sencillo, es un transductor que lo único que hace es recorre
+
+47:50.920 --> 48:07.040
+con el morphema correspondiente. ¿Y qué devuelve? ¿Qué devolvería? Devuelve lo mismo, ¿no?
+
+48:08.040 --> 48:14.040
+Vamos a suponer que esto es un símbolo de tres. Yo podría hacer tres arco de lo mismo. ¿Tá?
+
+48:14.040 --> 48:23.440
+Y con lo sufico pasa lo mismo. ¿Qué operación del álgebra me permite expresar esto? ¿Qué operación
+
+48:23.440 --> 48:34.320
+del álgebra me permite expresar esto? ¿Qué operación de las que vimos?
+
+48:37.040 --> 48:42.800
+Pues yo puedo escribir el transductor derecho. Pero lo que yo puedo hacer es un transductor que
+
+48:42.800 --> 48:48.080
+solo olía mal, porque además acá puede haber combinaciones, ¿no? Porque así hay dos que
+
+48:48.080 --> 48:56.720
+empiezan con la misma letra, no es eficiente. Por ejemplo, karg y kusm, la k debería ser común.
+
+48:56.720 --> 48:57.800
+Ella es una cosa así, ¿no?
+
+49:14.800 --> 49:21.880
+¿De acuerdo? El transductor que le le hago. ¿Sí? ¿Pero cómo hago yo para expresar todas las
+
+49:21.880 --> 49:24.360
+palabras? Con una de las operaciones que vimos.
+
+49:26.720 --> 49:40.960
+Unión. Simplemente hago un transductor por cada palabra y hago la unión de ellos. Y esa es lo que
+
+49:40.960 --> 49:45.040
+yo le decía y lo que realidad es lo que decía el Kaplan y Kei. La gracia es que como yo tengo una
+
+49:45.040 --> 49:49.320
+operación definida, dada dos presiones regulares, construir, dada dos transductores, construir
+
+49:49.320 --> 49:55.960
+la unión, yo tengo un método constructivo para hacerlo. No tengo que hacer nada. Ya el método
+
+49:55.960 --> 49:58.680
+existe, lo único que voy a hacer es decirle a la computadora, así es la unión de todo,
+
+49:58.680 --> 50:04.680
+él calcula el automata. Entonces yo modelo de esa forma, modelo con presión regulares
+
+50:04.680 --> 50:14.040
+y utilizo las operaciones de transductor. Bien, eso es el lexicon, o sea que así voy
+
+50:14.040 --> 50:20.240
+a tener todas mis palabras. ¿Qué otra parte tenía el transductor? Digo, ¿qué otra parte
+
+50:20.240 --> 50:27.760
+tenía nuestro analizador? ¿Se acuerdan esa palabra? Morfotácticas. ¿Qué eran las morfotácticas?
+
+50:27.760 --> 50:42.080
+¿Qué eran las morfotácticas? Exacto. ¿Cómo se combinan? ¿Cuáles son las versiones autorizadas
+
+50:42.080 --> 50:55.480
+de combinación? ¿Cómo serían mis morfotácticas en este caso? Y bueno, es lo que hice acá.
+
+50:55.480 --> 51:06.240
+Yo digo, bueno, primero viene una raíz, ¿sí? ¿Qué puede ser una de estas? O sea que yo
+
+51:06.240 --> 51:12.720
+la raíla defino como la unión de todas estas. Y después viene un sufijo opcional, o sea
+
+51:12.720 --> 51:18.920
+que tengo que definir los sufijos, que es un or de estos tres, que van, además de ser
+
+51:18.920 --> 51:27.000
+un or, van a devolver en la salida estas marcas. Van a sustituir esto por esta marca. Y así
+
+51:27.000 --> 51:36.520
+papapas sigo pegando cosas, ¿sí? Y la pregunta es, ¿cómo digo ese, cuando yo digo, viene
+
+51:36.520 --> 51:42.120
+tal raíz después, después, después? ¿Qué operaciones estoy usando ahí? ¿De las que
+
+51:42.120 --> 51:56.440
+vimos? No. No, yo estoy formando una palabra a partir de pedacitos. Es decir, primero viene
+
+51:56.440 --> 52:02.320
+la raíz, después viene esto, después viene esto, después viene esto. Con catenacía.
+
+52:02.320 --> 52:11.480
+Con catenacía. Muy bien. Yo lo que hago es con catenar las partes para formar una palabra.
+
+52:11.480 --> 52:22.200
+Vamos a ver esto como se expresa en… perdón. Vamos a ver, esto está hecho con una herramienta
+
+52:22.200 --> 52:32.520
+que se llama XFST. Ustedes pueden bajársela, probarla en el analizador. Acá lo que yo
+
+52:32.520 --> 52:36.280
+hice fue, acá lo que hago estoy haciendo es definir expresión irregular. Relación
+
+52:36.280 --> 52:43.680
+regular, exactamente con el álgebra que ya las vimos. Entonces yo digo, bueno, la raíz
+
+52:43.680 --> 52:51.200
+de un hombre en manbona, un sustantivo en manbona es cualquiera de estas palabras. Esta
+
+52:51.200 --> 52:55.440
+ya ve lo que quiere decir que son tres símbolos, una N, una A y una T, y no un símbolo solo,
+
+52:55.440 --> 53:01.560
+nada más que eso quiere decir. O sea, una raíz va a ser más NAT, POS, bla, bla. Y va
+
+53:01.560 --> 53:04.600
+a devolver lo mismo, o sea, acuerdan que si no poníamos lo que devolvía, devolvía lo
+
+53:04.600 --> 53:10.680
+mismo. O sea, esto va a calcular, esto se compila en un traductor que lo único que hace
+
+53:10.680 --> 53:17.440
+es tomar la entrada y devolver la salida y que solo acepta esta palabra. ¿De acuerdo?
+
+53:18.440 --> 53:22.800
+Y luego empiezo a definir de la misma forma lo sufijo, a hacer los traductores para
+
+53:22.800 --> 53:33.800
+lo sufijo. Y digo, bueno, el sufrijo acá me va a devolver como marca peyorativo. Acá
+
+53:33.800 --> 53:37.480
+en realidad estoy haciendo el orden para el otro lado, es decir, a partir del análisis
+
+53:37.480 --> 53:43.160
+genero la marca. O sea, que si tengo una marca de peyorativo, este porcentaje es para el
+
+53:43.160 --> 53:49.680
+escape del más. Si es peyorativo le agregó acá, si es diminutivo este, y etcétera.
+
+53:49.680 --> 54:00.400
+Y así defino todos los sufijos que fueron descritos en la letra. ¿Tá? Si ustedes lo
+
+54:00.400 --> 54:05.920
+revisan van a ver que se corresponde con la especificación que se vio. Hay algún caso
+
+54:05.920 --> 54:12.200
+particular que es, por ejemplo, si no tiene número, yo quiero marcarlo como que no tiene
+
+54:12.240 --> 54:17.360
+número, pero no se corresponde nada en el del lado de superficie. No hay marca eléxica.
+
+54:17.360 --> 54:25.360
+Es como el masculino en el español, no hay marca de masculino, no es que no tiene marca,
+
+54:25.360 --> 54:34.000
+no tiene una marca de superficie, no hay marca ortográfica. Entonces acá simplemente devuelvo
+
+54:34.000 --> 54:44.040
+cero que es éxil. O sea, que si no hay nada va a devolver eso. Y entonces la pregunta
+
+54:44.040 --> 54:51.520
+es, bueno, yo tengo esto. Tengo la raíz y los sufijos. ¿Cómo voy a definir el sustantivo?
+
+54:51.520 --> 54:59.560
+¿Cómo represento al sustantivo? A partir de esto. Este es el lezicón. ¿Cómo dijimos
+
+54:59.720 --> 55:13.200
+definir el sustantivo? Exactamente esto que dice. La raíz, esto quiere decir opcional, un sufijo
+
+55:13.200 --> 55:20.560
+1 opcional, un sufijo 2 opcional, un sufijo 3 y un sufijo 4. ¿Qué construimos acá? El lezicón,
+
+55:20.560 --> 55:33.400
+es decir, yo tengo para cualquier palabra, yo puedo, no solo la reconoce, sino que devuelve
+
+55:33.400 --> 55:41.840
+esa estructura eléxica. Y eso quiere decir que construí nada más ni nada menos con
+
+55:41.840 --> 55:55.320
+un transductor que de una recibe la palabra y devuelve el análisis. Y además de regalo
+
+55:55.320 --> 56:07.480
+viene la inversa. Como los transductores se acuerdan que eran cerrados bajo reverso. Simplemente
+
+56:07.480 --> 56:12.040
+devuelta la transidad. Lo que tiene de bueno esto es que el análisis y la generación, y vuelvo a la
+
+56:12.040 --> 56:20.680
+pregunta del principio de la clase, es exactamente igual. Es el costo computacional es el mismo,
+
+56:20.680 --> 56:26.920
+porque es simplemente leer el transductor de un lado o del otro. Y esa es una de las grandes ventajas
+
+56:26.920 --> 56:31.200
+de los transductores tajonitos que después no pasa más en otras cosas. El análisis y la generación
+
+56:31.200 --> 56:42.520
+son lo mismo. Pero, ¿qué le falta esto? ¿Qué le falta esto? Las reglas ortográficas. Porque esto
+
+56:42.520 --> 56:50.120
+me va a generar cosas, yo le voy a dar el análisis, me va a generar todo muy bien, pero va a tener
+
+56:50.120 --> 56:56.120
+problemas porque en las palabras de bambona, las consonantes nunca son seguidas, las vocales,
+
+56:56.120 --> 57:04.340
+sino por la verdad. ¿Y cómo vamos a hacer las reglas ortográficas? ¿Qué hacemos con la regla
+
+57:04.340 --> 57:15.920
+ortográfica? ¿Cómo hacemos la regla ortográfica? ¿Cómo la representamos? ¿La representamos con un
+
+57:15.920 --> 57:29.500
+transductor que haga la sustitución y correspondiente? Ahora vemos eso. Yo acá hice un transductor que
+
+57:29.500 --> 57:34.120
+hace las reglas. ¿Qué está utilizando el operador de reemplazo? Simplemente dice la I y la sustituimos,
+
+57:34.120 --> 57:38.680
+por eso no sirven los operadores de reemplazo. Porque dice, si hay una I, sustituímelas por una U,
+
+57:38.680 --> 57:49.360
+si antes hay una P, una T o una K. ¿O? Y después fíjate que si hay una E la cambió por una O,
+
+57:49.360 --> 57:55.920
+si hay una P de una O. Y después fíjate que hay una, y aplicar los dos en cascada. O sea,
+
+57:55.920 --> 58:04.400
+empezar con este, aplica este, aplica este. Pero esto lo único que hace es, dado una palabra,
+
+58:04.400 --> 58:12.000
+me cambia la cosa. Yo tengo esto que me da la palabra, dada el análisis, me da la palabra y tengo
+
+58:12.000 --> 58:20.200
+esto que dada la palabra me corrige la ortografía. ¿Cómo lo junto? ¿Con qué operación? Y ahí sí con
+
+58:20.200 --> 58:29.000
+oposición. ¿De acuerdo? Entonces, bambona es simplemente, y acá sí tenemos el transductor
+
+58:29.400 --> 58:36.200
+el lexicón compuesto con las reglas ortográficas. Si yo hubiera definido las reglas al revés,
+
+58:36.200 --> 58:44.640
+tendría que ser al principio, el autor. Pero como yo la definí de la análisis para el otro lado,
+
+58:44.640 --> 58:51.840
+esto queda pegado, digamos, el primer transductor, dado el análisis, te da la palabra con los
+
+58:51.840 --> 58:56.920
+errores ortográficos y el segundo transductor te corrige la ortografía. Y devuelve la versión correcta.
+
+58:56.920 --> 59:09.000
+¿De acuerdo? Entonces, implementamos exactamente lo que queríamos, es un solo transductor,
+
+59:09.000 --> 59:14.120
+porque la composición genera un transductor solo, un transductor muy complejo, construido a partir
+
+59:14.120 --> 59:20.200
+de parte muy chiquita, hicimos una especie, no, un poco de ingeniería, fuimos construyendo
+
+59:20.200 --> 59:24.920
+de partes y construyendo el gran transductor, que lo que hace es dar a cualquier sustantivo,
+
+59:24.920 --> 59:33.640
+me devuelve su estructura. Y, dada la estructura, me dice cómo se pronuncia. Si se fijan,
+
+59:33.640 --> 59:38.600
+este es un método que es completamente especificable o que fue completamente especificado por reglas.
+
+59:40.920 --> 59:50.000
+O sea, todas las palabras que están acá tengo la generación de su análisis y solo esas.
+
+59:50.080 --> 59:54.000
+Si hay una palabra nueva, acá no entra, tengo que modificar el transductor, ¿de acuerdo?
+
+01:00:10.000 --> 01:00:15.760
+Si, está muy bien la pregunta, no sabes, tenés que tenerlo en cuenta durante tu análisis.
+
+01:00:16.720 --> 01:00:20.000
+Es decir, vos tenés que tener en cuenta que en la cascada importa el orden.
+
+01:00:22.000 --> 01:00:26.640
+O sea, que si te pasa eso que vos decís, marchaste, es que tenés que modificar tu análisis,
+
+01:00:26.640 --> 01:00:34.640
+no hay una iteración, digamos. Sí, totalmente. Exactamente, totalmente.
+
+01:00:34.640 --> 01:00:39.960
+Pues lo que hace eso es, las reglas ortográficas son, siempre te pasa lo mismo, cuando aplicas
+
+01:00:39.960 --> 01:00:45.440
+reglas en cascada, tenés que saber que estás haciendo una cascada y que en esa cascada lo
+
+01:00:45.440 --> 01:00:49.360
+que vos hagas después no puedo estirarlo para atrás, digamos. Que si vos pusiste una marca
+
+01:00:49.360 --> 01:00:56.720
+de cambio, esa marca, quiero decir, el transductor de la cascada tiene que entender en qué posición
+
+01:00:56.720 --> 01:01:02.720
+de la cascada está. Porque, por ejemplo, vos podés poner una marca intermedia, porque
+
+01:01:02.720 --> 01:01:06.160
+va a pasar algo después. Este tipo tiene que saber que le puede venir una marca intermedia
+
+01:01:06.160 --> 01:01:13.520
+en su alfabeto. De hecho, lo que yo te decía hoy, el paper
+
+01:01:13.600 --> 01:01:18.560
+dice que hace que el operador de reemplazo hace una cantidad de operaciones sobre la tira,
+
+01:01:18.560 --> 01:01:24.720
+le mete símbolo, marquitas, coso, todo muy artesanal y las compone en una cascada para
+
+01:01:24.720 --> 01:01:31.600
+obtener un solo transductor que hace el reemplazo. Bueno, hay otras herramientas para este tipo
+
+01:01:31.600 --> 01:01:39.200
+de álgebra. En esta, esta es muy potente, en este yo escribí la tesilla de maestría
+
+01:01:39.200 --> 01:01:47.520
+con la esencia autílitis. Este es muy potente pero muy ineficiente, muy ineficiente. Y ahora
+
+01:01:47.520 --> 01:01:57.040
+los más populares son OpenFST. Bueno, hay un poco de bibliografía. Este es un libro,
+
+01:01:57.040 --> 01:02:01.680
+pero este paper resume bastante, de forma bastante interesante, en unas pocas páginas
+
+01:02:01.680 --> 01:02:19.040
+como ha sido la historia del asunto de Estado Finito. ¿Alguna pregunta? No. Si ustedes quieren
+
+01:02:19.040 --> 01:02:29.520
+pueden instalarse XFST y hacer pruebas, y efectivamente van a ver que al especificar
+
+01:02:29.520 --> 01:02:34.240
+estas cosas uno, y les permite aplicarlo al transductor. Es decir, bueno, ¿qué pasa
+
+01:02:34.240 --> 01:02:40.080
+con esta palabra? Y pronto ni bien se pone uno a probar y empiezan a aparecer las cosas
+
+01:02:40.080 --> 01:02:45.640
+como el no determinismo o cosas así. Además, esta herramienta permite hacer una cantidad
+
+01:02:45.640 --> 01:02:49.560
+de análisis internos, es decir, ¿qué tan complicado es el transductor? Uno de los grandes
+
+01:02:49.560 --> 01:02:56.520
+problemas que tienen los transductores, o el gran problema es que son muy eficientes
+
+01:02:56.520 --> 01:03:01.720
+para computar cosas, pero claro, toda la información que tenemos ahí está contenida
+
+01:03:01.720 --> 01:03:06.360
+dentro del transductor, no tiene noción de memoria externa a los transductores, todo
+
+01:03:06.360 --> 01:03:14.440
+tiene que estar ahí. Eso hace que crezcan muchísimo. Y generalmente los análisis hecho
+
+01:03:14.440 --> 01:03:18.880
+con transductores son muy eficientes, pero han sido tradicionalmente, necesitan mucha
+
+01:03:18.880 --> 01:03:23.520
+memoria para ejecutarse porque crecen muy rápido el componerse. Fíjense que yo cuando
+
+01:03:23.520 --> 01:03:27.240
+los compongo a una especie de producto cartesiano, digamos, en muchos casos, entonces empiezan
+
+01:03:27.240 --> 01:03:33.120
+a crecer y a crecer y a crecer. Yo creo que de un punto de vista, me estoy
+
+01:03:33.120 --> 01:03:38.880
+tal vez, me estoy arriesgando lo que estoy diciendo, pero me parece que de un punto
+
+01:03:38.880 --> 01:03:43.440
+de vista más, industriar los transductores es como que han pasado un poco de moda, porque
+
+01:03:43.440 --> 01:03:48.960
+las computadoras son tan potentes que tengo modelos más tradicionales, con lenguaje de
+
+01:03:48.960 --> 01:03:54.760
+programación y más presivo, digamos, y no tengo todo su problema de que me explote
+
+01:03:54.760 --> 01:04:01.680
+su tamaño. Pero debe haber algunas aplicaciones que trabajan contra autores, pero no en este
+
+01:04:01.680 --> 01:04:07.480
+marco tan genérico. ¿De acuerdo? Bueno, fin de la parte 1, vamos a pasar a la parte
+
+01:04:07.480 --> 01:04:16.480
+2. Capaz que están un poco cansados, pero tenemos que ponernos al día. La parte 2,
+
+01:04:16.480 --> 01:04:25.120
+como les decía, hay que cambiar un poco el chip, porque seguimos dentro de las palabras,
+
+01:04:25.120 --> 01:04:35.000
+pero vamos a hablar de otra cosa y vamos a usar un método también bastante diferente.
+
+01:04:35.000 --> 01:04:52.000
+Y es el tema de la detección y la corrección de errores ortográficos. Esto me interesa
+
+01:04:52.000 --> 01:05:01.600
+por dos motivos. Uno es porque el problema es un problema interesante y otro es porque
+
+01:05:01.600 --> 01:05:07.720
+es un modelo bastante claro de utilización de un método que se utiliza en muchas cosas,
+
+01:05:07.720 --> 01:05:12.600
+no solo el procesamiento de un bokeh natural, que se llama modelo del canal ruidoso, que
+
+01:05:12.600 --> 01:05:23.520
+es el primer modelo proailista que vamos a ver. Y van a ver que la aproximación es completamente
+
+01:05:23.520 --> 01:05:32.240
+diferente. Y yo me atrevería a decir que es el concepto más importante que podemos
+
+01:05:32.240 --> 01:05:39.600
+ver en este curso, como concepto general, como concepto nuevo. No digo que el tema valle
+
+01:05:39.600 --> 01:05:48.320
+sea nuevo, pero desde el punto de vista de los métodos que solemos utilizar los ingenieros,
+
+01:05:48.320 --> 01:05:54.560
+esto es bastante nuevo. ¿Por qué? Porque utiliza métodos de inferencia en lugar de
+
+01:05:54.560 --> 01:06:07.180
+métodos deductivos. Esto es, yo tradicionalmente hay dos escuelas filosóficas, si ustedes
+
+01:06:07.180 --> 01:06:13.400
+quieren que son los racionalistas y los empiricistas. Los racionalistas dicen, bueno, yo puedo construir
+
+01:06:13.400 --> 01:06:20.120
+un modelo del mundo y sacar conclusiones de ese modelo que construí, en mi cabeza. ¿No?
+
+01:06:20.120 --> 01:06:28.840
+Aristóteles. Pero los empiricistas, por allá, digamos, Francis Bacon, todas esas
+
+01:06:28.840 --> 01:06:34.600
+gente decían no, en realidad el mundo es el que hay, yo tengo que inferir los modelos
+
+01:06:34.600 --> 01:06:41.120
+a partir de los datos que existen. Esas dos corrientes filosóficas han recorrido la humanidad
+
+01:06:41.240 --> 01:06:48.320
+en esas dos visiones. Y ahora no es menos. Pero ahora, como tenemos muchos datos, ha
+
+01:06:48.320 --> 01:06:52.040
+tomado bastante importancia todo el tema del empiricismo. El empiricismo es el método
+
+01:06:52.040 --> 01:07:00.760
+científico, observo, mido y genero realidades, en lugar de construirme realidades teóricas
+
+01:07:00.760 --> 01:07:10.640
+puras. El método que vamos a ver del canal ruidoso es bien probabilística. Bueno,
+
+01:07:10.640 --> 01:07:33.600
+pero ¿cómo hacemos? Y bueno, supongamos que yo escucho una palabra. ¿Sí? Yo les digo la palabra.
+
+01:07:33.600 --> 01:07:46.480
+Vaso. ¿Qué dije? Vaso. Vaso. Vaso. ¿Alguien escuchó otras cosas? ¿Capaz que
+
+01:07:46.480 --> 01:07:59.400
+se en el fondo escucharon? Paso. ¿Puedo haber dicho perro? ¿Puedo haber dicho perro o no
+
+01:07:59.400 --> 01:08:05.600
+puedo haber dicho perro? ¿Por qué no? ¿Por qué probablemente no?
+
+01:08:10.600 --> 01:08:16.280
+Y si hubiera sido por lo que escuchamos, pero ¿que escucharon? Eso no es como una
+
+01:08:16.280 --> 01:08:22.000
+es. Es decir, no parece que hubiera sido perro. No es probable que el sonido haya llegado tan
+
+01:08:22.000 --> 01:08:34.240
+cambiado. ¿Puedo haber dicho? ¿Puedo haber dicho eso? ¿Por qué no? Porque no es una palabra.
+
+01:08:34.240 --> 01:08:48.960
+Entonces, ¿puedo haberlo dicho? No. La idea es que el modelo del canal ruidoso es lo que yo digo,
+
+01:08:49.000 --> 01:08:59.080
+lo que sucede es que yo recibo de alguna forma una señal y digo bueno modelo el problema digamos,
+
+01:08:59.080 --> 01:09:05.480
+cuando yo modelo el problema con canal ruidoso es yo tengo una observación ante mí que es eso
+
+01:09:05.480 --> 01:09:12.200
+que escucharon ustedes que además es diferente para todos porque es una distancia y quiero tratar de
+
+01:09:12.200 --> 01:09:18.640
+determinar cuán fue la palabra origen porque a mí lo que me interesa saber es que dije yo,
+
+01:09:18.640 --> 01:09:22.840
+no digo, se trata de la comunicación. A mí lo que me interesa no, a ustedes lo que me interesa es saber
+
+01:09:22.840 --> 01:09:36.960
+que dije yo. Y en mi definición del problema, yo asumo ya que mi señal pasó por un canal
+
+01:09:36.960 --> 01:09:48.920
+ruidoso que la tarji versó y que lo único que yo puedo saber es no tener la certeza de cuál
+
+01:09:48.920 --> 01:09:55.720
+fue la palabra sino lo mejor que puedo aspirar es una distribución de probabilidad. ¿Qué es? ¿Se
+
+01:09:55.720 --> 01:09:59.360
+acuerdan lo que es una distribución de probabilidad? Fijemos la definición. Yo tengo una serie de
+
+01:09:59.360 --> 01:10:06.680
+eventos, una distribución de probabilidad es un valor entre 0 y 1 que le doy a cada uno y que
+
+01:10:06.720 --> 01:10:11.800
+entre todo tiene que sumar uno. Esa es una distribución de probabilidad. Yo puedo hacer una
+
+01:10:11.800 --> 01:10:18.800
+distribución de probabilidad sobre todas las palabras posibles. Con lo cual descarto ya las
+
+01:10:19.320 --> 01:10:22.200
+pero
+
+01:10:26.800 --> 01:10:27.520
+digamos
+
+01:10:33.520 --> 01:10:37.640
+si supongamos que se llama Luis y yo le digo
+
+01:10:37.640 --> 01:10:49.760
+yo le hablo y le digo fuiz, ¿no? Él sabe que yo le estoy hablando a él, ¿verdad? Entonces
+
+01:10:51.080 --> 01:10:56.960
+él le sonó fuiz, o sea que la palabra más cercana le fui probablemente desde el punto de vista de
+
+01:10:56.960 --> 01:11:04.760
+bueno pero él sabe que le estoy hablando a él, entonces Luis es más probable digamos en su
+
+01:11:04.760 --> 01:11:09.080
+interpretación. Sigue siendo posible que yo hubiera dicho fuiz porque le voy a decir fui a
+
+01:11:09.080 --> 01:11:16.040
+tal lado y que se me cortó porque me pasó algo, pero es menos probable. Entonces es lo que arma
+
+01:11:17.240 --> 01:11:22.360
+cuando me escucha o lo que hacemos todo, cuando escuchamos es bueno o podemos modelar lo que
+
+01:11:22.360 --> 01:11:26.040
+lo hacemos, no quiere decir que lo hagamos, es generar una distribución de probabilidad sobre
+
+01:11:26.040 --> 01:11:30.600
+todas las palabras posibles que me dijeron y quedarme con la que es más probable según alguna
+
+01:11:30.600 --> 01:11:40.680
+regla. Eso se trata el modelado del canal ruidoso. Esto no tiene que ver, porque hoy
+
+01:11:40.680 --> 01:11:47.280
+día cuando estaba el proceso de mínima discusión. Y tengo entonces dada una palabra, tengo las
+
+01:11:47.280 --> 01:11:52.640
+originales, cuando tengo un error ortográfico tengo exactamente la misma configuración,
+
+01:11:52.640 --> 01:11:57.720
+yo tengo una palabra que veo ahí que no sé lo que es y trato de saber cuál es la más,
+
+01:11:58.680 --> 01:12:01.600
+la más razonable que sea la original.
+
+01:12:05.840 --> 01:12:11.240
+¿Qué pasa? ¿Cómo hacemos la detección del error? Y bueno, si a mí me aparece en un texto, mate.
+
+01:12:15.880 --> 01:12:22.560
+Yo puedo detectar que hay, que me equivoqué, ¿por qué? Porque esa palabra no existe,
+
+01:12:22.560 --> 01:12:27.600
+la detección de palabras inexistentes es muy fácil. Yo pongo un diccionario y no está,
+
+01:12:27.600 --> 01:12:30.800
+es lo que hacen todos los corretores ortográficos.
+
+01:12:34.800 --> 01:12:40.800
+Esa es una forma, esto es detección de palabras inexistentes, nada más. Después lo que tengo
+
+01:12:40.800 --> 01:12:52.000
+es la corrección aislada, que es, bueno, mate, la correjo con tomate. ¿Por qué?
+
+01:12:57.280 --> 01:13:01.520
+Por la mínima distancia. ¿Por qué es la más parecida? ¿Qué hay? No parece haber otro diccionario
+
+01:13:01.520 --> 01:13:06.360
+que sea más parecida. Esto, no hay otro candidato de base de tomate.
+
+01:13:10.880 --> 01:13:16.960
+Mate, puede ser, está bien, es verdad. ¿Verdad? Metí una T y...
+
+01:13:20.320 --> 01:13:27.600
+Y esto es la más difícil, ¿eh? No, en vez de poner calor, puse el color, está complicado,
+
+01:13:27.600 --> 01:13:31.440
+porque ahí tengo que conocer el contexto, es mucho más difícil. Con la palabra sola no puedo.
+
+01:13:35.280 --> 01:13:39.760
+Nunca vas a saber. ¿Es lo que le pasa a los corretores? ¿Cuántas veces dejamos una barbaridad
+
+01:13:39.840 --> 01:13:44.240
+en nuestros textos? Porque también, justo era una palabra, yo qué sé.
+
+01:13:44.240 --> 01:13:48.240
+Eso que vamos a hablar en esta clase, después vamos a hablar sobre esto, no se preocupen,
+
+01:13:48.240 --> 01:13:52.240
+pero vamos a hablar de este tipo de corrección. ¿De cuál es la más probable? Porque esto
+
+01:13:52.240 --> 01:13:56.400
+no siempre es tan fácil tomando la palabra sola, porque puede haber mucho, bueno, no
+
+01:13:56.400 --> 01:13:59.680
+siempre es tan fácil, no, ni siquiera era tan fácil. En el caso que el género de Mate
+
+01:13:59.680 --> 01:14:05.120
+aplica, acá tengo dos candidatas. Entonces, vamos a ver un poco de este caso. ¿Y cómo
+
+01:14:05.120 --> 01:14:12.960
+modelarlo con el modelo canal ruidoso? Esta clase está basada principalmente en
+
+01:14:12.960 --> 01:14:21.120
+un artículo que habla de una utilidad que hicieron para IUNE, que creo que se llama
+
+01:14:21.120 --> 01:14:25.840
+SPEL o correcto. No, SPEL es la clásica que te dice si está viendo mal la palabra,
+
+01:14:25.840 --> 01:14:31.520
+es correcto eso. ¿Qué te corrige la palabra? Ellos hicieron un análisis y dijeron, bueno,
+
+01:14:31.680 --> 01:14:36.880
+tomaron un corpo de errores, de errores cometidos, la gallena anotó esto, se cambió por esto,
+
+01:14:36.880 --> 01:14:41.840
+se cambió por esto, se cambió por esto, y se dio cuenta que entre el 1 y el 3% de
+
+01:14:41.840 --> 01:14:48.960
+las palabras según el corpus, son errores, eran corpus de transcripciones y mal no recuerdo.
+
+01:14:48.960 --> 01:14:58.640
+Y que el 80% de esos errores eran por la inserción de una letra o Mate, por el borrado de una
+
+01:14:58.720 --> 01:15:06.960
+letra, por la sustitución de una letra y por la transposición de dos letras, acá cambiaron
+
+01:15:06.960 --> 01:15:14.920
+la, de por la o. Sí, es más raro eso, metes dos dedos, eso te puede pasar más con una
+
+01:15:14.920 --> 01:15:24.880
+máquina a escribir. ¿Por qué les parece haber una pregunta, no? Esta sustitución por una
+
+01:15:24.880 --> 01:15:38.640
+p, es este, ¿Les parece que es igual para cualquier letra la sustitución acá? Está más
+
+01:15:38.640 --> 01:15:43.600
+cerca, es más fácil confundir una o con una p o una a en un teclado, por la distribución de la letra,
+
+01:15:43.600 --> 01:15:58.960
+bueno, eso nos da una pista. Y yo podría llegar a decir bueno, pero entonces lo que voy a hacer es
+
+01:15:58.960 --> 01:16:07.080
+agarro cualquier error, agarro cualquier error, cualquier palabra que es un error y busco la
+
+01:16:07.080 --> 01:16:12.200
+candidata más parecida cambiando con una serie de reglas por las que están más cerca en el teclado,
+
+01:16:12.640 --> 01:16:18.480
+pruebo la o por una p, no, hago todo un paquete de reglas, la pico la palabra y doy un canteón,
+
+01:16:18.480 --> 01:16:25.080
+algo parecido a lo que hice con la morfología. Bueno, no vamos a hacer eso, nuestra aproximación
+
+01:16:25.080 --> 01:16:31.120
+va a ser completamente diferente a esa, en lugar de aprender de nuestro modelo, de tomar esa visión
+
+01:16:31.120 --> 01:16:37.520
+racionalista, en la cual yo supongo una cantidad hipótesis como son demasiadas complicadas a
+
+01:16:37.520 --> 01:16:44.720
+hipótesis, pero yo qué sé cómo es, no sé si es una o o la p o la... no sé qué letra llama,
+
+01:16:47.720 --> 01:16:51.920
+no sé, no lo lo voy a dar, o p, no sé qué hay, este
+
+01:16:54.960 --> 01:17:05.240
+L, no, la L, acá, no, acá, no, después la pico, que pico, que pico,
+
+01:17:07.720 --> 01:17:10.400
+la I, la I, ¿Quién dijo la I? ¿Quién dijo la I?
+
+01:17:10.400 --> 01:17:19.200
+Bueno, no sabemos, no es fácil modelar eso, entonces nosotros no vamos a hacer nada, vamos a
+
+01:17:19.200 --> 01:17:27.360
+aplicar el modelo del canal ruidoso y vamos a decir, bueno, y acá viene el asunto de las
+
+01:17:27.360 --> 01:17:32.240
+probabilidades condicionales y todo eso, ¿se acuerdan de la probabilidad condicional, ¿no?
+
+01:17:32.440 --> 01:17:39.200
+Podría condicionales un número entre 0 y 1 bla bla, es una distribución de probabilidad entre
+
+01:17:39.200 --> 01:17:48.760
+eventos posibles, pero que está condicionada a que haya pasado algo, entonces yo lo que digo es,
+
+01:17:49.960 --> 01:17:58.760
+yo voy a querer la palabra W, W coso, pechito, gorrito, que maximiza
+
+01:18:03.000 --> 01:18:13.480
+la probabilidad de, ahora vamos a aplicar un poquito más, ¿se acuerdan, el large max,
+
+01:18:13.480 --> 01:18:18.720
+lo que quiere decir es, calcula la probabilidad y cuál es la W, que es el argumento para esa,
+
+01:18:18.720 --> 01:18:25.960
+para esa cuenta, esto es, yo tengo una observación no, que es mi palabra con error,
+
+01:18:26.600 --> 01:18:34.280
+¿sí? y yo quiero saber exactamente lo que estuvimos conversando ahora, la W, de todas las
+
+01:18:34.280 --> 01:18:45.880
+W posibles del vocabulario, ¿cuál es aquella para la cual la probabilidad es máxima?
+
+01:18:48.280 --> 01:18:52.640
+Lo cual solamente me modela el problema, no me lo resuelve, bueno, tengo ni idea,
+
+01:18:52.680 --> 01:18:58.280
+hasta el momento como calcular la probabilidad, pero mi problema ahora es, ¿cómo calculo
+
+01:18:58.280 --> 01:19:06.400
+esta probabilidad? Además de la taría titánica de encontrar todas las posibles W y probar con
+
+01:19:06.400 --> 01:19:11.800
+cada una, que bueno, además tengo que saber esta W, donde saco, donde la estimo, cómo hago,
+
+01:19:11.800 --> 01:19:18.520
+ese es mi problema en los métodos probabilísticos, ¿cómo calculo las probabilidades? Y la probabilidad
+
+01:19:18.520 --> 01:19:22.840
+la voy a calcular a partir de qué, ¿cómo podemos aprender esas probabilidades?
+
+01:19:27.920 --> 01:19:33.080
+Frecuencia, frecuencia de errores, exactamente, así funcionan todos los métodos de aprendizaje
+
+01:19:33.080 --> 01:19:41.360
+automático, todos los métodos de aprendizaje automático aprenden de corpus o de conjuntos
+
+01:19:41.360 --> 01:19:46.640
+previamente anotados, porque yo para saber frecuencia de errores, alguna persona me tuvo que anotar
+
+01:19:46.640 --> 01:19:53.280
+los errores, ese es el gran problema de los métodos de aprendizaje, los métodos de aprendizaje
+
+01:19:53.280 --> 01:19:57.960
+tienen la gran ventaja de que, esencialmente, no necesitan un experto porque aprenden de los
+
+01:19:57.960 --> 01:20:02.880
+datos, pero necesitan un experto para que le anote los datos, para que le diga, esto fue un error,
+
+01:20:02.880 --> 01:20:08.240
+esto fue un error, esto fue un error, esto fue un error, y ahí aprender, bueno, de eso se trata
+
+01:20:08.240 --> 01:20:15.560
+el modelo canal ruidoso, ¿y qué hace? Bueno, dice, aplica la vieja y querida regla de Valles,
+
+01:20:18.360 --> 01:20:27.240
+Valles, monje por allá del 1500, descubrió esta regla que es muy muy sencilla, es muy muy difícil
+
+01:20:27.240 --> 01:20:33.720
+explicar, intuitivamente, que lo que dice es que la probabilidad de un número dado a otro
+
+01:20:33.720 --> 01:20:42.880
+evento, es igual a la probabilidad, perdón, la probabilidad de un evento, dado a otro evento,
+
+01:20:42.880 --> 01:20:48.280
+es la probabilidad al revés, con la condición al revés multiplicada por la probabilidad del
+
+01:20:48.280 --> 01:21:00.200
+X, divida la probabilidad del Y, es decir, esto es bastante obvio porque la probabilidad de que se
+
+01:21:00.200 --> 01:21:07.560
+den dos eventos, X y Y, al mismo tiempo, es la probabilidad de que se dé X multiplicada por
+
+01:21:07.560 --> 01:21:15.400
+la probabilidad de que se dé Y, dado que se dio X, ¿sí? La probabilidad de que salga dos veces un 2,
+
+01:21:15.400 --> 01:21:20.680
+cuando tiene un dado, es la probabilidad de que salga un 2, multiplicado por la probabilidad de que
+
+01:21:20.680 --> 01:21:30.180
+salga otro 2, dado, el dado es el peor ejemplo porque soy independiente, pero se van a dar
+
+01:21:30.180 --> 01:21:42.780
+lo mismo, pero la probabilidad de que sea, si la primera palabra de un texto es la, es un artículo,
+
+01:21:42.780 --> 01:21:47.580
+la probabilidad de que sea un sustantivo, la siguiente seguramente es más alta,
+
+01:21:48.580 --> 01:21:59.060
+de acuerdo, que si la primera es un verbo, de acuerdo, entonces, pero lo mismo puedo decir al revés,
+
+01:21:59.060 --> 01:22:08.860
+la probabilidad de X y Y es igual a la probabilidad de Y por la probabilidad de X dado Y, de acuerdo,
+
+01:22:09.620 --> 01:22:18.500
+igual a estas dos cosas, igual a estas dos, y paso y divido por P su Y, y me da la regla de Valle,
+
+01:22:18.500 --> 01:22:23.700
+sencillamente, pero es muy interesante lo que dice la regla de Valle, porque dice, si yo condiciono
+
+01:22:23.700 --> 01:22:32.060
+en un evento, puedo, automáticamente, saber cómo se condiciona en el otro, si yo sé la probabilidad
+
+01:22:32.060 --> 01:22:42.220
+de que la segunda sea un sustantivo, dado que la primera es un artículo, puedo calcular al revés,
+
+01:22:42.220 --> 01:22:46.500
+puedo calcular la probabilidad de que sea un artículo, la primera, dado que la segunda es un
+
+01:22:46.500 --> 01:22:54.020
+sustantivo, hacerla de derecha, de adelante para atrás, digamos, y justamente lo que vamos a hacer
+
+01:22:54.020 --> 01:23:00.260
+nosotros es decir, bueno, nosotros queríamos calcular esto, la probabilidad, ah, perdón,
+
+01:23:00.260 --> 01:23:07.860
+nosotros teníamos esta probabilidad que queríamos calcular, P de W dado, si, entonces yo lo que digo
+
+01:23:07.860 --> 01:23:13.100
+es, aplico Valles y digo, la probabilidad de, de P, ahora vamos a ver por qué hago esto, no,
+
+01:23:14.860 --> 01:23:22.380
+la probabilidad de O dado W por la probabilidad de W dividido de la probabilidad de O, apliqué
+
+01:23:22.380 --> 01:23:27.740
+derechito viejo la regla de Valle, quería la probabilidad de la palabra, dada la observación y la
+
+01:23:27.780 --> 01:23:30.900
+transformo en algo que es la probabilidad de la observación dada la palabra,
+
+01:23:33.660 --> 01:23:42.340
+¿por qué yo hago esto? Porque yo en mi cuerpo tengo los errores, yo sé la palabra original y veo
+
+01:23:42.340 --> 01:23:48.700
+la palabra que se, que, en qué se transformó, entonces yo lo que veo fácilmente contando es la,
+
+01:23:48.700 --> 01:23:53.420
+ahora vamos a ver por qué veo fácilmente contando, la probabilidad de la observación dada la palabra
+
+01:23:53.420 --> 01:24:03.780
+original, si yo escribí tu mate, perdón, si, si, si yo escribo tu mate, qué tan probable es que
+
+01:24:03.780 --> 01:24:10.460
+escriba tu mate, te calculan, se entiende, estoy calculando al revés, estoy partiendo la palabra y
+
+01:24:10.460 --> 01:24:16.140
+viendo cuál es la probabilidad de equivocarme, que vamos a ver ahora que eso es más fácil de
+
+01:24:16.140 --> 01:24:23.540
+calcular, ahora lo vamos a ver, pero la cuestión es que si yo quiero maximizar esta función,
+
+01:24:23.540 --> 01:24:28.460
+si se fijan esta función depende, o sea esto es para todas las palabras posible,
+
+01:24:29.460 --> 01:24:38.460
+la probabilidad de que yo diga tu mate dado que dije perro, que dije caballo, o tomate, o mate,
+
+01:24:38.460 --> 01:24:46.380
+y si ustedes fijan acá esto varía con la palabra pero no varía con la observación,
+
+01:24:46.380 --> 01:24:52.100
+entonces si yo maximizar esta función es lo mismo que maximizar esta de arriba, porque esto es
+
+01:24:52.100 --> 01:25:02.820
+fijo, entonces acá llegó a esto, maximizo la probabilidad de la observación dada la palabra
+
+01:25:02.820 --> 01:25:09.540
+multiplicada por la probabilidad de la palabra, y miren que interesante ¿no? porque es estoy
+
+01:25:09.540 --> 01:25:13.580
+dividiendo en dos partes, la regla de bache lo que permite, lo que me permite hacer es dividir en dos
+
+01:25:13.580 --> 01:25:26.220
+partes bien claras mi estimación de la probabilidad y es la probabilidad a priori de la palabra
+
+01:25:26.220 --> 01:25:38.220
+¿Qué es? ¿Qué tan probable es en el caso de nuestro es que yo emita siquiera esa palabra? ¿Qué tan
+
+01:25:38.220 --> 01:25:49.180
+probable es que yo haya querido decir... yo qué sé, no sé, cualquier palabra rara, no se me ocurre
+
+01:25:49.180 --> 01:25:52.500
+ninguna, me hago, tengo que venir con el ejemplo preparado porque en clases jamás se me ocurre
+
+01:25:53.460 --> 01:25:58.100
+es un baque tengo, yo dije tomate y quise decir
+
+01:26:02.660 --> 01:26:06.620
+alguna palabra parecida tomate, pero rara
+
+01:26:09.860 --> 01:26:18.900
+quise decir mita, que sabemos que es algo, la probabilidad de que yo haya dicho mita es muy
+
+01:26:18.900 --> 01:26:23.820
+baja porque mita no es una palabra que nadie conozca, supongamos que existe, si no la tradicional
+
+01:26:23.820 --> 01:26:33.140
+la probabilidad a priori que así se llama es muy baja, es muy baja, ahora si yo hablo claro y digo
+
+01:26:33.140 --> 01:26:40.580
+mita por más baja que sea, ustedes me escucharon perfecto o sea que la probabilidad de la observación
+
+01:26:40.740 --> 01:26:49.460
+mita, dado que dije mita es muy alta, por más canal ruidoso que pasó, entonces ni más ni menos
+
+01:26:49.460 --> 01:26:55.300
+que la probabilidad es que yo estoy queriendo saber es la multiplicación de ambas, yo puedo
+
+01:26:55.300 --> 01:26:59.940
+tener una palabra que es muy probable que diga, es muy probable que yo haya querido decir este
+
+01:27:01.540 --> 01:27:09.980
+él o la o cualquier artículo que son las palabras más comunes, pero es muy raro que yo haya dicho él
+
+01:27:09.980 --> 01:27:15.900
+y que me haya salido tomate, se entiende, entonces esta probabilidad de ser muy alta pero estaba
+
+01:27:15.900 --> 01:27:22.460
+muy baja, de eso se trata ni más ni menos la regla de base, el canal ruidoso, entonces vamos
+
+01:27:22.460 --> 01:27:26.780
+a ver un ejemplo en este artículo de cómo corregimos errores basándonos en este algoritmo
+
+01:27:26.780 --> 01:27:34.780
+vallesiano, la hipótesis de trabajo de los tipos es, los errores son todos por inserción borrado
+
+01:27:34.780 --> 01:27:38.540
+sustitución y transposición, o sea eliminaron el 20% del corpo porque eran otros errores que
+
+01:27:38.540 --> 01:27:45.980
+no sabían cómo modelarlo, ellos dicen bueno si yo se me encuentro un error mi única aproximación
+
+01:27:45.980 --> 01:27:53.820
+es que alguien metió un dedo mal, un solo dedo mal, ¿de acuerdo? se entiende, entonces dicen bueno
+
+01:27:55.580 --> 01:27:59.260
+tengo la palabra observada que en nuestro caso es esta acrés
+
+01:27:59.260 --> 01:28:13.340
+si, que no es una palabra, y dice bueno ¿cuáles son? si yo le aplico todas las transformaciones
+
+01:28:13.340 --> 01:28:20.180
+posibles, una, recuerden una hipótesis que la única que hay es una inserción, o sea ya reduce
+
+01:28:20.180 --> 01:28:27.420
+mis aspiraciones, o sea ya sé que hay casos que no lo voy a detectar, así de triste es la vida,
+
+01:28:27.420 --> 01:28:33.340
+digamos, lo modelo probabilita realmente, todos los modelos, todos los modelos y la definición
+
+01:28:33.340 --> 01:28:43.380
+de modelo simplifican la realidad para poder trabajar, este, él dice bueno podría haber sido
+
+01:28:43.380 --> 01:28:50.380
+y busca todas las que están a distancia 1, a distancia 1 con estas operaciones y por ejemplo dice
+
+01:28:51.340 --> 01:29:02.260
+actrice que es que se perdió la T, o crees que es que metimos e insertamos una A
+
+01:29:04.580 --> 01:29:11.100
+y la posición cero, fíjense que además bueno y así todo ¿no? pero es curioso porque acrés
+
+01:29:12.500 --> 01:29:18.540
+con una S sola aparece dos veces, porque puede haberla insertado en la posición 4 de la posición
+
+01:29:18.580 --> 01:29:23.140
+5, tengo que modelar como las dos posibles casos, porque son las dos formas que tengo
+
+01:29:23.140 --> 01:29:30.020
+que llegar a la misma, y estas son todas las candidatas posibles, según nuestra regla,
+
+01:29:30.020 --> 01:29:43.380
+porque son la única que está en el dicionario, ¿te entiendes acá? bien, bueno, entonces yo lo que
+
+01:29:43.380 --> 01:29:54.380
+voy a hacer es esto, calcular la palabra, la palabra correcta como la función que maximiza
+
+01:29:54.380 --> 01:30:05.380
+la probabilidad del error, el tipo, el error, dada la palabra por la palabra, ¿cómo calculo
+
+01:30:05.380 --> 01:30:10.780
+la probabilidad de la palabra? ¿cómo calculo la probabilidad a priori de la palabra?
+
+01:30:10.780 --> 01:30:26.980
+en el corp, ¿no? estamos todos acuerdos que la más razonable aproximación, la que parece más
+
+01:30:26.980 --> 01:30:34.180
+seguido en el corpus, va a aparecer más seguido en el corpus, esos razonables se
+
+01:30:34.180 --> 01:30:40.780
+llaman principios de máxima verosimilitud, yo considero que lo que tengo en el corpus es
+
+01:30:40.780 --> 01:30:47.780
+mi mejor aproximación a la realidad, ¿de acuerdo? es decir, lo que maximice la probabilidad en el
+
+01:30:47.780 --> 01:30:56.780
+corpus maximiza mi probabilidad, pero tiene un problema, ¿qué pasa si la palabra nunca
+
+01:30:56.780 --> 01:31:03.100
+apareció en el corpus? porque el corpus de hecho no es infinito, ¿qué pasa si la palabra no apareció
+
+01:31:03.100 --> 01:31:14.700
+en el corpus? la probabilidad 0, ¿y eso qué hace, qué suceda? que sea imposible que yo le elija, aunque
+
+01:31:14.700 --> 01:31:20.420
+esté en mi vocabulario, aunque esté recontraparecida nunca le voy a elegir porque nunca apareció en
+
+01:31:20.420 --> 01:31:25.620
+el corpus, ese es el problema típico del conteo por frecuencias y la corrección típica que le vamos
+
+01:31:25.620 --> 01:31:29.740
+a ver un poquito más ya que hace que viene es, yo le voy a hacer sacarlo un poco de masa de probabilidad
+
+01:31:30.500 --> 01:31:35.500
+porque esto es lo que va a hacerme una distribución de probabilidad sobre todas las palabras, ¿no? normalizo
+
+01:31:35.500 --> 01:31:42.580
+sobre uno y me da una distribución por la frecuencia, ¿qué es esto? 1.343 actres y todas
+
+01:31:42.580 --> 01:31:48.220
+estas, ¿no? y esta es la probabilidad que es simplemente contar la cantidad de palabras que
+
+01:31:48.220 --> 01:31:55.100
+aparece sobre el total de palabras que hay, bueno yo lo que hago es sacarlo un poco más a probabilidad
+
+01:31:55.100 --> 01:32:00.340
+a estos y decir en lugar de dividir en la cuenta generalmente es esta cantidad de veces que aparece
+
+01:32:00.340 --> 01:32:05.220
+la palabra sobre total de palabra, lo que hago es agregarle un poquitito de masa de probabilidad,
+
+01:32:05.220 --> 01:32:15.540
+agrego un 0,5 al conteo para que nunca me ve cero, es la solución más ingenieril que se les ocurre,
+
+01:32:15.540 --> 01:32:22.220
+les saco un poquito más, ni siquiera es muy bueno eso pero funciona, se llama este conteo de las
+
+01:32:22.260 --> 01:32:26.420
+plazas, vamos a verlo un poquito más la que hace que viene, pero tengo que, ¿por qué le agregó este 0,5
+
+01:32:26.420 --> 01:32:34.580
+acá? ¿Por qué tengo que agregarle este 0,5B?
+
+01:32:34.580 --> 01:32:44.260
+es una operación, una cuestión bien operativa
+
+01:32:54.460 --> 01:32:58.860
+para mantener la probabilidad, prometí que dar 1, esto tiene que ser una distribución de probabilidad,
+
+01:32:59.740 --> 01:33:05.220
+cuando yo cuento y divido sobre n, lo que me da es una distribución de probabilidad, es decir todo
+
+01:33:05.220 --> 01:33:11.060
+suma uno, si yo le agrego 0,5 a cada uno deja de sumar uno, entonces yo tengo que normalizarlo y le
+
+01:33:11.060 --> 01:33:18.260
+agrego esto al total, es como que acá hubiera un poquito más de palabras, entonces yo tengo
+
+01:33:18.260 --> 01:33:24.740
+que sumarlas acá, y como agrego 0,5 por cada una palabra es como que yo agregar a 0,5 palabras,
+
+01:33:25.060 --> 01:33:32.020
+0,5 por la cantidad de palabras posibles, ¿no? ¿de acuerdo? esto aparece un montón de veces,
+
+01:33:32.020 --> 01:33:35.380
+un montón de veces se hace este tipo de cosas, yo siempre que tengo una probabilidad tengo que
+
+01:33:35.380 --> 01:33:39.140
+buscar la forma de normalizarla y cuando yo empiezo a hacer cuentas, a modificarlo sumando,
+
+01:33:39.140 --> 01:33:43.860
+puedo romper la probabilidad y yo tengo que asegurarme que sume uno, porque bueno,
+
+01:33:43.860 --> 01:33:48.980
+porque la base de todo mi teoría probabilística está basada en eso de que son eventos que
+
+01:33:49.620 --> 01:33:56.380
+son todos menores que uno, los que yo lo mapeo una función menor que uno y que la suma da uno,
+
+01:33:56.380 --> 01:34:02.020
+y después todo lo que hago es demasiado eso, bueno, pero cuestiono que con esta corrección
+
+01:34:02.020 --> 01:34:08.420
+llegamos a una distribución de probabilidad de la probabilidad priori, o sea, los más probables
+
+01:34:08.420 --> 01:34:17.140
+que yo haya querido decir, acces, de acuerdo, dada, si yo no supiera más nada que lo que,
+
+01:34:19.140 --> 01:34:25.380
+si yo no supiera más nada que las palabras posibles, lo más probable que haya querido decir,
+
+01:34:25.380 --> 01:34:30.580
+perdón, que quiere decir acros, que es la palabra más común en el corpus, tipo con probabilidad
+
+01:34:30.580 --> 01:34:39.820
+000019 acros, eso quiere decir que sacró, no, porque nos falta la segunda parte de la probabilidad,
+
+01:34:39.820 --> 01:34:46.180
+nosotros calculamos esta, la probabilidad a priori, es la probabilidad
+
+01:34:49.700 --> 01:34:59.700
+que en principio tiene la palabra, sin haber visto los datos, es como mi, si yo lo veo desde un punto de
+
+01:34:59.820 --> 01:35:05.220
+la probabilidad se pueden ver de dos familias de razonamiento principales, uno de frecuentistas
+
+01:35:05.220 --> 01:35:09.060
+que es una probabilidad, es la cantidad de veces que pasa algo, la proporción de veces
+
+01:35:09.060 --> 01:35:16.780
+que pasa algo, si yo lo repito suficientemente, yo tengo un dado un millón de veces, o n veces,
+
+01:35:16.780 --> 01:35:20.780
+va a atender a la probabilidad a calcular, el defino de eso como la probabilidad, hay
+
+01:35:20.780 --> 01:35:26.500
+otra visión alternativa de la de prioridad, que es la certeza o la confianza que yo tengo
+
+01:35:26.500 --> 01:35:30.940
+en algo que no está definida por una frecuencia, esa es la visión vallesiana de la probabilidad,
+
+01:35:30.940 --> 01:35:37.740
+es lo que yo pienso que, si usted ve en un dado, si yo tiene un dado, ustedes, a priori,
+
+01:35:38.740 --> 01:35:45.820
+¿cuál es la probabilidad de que salga uno? ¿Por qué?
+
+01:35:46.820 --> 01:35:55.060
+No tiraron el dado, no? No, no, no, es una pregunta, no tiraron el dado,
+
+01:35:55.060 --> 01:35:57.820
+¿tenés seis posibles? ¿y qué más?
+
+01:36:02.820 --> 01:36:05.500
+Sí, pero ¿qué más? ¿qué más estás asumiendo vos?
+
+01:36:05.500 --> 01:36:14.900
+Que el dado no está cargado, ahora, si yo tiro el dado 100 veces y me cayó 80 veces un 6,
+
+01:36:16.820 --> 01:36:24.900
+pero mi confianza a priori, antes de ver los datos, es 0, como dijimos, un sexto,
+
+01:36:24.900 --> 01:36:32.540
+¿por qué? Porque asumo, por algún motivo asumo, por algún motivo, o porque yo lo vi con cara de
+
+01:36:32.540 --> 01:36:37.580
+dado cargado y pensé que era 0, 8, es válida también, es una prioridad priori, después los
+
+01:36:37.580 --> 01:36:43.700
+datos me la cambian, de eso se trata la regla de valles. Bueno, perdón, esto es un tema que me gusta
+
+01:36:43.700 --> 01:36:50.260
+mucho y me entusiasmo. Bueno, pero tenemos que calcular esta. ¿Cómo vamos a hacer para
+
+01:36:50.260 --> 01:36:58.100
+calcular esta? La probabilidad de que se dé el error dado la clase. ¿Cómo se le ocurre que podríamos
+
+01:36:58.100 --> 01:36:58.700
+hacer algo así?
+
+01:37:06.460 --> 01:37:09.900
+Bueno, lo que hicieron estos muchachos fue...
+
+01:37:13.740 --> 01:37:19.740
+Fue ver qué pasado hacer lo mismo, pero con las sustituciones. ¿Cuántas veces en un
+
+01:37:19.740 --> 01:37:26.380
+corpo de errores, encontraron un cuerpo de errores, no es menor, cuántas veces se sustituye? Pero
+
+01:37:27.540 --> 01:37:32.500
+¿no buscaron cuántas veces se sustituye tomate por tomate? ¿Por qué no hicieron ese conteo?
+
+01:37:34.700 --> 01:37:38.460
+¿Por qué no contaron? Porque yo podía decir, bueno, ¿cuántas veces se cambió actres por
+
+01:37:38.460 --> 01:37:43.180
+actres, crees, crees, por crees? ¿Por qué no hicieron ese conteo? Igual le decimos con la palabra. ¿Por qué
+
+01:37:43.220 --> 01:37:45.180
+no aplicaron máxima valor, similitud y ya?
+
+01:37:49.180 --> 01:37:57.460
+Porque la cantidad de veces que yo casi seguramente es cero. Es decir, mi potencia es muy general,
+
+01:37:57.460 --> 01:38:04.980
+muy general tener un cuerpo de comunal. Entonces lo que hicieron fue no. Hicieron una matriz de
+
+01:38:04.980 --> 01:38:14.180
+confusión donde... Perdón, no la tengo acá. Donde contaron cuántas veces
+
+01:38:17.180 --> 01:38:25.940
+adelante de una O se ponía una A, una B, una C, una D, una E. ¿Cuántas veces después de una O se
+
+01:38:25.940 --> 01:38:31.020
+borraba la letra? Siguiente. ¿Cuántas veces la O se sustituía por una A, por una B, por una
+
+01:38:31.020 --> 01:38:39.420
+C, por una D? ¿Y cuántas veces la O se cambiaba por la siguiente? Con eso buscaron capturar esa
+
+01:38:39.420 --> 01:38:44.180
+intuición de que la O... ¿Por qué qué puede suceder? Y bueno, más probable que la O yo la
+
+01:38:44.180 --> 01:38:50.580
+sustituya por una P, porque están cerca. Pero no lo hago razonando que están cerca, sino simplemente
+
+01:38:50.580 --> 01:38:54.420
+contando. ¿Capaz que no es así? ¿Capaz que los datos me dicen otras cosas? ¿Capaz que me dicen
+
+01:38:54.420 --> 01:38:59.740
+que la O se sustituye por la letra esta que está acá, que no sé cuál es? Por la O,
+
+01:38:59.900 --> 01:39:05.380
+simplemente porque me confundo, yo qué sé, porque me confundo y le arrode dedo, digamos. Me meto
+
+01:39:05.380 --> 01:39:14.260
+el mismo dedo de la mano que no es. No importa, lo cuento a partir de los datos. ¿Tá? Y lo que
+
+01:39:14.260 --> 01:39:26.580
+hicieron fue bueno, dijeron, actres, la probabilidad exista, la probabilidad de que yo, las palabras
+
+01:39:26.580 --> 01:39:38.260
+acuerdan que era actres, de que yo borre una T antes de una R, es esta y la probabilidad combinada
+
+01:39:38.260 --> 01:39:53.420
+de ambas es esta. O sea, el producto de las dos, ¿sí? Si se fijan, Cres arranca con muy pocas
+
+01:39:53.420 --> 01:39:57.820
+expectativas de ganar, porque a priori no apareció nunca, o sea, que le da la probabilidad de esta
+
+01:39:57.820 --> 01:40:02.540
+residual que le dan métodos para que no de cero, tendría que ser muy alta la probabilidad para
+
+01:40:02.540 --> 01:40:09.100
+que se igualara. O sea, que insertar una A del antes de una C tendría que ser enorme, la probabilidad
+
+01:40:09.100 --> 01:40:13.460
+para que cambiara la ecuación acá. Y efectivamente no cambia nada, pero da mucho más chica.
+
+01:40:13.900 --> 01:40:27.140
+Al revés, la probabilidad más alta es haber insertado una, haber borrado la T. ¿De acuerdo?
+
+01:40:30.380 --> 01:40:39.580
+Y efectivamente, pero, pero, 5. Esta es bastante más probable, como palabra actres, es una palabra
+
+01:40:39.580 --> 01:40:49.860
+bastante más probable que actres. Por conteo, parece que una vez en el cuerpo, ¿sí? Y luego,
+
+01:40:49.860 --> 01:40:58.940
+lo que hicieron fue, bueno, ¿qué hicieron acá? Se quedaron con el porcentaje de aparición de
+
+01:40:58.940 --> 01:41:04.060
+cada una. ¿Qué hicieron? Volvieron a generar una distribución de probabilidad, porque todo el porcentaje
+
+01:41:04.060 --> 01:41:10.380
+es lo mismo con una distribución de probabilidad. Esto es 0,37, esto dan 0, 0 y 0. ¿Y cuál gana?
+
+01:41:12.300 --> 01:41:19.100
+¿Cuál gano? Actres. No, en realidad van no actres, porque puedo llegar de dos formas,
+
+01:41:19.100 --> 01:41:25.380
+pero sigue siendo la misma palabra. Entonces, estas dos se suman. O sea, que con un 0,4 de
+
+01:41:25.380 --> 01:41:30.500
+probabilidad, la palabra era actres. La palabra más probable, la corrección más probable,
+
+01:41:30.660 --> 01:41:38.780
+era actres. ¿Sí? Curiosamente, se ha equivocado, porque en ese contexto era actres.
+
+01:41:40.780 --> 01:41:43.820
+Pero bueno, ellos no tenían contexto para analizar.
+
+01:41:52.020 --> 01:41:59.900
+En la versión 3 del libro, me puse muy contento porque hay un capítulo dedicado
+
+01:41:59.980 --> 01:42:07.700
+especialmente a este tema, lo que muestra que es muy importante. Me puse muy contento
+
+01:42:07.700 --> 01:42:13.620
+porque piensa igual que yo. Qué bien que está ese tipo, dice lo mismo que yo. Y acá está el
+
+01:42:13.620 --> 01:42:19.340
+piper, si lo quieren leer. Sobre todo me interesaba más que por la aplicación, por el método,
+
+01:42:19.340 --> 01:42:23.180
+porque van a ver que este tipo de método se repita. Los métodos vallesianos se repiten
+
+01:42:23.180 --> 01:42:29.100
+usualmente. Y además porque tienen una cantidad, hay una cantidad de situaciones donde se puede
+
+01:42:29.260 --> 01:42:37.460
+utilizar este tipo de métodos. El otro día, les voy a contar una cosa. Por ejemplo, el otro día
+
+01:42:41.380 --> 01:42:46.620
+estaba tratando de argumentar por qué a uno en una institución le conviene publicar sus datos.
+
+01:42:48.300 --> 01:42:53.540
+Y la regla de valles es una buena forma de convencer a alguien de eso. Porque la regla de
+
+01:42:53.540 --> 01:43:02.220
+valles lo que dice es, si yo no tengo datos, como con el dado de hoy, me quedo con mi probabilidad
+
+01:43:02.220 --> 01:43:11.500
+que puedo traducirlos en una visión vallesiana como mi confianza, en algo, a priori. Es decir,
+
+01:43:11.500 --> 01:43:19.860
+si a mí lo que me preocupa es como institución que al publicar mi datos, mi imagen, en peor,
+
+01:43:20.180 --> 01:43:24.980
+porque me van a criticar las cosas que publico, pensemos primero cuál era la probabilidad priori,
+
+01:43:24.980 --> 01:43:29.900
+o decir cuál era tu imagen a priori, cuál era tu confianza a priori. Y muy probablemente,
+
+01:43:29.900 --> 01:43:37.140
+salvo que vos seas de verdad un desastre, cuando publicar tu dato las cosas mejoran. Eso es
+
+01:43:37.140 --> 01:43:44.220
+sencillamente aplicar la regla de valles en una situación de todos los días. Bueno, nos vemos en el martes.
+

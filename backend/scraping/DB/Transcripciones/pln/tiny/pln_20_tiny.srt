@@ -1,0 +1,2672 @@
+WEBVTT
+
+00:00.000 --> 00:19.000
+¿Qué vamos a ver hoy?
+
+00:19.000 --> 00:24.000
+¿Qué es?
+
+00:24.000 --> 00:33.720
+La idea es como una clase de invitada dentro del curso de introsión al
+
+00:33.720 --> 00:40.360
+presentamiento del lenguaje natural, dar algo de el tema de recuperación de
+
+00:40.360 --> 00:46.000
+información, pero si uno piensa, en recuperación de información ya se
+
+00:46.000 --> 00:49.400
+enseguida de una sociedad Google, Google, Google o vamos a ver, no vamos a
+
+00:49.400 --> 00:55.200
+ver eso. Vamos a ver los inicios de la recuperación de información,
+
+00:55.200 --> 01:00.800
+cuando todavía internez no la tal, estamos hablando de la década de
+
+01:00.800 --> 01:06.080
+ese del 60, cuando empezaron a aparecer los primeros sistemas o cuál
+
+01:06.080 --> 01:12.560
+eran los modelos o cuál eran los criterios para construir un sistema de
+
+01:12.560 --> 01:18.560
+recuperación de documentos de información, donde vamos a
+
+01:18.560 --> 01:22.760
+comentando la filosofía totalmente distinta a lo que hoy es la
+
+01:22.760 --> 01:32.160
+web. Entonces, el sistema de recuperación de información con la
+
+01:32.160 --> 01:37.120
+decida, en general se habla de un dominio acotado, un dominio conocido y uno
+
+01:37.120 --> 01:42.960
+lo que trata de hacer es tratar de recuperar la mayor cantidad de documentos o
+
+01:42.960 --> 01:49.920
+de información que exista en esa base documental vinculado a la
+
+01:49.920 --> 01:56.080
+necesidad y digamos de usuario. Entonces, estas son algunas las preguntas que
+
+01:56.080 --> 02:00.560
+no se hace, ¿no? ¿Cómo podemos recuperar información relevante para
+
+02:00.560 --> 02:05.160
+nosotros contenida en esos documentos en esa colección de documentos? ¿Qué
+
+02:05.160 --> 02:09.520
+cosas tendrían que ser representativas? ¿Qué es lo que va a identificar un
+
+02:09.520 --> 02:14.360
+documento de otro? ¿Cómo se van a representarlos documentos? ¿Cómo vamos a representarlas
+
+02:14.360 --> 02:21.440
+consultas? Si importa la estructura que tenga el documento o solamente el
+
+02:21.440 --> 02:24.960
+contenido, en fin, ¿y cuál y cuál la se la relevancia social ha
+
+02:24.960 --> 02:29.440
+sacado documento? Esto es un tema bien importante porque uno
+
+02:29.440 --> 02:34.400
+inevitablemente, cuando voy a estar hablando, hace su, su paralelismo a la web.
+
+02:34.400 --> 02:40.240
+Entonces, hoy vemos, hacemos una consulta en la web, en internet y siempre aparece
+
+02:40.240 --> 02:46.400
+un orden de alguna manera, el tipo ordena, según algún criterio. Entonces, en
+
+02:46.400 --> 02:49.960
+aquí, en estamos hablando de los primeros sistemas de recuperación de
+
+02:49.960 --> 02:54.120
+documentos, de base de datos documentales, el tema de la relevancia era muy
+
+02:54.120 --> 02:58.080
+importante y cuál sea en los criterios y cómo se medía esa relevancia era
+
+02:58.080 --> 03:01.880
+sumamente clave en los modelos, en los primeros modelos teóricos, y bueno,
+
+03:01.880 --> 03:06.240
+y que después aplicaron los primeros sistemas de gestión documental.
+
+03:06.240 --> 03:13.320
+Entonces, bueno, nada, una breve agenda, primero, introducir al tema, vamos a hablar
+
+03:13.320 --> 03:18.960
+de los modelos de los modelos de los modelos de información retro rival,
+
+03:18.960 --> 03:25.160
+cómo se cuáles son las medidas para evaluar la recuperación, y después muy
+
+03:25.160 --> 03:31.840
+por arriba, esta hablar algo de indexación, que es clear, esto obviamente por lo
+
+03:31.840 --> 03:37.240
+menos mencionar lo que sería recuperación de información en la web, y después se
+
+03:37.240 --> 03:40.800
+dotemos interesante que es el tema de frección de información, que de alguna manera
+
+03:40.800 --> 03:47.040
+es como un arma no menor de la recuperación de información.
+
+03:47.040 --> 03:53.440
+Entonces, vamos a empezar a contextualizar tres preguntas distintas, primero,
+
+03:53.440 --> 03:58.360
+digamos, que es el concepto de información, luego que es un sistema de información
+
+03:58.360 --> 04:05.400
+para después llegar al concepto de que recuperación de información.
+
+04:05.400 --> 04:14.840
+Acá yo, ya lo tenemos, ya lo venimos manejando, más que nada para contextualizar,
+
+04:14.840 --> 04:20.560
+este es un par de definiciones que me parecieron interesantes, de la relea de academia y
+
+04:20.560 --> 04:25.760
+la otra, la saque de Wikipedia. Comunicación o adquisición de conocimientos que permiten
+
+04:25.760 --> 04:31.160
+ampliar o precisar los que ya se poseen, eso ya tengo determinada idea sobre algo
+
+04:31.160 --> 04:36.760
+y busco a aumentar esa, esa idea sobre determinados conceptos, o bueno,
+
+04:36.760 --> 04:40.880
+un conjunto organizado de datos procesados que constituyen un mensaje que cambia el
+
+04:40.880 --> 04:44.760
+estado de conocimiento del sujeto o de lo que ya conocíamos.
+
+04:44.760 --> 04:49.400
+Son como distintas, pero pero orientadas a lo mismo, a tratar de profundizar o de aumentar
+
+04:49.400 --> 04:53.520
+la capacidad de conocimiento sobre determinado aspecto.
+
+04:53.520 --> 04:58.960
+Entonces, sobre esa base, un sistema de información también hay un par de definiciones
+
+04:58.960 --> 05:04.680
+de dos sitios, conjunto de funciones, o componente relacionados que forman un todo,
+
+05:04.680 --> 05:10.240
+al máscena, procesa, distribuibles, en fin, o un conjunto organizado de elementos que
+
+05:10.240 --> 05:15.600
+pueden ser personas, datos, o sea, no es social o directamente al tecnología,
+
+05:15.600 --> 05:22.080
+un sistema de formación es algo que va mucho más allá de el concepto de tecnología.
+
+05:22.080 --> 05:29.160
+Entonces, cualidad de un sistema de información debe ser preciso o sea la información
+
+05:29.160 --> 05:39.360
+que contenga debe estar clara y contundente de lo que se pretende representar.
+
+05:39.600 --> 05:47.040
+Hay un tema de oportunidad, que tiene que ver con el momento en que sucede un determinado
+
+05:47.040 --> 05:54.160
+hecho y el momento en que ese documento que refleja a ese hecho expuesto a disposición
+
+05:54.160 --> 06:01.880
+del sistema, otra cualidad es el hecho de sea completo, si bien la completitud absoluta
+
+06:01.880 --> 06:08.040
+no existe. Bueno, la idea es que cuando yo recuperé un sistema trate de recuperar
+
+06:08.040 --> 06:15.000
+absolutamente todo lo relevante que a mi miteresa contenido en el sistema, ya que no me
+
+06:15.000 --> 06:20.360
+queden cosas por recuperar vinculados a lo que yo quiero.
+
+06:20.360 --> 06:26.280
+Lo que tenga contenido semátrico, que la información se acuerente, o sea, en tema de integridad
+
+06:26.280 --> 06:36.920
+de la información, y bueno, los aspectos de seguridad que no se pierdan veamos con el tiempo.
+
+06:36.920 --> 06:42.760
+Hay algunos ejemplos, a casi uno ya orientado a sistemas de información pensando en
+
+06:42.760 --> 06:50.640
+tecnología, bueno, son los sistemas transaccionales, hay cualquiera de lo que va a
+
+06:50.640 --> 06:58.680
+repéar, a un sistema de gestión de archíos, soporte a partir de ahí, uno genera un montón
+
+06:58.680 --> 07:03.600
+de información. Entonces, esa información existe en otros tipos de sistemas que serían los
+
+07:03.600 --> 07:08.960
+sistemas separatos más decisiones basados en la trawerja, hubo etcétera, se pensamos al día de
+
+07:08.960 --> 07:15.120
+hoy, o los sistemas basados en conocimiento, que a gran derrago podemos en un mercado como
+
+07:15.120 --> 07:20.120
+sistema se expertos. Entonces, son simplemente algunos ejemplos, no, que se basan en grandes
+
+07:20.120 --> 07:29.160
+bases de conocimiento. Entonces, podemos clasificarlo en dos tipos, a veces hablamos de sistemas
+
+07:29.160 --> 07:36.160
+de base datos o de gestión de bases de datos, de gestión de datos, o sistemas de recuperación
+
+07:36.160 --> 07:42.240
+de información. Pues un poco lo que yo quiero tratar de mostrar la diferencia entre datos
+
+07:42.240 --> 07:44.720
+e información.
+
+07:44.720 --> 07:50.380
+Nada, nada, de finición para fijar ideas, un sistema de gestión de base
+
+07:50.380 --> 07:55.040
+datos, bueno, soguera dedicado a servir de índemfas entre la base datos y el usuario y
+
+07:55.040 --> 07:59.120
+las aplicaciones tiene un lenguaje de definición de datos y un lenguaje de consulta,
+
+07:59.120 --> 08:02.160
+etcétera.
+
+08:02.160 --> 08:11.120
+Yendo a recuperación de información, también un par de definiciones, la básica de Wikipedia,
+
+08:11.120 --> 08:16.160
+asciencia de la búsqueda de información en documentos, la búsqueda de documentos, de metadatos
+
+08:16.160 --> 08:24.380
+que describan esos documentos, e fin, me interesa porque rescataba la definición
+
+08:24.380 --> 08:30.460
+de salton, porque salton es un poco considerado el Padre de la recuperación de información,
+
+08:30.460 --> 08:37.020
+disciplina encargar a la representación por parte contextualiza bien el concepto. De la representación
+
+08:37.020 --> 08:43.260
+en el almacenamiento, la organización y su posterior acceso y recuperación de esa información.
+
+08:43.260 --> 08:51.340
+Entonces, en los sistemas de recuperación de información, el objetivo es muy simple, tengo un conjunto
+
+08:51.340 --> 08:59.540
+de documentos, tengo un usuario con una cierta quiera investigar o quiera averiguar algo
+
+08:59.540 --> 09:05.980
+sobre determinado tema y sísto. Estamos pensando en conjuntos en la huevo que se
+
+09:05.980 --> 09:13.020
+te rojellen, sino en un conjunto de documentos o mojellos, y bueno, nada, ayudarse de herramientas
+
+09:13.100 --> 09:22.780
+tecnológicas. Entonces, lo que decía recién, distingamos lo que es recuperar datos de recuperar
+
+09:22.780 --> 09:29.580
+información. Yo decíamos en un sistema de debase de datos, yo tengo un lenguaje de manipulación,
+
+09:29.580 --> 09:36.580
+por ejemplo, en ese cuel, que busca Padrón, valor de una tabla que se llama Padrón,
+
+09:36.580 --> 09:42.020
+es que tengan mayores atalvalor. En los sistemas de base datos, yo sé exactamente lo que
+
+09:42.020 --> 09:52.020
+quiero y tengo o debería de tener el conocimiento, el usuario, el conocimiento para precisar
+
+09:52.020 --> 10:03.380
+exactamente el tipo de datos que quieres traer. Cuando yo forvulo una consulta en recuperación
+
+10:03.380 --> 10:08.420
+información, quiero saber sobre equipos orgullos clasificados a las copas internacionales en la última
+
+10:08.420 --> 10:18.540
+década. ¿Qué matrera eso? ¿Qué me debería traer?
+
+10:18.540 --> 10:30.580
+¿Qué me debería traer? Si. ¿De qué? Me va a traer de las copes del negocio equipos de
+
+10:30.580 --> 10:39.820
+fútbol, no estoy en decir la consulta. Es bien distinta, cuando yo conozco la tabla, la estructura,
+
+10:39.820 --> 10:46.540
+mientras en el otro lado es si yo no lo soy lo suficientemente preciso para expresar lo que
+
+10:46.540 --> 10:51.340
+yo necesito, el tipo lo sabe, y me va a recuperar todo lo que hable de lo que estoy diciendo
+
+10:51.340 --> 11:01.780
+ahí. Bueno, claro, pero si yo sobre lo mismo no deseamos, bueno, no lo mismo, no lo mismo,
+
+11:01.780 --> 11:05.700
+lo mismo, lo mismo, lo mismo, lo que lo hubiera, yo voy a decir el dominio deportivo. Entonces acá
+
+11:05.700 --> 11:14.580
+tenemos el teléfel, el problema, esencialmente eso. Entonces un cuadrito que de alguna manera
+
+11:14.580 --> 11:24.300
+muestra un esquema de diferencia entre los dos, entre los dos grandes sistemas, en el
+
+11:24.300 --> 11:30.420
+base de datos estamos pensando en un modelo, esencialmente de tal, los modelos relacionales,
+
+11:30.420 --> 11:35.900
+donde los objetos son cablas, son modelos estructurados, acá en los sistemas de recuperación,
+
+11:35.900 --> 11:44.020
+son documentos, texto, no es estructurado, la operación básica, la misma, es recuperación,
+
+11:44.020 --> 11:48.420
+alguna manera lo que decía por así, es determinista, en ese tío de yo se lec, padrón y valor,
+
+11:48.420 --> 11:55.060
+voy directamente al campo que quiero recuperar, en el otro lado, concerto, tu se proveelístico,
+
+11:55.060 --> 12:01.780
+con cierto grado de ser tesa, me va a devolver, capaz que lo que quiero, más alguna otra cosa
+
+12:01.780 --> 12:09.580
+que tendré que ver cómo lo filtro, etcétera. Está las consultas son un vanviguas y bueno,
+
+12:09.580 --> 12:15.580
+en lo que debíamos recién, al utilizar lenguaje natural, en el sistema de recuperación
+
+12:15.580 --> 12:25.780
+de información, la consulta puede ser ambiguas, y bueno, la base, lo mismo, ¿no? Y
+
+12:25.780 --> 12:32.020
+esta es que mita de alguna manera plantea muy a grandes rajos lo que es todo el proceso de
+
+12:32.020 --> 12:40.060
+un sistema de información retribal, tengo los usuarios y por un lado tengo la base documentos.
+
+12:40.060 --> 12:48.900
+En cualquier dos dos casos se realizan procedimientos por el cual el usuario se realizan
+
+12:48.900 --> 12:55.740
+determinado tipo de operaciones sobre las consultas, antes de largar la búsqueda, después
+
+12:55.740 --> 12:59.260
+vamos a profundizar un poquito más, pero por ejemplo, cosas que seguramente ya han estado
+
+12:59.260 --> 13:05.540
+viendo en el curso, si empezamos en el ejemplo que teníamos recién, de quiero, lo sé
+
+13:05.540 --> 13:10.580
+aquí, porque si yo, el quiero, no lo voy a considerar, los artículos, no lo voy a considerar,
+
+13:10.580 --> 13:16.180
+es decir, tendré que operar, ver de qué manera representa, yo las consultas, antes de
+
+13:16.180 --> 13:25.020
+largar la búsqueda, por otro lado lo mismo con los textos, es decir, yo tendría que tener
+
+13:25.100 --> 13:30.340
+un criterio por el cual voy a representar esos textos de mi base documental, o sea que
+
+13:30.340 --> 13:35.740
+voy a tener que manipular esos textos y hacer ciertas operaciones hasta indicar, y eso es
+
+13:35.740 --> 13:43.700
+lo que yo busco, objetos dentro de una base, concerto y se voy a decir porque algo
+
+13:43.700 --> 13:49.580
+de índice vamos a hablar, lo ideal es que esos documentos me lo sorden de alguna manera en
+
+13:49.580 --> 13:55.300
+función de cierto rancin, cierto grado de relevancia, y ahí en la primera evaluación
+
+13:55.300 --> 14:01.660
+de los resultados, dependiendo del modelo que uno tenga, esos resultados se tiran de una
+
+14:01.660 --> 14:06.540
+usuario, o podría eventualmente hacer una retroalimentación y o agregar más términos
+
+14:06.540 --> 14:12.660
+de búsqueda o reformular la consulta, con lo cual el sistema vuelve a, o sea lo
+
+14:12.660 --> 14:18.180
+representar los usuarios o vuelve a largar una nueva búsqueda, pero conceptualmente se
+
+14:18.180 --> 14:31.020
+se les quema generico de este tipo de sistemas, bien, empezamos a ver algunos de los problemas,
+
+14:31.020 --> 14:35.620
+qué información sobre las batallas de la segunda guerra mundial que no se liberó en Europa,
+
+14:35.620 --> 14:42.060
+entonces mi mamá que siempre la usamos a los ejemplos, a la madre de uno, el procedimiento
+
+14:42.060 --> 14:46.220
+de mi madre, cuando si, si esto, y yo le digo, tienes que les explico lo que son los
+
+14:46.220 --> 14:50.460
+estos buores y que se yo, y esta tiene que ser calas, ella va a poner, y bueno, lo que
+
+14:50.460 --> 14:55.500
+tengo con eso no son sustantivos, no, claro, batalla segunda guerra mundial de Europa,
+
+14:55.500 --> 15:05.380
+es correcto esto, claro, el procedimiento y de digo parece ser razonable, es decir,
+
+15:05.380 --> 15:11.300
+yo largo esto es una consulta con las palabras clave, por decirlo alguna manera o los términos
+
+15:11.300 --> 15:16.820
+en donde podrían llegar a estar ese informa los documentos de esa información, sin embargo
+
+15:16.820 --> 15:20.620
+tengo que manejar el concepto, por ejemplo, de la negación que justamente no son la que
+
+15:20.620 --> 15:29.500
+se llegaron en Europa, quiero las otras, entonces no es tan directo cuando uno quiere expresar
+
+15:29.500 --> 15:34.300
+una consulta, pues esas operaciones que decíamos recién hoy, que hay que hacer cosas
+
+15:34.300 --> 15:44.620
+sobre las consultas, ¿no? Entonces, lo básico en información y información es muy simple,
+
+15:44.620 --> 15:51.660
+dado un conjunto de palabras, la consulta encontrar esas palabras en un documento, de alguna manera
+
+15:51.660 --> 15:57.660
+y de volver los documentos, en los documentos y corresponde y en algún orden.
+
+15:57.660 --> 16:09.660
+La simántica del texto y la consulta se representan por un conjunto de términos, y bueno,
+
+16:09.660 --> 16:16.260
+hay uno de los problemas que ya seguramente ustedes están imaginando, hay mucha forma de decirlo
+
+16:16.260 --> 16:24.980
+mismo, un mismo término puede tener distintos significados en diferentes contextos, hasta ahora
+
+16:24.980 --> 16:29.900
+por ahí estamos poniendo términos, se estamos hablando de identificar a los textos y a la consulta,
+
+16:29.900 --> 16:37.460
+exclusivamente por el término, cuando tenemos términos con más de un significado, podemos
+
+16:37.460 --> 16:41.820
+llegar a tener problema, sino es preso de alguna otra forma en el dominio, ¿no?
+
+16:41.820 --> 16:49.300
+A mi que hablar de Apple o Banco, yo que se hay términos, con más un significado en contextos
+
+16:49.300 --> 16:55.620
+distintos y después el otro tema es el predecir cuáles son más relevantes, cuáles
+
+16:55.620 --> 17:02.300
+como como va mi sistema a decir este documento es más importante que este otro.
+
+17:05.300 --> 17:12.660
+Entonces, yo tengo como dos grandes aspectos a tener en cuenta, por un lado elegir un modelo de
+
+17:12.660 --> 17:16.060
+representación, como decíamos de las consultas y de los documentos y la base de documentos y la
+
+17:16.060 --> 17:26.220
+base de documentos, y por otro lado, diseñar algoritmos lo suficientemente, esficientes para
+
+17:26.220 --> 17:34.060
+que me devuelvan esos documentos en un orden aceptable, muy importante para mí.
+
+17:34.060 --> 17:49.180
+¿Sentendió? Sí, bien. Entonces, vamos a empezar a hablar de los modelos. Para definiciones
+
+17:49.180 --> 17:54.300
+bastante abstractas del concepto de modelo, la extracción de un proceso real o un esquema de
+
+17:54.300 --> 18:00.140
+un sistema realidad compleja que se elabora para facilitar su comprensión y estudio comportamiento.
+
+18:00.140 --> 18:08.740
+Es decir, es un definición conceptualmente de lo que es un modelo. Ahora, un modelo en los sistemas de
+
+18:08.740 --> 18:16.340
+recuperación de información, yo los puedo especificar como esa acuadrupla que está ahí, donde yo tengo.
+
+18:16.340 --> 18:21.180
+¿De qué es un conjunto de representaciones lógicas de los documentos? Sí, de todos los documentos como
+
+18:21.180 --> 18:26.380
+lo voy a representar. Mi base documental, cuque es el conjunto de representaciones lógicas que
+
+18:26.380 --> 18:32.100
+modelan las consultas que yo voy a poder hacer. Pensemos que yo podría tener una, así como
+
+18:32.100 --> 18:37.740
+tengo una base de documentos, yo podría tener préstablecidos, un conjunto de consultas también.
+
+18:37.740 --> 18:43.420
+Es decir, es un esquema operacional que especifica las representaciones de los documentos
+
+18:43.420 --> 18:48.220
+y de las consultas. Ahí tendríamos que ver cómo, ¿cuáles son las operaciones que
+
+18:48.220 --> 18:57.340
+yo voy a tener tanto en los documentos como en las consultas? Y la herra en las funciones
+
+18:57.340 --> 19:04.780
+de arranquín, que yo les decía, que value de alguna manera esa relación que existen,
+
+19:04.780 --> 19:12.540
+la consulta cu su vi, del conjunto cubo de consultas, vinculado al documento de subcota del conjunto
+
+19:12.540 --> 19:17.780
+de documentos. Se la función de ranking. Y eso es importante, porque
+
+19:17.780 --> 19:27.300
+los sistemas de cómo se recuperan la información. Tiene mucho que ver, tiene, yo
+
+19:27.300 --> 19:35.180
+índice, también me vuelvo a la web, ¿no? Pero por ahí, capaz que para mí los documentos
+
+19:35.180 --> 19:40.140
+me lo devuelve de terminar a manera y está bien, pero para vos no. O sea, hay todo un tema
+
+19:40.140 --> 19:47.380
+y de cuál es la mejor función o el concepto de relevancia, no es una definición muy exacta,
+
+19:47.380 --> 19:53.860
+muy precisa y siempre hay cierto grado de alguna manera de su gestividad en ese tema.
+
+19:53.860 --> 20:03.300
+Entonces, nosotros vamos a hablar básicamente de los modelos de los clásicos,
+
+20:03.300 --> 20:11.500
+el buliano y el vectorial. Vamos a mencionar algo del probabilístico y después hubieron algunos
+
+20:11.500 --> 20:18.940
+intentos de mejorar tanto el modelo vectorial como el modelo probabilístico, que son
+
+20:18.940 --> 20:29.940
+utilizar redes neuronales y redes redes vayecianas que tienen que, ambos son mejoras,
+
+20:29.940 --> 20:36.100
+en algún sentido del modelo vectorial, tanto las neuronales como las redes vayecianas. Y
+
+20:36.100 --> 20:43.740
+el LSAI es como una extensión del modelo probabilístico, no arrojaron buenos resultados y medio
+
+20:43.740 --> 20:51.140
+como que se descontinuaron. Si hoy se usan las redes neuronales y las redes vayecianas para
+
+20:51.140 --> 20:58.580
+otras cosas, pero no para como extensiones de estos modelos.
+
+20:58.620 --> 21:07.820
+Bien, entonces, modelo buliano. El documento se representa básicamente como un conjunto
+
+21:07.820 --> 21:17.260
+de términos, en general, uno es los términos que lige para representar a los documentos
+
+21:17.260 --> 21:23.340
+son sustantivos. Entonces, el concepto que seamos recién, deciendo el documento,
+
+21:23.340 --> 21:28.420
+va a ser relevante o no, en este modelo es si está el término, el elevante, si no está
+
+21:28.420 --> 21:37.260
+no lo es. El buliano, sí o no, 01, estábamos, está. La regla que rige al modelo
+
+21:37.260 --> 21:47.980
+buliano es vocabulario similar, el contenido es similar. Si yo tengo un documento que tiene
+
+21:47.980 --> 21:54.380
+determinados términos que lo identifican, si tengo dos documentos que tienen los mismos
+
+21:54.380 --> 22:03.580
+términos, el contenido es similar. Y ya se las tilos para que la tenga pensando, si eso
+
+22:03.580 --> 22:08.980
+no me cuáxiano, me puede llegar a ocasionar problemas.
+
+22:08.980 --> 22:18.220
+El problema que comentábamos es un rato, si yo tengo utilizo el concepto, yo que se
+
+22:18.220 --> 22:25.700
+banco, también el banco para como término de identificación, para mis documentos,
+
+22:25.700 --> 22:30.340
+bueno, en un contexto banco va a ser el banco de plaza y en otro contexto banco va a
+
+22:30.340 --> 22:39.580
+saber el banco del sistema económico. Ya me estoy adelantando a uno de los problemas
+
+22:39.580 --> 22:50.020
+obviamente que tienen el modelo buliano. Y se utiliza los operadores clásicos. Entonces,
+
+22:50.020 --> 22:55.240
+el modelo lo que hace es solucionar eso, el problema que te llamaba va a tocar, yo
+
+22:55.240 --> 23:01.200
+le explico y le olvidaba, va a tener una forma de expresar las consultas, vas a tener que
+
+23:01.200 --> 23:07.560
+hacer una especie de análisis del texto S antes de largar la consulta al sistema. Entonces,
+
+23:07.560 --> 23:13.840
+ahí va a tener que interpretar lo de que no fueron en Europa. Además de poder utilizar,
+
+23:13.840 --> 23:23.800
+por ejemplo, si puse ahí puse batallas y combates, como termino similares. Si yo no tengo herramientas
+
+23:23.800 --> 23:29.640
+que me ayuden a el sistema de decir herramientas a lo que yo lo aga tendría que poner con
+
+23:29.640 --> 23:34.760
+ors todos los distintos sinónimos. Me expreso, me expreso, me explicó.
+
+23:38.760 --> 23:46.320
+Bien, acá, simplemente ejemplo, yo tengo el documento para ver un poco la idea, tengo el documento
+
+23:46.320 --> 23:52.000
+uno que dice el jardín, hay plantas y flores todo el año, a mi mamá, no, a mi
+
+23:52.000 --> 23:58.200
+documento dos, le gusta que le regalen flores y bombones. Entonces, como les diamos, los términos
+
+23:58.200 --> 24:04.600
+que se eligen para identificar al documento en general son los sustantivos, con lo cual
+
+24:04.600 --> 24:11.120
+son los términos en esta colección de documento formado por estos dos, harían jardín, plantas,
+
+24:11.120 --> 24:20.400
+flores, a año, mamá, bombones. Entonces, decíamos que los documentos lo hicimos
+
+24:20.400 --> 24:25.480
+a identificar por los términos si estaba o no estaba presente en el documento, si está
+
+24:25.480 --> 24:30.400
+ponemos unos y no está con un cero. Entonces, el documento uno me quedaría uno, uno, uno,
+
+24:30.400 --> 24:38.040
+uno, cero, asociado a cada uno de estos términos y está en el documento dos, cero,
+
+24:38.040 --> 24:47.400
+uno, cero, uno, uno. Si la consulta es, yo quiero flores o plantas y mamá me va a
+
+24:47.400 --> 24:52.840
+devolver el documento dos, pero si expresos plantas y jardín, entonces me va a devolver el documento
+
+24:52.840 --> 25:08.400
+uno. No, un ejemplo de cómo sería la la la asociación de documentos y consultas. Bueno, críticas.
+
+25:08.400 --> 25:19.920
+Al principio, cuando yo hablaba daba esa introducción, hablé el concepto de relevancia,
+
+25:19.920 --> 25:24.800
+y en lo que hemos estado viendo del modelo bulgano, claramente vemos que lo primero que
+
+25:24.800 --> 25:35.920
+marco ahí es, yo no hablo de más o menos relevante, porque fíjense que el segundo
+
+25:35.920 --> 25:41.360
+que es diferente, si un documento contenga, uno se empieza en la palabra de la consulta. Además, si yo,
+
+25:41.360 --> 25:47.640
+en el mismo documento aparece tres o cuatro veces, la misma palabra, yo ya ponés solamente uno,
+
+25:47.640 --> 25:55.240
+o sea, no se le da mayor peso en función de la cantidad de ocurrencias de la palabra dentro del documento.
+
+25:55.240 --> 26:07.720
+Dá lo mismo que se cumpla una o todas las cláusulas en el caso de unor. Ahora lo vemos
+
+26:07.720 --> 26:16.240
+con el ejemplo ahí. Y no considera el casi, ¿qué quiere decir? Yo, por ejemplo, fíjense
+
+26:16.240 --> 26:21.600
+el ejemplo acá, quieren vestigar sobre los charrubas y lo guaranías. ¿Cuál sería la
+
+26:21.600 --> 26:34.160
+consulta? Claro, intuitivamente la consulta charrubas y guaranías. ¿Qué podría llegar a pasar?
+
+26:34.160 --> 26:43.400
+Exacto. Si yo pongo charrubas, an guaranías, me tiene que cumplir las dos, hablé de los dos.
+
+26:43.400 --> 26:47.960
+Ahora yo puedo tener un documento que me hable de la historia de los charrubas y que sea super
+
+26:48.040 --> 26:53.280
+la palabra y me interesaría porque yo quiero charrubas y de lo guaranías, un documento
+
+26:53.280 --> 26:58.360
+que hable exclusivamente de los charrubas, me sirve. Entonces, tiene ese tema lo que hablábamos
+
+26:58.360 --> 27:06.200
+hoy, el casi, lo que hace es mi obliga que ha le exactamente de los dos. Entonces, aquello
+
+27:06.200 --> 27:14.160
+de lo intuitivo tal vez lo ideal sería usar unor. ¿Y cómo conocemos? No, no es
+
+27:14.160 --> 27:27.280
+intuitivo para la misma. A favor de las primeras ideas que aún se lo ocurren fue adoptado
+
+27:27.280 --> 27:32.960
+de hecho por los primeros sistemas de recuperación bibliográficos y bueno, como hemos visto,
+
+27:32.960 --> 27:36.360
+es muy simple de formalizar.
+
+27:37.280 --> 27:45.440
+Y, mediatamente, llevense al día de hoy, año 2016, aplicar esto en lo que sería internet.
+
+27:53.880 --> 27:58.760
+Bueno, es que los sistemas de bibliotecas se basan en estas cosas.
+
+27:58.760 --> 28:03.400
+Los sistemas de bibliotecas de gestión de documentos de las bibliotecas se basan en estas cosas.
+
+28:03.600 --> 28:07.600
+Sí, sí. Y tiene ese, esa dificultad, todo así, recuerda.
+
+28:10.600 --> 28:17.600
+Se entendió el modelo voliano. Después apareció una extensión del modelo voliano, les
+
+28:17.600 --> 28:26.080
+llamaron modelo voliano extendido, que le agregaba alguno perador más, agregaba el, lo
+
+28:26.280 --> 28:34.120
+tenia que ver con la, agregaban un operador de proximidad de las palabras, o sea, consideraba
+
+28:34.120 --> 28:39.400
+si este estaba cerca de este, agregando, agregaban más cosas, aparte de las operadores
+
+28:39.400 --> 28:45.000
+volianos, agregaban un operador de proximidad, pero nada, fracazó con total éxito.
+
+28:45.000 --> 28:58.400
+Muy bien, modelo vetorial. Muchos dicen, chop, de lo que estudió, me incluyo en esa, en esa
+
+28:58.400 --> 29:04.960
+barra, que saltó en el padre, por decirlo, alguna manera de los sistemas de informa y
+
+29:04.960 --> 29:12.280
+yo en retribual. Con su, el modelo vetorial es el clásico en los sistemas de recuperación
+
+29:12.280 --> 29:22.280
+de información, el generó un sistema de llamados Mark, Mark, ¿qué les sugienen?
+
+29:22.280 --> 29:29.520
+Claro, sí, pero no, claro, porque ahora está muy de modo de Mark, Mark sí, no, no tiene
+
+29:29.520 --> 29:39.920
+nada que ver, es martes, system, system, for de mecánical, análisis, for retrieval, texto.
+
+29:40.880 --> 29:48.360
+Ya, ese era Mark, se siente, claro, en el fin de los 60, no ha estado como con los conceptos
+
+29:48.360 --> 29:54.640
+de hoy. Bien, el sistema Mark, se selecciona un conjunto de palabras o términos útiles
+
+29:54.640 --> 30:00.360
+para discriminar, eso es lo mismo que veníamos manejando hoy, lo que le agriga es el concepto
+
+30:00.360 --> 30:11.280
+de grado de similitud entre consultas y documentos. Ahora vamos a hablar sobre eso, que
+
+30:11.280 --> 30:17.480
+alguna manera lo que hace es expresar la relación entre cada documento de su video, de una
+
+30:17.480 --> 30:24.560
+colección de ene documentos, con el conjunto de los cáterminos elegidos para indexar.
+
+30:24.880 --> 30:35.000
+Yo el hijo, en ejemplo de Juliano, el tipo agarraba todos los sustantivos de todo los
+
+30:35.000 --> 30:45.760
+documentos y ya o ponía 1,0,1,0 para el documento. Estuvieron los tuviera, acá el tipo
+
+30:45.760 --> 30:54.400
+dice, para no vamos a tomar las 300, 22 sustantivos que hay, vamos a elegirca y sobre
+
+30:54.400 --> 31:00.080
+esos cá que hay que haber cual eso son, sobre esos cá, es que vamos a representar a los
+
+31:00.080 --> 31:10.160
+documentos. Bien, los documentos y las consultas, entonces son victores de una espaciel
+
+31:10.160 --> 31:14.880
+y l'dimensional, de su húnote, de su casa, de conjunto de términos, de su húnote, de su
+
+31:14.880 --> 31:22.280
+húnote, de documentos, de su espaciel de l'dimensional. Entonces, un documento de su jota,
+
+31:22.280 --> 31:31.120
+se modela como un vector, doble vez un jota, doble vez un jota, doble vez un cajota, donde
+
+31:31.120 --> 31:39.320
+acá da término ahí, en un documento de su jota, se le asigna un peso, doble vez un jota,
+
+31:39.320 --> 31:49.040
+o sea, el día entre un ycano. Fíjese que el tema va a ser, bueno, en cómo asigno
+
+31:49.040 --> 31:58.680
+los pesos, el volviano que era lo que hacía, ¿eh? Estaba lo está, el peso era 1,0, acá
+
+31:58.680 --> 32:05.160
+el tipo lo que propone es una forma distinta de ver el término si es relevante o
+
+32:05.160 --> 32:14.000
+no dentro del documento. Entonces, lo clave, o una de las claves fuertes del modelo
+
+32:14.000 --> 32:21.920
+vectorial es el tema la asignación de pesos. Bien, algunas definiciones de feí es la cantidad
+
+32:21.920 --> 32:30.440
+de documentos que contienen ahí y por otro lado definimos y de feí que es la frecuencia
+
+32:30.440 --> 32:37.280
+inversa del término ahí, a un poco más que nada para solutó términos de atenuar
+
+32:37.280 --> 32:42.600
+la cantidad de veces que aparece a un término dentro de los documentos.
+
+32:42.600 --> 32:50.440
+Entonces, es de fe la cantidad de documentos que contienen ahí, eí de fe es la frecuencia
+
+32:50.440 --> 32:55.600
+inversa. Es que en plito, estamos hablando ahora en los documentos y las consultas
+
+32:55.600 --> 33:07.360
+son vectores. Su ponganse que el documento 1, los pesos son 2, 3, 5, se ha estado representado
+
+33:07.360 --> 33:16.800
+por la ternada 2, 3, 5, el documento 2, 3, 7, 1 y la consultas cu 0, 12.
+
+33:17.760 --> 33:32.160
+Elegia eso, en 3 y mencioné, me animaba hacer el dibujito, ¿no? Un dato que sí podemos inferir
+
+33:32.160 --> 33:37.040
+o usted seguramente se animen a inferir de la consulta 2 con respecto a los términos
+
+33:37.040 --> 33:44.320
+que estoy utilizando, que significa qué seguro va a significar el 0 y el 0. ¿Qué significa
+
+33:44.320 --> 33:54.040
+el 0, 0, 0 en la consulta? ¿Qué es eso? En esta consulta cu, esos 2 primeros términos
+
+33:54.040 --> 33:59.960
+no se estoy utilizando. O sea que en realidad esta consulta, la expreso como un vector también
+
+33:59.960 --> 34:05.040
+porque la consulta se expresa sobre los mismos términos en que se indexa los documentos
+
+34:05.040 --> 34:09.280
+que se ligen para representar los documentos. Entonces, lo que estoy queriendo decir ahí es
+
+34:09.280 --> 34:16.560
+que la consulta cu solamente contiene el término 3, el tercer término.
+
+34:16.560 --> 34:21.280
+Lo que me falta ahora es, tengo los documentos y tengo alguna manera así en el
+
+34:21.280 --> 34:27.520
+los pesos eso que están ahí, lo que tengo que ver es, cuál documento es el más parecido
+
+34:27.520 --> 34:33.160
+a cu, cuál es el de los dos, cuál es el que me debería devolver el sistema por lo menos
+
+34:33.160 --> 34:48.120
+este primero. Entonces, los términos más frecuentes en un documento serían mejores indicadores
+
+34:48.120 --> 34:53.760
+del tema del documento, eso son bastante razonable, se documento que hable muchas veces
+
+34:53.760 --> 35:04.680
+de determinada cosa, es ese término de ser pesado y adentro. Pero, por otro lado,
+
+35:04.680 --> 35:10.160
+si hay un término que aparece en muchos documentos distintos por ahí no me sirve, porque si
+
+35:10.160 --> 35:17.520
+todos hablan el hijo un término y todos hablan de lo mismo, voy a tener poca forma de diferenciarlos.
+
+35:17.520 --> 35:28.220
+Entonces, ese capaque no lo he dicho. Habíamos definido y de F, E, E, E, E, F. Acá definimos F
+
+35:28.220 --> 35:35.280
+y jota, cantidad ocurrencias del término y en el documento jota y definimos el concepto
+
+35:35.280 --> 35:43.700
+de T, F, T, F y jota como la cantidad ocurrencia del término y en el documento jota
+
+35:43.780 --> 35:53.340
+dividido el max de F y jota, eso para que lo hacemos. E, para normalizar, exact, para
+
+35:53.340 --> 36:00.620
+justamente el tema de que tengan muchos elementos de alguna manera atenuamos justamente
+
+36:00.620 --> 36:08.820
+el crecimiento del valor del valor E. Bien, existen varias formas las para signar los
+
+36:08.820 --> 36:14.540
+pesos, la primera aproximación, la misma que sea el modelo ulliano, el tipo de tono
+
+36:14.540 --> 36:20.180
+está, como uno un cero, se aparece el término y en el documento jota, el valor del
+
+36:20.180 --> 36:26.060
+leve su hijo estaba ser uno y en caso contrario, eso es la primera aproximación, tenemos
+
+36:26.060 --> 36:31.660
+un vector y ponemos uno cero. El término y pueda aparecer más de una vez en el mismo documento
+
+36:31.660 --> 36:37.860
+de jota o puede considerarse como más significativo que otra. Entonces, el doble vez su
+
+36:37.860 --> 36:42.620
+hijo ta es un poquito más sofisticado, porque queremos introducirles justamente todo esto
+
+36:42.620 --> 36:52.660
+que estamos diciendo. Entonces, un indicador típico de la importancia en un esquema de modelo
+
+36:52.660 --> 37:00.620
+vectorial es el que sigue el concepto llamado T, F y de F para la signación de pesos,
+
+37:00.620 --> 37:06.660
+que es simplemente el peso de cada uno de los términos se calcula en función del T, F y
+
+37:06.660 --> 37:14.940
+de F de ese término dentro de la base documentos. Y acá hacemos un ejemploito para
+
+37:14.940 --> 37:22.820
+fijar bien esos y esos conceptos. Su pongo en sí que tengo un documento que quiero
+
+37:22.820 --> 37:31.620
+allá al su vector, los términos son a B, C, ese documento, el término A parece
+
+37:31.620 --> 37:40.260
+reveses, el término A parece 2 veces y el término C una vez. Mi base de documentos son
+
+37:40.260 --> 37:49.700
+10 mil y la cantidad de documentos que contienen a cada uno de los términos son a 50 de
+
+37:49.700 --> 37:55.580
+esos 10 mil a 50 documentos que contienen el término A, hay 1.300 que contienen el término
+
+37:55.580 --> 38:01.500
+B y hay 250 que contienen el término C. Entonces, para allá del vector,
+
+38:01.700 --> 38:10.820
+ha sociado al documento este del primero a todos, lo que hacemos es calcular el T, F y D, F para
+
+38:10.820 --> 38:19.140
+cada uno de los términos. Entonces, si se acuerdan el T, F, era el F, la cantidad de ocurrencia
+
+38:19.140 --> 38:25.540
+que aparecía el elemento dividido el máximo de todos los Fs, el máximo de todos los Fs,
+
+38:25.540 --> 38:32.540
+3, 2, 1, el máximo a 3. Entonces, el T, F, de A, es 3, 3, 1, el T, F, de B, es 2,
+
+38:32.540 --> 38:39.540
+de B, y el T, F, es 1, de B, y el T, F, era la fórmula que ya lo harino de N, que era la
+
+38:39.540 --> 38:46.460
+cantidad de documentos de la colección dividido la frecuencia con la cual aparecía dentro
+
+38:46.460 --> 38:53.020
+de esa colección. Entonces, el IDF del término A es 10.000, el logarismo de 10.000 y
+
+38:53.020 --> 39:07.300
+de 50, que da 5.300, el logarismo del B, es bueno, la cuenta da 2 y en el caso del C da 3.700.
+
+39:07.300 --> 39:15.500
+O sea que el vector sería 5.300, 1.300, 1.300, es ese sería el vector asociado al documento
+
+39:15.500 --> 39:29.500
+que tenemos allá, se entendió. Bien, una vez que tenemos cada documento con sus pesos y
+
+39:29.500 --> 39:34.500
+la consulta tiene su vector determinado con sus correspondientes de pesos, lo que tenemos
+
+39:34.500 --> 39:42.740
+que ver ahora es, bueno, la similitud entre cada uno de los documentos y la consulta, como
+
+39:42.740 --> 39:47.820
+comparamos, ahora la, aquí ya pregunta que le llamamos cuál del C, si es más parecido
+
+39:47.820 --> 39:59.060
+al uno o al dos. Entonces, esto de la medida de similitud que se introducida por salton,
+
+39:59.060 --> 40:03.740
+una medida de similitud es una función en realidad que lo que hace, lo que ve es la distancia
+
+40:03.740 --> 40:11.780
+entre dos sectores, esencialmente eso. Usando este concepto de grado de similitud, yo
+
+40:11.780 --> 40:19.760
+voy a poder rancar mi, mi todo el documento recuperado en función de un cierto orden y
+
+40:19.760 --> 40:23.620
+ahí, además, no, de fijar un umbral, pues decir, bueno, aquello que me den por debajo
+
+40:23.620 --> 40:30.100
+de tanto esos anilos muestros, a los consideros que no son relevantes.
+
+40:30.100 --> 40:39.540
+Bien, nada, el cálculo de la similitud es la distancia posee entre dos sectores y es el
+
+40:39.540 --> 40:48.420
+producto de la suma de los productos de los pesos de cada uno de los sectores, sí.
+
+40:48.420 --> 40:57.980
+¿Por qué es una sumatoria? Entonces, la sumatoria de 1 a n, entonces, uno de esos
+
+40:57.980 --> 41:03.900
+sumando me va a hacer, entonces, queda el caso del cubo, el primero, no importa con qué, o sea
+
+41:03.900 --> 41:08.820
+qué, qué es lo que estamos diciendo en el ejemplito, es que la clave va a hacer el término
+
+41:08.820 --> 41:14.620
+dos, ese es el que me va a decir lo demás en mi interésan. Para esa consulta, el dos es el
+
+41:14.620 --> 41:18.860
+que me va a determinar, perdón, el tercer término, es el que me va a determinar,
+
+41:18.860 --> 41:24.220
+si el documento 1 a 1 a 2 es más parecida a la consulta cubo, y lo tengo por ahora.
+
+41:24.220 --> 41:29.940
+Exacto. En el ejemplo que traeamos hoy 2, 3, 5, 3, 7, 1, cero, cero 2, cuando
+
+41:29.940 --> 41:34.340
+cae el cubo es la similitud de de 1 con cubo, lo que decíamos reciendo, tu pregunta,
+
+41:34.340 --> 41:40.340
+2 por cero, 3 por cero, este por este, este por este, este por este, este por este,
+
+41:40.340 --> 41:46.620
+5 por 10, y este 3 por cero, 7 por cero y 1 por 2, 3 por cero, sí, 2 por cero, 1 por 2,
+
+41:46.620 --> 41:52.660
+o sea que este video 10 y este video 2, de acá que deducimos, de que de 1, porque es el
+
+41:52.660 --> 41:58.660
+de mayor grado de similitud, es el más grande, de 1 es más parecido o tiene más de
+
+41:58.660 --> 42:09.860
+los que yo quiero, con respecto a la consulta cubo. ¿Y es? Ventajas en tose del modelo
+
+42:09.860 --> 42:17.860
+vectorial. Es simple, no parece ser demasiado complicado, tiene una sólida base matemática,
+
+42:17.860 --> 42:27.140
+mejora la el tema de la recuperación, gracias a la asignación de los pesos. Considera
+
+42:27.140 --> 42:35.660
+que tanto ocurrencias locales a al documento como globales a la colección de documentos,
+
+42:35.660 --> 42:43.300
+lo cual no es una cosa menor. Tá, un documento puede ser recuperado, funciona una coincidencia
+
+42:43.300 --> 42:48.780
+parcial del tema que hablamos hoy, en el ejemplo de los guaraníes y los charrubas.
+
+42:48.780 --> 42:54.540
+El lugar de predecir su documento es o no relevante, pero porciones se concepto de grado
+
+42:54.540 --> 43:00.580
+de relevancia o grado de similitud, los resultados, los puedo devolver ordenados por justamente
+
+43:00.580 --> 43:13.540
+por esa relevancia y tal, salto un comprobo de que el modelo era igual, no funcionaba.
+
+43:13.540 --> 43:19.500
+Nosotros maravilloso, acabemos ejemplos.
+
+43:19.500 --> 43:26.500
+El documento 1, un perrata caúnillo con un virus, documento 2, virus o tal, el perro de un
+
+43:26.500 --> 43:33.100
+niño. No vean el segundo, vemos el primero.
+
+43:33.100 --> 43:41.820
+Esos documentos en principio tienen 100% de similitud. Tiene la misma cantidad de, pensamos
+
+43:41.820 --> 43:47.700
+que la ejemplo es muy trivial, ¿no? Documento que está formando una asurración, pero bueno,
+
+43:47.700 --> 43:54.420
+el perro a niño y virus, virus, perro y niño, no importa al orden, aparecen las dos con el
+
+43:54.420 --> 44:03.260
+mismo cozo, en principio, los dos son iguales, y lo voy a decir, a ver un perro ataca
+
+44:03.260 --> 44:09.700
+a un niño con un virus, el virus es el del niño o el virus es el del perro, virus ataca
+
+44:09.700 --> 44:17.500
+el perro de un niño, el virus ataca al perro, a casa, ahí sí, no, está más claro.
+
+44:17.500 --> 44:23.780
+Fíjese que igual tenemos problemas, ¿no? Porque en principio los dos son iguales.
+
+44:23.780 --> 44:32.140
+¿Aguá, ahí es distinto? Yo estoy tirando los problemas que podemos llegar a tener.
+
+44:32.140 --> 44:35.140
+Si hubiera un no, tenemos que ver como lo represento.
+
+44:35.140 --> 44:44.020
+Pero si ya teníamos problemas con el primero, fíjense el segundo, el segundo ejemplo.
+
+44:44.020 --> 44:49.500
+El banco de la plaza está pintado de rojo, en rojo que gola plaza luego es el banco
+
+44:49.500 --> 44:58.940
+que gro. De vuelta, estamos, tenemos el problema de en distintos contextos palabras
+
+44:58.940 --> 45:04.020
+de términos que pueden decir cosas distintas. Entonces, ¿Qué pasa que en el primero
+
+45:04.020 --> 45:10.980
+por ahí pasa de que los dos, pero en el segundo, no me lo podría debolo a los dos.
+
+45:10.980 --> 45:19.540
+Y para él, sería lo mismo. Entonces, problemas que tienen sin duda el modelo vectorial
+
+45:19.540 --> 45:26.260
+es cares de información sintáctica, el orden de las palabras, las relaciones entre los términos,
+
+45:26.260 --> 45:31.180
+la proximidad, es decir, una palabra un término está más cerca de otro, eso puede ser
+
+45:31.180 --> 45:36.820
+importante y yo no lo puedo reflejar aquí. Por lo menos, con lo que estamos viendo,
+
+45:36.820 --> 45:45.180
+¿no? El ejemplo recién que decíamos el banco, existencia de ambiguidad semántica,
+
+45:45.180 --> 45:49.220
+un mismo término puede tener distintos distintas definiciones, distintos conceptos.
+
+45:49.300 --> 45:57.980
+Y no, y no era la sinonemia. No hay nada que, eso que se, en el caso anterior, perro
+
+45:57.980 --> 46:03.620
+y podría haber otro lado de can, y en realidad estamos hablando de también el mismo animal,
+
+46:03.620 --> 46:12.300
+y no me lo reconoce. Los poderos, sabrá que yo les dije, hoy, al principio les agaba
+
+46:12.300 --> 46:18.260
+de modelos alternativos, le de haber una uronada red, una uronada les vayecianas, lo que hacen
+
+46:18.340 --> 46:24.900
+es, en vez de utilizar términos para indicar utiliza conceptos y el tipo hace como una
+
+46:24.900 --> 46:32.740
+red donde activa los documentos que tengan tal concepto, o sea, trata de manejar, o sea,
+
+46:32.740 --> 46:38.620
+trabaja con un gráfico y lo que utiliza son conceptos, se ayuda de otras herramientas,
+
+46:38.620 --> 46:52.060
+a otras, o sea, en vez de, o sea, entre perrican elige uno de ellos y de alguna manera hace
+
+46:52.060 --> 47:00.100
+que cuando yo diga perro disparé o activé aquellos documentos que hablen de sinonimos, por ejemplo,
+
+47:00.100 --> 47:07.420
+o sea que las neuronales y las vacaciones en lo mismo, pero con otra función de los pesos,
+
+47:07.420 --> 47:12.500
+pero los dos tienen la misma idea de manejar conceptos y no, y no termino.
+
+47:12.500 --> 47:18.860
+¿Sentendió el modelo vectorial?
+
+47:18.860 --> 47:29.180
+Bien, y algo del modelo probabilístico fue un nuevo paradigma teórico para los sistemas de recuperación
+
+47:29.180 --> 47:35.140
+de información en la década de 70, fíjense que salta una pareció con el, con el vectorial
+
+47:35.140 --> 47:45.220
+en la fina de los 60, acá a una de las, de las autoras, de las actores, de los investigadores
+
+47:45.220 --> 47:53.740
+principales, es parchons, fuera una de las canens, es parchons, bueno, así era de colorado,
+
+47:53.740 --> 48:02.140
+bueno, de qué universidad era, es el que, la que, la que piso investigar hay más,
+
+48:02.140 --> 48:06.900
+está culpar, también hay otros otros autores más, pero parchons es de las más reconocidas
+
+48:06.900 --> 48:13.300
+que trabajaban sobre el modelo probabilístico, y el problema es de este modelo que
+
+48:13.300 --> 48:20.060
+en teoría está bueno, es que presupone la existencia de que existe un conjunto ideal de
+
+48:20.060 --> 48:28.220
+documentos relevantes, o sea que parte de una suposición y le asigne una probabilidad
+
+48:28.220 --> 48:35.540
+de que existe el conjunto óptimo que me resuelve tal consulta, entonces la, la, la,
+
+48:35.540 --> 48:40.600
+tira la, va, el tipo de afaccionado, va, tira la consulta, la compara con ese conjunto
+
+48:40.600 --> 48:46.600
+óptimo y si no le da, trata de reformular, o sea lo que es lo que sí es importante que
+
+48:46.600 --> 48:53.380
+introduce el modelo probabilístico es el concepto de relevancia fíjbal, es decir,
+
+48:53.380 --> 48:59.040
+interacción con el usuario, te devuelvo esto y si no es igual a lo que yo quiero reformulo
+
+48:59.040 --> 49:06.120
+cambio y largo de vuelta, lo crítico es determinar las propiedades que marca la relevancia
+
+49:06.120 --> 49:11.960
+de un conjunto ideal, ok, lograr una aproximación al conjunto de probabilidades a parte
+
+49:11.960 --> 49:17.160
+de una suposición y dicen las propiedades, e ir refinando con el usuario luego de la consulta,
+
+49:18.080 --> 49:28.560
+esencialmente el, el, el problema sustancial es que es como raro, yo sé, yo sé de ante mano
+
+49:28.560 --> 49:34.380
+cuál es mi conjunto óptimo, con cierta probabilidad y una vista, y si ya sé con
+
+49:34.380 --> 49:43.000
+junto óptimo para que lo va, bueno, fin, pero está, nada, cada, simplemente una idea, una
+
+49:43.000 --> 49:47.880
+definición muy básica de probabilidad, la probabilidad p de aparición de un suceso es en total
+
+49:47.880 --> 49:53.240
+de enecasos posibles igualmente, factibles del cociente entre el número de ocurrencias
+
+49:53.240 --> 50:00.720
+hacha, he dicho suceso, entre la cantidad total de casos, bueno, esto es repasito fácil,
+
+50:00.720 --> 50:07.000
+pero bueno, el objetivo es, es lo que decíamos tratar de reformular la consulta,
+
+50:07.000 --> 50:14.380
+sucesivamente utilizando ponderación de términos, es decir, cambiar, modificar la
+
+50:14.380 --> 50:21.920
+asignación de los pesos a los términos de la, o sea, lo que se cambiera consulta, ¿no?
+
+50:21.920 --> 50:25.100
+¿Cuál es suelo problemas? Bueno, dado una consulta cuyo y un documento de jota de la
+
+50:25.100 --> 50:29.400
+colección, el modelo probabilístico estima la probabilidad, de que el documento de jota
+
+50:29.400 --> 50:35.040
+se relevante para el usuario, el modelo assume que esta probabilidad de relevancia depende
+
+50:35.040 --> 50:43.080
+sólo del documento de la condensulta, y para mí, la mayor dificultad es que assume que hay
+
+50:43.080 --> 50:49.440
+un conjunto r de documentos que el usuario prefiere como respuesta a la consulta cu,
+
+50:49.440 --> 50:55.480
+o sea, assume que si te se conjunto r y trato de llegar a él, temas que parte de la base
+
+50:55.480 --> 51:02.680
+que ya lo tengo, entonces es como raro, bueno, lo que plantea es una simplificación
+
+51:02.680 --> 51:07.600
+muy sencilla que pone en 0 y 1, a los términos de la consulta para arrancar, y bueno,
+
+51:07.600 --> 51:16.320
+y es función de eso después va cambiando, y la similitud entre un documento de jota y la
+
+51:16.320 --> 51:23.560
+consulta, ahí usa a valles, la formula de valles, r, el conjunto de documentos conocidos,
+
+51:23.560 --> 51:33.760
+o inicialmente supuestos como relevantes, y a reprima es el noto, el opuesto, el complemento,
+
+51:33.760 --> 51:51.200
+y si la probabilidad de los de los documentos de jota, el conjunto de documentos relevantes para
+
+51:51.200 --> 51:57.080
+la consulta cu y la probabilidad de que el documento de jota no sea relevante a la consulta
+
+51:57.080 --> 52:02.760
+cu, o sea que esté en el conjunto de los arreprimas, la similitud se definen entonces,
+
+52:02.760 --> 52:10.560
+la similitud en el conjunto en el modelo vectorial, la definen como la probabilidad
+
+52:10.560 --> 52:17.120
+condicional, esa que si operamos y jugamos un poquito con valles, me da que la probabilidad
+
+52:17.120 --> 52:26.400
+de jota, dado r, sobre la probabilidad de jota, dado a reprima, igual, está más.
+
+52:26.400 --> 52:32.400
+Ventajas, por ahí decía la asignación de los pesos a los términos, no me queda tan
+
+52:32.400 --> 52:38.740
+claro, claro, arranca con 0 y 1, entonces por ese lado, muy sencillo, lo que si está
+
+52:38.740 --> 52:44.480
+bueno es la idea de esa de interacción con el usuario, que el usuario trata de refinar
+
+52:44.480 --> 52:56.640
+la consulta, y que ordena la función arranquina en base a las probabilidades, contrasta,
+
+52:56.640 --> 53:04.800
+no toma en cuenta que se que no hable paranada del DF, no de la frecuencia del término,
+
+53:04.800 --> 53:11.160
+no toma en cuenta todos los elementos del documento, asume independencia de en los términos,
+
+53:11.160 --> 53:17.080
+necesita una hipótes para mí en la clave esto, necesito una hipótesis inicial que no siempre
+
+53:17.080 --> 53:25.600
+es certada de cuál es el conjunto R del documento relevante, como puede ser el R de partida,
+
+53:25.600 --> 53:35.600
+y bueno, claramente es poquitito y otro definitivo por resultados, se entendió la idea de
+
+53:35.600 --> 53:49.480
+modelos, bueno, ahora veamos por qué estamos hablando de este tema en el curso de
+
+53:49.480 --> 53:58.680
+intero pelégenes, problema como es este que tenemos acá, ejemplo muy clásico, este ejemplo
+
+53:58.680 --> 54:06.800
+se lo había a esa ya, es un chileno que trabaja en Yahoo, no de los padres contemporáneos
+
+54:06.800 --> 54:13.820
+de información humanicia y el protribal, consulta de refría y el documento habla de la
+
+54:13.820 --> 54:23.320
+crisis de lo misiles cubanos, el sistema no tiene ni idea de que estas dos son parecidos,
+
+54:23.320 --> 54:29.040
+que estas dos cosas están relacionadas a priori, no tendría por qué saber que esas cosas
+
+54:29.040 --> 54:37.240
+están conceptualmente el sistema no lo considera porque no maneja esas cosas, es más,
+
+54:37.240 --> 54:41.600
+capaz que si yo largo guerra fría el tipo me va a hablar de me va a devolver cosas
+
+54:41.600 --> 54:51.640
+de la deera, yo que se invierno, porque es más parecido e intuitivamente fría, entonces
+
+54:51.640 --> 54:57.160
+es bueno nada, en la solución a este tipo de problemas o lo que se empieza a incorporar
+
+54:57.160 --> 55:04.240
+es hacer análisis lingüístico, entonces cosas que han estado viendo en el curso, como
+
+55:04.240 --> 55:11.960
+el de matización, el estíming, tratar de reducir los términos a la raíz, el etiquetado
+
+55:11.960 --> 55:17.640
+cosa de poder distinguir si es un verbo, un sustantivo, encar militar, yo que se no,
+
+55:17.640 --> 55:22.880
+verbo o sustantivo, entonces no es lo mismo ese término, en una consulta o en un documento
+
+55:22.880 --> 55:31.920
+o sea que es importante el tag que edifique, por ejemplo, la categoría de cada una
+
+55:31.920 --> 55:39.560
+las palabras, detectar frases comunes, el ejemplo de Garrafría y lo visiles cubanos,
+
+55:39.560 --> 55:49.200
+la ayuda de tesauros, bien tesauros y el concepto de tesauros lo manejaron, es como, pero
+
+55:49.200 --> 55:53.560
+no es un diccionario que tiene mucha más información, no solamente de la definición,
+
+55:53.560 --> 55:59.240
+sino de relaciones entre los términos y piperónimos o ponimos este como el por ejemplo
+
+55:59.320 --> 56:09.200
+Hornet, exacto, entonces herramientas como el uso de tesauros nos ayudan, también el uso
+
+56:09.200 --> 56:16.280
+de la estructura del texto, es decir, si un término aparece en un título, se ha dituido
+
+56:16.280 --> 56:25.000
+primer parra o abajo, en fin, si yo tengo información de ese documento, si es de un título,
+
+56:25.000 --> 56:30.080
+si es un parra o si está abajo, si está en el medio, eso me puede ayudar a mi a orientar
+
+56:30.080 --> 56:36.320
+a la hora de asignar pesos o saber si interminos más relevante o no más importante o
+
+56:36.320 --> 56:46.120
+no, para identificar un documento, ok, bueno, volvemos entonces al tema de recuperación
+
+56:46.120 --> 56:53.760
+información, para hablar de bueno, ¿cómo evaluamos un sistema? ¿Cómo sabemos si está
+
+56:53.760 --> 57:02.400
+bueno o malo? Si me devuelve lo que yo quiero, no me devuelve lo que yo quiero, como se hace
+
+57:02.400 --> 57:09.680
+para todos los documentos contra todos en resí, hasta donde miro en la lista de documentos
+
+57:09.680 --> 57:16.520
+relevantes, eso que costo tiene es posible, no es posible, la lista es además de los
+
+57:16.520 --> 57:26.520
+documentos, puede cambiar con el tiempo, es algo muy dinámico, no es lo mismo que yo
+
+57:26.520 --> 57:32.400
+ahora una consulta sobre los documentos que hablen del presidente del Uruguay, ahora que
+
+57:32.400 --> 57:37.240
+hace tres años los documentos que me devuelve son otros, si entiene que ver con lo de
+
+57:37.240 --> 57:43.680
+la actualidad de los sistemas de información que hablamos al principio, ok, entonces la evaluación
+
+57:43.680 --> 57:46.640
+no es una cosa, lo que quiero decir, lo que quiero transmitir con esto es que la evaluación
+
+57:46.640 --> 57:53.800
+es una cosa fija, sino que puede cambiar en función de varios factores, ok, y una
+
+57:53.800 --> 58:01.440
+cosa importante, muchas de estas cosas tienen un componente humano, entonces lo que decíamos
+
+58:01.440 --> 58:06.880
+es, creo que pusimos un ejemplo, por ahí un documento para mí es importante y es relevante,
+
+58:06.880 --> 58:13.640
+pero para que él no, entonces pueda haber distintos criterios para los evaluadores de un
+
+58:13.640 --> 58:21.800
+mismo sistema, así como probablemente lo hayan comentado en el curso, cuando yo quiero
+
+58:21.800 --> 58:27.120
+este trabajo con un cuerpo, si quiero etiquetar los rotulados de una manera, por ahí dos
+
+58:27.120 --> 58:36.860
+no no ponemos de acuerdo, ¿no?, ¿no?, ¿no?, ¿con qué peso le da un fin, un factor humano
+
+58:36.860 --> 58:45.720
+sigue siendo importante y claro dentro de todo esto por suerte, bien, bueno, ¿qué significa
+
+58:45.720 --> 58:51.360
+este término de relevancia que hemos estado hablando? En recuperación de información,
+
+58:51.360 --> 58:56.560
+la relevante es importante destacado, pero en recuperación de información, un documento
+
+58:56.560 --> 59:02.800
+de relevante y cuando su contenido posee alguna importancia relativada a la consulta,
+
+59:02.800 --> 59:13.800
+ese es el concepto para mí de relevante, esto había positido de tener 20 años,
+
+59:13.800 --> 59:20.360
+así, ha sido de las, de las primeras que hicimos cuando dimos, algún curso de cosas
+
+59:20.360 --> 59:28.200
+detrás de hace muchos años, en mayo no sé si no le hizo dina, te dejo de que, pero
+
+59:28.200 --> 59:36.040
+estaba arborar, porque en realidad marcalos los problemas o el universo de cosas que surgen
+
+59:36.040 --> 59:41.160
+al momento de recuperar, no, yo tengo una gran base o un universo de documentos, todo lo
+
+59:41.160 --> 59:48.880
+que está bien en azul y lo dero de sol los documentos recuperados, pero de acuerdo a mi
+
+59:48.880 --> 59:54.160
+consulta, los relevantes son las de las estrellitas, entonces, ¿qué es lo que me puede
+
+59:54.160 --> 01:00:00.000
+pasar cuando yo la alguna consulta? ¿Qué me quedé claro? ¿Qué haya ausencias, ¿no?,
+
+01:00:00.000 --> 01:00:07.600
+que me falten o que recuperen cosas que no tienen ningún sentido, bueno, le recuperen cosas
+
+01:00:07.600 --> 01:00:15.440
+de la deera cuando había hablado de la guerra fría, ¿no? Entonces, estas son las dos
+
+01:00:15.440 --> 01:00:21.920
+medidas clásicas utilizadas en recuperación de información, que son precisios de recol,
+
+01:00:21.920 --> 01:00:26.640
+que es el cociente entre el preciión documento recuperado relevante sobre la cantidad
+
+01:00:26.640 --> 01:00:33.160
+de documentos recuperados y el ricol en la actualitividad es el cociente entre los documentos
+
+01:00:33.160 --> 01:00:37.520
+recuperados relevantes, o sea, el cociente es el mismo, sobre la cantidad de documentos
+
+01:00:37.520 --> 01:00:43.800
+relevantes, lo ideal es un sistema ideal es que tanto precisión, como recol, sea
+
+01:00:43.800 --> 01:00:52.720
+uno, el ideal lamentablemente en crear, no se da, y uno cuando hace este tipo de sistemas,
+
+01:00:52.720 --> 01:00:58.680
+lo que trata de hacer, bueno, danle más, cuando quiere mejorar la precisión por lo general
+
+01:00:58.680 --> 01:01:06.600
+tende a bajar el ricol, esta es un cuadernito, como está eso, no? Precision y recol,
+
+01:01:06.600 --> 01:01:12.000
+lo ideal es allá, el uno uno, que le ha dosen uno uno, el ricol en uno es casi todos los
+
+01:01:12.000 --> 01:01:16.880
+documentos relevantes de la colección, pero recuperen muchos irrelevantes y en el preciión
+
+01:01:16.880 --> 01:01:22.880
+uno es, puedo cozo documentos relevantes, pero no tengo documentos irrelevantes recuperados,
+
+01:01:22.880 --> 01:01:28.120
+entonces bueno, a veces me pueden quedar muchos documentos afuera, por eso es que se los
+
+01:01:28.120 --> 01:01:36.560
+ricol tampoco es bueno, y uno trata de, bueno, manejar ambas medidas, también la otra
+
+01:01:36.560 --> 01:01:44.000
+es la F, la F es cor, la media F y la media F, la media F que son una ponderación de ambas
+
+01:01:44.080 --> 01:01:54.120
+de la precisión y recol, la media F, la diferencia es que la F es dos por perro y dióperma
+
+01:01:54.120 --> 01:02:03.400
+ser, y la él lo que hace, agrega un factor, un real entre 0 y 1, el beta de ese, que
+
+01:02:03.400 --> 01:02:10.360
+le puede dar más peso a uno o a otro, para la precisión en este caso, para si yo quisiera
+
+01:02:10.440 --> 01:02:18.520
+cambiar algo, la persona esencialmente variante de la cual alternativas a las dos medidas.
+
+01:02:18.520 --> 01:02:33.160
+Entonces, para evaluar un sistema de recuperación, lo que yo necesito es, o sea, yo tengo un conjunto
+
+01:02:33.160 --> 01:02:41.000
+documentos, tengo una consulta, en definitiva lo que yo tengo que hacer es haberse bueno
+
+01:02:41.000 --> 01:02:48.040
+malo, testiarlo contra algo, entonces se fija un conjunto de documentos, un conjunto de
+
+01:02:48.040 --> 01:02:53.160
+consultas, se hace lo que decíamos, hace un rato, un etiquetado humano de cada documento
+
+01:02:53.160 --> 01:03:02.480
+funciono de la consulta, en general son juicio binarios, o no es buena, la consulta y bueno,
+
+01:03:02.560 --> 01:03:10.040
+y lo largo, largo un sistema, o sea, yo pienso un modelo, pienso un sistema, pienso
+
+01:03:10.040 --> 01:03:20.200
+todo el algoritmía, mi función de rán, quinta dotar y lo testeo, tal, la conexión
+
+01:03:20.200 --> 01:03:26.400
+del testeo, conjunto de documentos, un conjunto de consultas, tengo el algoritmo ese
+
+01:03:26.400 --> 01:03:35.920
+medio testeo, y bueno, infusión de eso se evalua. Estas son algunas colecciones de la
+
+01:03:35.920 --> 01:03:42.240
+más usada, fíjense lo que decíamos del principio, estamos hablando todos los conjuntos
+
+01:03:42.240 --> 01:03:48.400
+o estas bases son documentales, están asociados, tienen asociados, un dominio, son
+
+01:03:48.400 --> 01:03:56.120
+particulares en dominio, por eso nos estamos hablando de la web, donde es este heterogénio,
+
+01:03:56.120 --> 01:04:11.720
+y esto es modo referencia, bien, y lo que sea, si quería agregar esto, lo que se hizo fue
+
+01:04:11.720 --> 01:04:20.840
+que se llama las conferencias trick de text retrieval conferencias, que existen desde
+
+01:04:20.840 --> 01:04:30.920
+el año 1992, hasta el día de hoy se sigue naciendo, lo que hacen es involucrar
+
+01:04:31.000 --> 01:04:39.320
+a la academia, a la industria, al gobierno, porque no sé si saben lo que es dar para
+
+01:04:39.320 --> 01:04:53.160
+honest, la sila darpa, es este de pedo, a cualera, dirección, bueno, es el departamento de
+
+01:04:53.160 --> 01:04:59.440
+defensa, de los causunidos, sí, más lejos, no me acuerdo la cíngla cual es, pero es del departamento
+
+01:04:59.440 --> 01:05:07.280
+de defensa de los Estados Unidos, el área tecnológica del departamento de defensa de los
+
+01:05:07.280 --> 01:05:16.280
+Estados Unidos, de hecho fueron los de ahí surge el proyecto Arpanet, que es de alguna manera
+
+01:05:16.280 --> 01:05:22.320
+el precursor de Internet, y o sea, la conferencia cree que la empatricidad por darpa y
+
+01:05:22.320 --> 01:05:28.640
+list que es el instituto de normalización de normas técnicas de los Estados Unidos, como
+
+01:05:28.640 --> 01:05:34.400
+decía, existen desde el 1992, todavía se sigue naciendo, o sea, que lo que hacen es tratar
+
+01:05:34.400 --> 01:05:42.360
+de mejorar eso, tengo una base de documentos, tengo un conjunto de consultas, aganagorismo
+
+01:05:42.360 --> 01:05:50.040
+para ver qué cosas se pueden recuperar, y eso. Esas competencias y sitios se sigue naciendo,
+
+01:05:50.040 --> 01:05:55.720
+creo que el 2016, no sé si ya se hizo, o sea, sí, eso o iba a ser, creo que era en Marila
+
+01:05:55.720 --> 01:06:07.160
+en Estados Unidos. Bien, entonces hablamos de modelos, hablamos de evaluación, brevemente
+
+01:06:07.160 --> 01:06:14.560
+vamos a comentar algo de índices. Recuerdan que cuando planteamos el principio el esquema
+
+01:06:14.560 --> 01:06:22.640
+general de un proceso de recuperación de información, teníamos por acá, teníamos el
+
+01:06:22.640 --> 01:06:27.200
+dibujito de la base de documentos, que se hacían ciertas operaciones sobre esa documentos,
+
+01:06:27.200 --> 01:06:33.960
+y esos documentos se indicaron, entonces bueno, lo que tenemos que pensar es, como es
+
+01:06:33.960 --> 01:06:40.240
+que construimos esos índices para identificar a mis documentos. La estructura más simple es
+
+01:06:40.240 --> 01:06:46.640
+la denominada índices invertidos, que es algo muy trivial, un vocabulario que es un
+
+01:06:46.640 --> 01:06:53.480
+conjunto de términos que aparezcan en el texto, y ha asociado a cada uno de esos términos,
+
+01:06:53.480 --> 01:06:59.840
+como si fuera una raíz de términos, y una lista ha asociado a cada uno de esos elementos
+
+01:06:59.840 --> 01:07:07.480
+de la raíz que tiene los ideas de cada uno de los documentos donde aparece ese término.
+
+01:07:07.480 --> 01:07:13.120
+El esquema de construir de construcción de un índice invertido es algo muy sencillo, tengo
+
+01:07:13.120 --> 01:07:18.280
+el conjunto de documentos hacer índizados, hago una tocanización de esos documentos para
+
+01:07:18.280 --> 01:07:27.480
+los términos, con algún criterio, un índice de sacual, llevo, hago stemming para llevar
+
+01:07:27.480 --> 01:07:35.160
+a la raíz de general, una usa cuatro caráteres, pero podría eventualmente ser más y dar
+
+01:07:35.160 --> 01:07:43.700
+la forma canónica, no, no se había las mayús, cúladas, los infinitios y fin, y genera algo
+
+01:07:43.700 --> 01:07:52.360
+este estilo, vendo a autos y camionetas, entonces, vengo ahí no, ahi no pusieron los 400 del
+
+01:07:52.360 --> 01:07:59.360
+del stemming, pero bueno, el documento de uno de todos los capares en acá, el vendo,
+
+01:07:59.360 --> 01:08:04.120
+deben de vender, aparece solamente en el de uno, auto aparece
+
+01:08:04.120 --> 01:08:11.060
+acá aparecía autos, autos, autos y acá autos, pero
+
+01:08:11.060 --> 01:08:14.500
+sino la forma ganónica, sería autos y aparecen todos esos
+
+01:08:14.500 --> 01:08:17.300
+documentos, se dan importos y están plurales en singular, la lista de
+
+01:08:17.300 --> 01:08:22.660
+posteó la tenia y bueno nada, a partir de este sería la base de
+
+01:08:22.660 --> 01:08:28.620
+índices o sea de documentos indicados y el tipo el algoritmo
+
+01:08:28.620 --> 01:08:33.420
+tiene que tratar de acceder por medio de esos índices, que habitualmente
+
+01:08:33.420 --> 01:08:38.300
+lo sí, el espacio, la estructura de índices es algo así como un 30% de
+
+01:08:38.300 --> 01:08:46.980
+lo que ocupa la base de documental en su totalidad, y un poco lo que
+
+01:08:46.980 --> 01:08:50.140
+decíamos, al momento de general el proceso de indicación hay que
+
+01:08:50.140 --> 01:08:55.180
+hacer esas cosas de análisis lingüísticos, porque hay que hacer
+
+01:08:55.180 --> 01:08:58.900
+transformaciones sobre el texto, eliminar las estopuertos, este
+
+01:08:58.900 --> 01:09:02.340
+poqués a términos, no lo voy a considerar como términos relevantes
+
+01:09:02.340 --> 01:09:08.940
+a la hora de iniciar un documento, llevar a la alema, y hay que hacer,
+
+01:09:08.940 --> 01:09:13.780
+también hacemos lo que hay que hacer una análisis conceptual, es decir,
+
+01:09:13.780 --> 01:09:17.220
+tratar de elegir términos asociados a conceptos, si bien ahí en el
+
+01:09:17.220 --> 01:09:23.340
+ejemplo y no lo hice, es decir, uno podría elegir el concepto
+
+01:09:25.700 --> 01:09:29.940
+empezando en el de auto y camioneta, uno que tuviera por arriba,
+
+01:09:29.940 --> 01:09:36.500
+no sé, algo como, eh, vehículo, al cabéículo, bien, vehículo y en realidad
+
+01:09:36.500 --> 01:09:41.860
+yo lo que ha asoció es tanto auto como camioneta al concepto vehículo,
+
+01:09:41.860 --> 01:09:47.460
+o sea, elegir conceptos más allá de términos, trabajar con grupos
+
+01:09:47.460 --> 01:09:54.500
+nominales, sobre todo, yo me estoy pensando en estado de sitio, frente a
+
+01:09:54.500 --> 01:09:58.140
+amplio, ya conceptos que no sean conceptos y que no sean solamente
+
+01:09:58.140 --> 01:10:02.140
+un término, porque yo lo que voy a estar compuesto por más de una
+
+01:10:02.140 --> 01:10:09.460
+palabra, y es también trabajar sobre reconocimiento de
+
+01:10:09.460 --> 01:10:14.220
+días con nombre, decir, en personas, lugares, organizaciones que podrían
+
+01:10:14.220 --> 01:10:26.220
+ser también elementos a hacer considerados en el índice, sí, bien, entonces hablamos de
+
+01:10:26.220 --> 01:10:34.260
+información retrieval, y otra, otra que anda por ahí es el, el clir, que es
+
+01:10:34.260 --> 01:10:42.020
+lenguaje, el clir cross language y información retrieval, que es, que significa,
+
+01:10:42.980 --> 01:10:48.940
+no importa en que esta escrita la, la consulta, a mí dan los documentos que
+
+01:10:48.940 --> 01:10:53.580
+hablen más allá de la lengua, independientemente del, del idioma en el cual
+
+01:10:53.580 --> 01:10:58.900
+está en escrito los documentos, entonces, este es todo un campo que existe en la
+
+01:10:58.900 --> 01:11:03.380
+recuperación de información, éste, para nada trivial, porque bueno,
+
+01:11:03.380 --> 01:11:06.940
+requieren a lo que vamos a estar viendo, pero fíjense que requieren de mucho
+
+01:11:06.940 --> 01:11:12.460
+trabajo, que van desde corrupos paralelos o, bueno, como, como que lo que
+
+01:11:12.460 --> 01:11:19.020
+tiene que hacer traducirla, como hace para buscar en español, este documentos que
+
+01:11:19.020 --> 01:11:22.780
+en realidad, o sea, voy a regalar la consulta en español, pero te interesan a
+
+01:11:22.780 --> 01:11:28.340
+aquellos documentos que se han relevantes, pero que tiene escrito en inglés,
+
+01:11:28.340 --> 01:11:35.020
+por poner dos lenguas distintas, ¿no? Y bueno, porque surge, nada, porque es
+
+01:11:35.020 --> 01:11:42.260
+mucha información en más del idioma, y ahí interés en realidad de recuperar lo
+
+01:11:42.260 --> 01:11:47.380
+más importante, más allá de la lengua en la cual está escrito, como
+
+01:11:47.380 --> 01:11:50.980
+es, sí, lo para eso, no, para acceder a la mayor cantidad de información, pero
+
+01:11:50.980 --> 01:11:56.660
+también es usada para la traducción de documentos, es decir, yo podría utilizar
+
+01:11:56.660 --> 01:12:01.740
+algunos algoritmos o estrategias en, empleadas en clir para hacer traducción.
+
+01:12:05.020 --> 01:12:11.220
+Y bueno, lo que decía, bueno, la consulta puede estar escrito en la lengua de
+
+01:12:11.220 --> 01:12:18.940
+distintas de los documentos, pero la pregunta es, ¿y qué traduco? Uno puede decir, bueno,
+
+01:12:18.940 --> 01:12:24.460
+lo mejor es traducir la consulta, porque es porque más necesita, pero bueno, capaz
+
+01:12:24.460 --> 01:12:30.260
+que en realidad no de, fíjense que si yo traduco la consulta, yo podría agarrar y traducir
+
+01:12:30.260 --> 01:12:37.900
+al principio, todos los documentos que tengo en mi base documental y eventualmente después
+
+01:12:37.900 --> 01:12:42.860
+en tiene un costo muy grande al principio, pero después, a la hora de la recuperación
+
+01:12:42.860 --> 01:12:47.980
+es bien directa, después era mucho más deficiente, o sea que hay que poner en la balanza
+
+01:12:47.980 --> 01:12:53.340
+en función qué es lo que yo quiero, ahora, qué es lo que lo que me sirve más,
+
+01:12:53.340 --> 01:13:00.180
+ahora, eso lo puedo no hacer en función de los recursos lingüísticos que tenga, debería
+
+01:13:00.180 --> 01:13:08.500
+tener dichonarios, tesaburos, si tengo corpos paralelos o no, que se yo los postadar,
+
+01:13:08.500 --> 01:13:14.660
+fin, depende con la ayuda de eso es que voy a poder elegir uno o otro criterio, y si
+
+01:13:14.660 --> 01:13:22.700
+esto en términos de eficiencia, ¿ok? Y se tendió lo que es el concepto de lo que se
+
+01:13:22.700 --> 01:13:29.940
+clear? En poco, la idea era que simplemente que tuvieran el, el, el, el, el, el concepto
+
+01:13:29.940 --> 01:13:37.060
+para cuando lo, si, si se veíamos adelante, entonces como hacíamos al principio, como
+
+01:13:37.060 --> 01:13:43.420
+como uno esto de recuperación de información, hoy no en los 70 como salton, lo asocia
+
+01:13:43.500 --> 01:13:51.040
+con el, la, con el, con el, con el, con el, de, de, de, de, de, de, de salton y, y, y la,
+
+01:13:51.040 --> 01:13:55.920
+barra de, del, del modelo de, del, del, del, catirá, y del, del, del, del, del, del próbilístico,
+
+01:13:55.920 --> 01:14:03.060
+como que que estaba asociado a un corpus donde, este era muy dependiente del dovinño.
+
+01:14:03.060 --> 01:14:09.760
+Era un corpus acotado, una base homogénea, ya la cosa con la web, descontró la totalmente,
+
+01:14:09.760 --> 01:14:16.760
+porque justamente estamos hablando de un universo, primero que estamos hablando de un universo de información enorme.
+
+01:14:18.760 --> 01:14:27.760
+Yo creo que la verdad es que ni se imaginó más allá de que la teoría sigue siendo la misma,
+
+01:14:28.760 --> 01:14:34.760
+no se imaginó con el auca de internet que va a surgir este tipo de cosas.
+
+01:14:34.760 --> 01:14:47.760
+Algunos son cifras que yo no sabía estar ahí en el año 2012, pero ahí hay ahí un número de lo que se presume que se incrementan por año,
+
+01:14:48.760 --> 01:14:50.760
+lo cual asusta bastante.
+
+01:14:51.760 --> 01:14:56.760
+Más de 600 millones de sitios huevos más de 50 millones se agregan por año,
+
+01:14:56.760 --> 01:15:01.760
+ya que bueno, si esto fue el 2012 y imagínense todo lo que tenemos hoy,
+
+01:15:02.760 --> 01:15:06.760
+más de 100 millones de blog, más de 70 millones de sitios de hecho con borpres,
+
+01:15:07.760 --> 01:15:11.760
+más de 600 mil millones de archivos.
+
+01:15:12.760 --> 01:15:20.760
+Entonces, esto que decíamos hoy, bueno, en la base de documento, metir a los documentos más relevantes,
+
+01:15:21.760 --> 01:15:24.760
+metir a son 10, son 15, son 20, esos plotas.
+
+01:15:24.760 --> 01:15:42.760
+Entonces, lo que se hizo y él no fue el primer buscador.
+
+01:15:43.760 --> 01:15:49.760
+De hecho, uno de los primeros buscadores era altavista y altavista se basaba en el modelo editorial de Salton.
+
+01:15:49.760 --> 01:15:57.760
+Pero claro, como estamos diciendo, estamos hablando de la década de que el principio de la década en 90,
+
+01:15:58.760 --> 01:16:03.760
+con el la UG de Internet, esto que estepinamos siendo creció tanto que, bueno, nada,
+
+01:16:04.760 --> 01:16:08.760
+que el tema de identificar a cada uno de los documentos,
+
+01:16:09.760 --> 01:16:12.760
+esos millones de documentos que existían en Internet,
+
+01:16:12.760 --> 01:16:17.760
+indizados, en fin, todo eso, y hacer todo el cálculo de similitud entre cosas de documento,
+
+01:16:18.760 --> 01:16:21.760
+era se hace tornaba de una inegiciencia terrible.
+
+01:16:22.760 --> 01:16:24.760
+Entonces, bueno, nada, la barra de...
+
+01:16:25.760 --> 01:16:27.760
+¿Cómo es la repéis?
+
+01:16:30.760 --> 01:16:37.760
+Y grae, no, el al otro que es de Google, lo que hicieron fue
+
+01:16:37.760 --> 01:16:44.760
+proponer el uso de clicks como una cerralder de relevancia, la cantidad de clicks que tenía
+
+01:16:45.760 --> 01:16:50.760
+y referencias cruzaba de los documentos y ahí apareció el conocido Space Rank,
+
+01:16:51.760 --> 01:17:00.760
+como algoritmo de muestra de la similitud de una consulta sobre el mundo de lo que es Internet.
+
+01:17:00.760 --> 01:17:09.760
+También hay una gráfica bastante vieja de unos los primeros cursos de información
+
+01:17:10.760 --> 01:17:15.760
+en Retrieval, que bueno, nada, que cuenta lo que es la web,
+
+01:17:16.760 --> 01:17:18.760
+tengo un montón de información que es pública,
+
+01:17:19.760 --> 01:17:21.760
+tengo un montón de información que es dinámica,
+
+01:17:22.760 --> 01:17:24.760
+después aparece cierta información que se mántica,
+
+01:17:25.760 --> 01:17:26.760
+hay cierta información estatica,
+
+01:17:26.760 --> 01:17:30.760
+pero lo curioso de este gráfico,
+
+01:17:31.760 --> 01:17:34.760
+yo no tengo toda la web indicada,
+
+01:17:35.760 --> 01:17:38.760
+es como imposible indicar absolutamente toda la web.
+
+01:17:43.760 --> 01:17:48.760
+Entonces, haciendo hoy como hicimos un cuadro de comparación entre
+
+01:17:49.760 --> 01:17:53.760
+lo que era un sistema de base datos y un sistema de recuperación de información,
+
+01:17:53.760 --> 01:17:57.760
+me parecía que estaba bueno hacer un paralelismo entre lo que es un sistema tradicional
+
+01:17:58.760 --> 01:18:01.760
+de recuperación información y lo que es el sistema de la web.
+
+01:18:02.760 --> 01:18:06.760
+En los RID, tradicionales, los documentos están bajo un dominio,
+
+01:18:07.760 --> 01:18:09.760
+o sea, los documentos son similares en algún sentido,
+
+01:18:10.760 --> 01:18:12.760
+hablan del más o menos lo mismo,
+
+01:18:13.760 --> 01:18:16.760
+en la web tenemos un documento diferente de todo tipo,
+
+01:18:17.760 --> 01:18:22.760
+en la RID tradicional existe cierto control terminológico
+
+01:18:23.760 --> 01:18:27.760
+en la web, en la RID tradicional,
+
+01:18:28.760 --> 01:18:29.760
+la interfaz de consulta,
+
+01:18:30.760 --> 01:18:32.760
+yo hago un sistema que utiliza tal modelo,
+
+01:18:33.760 --> 01:18:36.760
+lo que sea, como he contado ya sin un sistema de biblioteca,
+
+01:18:37.760 --> 01:18:38.760
+la interfaz es única.
+
+01:18:39.760 --> 01:18:41.760
+En la web, yo tengo depende del buscador que yo tenga,
+
+01:18:42.760 --> 01:18:43.760
+tengo interfaz de distintas,
+
+01:18:44.760 --> 01:18:46.760
+o sea que no hay una mujerización de sentido,
+
+01:18:47.760 --> 01:18:50.760
+el conjunto de documentos en la recuperación información
+
+01:18:50.760 --> 01:18:53.760
+es bastante stable, más allá que yo pueda agregar
+
+01:18:54.760 --> 01:18:55.760
+algún documento a la colección,
+
+01:18:56.760 --> 01:18:57.760
+lo cual tendría que indicar lo que es yo,
+
+01:18:58.760 --> 01:18:59.760
+pero es más o menos estable,
+
+01:19:00.760 --> 01:19:01.760
+acá, por lo que decíamos recién,
+
+01:19:02.760 --> 01:19:04.760
+hay una volatilidad enorme.
+
+01:19:05.760 --> 01:19:08.760
+Si el volumen de información en un sistema tradicional
+
+01:19:09.760 --> 01:19:12.760
+es grande, como veo un marcado hoy en el cuadro
+
+01:19:13.760 --> 01:19:16.760
+que comparaba con los sistemas de gestión de base de datos,
+
+01:19:16.760 --> 01:19:20.760
+acá es enorme, por poner otro objetivo, otro sustativo.
+
+01:19:21.760 --> 01:19:24.760
+Y bueno, nada, algunos desafíos de los buscadores,
+
+01:19:25.760 --> 01:19:27.760
+la calidad en la relevancia de los resultados,
+
+01:19:28.760 --> 01:19:31.760
+ser más o menos eficienten en la búsqueda,
+
+01:19:32.760 --> 01:19:35.760
+la información malestruca, hay en la web información malestrucurada,
+
+01:19:36.760 --> 01:19:37.760
+información redundante,
+
+01:19:38.760 --> 01:19:40.760
+la clave está en tratar de ver cómo el buscador
+
+01:19:41.760 --> 01:19:42.760
+es capaz de filtrar eso,
+
+01:19:42.760 --> 01:19:45.760
+el contenido es muy volatil,
+
+01:19:46.760 --> 01:19:47.760
+hoy está mañana,
+
+01:19:50.760 --> 01:19:53.760
+esto se conoce bastante clave,
+
+01:19:54.760 --> 01:19:56.760
+se lo pueden imaginar, nos conoce a la intención de los usuarios,
+
+01:19:57.760 --> 01:19:59.760
+cuando la ansa la búsqueda,
+
+01:20:00.760 --> 01:20:01.760
+por donde viene,
+
+01:20:03.760 --> 01:20:05.760
+de alguna manera,
+
+01:20:06.760 --> 01:20:07.760
+el tiene identificado cuál es tu perfil,
+
+01:20:08.760 --> 01:20:09.760
+va definiendo tu perfil,
+
+01:20:09.760 --> 01:20:12.760
+y ya te sugiere cosa,
+
+01:20:13.760 --> 01:20:15.760
+cuál es la intención del usuario,
+
+01:20:17.760 --> 01:20:18.760
+bien.
+
+01:20:22.760 --> 01:20:23.760
+Y acá de alguna estadística,
+
+01:20:24.760 --> 01:20:25.760
+me parecía interesante,
+
+01:20:26.760 --> 01:20:27.760
+el 80% de las compartir,
+
+01:20:28.760 --> 01:20:30.760
+el 80% de las consultas no utilizan operadores,
+
+01:20:31.760 --> 01:20:32.760
+ahora cuando pongas ustedes,
+
+01:20:34.760 --> 01:20:35.760
+pongas ustedes,
+
+01:20:35.760 --> 01:20:36.760
+piensa en cuando hace larga,
+
+01:20:37.760 --> 01:20:38.760
+en internet una cosa,
+
+01:20:39.760 --> 01:20:40.760
+nada,
+
+01:20:41.760 --> 01:20:42.760
+una secuencia de palabras,
+
+01:20:43.760 --> 01:20:44.760
+general,
+
+01:20:45.760 --> 01:20:47.760
+el 25% utilizo una palabra
+
+01:20:48.760 --> 01:20:49.760
+y el 50% utiliza dos,
+
+01:20:50.760 --> 01:20:51.760
+ya con eso,
+
+01:20:53.760 --> 01:20:55.760
+el 80% de eso,
+
+01:20:56.760 --> 01:20:57.760
+por ahí, no utiliza realo anfib,
+
+01:20:58.760 --> 01:20:59.760
+no hay retroalimentación,
+
+01:21:00.760 --> 01:21:01.760
+como que,
+
+01:21:02.760 --> 01:21:04.760
+en general le pega
+
+01:21:05.760 --> 01:21:06.760
+en los primeros documentos,
+
+01:21:07.760 --> 01:21:08.760
+además de los primeros documentos,
+
+01:21:09.760 --> 01:21:10.760
+en la primera búsqueda,
+
+01:21:11.760 --> 01:21:12.760
+si no tengo que refinarla y cambiar tal término,
+
+01:21:13.760 --> 01:21:14.760
+en un 80% no,
+
+01:21:15.760 --> 01:21:16.760
+eso lo que decía en las estadísticas.
+
+01:21:18.760 --> 01:21:19.760
+Y bueno,
+
+01:21:20.760 --> 01:21:21.760
+esta es bien interesante,
+
+01:21:22.760 --> 01:21:23.760
+el 85% mira las dos primeras
+
+01:21:24.760 --> 01:21:25.760
+pagina de resultado,
+
+01:21:26.760 --> 01:21:28.760
+más yo creo que sería menos,
+
+01:21:28.760 --> 01:21:30.760
+la gran mayoría mira la,
+
+01:21:31.760 --> 01:21:32.760
+creo que en la primera,
+
+01:21:33.760 --> 01:21:34.760
+sobre todo Google,
+
+01:21:35.760 --> 01:21:36.760
+de pegabas que,
+
+01:21:37.760 --> 01:21:39.760
+a lo que estoy buscando.
+
+01:21:41.760 --> 01:21:42.760
+Yo yo hablaba de,
+
+01:21:43.760 --> 01:21:44.760
+de baesayades,
+
+01:21:45.760 --> 01:21:47.760
+y quise compartir un,
+
+01:21:48.760 --> 01:21:49.760
+una frase del,
+
+01:21:50.760 --> 01:21:51.760
+que es, buscar el agua,
+
+01:21:52.760 --> 01:21:53.760
+no es un problema de recuperar documentos,
+
+01:21:54.760 --> 01:21:55.760
+no,
+
+01:21:56.760 --> 01:21:57.760
+no es documento,
+
+01:21:57.760 --> 01:22:05.040
+lo que nos recuperan la web. Mecanismo para entre las personas y las necesidades
+
+01:22:05.040 --> 01:22:09.640
+que se encuentran detrás de tus objetivos, de decir, como media filosófica la frase
+
+01:22:09.640 --> 01:22:17.040
+no sea, yo lo que busco es un objetivo, sí tengo un objetivo que encontrar y no un documento.
+
+01:22:17.040 --> 01:22:21.600
+Si lo pensamos en lo que deseamos hoy, lo busco información, quiero ver que hay en la
+
+01:22:21.600 --> 01:22:27.720
+vuelta sobre tal tema, no busco un documento específicamente. Y eso es un cambio de paradigma
+
+01:22:27.720 --> 01:22:38.080
+bien importante entre lo que es la RID tradicional y la RID en la web. Bueno, y por último
+
+01:22:38.080 --> 01:22:45.400
+extracción, hablar de extracción de información. El objetivo de extracción de información
+
+01:22:45.400 --> 01:22:57.680
+es obtener la información relevante, ignorar la irrelevante. El proceso tratar de identificar
+
+01:22:57.680 --> 01:23:05.720
+a aquellas partes del documento que yo recuperé las partes importantes o que a mí me interesan
+
+01:23:05.720 --> 01:23:13.000
+del documento y no tener que leer absolutamente todo el documento. Como un desafío,
+
+01:23:13.000 --> 01:23:23.440
+es como un complemento, debería de verse como un complemento a la extracción de información
+
+01:23:24.400 --> 01:23:29.760
+a los sistemas de recuperación de información.
+
+01:23:29.760 --> 01:23:35.400
+Lo tengo por acá, ¿no? La idea es que justamente que se complementen, que yo por un lado
+
+01:23:35.400 --> 01:23:40.720
+tengo un sistema de recuperación de información, que o tenga todo el documento que hablan
+
+01:23:40.720 --> 01:23:48.520
+de lo que yo quiero. Entonces yo tengo un proceso que hace eso, me extrae los documentos
+
+01:23:48.520 --> 01:23:53.960
+y luego un sistema de extracción lo que hace es, extrae y organiza la información que a mí me
+
+01:23:53.960 --> 01:24:12.640
+interesa. Con un todo documento, sistema de información, me extrae aquellos que son
+
+01:24:12.680 --> 01:24:17.800
+revantes, aquellos que me interesa. Luego, los sistemas de extracción de información
+
+01:24:17.800 --> 01:24:25.280
+parten de ese con el colección de documentos y a partir de ahí, o tienen datos.
+
+01:24:25.280 --> 01:24:31.480
+Y vuelvo a hablar del concepto de datos, porque la idea es tratar, si bien, yo lo que
+
+01:24:31.480 --> 01:24:40.880
+tengo es información, yo trato de esos documentos que están ahí expresarlos de alguna
+
+01:24:40.880 --> 01:24:52.960
+forma, que sea posible de ser manipulados por humanos, inclusive, pero por algún sistema
+
+01:24:52.960 --> 01:25:01.840
+más fácil, más sencillo, que en general, uno puede decir una similar a lo que sería
+
+01:25:01.840 --> 01:25:08.840
+una esquema de base de datos. Pero lo que ponía por allá abajo es lo que yo tengo
+
+01:25:08.840 --> 01:25:13.120
+con una plantilla tributo valor, o sea que los sistemas de extracción lo que hacen es trata,
+
+01:25:13.120 --> 01:25:19.360
+yo tengo una plantilla de cuáles son los campos que yo quiero recuperar y en función,
+
+01:25:19.360 --> 01:25:25.960
+mi algoritmo lo que tienen que hacer es extraer del documento y completaba plantilla.
+
+01:25:25.960 --> 01:25:34.680
+Esencialmente, a grandes racos, eso es lo que sería un sistema de extracción de información.
+
+01:25:35.600 --> 01:25:41.600
+Para ejemplo, bien sencillos, si yo tengo un documento, estamos pensando en la medida de
+
+01:25:41.600 --> 01:25:49.400
+facultad, y ya hay que llenar una función de las licencias y que yo hay distintas formas
+
+01:25:49.400 --> 01:25:57.240
+de expresar lo mismo, pero yo lo que me interesa saber es lo que yo quiero saber es,
+
+01:25:57.240 --> 01:26:03.120
+quién es la persona que se va a tomar la licencia, cuánto va a ser la licencia y por
+
+01:26:03.120 --> 01:26:09.240
+qué motivo. Entonces, más allá de como este escrito, el texto que hablen de la licencia de
+
+01:26:09.240 --> 01:26:17.480
+la funcionarios, yo lo único que extraigo de ese documento es nombre motivo y es de
+
+01:26:17.480 --> 01:26:22.400
+ilusación de la licencia. Entonces, acá se conselice en la ventaria el docente Juan Pérez
+
+01:26:22.400 --> 01:26:29.160
+por humes mi estructura a tributo valor, lo que me hace es la plantilla de esa me va a determinar
+
+01:26:29.160 --> 01:26:35.100
+el, una licencia es una terna, forma por nombre, duración y este hipotío. Y lo mismo
+
+01:26:35.100 --> 01:26:39.800
+bueno acá, o sea, esta en escrita de manera distinta, pero yo tengo que tener algoritmo,
+
+01:26:39.800 --> 01:26:46.280
+que de alguna forma extraigan justamente esos términos y llenas de esa estructura.
+
+01:26:48.280 --> 01:26:59.120
+También, al igual que con la strec, con recuperación de información, existían unas conferencias
+
+01:26:59.120 --> 01:27:06.720
+para evaluar algoritmos de destracción de información. Esa se llama en las mucas. Las mesas
+
+01:27:06.720 --> 01:27:16.740
+Andestanding Conference celebradas entre el 87 y el 97, también nuevamente patrocinada por
+
+01:27:16.740 --> 01:27:24.120
+DARPA y el Gobierno de Estados Unidos. Comenzaron este muy cómico porque las primeras mucas
+
+01:27:24.120 --> 01:27:31.680
+en el 87, el dominio eran sobre el terrorismo, o sea, los tipos querían buscar cosas asociadas
+
+01:27:31.680 --> 01:27:38.320
+a terrorismo, lo ya que no se nada de un marino y no se interoce nada, o tiraron. Y bueno,
+
+01:27:38.320 --> 01:27:47.480
+la gente trataba de extraer a ver documentos que hablaron sobre terrorismo. Se les daba,
+
+01:27:47.480 --> 01:27:55.040
+la información que es lo que pretende de no obtener, cuál es la plantilla, lo que decíamos,
+
+01:27:55.040 --> 01:27:58.960
+los atributos que iba a tener la estructura de datos, que iba a tener que completar
+
+01:27:58.960 --> 01:28:03.720
+en función de los documentos. Y bueno, para evaluar sus aban, las medidas que ya habíamos
+
+01:28:03.720 --> 01:28:10.480
+visto para información retribua. No, o sea, precisieron recole medidas. Las mucas dejaron
+
+01:28:10.480 --> 01:28:19.080
+de funcionar en el año 97, pero después se reactivaron otras conferencias en el 2000, que
+
+01:28:19.080 --> 01:28:26.840
+se llaman las ase automáticas contra extracción. Esa también, durante el 2008 y a partir
+
+01:28:26.840 --> 01:28:34.440
+de ahí, fueron sustituidos esas competencias por las tak. Las textes analisis conferencias
+
+01:28:34.440 --> 01:28:41.840
+que se celebran siempre con las conferencias de Natural Language Learning. Las con el
+
+01:28:41.840 --> 01:28:49.800
+LL es donde se hacen estas competencias al día de hoy. Acá me tiene una ciudad positiva
+
+01:28:49.800 --> 01:28:54.200
+sobre corpus, de corpus ya estuvieron hablando, hemos hablado así que las que pasaron
+
+01:28:54.200 --> 01:29:03.920
+mejor rápido, pero las quise poner por las dudas, ya saben lo que es un corpus, como
+
+01:29:03.920 --> 01:29:09.360
+se construye un corpus, recopilación con junto a documentos y hay que definir las características
+
+01:29:09.360 --> 01:29:16.440
+decias, si se escritó oral, si es multilíngo, o es monolíngo, el tipo de texto, si es deprensa,
+
+01:29:16.440 --> 01:29:23.240
+hacia el literario, pues no es lo mismo, podemos hablar de corpus, o ya hablamos en la
+
+01:29:23.240 --> 01:29:27.640
+hueva, hablamos de la heterogeneidad, podemos hablar de corpus sobre un determinado
+
+01:29:27.640 --> 01:29:36.240
+dominio, si está notado, si no está notado, en fin. Nada, y a modo de ejemplo, creo que
+
+01:29:36.240 --> 01:29:46.560
+algunos ya los estuvieron viendo en el curso, yo pensé que estaba poniendo de esto,
+
+01:29:46.560 --> 01:29:54.840
+bueno, rápido, bueno, voy, no terminamos, terminamos. Algunos de los corpus está en inglés,
+
+01:29:54.840 --> 01:30:01.640
+esos son algunos de los más importantes, algunos de los corpus en español, yo quise destacar
+
+01:30:01.640 --> 01:30:08.840
+estos son los conocidos, los de la reala academia, el corpus de Martavis, ancora de este
+
+01:30:08.840 --> 01:30:14.400
+de vervos, y que ni de destacar algunos de los corpus, yo le puse nuestros, porque son generados
+
+01:30:14.400 --> 01:30:21.840
+acá, distingo, porque en general, para todo esto hay muchísimo lo de de haber estado bien
+
+01:30:21.840 --> 01:30:27.800
+en el curso, hay muchísimo, para lindles y para otras lenguas, pero para el español hay poco
+
+01:30:27.800 --> 01:30:35.320
+recursos, y bueno, tratamos nosotros de generar más recursos, entre los cursos que generamos
+
+01:30:35.320 --> 01:30:41.000
+en nuestros trabajos, que muchos surge en proyectos de grado, proyectos de pogrados son
+
+01:30:41.000 --> 01:30:46.880
+el trabajar con nuevos corpus, entonces tenemos un corpus de noticias estradias en la web,
+
+01:30:46.880 --> 01:30:54.520
+es un corpus muy grande, se sigue generando, creo que al día de hoy tiene uno hoy contaban,
+
+01:30:54.520 --> 01:31:01.400
+nosotros ya contaban 1.6 gigas de tamaño, o sea que es un corpus bastante interesante,
+
+01:31:01.400 --> 01:31:06.880
+el corin fue un corpus que surgió en un proyecto que hicimos con la gente del inústica,
+
+01:31:06.880 --> 01:31:14.720
+como más de 10 años, como 15 años, ¿qué pasa? 15 años, pero más de 10 años, y como producto
+
+01:31:14.720 --> 01:31:22.400
+de ese corpus un corpus pequeño, pero lo hicimos está muy bien este etiquetado, trabajamos
+
+01:31:22.400 --> 01:31:27.480
+con la gente del inústica, y bueno, ya estos son corpus que han surgido en este último tiempo
+
+01:31:27.480 --> 01:31:34.600
+en el grupo, el corpus de opiniones, el corpus de eventos, el corpus de expresiones temporales,
+
+01:31:34.600 --> 01:31:41.240
+y hay uno que hizo matías hace poco de la Wikipedia en español que está bastante bueno,
+
+01:31:41.240 --> 01:31:47.560
+que si no sé si tiene entre dos o tres gigas, una cosa así que está ponenta.
+
+01:31:47.560 --> 01:31:50.560
+¿Pero?
+
+01:31:50.560 --> 01:31:56.880
+Sí, no, no, son corpus, yo lo metí dentro de la extracción de información, porque iba a volver
+
+01:31:56.880 --> 01:32:01.480
+a hablar sobre corpus, realidad es, son recursos lingüísticos que tenemos, no sabía
+
+01:32:01.480 --> 01:32:06.320
+de meterlo y lo metí dentro de la extracción de información, pero en realidad no necesariamente
+
+01:32:06.320 --> 01:32:12.880
+algunas cosas así, los hemos usado para hacer sistemas de extracción. Todo eso venía
+
+01:32:12.880 --> 01:32:18.920
+porque, bueno, acá, le focus para la construcción de un sistema de extracción de información
+
+01:32:18.920 --> 01:32:27.320
+o basado en conocimiento lingüístico o sistemas internados automáticamente con el uso
+
+01:32:27.320 --> 01:32:35.640
+de métodos estadísticos, ahí aprendizaje de reglas y utilizando corpus anotado, en fin,
+
+01:32:35.640 --> 01:32:41.960
+son dos tomos de los distintos de construcción de sistema de extracción. Los criterios
+
+01:32:41.960 --> 01:32:48.400
+nuevamente lo mismo, disponibilidad, lo de siempre, si tengo recursos, no tengo recursos,
+
+01:32:48.400 --> 01:32:57.120
+el liquidico, no, posibilidad de escritura de reglas porque, a veces, es un sitio, se supone
+
+01:32:57.120 --> 01:33:06.000
+que esto funcionaba, ¿no? A poca que estaba mal a la verdad, ¿te pide?
+
+01:33:06.000 --> 01:33:13.280
+Y porí le ha de los recursos, ya la posibilidad de escritura de reglas, a veces que,
+
+01:33:13.280 --> 01:33:19.320
+si yo puedo escribir las reglas, eso está bueno, porque soy bien preciso, pero también
+
+01:33:19.320 --> 01:33:23.160
+no me puedo pasar para el otro lado, escribir tantas reglas y luego también particular que,
+
+01:33:23.160 --> 01:33:28.160
+cuando después, este modifico algo, ya no me sirve y tengo que ver una nueva regla que
+
+01:33:28.160 --> 01:33:34.600
+me puede escoger en el lado otro, pero bueno, la parte de reglas es importante, si yo uso
+
+01:33:34.600 --> 01:33:41.720
+aprendizaje automático, el hecho de que tenga datos de entrenamiento es clave, y el tema
+
+01:33:41.720 --> 01:33:49.600
+de performance es otra de las cosas que es importante, a tener en cuenta cuando quiero elegir
+
+01:33:49.600 --> 01:33:56.600
+porque esto era un enfoque basado en reglas o basado en aprendizaje, ¿no?
+
+01:33:56.600 --> 01:34:04.880
+Y ahora sí, para liquidar, es simplemente un ejemplo de lo que queríamos decir con un
+
+01:34:04.880 --> 01:34:11.400
+sistema de extracción de información, esto simplemente un dominio de descripciones de muebles,
+
+01:34:11.400 --> 01:34:20.440
+de reinos, es propiar la total, el ejemplo es un ejemplo real, Montevideo,
+
+01:34:20.440 --> 01:34:25.120
+una fecha, director de registro de propiedad inmueble, el suscrito, escriban a tal, se
+
+01:34:25.120 --> 01:34:31.400
+de la tal y tener decir, yo tengo un documento que me habla de una expropiación, yo lo que
+
+01:34:31.400 --> 01:34:37.000
+tengo que hacer es a mi me dan un conjunto de documentos y me dan una plantilla, pensamos
+
+01:34:37.000 --> 01:34:41.920
+en lo que es como, como yo completo esa plantilla, esa estructura de datos. Entonces,
+
+01:34:41.920 --> 01:34:46.040
+esa plantilla, ¿qué es lo que yo tengo que extraer de los documentos? Un número de referencia,
+
+01:34:46.040 --> 01:34:52.120
+porque todos los documentos deberían tener un número de referencia, una fecha, la descripción,
+
+01:34:52.120 --> 01:34:58.360
+el escribano actuante, para el escribano y la célula y el nombre, el nombre de municipio,
+
+01:34:58.360 --> 01:35:03.160
+la ubicación, el padrón, la dirección, lo que dice que todos estos datos, número
+
+01:35:03.160 --> 01:35:11.040
+de folio, todo eso, aparece en cosas acá, con el escrito con el número tal en la calle
+
+01:35:11.040 --> 01:35:16.760
+Solana Antugna, de esta ciudad, folio tal, es decir, yo tengo determinadas,
+
+01:35:16.760 --> 01:35:20.640
+sistema debería tener determinadas reglas, pues hay que ver como lo hago, se escribo
+
+01:35:20.640 --> 01:35:27.360
+reglas, como que lo hago, para en función de ciertas parámetros, extraer justamente
+
+01:35:27.360 --> 01:35:31.840
+la información de ese texto y completar esa plantilla. Entonces, yo completo esa
+
+01:35:31.840 --> 01:35:38.600
+plantilla, tengo que hacer algoritmos, que completen esa plantilla y nada, acá no se me
+
+01:35:38.600 --> 01:35:42.760
+me mucho, pero en agrita se está lo que justamente los datos que yo tengo que extraer,
+
+01:35:42.760 --> 01:35:47.320
+una fecha, si los documentos no tienen por qué estar todas las fechas en un mismo formato,
+
+01:35:47.320 --> 01:35:52.320
+o sea que tengo que tener, si fueran reglas o metos de aprendizas automáticos, tengo
+
+01:35:52.320 --> 01:35:56.640
+que ver como distín con las fechas, los distín de formato de las fechas, para el número
+
+01:35:56.640 --> 01:36:00.920
+de referencia, si tengo la palabra referencia delante y dos puntitos, o sea en fin, como
+
+01:36:00.920 --> 01:36:07.360
+identifico los nombres propios, lo número por ahí aparece otra fecha más,
+
+01:36:07.360 --> 01:36:13.560
+monte de videos y tengo identificado los lugares, entidades con nombres, las direcciones,
+
+01:36:13.560 --> 01:36:20.240
+y ahí, una vez que corremisitema lo que me tendría que hacer es una planilla con los
+
+01:36:20.240 --> 01:36:25.600
+atributos en cada uno de los, con los valores en cada uno de los atributos.
+
+01:36:26.520 --> 01:36:39.800
+Y bueno, eso es todo, alguna pregunta, fue en medio rapido, ¿puedo ver?
+
+01:36:39.800 --> 01:37:01.480
+Sí, sí, útiliza, exactamente, solar, de si vos, por ejemplo, sí, útiliza, es que en la web índice
+
+01:37:01.480 --> 01:37:06.600
+sinvertidos, yo no sé, hay un curso de, tiene una compañía, la libertad, un curso de
+
+01:37:06.600 --> 01:37:15.000
+detractión de información y información en la web, y ahí está el ley de hip y pero índice
+
+01:37:15.000 --> 01:37:21.960
+sinvertidos, es la forma, por eso de más, lo que se presenta en la forma, el mecanismo,
+
+01:37:21.960 --> 01:37:28.840
+por el cual se indiza los documentos en la web, muchas de esas productos útilizan ese modelo
+
+01:37:28.840 --> 01:37:35.840
+de indización de documentos, ¿sabes?
+
+01:37:35.840 --> 01:37:44.760
+Nos preguntas, bueno, entonces, termino el curso y la semana que viene arrancamos con los
+
+01:37:44.760 --> 01:37:47.640
+con las presentaciones, bueno, gracias.
+

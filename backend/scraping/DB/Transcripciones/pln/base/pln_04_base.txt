@@ -1,0 +1,1860 @@
+Bueno, el primero que vamos a hablar es de lenguajes regulares.
+Ustedes hicieron el curso de teoría de lenguajes y este año
+generalmente damos una introducción más teórica a lenguajes regulares.
+Este año decidí cortar esa parte porque en realidad ustedes ya tienen
+bastante sufrieron bastante aparada y además y compañía en todos esos temas de lenguaje regulares
+y sus propiedades teóricas, propiedades de clausura y sus diferentes modelos
+y vamos a dar solo un repaso acá para nivelar un poco porque son del tipo de métodos
+que forman la base de otra cantidad y que para algunas tareas aplican directamente.
+Y arranco con esta frase porque como yo decía creo en la primera,
+en la primera clase Chonky por eso por 1997 mostró que el inglés no era susceptible
+de ser representado con automata finitos y eso hizo que la investigación en este tipo
+automata en el procedimiento de lenguaje natural se tuviera como oportunitas años.
+Y después volvieron, ahora os voy a hablar un poquito más de eso,
+pero que son los lenguajes regulares y me queda legísimo el teclado de acá.
+¿Por qué nos interesan los lenguajes regulares?
+Porque esencialmente la visto como herramienta para el procedimiento de lenguaje natural
+son una herramienta para especificar texto mediante patrones.
+Es decir, yo quiero especificar un conjunto de textos a través de un patrón
+con una expresión sola y generalmente puede utilizar expresiones regulares.
+Si yo quiero expresar todas las palabras que empiezan con C,
+tengo que expresar de alguna forma algo como,
+lo voy a poner en Per, digamos, C punto a Terisco.
+Es una C seguida de cualquier cosa, cualquier cantidad de veces.
+Ahora vamos a ver un poco más de eso.
+Esencialmente es una forma de expresar muchas.
+Quiero encontrar en un texto todas las palabras que empiezan con mayúscula y terminen con A.
+Voy a poner una cosa como H, con H en mayúscula que dice,
+cualquier cosa terminen con A.
+¿De acuerdo?
+Y ahí me parecen algunas cosas como, bueno,
+nada tiene que haber no haber espacios en emé y, por ejemplo, ¿no?
+Pero una serie de discusiones.
+Pero lo importante es que yo puedo expresar conjuntos un patrón a través de una expresión,
+un conjunto de texto a partir de un patrón.
+Tienen expresividad limitada, se acuerdan de la jerarquía choque, ¿no?
+Eso tenemos los lenguajes regulares, los lenguajes libre de contexto
+y los lenguajes recursivamente numerables por acá fuera.
+Los lenguajes regulares son sólo un subconjunto de los lenguajes.
+Pero antes, ¿qué son los lenguajes? ¿Qué son los lenguajes formales?
+¿Ese acuerdan los lenguajes formales?
+Ahí, se acuerdan.
+Yo tengo un alfabeto finito de símbolos, ¿sí?
+De fin o tiras de símbolos.
+¿De acuerdo?
+Y los lenguajes son un subconjunto de las tiras que yo puedo formar sobre ese alfabeto.
+Solamente eso.
+Es un conjunto de tiras, conjunto de palabras.
+Los lenguajes regulares sólo hay uno de los lenguajes son regulares.
+En tanto, pueden ser expresados de la forma que lo vamos a ver ahora con este tipo de expresiones regulares.
+O sea, no puedo expresar cualquier cosa con lenguajes regulares.
+Por ejemplo, el ejemplo de manual es que yo no puedo expresar cosas de la forma,
+igual cantidad deías que debes.
+Esto no lo puedo expresar con lenguajes regulares.
+Pero, a cambio de eso, son muy, muy, muy, muy eficientes.
+Es decir, típicamente cuando yo quiero hacer algo,
+hacer una búsqueda eficiente de algo en un texto,
+si lo logros expresar esa búsqueda con una presión regular,
+sé que lo voy a encontrar de una forma muy eficiente,
+si lo vuelvo determinístico, incluso de orden,
+en el largo de la palabra que te busca.
+¿Te guardó?
+Y son fácilmente adaptables para buscar un patrón en un corpus.
+Si yo tengo que buscar un texto como en Unix, con grep,
+o en un editor de texto, cuando controlo y buscar, o lo que sea,
+si yo lo puedo especificar con un patrón,
+generalmente nosotros ponemos una palabra que de última de sus patrón sencillos,
+que solamente expresa una asuntira,
+pero yo podría, casi todos los editores profesionales,
+permiten buscar expresiones regulares.
+Especificar esos patrónes para buscar,
+y casi todo lo lenguaje de hecho,
+creo que todo lo lenguaje de pronunciamiento hoy en día,
+tienen forma de especificar expresiones regulares.
+Por ejemplo, si yo tengo un problema de programación,
+estoy haciendo, y quiero decir, bueno,
+si lo que encuentro es una URL y quiero expresar una URL de alguna forma,
+la expresó con una expresión regular,
+no hay que escribir toda la URL del mundo o que me pueden abarcer.
+¿Te entiende?
+Es decir, yo estoy especificando conjuntos.
+Y esa expresión regulares son fácilmente adaptables para buscar un corpus.
+Ahora vamos a lo que es un corpus devolviendo todos los ocurrencia del patrón.
+Un corpus, para expresamiento, le baja natural.
+Es una cosa muy utilizada y nuestra base de trabajo,
+es un conjunto de textos.
+Nosotros llamamos corpus,
+o el plural corpora,
+cuando hablamos de un conjunto de textos.
+Yo tengo un conjunto de textos, eso es un corpus.
+Ahora vamos a volver a hablar de corpus,
+pero por ahora lo que estamos hablando es un tengo textos.
+Bien, ¿qué pasa?
+Los lenguajes regulares están completamente estudiados
+y yo diría que podrían considerarse un problema resuelto.
+Ustedes vienen al curso material lenguajes
+y saben lo que un ingeniero tiene que saber sobre lenguajes regulares,
+y eso está en un libro de 1979,
+o sea, y de hecho toda la teoría anterior al año 1970,
+si no me equivoco.
+O sea que están muy bien estudiados,
+y además están desde Unix incorporados los lenguajes para la amación.
+Unix ya venía con expresiones regulares, con C, con Greb,
+con AWS, todos, herramientas que incluían la expresión regulares dentro.
+Era en épocas maravillosa porque los mismos que definían la teoría
+de la expresión regulares, los que trabajaban implementar,
+la eso hoy ya no se ve tanto.
+Es decir, los que estaban creando los fundamentos
+eran los mismos riches, querrían que eran los que los implementaban en Unix.
+Y bueno, y lo que les decía, todos los lenguajes o los inclusions.
+Bueno, ¿y cómo son? ¿Cómo les usen las expresiones regulares?
+Y bueno, por ejemplo, una expresión regular,
+esto es como aparece en la expresión regulares en los lenguajes de formación,
+que no es lo mismo que las expresiones regulares que vieron
+en el juicio de los lenguajes que era con mucho menos operadores,
+que permitían definirla, pero la expresidad de la misma,
+acá es lo que hay es forma de abreviar cosas,
+digamos, para no escribir expresiones regulares monstruosas, digamos, ¿no?
+Entonces, hay cosas como la expresión regular cabeza,
+encuentra el patrón acá a cabeza, la palabra en esta escrita.
+Este signo exclamación, reconocer signo exclamación,
+este corta velarga, ve minúcula, ve mayúscula,
+entre corchetes es como un or, digamos, ¿si?
+Que seguía lo mismo que buscar, va a un gongo en mi corta o va a un gongo en mi larga.
+Esto busca A, B y O C, ¿si? Fíjese que acá es lo que está devolviendo
+en la primera ocurrencia, eso depende como yo programé la función de buscar.
+Número del ser al 9, hay algo que no sea mayúscula,
+este corchete funciona como un dot,
+y esto es que no sea una S.
+Esto no, no voy a entrar mucho en detalle, veamos, la idea que...
+Y acá es como el uso una búsqueda en Python, por ejemplo,
+con la biblioteca de expresiones regulares de Python,
+a un search del patrón, y esto se llama nuestro corpo, digamos.
+Y ahí devuelve la ocurrencia.
+Más cosas, ¿no?
+ahí sí, fíjense que el símbolo de...
+de circunflejo al final no tiene ningún significado especial,
+y en el medio de a poco,
+este signo de pregunta quiere decir que el carácter anterior es opcional,
+el punto maché a cualquier carácter, etcétera.
+Bueno, estos operadores son sintactic sugar,
+son formas de abreviar otras cosas, digamos, ¿no?
+Si yo pongo barra de,
+estoy pensando en un número,
+el ser al 9 es otra forma escribirse,
+el 9 son facilidades, ¿no?
+No agrega expresividad, pero vuelve la vida más fácil
+de que está programando.
+Y aquí hay forma de sustituir,
+esto es utilizar un nudo,
+y aquí hay forma de sustituir,
+esto es utilizar un nudo,
+y aquí hay forma de sustituir,
+esto es utilizar una expresión en una sustitución.
+Y casi todos los lenguajes de promoción,
+además uno puede incluir cosas como decir,
+quiero que lo que dice acá,
+sea exactamente lo mismo que lo que dice acá.
+¿Se tiene?
+Por ejemplo, acá dice,
+quiero estar aquí mañana, quiero,
+porque estamos apiando el chie,
+¿sí?
+con este.
+Aguardo, ¿en quién es?
+Esto formalmente no son expresiones regulares,
+sino que son extensiones.
+De hecho, esto es más expresivo que la expresión regulares.
+Esto es un poco de repaso, digamos, ¿no?
+del tipo de cosas que puedo hacer,
+pero lo que nos interesa para este curso es que yo puedo
+buscar rápidamente,
+y especificar muchas cosas a la vez buscar.
+Si yo, el asunto es,
+si yo puedo resolver algo de expresión en regular,
+debería resolverlo con la expresión en regular.
+¿Por qué?
+Porque hacerlo más complejo,
+me voy a perder eficiencia,
+porque no hay nada más eficiente que la expresión en regular.
+Aguardo,
+más que muchas veces no puedo,
+o me queda muy complicado escribirlo.
+Porque la expresión regular,
+fíjense que uno tiene que cubrir toda la casuistia
+que quiere identificar,
+lo cual es muy fácil cuando digo toda la palabra que empiezan con C,
+pero cuando yo quiero empezar a hacer cosas más complicadas,
+como identificar,
+y ahora lo vamos a ver,
+separar palabras, por ejemplo,
+ahí, bueno, ¿pero qué separa una palabra, un espacio?
+Sí, pero también puede ser un signo de puntuación,
+sí, y un dos puntos también.
+Entonces yo podría decir,
+buscar todos los signos de puntuación entre dos palabras,
+pero ¿y qué pasa si dieron enter?
+Es decir, representar todo por un expresión regular
+a veces es bastante complicado.
+Ahora vamos a hablar un poco más de eso.
+¿De cómo se usan las expresiones regular?
+Pero como le decía,
+las expresiones regulares definen un conjunto de tiras
+que se llaman lenguajes regulares.
+¿Sí?
+¿Y qué tienen interesantes y más propiedades de clausura
+como viernes de curso de tiras de lenguajes?
+Lo cual hace que yo pueda, por ejemplo,
+si quiero buscar una cosa,
+algo que está representado por una expresión regular
+y dos cosas que están representadas por la expresión,
+el or de ambas es cerrado,
+o sea que tenga una forma,
+no lo puse acá,
+tiene una forma inmediata de buscar ambos a la vez.
+Es decir, están fácil buscar una cosa como buscar una cosa u otra.
+Siempre es determinístico,
+porque son cerrados bajo todas estas propiedades.
+O si yo quiero buscar,
+es tan fácil buscar algo que sea,
+que si encuentro el estrín perro,
+como algo que no sea perro,
+lo explicó,
+porque son cerrados,
+porque si yo tengo un lenguaje regular
+que representa perro
+y media también tengo la negación.
+Pero lo más interesante de eso,
+es que la demostración de que son clausuras,
+son constructivas,
+porque,
+porque los lenguajes regulares,
+además de poder ser expresados con una expresión regular,
+también pueden ser representados
+por una automata finito.
+Claro, vamos a ver lo que es,
+pero me seguro que se acuerdan de tirar el lenguaje.
+Es decir, exactamente las mismas tiras
+que yo expreso con una expresión regular,
+hay una automata,
+una máquina de estado,
+que la reconoce.
+Sí, un lenguaje regular
+es el conjunto de estrín sobre un alfabeto
+sin más reconocidos por un automata finito.
+O sea, es una definición alternativa de lo mismo.
+Entonces,
+¿Cómo seguí una automata finito para dirección?
+¿Se acuerdan de cómo son las automatas finito?
+Este pizarro.
+Se acuerdan de los automatas finito,
+son, esencialmente, un conjunto de estados.
+Sí,
+un estado por donde se comienza,
+sí,
+un estado por donde se comienza,
+sí,
+transiciones que tienen símbolos
+y que van de un estado al otro,
+sí,
+y algunos estados especiales que se llaman estados finales.
+¿Se acuerdan de esto, no?
+Todos símbolos sobre el alfabeto.
+¿Cómo seguimos una automata finito para direcciones de correo?
+¿Más o menos?
+Este automata.
+Vamos a suponer que yo acá escribo todos los símbolos,
+tengo que hacer un arco por cada símbolo.
+Supongamos que en el alfabeto son mi núcleo,
+masúscula de arroz y punto, ¿no?
+Este automata.
+¿Reconoce de direcciones de correo?
+Yo iría que sí, pero,
+pero exactamente,
+reconoce eso y mucho más, o sea que no es lo que queremos.
+Nosotros queremos una automata que genere exactamente,
+o tan exactamente como podamos,
+las direcciones de correo.
+Entonces, ¿cómo sería?
+¿Qué hago?
+¿Qué sería?
+¿Aseta? ¿Aseta?
+¿Sí? ¿Y después?
+Bueno, sacamos los puntos, tenemos letras, puntos y arroba.
+¿Aboir una arroba?
+¿Sí?
+¿Punto?
+¿Lo mismo?
+Vamos a poner que el arco ya sale muy rápido, ¿sí?
+¿Con qué símbolo?
+¿Hay que ir a esto?
+¿Qué le parece?
+¿Qué le parece?
+¿Me?
+Por...
+¿Cómo compramos?
+¿Un problema que tiene que te pueden poner arroba algo?
+¿Sí? ¿Qué otra? ¿Tiene un otro problema más?
+¿Qué otra cosa pasa?
+Que de sólo más mate algo, punto con, punto a algo, ¿no?
+Sólo un punto y podría tener más de uno.
+Y acá, si no le ponemos el lepsilón, necesariamente tiene que tener una letra,
+lo cual no se necesita mal.
+Especificar una expresión regular no siempre es este,
+del todo sencillo y determina,
+y es parte de nuestro problema de especificación.
+Igual que tuvimos bastante bien.
+Aquí hay una que no es mucho mejor que lo que hicimos nosotros.
+No, porque ahí es más o menos.
+Ahí anda con mi Gmail.com, pero no anda con...
+No te digo muy.
+Pero está.
+Es decir, lo que tiene de bueno es que, a ver,
+lo que tiene de bueno y reitero es que si yo tengo eso rápidamente,
+puedo encontrar esas expresiones,
+la dirección y el correo, como la especificé,
+la puedo rápidamente encontrar en un cuerpo.
+¿Por qué las puedo ver? ¿Por qué las puedo?
+Porque yo siempre tengo la forma,
+y acá viene la explicación de por qué es eficiente,
+porque yo siempre tengo la forma de esto,
+esto es un automata finito de terminista.
+Quiere decir que yo,
+simplemente leo la entrada, voy recorriendo el automata
+y si cuando terminé,
+llegué a un estado final, quiere decir que reconoci esa entrada.
+Eso lo hago en orden,
+en tantos pasos como en largo tenga la entrada.
+No importa, lo...
+Y voy recorriendo el texto, digamos, ¿no?
+¿Cómo se hace la búsqueda de otra cosa?
+Pero, pero...
+Les voy recorriendo y intentando detectarse a parisono de eso.
+Entonces,
+en asuntos así,
+los lenguajes regulares,
+siempre pueden ser representados por una expresión regular,
+es mucho más fácil escribir una expresión regular,
+en general,
+que dibujar el automata, que es una cosa que va a poder creciendo
+y quedar enorme, ¿no?
+Porque yo puedo hacer una expresión regular,
+como le decía la demostración de la clausura es contrutiva,
+entonces yo hago, si yo quiero conocer, quiero reconocer expresiones de correo,
+o nombre de países de África,
+o una expresión regular para la dirección de correo,
+otra expresión regular,
+para los países de África,
+generos los automatas de ambos,
+que hay algoritmos para convertir expresión,
+por eso le decía que acá está,
+lo que tiene bueno que acá está todo resuelto.
+Generos los automatas de ambos,
+y simplemente,
+creo una automata nuevo,
+que lo que tiene es un estado inicial
+y que me manda a una automata o al otro.
+Y eso me da el horro.
+Ahora vamos a lo que se le decía, pero está.
+De acuerdo?
+Es decir, siempre puedo construir algo eficiente
+para reconocer cualquier cosa expresada con la expresión regular.
+¿Alguna duda?
+Bueno, esa es la definición de automata finito
+que coincide con lo que hablamos ¿no?
+Tengo un conjunto finito de estados,
+un alfabeto,
+un estado inicial,
+y un conjunto de estados y finales.
+¿De acuerdo?
+Y cuando reconozco, y bueno,
+sí,
+la función que me dice,
+ir desde una función
+denta extendida,
+que va al estado inicial,
+lee una tira y llegado a otro estado,
+si esa función me siga un final.
+Bueno,
+o sea, no importa si yo paso por un final en el camino,
+tengo que terminar mi tira en el estado final.
+La pregunta que le dejo de ver es cuál sería
+la expresión regular para las direcciones del correo.
+Y no solo eso,
+hay una tercera forma de representar lo que es
+a través de gramáticas regulares.
+Sí.
+Ya vamos a hablar luego de gramáticas.
+Pero hay una gramática que permite expresar
+los lenguajes regulares,
+es altamente las mismas tiras.
+Pero siempre son visiones alternativas
+de un conjunto de tiras.
+Siempre vamos a estar hablando de conjuntos de tira.
+En todos los lenguajes,
+un lenguaje es un conjunto de tiras.
+Incluido los lenguajes naturales.
+Los autómetas finitos además pueden ser,
+nosotros hablamos de no deterministas,
+de deterministas, perdón.
+Pero pueden ser no deterministas.
+El lenguaje de las sovejas que tengo acá
+es ver una cierta cantidad de es
+y una última es.
+Esto es no determinista,
+porque no sé cuándo es la última.
+¿Aca puedo arvuelta o no?
+¿De acuerdo?
+Los autómetas finitos no deterministas reconoce
+en una tira cuando algún camino lleva un estado final.
+Parecen más expresivos que los lenguajes de deterministas,
+pero no lo son.
+Conocemos algoritmos para transformar
+de esto a un automata finito de determinista.
+Y no sólo eso,
+es como hacer para que esto,
+este automata,
+que no solo es no determinista,
+sino que tiene transiciones cerocilogueares
+y que yo no puedo mover de este estado,
+este estado,
+sin consumir la entrada.
+Esto aparece más expresivo,
+pero no lo es.
+Todos son los mismos lenguajes regulares.
+De acuerdo,
+entonces yo siempre puedo transformar
+una automata finito,
+no determinista,
+que a veces me queda más fácil para pacificar.
+El lenguaje de la oveja es más fácil
+de pacificar con uno determinista.
+Por lenguajes cuyo último letra es una A.
+Yo puedo transformar esto a
+uno determinista y reconocer en tiempo lineal.
+¿Por qué no siempre me conviene
+me convendría hacer eso?
+¿Por qué no siempre me convendría
+y hay algoritmo para reconocer
+automatas no deterministas?
+Una forma que yo tengo es,
+quiero reconocer una expresión regular,
+la específico con una automata no determinista,
+lo convierto a determinista
+y el algoritmo de ese sencillo de buscar,
+recorrer los arcos como hicimos con el dedo, ¿no?
+Programar eso.
+¿Por qué a mí me podía convenir directamente
+tratar un algoritmo de que recorra esto?
+¿Por qué?
+Nada, el lenguaje se quedó con la idea
+de que era siempre mejor voluarlo de terministas,
+pues son mucho mejor y malino,
+pero también son mucho más grandes.
+Porque yo para resolver el no determinismo
+si bien puedo lo resuelvo creando
+Estados nuevos.
+Y a mí me puede convenir en lugar de crear
+una nueva automata mucho más grande
+y que es más tengo el costo de conversión, ¿no?
+Es mantener en memoria en qué posición estoy,
+mantener el no determinismo.
+Si ustedes se acuerdan,
+el algoritmo de Thompson,
+lo que permitiera pasar de este automata,
+uno determinista y lo que se era,
+en qué estado estoy,
+en tu incusero,
+viene una B, estoy en C1.
+Si viene una E,
+estoy en C2.
+Si viene una E,
+en C2,
+yo puedo estar en C2 o en C3.
+Recuerdo la lista de los estados en que estoy.
+Seguramente lo aprendieron para hacerlo
+en el segundo parcial y después se olvidaron.
+No, no.
+Entonces,
+en estos modelos,
+el problema es elegir el camino adecuado
+para procesar la tira.
+Eso no voy a entrar mucho en detalle en esto,
+pero como puedo elegir el camino adecuado
+para procesar la tira.
+Como digo,
+si una automata reconoce una tira.
+Y los caminos son varios,
+esencialmente uno,
+si ya es
+backup,
+es como
+es el viejo querido backtracking,
+es decir,
+si yo tengo
+este automata.
+¿Verdad?
+Cuando tengo una duda,
+toma un camino.
+Vino una E,
+me fui acá,
+o me quedé acá.
+Bueno,
+yo supongo que me quedé acá.
+Y si después,
+si no es clamación quedó trancado,
+o sea que ese camino no me servía,
+servía,
+y tomó el camino alternativo.
+Recuerdo?
+O sea, va a entrar.
+Pero también puedo hacer lucajed
+y es
+mirar adelante las transiciones que tengo,
+mirar los siguientes símbolos que vienen en la entrada
+para ver si yo es compatible con lo que tengo,
+en el automata.
+O eso que les contaba reciente el algoritmo de Thompson,
+hacer paralelismo,
+es decir,
+contar todos los caminos que tengo,
+posibles.
+Aguardo.
+Bueno, esto es lo que ya les dije, ¿no?
+En general, si utiliza una automata finito,
+no le termita con el algoritmo de cual.
+Esto es solo una introducción,
+no, no, no.
+No pretende ser más que eso.
+Hay un curso para eso.
+Como yo les decía,
+para cada cosa que yo,
+cada tema quedamos acá,
+hay un curso.
+No es que siempre exista un curso,
+pero digamos,
+se podría dar un curso.
+Y acá,
+volvemos a lo que nos interesa
+en este curso y eso.
+Esto que hablamos,
+los lenguajes regulares
+son lenguajes formales.
+¿Sí?
+O sea,
+los lenguajes formales
+son conjunto de tiras
+sobre un alfabeto finito o palabras.
+Y esto conjunto tiene ni general gramáticas
+que los generan exactamente.
+Sabemos exactamente como generarlos.
+Y eso son los lenguajes formales,
+que son los lenguajes que ustedes
+han conocido hasta el momento de la carrera.
+Todos los lenguajes de promoción son lenguajes formales.
+Esencialmente son no ambigos.
+Van a empezar.
+No puedo fácilmente dar dos interpretaciones.
+No, no puedo dar dos interpretaciones.
+Yo tiene que compilar a código máquina.
+No, no puedo hacer dos cosas a la vega.
+Los lenguajes naturales
+son los que la gente habla.
+Es muy difícil
+revelar con los lenguajes formales,
+los lenguajes naturales.
+¿Por qué?
+¿Por qué son ambigos?
+¿Más se guardan tener el tío?
+¿Por qué son vagos?
+¿Por qué hay cosas que uno dice
+que se puede interper dar una forma
+que no son clara,
+que uno la interpreta por el contexto?
+¿Sagueras de lo que vimos?
+¿No?
+Que según como yo diga...
+Venía a cenarte,
+espero...
+Venía que te espero,
+digamos, depende del contexto,
+pues son diferentes.
+Bueno, y un poco esto, ¿no?
+Depende del contexto.
+Las cosas que se dicen,
+dependen de dónde le estoy diciendo.
+Sin embargo, y yo acá les dejo algún link,
+uno podría llegar a discutir,
+sino puede representarlo con un...
+con un lenguaje de aula.
+Entonces, no es fácil.
+Es otra claricia.
+Que no es sencillo,
+yo no puedo hacer expresiones regulares
+para todo lo...
+para todo lo...
+el lenguaje natural.
+Pero dado que la cantidad de palabras
+es finita,
+yo eventualmente podría llegar a armar algo,
+que a representar a todas las palabras
+que se pudieran decir,
+sería muy difícil.
+Sobre todo por la creatividad,
+el lenguaje,
+porque el lenguaje está aumentando
+el palabra todo el tiempo.
+Hay un artículo que es de 1969, ¿verdad?
+Que discuto un poquito eso.
+¿Y qué pasa con las expresiones regulares
+y el lenguaje natural?
+Bueno, hay un fenómeno.
+En el lenguaje natural que se amacenten en Bedding,
+que es, yo puedo decir un hombre llora,
+puede decir un hombre que una mujer ama llora,
+puede decir un hombre que una mujer que un niño adora ama llora.
+Y así puedo seguir
+a infinito.
+Esa estructura de estas oraciones es
+Grupo nominal verbo.
+¿Sí?
+Grupo nominal 1, verbo 1.
+Grupo nominal 1,
+Grupo nominal 2, verbo 2, verbo 1.
+¿No?
+Grupo nominal 1
+y supuestamente,
+de alguna forma,
+yo tengo que mostrar que este verbo
+está pegado a este grupo nominal.
+Este verbo está pegado a este grupo nominal
+y este verbo está pegado a este grupo nominal.
+¿Sí?
+Tan relacionado desde el punto de vista sin que llora,
+¿Quién es que llora?
+¿Quién llora, acá?
+¿Qué un hombre?
+No hay la mujer la que está llora.
+Si ustedes ven esta estructura,
+1, 2, 3, 3, 2, 1, es muy parecido de esto,
+debemos ver, como que lo borré.
+W, W, W, R, verso.
+Que es el tipo de cosa que sabemos
+que no se pueden representar con el precio de regular.
+Esto fue lo que hizo,
+si yo más no recuerdo,
+decir a Chonky que al lenguaje natural,
+si yo no tengo forma de modelar
+con el precio de regular,
+es esto teóricamente no puedo.
+¿Sí?
+Ahora, también yo puedo decir que
+yo lo des...
+A mí no saben lo que me cotó armar este ejemplo.
+Porque yo conletas a mi mareo.
+Y probablemente una masa no seamos capaces de entenderlo.
+No seamos capaces de procesarlo entonces.
+Si yo digo bueno, pero
+esto sí es arbitrariamente largo,
+pero si yo supongo que lo más que puedo llegar es a 3,
+ahí sí puedo apresar una expresión regular.
+¿De acuerdo?
+¿Se entiende?
+Es decir, nuestra capacidad
+teóricamente podemos armar a Chonky,
+pero no las puedo volver,
+no las podemos compilar, digamos.
+Entonces, eso un poco pone en discusión que
+o no puedas...
+Esto como argumento de,
+bueno, deja de estudiar el precio de regular
+y para el lenguaje natural nunca te va a seguir pagando.
+Eh...
+¿Qué toco pasó?
+No podemos modelar el lenguaje natural con expresiones regulares.
+Pero sí podemos modelar a algunos fenómenos.
+Típicamente se modelan con expresiones regulares.
+La fonoilogía se ha representado durante mucho tiempo
+el estudio de los sonidos, ¿no?
+¿De cómo los sonidos forman las palabras?
+La amor fonogea que lo vamos a ver,
+la verdad es que viene.
+Y las sintaxis...
+de superficie, digamos, superficial,
+reconocer los grupos nominales y grupos verbales
+se ha resuelto con expresiones regulares.
+Si es cierto,
+sus grupos de problemas se pueden resuelar.
+¿De acuerdo?
+¿Hasta acá?
+¿Hay una pregunta?
+¿No? ¿Un lado?
+Esas son nuestras,
+nuestro primer modelo que es de las expresiones regulares.
+Ahí tienen el capítulo 2
+del libro de Martin Yuravsky,
+lo que buscamos para la clase de hoy.
+Si lo pueden encontrar en línea,
+porque está en la tercera edición,
+están los drafts de algunos capítulos de la tercera edición,
+lo pueden encontrar si no aparecen por ahí.
+Yo vuelvo.
+Bien.
+Bueno.
+Eso fue un poco el repaso de expresiones regulares.
+Y ahora vamos a ir a...
+a la primera tarea que enfrentamos como
+en el procedimiento de la tercera edición.
+Hay una realidad y una primera tarea
+que está siempre subestimada
+y que lleva mucho tiempo general
+que es la de preprocesamiento.
+Es decir, yo puedo partir de un texto escrito
+en un formato electrónicamente amigable,
+un texto en ánci o en un hícode.
+Pero, generalmente, para llegar del mundo real,
+a ese texto yo tengo que hacer todo el procedimiento
+porque los textos vienen en páginas huevos,
+con marcas de HTML,
+o hay que extraerlo de un PDF.
+Yo me acuerdo que...
+En una época que hacíamos algunos trabajos agujentes del pastor,
+la gente...
+Había un compañero y dice, pero no sabe nada,
+me venía a decir que venía a ese procedimiento de reglas natural
+y no sabía sacar el texto en un PDF.
+Tiened bueno, porque su problema antes de eso
+era sacar de los PDFs, de los paper, a texto puro.
+Qué es bastante difícil,
+por lo tanto, paréntese porque el PDF es una cosa de imprimir, ¿no?
+Ese trabajo lleva mucho, es muy engorroso,
+lleva mucho tiempo y está generalmente subestimado
+el tiempo que lleva
+y en este curso lo vamos a seguir subestimando
+porque vamos a sumir que partimos un texto como la gente, digamos,
+sin ese tipo de cosas.
+O sea que yo tengo un texto escrito, ¿no?
+Vamos a suponer también...
+Bueno, no tenemos que suponarlo, pero...
+Si les queda como ahora, que es un texto razonable,
+que no tiene cosas muy raras como Twitter o...
+o como, pues sí, incluso, ¿no?
+Yo tengo que analizar, pues sí,
+había que tener otros problemas, seguramente.
+De hecho, se hace, de hecho, tenemos un proyecto de grado,
+varios que analizan cosas de Twitter,
+pero ahí cambian un poquito las reglas.
+Ahora vamos a suponer de un texto como un texto narrativo,
+una noticia, pues así.
+Gente normal.
+Y lo que nos va a interesar es ver el tema
+de la normalización de los textos.
+Es decir, yo agarro ese texto y quiero dar alguna forma...
+eh...
+analizablo.
+Bueno,
+para empezar,
+tenemos que ver cuáles son las unidades del texto.
+Y ahí yo puse una definición que dice ese segmento
+del discurso unificado...
+Perdón.
+El segmento del discurso, todos los años,
+me pongo la cosa de no.
+El segmento del discurso unificado habitualmente por el asento,
+el significado y pausas potenciales, inicial y final.
+Eso es la definición de...
+¿Qué es eso?
+Asento?
+No.
+Más chico.
+Porque la pregunta de cuál son las más pequeñas, ¿no?
+Palabras, ¿no?
+Las palabras.
+Ustedes vieron que todas estas definiciones siempre se ponen muy cuidadosos
+porque siempre aparecen, pero está el costo,
+una palabra y no.
+Unificado habitualmente por el asento,
+no sé por qué el asento.
+Ah, porque por claro, porque tiene brujo,
+las esas cosas, ¿no?
+El significado tiene un significado,
+la clase que viene a molar de morfología,
+donde hay parte más chica en la palabra,
+pero que no tiene significado independiente.
+Y pausas potenciales, inicial y final.
+Porque nosotros nos creemos que las palabras tienen espacios.
+Pausas, pero nosotros no hablamos.
+Ah, sí, no, así no, así.
+Bueno, eso es la definición de palabra.
+O sea, nuestra primera aproximación va a ser, bueno,
+vamos a modificar las palabras dentro del texto, ¿sí?
+Y vamos a ver ahí, por ejemplo,
+un pedacito, un texto de un incuento muy lindo de Jorge,
+que se llama la elef.
+¿Qué palabras hay ahí? Díganme palabras.
+¿Qué palabras vamos contando?
+Bueno, yo les digo, si no se anima la candente mañana,
+fácil, ¿no? Los espacios se paran palabras.
+El febrero, en qué, ¿verdad?
+Pues seguir hasta el final.
+Ve a tributer, son dos palabras o una sola.
+Son dos palabras, ¿no?
+Pero, a mí me podría interesar para posteriores análisis,
+decir que esto se comporta como un nombre propio sol, ¿no?
+Eso podría ser interesante.
+Yo quiero saber todos los textos que hablan de Beatriz Viterbo.
+Me podría interesar y identificarlo como una sola cosa.
+Es que llama multiguor desprecion o entidades con nombre,
+que muchas veces me puede interesar y identificarla.
+¿No? ¿Murió? ¿Cómo? ¿Cómo es palabras o no es palabras?
+¿Pende pa qué? ¿No?
+No tiene ascento, o sea, de la definición de la Academia de Panyola,
+no es una palabra perta.
+Pero a mí me puede meter cómo algo hace ahí, ¿no?
+Se parado enunciado, creo.
+Después de una imperiosa hablar,
+acá tenemos la plaza constitución que es su lugar,
+puticoma.
+Y acá hay otra cosa muy interesante, ¿qué es lo que termina acá?
+La operación, ¿no? ¿Cómo saben que termina la operación?
+¿Pueden un punto? ¿No? ¿Punto? Si no es pregunta,
+o si no es clamación, termina la operación.
+A través de punto podría ser una abreviatura, ¿no?
+Podemos cortar la voz al medio y tenemos problemas.
+¿El puticoma separa a oraciones?
+Sí, yo que sé. ¿Por qué sí? ¿No?
+No, yo les avise que en este curso no os pere en todas las respuestas,
+porque no siempre están.
+Trabajamos con un lenguaje a ver.
+Trabajamos con un material que es ambivo o que es es,
+es movedizo, digamos, no podemos pretender tener todo determinismo.
+Pero si no sería muy fácil,
+por eso un cuerpo en español no es igual que un cuerpo en inglés,
+porque las características son diferentes y ni les dio un cuerpo en chino.
+Acá hay más cosas.
+Realmente no sé qué aporta esto, pero estoy lindos,
+te cuento.
+Mentón son tres puntos subvencidos, al final eso termino la acción.
+Bueno, toquenizar es un problema que en general es bastante fácil,
+pero para llegar a un nivel completo de análisis,
+tiene su problemitas.
+Hay un paper muy clásico que se llama What is a War, What is a Sentence,
+que están las referencias que habla de los problemas,
+que hay al toquenizar, que no son tan sencillos como,
+que hace que no sea un problema tan sencillo,
+un problema típico,
+un problema típico que en realidad con la,
+problema típico, en realidad con el adenimiento de los formatos,
+directamente digitales,
+eso es lo menos que es el corte de guiones,
+en el borde.
+Yo creo que me tiene una artificial por acá,
+porque esto no lo tenía.
+La primera como un nión, ¿sí?
+Comun, nión es una palabra sólida,
+pero yo en el texto la tengo separado por un nión.
+Y yo tengo que ver si ese nión se parte una palabra al medio,
+o es una palabra compuesta con un nión.
+Que esto se pasa en el pañón, ¿no hay pero?
+Pero bueno, para no siempre trabajamos en el pañón.
+Bueno, y entonces un poquito de,
+hay más y otra cosa, ¿no?
+Yo tengo que identificar para el análisis.
+¿Cuáles son las palabras que aparecen?
+Ay, hay otra pregunta, ¿ver?
+Por ejemplo,
+este d,
+y este d, son el mismo.
+Va justo a arreglar una, porque d nuevo es una multivisión.
+No es lo que hice pregunta.
+Esto es una expresión, ¿no?
+Que se interpreta a tu ajunta,
+a mí me podría convenir entre mi edad.
+Pero más allá de eso, a ver, es mi buscar otro.
+Ah, no lo tengo. Bueno, pero a parte de lo que es de nuevo,
+que es una expresión,
+este edad más yúscula es de la minúscula.
+Son la misma palabra o no.
+Son, en general, son.
+Me interesa pasarlas a minúscula.
+¿Aladó?
+Para pensando en cómo analizar.
+Cuando yo normalizo, trato de dejar el texto,
+lo más fácil de analizar para después.
+Separon las palabras claramente y digo,
+esto es una palabra.
+No me confío, son los espacios,
+porque si acá hay dos espacios,
+sigue siendo una separación entre palabras.
+Lo importante es la distinción entre lo que se llama WordType.
+Si en español le decimos más bien palabra,
+o palabra diferente, no hay una traducción directa que es.
+Si yo tengo un texto,
+las palabras son las palabras diferentes que hay.
+Y a cada uno de estos, como lo llamamos,
+los llamamos Tokens.
+Es las apariciones,
+una palabra en un texto llama Tokens.
+Y la tarea de partir esto,
+es la matóquenización.
+No es lo mismo, la palabra que el Tokens.
+Geramente un corpus,
+que es un conjunto de textos,
+tiene muchísimas más Tokens que palabras,
+porque se repiten.
+Vamos a ver algunas definiciones.
+De cosas que sobre las que vamos a ver,
+bueno, como les decía,
+el corpus es una colección de textos,
+seguramente lo vamos a...
+seguramente no,
+lo vamos a usar en todo el curso.
+La oración,
+yo con mis recursos de español uno me dijeron,
+la oración es una estructura,
+anidad por un verbo,
+lo cual me suena a definición más intacta y la otra cosa.
+Bueno, ¿qué la definición que hay en la Wikipedia?
+No, la puedo comprar todo,
+la he demasiado.
+Pero más o menos es...
+un constituyente...
+el sí, el sí,
+el sí, el sí, el sí, el sí,
+tengo más pequeño necesario para expresar un predicado completo.
+Lo que quiere que eso sea.
+No, decir afirmamos algo,
+no me quiero,
+me da miedo a meter el pato.
+No es otra de oración,
+de oración,
+de oración, ¿no?
+El perro comió el hueso,
+oración.
+Tiene un verbo,
+yo un verbo tiene,
+llueve,
+esa oración.
+Tenemos la versión,
+este,
+o la de hablada,
+que son los anunciados,
+o,
+uterans,
+¿sí?
+¿Qué es la versión para el lenguaje hablado?
+¿Qué por ahora queda como conocimiento general?
+Porque acá no vamos a la lenguaje hablado.
+Y, después tenemos también los lemas,
+la forma de superficie,
+la palabra como la conocemos,
+la palabra como la conoce,
+con todas sus flexiones,
+vamos a hablar la clase que viene de flexiones derivaciones,
+pero es,
+las flexiones son las que, por ejemplo,
+dan el género y el lúmero,
+y las derivaciones son las que construyen la palabra
+a partir de otra,
+como velojmente,
+mente es una derivación,
+inflesión de derivativo,
+una derivación.
+La palabra como tal,
+pero,
+el lema es cuando,
+nosotros,
+representamos por una palabra,
+a un conjunto de ellas que tienen el mismo significado,
+que tienen la misma raíz,
+la misma categoría gramatical,
+que era la categoría gramatical.
+¿Qué es la categoría gramatical?
+Es saber eso, ¿quién que es saber eso?
+El ver, si es un verbo,
+si es un sustantivo,
+y el mismo significado,
+o sea,
+gato, gato, gato, gato, gato, gato, gato,
+todos tienen un lema que gato.
+¿Para qué puede servir,
+identificar el lema de una palabra?
+Por ejemplo,
+¿Por qué me interesa reconocer
+distinguir gato,
+de gato, de gato, y de gatos?
+Típicamente,
+en la recuperación de información,
+cuando yo quiero traer los documentos que hablan de gato,
+yo pongo gato,
+si hay un documento que dice gatos,
+seguramente me da salir,
+por eso me interesa
+y es típico de recuperación de información,
+buscar problemas,
+no por la palabra,
+por la forma oprecionada,
+por la
+Surface Phone.
+Entonces,
+estos son conceptos,
+el lema es como el,
+el representante canónico de,
+de, de, de las formas,
+de superficie flexionada, digamos.
+Bueno, vamos a hablar más de eso
+en la clase que viene.
+Bien, como le decía en un corpucho,
+tengo los word types,
+que son las palabras distintas en el corpucho,
+y los toques que son el total de palabras en el corpucho.
+¿Sí?
+Total de apariciones de palabras en el corpucho.
+¿Qué pasa?
+Por ejemplo,
+bueno, esto que debe ver,
+porque es muy fácil.
+Cuánta palabra hay ahí,
+cuántos toques,
+y la discusión que tuvimos,
+tengo que ver si cuento como toques en las comas,
+realmente se consideran toques en las comas,
+porque a mí me interesa que aparezcan en el texto.
+A veces las unifico,
+como signos de puntuación,
+en el análisis,
+muchas veces ya sé eso.
+Pero yo creo que eso lo hace,
+se hace para facilitar el análisis,
+no porque esté bien,
+porque yo a mí me interesaría
+separar una coma de un punto.
+Muchas veces no se hace.
+Es decir, para etapa subsiguiente,
+esto se identifica con una marca
+que es un signo de puntuación.
+Pero por acá hay palabras que,
+seguramente haber más toques en que palabra,
+porque acá hay la,
+acá hay dos a,
+bueno,
+y bueno, por ejemplo,
+ahí tradicionalmente,
+uno en este tipo de análisis trabaja
+sobre corpus grandes,
+los corpus,
+que nos permiten analizar
+las diferentes ocurrencias de cosas,
+en la lenguaje,
+son corpus grandes,
+porque yo necesito ver la casuística,
+los linguistas hacen muchos,
+hace becas,
+que trabajan sobre corpus,
+donde identifican la,
+si yo, como se comporta el verbo,
+ser en el español,
+bueno,
+entonces que ver todas las ocurrencias
+de ser que aparecen y estudiar,
+como se,
+es bien empilco esto.
+Si nosotros nos creemos
+que la realidad acá en mi español
+la sabe todo,
+pero en realidad,
+primero que ya en un lado
+tuvo que aprender y,
+y luego que,
+uno tiene que estudiar la casística,
+la casuística.
+Bueno,
+entonces,
+hay un corpo bastante conocido
+que si el corpo crea el corpo de referencia
+del español actual,
+que junta acá tiene un link
+para verlo,
+lo detalle pero,
+junta textos de diferentes lugares,
+mayormente España,
+pero también América Latina,
+de diferentes temas,
+cuando uno coge,
+construye un corpo,
+es todo un trabajo,
+porque primero uno tiene que identificar
+de qué quiere armar el corpo,
+porque como le decía,
+un corpo de ingleno
+es igual que un corpo de español,
+obviamente,
+pero un corpo de noticias,
+no es lo mismo con un corpo de poemas,
+porque las cosas que hay,
+incluso las frecuencias,
+la palabra van a ser diferentes.
+Seguramente,
+la cantidad de palabras desconocidas
+en un corpo de noticias
+sea muchísimo menor
+que a la cantidad de palabras desconocidas
+en un corpo de poemas,
+porque uno cuando cree poemas
+se le da por inventar.
+Por inventar palabras,
+cosas también.
+Por ejemplo, el corpo crea tiene
+125 millones de tokens,
+es un corpo bastante grande,
+para los parámetros de año 2000,
+para este, ahora no,
+ahora vamos a ver un poquito más.
+Y tiene 737.799 palabras distintos.
+Esto debería converger, digamos,
+al tamaño del vocabulario que existe,
+que no es lo mismo que el vocabulario
+que no lo tiene número,
+porque no me lo acuerdo,
+de un diccionario,
+porque otra forma mira un diccionario.
+El diccionario me dice todas las palabras,
+pero me lo dice,
+me trae los lemas.
+Entonces, va a ser más chico, digamos, ¿no?
+Esto es un comundicionario
+para la palabra flexionada.
+Por supuesto, no es,
+no son las palabras lenguajes,
+porque si yo no lo emití en este corpo,
+no, no existe.
+Sí.
+El corpo crea esta separado
+en diferentes secciones,
+es típico de los corpos,
+si eso también,
+como tiene diferentes secciones,
+estos son de Venezuela,
+estos son de Venezuela.
+Generalmente vos en los corpos
+tenés eso,
+de dividir su corpo, digamos.
+Por si vos querés especificar,
+por ejemplo,
+si querés hablar del español
+del rey de la plata,
+te remití a ese corpo.
+Y todos los análisis que uno hace
+en esto, de todo lo que, como en el curso,
+siempre tiene que decir sobre qué corpo lo hizo.
+Porque uno,
+en trena,
+lo que sea que significa en trena,
+es para mover,
+porque uno aprende,
+ya sea mano
+o automáticamente,
+de un corpo,
+pero además tiene que evaluar
+sobre un corpo.
+A ver cómo le fue,
+eso lo vamos a hablar luego.
+Siempre va a hacer sobre un,
+uno tiene que decir sobre el corpo,
+que corpo es,
+a mí esto me dio tal resultado
+en el corpo crea.
+Lo cual no quiere decir
+que me va a dar igual resultado
+en un corpo de Twitter.
+Hace poquito,
+se aprobó,
+es un proyecto de grado
+del grupo nuestro,
+se aprobó ahora,
+es un par de meses,
+que construyeron,
+a partir de,
+fuentes de noticias
+de la Wikipedia,
+y otros foros,
+y otros fuentes,
+un corpo de
+6.000 millones de tokens,
+esto es un muy buen corpo.
+Incluso,
+a nivel de lo que hay para el inglés,
+que son de 8.000 millones,
+más o menos.
+Y,
+ahí aparecieron 1.460 millones
+de palabras de ti.
+No,
+no puede ser.
+Perdón,
+1.460,
+quedo malito,
+no me lo voy.
+1.4,
+1.5 millones de palabras de tinta.
+Fíjense,
+que,
+para
+125 millones de tokens,
+había 737.000 palabras,
+para
+6.000 millones,
+había
+el doble.
+Lo que decíamos,
+deberían convergiendo,
+pero sí nos parecieron cosas raras.
+Esto es un corpo del español.
+Es un corpo
+no anotado,
+quiere decir que nadie
+lo miró a mano,
+obviamente.
+Es solamente,
+y no es poco
+una gran cantidad de textos.
+¿Qué cosa puedo aprender
+yo de un corpo de ese tipo de cosas?
+Bueno,
+¿cómo se agrupan las palabras?
+La frecuencia de las palabras,
+como voy a poter,
+cuanto más grande,
+si el corpo es más
+clara va a ser minución
+de la frecuencia de las palabras.
+El palabra es más común y pañez,
+creo que es bien.
+Saber esas frecuencias,
+sabrarlas contando,
+supongo que es muy representativo
+de mi lenguaje,
+porque es todo,
+la cantidad,
+es una cantidad de cosas
+que ha dicho una cantidad de gente.
+Esto,
+este tipo de cosas,
+son los que ha hecho,
+que,
+radicalmente,
+cambiar el procedimiento
+de boba de natural
+en los últimos años.
+Porque,
+porque tengo muchos elementos nuevos.
+Y hoy en día es prácticamente,
+impensable hacer análisis a mano,
+a ver,
+subestimando el poder
+de todas estas cosas,
+lo cual no quiere decir que uno,
+nada,
+estudios analístico,
+pero tiene otra herramienta
+totalmente nueva.
+Si yo quiero saber,
+cómo es el verbo ser
+en el español,
+bueno, tengo herramienta,
+tengo corpos muy grande
+para probar mis hipótesis.
+Bueno,
+la tokenización es
+identificar las palabras,
+dijimos que era bastante fácil,
+pero parecían cosas
+como los que fuimos encontrando.
+Por ejemplo,
+esto que está entre comillas,
+tengo que ver si
+no puedo considerar un token solo,
+o una entidad,
+o varios tokens con una entidad.
+Toco que ver si las comillas
+las considero toque en la parte.
+Las fechas,
+los números,
+las direcciones jueves,
+fenómenos que en el español
+no tenemos que son estos,
+como que saben,
+son,
+¿eh?
+Contraacciones,
+pero con,
+con apóstol,
+parecían el útil.
+Nosotros tenemos
+contraacciones que son dos,
+como sabe de cualquiera
+que hizo crucigramos,
+al ideal,
+pero esto no los tenemos.
+Esto también hay que ver como separarlo,
+y al ideal,
+es un tome problema,
+al ideal,
+en el mundo real,
+del análisis,
+porque uno viene muy contento,
+separando por palabras,
+y se encuentra con al,
+que es una palabra,
+pues son dos.
+Entonces,
+después,
+uno armó un modelo de token,
+es decir,
+es una lista de palabras,
+es decir,
+bueno,
+las palabras me olvidé
+de la separación,
+sí,
+pero cuando lo quiere machar contra el,
+texto original,
+dice bueno,
+primera palabra,
+segunda palabra, no,
+para, para,
+después que hizo el análisis,
+quiere volver al texto,
+para mostrarlo.
+Cuando vuelve,
+hubo dos palabras,
+que se le transformaron en una,
+o, mejor dicho,
+una palabra,
+que se le transformaron
+todo,
+cuando vuelve ese equivo,
+que muestra la,
+las cosas corridas,
+de hecho,
+sucede.
+Todo por qué,
+por al ideal,
+que son,
+una palabra,
+y bien,
+ese es otro problema
+de los críticos.
+Si a usted,
+puede interesar,
+sacar el decil,
+porque para el análisis,
+es muy importante,
+exactamente,
+para el análisis,
+son dos palabras.
+Y yo,
+yo tengo que conservar
+de alguna forma,
+y perdón,
+porque parece,
+parece trivial,
+y yo no tengo,
+dice bueno,
+ya una lista,
+dice paro con los espacios,
+pero no,
+pues yo tengo de alguna forma,
+tengo que tener,
+y es un lío de implementación,
+le digo,
+vuelve bien carne propia,
+muchas veces.
+Cuando su lista pala,
+ahora, después,
+hace,
+ahora,
+después,
+el clase que viene lo va a mover,
+le hace,
+análisis gramatical,
+análisis sintáctico,
+arma,
+largolito,
+pla pla,
+cuando quiere volver a mostrar la oración,
+no sabe donde la tenía.
+De un punto de implementación,
+estamos hablando, ¿no?
+Sí.
+¿Este criterio de requerización,
+cuando vamos a presentar un texto?
+¿Pas tardado?
+¿No?
+¿No?
+No.
+¿Vas tardado por lo que vos quieras hacer?
+Es decir, depende más de la tarea
+que estés completando.
+Por ejemplo, si vamos a hacer,
+un conteo simple de palabras,
+no te calienta esto.
+De hecho, capaz que te interesa,
+tendrán lo junto,
+porque tengo,
+es algo que se da muy,
+es una colocación,
+digamos, un dos palabras,
+se da mucho junta,
+yo creo que sea.
+Ahora, si yo creaciera,
+análisis sintáctico,
+cómo se organiza el largo del oración,
+esto te va a interesar separar lo sin duda.
+¿De acuerdo?
+Eso depende mucho de tu tarea.
+Si de todos,
+es bastante estándar estas cosas,
+tenerlas separadas.
+De hecho, hay un estándar muy sencillo.
+Ah, bueno,
+porque además hay otro problema,
+y eso también lo he vivido,
+que es,
+vos toquenizas con una herramienta,
+esto suponema bien de herramientas,
+uno toqueniza de una forma de su programa,
+y después utiliza una,
+una otra herramienta para poner
+en la categoría gamaticada cada palabra.
+Si esta herramienta,
+al hacer el análisis gramatical,
+a la vez toqueniza, según su criterio,
+que es lo que sucede muchas veces.
+Ahora, yo tenía un tager para,
+para, yo hice mi tesis en textos biológicos,
+digamos, que son biología molecular,
+que aparece muchas palabras raras.
+Y habéis tenido un toquen,
+un tiquetador gramatical propio,
+específico de los entrenados
+sobre un corpus de ese tipo,
+y tipo, no era una herramienta cerrada,
+digamos, lo que haciera,
+tomó el texto, lo toquenizaba y lo notaba.
+Para machiar este texto que me había toquenizado
+con mi texto original,
+como no toquenizaba igual,
+yo me ponía,
+había cosas que fue, por ejemplo,
+decía, 25 guion y hidro,
+nunca entendía nada de lo que estaban haciendo, ¿no?
+25 y hidroxil, no sé qué.
+Y mito-quenizador,
+es mi método de toquenización de 7 guion,
+es una palabra.
+El toquenizador,
+el toquenizador del tager,
+el otro tager,
+lo partía acá para devaluar el 25 por un lado,
+y yo después tenía que volver a unificarlos
+para poder seguir trabajando.
+Bueno, esto era un hombre y esto era un número, yo quese.
+Bueno,
+acá hay un estándar de toquenización
+bastante conocido,
+es el pen triban.
+El pen triban es un corpus de Pamo,
+porque es anotado,
+es decir, no solo tomaron texto,
+sino que analizaron cada oración,
+le pusieron la categoría gramatical a cada palabra.
+Y para eso tuvieron primero que toquenizar,
+la toquenización del pen triban es muy sencilla.
+Se separan los signos de fundación de las palabras,
+se separan las contraacciones
+y las separan en it.
+Y las comillas doles se transforman
+en comillas de apertura de cierre para separarlas,
+y las parentes y los corchetes
+las llaves se transforman en símbolo así.
+Esto es por un tema de facilitar el parcinama.
+Es un estándar.
+Lo que tiene de bueno es que es un estándar,
+que si yo aplico el pen triban, se lo que me da.
+Me voy a andar inventando yo,
+mi propio algoritmo de toquenización.
+Pero bueno, después yo puedo querer
+post-processar, digamos, ¿no?
+Porque me parece en cierta realidad,
+por ejemplo, si quiero identificar nombre o cosas así.
+Bueno, el chino de japonés tienen algún problema
+y es que no marcan los límites de las palabras,
+sino que cada simbolito Jansi del chino representa morfema
+o sílabas.
+Entonces, toquenizar acá es un poco más difícil.
+¿Cómo probo?
+No son normales para eso, son normales.
+Ah, Roman, normal.
+No, no, no, no, no.
+Acá hay una palabra de hecho.
+¿De hecho hay palabras?
+¿Tenés una analizadora que va sobre el chino?
+No, analizan derecho.
+Sí, analizan, analizan derecho sobre los caracteres Jansi.
+Y ahora vamos a ver cómo.
+El problema que no tenemos espacio para separar,
+pero de hecho las palabras existen en tanto unidades con significado.
+Pero no la ve en el texto.
+Es lo mismo que nos pasa cuando hablamos.
+Si vos crees toquenizar el texto hablado,
+vas a tener un problema.
+Hay un algoritmo muy popular,
+que tiene una lista de palabras, de palabras.
+Digamos, ¿no?
+No hay morfema como de nada.
+Y es muy sencillo, comienza al principio de la entrada.
+De la entrada que tiene el texto,
+elige siempre la palabra más larga en la posición actual de la entrada.
+Y si no encuentran ninguna, se queda con una letra suave.
+Y avanza.
+Bra.
+Por ejemplo,
+si yo tengo la entrada, me saca de la cancha, sin motivo.
+Acá ubica en mesa.
+C, el símbolo del calcio,
+D,
+y la cancha de la letra.
+Y a cada vez a mesa,
+no anda muy bien.
+En español en inglés no funciona más mal,
+pues la palabra es más larga,
+pero en el chino funciona bastante bien.
+Nadie usa esto en un español.
+Y si el método más básico de cosas,
+y hay mejoras sobre esto,
+empezando a la vez de izquierda de derecha,
+por ejemplo, de izquierda de la derecha
+o de derecha de izquierda,
+al mismo tiempo de lado,
+como yo le decía, hay variantes.
+Y esto no lleva una cosa bastante interesante que es.
+Si yo tengo, ¿qué tan bueno?
+Ah, hay todo un tema en el posimiento de la hoja natural.
+¿Qué es la evaluación?
+Yo cuando ejecuto una tarea,
+tengo que evaluar mi resultado.
+¿Sí?
+Sobre qué la tengo de evaluar y esto vale siempre,
+sobre un cuerpo que no sé para aprender.
+Si de alguna forma yo aprendo a toquenizar,
+viendo cómo se sepan a las palabras con los textos de esto
+que tuve mirando,
+y no sé qué,
+no puede utilizar esto vale,
+como regla general,
+después lo mover más,
+en detalle con los métodos de la presa automático,
+pero yo no puedo utilizar el mismo texto del que aprendí
+para evaluar mi resultado.
+¿Por qué?
+Me va a dar todo bien,
+o por lo menos,
+me va a dar mejor,
+que siempre tengo que evaluar sobre texto no visto.
+O sea, yo siempre que tengo un cuerpo sobre el cual trabajar
+tengo que agarrar una porción del texto típicamente aquí
+y 70 por ciento.
+Vamos a ver más de detalle.
+Y lo guardo a un costado hasta que llegue el momento de evaluar.
+¿Y cómo evaluó la toquenización?
+Y bueno, si yo tengo el nuestra entrada
+y tengo lo que se llama un gol standard,
+un texto correctamente segmentado.
+A alguien, un ser humano,
+me dijo bueno,
+la toquenización correcta es
+me saca de la cancha sin motivo.
+Y cómo se calcula la performance de un toquenizador
+y bueno, con la word error rate,
+o sea, el ratio de error de las palabras,
+que es entre estos dos,
+entre estos dos,
+lista de palabras.
+¿Qué tengo que cambiar para llegar de esta ésta?
+¿Sí?
+¿Cómo sería? ¿Qué sería lo que tendría que hacer yo?
+¿Y dónde cambiar quiere sin insertar borrar o sustituir?
+¿Qué tengo que hacer?
+Mesa por M
+y qué más.
+Y K por saca, ¿no?
+Ah, por que me gobe, y eso es por que me gobe.
+¿De acuerdo?
+Entonces, eso es la tasa de error.
+Acá tengo un error de 2.
+Cuando toma baja mejor, ¿no?
+Y tengo 0 porque es 1 igual.
+Luego, eso se llama distancia mínima de edición
+y luego vamos a agarrar luego.
+Distancia mínima de edición, pero en palabras.
+¿De acuerdo?
+Que sorvido.
+Bueno, además de tokenizar.
+No tengo nada.
+Además de tokenizar.
+Bueno, ya lo he movilado,
+prácticamente todo.
+La normalización implica llevar la palabra
+a un formato estándar para procesarlas.
+Llevar los números a un formato único
+porque así no metemos ruido para nuestro análisis posterior.
+Por decir que esto es la base de una cascada de tarea,
+el principio de una cascada de tarea.
+La URL y otra forma con estructura,
+identificarlas y marcarlas, detectar entidades con nombre
+y este cash folding,
+llevar toda mi núscula a mayúscula
+que a veces lo hacemos a veces no.
+Según nuestra tarea.
+Bueno, tradicionalmente la tokenización
+y la normalización se ha realizado
+utilizando automata finito.
+Porque son problemas bastante sencillos
+y porque además son como son el comienzo de la cascada,
+necesitamos que sean rápido.
+Yo necesito tokenizar rápidamente para poder después empezar
+el análisis.
+Y porque además la automata desde hecho funciona.
+Esa especificación
+del algoritmo del pen-tribank.
+Tiene su equivalente en un pequeño programista en sed,
+es la herramienta UNICE para tokenizar con eso.
+Y cualquier biblioteca,
+procedimiento de lenguaje natural de sente,
+por ejemplo en LTC,
+te permite especificar un tokenizador en base de una expresión regular.
+Por decir cómo crece para las palabras
+y lo hace.
+Bueno, también le matizar,
+es decir a veces nos puede interesarte en el solo el lema.
+Por ejemplo, si mis documentos le voy a usar
+para recuperar información,
+contener lo el mismo alcanza.
+Hay una forma mucho más sencilla
+porque le matizar implica hacer un análisis morfológico
+de la palabra,
+es decir, sacar lo como la clase que viene al otro,
+es la Carla Reis y las derivaciones.
+Hola, a los afijos.
+O sea, la p...
+Puedes ver esto de cosas bien,
+después vamos a lo ver.
+Es un poco más costoso.
+Hay un método muy viejo,
+menos de 180 que se llama Steming,
+que es mucho más simple,
+que simplemente corta las palabras.
+Si yo sé que perros,
+perritos, perra, no sé qué.
+Yo sé que per es el Stem
+y yo lo puedo utilizar como una aproximación al lema.
+Va a cometer errores, claro.
+Pero...
+es muchísimo más rápido.
+Y no necesito ningún tipo de análisis morfológico pasar.
+Eso es el famoso Porter Stemer
+que mal que bien se sigues usando
+y ya pasaron como 30 y pico de año.
+¿De qué se le hizo?
+Ahora, una pregunta.
+Sí.
+Hay que necesitar por lo que contiene mucho con que se le di una
+de las seguridades.
+Sí, de eso vamos a hablar en la clase que viene
+que es morfología.
+Sí, claro.
+Y la...
+No solo la irregularidad de lo bueno,
+sino la ortográfica también.
+Lo imposible y eso.
+Morir y muerto.
+Sí, claro.
+Claro.
+Sí.
+Sí.
+Lo vamos a hablar la clase que viene.
+Igual se resuelve con...
+también es...
+se puede resolver con el agonismo de esta ufinita.
+Bueno, también hay otro tema
+y con esto vamos a irse como también...
+No, no vamos a terminar y voy a hacer trabajar hoy.
+Y con esto vamos al último tema de esto de la cosa que además no interesa
+se inventar en oraciones.
+Y ustedes, a mí, ¿cómo separamos en oraciones?
+¿Cómo separamos?
+¿Dónde están las oraciones ahí?
+Su mamá porque lo punticoma en los honoraciones.
+¿Más fácil de la humía?
+¿Eh?
+¿Esten comas siempre?
+Empiezan con masúscula y terminan?
+¿Y terminan?
+Con un punto.
+Problemas.
+Ahí se llamamos un 90 y pico de precisión.
+Pero algún problema tiene. ¿Cuál?
+Las abreviaturas?
+¿Qué pasa con la abreviatura?
+¿Tienes punto?
+Hay punto que son internos en la oración.
+¿Qué pasa con un número?
+Nombres propios, se pueden mariar con el tema de las masúsculas, claro.
+¿Esten, si todo el mundo es más bueno encontrar problemas de bucado de sución?
+¿Qué hay otro problema más?
+Si empieza con un número, por ejemplo...
+¿No?
+¿Qué empieza con minúsculas más difícil?
+¿No se me ocurre?
+Pero puede haber.
+Si buscan los cuerpos de 6.000 millones de palabras,
+de euros de vuelta a todos los casos.
+Y es eso, efectivamente es eso.
+Reconocer a oraciones.
+Se puede hacer con expresión regular, como dice él,
+tratando de buscar algunos casos especiales.
+Pero esta gente...
+Los métodos más...
+Lo he estado del arte en separación de oraciones.
+Es...
+Utiliza...
+Una especie de...
+Una especie de análisis.
+Lo que sea análisis no es supervisado o clasificación no es supervisado.
+Cuando yo digo análisis, no es supervisado.
+Luego el curso movió mucho esto, pero no es supervisado, quiere decir que yo no tengo ningún texto anotado.
+Nadie me dijo cómo eran las palabras.
+Yo simplemente miró en el texto en crudo y yo hice mi análisis dentro de ese texto.
+Cuando yo hablo de la clasificación supervisada, alguien me dijo,
+acá empieza la oración y acá termina.
+¿De acuerdo?
+Hay una notadora humana.
+Como cuando comparamos hoy con el tokenizador,
+tengo un gol de estándar, acá no.
+Estas gente, lo que hizo fue crear un tokenizador entrenado a dar un gran conjunto de testos
+y tomo ciertas hipótesis y dijo bueno.
+Identifica candidatos a abbreviaturas.
+Y dice bueno, en general,
+las palabras que terminan en punto son abbreviaturas.
+En general, las abbreviaturas son cortas,
+o sea que si una palabra es corta es más probable que sea abbreviatura que no, o que otra vez se.
+Y en general tienen puntos internos.
+¿La guardó?
+Y con eso
+trataron de ver contar en un texto de las frecuencias.
+Ahí está el link al ver.
+Contar en un texto de la cantidad de veces que esa palabra, la misma palabra aparecía con y sin punto.
+Si yo, por ejemplo,
+la palabra etcétera casi todas las veces aparecen con punto.
+O de hecho todas las veces aparecen con punto.
+En el corpus. O sea que fuertemente candidata a hacer una abbreviatura.
+Pero si yo parece guillermo con un punto al final,
+seguramente no sea una abbreviatura sino que sea el final de noración.
+¿La guardó?
+Entonces lo que hacían en ese tipo de conteos en el texto,
+para ver cuáles giran más candidatas, digamos, a priori hacer abbreviaturas.
+Porque ¿qué se trataba esto de desambiguar el punto?
+Que es nuestro problema que mencionamos hoy, ¿no?
+Desambiguar el punto y la masúscula.
+Lo mismo hacía cuando era palabras cortas, palabras largas.
+Con esa lista de candidato después se veían en qué contexto aparecían.
+Me dijeron una segunda fase y dice bueno, si si perdiste guillermo punto
+y la palabra que la siguen, empiezan minúsculas,
+entonces capaz que sí era una abbreviatura.
+No se me ocurre, porque guillermo punto es una abbreviatura,
+pero está, es que si yo hacía una abbreviatura.
+¿De acuerdo?
+O colocaciones.
+Por ejemplo, cuando yo digo,
+en lo que son las colocaciones son palabras que aparecen juntas, usualmente.
+De nuevo, es una colocación.
+No sé si se dice colocación, pero en inglés se dice colocación.
+Una de ser colocación.
+Por ejemplo, si yo digo, y etcétera,
+y etcétera, no sé si es como, etcétera,
+y etcétera aparecen muchas veces juntas.
+Entonces,
+y entonces digamos,
+es muy raro que si aparece con un punto en el medio,
+ese punto sea de separación.
+El ejemplo que dijiste horrible el año que viene o que elegí uno bueno,
+pero ese punto es raro que sea de separación,
+porque siempre que aparecen juntas, digamos,
+yo digo,
+de nuevo,
+esto es horrible, pero no es tan malo como el anterior.
+De nuevo, siempre aparece así.
+¿De acuerdo?
+Si hay ningún momento aparece con un punto acá,
+probablemente esto hace un fin de ración.
+¿De acuerdo?
+Pésimo el ejemplo.
+Y luego las palabras iniciales frecuentes,
+es decir, cuando aparece una malleúscula,
+digamos, esa palabra que apareció,
+que tan candidata es hacer el comienzo de una oración,
+a hacer una malleúscula,
+en vez de ser un nombre,
+es ser un comienzo de oración.
+Y vemos que hay palabras que es mucho más frecuentemente aparecen
+al comienzo de oración.
+La con malleúscula,
+es una buena candidata a hacer comienzo de oración.
+Porque hay muchos lá al comienzo de las oraciones.
+Entonces, eso aumenta mi probabilidad de que sea entonces,
+en base un estudio de conteo y de frecuencias
+y de lo que se llama la Eclipse Jude,
+o verosimilitud,
+de San Vivo en el punto.
+Dice, bueno, esto es un punto de abreviatura
+o es un punto de oración.
+Y de esa forma, separan oraciones.
+Eso en el Entecac existe.
+Y yo le voy a mostrar un poco el corpus.
+No está, ¿y feisu no, ¿no lo吗o yo?
+Esto es la base de jurisprudencia del Poder Judicial del Uruguay.
+Esto está publicado.
+¿Dónde dice Paul?
+Ah, por favor.
+¿Qué dice?
+Esto es una sentencia del...
+La base de sentencias de ejemplo del Poder Judicial del Uruguay.
+¿Si se fijan?
+Este es el texto.
+No era interesante.
+No eran todas iguales.
+Fíjese que si yo quiero separar el texto acá...
+No tengo mucho problema, pero acá aparecen cosas raras.
+No como este es punto que me interesa.
+Fue de dentro de la relación.
+Pero me sorprendió un poco, acá hay un número que aparece con punto también.
+Pero además hay otras sentencias que terminan en punto y raya, ¿no?
+punto y guión.
+punto y guión, o sea que hay el separador totalmente raro.
+Para lo que se le está a andar y que uno tiene que ver cómo modificar la tokenización.
+Este corpus es el que van a usar usted para el laboratorio.
+Así que vayan a ser haciendo amigos de él.
+Mira referencias de tan por ahí.
+Los invito a leerlas.
+¿Alguna pregunta?
+Acá, que...
+Bueno, tal vez ya ha sido demasiado para ustedes.
+Si no hay dudas, dejamos por acá en la clase que viene.
+Vamos a hablar de distancia mínima edición para empezar.
+¿Qué es cómo ver cuál es la distancia entre dos palabras?
+Una noción de distancia entre dos palabras.
+Que esencialmente captura la idea de parecido.
+Es un punto de vista ortográfico.
+Y podemos seguir hablando de morfología.
+Gracias.

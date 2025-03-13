@@ -1,0 +1,3353 @@
+WEBVTT
+
+00:00.000 --> 00:27.560
+En la clase de hoy, vamos a ver un tema nuevo que es el de los modelos del lenguaje.
+
+00:27.560 --> 00:35.560
+Y se volan a la clase pasada, mi modo tema que era bastante desmogra bastante diferente,
+
+00:35.560 --> 00:46.960
+el de los transductores para resolver el tema de la morphología de taufinito, unas artefaltos de taufinito,
+
+00:46.960 --> 00:56.240
+que permite en resolver temas, a través de un método de reglas, soy de finos reglas de cómo se conforman
+
+00:56.240 --> 01:05.240
+las palabras, las combino, de cierta forma y de esa forma resuelvo el tema de convertir,
+
+01:05.240 --> 01:11.240
+esto que convertir de la palabra, a su análisis y viceversa.
+
+01:11.240 --> 01:17.240
+Y pues hay una segunda parte de un método que era bastante diferente, su concepción que su método estáístico,
+
+01:18.240 --> 01:28.240
+que lo que haces, lo que hacía era aplicando el modelo del canal judo, aproximarse al problema de corregir el rotor gráfico.
+
+01:28.240 --> 01:36.240
+Cuando yo hablo de un modelo probabilista, lo que estoy diciendo es que además de, por ejemplo,
+
+01:36.240 --> 01:46.240
+clasificaros, sugerir una solución, lo que haces, asignarle probabilidades a las posibles respuestas, un método probabilista,
+
+01:46.240 --> 01:51.240
+típicamente no da una respuesta, sino que devuelve una distribución de probabilidad.
+
+01:51.240 --> 02:02.240
+En sí, si yo tengo varios seventos posibles, una distribución de probabilidad es un número entre 0 y 1,
+
+02:02.240 --> 02:09.240
+que yo así no, a cada evento posible, de forma que la suma de todos los eventos de uno,
+
+02:09.240 --> 02:11.240
+eso es lo que llamamos una distribución de probabilidad.
+
+02:11.240 --> 02:17.240
+Es que sero y uno son todos, son todos, mejores, o igual que sero, menor y civil y que uno y además su suma de uno, eso es una distribución de probabilidad.
+
+02:17.240 --> 02:21.240
+0, 5, 0, 25, 0, 25, es una distribución de probabilidad.
+
+02:21.240 --> 02:27.240
+Se levanta uno, tiene probabilidad 0, 5, 0, 0, 25 y el otro 0, 25, eso es una distribución de probabilidad.
+
+02:27.240 --> 02:31.240
+Si no suma uno, no son una distribución de probabilidad.
+
+02:31.240 --> 02:36.240
+Y si yo, por ejemplo, tengo un evento, un evento que ocurre 10 veces,
+
+02:36.240 --> 02:44.240
+hay un evento 2 que ocurre 5 y hay un evento 3 que ocurre 5.
+
+02:44.240 --> 02:48.240
+Eso no es una distribución de probabilidad.
+
+02:48.240 --> 02:54.240
+Por esto no está entre 0 y 1, porque no suma uno.
+
+02:54.240 --> 03:04.240
+¿Cómo hago yo para convertir esto en una distribución de probabilidad?
+
+03:05.240 --> 03:11.240
+Lo que hago es dividir por el total de ocurrencia, ¿verdad?
+
+03:11.240 --> 03:25.240
+Que en este caso es 20 y eso me da la proporción, el peta 1 y eso es siempre una distribución de probabilidad.
+
+03:25.240 --> 03:29.240
+Entonces, ya no normalizar para obtener una probabilidad.
+
+03:29.240 --> 03:36.240
+Y tú te lo van a ver que lo vamos a ver en varias veces.
+
+03:36.240 --> 03:45.240
+El método de este corrección utilizaba fortemente la releva para modelarla la situación.
+
+03:45.240 --> 03:50.240
+Hasta ahora hemos hablado en todas las cosas que hemos tratado de palabras aisladas.
+
+03:50.240 --> 03:52.240
+No, la morphología estudia.
+
+03:52.240 --> 03:54.240
+En primer hablamos de cómo separar las palabras,
+
+03:54.240 --> 03:58.240
+que pudimos como analizar lentamente, pero siempre hablábamos de palabras aisladas.
+
+03:58.240 --> 04:06.240
+Acá lo que vamos a empezar a mirar es que pasa cuando las palabras aparecen juntas.
+
+04:06.240 --> 04:19.240
+Sí, es decir, nosotros lo que vamos a hablar es de la.
+
+04:19.240 --> 04:26.240
+La probabilidad de una secuencia de palabras.
+
+04:34.240 --> 04:41.240
+¿Por qué esto importa? Porque, como ustedes bien sabran, las palabras en el idioma pagaron no aparecen solas.
+
+04:41.240 --> 04:44.240
+Y no cualquier palabra sigue otra palabra.
+
+04:44.240 --> 04:50.240
+Entonces, nosotros tenemos una cantidad de reglas para expresar en el idioma,
+
+04:50.240 --> 04:54.240
+que hace que es el orden importe.
+
+04:54.240 --> 05:00.240
+Y de lo que se trata es de ver cómo es el orden.
+
+05:00.240 --> 05:04.240
+¿Cómo tenéis en cuenta si no puede ayudar a otra talidad?
+
+05:04.240 --> 05:07.240
+Creo que cuando hay un ejemplo, lo vamos a mezclar.
+
+05:07.240 --> 05:15.240
+Primero que nada vamos a recordar a Chonky, que esto yo lo comentaba en la primera clase,
+
+05:15.240 --> 05:20.240
+a que yo de que Chonky dijo la noción de probabilidad de noiraciones,
+
+05:20.240 --> 05:25.240
+completamente inútil bajo cualquier interpretación de este término.
+
+05:25.240 --> 05:30.240
+Y, trancó por 20 años la investigación de esta aparición.
+
+05:30.240 --> 05:35.240
+Chilini, Chilini, que volvió a revivir el tema de los métodos probabilistas,
+
+05:35.240 --> 05:43.240
+o basados en contigo para aproximarse a los problemas de procesamiento en la lenguaje natural.
+
+05:43.240 --> 05:48.240
+Chonky lo que decía esencialmente, cuando nosotros hacemos contigo y sacamos conclusión en base a cuentas,
+
+05:48.240 --> 05:53.240
+en base a número, a base a experiencia, que estípicamente lo que vamos a ver en este caso de los enigramas.
+
+05:53.240 --> 05:58.240
+Estamos obteniendo soluciones a problemas, pero no estamos entendiendo qué es lo que está pasando.
+
+05:58.240 --> 06:00.240
+Eso es una discusión catalidad de hoy, ¿verdad?
+
+06:00.240 --> 06:07.240
+Hay una famosa discusión para ir a internet entre Chonky, entre Chonky,
+
+06:07.240 --> 06:12.240
+esto te hablando hace dos o tres años, o cinco años, entre Chonky y Peter Norby,
+
+06:16.240 --> 06:18.240
+que discutio un poco esto, ¿no?
+
+06:18.240 --> 06:25.240
+Es decir, si esto que estamos haciendo ahora y que ha tenido tan buenos resultados del punto de vista de reconocimiento del habla
+
+06:25.240 --> 06:30.240
+y el proceso de internet natural, esa es en realidad inteligencia artificial, o eso es la mente en Amber Kranchín,
+
+06:30.240 --> 06:32.240
+que no nos aporta mucho.
+
+06:33.240 --> 06:38.240
+Norby, en lo que le dice, bueno, de hecho, la ciencia siempre más o menos funcionó así.
+
+06:40.240 --> 06:44.240
+Bueno, entonces, ¿cuál es el objetivo de lo que vamos a ver a la caso de modelos del lenguaje?
+
+06:44.240 --> 06:49.240
+El objetivo de modelos del lenguaje es calcular la probabilidad de una secuencia palabra.
+
+06:50.240 --> 06:58.240
+Es decir, ¿qué tan probable es en mi lenguaje que una secuencia se, bueno,
+
+07:00.240 --> 07:08.240
+para qué no puede servir eso? Bueno, imagínese usted es que, y acabamos de recordar lo otra vez en el modelo del canal ridoso de lo otra vez.
+
+07:08.240 --> 07:23.240
+Imagínese usted es que tengo este texto escrito, y, por medio de un método que no se cual es, tengo dos oraciones candidatas.
+
+07:24.240 --> 07:27.240
+Bueno, los dos textos candidatas.
+
+07:28.240 --> 07:35.240
+Uno que es preneva para el curso de peleene y prueba para el curso de peleene.
+
+07:35.240 --> 07:45.240
+Bueno, y además supongamos que el método que utilice para reconocer la escritura de la escritura,
+
+07:46.240 --> 07:51.240
+me dice que este más probable es que no es otro que vamos a lo elegir.
+
+07:54.240 --> 07:56.240
+No va a elegir, le abajo.
+
+07:57.240 --> 08:00.240
+¿Por qué? ¿Por qué todo no es una palabra valida?
+
+08:00.240 --> 08:07.240
+Pero aún siendo una palabra valida, o aún suponiendo que fue una palabra valida,
+
+08:08.240 --> 08:11.240
+podría haberse un caso donde yo identifico una palabra valida.
+
+08:12.240 --> 08:13.240
+Segora en lo correción de rol.
+
+08:14.240 --> 08:18.240
+Aún así, yo puedo decir, bueno, pero en este lugar, en este lugar,
+
+08:21.240 --> 08:24.240
+esa palabra no, no, no, no, no, no, no, no, no, no, no, no, no.
+
+08:25.240 --> 08:29.240
+Si alguna forma yo sé, es decir, si yo logro detectar que esta oración
+
+08:30.240 --> 08:36.240
+es más probable que esta de alguna forma, eso me va a ayudar en la taría de reconocimiento.
+
+08:37.240 --> 08:40.240
+Lo mismo pasa con el reconocimiento de la verdad, lo que hablamos en el otro día,
+
+08:41.240 --> 08:44.240
+con el espíritu de reconocimiento y cuando yo hago, le digo una palabra que te me escuchas.
+
+08:45.240 --> 08:50.240
+Entonces, los modelos de negoaje sirven para ayudar en este tipo de taría.
+
+08:51.240 --> 08:53.240
+Típicamente, los modelos de negoaje ayudan y no otra taría.
+
+08:54.240 --> 08:56.240
+No va a ver que hay mucha información.
+
+08:56.240 --> 09:02.240
+Entonces, cuando nosotros hacemos reconocimiento de escritura,
+
+09:03.240 --> 09:06.240
+vamos a ver lo que decimos es,
+
+09:07.240 --> 09:12.240
+la probabilidad de la oración origen, dado a la observación que tengo.
+
+09:13.240 --> 09:15.240
+Yo tengo una observación, ¿sí?
+
+09:16.240 --> 09:19.240
+¿Cuál es la probabilidad de una oración origen?
+
+09:20.240 --> 09:23.240
+Es proporcionar a la probabilidad de la observación,
+
+09:23.240 --> 09:28.240
+dado la oración por la probabilidad de la oración.
+
+09:29.240 --> 09:31.240
+Y esto que es, es lo que hay.
+
+09:32.240 --> 09:36.240
+Entonces, nosotros por lo que hay, sabemos eso.
+
+09:37.240 --> 09:40.240
+Y como ven acá, aparece la noción de probabilidad de la oración.
+
+09:41.240 --> 09:44.240
+Por eso es que nos interesa conocer la probabilidad de la oración.
+
+09:45.240 --> 09:46.240
+¿Tá?
+
+09:47.240 --> 09:50.240
+Ahora, cómo calculamos la probabilidad de la oración.
+
+09:50.240 --> 09:53.240
+Bueno, hay un ejemplo humano.
+
+09:54.240 --> 09:57.240
+Por ejemplo, en la traducción autográfica,
+
+09:59.240 --> 10:01.240
+la traducción automática,
+
+10:02.240 --> 10:04.240
+si tenemos estas tres candidatos,
+
+10:05.240 --> 10:07.240
+nuevamente a mí me va a ayudar con los seres orden
+
+10:08.240 --> 10:10.240
+o sea, cuál es la más probable en mi lenguaje.
+
+10:10.240 --> 10:19.240
+En las correcciones de rores, como vimos en la vez pasado,
+
+10:20.240 --> 10:23.240
+hordas de botero, es una circuncia muy de poca,
+
+10:24.240 --> 10:26.240
+de poca probabilidad y pensemos un poquito.
+
+10:31.240 --> 10:33.240
+Preguntemos, ¿no?
+
+10:36.240 --> 10:37.240
+¿Por qué?
+
+10:41.240 --> 10:44.240
+Esta oración no es parece que sea muy probable.
+
+10:45.240 --> 10:49.240
+¿Qué nos podría determinar que esta oración no es muy probable?
+
+11:00.240 --> 11:03.240
+O está, implementación a la educación ley.
+
+11:04.240 --> 11:07.240
+¿Por qué podemos suponer que esa no es probable?
+
+11:11.240 --> 11:16.240
+Bueno, mismo ocurre en dos razones,
+
+11:17.240 --> 11:18.240
+principales o dos aproximaciones,
+
+11:19.240 --> 11:20.240
+una es por la sintaxis, ¿no?
+
+11:21.240 --> 11:24.240
+La sintaxis, el delión, el bañón, no es así.
+
+11:25.240 --> 11:28.240
+No, el símo es educación ley, educación...
+
+11:29.240 --> 11:30.240
+¿Qué?
+
+11:31.240 --> 11:33.240
+La segunda, porque no publicaba la precisión.
+
+11:34.240 --> 11:35.240
+¿Por qué lo que?
+
+11:35.240 --> 11:38.240
+¿Pues sus y de botero tan publica en la verdad?
+
+11:42.240 --> 11:44.240
+Ah, bueno, principales eran sus de un tercero, ¿no?
+
+11:45.240 --> 11:47.240
+Acá seguramente lo que hay, lo que hay es un error histórico,
+
+11:48.240 --> 11:49.240
+es su gorda de botero.
+
+11:50.240 --> 11:52.240
+O sea, acá, acá tenemos un tema de sintaxis.
+
+11:53.240 --> 11:54.240
+Acá no tenemos un tema de sintaxis.
+
+11:57.240 --> 11:59.240
+Deberíamos conocer un poco de semántica
+
+11:59.240 --> 12:02.240
+para asociar el botero que pintaba mujeres gordas,
+
+12:02.240 --> 12:05.240
+es una aproximación, un poco más humilde.
+
+12:06.240 --> 12:08.240
+La segunda es una aproximación más de táística,
+
+12:09.240 --> 12:11.240
+porque sí no es otro.
+
+12:12.240 --> 12:15.240
+Y que juega con el hecho de que tenemos grandes volumen de texto
+
+12:15.240 --> 12:16.240
+y ahí el cambio de los modelos programíthicos
+
+12:17.240 --> 12:21.240
+es que gordas de boteros seguramente apareció antes
+
+12:22.240 --> 12:23.240
+en mis corpus de texto,
+
+12:24.240 --> 12:25.240
+y gordas de boteros, no.
+
+12:27.240 --> 12:29.240
+Es una aproximación más de táística,
+
+12:29.240 --> 12:33.000
+Eso es lo que vamos a hacer en los modelos de negar más justamente, a partir de gran
+
+12:33.000 --> 12:40.280
+de volumen de texto detectar el calcular la probabilidad, es una personalación puramente estadística,
+
+12:40.280 --> 12:44.120
+el bien saloaje, es yo no sé qué estructura tiene esto, pero sé que esto no se dio
+
+12:44.120 --> 12:48.440
+nunca y que gordas de boteros sí, muchas veces, entonces de más probabilidad que más
+
+12:48.440 --> 12:57.320
+equivocado.
+
+12:57.320 --> 13:02.760
+A ver, relacionado con esto ahora vamos a ver por qué está relacionado, está el tema de la
+
+13:02.760 --> 13:10.920
+predicción de la Presidente Palagra. ¿Cuál es la siguiente palabra a la primera
+
+13:10.920 --> 13:22.520
+relación? ¿Cuál puede ser la siguiente palabra? ¿Quién? ¿Para el medio meto y no meto
+
+13:22.520 --> 13:33.840
+metió pero no te copara? ¿Qué otra cosa puede ser? ¿Para es una preposición? ¿Qué más? ¿Qué
+
+13:33.840 --> 13:46.000
+otra cosa puede decir ahí? ¿Cuál es por ejemplo? ¿Un pronóstico alentador? ¿Un pronóstico terrible,
+
+13:46.000 --> 13:52.800
+un pronóstico... ¿Por qué otra cosa más hay? ¿Un más común para mí? ¿Un mitió pronóstico
+
+13:52.800 --> 14:03.040
+meteroológico? ¿No? A raíz de fenómenos y sus serán tormentas fuertes importantes, muy
+
+14:03.040 --> 14:11.120
+así. No creo que ahí diga tormentas gatito, no es muy probable que sea la palabra siguiente.
+
+14:11.120 --> 14:14.400
+No, no es muy probable que sea la palabra siguiente, nuevamente porque sabemos este, porque es muy raro que
+
+14:14.400 --> 14:24.840
+hay un día de tormentas gatito, digamos. Entonces, esto que tenemos acá es la la posibilidad
+
+14:24.840 --> 14:31.320
+es que hay de siguiente palabra, dadas todas las anteriores. Si yo tengo todo el contexto lo que
+
+14:31.320 --> 14:39.360
+llama contexto, dadas el contexto de la palabra que sigue acá, ¿sí? Una de las, lo que nosotros
+
+14:39.360 --> 14:43.080
+vamos a querer hacer en un modelo de lenguaje, como camino para que aigular la proyea
+
+14:43.080 --> 14:50.000
+una nación, es dadas el contexto que aigular la palabra. Si, ¿eh?
+
+14:50.000 --> 15:03.600
+Rachas el viento fuerte de componente, veremos qué. Bueno, resulta hacer que de lo ejemplo que yo
+
+15:03.600 --> 15:08.560
+tome, a Buenos Aires, puse el viento fuerte de componente, por ejemplo, el inome de mitió pronóstico
+
+15:08.560 --> 15:13.840
+especial, o sea que le ramo, se suelen tomentas fuertes, viento fuerte de componente su
+
+15:13.880 --> 15:25.480
+perecho. Vamos a poner un poquito de notación antes de seguir, porque vamos a ver
+
+15:25.480 --> 15:30.200
+como enfrentamos este problema, es decir, como calculamos esa proyea, un poco de notación para
+
+15:30.200 --> 15:41.080
+seguir, yo lo que estoy diciendo es la proyea es que una variable aleatoria ahí, valga todo
+
+15:41.080 --> 15:48.080
+el valor con los cimientos y que caso tenía una variable aleatoria por cada posición de textora,
+
+15:48.080 --> 15:52.920
+tengo una quisiuno que la primera palabra quedó que la segunda, que tres, son variables aleatorias
+
+15:52.920 --> 15:58.480
+que lo variable aleatorias esencialmente, es un mapeo, es una función que mapea, de un evento un número
+
+15:58.480 --> 16:11.240
+entre 0 y 1, la proyea, perdón, perdón, bueno, no vamos a entrar en decisiones,
+
+16:11.240 --> 16:15.360
+va a pear con un real y la proyea, me devuelve un número entre 0 y 1, es decir, yo defino la
+
+16:15.360 --> 16:23.920
+proyea, de una variable aleatoria, como la distribución de proyea, de una variable aleatoria,
+
+16:23.920 --> 16:30.920
+que el dado lo diferente de valores que puede tomar cuál es el valor de cada uno de ellos,
+
+16:30.920 --> 16:38.720
+y esto, cuál es el rango, qué valor es probable tiene la una variable aleatoria que refira
+
+16:38.720 --> 16:48.680
+a palabras, todo el problema es diferente que yo puedo tener, entonces nosotros vamos a
+
+16:48.680 --> 16:56.880
+notar, vamos a poner esta notación proyea de conocimiento de que la palabra sea conocimiento,
+
+16:56.880 --> 17:05.960
+vamos a notar, doble ver, uno a la línea, uno a la secuencia de palabras doble de uno,
+
+17:05.960 --> 17:11.120
+doble de dos, doble de línea, por ejemplo, en una relación, y vamos a decir, vamos a
+
+17:11.120 --> 17:15.680
+decir que la, vamos a hablar de la probabilidad de la secuencia de palabras queriendo
+
+17:15.680 --> 17:19.800
+si, bueno, la probabilidad debe que la primera sea doble 1, que la segunda sea doble
+
+17:19.800 --> 17:29.600
+2, etcétera, bueno, o sea que esta distribución de probabilidad tiene como rango toda la secuencia
+
+17:29.600 --> 17:42.600
+posible de palabras, o sea que si me buscaronarios de, tengo ni a la vez, a la vez, a la vez,
+
+17:42.600 --> 17:56.320
+a la vez, o sea que es enorme, esencialmente, si todas las posibles secuencias, y vamos a
+
+17:56.320 --> 18:03.960
+recordar, la chain rule de la regla de multiplicación de las probabilidades, que si yo tengo
+
+18:03.960 --> 18:11.040
+la probabilidad de una secuencia de palabras, doble de uno, doble de 1, doble de línea, esto es la
+
+18:11.040 --> 18:17.360
+probabilidad de la primera palabra, que la, de alguna forma, la, la regula, por la probabilidad
+
+18:17.360 --> 18:27.000
+de la segunda, la primera, dado que la primera fue doble de uno, o sea que no son independientes,
+
+18:27.000 --> 18:33.360
+es decir, la palabra, por definición acá, no son eventos independientes, es decir, tengo una
+
+18:33.360 --> 18:38.360
+cierta probabilidad de que empiece con doble de uno, la multiplicidad por la probabilidad
+
+18:38.360 --> 18:42.800
+de que la segunda se ha doble de 2, dado que la primera fue doble de uno, por la probabilidad
+
+18:42.800 --> 18:50.960
+que la tercera se ha doble de 3, dado que las 2 primeras fueron no doyas así, de esa forma
+
+18:50.960 --> 18:59.600
+con esta regla yo y al final, doble de línea, la última data toda la sanderión, esto se llama
+
+18:59.600 --> 19:07.160
+regla de la cadena, yo con la regla de la cadena, puedo calcular la probabilidad de una
+
+19:07.160 --> 19:14.160
+secuencia o de una oración, dado la secuencia, si logró que circular estas probabilidades,
+
+19:14.160 --> 19:23.080
+o sea, si logró que acuscular, predecir las palabras correctamente, voy a poder predecir
+
+19:23.080 --> 19:26.840
+la secuencia, de esa forma paso de la predicción al cálculo de toda la probabilidad
+
+19:26.840 --> 19:40.000
+de la oración, se tiene bien, entonces vamos a quedarnos con esa notación, entonces
+
+19:40.000 --> 19:45.920
+yo digo bueno, es un ejemplo, si yo quiero saber, la probabilidad de viento fuerte de componentes
+
+19:45.920 --> 19:51.760
+su doeste, como el que está soplando, no sé si el componente su vete pero fuerte, es,
+
+19:51.760 --> 19:56.160
+la probabilidad de viento, por la probabilidad de fuerte, dado viento, por la probabilidad
+
+19:56.160 --> 20:10.080
+de, dado viento fuerte, etcétera, no da menos que la realidad de la cadena, entonces yo
+
+20:10.080 --> 20:15.200
+quiero saber la última, p de su doeste, dado viento fuerte de componentes, y vos con
+
+20:15.200 --> 20:23.320
+Google, por ejemplo, digo bueno, viento fuerte de componentes aparecen los 230 veces, viento
+
+20:23.320 --> 20:29.760
+fuerte, componente su vete, aparecen 347 veces, y yo esto se voy a estimar la probabilidad
+
+20:29.760 --> 20:36.600
+de esa, por medio de contéos, es la cantidad de veces, que apareció viento fuerte, componente
+
+20:36.600 --> 20:41.440
+su vete, dividido la cantidad de veces, que apareció fuerte como el 347 y dividido
+
+20:41.440 --> 20:49.840
+930, a guardo, y esta es la probabilidad de que la Presidente palabra se ha sudoeste, en
+
+20:49.840 --> 20:59.480
+mi estimación, si ustedes evijan esto es una probabilidad, porque contando todas las palabras
+
+20:59.480 --> 21:05.840
+posibles que pueden seguir acá, si yo he logrado determinar cuáles son, yo sí que van a ver
+
+21:05.840 --> 21:13.760
+9233, van a sumar 9233, si todos los casos posibles, mira todos los casos junto,
+
+21:13.760 --> 21:20.400
+lo que son la siguiente palabra, eso hace que como esto me va a dar 9233, de la suma de
+
+21:20.400 --> 21:26.400
+todas las contidades, esto va a dar 1, entonces esto sí es una distribución de probabilidad,
+
+21:26.400 --> 21:33.280
+entonces estamos bien, efectivamente que yo es una probabilidad, bueno, esto lo que me dice es bueno,
+
+21:33.600 --> 21:39.600
+el 3,76 por ciento de las veces es su vez que la siguiente palabra,
+
+21:47.920 --> 21:55.520
+eso que acabamos de hacer es estimar la probabilidad, a partir de la frecuencia de ocurrencia
+
+21:55.520 --> 22:02.240
+en un corpo grande, es un cuerpo grande, muy grande, y eso es la más principio
+
+22:02.240 --> 22:08.160
+máxima de los veros y militud que lo mismo le pasa es, trato de hacer, caljular la probabilidad
+
+22:08.160 --> 22:16.000
+en base a lo mejor posible a los datos que tengo, es decir, considero, yo estoy considerando
+
+22:16.000 --> 22:21.440
+que los datos que tengo es decir el corpo de Google, es una buena aproximación del mundo real
+
+22:21.440 --> 22:28.480
+de lenguaje en realidad, yo no sé si en realidad efectivamente cuando los seres humanos hablamos,
+
+22:28.480 --> 22:36.640
+hay un 3,76 por ciento de probabilidad de que después de decir bien tu fuerte componente,
+
+22:36.640 --> 22:42.800
+viene su doeste, pero el cuerpo de Google es que lo mejor que tengo, como aproximación, me dice eso,
+
+22:42.800 --> 22:48.400
+y eso es lo que yo utilizo, como un estimador de máxima de los similitud, es lo mejor que
+
+22:48.400 --> 22:53.520
+va a acercarme con el cuerpo que tengo, eso es lo que vamos a hacer todo el tiempo acá, caljular
+
+22:53.520 --> 23:05.040
+componentes de máxima de los sirvíritos, pero tenemos de un problema, y es, en otro caso dice
+
+23:05.040 --> 23:12.080
+a raíeto fenómeno se producirán tormentas fuertes, la probabilidad fuertes y a raíeto fenómeno se producirán
+
+23:12.080 --> 23:21.440
+tormentas, tiene un problema, y es que nunca apareció en mi corpus, a raíeto fenómeno se producirán
+
+23:21.440 --> 23:32.240
+tormentas, y nunca apareció en mi corpus, a raíeto fenómeno se producirán tormentas fuertes, y eso nos va
+
+23:32.240 --> 23:37.320
+una horrible edición por cero, que queremos evitar, pues se trata probabilidad de infinito,
+
+23:37.320 --> 23:45.840
+no sé, no está definida, esto es una pregunta, ¿esto les parece que es un fenómeno común
+
+23:45.840 --> 23:53.040
+o no, que nos puede pasar cuando estemos estimando todo el tiempo, porque por más grande que
+
+23:53.040 --> 24:03.760
+sea el corpus, el megoje es muy creativo, entonces tenemos que buscar forma y además porque estamos
+
+24:03.760 --> 24:10.360
+haciendo un contigo de palabras de versión muy largas, o sea que la ríla de la cadena no resuelva
+
+24:10.360 --> 24:14.120
+en mi problema, porque yo una aproximación bien naif para que el gulo de la probabilidad
+
+24:14.120 --> 24:18.960
+es que el gulo de la secuencia posible, ¿cuánta vez se aparece la secuencia que quiero
+
+24:18.960 --> 24:22.520
+que el gulo de la versión del total de razión, es lo cual es un disparate, pues no tengo
+
+24:22.520 --> 24:26.440
+un corpus o diente grande, pero esta aproximación tampoco nos ayuda mucho, porque sigo
+
+24:26.440 --> 24:33.240
+teniendo contisto muy largo, porque si ustedes se fijan en la ríla de la cadena, bueno,
+
+24:33.240 --> 24:40.480
+lo que acabamos de hacer, la última probabilidad es casi la misma que la primera, menos una
+
+24:40.480 --> 24:56.040
+palabra, tengo que ocupar una forma de agilcar eso, entonces, una de la idea fuerza para
+
+24:56.040 --> 25:02.140
+computar esta probabilidad es el lugar de tomar todas las palabras, tomando sobre la
+
+25:02.580 --> 25:19.820
+última, yo me quedo con las últimas n-1 palabras, n-n, n-n, n-n, n, n, n, n, n, n, n, n, n, n, n, n, n, n, n, y
+
+25:19.820 --> 25:27.540
+las otras no las consiguieron, digo bueno, m, m, m, m, m, milla aproximación para que esto
+
+25:27.540 --> 25:31.340
+se pueda volver manijaable, es, y bueno, yo en realidad, solamente me importan la sol,
+
+25:31.340 --> 25:34.540
+y solo la última palabra afecta en la que voy a preciar, solo la última vez.
+
+25:38.540 --> 25:43.240
+Y de eso se trata, lo muelo en el grama, que utiliza lo que se llama,
+
+25:43.240 --> 25:46.540
+eso que acabo de decir, yo llama hipote, sigue marco, hipote, sí marco viana.
+
+25:46.540 --> 25:53.340
+Solamente, las últimas palabras afectan a la siguiente, hay un límite, ¿tá?
+
+25:53.340 --> 26:01.740
+Y, fíjense que en la hipote, sigue bígrama, yo digo,
+
+26:01.740 --> 26:06.740
+cada palabra la próxima por la anterior, simplemente, si estoy diciendo una cosa tan,
+
+26:06.740 --> 26:11.740
+sencillo como la última palabra, la única que capa la la condición de la siguiente,
+
+26:11.740 --> 26:15.540
+pero la anterior no, es muy fuerte, ¿no?
+
+26:15.540 --> 26:20.940
+Y de tririramas son todos y con el nagrama son nene, ¿sí?
+
+26:20.940 --> 26:26.140
+Con la hipote, sigue bígrama, mi propia eso es mucho más sencillo que antes,
+
+26:26.140 --> 26:32.340
+porque es como cada palabra, solo depende, vamos a mirar uno, uno, uno no está más,
+
+26:32.340 --> 26:48.740
+pero cada palabra depende del anterior, simplemente queda que la probabilidad de una secuencia,
+
+26:48.740 --> 26:57.340
+que es la probabilidad de la primera, por la probabilidad de la segunda de la primera,
+
+26:57.340 --> 27:12.140
+por la probabilidad de la tercera de la segunda, etcétera.
+
+27:12.140 --> 27:19.540
+Y a acuerdo, acá no falta este pdw1, en esa fórmula, pero no nos preocupa demasiado,
+
+27:19.540 --> 27:23.140
+porque eso lo resolvemos poniendo en la marca al comienzo de la secuencia,
+
+27:23.140 --> 27:27.540
+que siempre vale uno en su probabilidad, es decir que toda la racion empieza con una marca.
+
+27:27.540 --> 27:31.140
+Y, si no, vamos muy bígrito acá, ¿no?
+
+27:31.140 --> 27:36.140
+Si no, si lo quiere hacer de otra forma, agrega un pdw, su cero acá y lo mi.
+
+27:36.140 --> 27:39.940
+Pero esencialmente lo importante acá es que esto se transforma en una simple multiplicación
+
+27:39.940 --> 27:46.940
+de probabilidades de una palabra a la anterior, y como va a gopa calcular esto,
+
+27:46.940 --> 27:56.940
+como poca calcular esto acá, como calcular la probabilidad de una palabra,
+
+27:56.940 --> 28:03.940
+dándole anterior, contando, pero solamente en 92, lo cual lo hemos venido mucho más manejable,
+
+28:03.940 --> 28:09.940
+y eso es justo lo que vamos a hacer.
+
+28:09.940 --> 28:14.940
+Un modelo de lenguaje intenta apreciar la próxima palabra de una oración a partir de la cené,
+
+28:14.940 --> 28:25.940
+menos unas anteriores, y por supuesto que importa el orden en ese cálculo, ¿no?
+
+28:25.940 --> 28:30.940
+También tenemos que plantearnos cuando hagamos los enegramas,
+
+28:30.940 --> 28:34.940
+cuando calculemos la probabilidad de una palabra, cosas que ya hemos conversado,
+
+28:34.940 --> 28:36.940
+¿qué elemento vamos a contar?
+
+28:36.940 --> 28:43.940
+Sí, por ejemplo, tengo un tema de toqueinización,
+
+28:43.940 --> 28:49.940
+esta coma, la que os considera un grilidrama, o no, la que os considera un toque,
+
+28:49.940 --> 28:51.940
+no, la que os considera un toque, no, no, la que os considera un toque,
+
+28:51.940 --> 28:55.940
+no interesa. Bueno, eso seguramente va a depender un poco de la aplicación
+
+28:55.940 --> 28:58.940
+en la que le estoy aplicando a lo que le estoy utilizando.
+
+28:58.940 --> 29:05.940
+Bueno, tengo un cuerpo oral donde tengo defluencia,
+
+29:05.940 --> 29:08.940
+que tengo que hacer con las mayúsculas,
+
+29:08.940 --> 29:10.940
+que hago con las formas flexionadas,
+
+29:10.940 --> 29:12.940
+el mismo todo lo problema de la toqueinización,
+
+29:12.940 --> 29:14.940
+me parece ni lo que negra más decir,
+
+29:14.940 --> 29:16.940
+estos son cascadas y amo,
+
+29:16.940 --> 29:19.940
+se va a cambiar tener la toqueinización realizada.
+
+29:19.940 --> 29:22.940
+No debería no ir respuesta universal, depende de la tarea que estamos haciendo,
+
+29:22.940 --> 29:23.940
+por ejemplo,
+
+29:23.940 --> 29:28.940
+típicamente los corporal están todos pasados a mayúsculas,
+
+29:28.940 --> 29:33.940
+porque como son más continuos, no hay la identificación de laación
+
+29:33.940 --> 29:38.940
+el no es tan importante.
+
+29:38.940 --> 29:41.940
+Si yo voy a hacer análisis,
+
+29:41.940 --> 29:44.940
+si estoy haciendo análisis de lo que os usan los signos
+
+29:44.940 --> 29:46.940
+puntuacios, lo que me le guaje obviamente,
+
+29:46.940 --> 29:47.940
+la coma, la teo que identificar,
+
+29:47.940 --> 29:50.940
+sino que paque no me interesa.
+
+29:50.940 --> 29:53.940
+O, me puede interesar todos estos,
+
+29:53.940 --> 29:57.940
+me apiarlos a una cosa sola que se llama el signo puntuacio,
+
+29:57.940 --> 30:00.940
+y juntarlos puntos con las coma.
+
+30:00.940 --> 30:03.940
+Bueno, tiene que hacer eso en el laboratorio.
+
+30:03.940 --> 30:05.940
+Si se van a escolar.
+
+30:05.940 --> 30:08.940
+Bueno, nada, se necesita un pretetamiento disponible
+
+30:08.940 --> 30:11.940
+al menos palabras y el modelo no hay modelos generales.
+
+30:14.940 --> 30:16.940
+También va a depender un poco,
+
+30:16.940 --> 30:21.940
+el nuestro número van a depender de la cantidad de palabras.
+
+30:21.940 --> 30:27.940
+El diccionario, el noc for English diccionar y tiene 299.000 entradas,
+
+30:27.940 --> 30:34.940
+el tresor de la sangre francés tiene 54.000 y el diccionar de la rádio, 88.000.
+
+30:34.940 --> 30:35.940
+¿Por qué?
+
+30:35.940 --> 30:37.940
+¿Por qué le parece que tiene que gustar,
+
+30:37.940 --> 30:39.940
+hay tantas más acá en la rádio?
+
+30:40.940 --> 30:45.940
+¿Por qué el diccionario no parece en la forma flexionada
+
+30:45.940 --> 30:48.940
+y el español está mucho más flexionada o que no.
+
+30:50.940 --> 30:54.940
+Así que el nivel de la tiene que arreglar más solito de la rádio.
+
+30:54.940 --> 30:57.940
+Bueno, y después tenemos corpos.
+
+30:57.940 --> 30:59.940
+Esto se hablamos un poco,
+
+30:59.940 --> 31:01.940
+y acrecio de distinguir entre el número de toques
+
+31:01.940 --> 31:04.940
+en que son la cantidad de ocurrencias que hay en el texto
+
+31:04.940 --> 31:07.940
+y el número de palabras distintas, el vocabular.
+
+31:10.940 --> 31:14.940
+Acá está la respuesta a la pregunta,
+
+31:14.940 --> 31:16.940
+¿que hacíamos antes cómo estimamos lo vigramas
+
+31:16.940 --> 31:18.940
+utilizando otra vez?
+
+31:18.940 --> 31:20.940
+Lo que se llama un estimador de más y más virtuoso,
+
+31:20.940 --> 31:22.940
+lo que se llama metos de frecuencias relativas,
+
+31:22.940 --> 31:23.940
+que es,
+
+31:23.940 --> 31:24.940
+cuento,
+
+31:24.940 --> 31:28.940
+las cantidad de bicicapareció una palabra con,
+
+31:28.940 --> 31:30.940
+por ejemplo,
+
+31:30.940 --> 31:35.940
+la probabilidad de fuerte dado viento,
+
+31:39.940 --> 31:42.940
+se aproxima como la cantidad de veces,
+
+31:42.940 --> 31:45.940
+que aparece bien to fuerte,
+
+31:54.940 --> 31:58.940
+por la dividida de la cantidad de bicicapareció,
+
+32:05.940 --> 32:08.940
+dividido todas las posibles continuaciones,
+
+32:08.940 --> 32:09.940
+y bueno,
+
+32:09.940 --> 32:11.940
+viento fuerte,
+
+32:11.940 --> 32:13.940
+viento calmo,
+
+32:13.940 --> 32:15.940
+viento,
+
+32:15.940 --> 32:17.940
+viento dile,
+
+32:17.940 --> 32:18.940
+viento,
+
+32:18.940 --> 32:19.940
+no sé,
+
+32:19.940 --> 32:20.940
+¿qué quieras?
+
+32:20.940 --> 32:22.940
+Y sumo todas las posibles,
+
+32:22.940 --> 32:24.940
+estoy haciendo normalizando como hablamos
+
+32:24.940 --> 32:26.940
+al principio de como hablamos acá,
+
+32:26.940 --> 32:27.940
+estoy normalizando.
+
+32:27.940 --> 32:29.940
+Ahora, esto es que es equivalente.
+
+32:29.940 --> 32:32.940
+¿Cómo puedo simplificar esto?
+
+32:33.940 --> 32:37.940
+Si yo tengo todas las bicicapareció viento fuerte,
+
+32:37.940 --> 32:39.940
+viento calmo,
+
+32:39.940 --> 32:40.940
+no sé,
+
+32:40.940 --> 32:45.940
+¿Cuál es la suma de todo eso?
+
+32:53.940 --> 32:55.940
+En la cantidad de bicicapareció,
+
+32:55.940 --> 32:57.940
+esto es igual a la cantidad de bicicapareció,
+
+32:57.940 --> 32:59.940
+en el corto.
+
+32:59.940 --> 33:00.940
+¿Cómo puedo?
+
+33:03.940 --> 33:06.940
+¿Cómo son todas las posibles ocurrencias?
+
+33:10.940 --> 33:12.940
+Ahí tenemos la simplificación,
+
+33:12.940 --> 33:13.940
+y además,
+
+33:13.940 --> 33:14.940
+para tener en cuenta,
+
+33:14.940 --> 33:15.940
+la primera y última palabra,
+
+33:15.940 --> 33:16.940
+una oración,
+
+33:16.940 --> 33:17.940
+le vamos a ver siempre,
+
+33:17.940 --> 33:18.940
+los símbolos,
+
+33:18.940 --> 33:19.940
+de comísios y de fin,
+
+33:19.940 --> 33:20.940
+eso para asegurar,
+
+33:20.940 --> 33:21.940
+no sé,
+
+33:21.940 --> 33:24.940
+de que para no tener que calcular
+
+33:24.940 --> 33:25.940
+separada,
+
+33:25.940 --> 33:26.940
+la probabilidad,
+
+33:26.940 --> 33:27.940
+la primera palabra,
+
+33:27.940 --> 33:28.940
+yo sé que la primera palabra siempre
+
+33:28.940 --> 33:29.940
+es ese y que el culo,
+
+33:29.940 --> 33:30.940
+la probabilidad,
+
+33:30.940 --> 33:32.940
+de la primera,
+
+33:32.940 --> 33:33.940
+en el texto,
+
+33:33.940 --> 33:34.940
+digamos,
+
+33:34.940 --> 33:36.940
+ponerle el dado que
+
+33:36.940 --> 33:38.940
+la anterior era ese,
+
+33:38.940 --> 33:40.940
+el guardo,
+
+33:40.940 --> 33:43.940
+y así lo dejo en una sola forma.
+
+33:43.940 --> 33:46.940
+Por ejemplo,
+
+33:46.940 --> 33:49.940
+si supongo que yo tengo ese corpo,
+
+33:49.940 --> 33:50.940
+no,
+
+33:50.940 --> 33:52.940
+van a abrir la puerta,
+
+33:52.940 --> 33:53.940
+el viento,
+
+33:53.940 --> 33:54.940
+a abrir la puerta,
+
+33:54.940 --> 33:55.940
+en ir a abrir limones,
+
+33:55.940 --> 33:56.940
+en tus mejillas nuevas,
+
+33:56.940 --> 33:58.940
+Juan recoger limones,
+
+33:59.940 --> 34:01.940
+y quiero saber la probabilidad
+
+34:01.940 --> 34:03.940
+de estas oraciones.
+
+34:03.940 --> 34:04.940
+Evidentemente,
+
+34:04.940 --> 34:05.940
+no,
+
+34:05.940 --> 34:06.940
+las tengo en el cuerpo,
+
+34:06.940 --> 34:08.940
+ya que no puedo estar directamente,
+
+34:08.940 --> 34:09.940
+sí,
+
+34:09.940 --> 34:11.940
+pero quiero utilizar
+
+34:11.940 --> 34:12.940
+un modelo de bígrimas
+
+34:12.940 --> 34:14.940
+para calcular,
+
+34:15.940 --> 34:17.940
+y con lo que sabemos
+
+34:17.940 --> 34:19.940
+es bastante sencillo.
+
+34:19.940 --> 34:21.940
+Primero que nada,
+
+34:21.940 --> 34:23.940
+no es igual,
+
+34:23.940 --> 34:25.940
+la probabilidad de que Juan
+
+34:25.940 --> 34:27.940
+abrió limones
+
+34:27.940 --> 34:29.940
+de poraspiación y
+
+34:29.940 --> 34:31.940
+trasfon portiones que
+
+34:31.940 --> 34:33.940
+se iba,
+
+34:33.940 --> 34:36.940
+pero que había co溶 Спасибо
+
+34:36.940 --> 34:39.940
+deütfen,
+
+34:39.940 --> 34:41.940
+el final de quê.
+
+34:41.940 --> 34:46.340
+En el lado deیا tienes
+
+34:46.340 --> 34:49.140
+que la probabilidad su�on moulds
+
+34:49.140 --> 34:53.380
+antes ay como la
+
+34:53.380 --> 34:59.380
+¿Son dos de cuatro?
+
+34:59.380 --> 35:01.380
+¿Por qué cuatro la siente?
+
+35:01.380 --> 35:05.380
+Claro porque yo te diciendo con teos directamente.
+
+35:05.380 --> 35:08.380
+No te diciendo brollas.
+
+35:08.380 --> 35:11.380
+¿Dónde cuatro veces arrancó con Juan?
+
+35:11.380 --> 35:13.380
+¿Sí?
+
+35:13.380 --> 35:17.380
+Juan abrió es una de dos.
+
+35:17.380 --> 35:21.380
+En el Jorpus y Juan apareció un dos veces.
+
+35:21.380 --> 35:26.380
+O sea, de dos veces la aparición Juan en la siguiente aparición una vez abrió.
+
+35:26.380 --> 35:30.380
+Y así sigo multiplicando y como es multiplico la presión y me da, bueno.
+
+35:30.380 --> 35:31.380
+0.042.
+
+35:31.380 --> 35:37.380
+Esa es la provincia de Juan abrió el limón.
+
+35:37.380 --> 35:42.380
+Enero abrió la puerta, 0.017.
+
+35:42.380 --> 35:44.380
+Está bien mucho sentido, no?
+
+35:44.380 --> 35:47.380
+A ver, justamente el hecho de que sigo un ejemplo de juguetele
+
+35:47.380 --> 35:52.380
+a separar la gracia todo esto porque esto funciona porque tengo gran de volumen.
+
+35:52.380 --> 35:54.380
+Si no, no.
+
+35:54.380 --> 35:56.380
+Si no.
+
+35:56.380 --> 35:58.380
+Y acá que nos pasó.
+
+35:58.380 --> 36:00.380
+¿Qué puedo haber pasado acá?
+
+36:01.380 --> 36:18.380
+La palabra come nunca está.
+
+36:18.380 --> 36:21.380
+Y en la puerta.
+
+36:21.380 --> 36:26.380
+En la puerta está.
+
+36:26.380 --> 36:36.380
+La primera se explica porque come nunca está, ¿no?
+
+36:36.380 --> 36:38.380
+Sí.
+
+36:38.380 --> 36:40.380
+Creo que está así.
+
+36:40.380 --> 36:44.380
+Perdón.
+
+36:44.380 --> 36:46.380
+La sila puerta.
+
+36:46.380 --> 36:53.380
+¿Por qué da 0?
+
+36:53.380 --> 37:02.380
+Porque lo que no está es en la, en la, no aparecen nunca.
+
+37:02.380 --> 37:06.380
+Si ustedes miren acá la provincia de, perdón, la cantidad de,
+
+37:06.380 --> 37:09.380
+la probabilidad de esto y la probabilidad de que empieza con él.
+
+37:09.380 --> 37:15.380
+Ya tenemos un problema con el camino con él porque creo que no hay ninguna.
+
+37:16.380 --> 37:17.380
+Bueno.
+
+37:17.380 --> 37:20.380
+Ningún empieza con él.
+
+37:20.380 --> 37:23.380
+Y entonces ya tiene un problema y además en la tampoco está.
+
+37:23.380 --> 37:26.380
+O sea que el conté un medar 0.
+
+37:26.380 --> 37:31.380
+Si el vigerama, no aparecen el cuerpo en trainamiento.
+
+37:31.380 --> 37:34.380
+Siempre mi probabilidad de hacer.
+
+37:34.380 --> 37:37.380
+Y más interesante aún.
+
+37:37.380 --> 37:41.380
+Si cualquier vigerama de todos los que aparecen en el oración.
+
+37:42.380 --> 37:43.380
+Da 0.
+
+37:43.380 --> 37:47.380
+La probabilidad de la oración es 0.
+
+37:47.380 --> 37:49.380
+Eso es un gran problema.
+
+37:49.380 --> 37:51.380
+Resolver el problema de eso.
+
+37:51.380 --> 37:54.380
+Si lo que llama el suavizado de negra más que vamos a ver cómo.
+
+37:54.380 --> 37:58.380
+Tengo que hay una forma de resolver eso que nos va a pasar siempre.
+
+37:58.380 --> 38:01.380
+Es decir, como un otro cuerpo nunca puede ser tan.
+
+38:01.380 --> 38:04.380
+Aunque solo sean dos palabras igual pueden aparecerme.
+
+38:04.380 --> 38:06.380
+Parece palabras que no aparecieron.
+
+38:06.380 --> 38:08.380
+Yo no me puedo transcar con eso.
+
+38:08.380 --> 38:09.380
+Bueno.
+
+38:17.380 --> 38:18.380
+Bueno.
+
+38:18.380 --> 38:20.380
+Nos quede a ser pendiente del cielo que lo vamos a ver.
+
+38:20.380 --> 38:21.380
+Te quiero comentar con una cosa.
+
+38:21.380 --> 38:24.380
+Pero vamos a acordarnos de eso que tuvimos el problema pendiente.
+
+38:29.380 --> 38:30.380
+Bien, en general,
+
+38:30.380 --> 38:33.380
+usted era bueno, pero ¿Cuál es el mejorine?
+
+38:33.380 --> 38:34.380
+¿Por qué?
+
+38:34.380 --> 38:35.380
+¿Cuál es el tema?
+
+38:35.380 --> 38:36.380
+¿Cuál es?
+
+38:36.380 --> 38:41.380
+¿Cuánto?
+
+38:41.380 --> 38:45.380
+¿Cuánto más de algo se actirá más que yo utilizo?
+
+38:45.380 --> 38:48.380
+¿Más información tengo de contexto?
+
+38:48.380 --> 38:49.380
+¿No?
+
+38:49.380 --> 38:53.380
+Es decir, intuitivamente mejor etimar con 5 palabras que con una.
+
+38:57.380 --> 38:58.380
+¿Cómo guarda con eso?
+
+38:58.380 --> 39:00.380
+¿Cuál es el problema de los trígamos a largo?
+
+39:00.380 --> 39:06.380
+¿Por qué no puse a red 15?
+
+39:06.380 --> 39:13.380
+¿Por qué tenemos el problema por qué llegamos acá?
+
+39:13.380 --> 39:16.380
+¿Por qué no tengo corpos diciendo un integrante?
+
+39:16.380 --> 39:19.380
+¿Cómo para que aparecán esa ocurrencia?
+
+39:19.380 --> 39:25.380
+Entonces ese balance entre cantidad de ocurrencia.
+
+39:25.380 --> 39:28.380
+Porque si yo no tengo una buena estimación de la cantidad de ocurrencia,
+
+39:28.380 --> 39:30.380
+no voy a poder estimar bien la progulidad.
+
+39:30.380 --> 39:32.380
+¿Cuál es el problema que yo utilizo?
+
+39:32.380 --> 39:33.380
+¿Cuál es el problema de la progulidad?
+
+39:33.380 --> 39:38.380
+Si yo tengo una 2, 3 ocurrencia, seguramente esa progulidad es ser difícil.
+
+39:38.380 --> 39:42.380
+Pues si hubo una ocurrencia en un cuerpo de miles de millones de palabras,
+
+39:42.380 --> 39:44.380
+no me está diciendo mucho.
+
+39:44.380 --> 39:46.380
+Sí.
+
+39:46.380 --> 39:48.380
+Generalmente es con en igual 3,
+
+39:48.380 --> 39:50.380
+se tiene buenos resultados.
+
+39:54.380 --> 39:57.380
+Por lo menos para aproximarse de dar muy bien,
+
+39:57.380 --> 39:59.380
+Google hace unos años atrás,
+
+39:59.380 --> 40:02.380
+a un cuerpo de negra,
+
+40:02.380 --> 40:04.380
+un sí,
+
+40:05.380 --> 40:07.380
+la lista de negra más de hasta 5.
+
+40:07.380 --> 40:09.380
+No, ¿cuál es el poco bien, en serio?
+
+40:13.380 --> 40:15.380
+O sea que determinaré ni de va a depender un poco la tarea,
+
+40:15.380 --> 40:16.380
+ese es el medio a ojos.
+
+40:16.380 --> 40:18.380
+O sea, pues es una tarea un poco bonica.
+
+40:18.380 --> 40:20.380
+Ahora vamos a ver un poco de evaluación.
+
+40:20.380 --> 40:22.380
+¿Y tal?
+
+40:22.380 --> 40:23.380
+Y lo que decíamos, no se agregan.
+
+40:23.380 --> 40:26.380
+Cuando son trígramas, teo que agregaron 2 símbolos,
+
+40:26.380 --> 40:28.380
+y eso la lación.
+
+40:28.380 --> 40:30.380
+No poner.
+
+40:32.380 --> 40:34.380
+Enero, abrió.
+
+40:36.380 --> 40:39.380
+Porque yo necesito 2 de contexto para calcular el idioma,
+
+40:39.380 --> 40:41.380
+en detalle.
+
+40:41.380 --> 40:44.380
+¿Cuándo dos?
+
+40:44.380 --> 40:45.380
+Ahí no te acá.
+
+40:51.380 --> 40:54.380
+Y bueno, y la pregunta es cómo caliculamos.
+
+40:54.380 --> 40:59.380
+¿Cómo hacemos para calcular buena probabilidad?
+
+40:59.380 --> 41:02.380
+Ya mismo, cómo se hace el contigo.
+
+41:02.380 --> 41:05.380
+Ahora quiero ver cómo organizo el corpo.
+
+41:05.380 --> 41:08.380
+Y me parece que es interesante ver esto porque nos va a pasar
+
+41:08.380 --> 41:09.380
+en muchas cosas.
+
+41:09.380 --> 41:12.380
+En este tema de presentación y entonces le voy a garanturar
+
+41:12.380 --> 41:16.380
+y que mucha vez se induce el mal uso metodológico de estas cosas,
+
+41:16.380 --> 41:19.380
+lleva error.
+
+41:19.380 --> 41:23.380
+Entonces, me parece que va de la pena comentar.
+
+41:23.380 --> 41:28.380
+Yo yo dije que iba a ser contigo para calcular la probabilidad,
+
+41:28.380 --> 41:29.380
+¿no?
+
+41:29.380 --> 41:34.380
+Entonces yo por acá tengo un corpo de texto.
+
+41:34.380 --> 41:37.380
+¿Sí?
+
+41:37.380 --> 41:39.380
+Entonces, esencialmente no, tengo mucho texto.
+
+41:39.380 --> 41:41.380
+Esa la definición de acuerdo.
+
+41:41.380 --> 41:43.380
+Sí.
+
+41:43.380 --> 41:46.380
+Entonces, esencialmente no, tengo mucho texto.
+
+41:46.380 --> 41:48.380
+Esa la definición de acuerdo.
+
+41:48.380 --> 42:05.380
+Y yo voy a crear un modelo de un modelo de un lenguaje.
+
+42:05.380 --> 42:09.380
+Pero yo lo quiero construir con esto de los probabilidad de lasaciones.
+
+42:09.380 --> 42:12.380
+Es un modelo del idioma pañol.
+
+42:12.380 --> 42:16.380
+Yo tengo un corpo de texto de pañol y quiero hacer un modelo de idioma pañol.
+
+42:18.380 --> 42:23.380
+Supongo que yo entré en un modelo, entrenar el modelo en este caso que les sirca a cular todas esas probabilidades.
+
+42:25.880 --> 42:27.880
+¿Cómo hago para saber qué tan bueno es?
+
+42:30.180 --> 42:31.480
+Sí, como luego a luego.
+
+42:35.480 --> 42:40.180
+Supongo que yo ahora vamos a hablar de cuál es la media, pero supongo que yo tengo una medida de performa que me dice bueno.
+
+42:40.380 --> 42:42.480
+Aplicale tu modelo a este texto.
+
+42:44.780 --> 42:48.280
+Sí, supongo que la medida es que le asigne ahora como es porque
+
+42:48.280 --> 42:56.780
+pero es que la sirna y mayor probabilidad a todo el texto, a las oraciones del texto es el mejor.
+
+42:56.980 --> 42:59.980
+El mejor modelo es que la sirna probablea más y hora de la oración en que tengo en el texto.
+
+43:02.280 --> 43:11.780
+Sí, yo aplico, mi método, mi modelo, o sea, el nuevo modelo, sobre este mismo corpo.
+
+43:11.780 --> 43:12.780
+¿Qué problema tengo?
+
+43:12.780 --> 43:14.780
+¿Qué me va a dar?
+
+43:14.780 --> 43:15.780
+¿Qué me va a dar, va a dar o algo?
+
+43:15.780 --> 43:16.780
+Porque lo que le ha ido ahí.
+
+43:17.780 --> 43:20.780
+Es decir, yo nunca puedo nunca, pero nunca nunca.
+
+43:20.780 --> 43:24.780
+Eba a lugar un modelo en el mismo corpo en el que entrené.
+
+43:24.780 --> 43:25.780
+Esto aplica siempre.
+
+43:25.780 --> 43:28.780
+Cabe que su utilicio método está ahí y te que apreciar con tomático.
+
+43:28.780 --> 43:31.780
+Lo más importante es saber en el apreciar con tomático de.
+
+43:31.780 --> 43:36.780
+No nunca, a lo que es tu modelo en un corpo en el mismo corpo que entrenaste.
+
+43:36.780 --> 43:38.780
+Porque, por definición, estás haciendo trampas.
+
+43:38.780 --> 43:39.780
+Eso lo es ama.
+
+43:40.780 --> 43:44.780
+Sobre ajuste, vos sobre ajustas a tu cuerpo en entrenamiento.
+
+43:45.780 --> 43:52.780
+Entonces yo lo que voy a hacer es dividir mi cuerpo en dos.
+
+43:52.780 --> 44:02.780
+Y voy a decir, este es el cuerpo en entrenamiento de poner inglés y el cuerpo de evaluación.
+
+44:05.780 --> 44:06.780
+¿Tá?
+
+44:10.780 --> 44:14.780
+Entonces lo que yo voy a hacer es entrenar.
+
+44:14.780 --> 44:17.780
+¿Y cuánto se paro acá?
+
+44:17.780 --> 44:18.780
+Bueno.
+
+44:20.780 --> 44:24.780
+La riela más o menos, es 80 de vent.
+
+44:31.780 --> 44:33.780
+Pregunto, ¿por qué?
+
+44:33.780 --> 44:36.780
+Me interisaría que esto fuera lo más grande posible.
+
+44:40.780 --> 44:45.780
+Para que tener más información.
+
+44:45.780 --> 44:50.780
+¿Y por qué no uso 90 a 10 o 95 a 5 o 97 a 3?
+
+44:50.780 --> 44:54.780
+¿Cómo?
+
+44:54.780 --> 44:56.780
+¿Qué es el valor?
+
+44:56.780 --> 44:57.780
+¿Qué?
+
+44:57.780 --> 44:59.780
+Yo no tengo que desolucionar ese balance.
+
+44:59.780 --> 45:01.780
+No entretener una cantidad razonable de datos,
+
+45:01.780 --> 45:05.780
+porque si yo lo evaluo, sobre una oración,
+
+45:06.780 --> 45:08.780
+la variancia es muy grande.
+
+45:08.780 --> 45:11.780
+Es decir, la posibilidad de equivocarme muy grande.
+
+45:11.780 --> 45:15.780
+Entonces una riela es más o menos 80 a 20.
+
+45:26.780 --> 45:28.780
+Bueno, bien, ahí habla de 90 a 10.
+
+45:28.780 --> 45:30.780
+Yo tengo la riela de 80 a 20.
+
+45:31.780 --> 45:38.780
+Va a surgir un problema adicional a acá, y es que yo, claro, lo vamos a ver es.
+
+45:40.780 --> 45:46.780
+Por ejemplo, si yo quiero saber cuántos elegir el ene.
+
+45:49.780 --> 45:51.780
+Yo quiero elegir el ene.
+
+45:51.780 --> 45:53.780
+Yo necesito.
+
+45:54.780 --> 45:57.780
+Lo que va a ser es prueba con un ene.
+
+45:57.780 --> 45:59.780
+A acá,
+
+46:00.780 --> 46:04.780
+modelo 1, en igual 2,
+
+46:04.780 --> 46:09.780
+y hago modelo 2, en igual 3.
+
+46:13.780 --> 46:15.780
+Esto es un poco más utilidad.
+
+46:15.780 --> 46:19.780
+Y lo evalua acá y digo, ene 1 y ene 2.
+
+46:19.780 --> 46:22.780
+Y me quedo con el que me da mejor.
+
+46:22.780 --> 46:23.780
+Sí.
+
+46:23.780 --> 46:26.780
+Eso me todo elegidamente no está bien.
+
+46:26.780 --> 46:28.780
+Porque
+
+46:30.780 --> 46:34.780
+y esto es una de las cosas que es más difícil de entender a veces.
+
+46:34.780 --> 46:37.780
+Si yo pruebo los dos modelos acá,
+
+46:37.780 --> 46:39.780
+de alguna forma también estoy haciendo trampa,
+
+46:39.780 --> 46:43.780
+porque supongo que yo tengo 2 para metros.
+
+46:43.780 --> 46:45.780
+Porque tengo 1 para metros, he tenido valores.
+
+46:45.780 --> 46:48.780
+Si me vamos que yo quiero ajustar otro para metros,
+
+46:48.780 --> 46:52.780
+de mi método, que puede tomar 500 valores posible.
+
+46:53.780 --> 46:58.780
+Si yo hago 500 en renamiento y 500 pruebas.
+
+46:58.780 --> 47:00.780
+Sí.
+
+47:00.780 --> 47:03.780
+Muy probablemente también este ajustando acá,
+
+47:03.780 --> 47:06.780
+este sobre ajustando acá, porque estoy elegiendo de los 500
+
+47:06.780 --> 47:09.780
+y a veces puede ser miles o 100 de miles.
+
+47:09.780 --> 47:12.780
+El que mejor anda en este corpo de evaluación,
+
+47:12.780 --> 47:15.780
+así que estoy sobre ajustando el corpo de evaluación.
+
+47:15.780 --> 47:18.780
+Entonces, para el ajuste de parámetro,
+
+47:18.780 --> 47:21.780
+yo usualmente lo que tengo que hacer es definir
+
+47:21.780 --> 47:29.780
+este corpo, sacar un pedacito del corpo en renamiento,
+
+47:29.780 --> 47:34.780
+que yo llamo corpo gelado,
+
+47:34.780 --> 47:36.780
+tu cuerpo de desarrollo.
+
+47:36.780 --> 47:39.780
+Y lo que hago es entrarnos sobre esta parte
+
+47:39.780 --> 47:41.780
+y evaluó sobre gelado.
+
+47:41.780 --> 47:44.780
+Y me reservo este,
+
+47:44.780 --> 47:48.780
+de evaluación, solamente para cuando tengo un hombre
+
+47:49.780 --> 47:51.780
+de evaluación, solamente para cuando tengo
+
+47:51.780 --> 47:54.780
+mi modelo de finitivo y quiero saber superformas
+
+47:54.780 --> 47:56.780
+con su media evaluación.
+
+48:00.780 --> 48:04.780
+Esto lo van a algo como esto van a tener que presentar
+
+48:04.780 --> 48:06.780
+en el laboratorio.
+
+48:06.780 --> 48:09.780
+Si como evaluaría en el método, un método.
+
+48:09.780 --> 48:13.780
+Hay otras posibilidades que no implican un corpo gelado.
+
+48:13.780 --> 48:16.780
+Por ejemplo, hacer lo que sea más coros de validation
+
+48:16.780 --> 48:20.780
+que es separo este pedacito entre un sobre esto y evaluó
+
+48:20.780 --> 48:22.780
+sobre este,
+
+48:22.780 --> 48:25.780
+después se paró otra franjita
+
+48:25.780 --> 48:28.780
+y entre un sobre el resto y evaluó
+
+48:28.780 --> 48:31.780
+de la franjita y así con cabrancas,
+
+48:31.780 --> 48:33.780
+y saco el promedio.
+
+48:33.780 --> 48:35.780
+Eso me siente para no desperdiciar
+
+48:35.780 --> 48:37.780
+digamos esta parte del corpo
+
+48:37.780 --> 48:40.780
+para poder utilizar todo el cuerpo en renamiento.
+
+48:40.780 --> 48:42.780
+Sama,
+
+48:42.780 --> 48:44.780
+¿verdad?
+
+48:48.780 --> 48:50.780
+Vamos a volver a hablar un poquito probable y eso cuando le hemos
+
+48:50.780 --> 48:51.780
+clarificado.
+
+48:51.780 --> 48:54.780
+Pero lo que me interesa es que en el que claro
+
+48:54.780 --> 48:57.780
+es la diferencia entre estos corpos.
+
+48:57.780 --> 49:02.780
+Y cuando, como decía, cuando tengo el modelo final,
+
+49:02.780 --> 49:04.780
+uso esto solamente para evaluarlo a las performas
+
+49:04.780 --> 49:07.780
+es una medida que determina ese un mitario.
+
+49:09.780 --> 49:11.780
+¿Cómo evaluamos un modelo bueno?
+
+49:11.780 --> 49:14.780
+La manera correcta de valor un modelo debería ser
+
+49:14.780 --> 49:15.780
+empiricamente.
+
+49:15.780 --> 49:17.780
+Si yo quiero evaluar un modelo de lenguaje
+
+49:17.780 --> 49:20.780
+y lo estoy usando para el reconocimiento de la habla
+
+49:20.780 --> 49:24.780
+debería ser una evaluación de que también reconozco el habla.
+
+49:24.780 --> 49:26.780
+O que también reconozco la escritura.
+
+49:26.780 --> 49:28.780
+Pero eso puede ser muy costoso a veces.
+
+49:28.780 --> 49:30.780
+Yo puedo estar haciendo un modelo en lenguaje
+
+49:30.780 --> 49:31.780
+y no sé para que se va a usar.
+
+49:31.780 --> 49:33.780
+Entonces, me interesa mucho
+
+49:33.780 --> 49:36.780
+un me puede interesar tener una medida intrinsic
+
+49:36.780 --> 49:41.780
+de la performa de mi modelo.
+
+49:41.780 --> 49:47.780
+Entonces, vamos a ver una forma de evaluar.
+
+49:47.780 --> 49:51.780
+A mí está parte de esta parte de en el libro
+
+49:51.780 --> 49:54.780
+está puesto como un tema alzado.
+
+49:56.780 --> 49:59.780
+Pero a mí me parece interesante mostrarlo porque
+
+49:59.780 --> 50:02.780
+porque lo entropía es un concepto
+
+50:02.780 --> 50:04.780
+que aparece en muchas veces.
+
+50:04.780 --> 50:06.780
+En el proceso de integración de la naturaleza
+
+50:06.780 --> 50:08.780
+de otras cosas en el pese y le va a ir a pena
+
+50:08.780 --> 50:10.780
+por lo menos aproximarse.
+
+50:10.780 --> 50:13.780
+Supongo que yo tengo una variable de la historia
+
+50:13.780 --> 50:17.780
+y todo esto voy a llegar a una forma de evaluar un modelo.
+
+50:17.780 --> 50:20.780
+No no hay que empezar a hablar de esto porque sí.
+
+50:20.780 --> 50:23.780
+Supongo que yo tengo una variable de la historia
+
+50:23.780 --> 50:26.780
+que tiene varios cementos posibles.
+
+50:26.780 --> 50:29.780
+En nuestro caso, dijimos que eran las palabras posibles.
+
+50:30.780 --> 50:35.780
+La entropía, la entropía es una variable de la historia
+
+50:35.780 --> 50:45.780
+que es un concepto que viene de la tería de información
+
+50:45.780 --> 50:50.780
+de Cloud Shannon.
+
+50:50.780 --> 50:52.780
+La tería de información lo que hay la vera
+
+50:52.780 --> 50:55.780
+es bueno de uno, capaz que hicieron lo bien en algún curso
+
+50:55.780 --> 50:58.780
+pero la tería de información lo que he dotado
+
+50:58.780 --> 51:01.780
+para de medir cuánto me cuesta mi tramitir un mensaje.
+
+51:01.780 --> 51:03.780
+¿Cómo puedo tramitir un mensaje de forma óptima?
+
+51:03.780 --> 51:05.780
+Y vamos a decir un poco de la idea,
+
+51:05.780 --> 51:10.780
+o qué hay atrás de una comunicación.
+
+51:10.780 --> 51:13.780
+La nación de entropía esta función es
+
+51:13.780 --> 51:17.780
+tengo el evento que la probabilidad del evento
+
+51:17.780 --> 51:20.780
+por el logarismo de esa probabilidad.
+
+51:20.780 --> 51:23.780
+La entropía tiene como característica fundamental
+
+51:23.780 --> 51:26.780
+que es una medida que
+
+51:26.780 --> 51:29.780
+si hay un evento que tiene toda la más de probabilidad
+
+51:29.780 --> 51:31.780
+la entropía es mínima.
+
+51:31.780 --> 51:34.780
+Es decir, si yo tengo un dado que está tan carregado
+
+51:34.780 --> 51:37.780
+y una forma hay algo lo que hay que valentemente
+
+51:37.780 --> 51:39.780
+se puede decir que la entropía a mi he mirado
+
+51:39.780 --> 51:41.780
+y ser tibumbres sobre un evento.
+
+51:41.780 --> 51:44.780
+Si yo tengo un dado que está tan carregado
+
+51:44.780 --> 51:47.780
+que cada vez que lo tiro sé que siempre vas a salir 6,
+
+51:47.780 --> 51:49.780
+no tengo y ser tibumbres.
+
+51:49.780 --> 51:52.780
+Mi entropía es 0.
+
+51:52.780 --> 51:58.780
+En cambio, si el dado está perfectamente calibrado,
+
+51:58.780 --> 52:01.780
+equilibrado, sí,
+
+52:01.780 --> 52:04.780
+mi entropía es máxima.
+
+52:04.780 --> 52:08.780
+Y sí, por cómo está definida en entropía.
+
+52:08.780 --> 52:12.780
+No puedo tener
+
+52:12.780 --> 52:16.780
+entropía más alta que cuando lo evento
+
+52:16.780 --> 52:17.780
+tan equiprovales.
+
+52:17.780 --> 52:20.780
+Entonces, justamente el entropía
+
+52:20.780 --> 52:23.780
+es generalmente lo que uno mide con entropía es eso.
+
+52:23.780 --> 52:25.780
+¿Qué tan parecidos son los resultados?
+
+52:25.780 --> 52:28.780
+¿Qué tan balanceados es tan de alguna forma?
+
+52:28.780 --> 52:31.780
+¿Cuánto más incertio un retengo?
+
+52:31.780 --> 52:32.780
+Porque tan balanceado.
+
+52:32.780 --> 52:34.780
+Si yo no tengo ni la menor idea
+
+52:34.780 --> 52:36.780
+de la palabra que sigue,
+
+52:36.780 --> 52:38.780
+mi entropía es máxima.
+
+52:46.780 --> 52:48.780
+Y además, tiene otra característica que
+
+52:48.780 --> 52:51.780
+si el hogarismo es en base 2.
+
+52:51.780 --> 52:54.780
+Este número
+
+52:54.780 --> 52:59.780
+la etropía me mide la cantidad de bits que yo necesito
+
+52:59.780 --> 53:06.780
+mínimo para transmitir los eventos.
+
+53:06.780 --> 53:10.780
+Todo lo mejor formará lo con un ejemplo.
+
+53:10.780 --> 53:13.780
+Supongo que es el ejemplo que aparece en el libro.
+
+53:13.780 --> 53:17.780
+Supongo que yo tengo 8 caballos.
+
+53:18.780 --> 53:20.780
+Si tengo 8 caballos, yo quiero transmitirla
+
+53:20.780 --> 53:22.780
+las apuestas que se están haciendo por un cable.
+
+53:22.780 --> 53:24.780
+Entonces, digo bueno, una forma cantada
+
+53:24.780 --> 53:27.780
+de transmitirlo o directa de transmitir,
+
+53:27.780 --> 53:29.780
+es llamar el primer caballo.
+
+53:29.780 --> 53:31.780
+0.01.
+
+53:31.780 --> 53:32.780
+0.10.
+
+53:32.780 --> 53:34.780
+0.11.
+
+53:34.780 --> 53:36.780
+100.11.
+
+53:36.780 --> 53:37.780
+110.
+
+53:37.780 --> 53:38.780
+100.
+
+53:38.780 --> 53:39.780
+100.
+
+53:39.780 --> 53:40.780
+100.
+
+53:40.780 --> 53:41.780
+100.
+
+53:41.780 --> 53:42.780
+Ah.
+
+53:42.780 --> 53:44.780
+De acuerdo.
+
+53:44.780 --> 53:47.780
+Acá yo uso 8 bits.
+
+53:47.780 --> 53:50.780
+Sí.
+
+53:50.780 --> 53:53.780
+Cada vez que se apuesta por el caballo 1,
+
+53:53.780 --> 53:55.780
+yo pongo 0.01.
+
+53:55.780 --> 53:58.780
+Entonces, en total yo utilizo 3 bits para transmitirlo
+
+53:58.780 --> 53:59.780
+por un cable.
+
+53:59.780 --> 54:02.780
+3 bits por cada apuesta, ¿no?
+
+54:02.780 --> 54:05.780
+Ahora, cuando nosotros vemos las apuestas
+
+54:05.780 --> 54:09.780
+descubrimo que la mitad de las veces
+
+54:09.780 --> 54:12.780
+se apuesta por el caballo 1.
+
+54:13.780 --> 54:14.780
+Sí.
+
+54:14.780 --> 54:17.780
+Un cuarto del caballo es un tercioblable.
+
+54:17.780 --> 54:20.780
+Un octavo del caballo 3, un DCC del caballo 4,
+
+54:20.780 --> 54:24.780
+y todos estos se apuestas mucho menos.
+
+54:24.780 --> 54:26.780
+Teniendo en cuenta eso.
+
+54:26.780 --> 54:28.780
+Yo lo que trata de hacer ahora es decir,
+
+54:28.780 --> 54:31.780
+quiero proponir una codificación mejor
+
+54:31.780 --> 54:35.780
+que hace que yo los caballos que
+
+54:35.780 --> 54:39.780
+se apuesta más, o sea que tengo que transmitir más seguido,
+
+54:39.780 --> 54:41.780
+los codificos con menos bits.
+
+54:42.780 --> 54:43.780
+De acuerdo.
+
+54:43.780 --> 54:47.780
+La mitad de lo bits, el primer bit,
+
+54:47.780 --> 54:49.780
+lo utilizo solo para el caballo 1.
+
+54:49.780 --> 54:51.780
+Es decir, que si es un cero,
+
+54:51.780 --> 54:54.780
+es que transmitir caballo 1 y un DCC un solo bit.
+
+54:54.780 --> 54:57.780
+Sí, es un 1.
+
+54:57.780 --> 55:05.780
+Si es un 1 y un cero después, es el caballo 2.
+
+55:05.780 --> 55:09.780
+Si son 2 1 y un cero después del caballo 3.
+
+55:09.780 --> 55:11.780
+Si son 3 1 y un cero,
+
+55:11.780 --> 55:13.780
+es decir que yo para transmitir esto caballo,
+
+55:13.780 --> 55:17.780
+utilizo 1, 2, 3, 4, 5, 6 bits.
+
+55:17.780 --> 55:20.780
+Utilizo más bits.
+
+55:20.780 --> 55:24.780
+Sí, pero como son mucho menos provables,
+
+55:24.780 --> 55:26.780
+mientras píame a dobit.
+
+55:26.780 --> 55:29.780
+O sea, el primer día de bits que yo utilizo
+
+55:29.780 --> 55:34.780
+según la distribución es dobit,
+
+55:34.780 --> 55:37.780
+que es más baja, que los tres bits originales.
+
+55:38.780 --> 55:41.780
+Se entiende incorporando la información
+
+55:41.780 --> 55:44.780
+de la distribución bajo.
+
+55:44.780 --> 55:46.780
+Podemos mejorar eso.
+
+55:46.780 --> 55:47.780
+No podemos mejorar eso.
+
+55:47.780 --> 55:49.780
+Nunca vamos en el etropielo que no dice eso.
+
+55:49.780 --> 55:51.780
+Nunca vas a encontrar una,
+
+55:51.780 --> 55:52.780
+porque justamente en el etropielo 2,
+
+55:52.780 --> 55:53.780
+como en el etropielo 2,
+
+55:53.780 --> 55:55.780
+la etropiela me da una cota inferiores
+
+55:55.780 --> 55:57.780
+sobre cuánto puedo llegar.
+
+55:57.780 --> 55:59.780
+Con menos dobit no puedo.
+
+56:01.780 --> 56:02.780
+¿Te acorde acuerdo?
+
+56:03.780 --> 56:07.780
+¿Te decís de preguntar a para qué sirve esto?
+
+56:10.780 --> 56:13.780
+De hecho, no, el etropielo es una cota de lo que decía.
+
+56:13.780 --> 56:16.780
+Una cota mínima para el número de bits necesario.
+
+56:17.780 --> 56:19.780
+A partir del etropielo,
+
+56:19.780 --> 56:22.780
+yo poca el culan la etropiela de una secuencia.
+
+56:24.780 --> 56:26.780
+La etropiela de una secuencia es
+
+56:26.780 --> 56:33.780
+de toda la combinación esposible
+
+56:35.780 --> 56:38.780
+de una secuencia de la probabilidad de esa combinación
+
+56:38.780 --> 56:40.780
+es lo mismo para aplicar a secuencia.
+
+56:40.780 --> 56:42.780
+Si lo venés un número muy complicado
+
+56:42.780 --> 56:45.780
+porque la suma torida de una cantidad impresionante número
+
+56:45.780 --> 56:48.780
+porque son todas las combinaciones esposible de secuencia.
+
+56:49.780 --> 56:52.780
+Eso es lo que me mide la etropiela de la secuencia,
+
+56:52.780 --> 56:58.780
+que tanta incertidumbre hay en una secuencia.
+
+57:07.780 --> 57:13.780
+Y la tasa de etropiela sería eso dividido de ine.
+
+57:13.780 --> 57:15.780
+Es decir, el promedio,
+
+57:16.780 --> 57:19.780
+porque si no de la secuencia malararon en el etropielo más alto.
+
+57:20.780 --> 57:24.780
+El promedio por palabra de la etropiela.
+
+57:29.780 --> 57:30.780
+Entonces,
+
+57:34.780 --> 57:37.780
+la etropiela de un lenguaje que sería como
+
+57:37.780 --> 57:42.780
+la medida de que tanta incertidumbre hay en un lenguaje.
+
+57:42.780 --> 57:52.780
+Que tanto pollo llegar a predecir lo que va a seguir diciendo en un lenguaje.
+
+57:52.780 --> 57:55.780
+Esa límite, pero como valió,
+
+57:55.780 --> 57:59.780
+no en un contito en general en el lenguaje es una medida para el lenguaje.
+
+57:59.780 --> 58:05.780
+Esa límite cuando la secuencia tiene infinito de la tasa de etropiela.
+
+58:12.780 --> 58:21.780
+Es decir, que acá es la suma de todas las secuencias posibles.
+
+58:21.780 --> 58:24.780
+Es decir, es una cosa imposible calcular.
+
+58:24.780 --> 58:27.780
+Pero hay un teorema que es el de llano mamila andré y manqué.
+
+58:27.780 --> 58:31.780
+Es decir, que si el lenguaje es estacionario y orgórico,
+
+58:31.780 --> 58:39.780
+estacionario y orgórico quiere decir que no importa dónde yo estoy parado en una secuencia todas las posiciones
+
+58:39.780 --> 58:43.780
+en los válidos, las probabilidades son las mismas de la medida.
+
+58:43.780 --> 58:46.780
+Lo cual no es así en un lenguaje.
+
+58:46.780 --> 58:50.780
+Porque lo que yo digo ahora y sí dentro de lo que estoy diciendo entre un mismo tomás.
+
+58:50.780 --> 58:52.780
+No, no es la aleatoria, digamos.
+
+58:52.780 --> 58:55.780
+Pero suponiendo eso es una simplificación.
+
+58:55.780 --> 59:00.780
+Lo que me permite es simplemente para calcular la etropiela.
+
+59:00.780 --> 59:06.780
+La tasa de etropiela en lenguaje es simplemente uno sobre el enemigo en lo barimo.
+
+59:07.780 --> 59:10.780
+Es decir que perdi la probabilidad de cada una de las secuencias.
+
+59:10.780 --> 59:14.780
+Es como que si yo tomo una secuencia suficientemente larga de lenguaje,
+
+59:14.780 --> 59:18.780
+voy a incluir a todas las sus secuencias.
+
+59:18.780 --> 59:21.780
+O sí es que si yo una secuencia suficientemente larga,
+
+59:21.780 --> 59:24.780
+puede ser el cuerpo de evaluación.
+
+59:24.780 --> 59:27.780
+Yo porque el cular la etropiela sobre el cuerpo de evaluación.
+
+59:27.780 --> 59:29.780
+¿Tá?
+
+59:37.780 --> 59:40.780
+Entonces.
+
+59:40.780 --> 59:43.780
+Esto es un número, ahora lo que dije acá es un número.
+
+59:43.780 --> 59:46.780
+No sabemos por qué tengo esto, ¿no?
+
+59:46.780 --> 59:51.780
+Pero fíjense que si yo puedo qué cular lo que se llama la entropiel cruzada.
+
+59:51.780 --> 59:54.780
+Porque yo que tengo, yo tengo un lenguaje
+
+59:54.780 --> 59:59.780
+que genera las palabras con una cierta distribución de probabilidad.
+
+59:59.780 --> 01:00:01.780
+Que es lo que queremos averiguar.
+
+01:00:01.780 --> 01:00:04.780
+Que tan lo que es lo que nuestra problema original,
+
+01:00:04.780 --> 01:00:06.780
+es como dar a las palabras anteriormente,
+
+01:00:06.780 --> 01:00:08.780
+yo dice que genera la siguiente.
+
+01:00:08.780 --> 01:00:10.780
+Eso es algo que te he conocido.
+
+01:00:10.780 --> 01:00:13.780
+No sabemos como es porque es el lenguaje española,
+
+01:00:13.780 --> 01:00:14.780
+que yo quiero calcular.
+
+01:00:14.780 --> 01:00:18.780
+Pero yo tengo un modelo M, que es el modelo de negra más.
+
+01:00:18.780 --> 01:00:21.780
+La entropiel cruzada lo que dice es,
+
+01:00:21.780 --> 01:00:30.780
+bueno, calculamos esta hache utilizando la probabilidad original
+
+01:00:30.780 --> 01:00:35.780
+por el logarismo del, de la probabilidad sin nada por el modelo.
+
+01:00:35.780 --> 01:00:39.780
+La probabilidad de la secuencia es la que tenía de gobernar y no la conozco.
+
+01:00:39.780 --> 01:00:42.780
+Y es la probabilidad y el logarismo sí.
+
+01:00:42.780 --> 01:00:47.780
+O sea, esa distancia es el largo en bits y el del modelo.
+
+01:00:47.780 --> 01:00:50.780
+Según el motorismo a otra vez, ya no más milan.
+
+01:00:50.780 --> 01:00:53.780
+Yo puedo sacar esta probabilidad simplificando el lado,
+
+01:00:53.780 --> 01:00:54.780
+suponiendo que es el godo y colola.
+
+01:00:54.780 --> 01:00:57.780
+Y digo bueno, el entropiel cruzada.
+
+01:00:58.780 --> 01:01:02.780
+Es depende solo del logarismo de,
+
+01:01:02.780 --> 01:01:05.780
+de la probabilidad sin nada por el igual.
+
+01:01:05.780 --> 01:01:06.780
+Por el modelo.
+
+01:01:06.780 --> 01:01:09.780
+Y esto es lo interesante.
+
+01:01:09.780 --> 01:01:14.780
+cualquier, cualquier entropiel cruzada que yo tenga,
+
+01:01:14.780 --> 01:01:17.780
+que yo calcule con un modelo,
+
+01:01:17.780 --> 01:01:21.780
+va a ser mayor necesariamente que el entropiel es del lenguaje.
+
+01:01:22.780 --> 01:01:29.780
+Sí, cualquier modelo va a ser un entropiel mayor a la lenguaje.
+
+01:01:29.780 --> 01:01:33.780
+Esto es la cota inferior.
+
+01:01:33.780 --> 01:01:39.780
+Entonces, fíjense que, como son todas mayores,
+
+01:01:39.780 --> 01:01:43.780
+cuanto más parecido sea mi modelo,
+
+01:01:43.780 --> 01:01:47.780
+al modelo del lenguaje, cuanto más parecido,
+
+01:01:47.780 --> 01:01:50.780
+así me probabilidad de más parecida a las de acá.
+
+01:01:50.780 --> 01:01:52.780
+¿Por cómo está el mismo modelo?
+
+01:01:53.780 --> 01:01:56.780
+¿Cuánto más parecido sea mi modelo,
+
+01:01:56.780 --> 01:01:58.780
+al modelo del lenguaje,
+
+01:01:58.780 --> 01:02:00.780
+cuanto más parecido,
+
+01:02:00.780 --> 01:02:02.780
+así me probabilidad de más parecida a las de acá.
+
+01:02:02.780 --> 01:02:04.780
+¿Por cómo está definido?
+
+01:02:04.780 --> 01:02:06.780
+Va a ser mejor.
+
+01:02:07.780 --> 01:02:09.780
+La guarda.
+
+01:02:09.780 --> 01:02:13.780
+Entonces, cuanto menor sea el entropiel cruzada
+
+01:02:13.780 --> 01:02:14.780
+de mi modelo,
+
+01:02:14.780 --> 01:02:17.780
+el evaluado sobre una secuencia subsciendemente larga.
+
+01:02:17.780 --> 01:02:19.780
+Es decir, sobre el corpo de evaluación,
+
+01:02:19.780 --> 01:02:21.780
+mejor va a ser mi aproximación.
+
+01:02:21.780 --> 01:02:23.780
+Y justamente,
+
+01:02:23.780 --> 01:02:27.780
+la medida de esa intríncia que estamos buscando era...
+
+01:02:31.780 --> 01:02:34.780
+es esto, que es voz.
+
+01:02:34.780 --> 01:02:36.780
+¿Por qué es dos?
+
+01:02:36.780 --> 01:02:37.780
+No lo sé.
+
+01:02:37.780 --> 01:02:39.780
+¿Por qué lo mismo?
+
+01:02:39.780 --> 01:02:42.780
+Es dos, para sacarlo lo harímono nada más.
+
+01:02:42.780 --> 01:02:46.780
+Es dos a la entropiel cruzada a este valor.
+
+01:02:46.780 --> 01:02:48.780
+Y entonces, vamos a perplegir.
+
+01:02:48.780 --> 01:02:53.780
+La perplegida es lo que mide en el...
+
+01:02:58.780 --> 01:03:01.780
+Lo que mide,
+
+01:03:01.780 --> 01:03:05.780
+que también no es intrínceramente en el modelo sobre...
+
+01:03:05.780 --> 01:03:07.780
+sobre mi cuerpo de entrenamiento.
+
+01:03:07.780 --> 01:03:09.780
+sobre mi cuerpo de evaluación.
+
+01:03:09.780 --> 01:03:11.780
+Es decir, si yo tengo dos modelos,
+
+01:03:11.780 --> 01:03:13.780
+el que así ni a mayor probabil,
+
+01:03:13.780 --> 01:03:15.780
+menor prepejidad, mayor probabilidad,
+
+01:03:15.780 --> 01:03:17.780
+al cuerpo de evaluación
+
+01:03:18.780 --> 01:03:20.780
+es mejor desde ese punto de vista.
+
+01:03:20.780 --> 01:03:21.780
+Pero consideramos mejor.
+
+01:03:21.780 --> 01:03:23.780
+¿Por qué? Porque tiene menos dudas,
+
+01:03:23.780 --> 01:03:26.780
+como se comporta, porque la perplegida es...
+
+01:03:26.780 --> 01:03:29.780
+es como la insertidumbre que yo tengo
+
+01:03:29.780 --> 01:03:31.780
+ante...
+
+01:03:31.780 --> 01:03:33.780
+da una palabra,
+
+01:03:33.780 --> 01:03:35.780
+cuando yo me paro una palabra cuál es mi insertidumbre.
+
+01:03:35.780 --> 01:03:37.780
+Mi branching factor,
+
+01:03:37.780 --> 01:03:40.780
+en cuanto se puede abrir la siguiente palabra en promedio.
+
+01:03:40.780 --> 01:03:43.780
+Un poco eso es lo que captura la perplegida.
+
+01:03:43.780 --> 01:03:45.780
+Mi lenguaje va a tener un branching factor.
+
+01:03:45.780 --> 01:03:47.780
+Es decir, no es que es cero.
+
+01:03:47.780 --> 01:03:48.780
+Pero...
+
+01:03:48.780 --> 01:03:50.780
+Mi modelo siempre va a que el culiar algo mayor igual
+
+01:03:50.780 --> 01:03:51.780
+es el branching factor.
+
+01:03:51.780 --> 01:03:54.780
+¿Cuánto más bajo sí es que yo no te acercando
+
+01:03:54.780 --> 01:03:56.780
+más a la perplegida posta?
+
+01:03:56.780 --> 01:03:59.780
+Por eso la perplegida es la medida
+
+01:03:59.780 --> 01:04:01.780
+de que también acelercóse.
+
+01:04:01.780 --> 01:04:02.780
+No puedo.
+
+01:04:08.780 --> 01:04:10.780
+Bueno, no, eso es cuenta.
+
+01:04:12.780 --> 01:04:14.780
+Por ejemplo...
+
+01:04:15.780 --> 01:04:17.780
+Si nosotros entrenamos un grama,
+
+01:04:17.780 --> 01:04:19.780
+viniera más intiriramos en un corpo
+
+01:04:19.780 --> 01:04:21.780
+de artículo de igual extricional
+
+01:04:21.780 --> 01:04:23.780
+de 38 millones de palabras.
+
+01:04:24.780 --> 01:04:27.780
+Probaron el corpo sobre un modelo
+
+01:04:27.780 --> 01:04:29.780
+y un corpo de prueba de uno
+
+01:04:29.780 --> 01:04:31.780
+con más 5 millones de palabras
+
+01:04:31.780 --> 01:04:33.780
+y calcularon la perplegida.
+
+01:04:33.780 --> 01:04:35.780
+Y fíjense que la perplegida
+
+01:04:35.780 --> 01:04:38.780
+con los unigramas desde 962.
+
+01:04:40.780 --> 01:04:42.780
+No sabemos cuál es el mínimo esto.
+
+01:04:43.780 --> 01:04:44.780
+No sabemos cuánto puedo bajar.
+
+01:04:44.780 --> 01:04:46.780
+Pero sabemos que convieras más y va a 177
+
+01:04:46.780 --> 01:04:48.780
+y contribuiras más a 199.
+
+01:04:48.780 --> 01:04:50.780
+Es decir, si yo tengo dos palabras
+
+01:04:50.780 --> 01:04:52.780
+antes puedo predecir con mejor.
+
+01:04:52.780 --> 01:04:54.780
+Porque acá es con unigramas,
+
+01:04:54.780 --> 01:04:56.780
+es la probería capalabra.
+
+01:04:56.780 --> 01:04:57.780
+No dice mucho.
+
+01:04:57.780 --> 01:04:58.780
+Si yo tengo el anterior,
+
+01:04:58.780 --> 01:05:00.780
+lo rápidamente baja.
+
+01:05:00.780 --> 01:05:02.780
+Y si se fíjame cuando habré un tercero bajar,
+
+01:05:02.780 --> 01:05:03.780
+pero no tanto.
+
+01:05:03.780 --> 01:05:04.780
+Ni es cerca tanto, ¿no?
+
+01:05:12.780 --> 01:05:13.780
+Bueno,
+
+01:05:13.780 --> 01:05:15.780
+porque nos queda hablar.
+
+01:05:21.780 --> 01:05:22.780
+No pasó con las probabilidades,
+
+01:05:22.780 --> 01:05:23.780
+¿no?
+
+01:05:23.780 --> 01:05:24.780
+La secuela me lo quedaba en la probería
+
+01:05:24.780 --> 01:05:25.780
+y no la cuando no había contigo bueno.
+
+01:05:27.780 --> 01:05:29.780
+Una de los problemas es la palabra que no existen.
+
+01:05:30.780 --> 01:05:32.780
+La palabra que no existen,
+
+01:05:32.780 --> 01:05:33.780
+lo único que podemos hacer
+
+01:05:33.780 --> 01:05:35.780
+o lo que, típicamente, se hace es
+
+01:05:35.780 --> 01:05:38.780
+crear un vocalabra vocabulario fijo
+
+01:05:38.780 --> 01:05:40.780
+y sustituyo las palabras de conocidas
+
+01:05:40.780 --> 01:05:41.780
+por un especial.
+
+01:05:41.780 --> 01:05:43.780
+Esto es típicamente de los veceras.
+
+01:05:43.780 --> 01:05:45.780
+Es decir, todas las palabras
+
+01:05:45.780 --> 01:05:46.780
+de conocidas,
+
+01:05:46.780 --> 01:05:48.780
+es considero una sola palabra que nos equivale.
+
+01:05:50.780 --> 01:05:53.780
+Y cuando aparecen inegaramas que no ocurren,
+
+01:05:53.780 --> 01:05:54.780
+es tener caso el comer,
+
+01:05:54.780 --> 01:05:55.780
+que no aparecía.
+
+01:05:56.780 --> 01:05:58.780
+Pero puede ser que el inegarama no ocurra,
+
+01:05:58.780 --> 01:06:00.780
+lo que voy a hacer son técnicas de su avisado.
+
+01:06:00.780 --> 01:06:11.780
+Yo tengo,
+
+01:06:11.780 --> 01:06:14.780
+se acuerdan, tengo el contador de,
+
+01:06:15.780 --> 01:06:17.780
+por ejemplo, acá es un migra,
+
+01:06:17.780 --> 01:06:19.780
+¿no?
+
+01:06:19.780 --> 01:06:20.780
+Contador de la palabra,
+
+01:06:20.780 --> 01:06:21.780
+de cantidad de veces,
+
+01:06:21.780 --> 01:06:22.780
+de la palabra dividido,
+
+01:06:22.780 --> 01:06:25.780
+el total de toque en que hay.
+
+01:06:26.780 --> 01:06:29.780
+Y así que alguno es la probabilidad.
+
+01:06:31.780 --> 01:06:33.780
+La técnica de la plaza,
+
+01:06:34.780 --> 01:06:36.780
+lo que dice es bueno,
+
+01:06:36.780 --> 01:06:37.780
+la creo uno,
+
+01:06:37.780 --> 01:06:38.780
+a cada contador,
+
+01:06:38.780 --> 01:06:39.780
+o sea que nunca me dar cero,
+
+01:06:39.780 --> 01:06:40.780
+la cual lo vestía,
+
+01:06:40.780 --> 01:06:41.780
+digamos,
+
+01:06:41.780 --> 01:06:42.780
+como para que no me decieron,
+
+01:06:42.780 --> 01:06:43.780
+es uno uno.
+
+01:06:43.780 --> 01:06:44.780
+Y les sumo vez,
+
+01:06:44.780 --> 01:06:45.780
+ahora en el web,
+
+01:06:45.780 --> 01:06:46.780
+en el que se pasa,
+
+01:06:46.780 --> 01:06:47.780
+les sumo vez,
+
+01:06:47.780 --> 01:06:48.780
+para que esto me sigan
+
+01:06:48.780 --> 01:06:50.780
+en una distribución de probabilidad.
+
+01:06:56.780 --> 01:07:00.780
+Y esto simplemente lo que hace es que hay
+
+01:07:00.780 --> 01:07:04.780
+colar un contador ajustado,
+
+01:07:04.780 --> 01:07:06.780
+multiplica por TV,
+
+01:07:06.780 --> 01:07:07.780
+por TV,
+
+01:07:07.780 --> 01:07:08.780
+por TV,
+
+01:07:08.780 --> 01:07:10.780
+por TV,
+
+01:07:10.780 --> 01:07:12.780
+por el, por esto,
+
+01:07:12.780 --> 01:07:13.780
+por el PWB.
+
+01:07:18.780 --> 01:07:19.780
+Por ejemplo,
+
+01:07:19.780 --> 01:07:20.780
+si yo digo,
+
+01:07:20.780 --> 01:07:23.780
+sea!]
+
+01:07:24.780 --> 01:07:29.780
+boxing.
+
+01:07:29.780 --> 01:07:30.780
+Quise teamwork entre la min exiting
+
+01:07:30.780 --> 01:07:31.780
+este,
+
+01:07:31.780 --> 01:07:32.780
+la historia un hombre,
+
+01:07:32.780 --> 01:07:34.780
+y la ciudad que creo,
+
+01:07:34.780 --> 01:07:38.780
+y si que me conté какиеle
+
+01:07:38.780 --> 01:07:40.780
+,
+
+01:07:40.780 --> 01:07:41.780
+bueno,
+
+01:07:41.780 --> 01:07:43.780
+si si conté,
+
+01:07:43.780 --> 01:07:47.780
+pero en este sevente unhtey que lo trae
+
+01:07:47.780 --> 01:07:48.940
+Monite y donde tengo
+
+01:07:48.940 --> 01:07:49.780
+este muy calabro simplemente,
+
+01:07:49.780 --> 01:07:53.780
+Entonces, el total de palabras una es esta y es 0-8.
+
+01:07:53.780 --> 01:07:58.780
+La es 2-3 y quiso me acero en la progenía que no queremos que no es 0.
+
+01:07:58.780 --> 01:08:08.780
+Si nosotros aplicamos la plaza, lo que me da es, sumo 25, no, 3 son 12, 12 palabras en el vocabulario,
+
+01:08:08.780 --> 01:08:18.780
+porque la unidad de esta repetida es la, sí, o sea que tengo 12 en el vocabulario, no 13, 13-T y 12-B.
+
+01:08:19.780 --> 01:08:23.780
+Entonces, ya go 2-25 y así me da las nuevas probabilidades.
+
+01:08:23.780 --> 01:08:27.780
+Y acá quiso dejar de ser 0.
+
+01:08:27.780 --> 01:08:32.780
+El contador ha gustado lo que nos permite es comparar lo que teníamos antes con lo que teníamos ahora.
+
+01:08:32.780 --> 01:08:37.780
+Por ejemplo, esta valía 1 y baja a 0-96.
+
+01:08:37.780 --> 01:08:45.780
+Bueno, la valía 2 y baja a 1-44.
+
+01:08:46.780 --> 01:08:50.780
+Y quiso, va de 0 a 0-48.
+
+01:08:53.780 --> 01:08:59.780
+Si se fían acá el descuento, lo que se llama descuento, que es el cociente entre los 2 valores,
+
+01:08:59.780 --> 01:09:10.780
+me permite ver que les estoy sacando más masa de probabilidad a la que hay que ir a casi igual.
+
+01:09:11.780 --> 01:09:16.780
+Es decir, este, la meta, la tenia la plaza el problema, porque es que es lo que está pasando acá.
+
+01:09:16.780 --> 01:09:24.780
+Esto es lo que me muestra es que yo le tengo que sacar masa de probabilidad a los, a los que aparecen,
+
+01:09:24.780 --> 01:09:28.780
+porque todo lo me dice que sumar uno, toda la problema dice que sumar uno.
+
+01:09:28.780 --> 01:09:31.780
+Si yo iba a agregar, viguiera más que antes, estaba en encero,
+
+01:09:31.780 --> 01:09:36.780
+tú que sacarle probabilidad a los que, a los que tapes, no es un mamá que uno.
+
+01:09:36.780 --> 01:09:42.780
+Entonces, esto es lo que tiene que castiga mucho a los, a los más frecuentes.
+
+01:09:42.780 --> 01:09:48.780
+Les sacan mucho probabilidad a los más frecuentes, y como que premia demasiado a los que no aparecen.
+
+01:09:48.780 --> 01:09:51.780
+Hay otras técnicas, no, no, no, no, no, no.
+
+01:09:51.780 --> 01:09:56.780
+En eso, que tratan de ajustarlo un poco mejor.
+
+01:09:56.780 --> 01:10:01.780
+Bueno, ahora vamos a ver con una probación.
+
+01:10:01.780 --> 01:10:03.780
+Muy demasiado probabilidad.
+
+01:10:03.780 --> 01:10:10.780
+Otra posibilidad es que usar un delta en lugar de uno.
+
+01:10:10.780 --> 01:10:11.780
+Sí.
+
+01:10:11.780 --> 01:10:16.780
+Y ese delta tengo que alcularlo, se acuerdan lo que hablamos del cuerpo de siempre.
+
+01:10:16.780 --> 01:10:21.780
+Siempre que yo tengo esos parámetros para que alcular los calculos sobre el cuerpo de desarrollo.
+
+01:10:28.780 --> 01:10:31.780
+Finalmente hay otra, esa es una aproximación.
+
+01:10:31.780 --> 01:10:34.780
+Es decir, con técnicas de sobre el conteo en sí.
+
+01:10:34.780 --> 01:10:39.780
+Hay otra posibilidad que es una un poco más a evolución avanzada, digamos que es,
+
+01:10:39.780 --> 01:10:42.780
+cuando yo quiero estimar,
+
+01:10:42.780 --> 01:10:46.780
+por ejemplo, en técnicas de triguirama,
+
+01:10:46.780 --> 01:10:49.780
+una palabra, a partir de las dos anteriores.
+
+01:10:49.780 --> 01:10:57.780
+Y no existen casos de las dos anteriores en el texto.
+
+01:10:57.780 --> 01:11:02.780
+Sí, de las dos anteriores seguida.
+
+01:11:02.780 --> 01:11:04.780
+¿No?
+
+01:11:04.780 --> 01:11:09.780
+Lo que hago es hacer lo que se llama a Bacof.
+
+01:11:09.780 --> 01:11:12.780
+Así que alcularlo a través de la probación anterior, bueno,
+
+01:11:12.780 --> 01:11:15.780
+si no tengo la anterior, el prueba con el anterior.
+
+01:11:15.780 --> 01:11:18.780
+Eso es más el Bacof.
+
+01:11:18.780 --> 01:11:24.780
+En el Bacof, tenéis que resolver también que ahora otra vez,
+
+01:11:24.780 --> 01:11:28.780
+si esta se introduciendo en nuevas nuevos casos que no tenian antes.
+
+01:11:28.780 --> 01:11:31.780
+Esta probabilidad es que alcular la vida le más a la probabilidad,
+
+01:11:31.780 --> 01:11:36.780
+otra vez tengo que mover probabilidad.
+
+01:11:36.780 --> 01:11:40.780
+Cuando los corpos son muy muy muy grandes,
+
+01:11:40.780 --> 01:11:44.780
+una forma alternativa, y es un método muy nuevo,
+
+01:11:44.780 --> 01:11:46.780
+se llama estuped Bacof,
+
+01:11:46.780 --> 01:11:48.780
+que es como mi copo muy grande,
+
+01:11:48.780 --> 01:11:50.780
+y básicamente el cuerpo de Google,
+
+01:11:50.780 --> 01:11:54.780
+el cuerpo es no normalizan nada de las probabilidades,
+
+01:11:54.780 --> 01:11:57.780
+con teo, no más, como me fue ya está.
+
+01:11:57.780 --> 01:12:01.780
+Si una no me da, pero con el anterior, si es igual tengo un montón de edad.
+
+01:12:05.780 --> 01:12:08.780
+O también se puede hacer interpolación.
+
+01:12:08.780 --> 01:12:10.780
+Es decir, la probabilidad de una palabra,
+
+01:12:10.780 --> 01:12:14.780
+a la dos anteriores,
+
+01:12:14.780 --> 01:12:18.780
+es la probabilidad de la palabra,
+
+01:12:18.780 --> 01:12:20.780
+la probabilidad de nuevo,
+
+01:12:20.780 --> 01:12:22.780
+es la probabilidad original de la palabra
+
+01:12:22.780 --> 01:12:23.780
+de las dos anteriores,
+
+01:12:23.780 --> 01:12:25.780
+por un cierto lambda,
+
+01:12:25.780 --> 01:12:27.780
+más un cierto lambda 2,
+
+01:12:27.780 --> 01:12:28.780
+por la probabilidad de la palabra,
+
+01:12:28.780 --> 01:12:30.780
+es solo el virama,
+
+01:12:30.780 --> 01:12:32.780
+más la probabilidad de un virama,
+
+01:12:32.780 --> 01:12:35.780
+y convino las tres a la vez,
+
+01:12:35.780 --> 01:12:37.780
+es como convino las tres tenidas a la vez.
+
+01:12:37.780 --> 01:12:39.780
+La bordo,
+
+01:12:39.780 --> 01:12:40.780
+es decir,
+
+01:12:40.780 --> 01:12:44.780
+le doy un cierto peso a la probabilidad de que yo quiero.
+
+01:12:44.780 --> 01:12:45.780
+De esta forma,
+
+01:12:45.780 --> 01:12:48.780
+porque acá podría ser que existiera el virama anteriores,
+
+01:12:48.780 --> 01:12:49.780
+pero existiera una vez sola,
+
+01:12:49.780 --> 01:12:52.780
+entonces yo no le tengo mucha confianza de esa.
+
+01:12:52.780 --> 01:12:55.780
+Puede sucederme que no le tenga mucha confianza,
+
+01:12:55.780 --> 01:12:57.780
+entonces le doy un cierto peso a este también,
+
+01:12:57.780 --> 01:12:59.780
+que a la vez hay un poquito más alto a este.
+
+01:12:59.780 --> 01:13:00.780
+O sea, sí existe,
+
+01:13:00.780 --> 01:13:01.780
+todavía,
+
+01:13:01.780 --> 01:13:02.780
+pero este siempre me ayuda.
+
+01:13:02.780 --> 01:13:03.780
+Y de esa forma,
+
+01:13:03.780 --> 01:13:04.780
+a la ansión.
+
+01:13:04.780 --> 01:13:07.780
+¿Cómo calcula esto en lambda
+
+01:13:07.780 --> 01:13:08.780
+y con el cuerpo,
+
+01:13:08.780 --> 01:13:09.780
+esto es igual,
+
+01:13:09.780 --> 01:13:11.780
+tengo que,
+
+01:13:11.780 --> 01:13:13.780
+por alguna forma,
+
+01:13:13.780 --> 01:13:16.780
+que alcularlo sobre el cuerpo de desarrollo,
+
+01:13:16.780 --> 01:13:17.780
+o el cuerpo gelado.
+
+01:13:22.780 --> 01:13:24.780
+También hay interpolación,
+
+01:13:24.780 --> 01:13:27.780
+condicionada por el contexto,
+
+01:13:27.780 --> 01:13:28.780
+que o sea,
+
+01:13:28.780 --> 01:13:29.780
+hay un lambda,
+
+01:13:29.780 --> 01:13:31.780
+acá ya hay lo que pasa es un poco más raro,
+
+01:13:31.780 --> 01:13:32.780
+y un poco más moderno,
+
+01:13:32.780 --> 01:13:34.780
+digamos que es que,
+
+01:13:34.780 --> 01:13:35.780
+más de estas épocas,
+
+01:13:35.780 --> 01:13:36.780
+digamos,
+
+01:13:36.780 --> 01:13:38.780
+que ocupan tanto tener muchos parámetros,
+
+01:13:38.780 --> 01:13:40.780
+acá estoy definiendo un parámetro
+
+01:13:40.780 --> 01:13:42.780
+para cada combinación de palabras.
+
+01:13:50.780 --> 01:13:52.780
+Y hasta aquí llegamos hoy,
+
+01:13:52.780 --> 01:13:55.780
+esto es este capítulo que tengo acá,
+
+01:13:55.780 --> 01:13:58.780
+capítulo 4 del libro de Jurazki,
+
+01:13:58.780 --> 01:14:01.780
+tiene algunas cositas más presencialmente eso,
+
+01:14:03.780 --> 01:14:05.780
+y es lo que vamos a hablar de en este curso
+
+01:14:05.780 --> 01:14:06.780
+de Nígramos.
+
+01:14:06.780 --> 01:14:08.780
+La clase que viene,
+
+01:14:08.780 --> 01:14:10.780
+presentamos la baratólla.
+

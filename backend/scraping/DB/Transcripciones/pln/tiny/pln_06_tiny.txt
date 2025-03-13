@@ -1,0 +1,1840 @@
+Vamos a tener, vamos a terminar de ponernos al guía, espero con luego de la dos clase que
+que suprendimos por la zona es fuerza mayor y va a hacer un poquito larga y vamos a hablar de dos temas
+bien diferentes, si yo hubiera que planificar, bueno, de hecho tengo que planificar, pero no tengo más gente,
+no pondría todos temas en la misma clase, porque son dos temas bien, bien, bien diferentes y capaz que es
+interesante marcar cuando lo veamos y ese puede ser un valor agregado, la diferencia entre los dos de
+el punto de vista de los métodos utilizados, vamos a ver dos, dos, dos temas uno va a ser,
+se acuerdan que la clase pasada hablamos de morphología, no, va, y trabajimos un formalismo que es el
+de los transladores de todo finito y su alge y su bien dicho, su alge era expresiones regulares,
+es tendida a relaciones, se acuerdan que, así como teníamos una algebra de expresiones regulares para
+los lenguajes, ahora teníamos una algebra de expresión regulares para los transladores, para
+las relaciones en realidad, que eran computadas por los, por los transladores de todo finito, y
+pues introdujimos un problema que era el de la morphología, es decir, encontrar la estructura interna
+de las palabras, dado una palabra, analizar su estructura y devolver su estructura interna y dice
+versas, es una cosa más analicil, la otra esa más generación, dice, vas a crecir, yo te de la estructura
+y me da la palabra, sí, y vimos un poco que la morphología dependía un poco de los lenguajes,
+pero que, esencialmente, de lo que se trataba era de tener, o que podía modelar, sí, como
+la licitencia de raíces, que eran los morfemas, la palabra estaba de 10 morfemas y que son
+morfemas se devían en dos, en raíces que son lo que contenían, la mayor parte del significado
+de la palabra, la porción de la palabra que tiene la mayor parte significado y los afijos,
+que esencialmente, o por lo menos para, para nuestro idioma son dos, son prefijos y sufijos,
+prefijo ganantes, sufijos guanda, tal, en la clase de hoy lo vamos a ver, en la primera parte,
+es justamente la comien, como los transductores o la algebra de de estado finito, no sirve para
+modelar los problemas de morfología, pero los problemas de análisis y generaciones,
+algunas ventajas que ya vimos que los transductores tienen y como se aplican a esto, este método
+es un método esencialmente determinista o orientado a reglas, reglas, a Venezuela,
+más que determinista, me decir, van a ver que mi solución consiste en, bueno, dado una palabra,
+aplicota a las reglas y me devuelve la análisis, en la segunda parte de la que hacemos a un método,
+no tiene nada que ver desde su fundamento, porque su método provaabilista, que esencialmente
+aprende de los datos, y esencialmente los dos grandes grupos que tenemos en el
+análisis del lenguaje de neutral como una tracantía de cosas que involucran datos, metos orientados
+a la reglas, donde un experto específica de alguna forma reglas aplicar para resolver el problema,
+y otro conjunto de métodos donde yo aprendo de los datos, los detadísticos son uno de ellos,
+hay otro tipo, pero donde yo esencialmente infiero el conocimiento en ese día a partir
+de los datos, esos datos son los que usualmente llamamos métodos de aprendizaje automático,
+sí, van a ver que en muchos de los problemas hay, hay de los dos enfocos, y en algunos
+anda mejor uno, si otros mejor otros hay una vieja guerra, en el precisamente de la
+general sobre el cual es métodos, pero miña sobre otros, el siglo XXI vamos a mostrar una
+prevalencia de los métodos basados en datos, como vamos a ver acá, pero hay dominos
+de los orientadores, la función es muy bien, y cuando funcionan bien, cuando yo puedo
+escribir la realidad completamente a través de reglas, lo mejor, a veces que la realidad
+son demasiado compleja para moverla a la conregla, y ahí donde ganan sobre los métodos
+de precios automáticos, y general los métodos ya aprendizaje, en el precisamente del
+debate, no son más de los cuadros, porque el lenguaje natural, como hemos visto, es muy
+ambiguo, es muy creativo, es muy cambiante, bueno, probamos algo que nos convocan hoy,
+y lo vamos a hablar de morphología de Estados Unidos, esto es modelar los problemas de
+morphología, que hay una clase pasada, con a través de herramientas de Estados Unidos,
+esto es un desambiguador morphocentático, interpróblemas de amor, de
+morphología es, bueno, acá lo que es nuevo que hizo fue separar parada por palabra,
+y dice, la que puede ser un sustantivo, pero no hombre, un artículo, esto es clasificación,
+pero además,
+puede ver las flexiones, bueno, es una palabra poco más, por ejemplo, Villa, que es un adjetivo,
+forma ganónica esbella, y la flexión es, sin suf, bueno, que tanto alir,
+más culino es simular es bello, la forma introducia bella, y se acuerdan que la flexión
+es cambiando los morfeimas, yo cambio el final de la palabra y la flexión,
+es la verdad que pensé que te tenía marcabas, los sufijos y prefijos, pero no me equivocé
+de cosas, pero bueno, el importante es que nosotros vamos a admitir flexionar capa la
+palabra, lavar, por ejemplo, que es un verbo, se flexiona diferente, justamente, que es un verbo,
+la bola va, la bola va, la bola va, la bola va, ok, entonces la morphología es, la
+vamos, yo tengo que decir de alguna forma que esto es un verbo, que está conjuado en la primera persona
+del plural, en el presente indicativo, bueno, esa es la, las características que tendrían, las marcas
+que teníamos que asociarle a la palabra, en el análisis, se tiende, como lo mismo la clase
+pasaba a ver un poco más en algunos casos, por ejemplo, yo lo sé que en la edición perdí una,
+por ejemplo, lo que le díamos la vez pasada que yo quiero llevar a que gatito, si es gato,
+que la forma canónica, o alema, alema, alema, alema, alema, alema, más, masculino, más es un marca, nada más, no,
+es una forma está más, masculino, singular, y minutino, bueno, ni problema de ir de acá, acá se llama análisis,
+ir de acá, acá se llama generación, bueno, esto se llama forma de superficie, esto es una forma
+lexica, lo que le parece más fácil es la análisis que la generación, y aquí le parece más fácil la
+generación que la análisis, al segundo, no hay una otra, lo dejamos por ahí, yo también me parece
+más fácil la generación que la análisis, no, al suo también no, a mí también, bueno, vamos a dejarlo por ahí,
+vamos después vamos a ver, bueno, en fin de los años 60, las reglas morfológicas son muy parecidas
+a las reglas fonéticas, decir cómo transformar una palabra en sonidos, bueno, hay una similitud,
+yo tengo la forma de superficie y después la mapeva los fonemas que la produce y al revés,
+el guarón, es un problema muy similar, de hecho, lo que se llama en alternaciones en la fonética ya en los años 60
+se describían por reglas de agricultura que decía bueno, reglas de equipo, no, si hay una idea delante y una p después,
+la n se transforma en n, bueno, entonces la palabra que podría ser pegar inconposible en realidad debería ser imposible,
+pero no estaba claro cómo va a usar las para para analizar, se sabía que había reglas que uno
+otra usaba este tipo de reglas en gascada para generar la palabra, pero no se sabía bien cómo usar las
+para el análisis, porque este tipo de reglas en su formato más genérico son igual de, son de igual
+expresivas que una maquina de Turin, o sea que podría poder expresar lenguaje tan complejo como si quisiera y cuando uno es muy expresivo,
+en un formalismo, el costo que va a iguales, que es computacionalmente muy costoso en el caso general,
+el automata está o finito, son muy sencillos, el automata está o finito, no son muy expresivos,
+no son tan expresivos que son muy eficientes computacionalmente, en cambio, si yo mueve lo con maquina de Turin,
+tengo problemas de eficiencia, potenciales, problemas de eficiencia, es decir, una computadora completa para
+el poder computación igual de la computadora, bueno, entonces quedaron por ahí, esas reglas quedaron por ahí por allá
+el milo de 172, un señor que se llamaba Jones, dijo, bueno, pero esto, esto me difícil de aplicar sin más contexto,
+pero lo fue una logita siempre a su milo, que si yo cambiaba y la ene por la ene, es que yo tengo analizando esta palabra,
+no, y yo cambió la ene por la ene, luego, ha sido avanzando haciendo otros cambios en la palabra,
+no utilizo esa ene como el nuevo, está ene que puse como parte de otra regla,
+eso computacionalmente es muy importante, porque permite, si yo saco esas restricciones,
+si yo siempre que digo, después que reemplazo algo me sigo moviendo en la tiro original,
+reemplazo en esta transformación, se tiene, yo estoy idea es ir por el lado de gatito
+e ingenirando esto, el guardo analizar esta entrada y ingenuado esta salida, es ese es nuestro problema,
+si yo aplico una regla y me muevo hacia adelante, una regla de este tipo de sustitución,
+de esta, pero este veta que yo sustituyo acá, este alfa, el sustituyo por un veta,
+luego no lo uso con para otra regla, las propiedades formales de esa transformación,
+así que esas reglas se pueden escribir por transductores, yo tengo la posibilidad de escribir este tipo de reglas de
+la agricultura contra el doctor, es igual está o finito, todo esto es un tema muy, muy, muy largo y,
+como yo le decía en un momento en un curso sobre esto, pero la idea de esto es que entender un que
+ese tipo de sustitución es que yo hago, eran computacionalmente equivalentes a un transductor
+de esta o finito y por lo tanto estaban en el lado del estado finito, o sea que eran potencialmente
+ficient, nadie se enteró porque en esa época no había internet, bueno voy a para unos poco
+de los jugaciones un se ve que no estaba, por allá por 1980 aparece en Kaplanikai, que dice en
+bueno, descubren esto de Johnson, y en bueno, por entonces las reglas de escritura,
+si yo puedo escribir reglas de escritura para modelar la morphología, yo voy a escribir
+reglas de escritura, que la reacción de escritura se puede ver como reglas de escritura
+se puede ver como reglas de escritura, yo puedo modelar la desinforma, y entonces yo podría
+representar toda esta su tuttusión y el contra el doctor, el problema de que en ese momento
+el doctor y los hacían amano como tratamos de hacer nosotros el doctor que hacía el plural,
+que empezamos a hacer todo el tomo de un arma muy libero,
+porque lo hacían al mano, pero sobre esa basitió rica,
+se empezaron a implementar operaciones genericas
+que permitían representar más sencillamente
+ese tipo de sustitución.
+Pero al mal se había otro problema,
+y el siguiente, ¿qué?
+Si yo tengo una...
+¿Qué no se ve bien?
+Si yo tengo una palabra que dice,
+esto es phonología, ¿no?
+Cá en el pat.
+¿A qué es como el estructura de la palabra?
+Yo estoy generando la palabra.
+Sí?
+Acá lo dice que hay una regla que sí,
+está en el fono lógica.
+Sí?
+Se transforma en una m y si hay una p, después.
+O sea, que suena como una m, después de...
+Esto es una representación actual de sonido.
+¿Tá?
+¿Cómo que fuera?
+Está abajo.
+No puedo.
+La regla dice, está en herandota,
+que es una marca de phonema,
+digamos.
+No sé exactamente cómo se dice en cosas de fono los.
+Se transforma en una m y en una m,
+perdón, antes de una p.
+Sí.
+Una m, en una m, antes de una p.
+Entonces, yo acá estoy digo,
+c, m, pata.
+Es bueno.
+Pero además,
+pero además,
+la p, por lo que estoy en ortografía,
+se transforma en una m y lo que hay antes
+es una m, misma m.
+Entonces, esta palabra se debería expresar
+como c, m, pata.
+Luego, hay una transformación acá
+y hay otro transformación acá.
+Y esta en mi palabra destino.
+De una representación fonológica,
+pasé una representación de superficie.
+Sí.
+Pero el problema es que,
+si yo tengo esta representación de superficie,
+¿Cuál es el análisis?
+Bien, análisis lo tengo por acá.
+¿De acuerdo?
+Todas estas palabras.
+Sí.
+Todas estas palabras.
+¿Pueden ser validas
+para generar esta forma de superficie?
+Porque todas harían lo mismo,
+aunque yo, porque te arrelas son aplicas
+cuando hay una inegrande,
+sino hay una inegrande, no aplica.
+Se tiende, se siente cuál es cuál es la situación,
+que yo tengo problema de no determinismo,
+que yo, para generar,
+tengo no tengo problema,
+pero para volverme pueden generar muchas.
+Sí.
+Entonces,
+no sabéis que hacer con esto,
+porque sí, bueno,
+pero entonces acá,
+¿qué hago yo?
+¿Cuál de estas tres en la posta?
+¿Cuál es la real la buena, digamos?
+¿Cómo sé que esta,
+que esta es buena y estados, no?
+Y lo que descubrieron por allá por los años 80
+es que,
+yo sé que la buena,
+yo que esta puede ser buena,
+porque esta no tienen sentido
+como forma eléxicas,
+son formalesias que no tienen,
+que si yo les busco el indicio anterior,
+forma eléxicas posibles,
+sí, no van a aparecer,
+pero acá tengo problema,
+que si le da que se pasaba,
+yo no puedo meter todas las combinaciones
+en un indicio anterior posible,
+porque son demasiado,
+pero lo que sí puedo hacer
+es
+meter otro transductor,
+que lo único que haga
+es decir,
+me cuáles son las posibles combinaciones
+que hay de prefijo y sufijo y afijos.
+Entonces yo,
+si construy un transductor que haga estas reglas
+y la peo,
+un transductor que identifica las posibles combinaciones,
+tengo algo que daba una palabra,
+una combinación de vuelve su forma de superficie
+y alrede,
+también.
+Y eso justamente lo que hace la morphología
+está o finito.
+Yo tengo un repositorio para palabras
+que se llama lexicon,
+que es una realidad es un repositorio de morfemas,
+que generalmente no hace nada,
+los lemas,
+los prefijos y los sufijos y lo que llamamos morfotácticas,
+las morfotácticas,
+lo que son son todas las combinaciones
+posibles que hay de morfemas,
+en al lenguaje.
+¿Qué morfemas se pean con alguna cosa?
+¿Cuál es la no de inelefantemente
+que esto puedo hacerlo y esto no?
+Bueno, eso son las morfotácticas.
+¿Qué prefijo pueden seguir a otro?
+Es decir, yo no puedo tener tu plurales seguido.
+Es decir, es una morfotáctica.
+Es decir, yo tengo una palabra
+que termina nada,
+bueno,
+si es un sustantivo
+y además después puede opcionalmente tener una ese
+para asegurar entre otras cosas.
+Entonces, yo puedo escribir relas de ese tipo.
+Entonces, te voy a tener en cuenta esas cosas,
+los morfemas son, hay un morfema que son emocionales,
+lo que vas a decir,
+los afijo dependen de la raíz,
+yo puedo decir imposible,
+pero no importante,
+porque mi idioma no es valio,
+y en general la derivación es más complicada
+que la flexión,
+la flexión tiene un comportamiento más regular,
+principalmente porque finito,
+porque no es creativa a la flexión.
+Se acuerdan la flexión,
+era para hacer los plurales,
+los que no cambiaban la clase de la palabra
+o significado,
+plurales,
+género,
+verbos,
+con jugación de verbos.
+Entonces,
+bueno,
+los transductores lexicos,
+que fue lo que en los años 80
+centros de género para resolver
+el problema de la morfología,
+lo que hacen el par心 morfológico,
+y entonces dicen,
+bueno, yo lo que quiero es una correspondencia
+de nivel lexico,
+que es una colección de morfemas,
+y el nivel de superficie.
+Si yo veo en los automatas de tao finito,
+como automatas sobre 200,
+yo podría haber la transformación entre una palabra
+y son marcas,
+como simplemente una traducción,
+que me lleva,
+de la gela y por acá empieza a cambiar
+y a general,
+sobre el alfabeto del lado lexico.
+Bueno,
+se tiene más o menos.
+Entonces yo,
+voy a tener un auto un transductor
+de tao finito,
+que en un lado tiene la forma
+de superficie y la otra,
+la eléxica.
+Pero el más teníamos el tema
+de las reglas ortográficas,
+o sea,
+hasta ahora yo tengo,
+fíjense que yo tengo paláveras
+y cómo pegarlo,
+morfema,
+tengo la lista de palabras de posibles,
+de morfema posibles,
+la raíz,
+el sufigo,
+la fíjense,
+tengo todo junto por el lado,
+tengo la exesonita,
+la solita,
+la o,
+y después tengo gato,
+per,
+cas,
+murcielado,
+no,
+y mente,
+mente para decir el fantemente,
+y después tengo las morfotardías
+que dice que el fantemente no se puede.
+Sí,
+si el luego está clase,
+lo ya hemos introducido al idioma,
+entonces vamos a poder
+también.
+Sí.
+Pero no falta en la reina
+ortográfica.
+Si yo digo,
+tengo,
+por un lado,
+tengo,
+importante,
+por el otro,
+pero yo no digo,
+bueno,
+no,
+tengo,
+y posible,
+yo tengo,
+imposible,
+las pedo me da,
+imposible,
+que no es baño,
+porque la enéctina que cambiarse
+porque estaba,
+a la ante una p,
+como no se enseñan
+desde ese segundo año de escuela.
+Entonces,
+no falta la reina ortográfica,
+bueno,
+la reina ortográfica también
+pueden representarse
+por un transductor
+que modifique
+en una cascada,
+lo que la reina anterior transforma.
+Entonces,
+no queda una cosa así,
+la,
+la,
+yo tengo la forma de superficie,
+una especie de forma intermedia,
+que dice,
+bueno,
+acá apareció,
+y todo,
+la marca y todo,
+y luego,
+de la análisis,
+y todo quiere decir
+masculino singular,
+diminutivo.
+Tá.
+Todo eso lo he perdido
+a un transductor.
+Tiene el modelo que proponía
+a cosqueñémi,
+que había mucha,
+para la reina ortográfica
+pero ponía mucho
+a un transductor en paralelo.
+Pero en realidad
+la reina ortográfica
+es un transduccionando hacia
+otra cosa que son
+una cascada de reina,
+que lo vamos a ver ahora,
+que lo que introdujeron
+la huricartura,
+eran tofinantes,
+se acuerdan el finlandes,
+era medio.
+Y este país,
+porque es muy famoso
+de la,
+de la,
+de la,
+de la,
+de la,
+de la,
+de la,
+de la,
+de la recalación regular.
+Y a lo que vese mincedscó
+de nuestro método surgen
+de la equivalencia.
+Mi jet,
+mientras razo no amo.
+Pero,
+su recalación regular
+es en término savedätter
+es conj montón,
+de escribimoslo conjundo
+de discudktion por medio
+operaciones constructidas
+sobre el estránductor,
+de estadounidoles,
+me viene en gratis, que yo tengo al modernarlo a través de unas reglas, yo transformo
+a los transdures una cosa automática, y eso justamente lo que vamos a hacer para
+escribir reglas, yo acá lo voy a mostrar con un lenguaje de expresiones regulares que
+es el de cero que es uno de los más conocidos, sí, vamos a ver rápidamente operaciones sobre
+expresiones regulares y cómo escribirlas y cómo se transforman estas transductores,
+y después vamos a escribir con eso la morphología de un lenguaje, entonces bueno,
+qué quiere decir esto, yo tengo, voy a tener una expresión regular, esto es como se
+privé y el lenguaje o relación de aquel lado, estos son lenguajes, el cero de notar a
+ércillo en el lenguaje vacío, sí, o sea que yo estoy perdón, acabo de decir una cosa que
+se me escucha en mi compañía de tener el lenguaje de mi matal, el cilo no es el lenguaje vacío y no
+el estrim vacío, no, en decir lo único que tiene es el estrim vacío, o en la correspondiente
+relación de identidad, en todo esto nosotros estamos denotando relaciones, padres de
+strings, se aguardan o, es decir, yo tengo un entrado una salida en el trábotor, a un lenguaje
+y yo lo puedo ver como un caso especial de una relación que es y la cual la entrada
+es igual a la salida, el mapeo es una un, entonces yo acá el el cilo de nota o lenguaje o la relación
+correspondiente de identidad, este símbolo quiere decir cualquier cosa que de nota cualquier
+string que tiene un símbolo azul, que es septo de visión, y si yo pongo a ese
+string que he hecho con solamente la letra a la iguala, ahora la diferencia del símbolo
+y el string son símbolos pegados, yo tengo un string de un símbolo, pero no es lo
+mismo símbolo, un string símbolo, pero yo también pongo que viene en mi expresión y
+el cabiene y la noveda, respeto a lo de cosa como esto, específicar que este símbolo
+a lo, leo la entrada pero en la salida no de vuelvo la propiedad sin una vez, y esto
+a dos puntos a ese equivalente a solo, escribir a solo y lo mismo escribir a se mapea,
+por defecto, yo asumo que si no pongo nada, lo mapea la misma salida que la entrada,
+sí, y ese to y esto es una cuestión de notación acá, sí, quiere decir que cualquier cosa mapea
+con cualquier cosa que es igual en todo contra todo como el producto cartesiano de símbolo,
+o sea que yo escribir esto, no es lo mismo que escribir esto, porque acá lo que estoy
+diciendo es cualquier símbolo y de vuelvo el mismo, y acá estoy diciendo cualquier símbolo
+y de vuelvo cualquier símbolo, o sea que la salida es muy libre, bueno, pasas más cosas,
+no, yo puedo usar paredmente si puedo decir una o más vez, lo que estaba antes,
+es cero o más vez, lo que estaba antes, esto quiere decir cualquier cosa cero más vez,
+eso sea que estoy hacer lenguaje universal, decir más tarde, y esto es cualquier cosa,
+siempre cuando tenga la misma relación entre la salida, es mismo largo, entre la salida,
+es decir mapea cualquier símbolo a otro, pero es uno, uno, uno, y yo puedo definir el complemento
+que son los que definió con lenguaje, la negación hay que usar, hay alguna presión regulada es
+un muy interesante, porque por ejemplo, contiene, parece muy sencilla de escribir, pero en
+raya no es tan fácil, es cualquier cosa, la expresión y cualquier cosa, pero ni es
+cualquier cosa que no tenga, esencialmente, cada uno de estos, pero ahora tiene un país
+y perdí algo, un predecible de una forma, esto es la expresión, sin contar las cosas
+que tal vez, y estábamos muchas ciosos para definir otros, pero ahora hemos avanzado, que viene
+después, acá tengo este muy, la unión, esa oe, la intersección o nojo de intersección
+son los que definían para la expresión regulada, para cuando son expresiones porque las
+regaciones, si se acuerdan de la clase de la industria, no son ingenieras cerradas bajo intersección,
+y este es el producto que artesiano es muy importante, es si yo expreso acá un conjunto de
+tiras, va en quiera, tiras que empiezan con nada, las mapea a todas las tiras de la otra presión,
+si yo digo, por ejemplo, aáster, producto artesiano, voy a aster, lo que tengo es un
+transductor que me devuelve, para cada tira que empiezan, cualquier tira que empiezan con
+nada, me la devuelve, en cualquier tira de pisa con me, si se producto artesiano de los dos
+conjuntos, sencillamente. ¿Qué te hace en las proyecciones?
+El reabarso en inverso y este es muy importante, es la composición, se acuerda en cuál
+era la composición de tradutoria, ahí se acuerda en cuál era la composición, es muy importante.
+Ahí se acuerda en ahí, se acuerda en ahí, se acuerda en ahí, la composición era, yo
+tenia un transductor por acá, que tomaba una entrada y evoluiona esa lida, y tenía otro
+acá, que también, que era de evoluiona esa lida, la composición era la aplicación
+en cascada de los dos, es decir, yo tomo una entrada, tiene una salida y esa salida,
+la paso por este tradutor, y como los tradutores son cerrados o composición, eso quiere
+decir que si yo lo lo modelaré esto, una regla con esto, y luego la aplicación de
+y luego otra, que tiene la segunda, la aplicación de los dos, en cascada, se
+puede modelar por un transductor que hace las dos cosas a la vez, nosotros vamos a usar eso.
+Bueno, hay toda una área de análisis, hay que son los operadores de remplazo, que es forma
+de decir, bueno, cada vez que aparezca a reemplazándolo por ver en la salida, por ejemplo,
+cada vez que diga, y bueno, el pasado me lo vamos a masculino, por decirme la pagada que no te
+sentí, en este caso, pero ahora como combinamos todo esto, hay un montón de operadores
+de remplazo, dependiendo del contexto en el que aparecen, si yo reemplazo opcionalmente, etcétera.
+La de soperadora de remplazo tiene una de un problema, o alguna complejidad y el
+siguiente, si yo tengo, por ejemplo, esta regla, como leemos esta regla, ahí me dice
+como leemos esta regla, como leo esta regla, cualquier ti, también, bien, yo le voy a
+dar un punto más para el final, yo te voy a hablar con el nombre, es que hay cualquier
+cantidad de vez, y lo mismo, no, no hay cualquier vez con la vez, es, ah, y cualquier cantidad
+de vez, está, se replaza por si, la pregunta es, ¿cuál es la salida de esto? ¿Cuál es?
+¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Por qué pasa esto? ¿Por qué tenemos tanta
+opción? ¿Por qué tenemos tanta opción? Pensácticamente depende de lo que yo entiendo como
+había hasta, en que se intensidad había hasta, y efectivamente no hay la definición de
+transductoro de regla de remplazo para estas trices validas, porque no es determinista, pero
+muchas veces nosotros queríamos decir algo, queríamos decir, bueno, no, no, realmente
+es lo que quería decir acá era que hay toda la vez posible, entonces hay también operadores
+que permiten decir si yo machío, la más tira malarba la más corta ya, bueno, entern con
+la presión regular, si ustedes se acuerdan cuando uno busca tienes a posibilidad, decir machío
+lo más largo, lo más corta, ya, entonces hay un operador especial que se llama, bueno,
+el logas mach sería, sí, verdad, en lo malarbo que puedo macheres a y todas las veces, y el
+sure is mach, es solo mapear la aire esta presión regular, a ver, a ustedes, a ustedes
+se lo, hay operador que permiten escribir eso, justamente, lo más, también tengo
+problemas similares, yo no voy a entrar en detrás acá, también puedo tener problemas
+porque si yo, muchas veces es un lugar remplazo de que era la derecha, pero si yo tengo,
+si yo por ejemplo, el niñeta tira remplazo, a ver, por ahí, entonces yo lo voy a hacer
+es su tirita, por una, por una vez, por una nueva, y esta nueva funciona de contexto para
+la siguiente presión, sí, y eso no, no, no, no, enta de detrás acá, lo puedo resolver
+el diferente forma, porque yo podía resolver, yo estoy asumiendo como he disqué la derecha,
+pero podría ir de derecha, es que era así ningún problema, porque nada me dice que yo
+no le hice la tira y que era de derecha, entonces yo podría venir para atrás y encontrar, bueno,
+no acá no me va a aplicar, porque la vino, acá me da lo mismo, porque la vez recién
+encuentra acá, bueno, no, está bien, esto me va a devolver a bebé, acá, no, en
+ese caso de lo mismo, porque no, no, no de ese amigo, pero es caso que de que la derecha
+te hay diferente que de derecha, que era era, y lo mismo y con toda su combinación, no, no,
+así es esta Georgia, la gente es bueno, entonces
+bueno, todo esto que yo una pres Dip Sesera de la delgebra, es necesitamente lo que no permite
+ese, como le decía es escribir transukciones y las juntos cómo hisamos esto para representar
+la morphología o lengua, bueno, muchas gracias, nos agarramos lo siguiente.
+Nó, la verdad, sí, claro, esto eso24, sería algo verdad que es lo que poi ha eso, no
+No, exactamente, no, es todo, son todos operaciones, algunas muy complejas,
+muy complejas, el reemplazo, por ejemplo, de muy complejo,
+y se contuye en una sobre otras, digamos, pero en ningún,
+pero son todas sin tácticos y jugar, digamos,
+sin ninguna introducción nueva operadora, al final del día,
+se lo siempre lo mismo operadora.
+Hay algunos, en el al final del, al final de la presentación,
+hay una bibliografía ahí, y hay algunos artículos,
+hay un artículo que se llama de arripleo y soparator.
+El artículo es muestra cómo definir el operador de arremplazo
+a partir de las operaciones primitivas.
+Y hay otros veces, el long es match y short match.
+Y hay otros, y como es el arremplazo opcional,
+eso fue toda una construcción de una desagra.
+Está, bueno, entonces vamos a ver un ejemplo de cómo funciona esto.
+Que está en el práctico que publicamos.
+Y que dice, si, bueno, yo tengo el uno, lo va a buena.
+Sí.
+Eso es un lenguaje que se llama va a abonar.
+Que tiene sustantivos.
+Sí, vamos a hablar solo de lo sustantivo de bombona.
+Y tiene la siguiente característica.
+Hay siete vocales en bambona, que son esa que está en ahí.
+La ahí, la ahí, la ahí, tilde, a u, o, y o.
+Y no es la vocalia.
+Sí, y lo sustantivo en bambona comienza siempre con una raíz,
+que usualmente sigue el patrón consonante,
+vocal consonante o consonante, vocal y dos consonante.
+Por ejemplo, el mal quiere decir libro,
+copo quiere decir reactornuclear y leer quiere decir chancho.
+Por la hay uno de los hombres, ¿no?
+Y todo ese anigüático lo que quieren decir en nuestro lenguaje.
+Por ejemplo, lo que no importa es que las raíces son estas.
+Es la raíz con con lo que comienza.
+Pero siempre hay una tere mundo, siempre comienza con una raíz.
+No se hay una tereprefijo.
+También, después de eso, lo sustantivo tiene un sufijo opcional,
+que puede ser ac, e o hilo.
+O sea que es un gran circuito integrado.
+Y leer red es un chanchito.
+Un máximo de uno de estos tres suficos puede aparecer una palabra.
+Y yo le voy a marcar como pej, madim o auto.
+No le han hablado el xico.
+Se tiende lo que estamos haciendo, ¿no?
+Estamos a partir de la palabra, estamos generando su futuro.
+Luego, sin emocionalmente, un sufijo único que indica la confianza del avlante.
+Quizmos, o sea que yo ha sido subes, es un pequeño antista,
+y lo estoy diciendo, estoy manifestando lo que es evidente de la realidad.
+En cosas que no tenemos, no tenemos forma de presar en la lenguaje.
+Lo presamos con gesto.
+Luego, si un sufijo único que indica, no se lo dije.
+Y lo voy a marcar como obvio, probable que su puesto.
+Luego, si un sufijo de plural, que es el hilo, ejac, que es un poco.
+Y todas estas cosas que yo no sé qué son, que marcar a otras características.
+Pero cuestionan que pueden tener, a nosotros que somos este computadora,
+no interés al mapeo y no que quilecer.
+Entonces, bueno, y al final tenemos que el genitivo,
+o puede terminar una palabra, o puede estar seguido de un sufijo,
+aunque de nota posesión inalienable,
+en mi hilo puede estar seguido por el sufijo,
+que es un intensificador, hay gente que no está bien.
+En la palabra, deba en buena, y entonces, interesante,
+las consonantes p, t, y cada nunca son seguida de las vocales frontales,
+y o con tile, sino por su corresponde de un o y o con tile y los pares,
+sí, mologlada.
+¿Qué ha sido con esta?
+¿Cuál es la tarea que queremos resolver?
+¿Cuál es la tarea que queremos resolver?
+Si no me dice, ¿cuál es la tarea que queremos resolver?
+No vamos a poder resolver nada.
+Así que, por definición, ¿qué queremos hacer nosotros?
+¿Cuál es nuestro problema resolver?
+¿Cuál es nuestro problema resolver?
+¿Qué quiere decir eso?
+¿Qué quiere decir eso?
+¿Cómo como modelo eso?
+¿Qué quiere decir como del problema?
+¿Cuál es el problema?
+Alllegiano genera, es lo que empezamos diciendo de la clase.
+¿Qué tiene una palabra?
+¿Mambona?
+Quiero que no se hace su estructura.
+¿Oh, tiene una forma de la clase que quiero?
+Pues ya que si yo te digo, si yo digo, como dije hoy,
+nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada
+nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada nada, nada, nada, nada, nada nada, nada, nada nada nada
+que se necesitaban para modelar la morphología. ¿Cuál es heran?
+Sí, el lexicono. No hay idea, los mórfemas, los lema, malo sufijo, ¿no?
+Toda la parte cinta de el Congol, ¿cuál es son los lema ahí? ¿Cuál es son los ufilos,
+los... las raíces y los afíjos, los mórfemas. ¿Cuál es son los ufilos?
+¿Cuál es son los ufilos? ¿Cuál es son los ufilos? ¿Cuál es son los ufilos?
+¿Cuál es son los mórfemas? ¿Cómo forman la palabra genita en este cocheo?
+Es más fácil, la pregunta, ¿cuál es son los mórfemas? ¿Qué son los mórfemas?
+¿Cuál son los mórfemas? ¿La seguúno? ¿Son la parte ciquita con la que se compró en la palabra? ¿De qué tomó la zona?
+¿Dignieron la que se pese?
+¿Cuál es el cocheo? ¿Cuál es el cocheo?
+¿Cuál es el cocheo?
+Es un elto, ¿no? Rúto, ¿me el caso? No sé qué.
+¿Tá?
+Y todo el to, a... no sé quién es un cuanta.
+¿Te guardo?
+Y además tengo que saber para cada una de ellas.
+¿Qué cuando aparece este acto?
+¿Tengo el lado a fijo?
+¿No? ¿De acuerdo?
+Es en mí.
+¿Y cómo vamos para...
+Es pesar de eso con un trandultor?
+¿Cómo hay un trandultor que guarde todas estas palabras?
+¿Cómo lo hago?
+¿Cómo lo hago? ¿Cómo un trandultor que guarde todas las palabras?
+¿Quiés el tercer?
+¿Qué es? ¿Qué es? ¿Cómo es el nute de ese?
+¿Cómo es el nute de ese?
+¿Cómo es el nute de ese?
+¿Cómo es el nute de ese?
+¿Cómo es el nute de ese?
+¿Cómo es el nute de ese?
+Bueno, ahora vienen por materectrónico, pero ¿cómo?
+escribido cada una de la palabra que tengo, esto es lo mismo, yo para empezar a tener
+mi lexico en de un horro de todas las palabras que tengo, un transductor que me permita
+recorrer, cada palabra posible, si aún es, bueno, tengo que ponerle a todas las palabras,
+y más yo lo que pueda hacer generando va a depender de acá, no va a ver más su fijo que
+estos, si yo tengo alguno otro animal además de chancho mientras no tenga la raíz,
+no voy a poder decir, agano de curimonar a toda la información de alesicones
+está dentro de el transductor, lo que tiene es muy sencillo, es un transductor que lo
+único que hace es recorrer, el morfema correspondiente, si, y qué de vuelve, qué de vuelve
+lo mismo, no, no vamos a poner que esto es un símbolo de tres, yo puedo de hacer
+empezar con el mismo, no, y con lo sufijo pasa lo mismo, qué operación de la algebra
+me permite a expresar esto, qué operación de la algebra me permite a expresar esto,
+qué operación de la que vimos, yo puedo crebir el transductor derecho, pero lo que yo
+puedo hacer es un transductor que solo le llamar, porque además acá puede ver combinaciones,
+porque si hay dos que empiezan con la misma letra no es deficiente, primero es, por ejemplo,
+es un bar y consum la cáa debería ser como un, debería ser una cosa así, no?
+el que el transductor que le elado, pero como yo para expresar todas las palabras, con una
+de la operación es que vimos.
+Unión, simplemente hago un transductor, por cada palabra, y hago la unión de ellos, y esa
+lo que yo le decía, y lo vale, lo que es lo que siento que aplaní que hay, la gracia
+que como yo tengo una operación de finida, dado de presión de regular y contribuir,
+dado de un transductor y contribuir la unión, yo tengo un método constructivo pasarlo,
+no tengo que hacer nada, y ya el método existe el universo de decir la computadora, así
+lo he venido de todo, y hay alguna automata, contiene todo eso yo modelo de esa forma,
+modelo con el presión de regular y utilizó los, las operaciones de transductores,
+bien, eso es el xicón, eso es así voy a tener todas mis palabras, que otra parte del
+señor transductor, digo que otra parte del señor nuestro analizador, se acuerda en esa palabra
+no, morfotácticas, quiera en la morfotáctica, quiera en la morfotáctica, quiera en la morfotáctica,
+exacto, como si combinan, cuáles son las versiones autorizadas de combinación, cómo
+serían mis morfotácticas en este caso, y bueno, es lo que dice acá, yo digo bueno, primero
+viene una raíz, sí, que puede ser una de estas, si yo sé que yo en la raíz la definió
+como la unión de todas estas, después viene un sufijo opcional, o sea que tengo que definir
+los sufijos, que es un horde de estos tres, que además de decir un horde van a devolver
+en la salida estas marcas, va, van a sustituir esto por esta marca y así papá pasivo pegando
+cosas, sí, y la pregunta es, ¿cómo yo digo viene tan raíz después después? ¿Qué operación
+estoy usando a ir? ¿De las que vimos? No, yo te formando una palabra a partir de pelacitos,
+de decir de primero viene la raíz, después en esto después en esto, pues en esto, con la tendencia,
+fue él, yo lo que vamos a concatenar las partes para formar una palabra, vamos a ver
+esto como se expresa en, vamos a ver esto, esto está hecho con una herramienta que se llama
+que se fece que usted puede bajar, se le va a probarla en el analizador, acá lo que yo
+y yo fue, acá lo que hago estoy haciendo es definir el precio de regular, lo que yo
+regular exactamente con el álgio era que se alabino, que vimos, entonces yo digo bueno,
+la raíz de un nombre en bambona, un su tanto en bambona es cualquiera de esta palabra,
+está llave de lo que quiere decir que son tres símbolos, una ene una ene una ene una ene a una ene a un símbolo
+sol, una ene a más que eso quiere decir, dado sea una raíz va a ser más una postplabla y va
+a devolverlo mismo, se acuerdan que si no poníamos lo que devolvida devolvida lo mismo, o sea que
+esto va a que el cula esto se compila en un transductor que lo único que hace es tomar la entrada
+devolvida a la sanidad y que solo aceta esta palabra, luego empiezo a definir de la misma forma
+el sufijo, hacerlo está adunctoré para el sufijo y digo bueno, el sufijo, acá me va
+devolver como marca, pello el activo, acá en realidad estoy haciendo el orden de para el otro lado,
+es decir, a partir de la análisis generó la marca, o sea que si tengo una marca de pello
+activ, este porcentaje es el escape del más, si es pello activo, la griego acá, si no
+activo este y etcétera, y así de fin o todo el sufijo, que fue un desquito en la letra,
+si ustedes lo revisan van a ver que se corresponde con la especificación que se vio, ahí en un
+paso particular que es, por ejemplo si no tienen número yo quiero marcarlo como que no tienen
+número, pero no se corresponde nada en el del lado de superficie, no hay marca eléxica,
+como nuestro masculino en el español no hay marca de masculino, no hay la o es que no tiene
+no tiene una marca de superficie, no es marca el autográfica, entonces acá lo es simplemente
+vuelvo a ser lo que sé si lo es, ahora que no hay nada va a devolver eso, y entonces
+la pregunta es, bueno yo tengo esto, tengo la raíz y lo sufijo, como voy a definir el
+sustantivo, como representa el sustantivo, a partir de esto, entonces el esicón, como
+hay que definir el sustantivo, y exactamente esto que ya no, la raíz es el que es iloccional,
+un sufijo un opcional, un sufijo a dos opccionales, vio a tres, un sufijo a cuatro, qué
+contribuimos acá el lexicón, es decir, yo tengo para cualquier palabra, yo puedo, no solo
+la riconosa, sino que de vuelvo de estructura lexica, ¿no? y eso quiere decir que
+el control y nada más y nada más y nada más y nada más y nada más y nada más, no contran
+doctor, que de una recibe de la palabra y de vuelve a analisis, y además de redalho viene la inversa,
+como los transductores se acuerdan que eran cerrados bajo, reversos, que simplemente
+ven vuelta a la transición, lo que tiene de bueno esto es que la analisis y la generación
+y vuelva a la pregunta del principio de la clase, es exactamente igual, el costo computacional
+es el mismo, porque es simplemente leer el tronctor de un lado del otro, y es una
+la grande ventaja de los transductores tan bonito que el gel, después no pasa más en otras
+cosas, de la analisis y la generación no lo mismo, pero qué le falta esto, qué le falta
+esto, la reala autográfica, porque esto me va a generar cosas, yo le voy a darle
+la analisis, me va a generar todo muy bien, pero va a tener problemas, porque las palabras
+de vanbona, las consonantes nunca son seguidas, las vocalistas, el señor poblabla, y
+¿cómo vamos a hacer las realas autográficas? ¿Qué hacemos con la reala autográfica?
+¿Cómo hacemos la reala autográfica? ¿Cómo la representamos? La representamos con un tronctor
+que haga la sustitución y correspondiente. Es de siempre el primer tronctor. ¿Cómo
+prón? Es de siempre el primer tronctor que es el primer tronctor que es el primer tronctor que
+hace la reala, que utilizándolo el operador de remblazo, simplemente dice la ila,
+sustituimos por eso no siguen el operador de remblazo, porque dice, ya hay una ahí, sustituíme
+la por una Augusta ante hay una P, una T o una C, o o o o o o o o o o o o o o y dice, puede
+fíjate que hay una E, la cambio por una O, si hay una persona, y después fíjate que hay
+una, y aplicados todos en cascada, o sea, empezar con este, publica este, publica este,
+y, pero esto lo único que hace es dar una palabra a mi cambia de la cosa, yo tengo
+esto que me da la, dar el análisis, me da la palabra y tengo esto que dar a la palabra
+me corriga en la ortografía, como lo junto con cooperación, y ahí sigo como posición,
+lo bueno, entonces van buena, que simplemente, ya casi tenimos el transportador, el
+lexicon compuesto con la regla sortográfica, si yo hubiera definido las reglas al revés,
+tendré que ser el principio, pero como yo la definí, del análisis para el otro lado,
+esto que ha pegado, digamos, el primer transductor, daba el análisis de la palabra, con
+los errores de la fico y el segundo transductor te corriga el orgullo de la rafía, y
+devuelve la versión correcta, si, de acuerdo, entonces implementamos exactamente lo
+de queríamos, es un solo transductor, porque la composición genera un transductor solo,
+un transductor muy complejo, construido a partir de parte muy chiquita, hicimos una especie
+un poco de ingeniería, no, fuimos construcción de parte, y construyendo, que lo que ha
+sido, daba cualquier sustantivo, me devuelve la estructura, y la estructura me dice como
+se pronuncia, si se fijan, es un método que es completamente específicable o que fue completamente
+específicado por reglas, pues ya todas las palabras que están acá tengo la combinación
+de su análisis, y solo es una palabra nueva, janumento, tengo que modificar el transductor,
+try Travel , thdgx252, sigme un chico, se ha Programmado, pero si soy una herramienta que
+se estámbieno, me voy a monitorear, ya adiós que no se仔, vado adiós como si SAM troubledas
+los de af suppliedantes de飛 Louisiana, viernos de la ley en la pantalla,ellan la
+empresa social, si, estén muy bien la pregunta, no sabéis, tenéis que tener lo impuente
+durante tu análisis, que olmakísimo, como si, si si os tenemos que tener en cuenta que en la
+cada importante orden, que si te pasa eso como decir marchaste es que
+tienen que modificar donálisis, no hay una iteración de a mí.
+Sí, totalmente. Exactamente, totalmente. Bueno, que así es,
+las reglas de autodráficas son siempre te pasa lo mismo, cuando
+doplicas reglas en cascada, tener que saber que estás haciendo
+una cascada y que, en esa cascada, lo que vos llagas después
+lo para atrás de ya, que si vos pusiste una marca de cambio, esa marca
+te quiero decir el transductor de la cascada,
+tiene que entender en qué posición de la cascada está,
+porque, por ejemplo, vos puedes poner una marca intermedia,
+porque va a pasar algo después, este tipo tiene que saber
+que le puede venir una marca intermedia en su alfabeto.
+De hecho, lo que yo te decía hoy, el paper dice que hace
+que el operador de reemplazo ha sido a cantidad de operaciones
+o de la tiga alemete símbolo, marquitas, cosa,
+muy artesanal y las compones en una cascada para obtener
+un solo de la notor que hace el reemplazo.
+Bueno, hay otras herramientas para este tipo de hay que veras.
+En esta, esta es muy potenta, en este suscribir a la tecia
+con la defencia utilitista, este muy potente,
+pero muy ineficiente, muy ineficiente.
+Y ahora, lo más popular es OpenFCT.
+Bueno, hay un poco de la oracía.
+Este es un libro, pero este paper resume bastante,
+de forma tan interesante, unas pocas páginas,
+como ha sido la historia de la Asumpe de Stoffinito.
+¿Alguna pregunta?
+¿No?
+Si ustedes quieren poder...
+Intalarse que se precede y hacer pruebas,
+y efectivamente van a ver que
+al especificar estas cosas,
+y les permite aplicarlo a la traducción.
+Bueno, ¿qué pasa con esta palabra?
+Y ni bien se pone uno a probar,
+y pican a aparecer las cosas como el no de términismo,
+así.
+Además, esta herramienta permite
+hacer una cantidad de análisis interno,
+es decir, que están complicados entre el doctor,
+uno de los grandes problemas que tienen las traducciones.
+El gran problema es que son muy eficientes
+para computar cosas,
+y claro, toda la información que tenemos ahí
+está contenida dentro del tradutor,
+no tiene la noción de memoria,
+esterna, el otro doctor,
+todo tiene que estar ahí,
+eso hace que crees que es tan muchísimo.
+Y, generalmente, las análisis,
+he hecho contra el doctor,
+son muy eficientes,
+pero han sido tradicionalmente
+necesidad mucha memoria,
+digamos, para ejecutarse,
+porque crees en muy rápido de componerse,
+porque dije que,
+yo cuando los compongo a un especie de producto cartesiano,
+yo creo que en un punto de vista,
+me estoy, me estoy tal vez,
+estoy arriesgando,
+lo que estoy diciendo,
+pero me parece que en un punto de vista
+más industriarlo,
+es como que han pasado un poco de moja.
+Porque la computadora son tan potentes
+que, de tengo modelos más tradicionales
+con iguales de programación
+y más presivo, digamos,
+y no tengo todo su problema
+de que me explote su tamaño,
+pero debe haber algunas aplicaciones
+que trabajan contra el doctor,
+pero no en este marco tan genérico.
+Bueno, fin de la parte 1,
+vamos a pasar a la parte 2,
+capaz que están un poco cansados,
+pero tenemos que poner unos aldias.
+La parte 2,
+como les decía,
+hay que cambiar un poco el chip,
+porque seguimos dentro de las palabras,
+pero
+pero vamos a hablar de otra cosa
+y vamos a usar un método también bastante diferente.
+Y es la última de la detección
+y la corregción de errores autográficos.
+Esto me interesa por dos motivos.
+Uno es porque el problema es un problema interesante
+y otro es porque su modelo bastante claro
+de utilización de un método que se utiliza en muchas cosas
+no sólo el personal de nuevo de la naturaleza
+que se llama modelo de canal ruidoso
+que es el primer modelo
+pero hay lista que vamos a ver.
+Y van a ver que la aproximación
+completamente diferente
+y yo me etrevería decir que
+si el Josepto más importante
+digamos que podemos ver en este curso
+como concepto general,
+como concepto en el nuevo.
+No digo que el tema va ayer sea nuevo,
+pero desde el punto de vista de los métodos
+que solemos utilizar los ingenieros
+esto es bastante no.
+¿Por qué?
+porque utiliza métodos de inferencia
+en lugar de métodos de motivo.
+Esto es,
+yo tradicionalmente hay dos,
+yo tradicionalmente no.
+Realmente hay dos escuelas
+filosóficas,
+yo te dieron que son los racionalistas
+y los enpinizistas.
+Los racionalistas dicen,
+bueno, yo puedo construir un modelo
+del mundo y sacar conclusiones
+de ese modelo que construí.
+En mi cabeza.
+No?
+Aristóteles.
+Pero los enpinizistas
+por allá,
+digamos,
+transible y con toda esa gente
+diciendo,
+en realidad,
+el mundo es el que hay.
+Yo tengo que inferir
+los modelos a partir de los datos que existen.
+En las oficas,
+han recorrido la humanidad
+con mis adovisiones.
+Y ahora no es menos,
+pero ahora como tengo muchos datos
+ha tomado bastante lo importante
+a todo el tema del impericimo.
+Písimo esencialmente es el métodos científico,
+¿no?
+O sea, o sea, o sea,
+generalidades,
+en lugar de construir
+me realidad es
+teóricas puras.
+El métodos,
+este vamos a ver
+del canal,
+no yo soy bien,
+es bien probabilítica.
+Bueno, pero
+¿cómo hacemos?
+Y bueno,
+es
+supongo que yo
+escucho una palabra.
+¿Sí?
+Yo le digo la palabra.
+¿Qué digo?
+¿Qué digo?
+¿Báso?
+¿Báso?
+¿Báso?
+¿Aguí en escucho otra cosa?
+¿Capa que se en el fondo
+escucharon?
+¿Báso?
+¿Báso?
+¿Báso?
+¿Cuáso?
+¿Puedo ver dicho?
+He
+perro.
+¿Puedo ver dicho?
+¿Pero no puedo ver dicho?
+¿Por qué no?
+¿Por qué no?
+¿Por qué probablemente no?
+¿Por qué no?
+¿Por qué no?
+¿Y si hubiera sido por lo que escuchamos
+pero escucharon?
+Eso no como una esa
+y no parece creación
+pero no es probable que el sonido
+haya llegado tan cambiado.
+¿Puedo ver dicho?
+¿Es de bits?
+¿Puedo ver dicho eso?
+¿Por qué no?
+¿Por qué no es una palabra?
+¿Entonces está?
+¿Te puedo ver lo dicho?
+¿No?
+La idea es que
+yo recibe la del modelo de canal
+o lo que yo digo,
+lo que sucede es que yo
+recibe de alguna forma un asignal
+y digo, bueno,
+moderno el problema, digamos,
+cuando yo modelo el problema con el medio de eso
+es yo tengo una observación
+ante mí
+que es eso que escucharon ustedes
+que además diferente para todo
+pues es una distancia
+y quiero tratar de determinar
+de terminar
+con fuila palabra origen
+porque a mí lo que me interesa
+saber es que dije yo, no,
+de eso se trata de la comunicación
+y lo que me interesa,
+lo que le interesa saber que dije yo,
+y que sí, en mi definición del problema,
+yo asumo
+ya que
+señal paso
+por un canal ruidoso
+que la de la
+tarjibersó
+y que no es único
+que yo puedo saber
+es
+no tener la certeza
+de cuál fue la palabra
+que yo mejor que puedo aspirar
+es una distribución de probabilidad
+¿Pap?
+¿Qué es?
+seguro de lo que es una distribución
+de probabilidad
+fíjemos la división
+si tengo una serie de eventos
+una distribución de probabilidades
+un valor entre 0 y 1
+que le doy a cada uno
+y que entre todo tiene que sumar uno
+es una distribución de probabilidad
+yo puedo hacer una distribución de probabilidad
+sobre toda la palabra posible
+con lo cual del carto
+ya la accesible
+pero
+digamos
+si, supongo que se llama Luis
+y yo le digo
+que yo le hablo y le digo
+fuís
+¿no?
+él sabe que yo le estoy hablando
+a él
+¿no?
+entonces
+él le sono
+fuís
+o sea que la palabra más cercana
+es fuís
+probablemente
+de punto de vista de
+bueno, pues
+pero él sabe que le estoy hablando
+a él
+entonces
+y lo hice más probable
+digamos
+en su interpretación
+sigue siendo posible
+que yo hubiera dicho fuís
+pero yo creo que
+me han hablado
+y me cortó porque
+me pasó algo
+pero es menos probable
+entonces
+es lo que arma
+cuando me escucho
+o lo que hacemos todo
+cuando escuchamos es
+bueno, podemos modular
+lo que hacemos, no quiere decir
+que lo vamos
+es genero una distribución de probabilidad
+sobre toda la palabra posible que me dice
+y quedarme con la que más probable
+según una regla
+si
+esto no tiene que ver
+porque el reñe de cuando
+estaba en el proceso de
+diminuir la edición
+y tengo entonces
+dado una palabra
+tengo las originales
+cuando tengo un error
+ortográfico
+tengo exactamente
+la misma configuración
+yo tengo una palabra
+que veo ahí
+que no sé lo que es
+y trata de saber cuál es
+la más
+la más
+razonable
+que sea la original
+¿Qué pasa?
+¿Cómo hacemos la detección de
+rori?
+Bueno, se me da parece
+en un texto
+maté
+¿Sí?
+yo puedo detectar
+que me equivocé
+porque
+porque esa palabra no existe
+la detección de
+palabras y mis sitentes
+muy fácil
+yo puedo condicionar
+y no está
+es lo que hacen todo
+lo correto a el
+ortográfico
+es una
+detección de palabras
+y mis sitentes
+nada más
+después lo que tengo
+es la corrección
+ahí nada
+¿Qué es?
+Bueno
+te mate
+la corrigo
+con tomate
+porque
+por la misma edición
+por la misma edición
+porque la más parecía
+aquí hay
+no un país
+a ver otra
+edición
+que no hay otro candidato
+y va a tomate
+¿Sí?
+¿Pas?
+¿Pas?
+¿Pas?
+metí una
+te
+y eso es la más difícil
+¿No?
+pues voy a poner calor
+pues el color
+está complicado
+porque tengo que conocer
+con la palabra sola
+no puedo
+te aclaro
+nada
+nunca vas a saber
+lo que le pasa
+lo corretole
+¿cuántas veces
+cuando dejamos
+una barbaridad
+nuestro texto
+porque también justo
+en una palabra
+yo que sea
+esto no hablar
+en esta clase de tu
+amor
+esto no se preocupe
+pero vamos a hablar
+de este tipo de parecía
+de cuál es la más probable
+porque tú no siempre están fácil
+tomando la palabra
+a mi que tengo dos candidatas
+entonces vamos a ver un poco de este caso
+y como es el halo
+con el modelo
+de los estudios
+esta clase está basada
+principalmente en un artículo
+que habla de un
+de una
+notilidad que hicieron
+para y uno que se llama
+creo que sea más pel
+o correcto
+no es pel
+la clasica que te dice
+si te habien un mala palabra
+correcto
+que te corrige
+a la palabra
+que hicieron una análisis
+que no bueno tomaron un cuerpo
+de errores
+cometidos
+de gallena y no todo esto
+se quedó cambió por esto
+se quedó por esto
+y yo cuenta
+que uno entre uno y el
+3% de las palabras
+según el cuerpo
+son errores
+en el cuerpo de transcripción
+y mal no recuerdo
+y que el 80% de esos errores
+eran
+por la inserción de una letra
+como mate
+por el borrado y una letra
+por la sustitución
+de una letra
+y por la
+transposición de 2 letra
+acá cambiaron
+la
+ente por lado
+si se llama raro
+eso te puede pasar
+más con una máquina escribiendo
+por qué les parece
+haber una pregunta
+y esta sustitución
+por una p
+ese
+le parece que es igual
+para cualquier letra
+de la sustitución
+acá
+como acerca
+es más fácil
+confundir una ogo
+una peguna
+en un teclado
+por la distribución de la letra
+eso no nos va una pista
+y yo voy a llegar a decir
+bueno
+entonces lo que voy a hacer
+es
+a la raro
+cualquier error
+a la raro
+cualquier palabra
+que es un error
+y busco la candidata
+más parecida
+cambiando
+una serie de reglas
+por
+las que están más cercan del teclado
+prevolado
+por una p
+no
+a otro
+un paquete de reglas
+la pico de la palabra
+hay algo parecido
+es lo que dice con la morphología
+bueno
+no vamos a hacer eso
+nuestra aproximación
+va a ser completamente diferente
+a esa
+en lugar de aprender
+de nuestro modelo
+de tomar esa visión
+racionalista
+en la cual
+yo supongo una cantidad hipótesis
+como son demasiado complicadas
+a hipótesis
+que sí
+no sé si es una o
+o la p
+o la
+un secretario
+es que
+no sé
+no le voy a dar
+o
+es
+el
+no meний
+es cruel
+no ni
+Entonces, lo que vamos a hacer es nada, vamos a aplicar el modelo del canal ruido,
+si vamos a decir, bueno, y acá viene el asunto de las provididades condicional y todo eso.
+Se acuerdan de la provididad condicional, ¿no?
+Pueden condicionales un número entre 0 y 1 blabla,
+y es una institución de provididad entre eventos posibles,
+pero que está condicionado a que haya pasado algo.
+Entonces, yo lo que digo es,
+yo voy a querer la palabra gobliver,
+doble ver, cozo, te chito un burrito,
+que maximiza la provididad de,
+ahora vamos a aplicar un poquito más.
+Se acuerdan el arrumax, lo que quiere decir es,
+caljule la problidad, y cuál es la doble vez que se le argumento para esa,
+para esa cuenta de ahora, ¿no?
+Esto es, yo tengo una observación no,
+que en mi palabra con el error,
+sí, y yo quiero saber exactamente lo que estuvimos conversando ahora,
+la doble de toda la doble de posibles del vocabulario,
+cuál es aquella para la cual la probabilidad,
+es maxima,
+lo cual solamente me mode la problema,
+no me lo resuelve, no tengo ni idea,
+hasta el momento como calcula la provididad,
+pero mi problema ahora es,
+cómo calcula la provididad,
+además de la tarea titánica de encontrar todas las posibles,
+y probar con cada uno,
+además tu que sabe,
+en esta doble vez donde saco el estimo,
+con como hago,
+ese es mi problema en los métodos probabilísticas,
+o como calcula la provididad,
+y la provididad le voy a calcular a partir de que,
+como podemos aprender esas probabilidades.
+Frequencia, frecuencia de errores,
+exactamente así funcionan todos los métodos aprendizac automáticos,
+aprenden de corpus,
+o de conjuntos,
+previamente han notado,
+porque yo para saber frecuencia de errores,
+hay una persona me estuvo que anuntar los errores,
+y si es el gran problema de los métodos aprendizaje,
+no me toa aprendizaje,
+tienen la gran ventaja de que,
+esencialmente no necesitan un esperto porque aprenden de los datos,
+pero necesitan un esperto para que le anote los datos,
+para que le diga,
+esto fue un error,
+esto fue un error,
+esto fue un error,
+esto fue un error,
+y ahí aprende,
+bueno eso,
+eso se trata el modo que analruido eso,
+y qué hace,
+bueno dice,
+va a aplicar la vieja y querida reala de vases,
+vases,
+no,
+por allá del movimiento,
+de cobrir esta reala que es muy muy,
+es decir,
+es muy muy difícil de aplicar,
+es decir,
+es que la probabilidad,
+de un número dado otro,
+es igual a la probabilidad,
+por lo menos,
+una prueba de un evento,
+dado otro evento,
+es la probabilidad,
+al revés,
+de la condicional revés,
+multiplicada por la probabilidad del X,
+dividida por la probabilidad del Y,
+es decir,
+esto es bastante obvio porque,
+la probabilidad,
+de que se ven dos eventos,
+X y X,
+al mismo tiempo,
+es la probabilidad,
+de que se de aquí,
+multiplicada por la probabilidad de que
+se de y dado que se dio X,
+sí,
+la probabilidad de que se ha llegado a ver
+si un dos,
+cuando tiene un dado,
+la probabilidad de que se ha llegado a
+multiplicado por la probabilidad de que se ha
+llegado a otro dos,
+de que el dado se empiore,
+por ejemplo,
+de que se van a haberlo mismo,
+pero la probabilidad de que sí,
+la probabilidad de,
+si la primera palabra de una de un texto
+es,
+la,
+es un artículo,
+la probabilidad de que se ha
+un sustantivo la siguiente seguramente
+más alta,
+le acuerdo,
+que sí,
+la primera es un vergo,
+¿no acuerdo?
+Entonces,
+pero lo mismo puedo decir,
+al revés,
+la probabilidad de que sí,
+es igual la probabilidad de,
+y,
+por la probabilidad de que he quedado ahí,
+le acuerdo,
+y bueno,
+estábamos cosas,
+y bueno,
+estábamos,
+y paso,
+y divido por peso,
+sí,
+y me da la realidad,
+se decisivamente,
+pero es muy interesante,
+lo que dice la realidad,
+porque dice,
+si yo condición en un evento,
+automáticamente,
+saber cómo se condiciona en el otro,
+si yo sé la probabilidad,
+de que,
+de que la segunda,
+sea un artículo,
+un sustantivo,
+a lo que la primera es un artículo,
+porque es una de el revés,
+porque es un artículo,
+porque es un artículo,
+y la primera es un,
+un sustantivo,
+a ser la derecha de,
+de la de patrática,
+y justamente lo que vamos a hacer
+con nosotros,
+es decir,
+bueno,
+nosotros queremos que el cular esto,
+la probabilidad,
+perdón,
+nosotros teníamos esta probabilidad
+que queremos que el cular,
+p,
+de doble vida,
+o,
+sí,
+entonces yo lo que digo,
+de esa plica baixa,
+y digo,
+la probabilidad de,
+de,
+ahora vamos a ver por qué hago esto,
+¿no?
+La probabilidad de,
+digo,
+dado de,
+por la probabilidad de,
+digo,
+la probabilidad de,
+filmar theatre,
+todo,
+exports.
+Por si.
+Ahora cuando dospar,
+la probabilidad de,
+rotational conocimiento
+con la breeze.
+Entonces,
+Yo sé la palabra original y veo la palabra que se transformó.
+Entonces yo lo que veo fácilmente contando es ahora vamos a ver porque veo fácilmente contando.
+La probabilidad de la observación de la palabra original.
+Si yo escribi tu mate,
+pero si yo tomate, ¿qué tan probable es que escribi tu mate?
+Tuve la cual se tiene y tú que cuando le revés.
+Te partiendo y la palabra y viendo cuál es la probabilidad equivocarme.
+Que vamos a ver ahora que eso es más fácil de calcular.
+Ahora lo vamos a ver.
+Pero la cuestión es que si yo quiero maximizar esta función,
+si se fija en esta función, depende o sea esto es para todas las palabras posible.
+La probabilidad de que yo diga tu mate dado que dije perro,
+que acabas ayudando a ver, ¿no?
+Cotomate o mate.
+Y si ustedes se fijan acá,
+esto es baría con la palabra, pero no haría con la solución.
+Entonces yo, maximizar esta función y lo mismo como si va a ser esta arriba.
+Como esto fijo.
+Entonces acá, se voy a esto.
+Maximizó la probabilidad de la observación,
+dado la palabra multiplicada por la probabilidad de la palabra.
+Y miren interesante, ¿no? Porque estoy dividiendo en dos partes.
+La realidad es lo que permite ser y vivir en dos partes.
+Bien claras ni estimación de la probabilidad.
+Y es la probabilidad a priori de la palabra.
+¿Qué es? ¿Qué tan probable es en el caso de nuestro?
+Es que yo ni te así quiera esa palabra.
+¿Qué tan probable es que yo he ya querido decir este...
+Yo que sé, no sé.
+No sé, cualquier palabra rara.
+No sé, no sé, no sé, no sé.
+No sé, no sé, no sé.
+No sé, no sé, no sé, no sé.
+No sé, no sé, no sé, no sé.
+Yo digo que tu mate y que se decir...
+Hay alguna palabra parecía tu mate, pero rara.
+Que se decir, mita.
+¿Qué sabemos que es algo?
+La probabilidad de que yo haya dicho mita.
+Es muy baja porque mita no es una palabra.
+Y no hay conozca.
+No sé, no sé, no sé, no sé, no sé, no sé.
+No sé, no sé, no sé, no sé, no sé.
+La probabilidad a priori que así se llama en muy baja.
+Es muy baja.
+Ahora, si yo hablo claro, digo mita.
+Por más bajan que sea usted me escucharon perfecto
+o sé que la probabilidad de la observación mita.
+No sé, no sé, no sé, no sé, no sé, no sé, no sé.
+No sé, no sé, ni más ni menos que la probabilidad de que yo estoy queriendo saber
+es la multiplicación de ambas.
+Yo puedo tener una palabra, que es muy probable que diga.
+Es muy probable que yo se ha querido decir el ola o...
+cualquier artículo que son las palabras más comunes.
+Pero es muy raro que yo haya dicho él y que me haya salido tu mate.
+¿Sentiendes?
+Entonces, esta probabilidad, ser muy alta, pero esta va a ser muy baja.
+De eso se trata ni más ni menos la realidad de la base.
+El canal redoso.
+Entonces, vamos a ver un ejemplo en este artículo,
+de cómo corregimos el raro y lo basándonos en este algoritmo va a ser siendo.
+La hipote si le trabajo y los tipos es.
+Los errores son todos por insertión borró su institución y transposición.
+O sea, eliminaron el 20% del corpo porque era el otro raro y que nos hayan como modelarlo.
+Yo dije, bueno, si yo soy un 4 en el error,
+mi única aproximación es que hayen metido un dero mal.
+Un sol y un mal.
+Lo bueno, se tiende.
+Entonces, dice, bueno,
+tengo la palabra observada que nuestro caso de esta acres.
+Sí, que no es una palabra.
+Y dice, bueno, ¿cuál es sol?
+Si yo le aplicó todas las transformaciones posible.
+Una.
+Recuerda en un tipo de decir que la único que hay es una instalación.
+O sea, ya reúge mi mi mi mi mi mi mi.
+Mi aspiraciones.
+O sea, que ya sí, que hay caso que no lo voy a detectar.
+Así de triste y la vida, digamos.
+Lo modelo probabilita, realmente.
+Bueno, todos los modelos, todos los modelos,
+la definición de modelo, simplifica la realidad.
+Para poder trabajar.
+Este, él dice, bueno,
+podría haber sido y busca toda la que están a distancia uno.
+A distancia uno con estas operaciones.
+Y, por ejemplo, dice, actriz.
+¿Qué es que se ha perdido la té?
+O crees que metimos su que insertamos una.
+Y la posición cero.
+Fíjense que además, bueno, así todo,
+pero hay coescuriosos porque acres con una de ese sola
+aparecía dos veces.
+Porque puede haberla insertado en la posición 4 en la posición 5.
+Tengo que modelar como las dos posible casos.
+Pues son las dos formas que tengo que llegar a la misma.
+Y te son todas las poscandidades posibles.
+Según nuestra redla.
+¿Por qué son la unidad de tal en lisionario?
+Entonces, ¿entiendes acá?
+Bien.
+Bueno, entonces yo lo voy a hacer es esto.
+Calcular la palabra,
+la palabra correcta como
+la función que maximiza la probabilidad.
+Del error, el tipo, el error.
+Dada la palabra por la palabra.
+¿Cómo que alguno en la probabilidad de la palabra?
+¿Cómo que alguno en la probabilidad
+a priori de la palabra?
+¿Cómo que alguno en la probabilidad a priori de la palabra?
+En el coro.
+¿No?
+Tengo todo lo acuerdo que la más razonable
+a aproximación.
+La que parece más seguido en el corpus.
+¿Vas a aparecer más seguido en el corpus?
+Esa es una razónable.
+Se llama principio de máxima de los similitudes.
+Yo, considero que lo que tengo en el corpus
+es mi mejor aproximación a la realidad.
+Lo que maximise la probabilidad en el corpus, maximiza en mi país.
+¿Qué pasa si la palabra nunca apareció en el corpus?
+Porque el corpus de hecho no hay infinito.
+¿Qué pasa si la palabra no apareció en el corpus?
+La probabilidad es y eso qué hace, qué suceda.
+Que sea imposible de eso le liga.
+Aunque estén ni vocabulario, aunque esterre contra parecida
+nunca le voy a elegir porque nunca apareció en el corpus.
+Es decir, el problema típico del contigo por frecuencias
+y la corresión típica que lo vamos en un poquito más de hace que viene.
+Yo le voy a hacer y sacarle un poco de más de probabilidad.
+Porque esto es lo que va a hacer de hacer una distribución de probabilidad
+sobre todo la palabra, ¿no?
+Normalizo sobre un hoy me da una distribución por la frecuencias.
+¿Qué es esto?
+1.343 actres y todas estas, ¿no?
+Y esta la probabilidad es simplemente contar la cantidad de palabra
+que aparece sobre el total de palabras que hay.
+Bueno, yo lo que hago es sacarle un poco más de probabilidad
+a estos y decir, en lugar de vivir,
+en la cuenta generalmente es de esta cantidad de veces que apareció
+la palabra sobre total de palabra.
+Lo que hago es agregarlo un poquito de masa de probabilidad
+sobre un 0.5 al contigo.
+Para que nunca me decero,
+es la solución más ingenieril que se les ocurre.
+Es decir, un poquito más...
+No, si quieres muy huevo de eso,
+pero funciona.
+Se llama el contigo de la clase.
+Vamos a ver lo poquito más de la clase.
+Pero tengo que para que...
+¿Por qué le alegó este 0.5 acá?
+¿Cómo?
+No, no es por eso.
+¿Por qué tengo variable este 0.5?
+No, no, no.
+No, no, no, no.
+Es una operación, una cuestión bien operativa.
+¿Dé?
+¿Dé?
+¿Dé?
+¿Dé?
+¿Dé?
+No.
+Para mantener la operación.
+Bueno, me digué a uno.
+¿Déy todo que es una iteración de probabilidad?
+Si yo, cuando yo cuento y he vivido sobre él ni,
+lo que me da es una iteración de probabilidad.
+Es decir, todo es un mauno.
+Si yo le agregó 0.5 acá, uno deja de sumar uno.
+Entonces, yo tengo que normalizarlo.
+Y le agregó de esto al total.
+¿Centiende?
+¿Es como acá o hubieron poquito más de palabras?
+Entonces, yo tengo que sumar las acá.
+¿Y como agregó 0.5?
+Por cada una palabra.
+Es como que yo agregara 0.5 palabras.
+Es decir, es 5 por la cantidad de palabras posible, ¿no?
+No, bueno.
+Es como, bueno, esto aparece un montón de veces.
+Muntón de veces se hace tipo cosas.
+Yo siempre que tengo una probabilidad tengo que buscar la forma normalizarla.
+Y cuando yo empido a hacer cuenta,
+la modificar lo sumando, puedo romper la probabilidad.
+Yo tengo que asegurarme que es un meguno.
+Porque, bueno, porque la base de todo mi teoría probabilística
+está basada en eso de que son eventos,
+que son todos menores que uno,
+es claro, es que yo lo me apé una función de lo que uno
+y que la sumada a uno.
+Y, pues, todo lo que hago es que más eso.
+Bueno, pero, pues, yo que con esta correctión,
+llegamos a una distribución de probabilidad
+de la probabilidad priori.
+O sea, lo más probable es que yo haya querido decir Axes.
+No, bueno, nada.
+Si yo no supiera más nada que lo que...
+Si yo no supiera más nada que las palabras posible,
+lo más probable que haya querido decir,
+perdón, ¿qué queréis decir?
+Acroso, que es la palabra más común en el corto.
+Quipo, con probabilidad, cero, cero, cero, cero,
+cero, cero, cero, cero, cero.
+Acroso.
+Eso quiere decir que es acorno,
+porque nos falta la segunda parte de la probabilidad.
+Nosotros calculamos esta, la probabilidad apriori.
+Es la probabilidad que en principio tiene la palabra.
+Sin haber visto los datos.
+Es como mi...
+Si yo lo veo desde un punto de la probabilidad,
+se pueden ver de 2.2 familias de razonamiento principal.
+Uno de frecuentista que es una probabilidad
+es la cantidad de veces que pasa algo.
+La proporción de veces que pasa algo,
+si yo lo repito suficientemente,
+estoy un dado millón de veces.
+En veces va a tender a la probabilidad,
+calcula que el definio de eso como la probabilidad.
+Hay otra visión alternativa,
+la certeza o la confianza que yo tengo en algo
+que no está definida por una frecuencia.
+Esa la visión bacesiana, la probabilidad es
+lo que yo pienso que...
+Si yo te ven un dado, yo tengo un dado,
+ustedes, apriori.
+¿Cuál es la probabilidad de que salga uno?
+¿Por qué?
+No tiraron el dado.
+No?
+No, no, no, no es una pregunta, no tirada.
+¿Tenés hay posibles?
+¿Y qué más?
+¿Y qué?
+Sí, pero ¿qué más?
+¿Qué más estás asuniendo?
+¿Qué el dado no está cargado?
+Ahora, si yo tiró el dado 100 veces
+y me cayó 80 a 16,
+pero mi confianza, apriori,
+antes de ver los datos,
+es sero como dijimos un sexto.
+¿Por qué?
+Porque asumo, por algún motivo asumo,
+por algún motivo,
+porque yo lo vi con cara de dado cargado
+y pensé que era sero ocho,
+es valido también.
+Es una probabilidad priorita.
+Después lo dado, me la cambie.
+De eso se trata la releva.
+Bueno, perdón, pues esto es un tema de menos.
+Está mucho inventosíamos.
+Bueno, pero tenemos que circular esta.
+¿Cómo vamos a hacer para calcular esta?
+La probabilidad de que se delerror dado la clase.
+¿Cómo podrían?
+¿Cómo si le ocurre que podríamos hacer algo así?
+Bueno, lo que hicieron es muy chachos.
+Fue...
+Fue ver qué pasaba.
+Hacerlo mismo, pero con las instituciones.
+¿Cuántas veces en un corpo de errores encontraron un cuerpo de errores?
+No es menor.
+¿Cuántas veces se sustituye?
+Pero no buscaron.
+¿Cuántas veces sustituye tomate por tomate?
+¿Por qué no hicieron ese contéo?
+¿Por qué no contaron?
+Yo puedo decir, ¿cuántas veces he cambiado a tres por acres?
+¿Crees?
+¿Por qué no hicieron ese contéo?
+¿Por qué no aplicaron más y más de los similitudes ya?
+¿Por qué la cantidad de veces que yo se casi seguramente es?
+Sí, lo.
+Me decir mi, mi potencia y muy general.
+Muy, muy general, tener un cuerpo de como un ali.
+Entonces lo que hicieron fue no.
+Y hicieron una matria de confusión.
+¿Dónde?
+Ah, perdón, no la tengo acá.
+¿Dónde contaron? ¿Cuántas veces?
+Al elante de una o se ponía una vez una C, una D, una D.
+¿Cuántas veces después de una o se borraba la letra siguiente?
+¿Cuántas veces la o se sustituía por una D por una C, una D?
+¿Cuántas veces la o se cambiaba por la siguiente?
+¿Con eso capturaron o caro un capturado?
+¿Y se intuición de que la o?
+¿Por qué puede suceder?
+Y bueno, más probable que la o yo en la sudituía por una P.
+¿Por qué están cerca?
+Pero no lo o razónando que están cerca,
+sino simplemente contando, capaz que no es así.
+Capa que los datos, ni si no otra cosa,
+capaz que me dice en que la o se sustituye por la letra etaca
+que no se cuál es.
+Por la O.B., simplemente porque me confundo y que sí.
+Porque me confundo y le arro de dedo, digamos.
+Y me he tomado de la mano que no hay.
+No importa, lo cuento a partir de los datos.
+¿Tá?
+Y lo que hicieron fue bueno, de que era
+Atriz,
+la probabilidad de exista,
+la probabilidad de que yo,
+la palabra se acuerdan que era Atriz,
+de que yo borre una T,
+antes de una R,
+es esta,
+y la probabilidad combinada de ambas es esta.
+O sea, el producto de las dos.
+Sí?
+Si se fijan,
+crees,
+arranca con muy pocas expectativas de ganar,
+porque a priori no pareció nunca,
+o sea, que le da la probabilidad de estar recibada,
+que le han meto para que no decero,
+tendré que ser muy alta de la probabilidad para que se igualara.
+O sea,
+que insertar una adelante en el seto en el que se le norma,
+la probabilidad para cambiar el ecuación en acá.
+Infortunadamente no cambian nada,
+pero hay mucho más chica.
+Al revés,
+la probabilidad más alta
+es haber insertado un haber borrado a la T.
+El acuerdo.
+Y efectivamente, pero,
+sí,
+si está bastante más probable,
+como palabra acres,
+es una palabra bastante más probable de que actriz.
+Por contigo,
+pues yo me habéis visto el cuerpo.
+Y luego lo que hicieron fue, bueno,
+que hicieron acá.
+Si quedaron con el porcentaje aparición de cada una,
+que hicieron volvieron a generar una distribución de probabilidad,
+porque todo el porcentaje lo mismo bonito,
+y por ejemplo,
+entonces el otro en ti siete,
+todo en cero,
+y cual ganan,
+cual ganan,
+no,
+no, en realidad no,
+porque puedo llegar de dos formas,
+pero sigue siendo la misma palabra.
+Entonces,
+y todo se suman.
+Entonces,
+que con un 40,
+cero,
+cuatro de probabilidad,
+la palabra era acres.
+La palabra más probable,
+la correctión más probable,
+era acres.
+Sí,
+curiosamente,
+seguido claro,
+porque en ese contexto era actriz.
+Pero bueno,
+yo no tenía contexto para analizar.
+Entonces,
+en,
+de la versión 3 del libro,
+me puse muy contento,
+porque hay un capítulo dedicado especialmente a este tema,
+lo que muestra que es muy importante.
+Me puse muy contento,
+porque piense igual que yo,
+que es que está sentimiento y se lo puse,
+y acá está el paper,
+si no quiero leer.
+Y sobre todo,
+me interesaba más que por la aplicación,
+por el método,
+porque van a ver que este tipo de método se repita.
+No me toba,
+se repita en un sualmente.
+Y además,
+porque tienen una cantidad de situaciones
+donde se puede utilizar este,
+este tipo de método de otro día,
+me le voy a contar una cosa,
+por ejemplo,
+otro día.
+Yo estaba tratando de argumentar
+porque a uno en una institución
+le conviene publicar sus datos.
+Y la rígla de baixa es una buena
+que forma de convencer a alguien de eso,
+porque la rígla de baixa es lo que dice,
+si yo no tengo datos,
+como con el lado de hoy,
+me quedo con mi probabilidad
+que fue otra usilla en una visión
+como mi confianza,
+si, en algo,
+a priori.
+Si a mí lo que me preocupa es
+como institución,
+que al publicar mi datos,
+mi imagen,
+en peores,
+porque me van a criticar las cosas que publicó,
+pensando primero cuál era
+la probabilidad prioris,
+o decir cuál era tu imagen,
+a priori,
+cuál era tu confianza priori,
+y no probablemente es algo que vos sea,
+como un desastre
+con publicar todas las cosas mejor.
+Entonces,
+sinceramente aplicar la rígla de baixa
+en una situación de todo lo diario.
+Bueno,
+nos vemos en el martes.

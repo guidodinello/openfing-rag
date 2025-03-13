@@ -1,0 +1,1547 @@
+WEBVTT
+
+00:00.000 --> 00:25.260
+La clase pasada estuvimos viendo una metodología de clasificación en general, así para cualquier
+
+00:25.260 --> 00:36.620
+problema de clasificación, especialmente cómo separar el corpus, qué medidas utilizar. Una
+
+00:36.620 --> 00:43.220
+cantidad de aspectos metodológicos que son muy importantes y que lo hicimos independiente del
+
+00:43.220 --> 00:46.620
+dominio en el que estamos, que es el depresamiento de lenguajas natural porque aplica para cualquier
+
+00:46.620 --> 00:52.020
+problema de clasificación. Problemas de clasificación y los métodos a aplicar a utilizar se pueden
+
+00:52.020 --> 00:56.820
+definir en general. De hecho, en el curso de aprendizaje automático, ustedes aprenden con más
+
+00:56.820 --> 01:00.860
+detalle lo que vimos en parte del curso de aprendizaje automático, aprenden con más detalle lo que
+
+01:00.860 --> 01:10.180
+ayer vimos en una clase sola. Porque se ven diferentes métodos, excluimos cuál era el método en
+
+01:10.180 --> 01:19.500
+particular y hablamos en general un clasificador, un clasificador supervisado, dijimos aquel caso
+
+01:19.500 --> 01:26.460
+donde yo tengo un conjunto de instancias de cosas, un conjunto de clases discreto y tengo que
+
+01:26.460 --> 01:33.740
+asignarle a cada instancia, la tarea de desasignarle a cada una de esas instancias uno del grupo de
+
+01:33.740 --> 01:38.060
+clases. Si yo tengo un conjunto de documentos y quiero saber en qué idioma está lo que estoy
+
+01:38.060 --> 01:43.180
+haciendo es un problema de clasificación. Tengo el conjunto de los documentos, tengo las clases
+
+01:43.180 --> 01:47.700
+que son los idiomas posibles y yo tengo que a cada uno asociarle una clase. Podría eventualmente
+
+01:47.700 --> 01:52.260
+ser más de una clase, podemos tener un problema multiclase, es decir hay variantes ¿no? Yo podría
+
+01:52.260 --> 01:59.180
+decir que a cada documento era signo más de una clase, por ejemplo si lo quiero clasificar el
+
+01:59.180 --> 02:05.740
+tópico de un documento, esto puede ser de espectáculos y de deportes o estamos hablando de
+
+02:05.740 --> 02:16.740
+guandanar a poner. En la clase de hoy lo que vamos a ver es vamos a hablar de los métodos que hay
+
+02:16.740 --> 02:22.420
+de clasificación de algunos métodos y de cómo se aplican algunas tareas del procesamiento de
+
+02:22.420 --> 02:27.180
+lenguaje natural. Vamos a hablar un poco de las características del método y de cómo intanciarlo
+
+02:27.180 --> 02:35.100
+en algún caso de ejemplo. Como yo decía en la clase pasada, los métodos de clasificación
+
+02:35.100 --> 02:43.940
+están muy difundidos en todos los diferentes análisis porque generalmente los elementos
+
+02:43.940 --> 02:48.020
+de dominio con lo que trabajamos son discretos, las palabras, las oraciones, los documentos,
+
+02:48.020 --> 02:57.260
+los tweets son todas cosas discretas. Entonces en general vamos a ver métodos de clasificación
+
+02:57.260 --> 03:05.180
+supervisadas. Si yo quisiera por ejemplo un ejemplo concreto, un proyecto que tuvimos el año
+
+03:05.180 --> 03:14.540
+pasado que era que clasificaba un tweet si era un chiste o no, esa era una tarea de clasificación,
+
+03:14.540 --> 03:22.340
+una tarea que también encaramos aunque no con demasiado éxito, era la de calificar el chiste
+
+03:22.340 --> 03:30.140
+en un rango, en un, por vacinar un valor de qué tan bueno estaba, digamos, si se podía llegar
+
+03:30.300 --> 03:35.900
+a capturar eso y ahí si yo como lo planteamos nosotros era que vos le podías poner una,
+
+03:35.900 --> 03:40.300
+dos, tres, cuatro, cinco estrellas, eso sigue siendo un problema de clasificación supervisada,
+
+03:40.300 --> 03:45.060
+pero si esto yo lo considerara un continuo, ahí tendríamos un problema de regresión,
+
+03:45.060 --> 03:49.900
+no son usuales, los problemas de regresión de pasamiento no van a que natural porque nuestros
+
+03:49.900 --> 03:56.420
+niños generalmente son discretos. Bueno, pero vamos a método de clasificación supervisada y en
+
+03:56.420 --> 04:04.060
+particular vamos a hablar de métodos probabilistas. Los métodos probabilistas en general tenemos
+
+04:04.060 --> 04:08.580
+la instancia, o sea yo no voy a volver sobre la terminología que vimos hace pasada, tenemos la
+
+04:08.580 --> 04:14.820
+instancia representada por atributos y queremos asignarlo a una clase, pero además los métodos
+
+04:14.820 --> 04:21.980
+probabilistas lo que hacen es asignarle una probabilidad a cada clase posible. Entonces yo no
+
+04:22.020 --> 04:33.540
+solo te digo esta instancia, esta instancia, este tweet es humorístico, sino que te digo este
+
+04:33.540 --> 04:43.780
+tweet tiene un 85% de chances en humorístico y no humorístico un 15%. Y esto por supuesto
+
+04:43.780 --> 04:49.940
+tiene que ser una distribución de probabilidad, sumar uno y tal, mayor que cero. Entonces
+
+04:52.020 --> 04:56.700
+y además los métodos probabilistas intentan obtener una distribución sobre las clases
+
+04:56.700 --> 04:57.620
+dado en los atributos.
+
+05:03.980 --> 05:09.180
+Y por supuesto clasificar en general va a ser, uno va a elegir la clase con la probabilidad más alta.
+
+05:10.620 --> 05:15.380
+Así es que no quiere simplemente dejar de volver esa distribución para que otra etapa
+
+05:15.380 --> 05:28.620
+del proceso lo utilice. Yo tengo la posibilidad de hacer eso. Los métodos generativos, que son
+
+05:28.620 --> 05:33.860
+uno de los tipos de métodos que hay, lo que intentan es, son los que hemos estado viendo
+
+05:33.860 --> 05:37.900
+hasta ahora en general y es lo que tratan de modelar la distribución conjunta, es decir,
+
+05:37.900 --> 05:50.180
+la clase junto con los atributos, ¿sí? Y las etiquetas, ¿de acuerdo? ¿Por qué? Porque es lo que
+
+05:50.180 --> 05:56.580
+necesitan para, a partir de la regla de Valle. Es decir, yo quiero la clase dada del conjunto de
+
+05:56.580 --> 05:59.900
+features, ¿se acuerdan que la feature era nuestra representación del documento, ¿no?
+
+06:00.220 --> 06:07.940
+Característica que, Valle a la redundancia caracterizaban al documento. Entonces, la probabilidad
+
+06:07.940 --> 06:13.580
+de la clase dada de los atributos es igual, la probabilidad conjunta dividida de la probabilidad
+
+06:13.580 --> 06:18.500
+de los atributos, ¿sí? Por definición, por la definición de probabilidad condicional.
+
+06:23.180 --> 06:27.940
+¿De acuerdo? Entonces lo que tratan de modelar es esto. ¿Por qué lo hacen? ¿Por qué esta
+
+06:27.940 --> 06:32.860
+probabilidad generalmente son más fáciles de estimar que las otras? ¿Por qué la puedo
+
+06:32.860 --> 06:39.460
+estimar contando más fácilmente? ¿Por qué? Porque fíjense que yo como condiciono en dada
+
+06:39.460 --> 06:45.580
+de la clase, digamos, yo, por ejemplo, puedo asumir independencia entre las variables aleatorias esta,
+
+06:45.580 --> 06:50.380
+o sea, entre los atributos y puedo decir, si estas son independientes, p de x1 dado c
+
+06:50.700 --> 06:57.380
+por p de x2 dado c, ¿no? ¿Esto no lo puedo hacer de este lado? Yo no puedo decir p de c
+
+06:57.380 --> 07:02.940
+dado x1, porque no funciona así la probabilidad, digamos. La independencia la puedo dejar de acá
+
+07:02.940 --> 07:12.900
+al lado. Y cualquier propiedad de dependencia entre variables aleatorias se mira de este lado,
+
+07:12.900 --> 07:16.940
+¿no? Eso genera toda una teoría que se llama la de los modelos gráficos, que por supuesto no
+
+07:17.020 --> 07:21.500
+vamos a hablar acá, pero que me dicen, bueno, ¿cuál es la estructura que yo supongo en términos
+
+07:21.500 --> 07:26.700
+de dependencia? Es decir, esta variable depende de esta, esta no, y así. Y puedo modelarlo con
+
+07:26.700 --> 07:35.420
+un gráfico, como va a tomar. Entonces, llegan a esto, ¿no? La probabilidad de la clase,
+
+07:35.420 --> 07:39.180
+dado los atributos, la probabilidad de la clase por la probabilidad de los atributos a la clase.
+
+07:39.180 --> 07:43.580
+Esto es valles, ¿no? Y ya lo hemos visto varias veces en el curso, no estamos inventando nada.
+
+07:44.220 --> 07:50.180
+Dividido la probabilidad de los atributos. Y bueno, y nada, lo que hemos hecho hasta ahora,
+
+07:50.180 --> 07:56.180
+tanto la probabilidad priori, la PC como la probabilidad de verosimilitud, esta la puedo
+
+07:56.180 --> 08:03.380
+estimar a partir de los datos. Esto ya lo hemos hecho. Pero vamos a tener que simplificar el problema.
+
+08:03.540 --> 08:21.980
+El método nai valles lo que hace es asumir que los atributos son independientes entre sí,
+
+08:21.980 --> 08:28.820
+lo cual es una barbaridad conceptual, si por ejemplo estamos hablando de un texto y los atributos son
+
+08:28.820 --> 08:34.900
+las palabras que tiene. Realmente las palabras vienen acompañadas, se hacen amigas entre ellas,
+
+08:34.900 --> 08:38.540
+digamos, ¿no? Si hay muy palabras positivas, muy probable que haya otras palabras positivas.
+
+08:38.540 --> 08:45.140
+Bueno, valles dice, bueno, no sé, no sé. La probabilidad de una palabra solo depende de la clase.
+
+08:48.780 --> 08:53.940
+Y por lo tanto eso hace que pueda partir la probabilidad, porque como son independientes,
+
+08:53.940 --> 09:00.100
+la probabilidad de x1 dado x1 por xn dado c, la probabilidad de x1 dado c por la probabilidad de
+
+09:00.100 --> 09:09.540
+x2 dado c, bla, bla. Y bueno, ¿y cómo construye un clasificador a partir de esto? Y bueno,
+
+09:09.540 --> 09:15.100
+maximizo lo de arriba, busco la clase que maximice lo de arriba. Lo de abajo es independiente de la
+
+09:15.100 --> 09:22.140
+clase. Entonces busco la clase que maximice lo de arriba y ahí tengo un clasificador. ¿De acuerdo?
+
+09:23.940 --> 09:31.540
+Es muy sencillo, tomo todos los atributos que se me ocurren, los considero independientes. Ahora
+
+09:31.540 --> 09:38.860
+lo moveremos en algún ejemplo y busco la clase que maximiza. El método Ney Valle funciona muy bien
+
+09:38.860 --> 09:47.260
+como base para un clasificador y por poca plata uno hace un clasificador como la gente que capaz
+
+09:47.260 --> 09:56.220
+que hasta le pueden llamar un AI en la prensa. Yo no sé de cuándo es el método de Ney Valle,
+
+09:56.220 --> 10:03.940
+me suena como de los años 60, si bien se basa en el teoría de Valle que de 1700, pero funciona
+
+10:03.940 --> 10:09.260
+muy bien. En general, como primera aproximación rápida o algo, uno puede usar Ney Valle sin mucho
+
+10:09.260 --> 10:17.660
+cargo de conciencia y funciona en general muy bien. El método de Ney Valle es aplicado a la
+
+10:17.660 --> 10:25.660
+clasificación de documentos. Utiliza una de las formas de darlo es utilizando lo que
+
+10:25.660 --> 10:31.340
+se llama una aproximación vago words. Es el ejemplo, es como el ejemplo canónico de
+
+10:31.340 --> 10:38.220
+clasificación, digamos, el vago word. Yo digo tengo todo esto, es un documento que tiene una
+
+10:38.220 --> 10:44.380
+estructura, que tiene un orden entre las palabras, que tiene una sintaxis, que tiene
+
+10:44.380 --> 10:51.860
+relaciones bien formadas, con una semántica, yo no le hago caso a nada de eso. Y lo que hago
+
+10:51.860 --> 10:59.180
+solamente es considero que esto es una bolsa de palabras. La bolsa de se acuerdan, bolsa es
+
+10:59.180 --> 11:06.980
+como un set, pero que puede tener elemento repetido. Una bolsa de palabras y tengo el conteo de
+
+11:06.980 --> 11:16.580
+cantidad de veces que una palabra aparece en ese documento. Mi representación del documento es esto.
+
+11:17.940 --> 11:27.140
+Me features son estos. Entonces, cómo hago clasificación, esto fue lo que hubo en la laboratoria
+
+11:27.140 --> 11:34.780
+del año pasado. Entonces, cómo se instancia Ney Valle para el problema de clasificación de documento?
+
+11:34.780 --> 11:40.660
+Bueno, las posiciones son todas las posiciones que tengo en el documento que quiero evaluar.
+
+11:40.660 --> 11:44.740
+Yo quiero evaluar en la clase. Aguardo, quiero evaluar la clase en un documento,
+
+11:44.740 --> 11:49.500
+entonces tengo las posiciones, que son todos los tokens que aparecen en cada palabra, en el documento.
+
+11:49.500 --> 12:10.580
+Y la clase, según Ney Valle, es la clase que maximiza, quería comentar algo acá.
+
+12:12.100 --> 12:19.140
+Esto en realidad es un conteo, pero yo acá la voy a contar seis veces. Por eso es un bug of words.
+
+12:19.500 --> 12:29.620
+En las posiciones considero todas las posiciones posibles, como decía, y calculo la clase como la
+
+12:29.620 --> 12:38.700
+clase que maximiza la probabilidad de cada palabra que aparece en el documento dado a esa clase.
+
+12:39.700 --> 12:46.020
+¿Se entiende? Es la clase que hace más probable, considerando independencia,
+
+12:52.300 --> 12:57.180
+que esa palabra es T en ese documento, digamos, ¿no? La probabilidad de W subida o C.
+
+12:58.860 --> 13:03.900
+¿Y cómo hago para hacer eso? Y bueno, para calcular esos valores, para estimar esos valores,
+
+13:04.900 --> 13:11.380
+yo digo, bueno, nuestro mejor estimador, este corrito quiere decir nuestro estimador,
+
+13:11.380 --> 13:15.420
+nuestro mejor estimador de la clase, de la probabilidad priori, de la probabilidad,
+
+13:15.420 --> 13:21.060
+estamos hablando de la probabilidad de la clase, si no tuvieramos la palabra, es decir,
+
+13:21.060 --> 13:28.820
+yo puedo tener una distribución, yo tengo documentos que son o de deporte o de música,
+
+13:28.820 --> 13:32.900
+vamos a suponer que son exclusivos, ¿tá? La probabilidad de la clase es el número de
+
+13:32.900 --> 13:38.740
+documentos de deporte sobre el total, o sea, mi probabilidad priori, ¿se acuerdan de Valle,
+
+13:38.740 --> 13:43.340
+¿no? Yo tengo una probabilidad priori que lo que pienso antes de empezar a ver el documento y
+
+13:43.340 --> 13:47.820
+antes de ver el documento yo puedo decir, bueno, el 90% de los documentos son de deporte,
+
+13:47.820 --> 13:55.220
+entonces mi probabilidad a priori es 0.9, ¿te acuerdo? Es mucho más probable a priori que sea un
+
+13:55.220 --> 13:59.980
+documento de deporte, yo voy a ajustar esa probabilidad con la probabilidad de las palabras de
+
+13:59.980 --> 14:06.140
+cada una, ¿te acuerdo? Entonces, yo estimo esa probabilidad priori con el número de
+
+14:06.140 --> 14:14.020
+clase de documentos, que tienen la clase dividido el total de documentos. Y, similarmente,
+
+14:17.460 --> 14:24.180
+estimo por conteo la probabilidad de cada palabra de la clase contando del total de
+
+14:24.180 --> 14:31.060
+veces que aparecen todas las palabras en los documentos de esa clase, o sea, de todas las
+
+14:31.060 --> 14:36.580
+palabras que aparecen en los documentos de deporte, ¿cuántas veces aparece esa palabra en la de
+
+14:36.580 --> 14:44.220
+deporte? Tiene sentido, ¿no? Es una palabra común en un dominio de deportes, esta es lo que se
+
+14:44.220 --> 14:52.060
+pregunta, y multiplica a todas esas probabilidades, que seguramente operativamente tengamos que usar
+
+14:52.060 --> 14:58.380
+un logaritmo y sumar, porque si no nos va a dar todavía muy chiquita, pero conceptualmente lo
+
+14:58.380 --> 15:08.140
+mismo. ¿Se entiende? ¿Por qué, en vez de usar esto, tengo que usar esto?
+
+15:22.340 --> 15:23.700
+¿Por qué tengo que hacer eso?
+
+15:36.140 --> 15:39.460
+¿Por qué tengo que hacer esto? ¿Qué es esto?
+
+15:43.820 --> 15:49.900
+La plaza, le agrego uno, acaba contador para que no tenga el problema de que, porque si una de
+
+15:49.900 --> 15:52.900
+estas probabilidades, lo mismo que nos pasó con los engramas, si le suena conocido, porque es lo
+
+15:52.900 --> 16:00.060
+mismo, si una de aquella probabilidad de da cero, se me cancela toda la clase, la probabilidad de
+
+16:00.060 --> 16:10.500
+clase va a ser cero. Entonces para eso hacemos la plaza, hacemos smoothing, suavizado, agregándole
+
+16:10.500 --> 16:21.820
+uno a cada contador. Por ejemplo, bueno todo esto que yo estoy diciendo está en el capítulo 7,
+
+16:21.820 --> 16:28.820
+más o menos, que es general, del capítulo 7 del libro de Martin Yurashki. El libro de Martin Yurashki
+
+16:28.820 --> 16:33.900
+está online, los capítulos nuevos, de hecho todos los capítulos correspondientes a clases que
+
+16:33.900 --> 16:40.180
+hemos dado están online, yo realmente les recomiendo leerlos un libro que está muy claro, no va a
+
+16:40.180 --> 16:46.140
+tener mucha más dificultad que lo que vemos en la clase, por lo menos no se, uno pierde perspectiva,
+
+16:46.140 --> 16:59.620
+no? Está claro, pero, pero... ¿Qué le pasa? Le agrajo de si, si me giro nada, si, si, y ahí pueden
+
+16:59.620 --> 17:06.420
+chequear y hay algunos detalles más que me parecen muy interesantes, si a ustedes les interesa. Bueno,
+
+17:07.380 --> 17:12.940
+supongamos que nosotros tenemos el cuerpo de entrenamiento que tenemos arriba, las oraciones que
+
+17:12.940 --> 17:20.820
+están arriba y con una categoría negativa o positiva, algún tipo, en este caso estamos haciendo
+
+17:20.820 --> 17:27.260
+sentimenta análisis, es decir, analizar si la percepción es positiva o negativa sobre un documento.
+
+17:27.860 --> 17:38.140
+En el cuerpo de los tweets hacíamos algo así, algo parecido, es decir, yo necesito saber si la clase
+
+17:38.140 --> 17:46.260
+del cuerpo del tweet es de humor o no humor. Bueno, y ahí tenemos algunos ejemplos negativos y otros
+
+17:46.260 --> 17:52.420
+positivos y queremos saber qué pasa con predictable with no originality. Entonces,
+
+17:53.140 --> 18:02.180
+la probabilidad priori de la clase cuál es y es el total de documentos hay 1, 2, 3, 4, 5,
+
+18:03.780 --> 18:08.500
+de los cuales tres son negativas y dos son positivas, o sea, que estas son nuestra probabilidad
+
+18:08.500 --> 18:18.140
+priori. Y luego entramos a buscar la probabilidad de cada palabra. La probabilidad de predictable,
+
+18:18.140 --> 18:24.500
+dado que la clase es negativa, es 1 que es la ocurrencia de predictable,
+
+18:24.500 --> 18:29.660
+predictable solo aparece en la segunda oración y en un contexto negativo.
+
+18:32.580 --> 18:39.020
+Entonces, a cada 1 y a cada tenemos el más 20 es para normalizar, para la plaza,
+
+18:39.020 --> 18:43.860
+o sea, 1 más 1 y 14, que es el total de palabras más 20, 14 es el total de palabras diferente.
+
+18:44.860 --> 18:45.580
+¿De acuerdo?
+
+18:51.140 --> 18:56.860
+De las palabras diferentes. ¿La palabras? ¿Cómo fáciles verlo acá?
+
+18:56.860 --> 18:59.220
+Sí, es la clase, ¿no?
+
+19:00.740 --> 19:05.660
+De la clase. ¿La cantidad de palabras que hay en la clase? No, no son diferentes, son todas.
+
+19:05.660 --> 19:13.060
+¿Del total de palabras que hay? ¿Voy a contar? Positivo, 1, 2, 3, 4, 5, 6, 7, 8, 9.
+
+19:14.580 --> 19:18.980
+Son todas, porque acá yo estoy considerando todas las ocurrencias. Es una de las cosas que se
+
+19:18.980 --> 19:24.060
+le critican, ahí vayan, es general, es eso, que si yo repito muchas veces algo, le sumo probabilidad.
+
+19:26.940 --> 19:31.380
+Que a veces no es lo que se quiere, digamos. Si hay atributos que reiteran cosas,
+
+19:31.380 --> 19:35.060
+es como que están muy relacionados y no están aportando información.
+
+19:36.900 --> 19:41.420
+Entonces, acá están todas las probabilidades de las diferentes palabras. Fíjense,
+
+19:42.140 --> 19:45.860
+bueno, ahora nos fijamos en el ejemplo. Con esas probabilidades, esa es nuestra,
+
+19:46.860 --> 19:52.820
+es como entrenamos nuestro clasificador, esencialmente. ¿De acuerdo? Es decir, a partir del
+
+19:52.820 --> 19:55.700
+cuerpo de entrenamiento, yo calculo esta probabilidad y lo que estoy haciendo es entrenar.
+
+19:56.980 --> 20:03.140
+Como ustedes ven, son cuentas muy sencillas de hacer. El clasificador, no hay vaya,
+
+20:03.140 --> 20:08.940
+la ventaja que tiene, es que es muy rápido, muy, muy rápido. Tanto para entrenar como para
+
+20:09.900 --> 20:15.020
+evaluar. Entonces, cuando uno quiera acercarse a un problema y ver, ¿qué tan difícil es
+
+20:15.020 --> 20:21.860
+clasificar un cuerpo de humor? Entonces, se le arrima con un método de esto,
+
+20:23.700 --> 20:29.460
+que lo entrenan dos patadas, y más o menos tiene una idea. Dice, ah, mirad, que pude clasificar
+
+20:29.460 --> 20:35.180
+el 75, 80% del olor. O sea, lo que es un problema que tiene para mejorar un poco,
+
+20:35.700 --> 20:42.980
+tampoco es que es horrible y difícil. Y luego, sí, empieza a afinar, a ajustar parámetros,
+
+20:42.980 --> 20:47.060
+a cambiar el método, capaz que le mete una red o agregarle datos, le mete una red neuronal
+
+20:47.060 --> 20:53.140
+que está una semana entrenando. Pero con esto tiene una primera aproximación, por lo menos.
+
+20:53.140 --> 20:58.620
+A mí se alcanza, pasa alguien en los medios. Porque depende la tarea que estamos haciendo.
+
+20:58.620 --> 21:03.940
+Bueno, ¿pero qué pasa? Entonces, ¿cómo clasifico? Y bueno, si la palabra es prevista,
+
+21:03.940 --> 21:10.780
+volvió en no originality, yo tengo la probabilidad de la oración dada la categoría negativa por
+
+21:10.780 --> 21:17.380
+la probabilidad de la categoría negativa. O sea, que es 3 dividido 5 por las diferentes
+
+21:17.380 --> 21:23.700
+probabilidades de las palabras que aparecen en la categoría negativa. Si se fijan acá estos
+
+21:23.780 --> 21:41.140
+1 es porque no aparecían. Y acá, fíjense que originality es una palabra montinando a positiva,
+
+21:41.140 --> 21:56.180
+¿no? Es 1 sobre 29 contra 1 sobre 34. O sea, que está mejor en la positiva que en la negativa.
+
+21:56.180 --> 22:00.900
+¿Sí? ¿Por qué? Porque aparecen contextos positivos, realmente. Acá el problema que
+
+22:00.900 --> 22:07.340
+tienen no, adelante. Que es uno de los problemas que ahora vamos a ver. Pero de todos modos,
+
+22:07.940 --> 22:14.780
+multiplicando las probabilidades de cada palabra, llega que es más probable que sea negativa.
+
+22:16.300 --> 22:21.580
+¿Y por qué? Porque dice predíctabel, seguramente. ¿Por qué dice no?
+
+22:29.060 --> 22:34.700
+En realidad esto es number crunching, ¿no? Es porque hay un motivo, digamos, uno de las
+
+22:34.700 --> 22:38.300
+aplicaciones son siempre aposteriores en estas cosas, ¿no? Es decir, bueno, pasó esto, pero en
+
+22:38.300 --> 22:45.980
+realidad esto es un motivo de sus cuentas, inicialmente. ¿Se entiende? ¿Se entiende acá?
+
+22:49.980 --> 22:57.100
+Si nosotros queremos hacer sentimentanálisis, para el caso particular de clasificación de
+
+22:57.100 --> 23:02.180
+documentos que se llama sentimentanálisis, que es ver la impresión respecto a algo,
+
+23:02.500 --> 23:07.340
+a un documento, hay algunas reglas que permiten mejorar la performance.
+
+23:09.860 --> 23:13.940
+Es lo mismo, es exactamente lo mismo, las clases son las mismas, pero se puede hacer
+
+23:13.940 --> 23:19.380
+alguna modificación. Por ejemplo, no contar múltiples ocurrencias en la palabra en el mismo
+
+23:19.380 --> 23:24.020
+documento. Esto que yo les decía hoy, cuento una vez olas. Y se dice, es muy, muy linda,
+
+23:24.020 --> 23:31.900
+linda, linda, cuento una vez olas. Eso se llama binary navages. El manejo de la
+
+23:31.940 --> 23:38.580
+innovación es todo un tema, es todo un tema, el manejo de la innovación. Y una aproximación
+
+23:38.580 --> 23:47.660
+muy, muy sencilla, muy naí, pero que mejora las cosas, pues bueno, yo a todo lo que dice
+
+23:47.660 --> 23:51.860
+después de didn't, lo clasifico no como like, sino como not like, invento una palabra nueva.
+
+23:55.140 --> 23:59.900
+Podría llegar a hacer alguna cosa un poco más elaborada si tuviera un parser, porque si yo
+
+23:59.940 --> 24:05.620
+tengo un parser, tengo el árbol y tengo una rama que dice no todo lo que hay abajo.
+
+24:05.620 --> 24:08.820
+Entonces yo sé el alcance de no. Ahí igual el problema está en cómo hacer el parsing,
+
+24:08.820 --> 24:17.980
+pero si yo le agrego información de parsing, la cosa puede mejorar. De parsing vamos a
+
+24:17.980 --> 24:26.820
+hablar la semana que viene, pero yo diría que... Háganme acordar que hable el final
+
+24:26.980 --> 24:32.940
+de esto, del parsing. Esta, pero esta es una primera aproximación, ¿entiendes? Creo unas
+
+24:32.940 --> 24:39.700
+palabras nuevas ahí y ahora el like se cuenta como not like. Es muy naí porque dice todo lo que
+
+24:39.700 --> 24:45.780
+está después de didn't, pero podría haber otras cosas en el medio. No, no es tan sencillo, digamos,
+
+24:45.780 --> 24:52.380
+pues las oraciones son más complicadas. No, creo que pienses que, y hay un que ahí con oración
+
+24:52.540 --> 25:01.180
+subordinada, puede ser más complejo que esto, pero no da rimamos. Y otra aproximación, por supuesto,
+
+25:01.180 --> 25:08.620
+es usar lo que se llama lexicones de sentimiento, que son listas de palabras positivas y listas
+
+25:08.620 --> 25:12.420
+de palabras negativas. Tengo una lista recolectada, ¿sí?
+
+25:13.140 --> 25:18.980
+En el caso de que está mostrando como se llena la palabra, ¿no? Sí. Como no estaba, no tenía
+
+25:18.980 --> 25:23.100
+supexicon, cualquier cosa que pusiera, de originales, ¿no? Cualquier cosa que pusiera
+
+25:23.100 --> 25:29.140
+sento para originales y que no estuvieran entre niches, la primera, ¿no? Ah, sí, sí, claro, claro,
+
+25:29.140 --> 25:33.620
+claro, claro, claro. De todos modos se supone que vos, en todo este tipo de métodos, justamente lo
+
+25:33.620 --> 25:38.900
+que supone es que como vos tenés grandes volúmenes, si no, no funcionan. Claro, claro, claro. Es decir,
+
+25:38.900 --> 25:46.900
+que lo que hacen es capturar algo a partir de muchas ocurrencias. Pero sí, si no parece,
+
+25:46.900 --> 25:55.580
+si tenés cero, es la misma para todas. En el lexicón, entonces vos lo que podés hacer
+
+25:55.580 --> 25:58.940
+es agregar, en tu clasificador, simplemente una fitur que dice la cantidad de palabras en
+
+25:58.940 --> 26:02.740
+un lexicón positivo y la cantidad de palabras en un lexicón negativo. Es decir, tiene tres
+
+26:02.740 --> 26:10.660
+palabras negativas, es un X, Xn más 1 y Xn más 2, son dos atributos nomás, ¿sí? Y la
+
+26:10.660 --> 26:15.620
+cantidad de palabras en un lexicón negativo. Le agrego dos atributos que, si recordamos
+
+26:15.620 --> 26:21.180
+en la clase pasada, van a seguramente estar más correlacionados con la clase y nos van
+
+26:21.180 --> 26:26.580
+a poder dar una pista de su comportamiento. Si llegara a hacer un método de regla que
+
+26:26.580 --> 26:32.460
+dice, bueno, el que tiene más palabra positiva gana, porque juegan todas, intervienen mucho
+
+26:32.460 --> 26:37.140
+en la clasificación, ¿sí? ¿De acuerdo?
+
+26:37.140 --> 26:46.620
+Otro ejemplo, ¿cómo puedo hacer para calcular un tag de part of pitch si tengo la palabra
+
+26:46.620 --> 26:51.020
+y los postage de las palabras anteriores y siguientes? Y bueno, de la misma forma, ¿no?
+
+26:51.020 --> 26:54.900
+La probabilidad de que sea un adjetivo, dado que la anterior es un determinante, el siguiente
+
+26:54.900 --> 27:02.700
+es un nombre y la palabra es blanco, es la probabilidad de que la clase sea un adjetivo
+
+27:02.700 --> 27:09.380
+a priori, esto lo hago por conteo, la probabilidad de que una palabra sea blanco como adjetivo,
+
+27:09.380 --> 27:14.220
+es decir, de todas las veces que hubo blanco, cuántas veces, miento, de todos los adjetivos
+
+27:14.380 --> 27:24.540
+cual era blanco, cuántas veces pasó que antes de un adjetivo hubieron determinantes
+
+27:24.540 --> 27:31.500
+por la probabilidad de que el siguiente sea un nombre si este es un adjetivo. ¿Se entiende?
+
+27:31.500 --> 27:35.820
+Simplemente hago conteo de todas las veces que aparecieron cosas antes y las considero
+
+27:35.820 --> 27:41.580
+independiente entre ellas, lo cual sabemos que no es cierto, pero es lo que hay, es lo
+
+27:41.660 --> 27:50.660
+que puedo computar. Y bueno, y como yo estoy calculando la probabilidad conjunta de esto,
+
+27:50.660 --> 27:57.980
+podría llegar a generar ejemplos con la distribución calculada, eso me puede ser útil para hacer
+
+27:57.980 --> 28:01.700
+generación de texto, todos estos métodos me permiten, los métodos de, por ejemplo,
+
+28:01.700 --> 28:07.100
+de engrama me permiten generar también texto, que es la forma que hacen los generadores,
+
+28:07.100 --> 28:15.140
+que escriben parecido a alguien, digamos. Bueno, bueno, atacar los métodos generativos
+
+28:15.140 --> 28:20.420
+que son estos, es, como nadie valles. Un método generativo es ese que busca una distribución
+
+28:20.420 --> 28:25.380
+de todas las clases, prueba todas las clases y computa la distribución conjunta con los
+
+28:25.380 --> 28:31.100
+atributos. Los métodos discriminativos son un poco diferentes porque en lugar de,
+
+28:32.100 --> 28:39.980
+en lugar de calcular la probabilidad de la conjunta dicen, bueno, no, de todo ejemplo,
+
+28:39.980 --> 28:45.860
+cuál de los dos es mejor, cuál clase es mejor para este ejemplo, sin tratar de modelar
+
+28:45.860 --> 28:54.620
+todas las clases posibles. Es decir, modelamos directamente la probabilidad, intento modelar
+
+28:54.620 --> 28:59.260
+directamente la probabilidad condicional, la probabilidad de la clase daba los atributos,
+
+28:59.260 --> 29:08.220
+¿sí? Voy derecho a eso, ¿qué es más probable dado de todos estos atributos? Nada más.
+
+29:11.860 --> 29:17.700
+Y hay varias aproximaciones, algunas que son probabilísticas como entropía máxima y otras
+
+29:17.700 --> 29:24.300
+no. A ver, el preceptor de su porvector machine, ahora vamos a ver, no, vamos a ver la definición
+
+29:24.300 --> 29:32.820
+de su porvector machine. Pero esencialmente lo que te dicen es, bueno, esto está de tal lado.
+
+29:35.620 --> 29:37.500
+Si yo tengo estos puntos así,
+
+29:37.940 --> 29:47.660
+entreno y después te digo, bueno, este está de este, si este punto está del lado de los
+
+29:47.660 --> 29:56.260
+redonditos. No sé qué tan del lado está de los, esto no es probabilista, por ejemplo.
+
+29:59.620 --> 30:02.740
+O puedo hacer lo probabilista, pero igual lo único que respondo es acá y de qué lado está.
+
+30:03.220 --> 30:08.060
+Bueno, entonces vamos a ver uno que es el modelo de entropía máxima,
+
+30:09.500 --> 30:17.060
+que es como lo que vamos a ver, es como la versión discriminativa del método de Ney Valle.
+
+30:21.300 --> 30:25.820
+O también conocido como regresión multinomial logística, que vamos a ver por qué se llama así,
+
+30:25.820 --> 30:31.260
+y son modelos lo lineales para clasificación, es decir, yo quiero la clase, si tengo una serie de
+
+30:31.260 --> 30:36.300
+tributos. Hago.
+
+30:36.300 --> 31:03.980
+E, ahora vamos a ver qué es esto, ¿no? F su I, son las features, son como un indicador de algunas,
+
+31:04.140 --> 31:09.580
+son features a partir de los atributos, ahora vamos a ver cómo lo abrimos eso,
+
+31:09.580 --> 31:16.700
+pero son derivadas de estos atributos. Los W son los pesos, una serie de pesos que yo
+
+31:16.700 --> 31:23.900
+voy a intentar calcular, son los pesos de mi modelo, lo que yo voy a entrenar,
+
+31:24.540 --> 31:34.820
+aprender son los pesos de mi modelo. Y este es el producto, el dot product de ambos, es decir,
+
+31:34.820 --> 31:44.780
+esto va a ser W1 por F1 más W2 por F2 más W3 por F3, etcétera. ¿De acuerdo? Entonces yo,
+
+31:44.780 --> 31:50.700
+la feature esta, que según mi ejemplo, cuando yo vaya a evaluar, según mi ejemplo,
+
+31:50.700 --> 32:03.540
+esto va a valer algo, lo multiplico por un número fijo que va a depender de lo que yo entrené,
+
+32:03.540 --> 32:13.460
+es decir, lo que yo quiero aprender es W, ¿de acuerdo? Eso, elevó E a la suma de eso,
+
+32:13.460 --> 32:21.100
+ahora vamos a ver por qué hago esto. Y esta Z es simplemente un factor de normalización,
+
+32:23.100 --> 32:32.060
+es decir, de todos los W subí que tengo, o sea, esto no necesariamente genera una distribución
+
+32:32.060 --> 32:39.540
+de probabilidad, entonces este Z es como la suma de todos los casos posibles para llevarlo a una
+
+32:39.620 --> 32:43.140
+probabilidad, a que la suma me dé uno, aquellos que hablábamos unas clases atrás, bueno,
+
+32:43.140 --> 32:49.700
+generalizado acá. Esa es la famosa Z, que parece una pavada, pero es lo más difícil de computar,
+
+32:49.700 --> 32:53.420
+porque yo tengo que calcular este valor para todos los atributos posibles para que me dé una distribución.
+
+32:56.860 --> 33:01.820
+Entonces, los modelos de entropía al máximo calculan la probabilidad de la clase utilizando
+
+33:01.820 --> 33:11.420
+esta fórmula. Ahora vamos a ver por qué. Pero antes vamos a hablar de otra cosa para llegar a eso,
+
+33:11.420 --> 33:15.660
+y es de regresión lineal. Un problema de regresión lineal, que era lo que yo le decía hoy,
+
+33:15.660 --> 33:19.580
+es cuando uno intenta, un problema de regresión es cuando uno intenta calcular un valor,
+
+33:19.580 --> 33:31.380
+de algún valor real, un valor real, ¿sí? Entonces yo, si yo quiero saber, supongamos que yo
+
+33:35.820 --> 33:37.340
+tengo estos puntos acá,
+
+33:37.340 --> 33:56.380
+¿sí? Cuando yo hago regresión lineal, lo que hago es trazar, buscar una línea que separe los
+
+33:56.380 --> 34:15.660
+ejemplos. Eso esencialmente es, si esto es, va a ser una cosa como, si yo supongo que pasa por el
+
+34:15.660 --> 34:19.300
+origen, esta recta, vamos a suponer que pasa por el origen, y si no, vemos cómo se corrige.
+
+34:32.740 --> 34:34.340
+Vamos a llamarle X1, X2.
+
+34:34.340 --> 34:51.260
+Esto es la recta que representa esto, ¿no? Es decir, el W1 y W2 me van a determinar la
+
+34:51.260 --> 34:55.340
+legislación de la recta. Acá está pasando por el origen porque no tiene elemento independiente,
+
+34:55.340 --> 35:02.020
+yo puedo inventar un W0 con un X0 que vale siempre 1, para agregarle, vamos a moverla a la recta.
+
+35:02.020 --> 35:09.540
+¿De acuerdo? Entonces, lo que yo, cuando digo que hago regresión lineal, lo que digo es bueno,
+
+35:09.540 --> 35:17.500
+mis puntos yo asumo que son separables por una recta. Ah, perdón, yo quiero estimar X2 dado
+
+35:17.500 --> 35:26.460
+X1, ¿de acuerdo? Entonces yo obtengo la recta para un nuevo X, vengo acá y calculo el I.
+
+35:26.460 --> 35:36.900
+Entonces, I va a ser igual al WI por FI, que es esto, la sumatoria de los WI por FI es el dot
+
+35:36.900 --> 35:43.300
+product de WI con F. ¿De acuerdo? Simplemente estoy haciendo un estimador lineal de esto.
+
+35:46.540 --> 35:55.740
+¿Y cómo hago para, como encuentro esta recta? Bueno, una de las formas más usuales es la que
+
+35:55.740 --> 36:00.140
+minimiza la suma de los cuadrados de la diferencia entre valores y predicciones, o sea,
+
+36:03.780 --> 36:16.500
+esta recta minimiza esta distancia, ¿de acuerdo? La distancia, yo busco la recta que tenga la
+
+36:16.500 --> 36:28.780
+distancia mínima de esto al cuadrado y esto al cuadrado, ¿sí? Lo hago al cuadrado para que la
+
+36:28.780 --> 36:35.020
+suma sea positiva, para que no me afecte si estoy de un lado o del otro. La vieja regresa
+
+36:35.020 --> 36:44.500
+en un lineal, ¿sí? Entonces, no voy a entrar en detalles, pero yo calculo la fórmula de los
+
+36:44.500 --> 36:54.900
+mínimos cuadrados que son, si lo piensan son todo multiplicaciones de cosas al cuadrado, más
+
+36:54.900 --> 37:00.580
+cosas al cuadrado. O sea, que esto es positivo, es una función positiva y convexa y entonces yo lo que
+
+37:00.620 --> 37:05.220
+trato de buscar es el mínimo de esa función. El año que viene lo voy a escribir a eso,
+
+37:05.220 --> 37:13.140
+porque no sé si queda claro. Este, a ustedes no les importa. Pero la cuestión es que yo termino
+
+37:13.140 --> 37:18.940
+minimizando una función convexa, una función convexa y una función que es así. Así es una
+
+37:18.940 --> 37:25.740
+función convexa, ¿no? Que cualquier, cualquier par de puntos que yo una pasan todo por adentro del,
+
+37:26.220 --> 37:39.060
+no? Vamos, acá, esto es una función convexa. Sí, yo puedo unir acá, ¿de acuerdo? ¿Cómo es
+
+37:39.060 --> 37:43.540
+una función convexa? ¿Qué característica tiene las funciones convexas? ¿Cuál es
+
+37:43.540 --> 37:49.780
+qué característica tiene la función convexa? Ah, no se acuerdo. Las funciones convexas tienen el
+
+37:49.780 --> 37:57.460
+tema de que cuando yo encuentro un mínimo local es un mínimo global. Si una función es así,
+
+37:58.900 --> 38:04.060
+yo puedo quedarme, buscar el mínimo acá y encontrarme con este mínimo local y buscar acá.
+
+38:06.540 --> 38:12.020
+Sí, sí, claro, puedo llegar a quedar atascado acá. Si yo tengo una función convexa,
+
+38:13.020 --> 38:19.820
+esto es informativo, si quieren hacer curso de prensa automático, esto lo ven en detalle.
+
+38:19.820 --> 38:26.420
+Este, si yo tengo una función convexa, yo puedo buscar un punto cualquiera y empezar a
+
+38:26.420 --> 38:32.420
+calcular en la derivada y avanzar en la, en la dirección de la derivada y al final, al final del
+
+38:32.420 --> 38:36.780
+día voy a encontrar si hago las cosas bien el mínimo de función. Eso llama descenso por
+
+38:36.780 --> 38:42.460
+gradiente, ¿sí? Y debería enseñarse en primer año.
+
+38:44.940 --> 38:51.060
+Hay otro método de minimización. Son métodos de minimización numérica, ¿no? Son calculos numéricos.
+
+38:52.780 --> 38:57.860
+Quiero decir, no hay una fórmula cerrada para eso. Para el método de mínimo cuadrado sí hay
+
+38:57.860 --> 39:00.860
+una fórmula cerrada, es decir, una fórmula calcular, pero es más fácil de hacer descenso
+
+39:00.860 --> 39:06.100
+por gradiente, pues más rápido. Bueno, cuestión, que nosotros podemos saber cómo hacer esto,
+
+39:06.100 --> 39:12.980
+es decir, que yo puedo aprender los WB, o sea, los WB que minimizan, esos son los WB que queremos,
+
+39:12.980 --> 39:17.940
+está claro, ¿no? Es decir, yo calculo a partir del cuerpo de entrenamiento,
+
+39:17.940 --> 39:27.180
+esos WB, y lo uso luego. Eso se trata de aprender. Entonces, este es un problema de
+
+39:27.180 --> 39:33.100
+regresión, donde yo quiero calcular un número, pero acá estoy en un problema de clasificación,
+
+39:33.100 --> 39:37.580
+o sea, que lo que yo quiero aprender es una categoría, una probabilidad. Entonces, mi primera
+
+39:37.580 --> 39:48.140
+aproximación es, perdón, es bueno, yo digo esto, la probabilidad, el número que yo quiero estimar
+
+39:49.140 --> 39:58.460
+es la probabilidad de que sea clase, acá tenemos un caso positivo o negativo, ¿no? La probabilidad
+
+39:58.460 --> 40:09.460
+de que I va a ir a true, o sea, de la clase dado mi X. Entonces, yo lo que digo es bueno, hago
+
+40:09.460 --> 40:19.340
+regresión, hago regresión, pero en lugar de calcular un número, o sea, sigo calculando
+
+40:19.340 --> 40:27.740
+un número que es el valor de la probabilidad. Ahora, ¿qué problema tiene esto? El problema
+
+40:27.740 --> 40:32.540
+que tiene esto es que no es una distribución de probabilidad, no es un valor de probabilidad,
+
+40:32.660 --> 40:41.620
+porque la probabilidad tiene que estar entre 0 y 1, ¿de acuerdo? Entonces, esto no me sirve
+
+40:41.620 --> 40:44.420
+a aplicarlo directamente, porque me puede dar cualquier cosa, yo quiero una probabilidad.
+
+40:44.420 --> 40:51.580
+Entonces, lo que digo es bueno, pruebo con los odds, los odds que no sé cómo se traduce,
+
+40:52.580 --> 41:01.500
+los odds son como las chances, como las apuestas, ¿no? Tenés 2 a 1, 1 a 2,
+
+41:01.500 --> 41:07.580
+que es, esencialmente, la probabilidad de que sea verdadero comparado con la probabilidad de
+
+41:07.580 --> 41:15.260
+que no lo sea. Esto está un poco mejor, porque este resultado está entre 0 e infinito,
+
+41:15.260 --> 41:27.140
+pero si es sin estar entre 0 y 1, entre, perdón, yo quiero llevarlo a algo que esté
+
+41:27.140 --> 41:33.860
+entre menos infinito y más infinito que es esto, ¿no? Está claro, está claro. Esto está entre
+
+41:33.860 --> 41:39.340
+menos infinito y más infinito, el W por F, cualquier cosa. Acá yo lo reduzco a una cosa que
+
+41:39.340 --> 42:01.940
+está entre 0 y infinito, mejor. Bueno, pero para que esto quede entre, entre 0 y 1, lo que hago
+
+42:01.940 --> 42:08.540
+es, le aplico el logaritmo, para que quede, perdón, dije al revés, para que quede entre
+
+42:08.540 --> 42:13.420
+1 y infinito y más infinito, le aplico el logaritmo. Implico el logaritmo y entonces digo, bueno,
+
+42:15.420 --> 42:20.420
+esto es lo que buscábamos, yo quiero estimar el logaritmo de la probabilidad de las odds,
+
+42:21.780 --> 42:27.620
+y por eso llegó a esa fórmula tan rara con E, porque cuando yo despejo, y esto se lo dejo de
+
+42:27.620 --> 42:34.620
+ver, cuando yo despejo P igual true, es fácil, ¿no? Digamos, este logaritmo se transforma en un E
+
+42:34.620 --> 42:44.380
+a la W por F, ¿sí? Bueno, se lo dejo de ver. Cuestión, ¿qué queda de sí? E a la W por F dividido 1 más
+
+42:44.380 --> 42:59.940
+E a la W por F. Las odds, se transforma en que es esta función, ¿sí? Entonces, llegué a una función
+
+42:59.940 --> 43:07.460
+que me dice la probabilidad de que sea verdadero da la clase, a partir de haciendo unas cosas raras
+
+43:07.460 --> 43:14.900
+con las features, nada menos. O sea, algo parecido al lineal, pero que la corrijo con esta función.
+
+43:14.900 --> 43:26.660
+Esto es lo mismo que hace la red neuronal. No mismo. Esa función se llama función logística y tiene
+
+43:26.660 --> 43:32.780
+este aspecto. ¿Cuál es la característica de la función logística? Y bueno, que parece un escalón,
+
+43:32.980 --> 43:38.900
+es parecida una cosa que vale cero, si es negativo y uno si es positivo, pero que es continua.
+
+43:46.100 --> 43:52.900
+Es una linda función, es una función smooth. Pero sigue pareciendo un escalón. Si yo logro,
+
+43:52.900 --> 43:57.780
+si estoy de este lado, más seguramente sea negativo y si estoy de este lado sea positivo. Pero puedo
+
+43:57.780 --> 44:07.060
+derivar a las esas cosas. Las red neuronal usan mucho eso. Y hacemos el chiste de no se puede entrar.
+
+44:10.500 --> 44:13.820
+No, es para que se sientan más. Bueno.
+
+44:20.420 --> 44:25.340
+Y bueno, ¿y cómo clasificamos? Muy es fácil. Si la probabilidad de que sea verdadero mayor que
+
+44:25.380 --> 44:33.740
+la probabilidad que sea falso, dada el atributo, es lo mismo que decir que e a la w por f es mayor que
+
+44:33.740 --> 44:49.940
+1. Por esto. ¿Sí? Que es lo mismo que decir que w por f sea mayor que 0. Entonces clasificar es muy
+
+44:49.940 --> 44:56.460
+fácil con este método, porque lo único que toca hacer es multiplicar w por f con los pesos que
+
+44:56.460 --> 45:01.620
+calculé por la feature y si me da mayor que 0 quiere decir que positivo y sino negativo. Eso es la
+
+45:01.620 --> 45:07.460
+regresión logística. Se llama regresión, aunque se llama regresión es un método de clasificación.
+
+45:08.980 --> 45:09.740
+¿De acuerdo?
+
+45:20.020 --> 45:26.820
+Y la pregunta es bueno, pero acá yo todavía no respondí. ¿Cómo estimaba los pesos que
+
+45:26.820 --> 45:33.060
+me iba allí? Se era contando. Acá tengo que hacer algunas cosas un poco más raras.
+
+45:39.860 --> 45:45.100
+Digo que mi w estimado es el que maximiza este producto de probabilidades de las diferentes
+
+45:45.420 --> 45:55.980
+clases. Y me queda esta función súper rara, súper fea, súper complicada, pero que adivinen que es
+
+45:55.980 --> 46:02.340
+convexa. Y como es convexa, bueno, yo quiero buscar el máximo de una función convexa,
+
+46:02.340 --> 46:09.580
+lo mismo que le decía hoy. Aplico desde eso por la diente o algún otro método de numérico.
+
+46:09.580 --> 46:16.860
+Entonces tengo una forma de estimar esos w, el asunto que tengo es la forma de estimar.
+
+46:23.660 --> 46:28.780
+Y ¿qué pasa si tengo más de dos clases? Y bueno, tengo que hacer una cosa así,
+
+46:28.780 --> 46:32.500
+calcular la feature a partir de cada clase con cada tributo.
+
+46:32.660 --> 46:44.580
+Metarlo dentro de la fórmula y volver a normalizar. Y por eso nuestro método se llama
+
+46:44.580 --> 46:51.460
+multinomial logistic regression, porque es una extensión de la regresión logística a un caso de
+
+46:51.460 --> 47:00.340
+múltiple clases. Y por supuesto no vamos a quedar con la clase que maximiza la probabilidad de
+
+47:02.500 --> 47:03.500
+este tributo. ¿De acuerdo?
+
+47:09.620 --> 47:17.900
+Esta clase es un poquito más, entra más en detalles matemáticos que el resto. Me parece
+
+47:17.900 --> 47:23.260
+importante entender por qué esos atributos aparecen y por qué aparecen todas esas cosas con
+
+47:23.260 --> 47:27.500
+e. Y las cosas con e generalmente son para cambiar la curva. ¿Qué pasa si es paiguiente?
+
+47:33.500 --> 47:39.140
+Y por último, como comentario, ¿por qué se llaman modelos de entropía máxima? La entropía,
+
+47:41.780 --> 47:47.140
+no sé si hablamos algo de entropía en alguna clase. La entropía es una medida que trata de ver
+
+47:47.140 --> 47:54.020
+qué tan parecido son los elementos de algo. Entonces, el principio de entropía máxima dice,
+
+47:54.020 --> 48:04.500
+bueno, yo si tengo muchas distribuciones posibles, candidatas, algo, el hijo,
+
+48:06.340 --> 48:12.420
+la que tiene entropía máxima, es decir, la que da dos mil datos, la que solo asume lo que los datos
+
+48:12.420 --> 48:19.100
+te dicen. ¿Qué quiero decir eso? Si yo no conozco nada sobre un documento en el caso del 90-20, 90-10,
+
+48:20.100 --> 48:27.860
+asumo 90-10 porque puedo asumir a partir de los datos. Yo podría asumir 0802 por
+
+48:27.860 --> 48:34.900
+algún motivo, pero si yo no sé más que eso, estoy utilizando, o si no sé nada,
+
+48:34.900 --> 48:39.700
+si yo no sé nada sobre un documento, no sé nada, no tengo ninguna información a priori.
+
+48:39.700 --> 48:47.100
+Y te doy un documento y te digo de qué clase es, es de deporte o es de espectáculo. ¿Qué harían
+
+48:47.100 --> 48:58.780
+ustedes? Si yo te digo 50-50, eso es aplicar el principio de entropía máxima, es decir,
+
+48:58.780 --> 49:03.540
+bueno, yo no tengo información, es todo equiprobable. ¿Se acuerdan que la entropía es máxima cuando
+
+49:03.540 --> 49:10.700
+son todo equiprobable? Si yo agrego un poco de información y yo tengo un dado, pero yo te
+
+49:10.700 --> 49:20.340
+aseguro que el 6 no sale nunca. ¿Cuál es la probabilidad de sacar un 1? Un quinto. O sea,
+
+49:20.340 --> 49:26.700
+paso de ser un sexto, un quinto, porque tengo más información, pero siempre no debo un cuarto,
+
+49:26.700 --> 49:31.860
+porque no puedo sacarlo de ningún dato. Eso es el principio de entropía máxima. Si yo,
+
+49:31.980 --> 49:41.460
+cuando elijo estas distribuciones posibles, aplico solo lo que los atributos me dicen,
+
+49:45.020 --> 49:52.620
+aplicando el principio, el que tenga máxima entropía, a lo que llego es exactamente al
+
+49:52.620 --> 49:58.420
+mismo modelo que presenté antes. Por eso también los modelos se llaman modelos de entropía máxima,
+
+49:59.020 --> 50:03.300
+es porque son dos formas diferentes de llegar a los mismos. Si usted quiere en el detalle,
+
+50:03.300 --> 50:09.220
+en la literatura está eso. No sé si les interesa, pero al que les voy a interesar está muy bien.
+
+50:10.780 --> 50:15.060
+Coinciden con eso. Coinciden con una distribución de probabilidad para un modelo logístico
+
+50:15.060 --> 50:18.700
+lupinional cuyo peso maximiza la verosimilitud en los datos de entrenamiento.
+
+50:29.180 --> 50:35.020
+Por ejemplo, si yo quiero aplicar un modelo de entropía máxima al ejemplo del post time,
+
+50:35.020 --> 50:43.780
+la feature van a lucir así. Tengo una feature 1 que dice vale f1, vale 1 si la palabra es
+
+50:43.780 --> 50:55.660
+reis y la clase es nombre y si no vale 0. Otra feature va a ser 1 si la anterior es tú y la clase
+
+50:55.660 --> 51:03.660
+es verbo y si no es 0. Otra feature y como se imaginarán la feature son, estamos hablando de
+
+51:03.660 --> 51:13.260
+miles o de millones de features, pues son todas las posibles, las relevantes. Así lucen las features
+
+51:13.260 --> 51:23.780
+un modelo de entropía máxima, de un montón de features y yo lo que voy a hacer y además son
+
+51:23.780 --> 51:32.660
+indicadores, eso generalmente vale 1 o 0, usualmente. Y lo que yo voy a hacer es, calculando a través de
+
+51:32.660 --> 51:43.220
+contando, sí, voy a calcular los W, con aquello que hablamos hoy de la fórmula de minimizarla,
+
+51:45.620 --> 51:50.940
+o sea que cada feature va a tener un peso indicando qué tanto afecta la feature corresponde para el
+
+51:50.940 --> 51:58.220
+tag ese. Por ejemplo, si yo tengo aquello, se acuerdan que queríamos saber qué era reis en el post
+
+51:58.220 --> 52:04.700
+tag, ¿no? Que era la única palabra que no sabíamos lo que era. Entonces, estos son los pesos que yo
+
+52:04.700 --> 52:10.980
+entrené, lo que me dicen es que, fíjense que los pesos que tenemos acá, lo que me dicen es
+
+52:13.100 --> 52:19.580
+que la feature más importante es la size, en el caso, para que sea, si es un nombre, esta es muy
+
+52:19.580 --> 52:30.780
+negativa, o sea que resta valor y esta es muy positiva, f2 para un verbo, no me pregunten si son
+
+52:30.780 --> 52:40.660
+números reales o no más guardas, f2 es, ah, si la previa es tú, si, la previa es tú, pesa muy
+
+52:40.820 --> 52:54.380
+positivamente para que eso sea un verbo, tú reis, ¿no? Y la f6, ¿qué es? Y pesa muy negativamente para
+
+52:54.380 --> 53:01.340
+un nombre, fíjense que hay features diferentes según la clase, porque son más de 1, más de 2,
+
+53:02.180 --> 53:09.780
+¿de acuerdo? Entonces, yo hago las cuentas, la probabilidad de que sea un nombre dado las
+
+53:09.780 --> 53:17.660
+features es, es, es exactamente aplicar las features relevantes, acá es 0,8 porque
+
+53:20.780 --> 53:26.860
+multiplica la prim, la segunda y la sexta, porque son las que aplican a nn, ¿no? Si no valen 0.
+
+53:31.500 --> 53:50.060
+La 2, dijimos, y la 6, son las de tú, 0,8. No, es la 1 y la 6, la 1 y la 6, correcto. O sea,
+
+53:50.060 --> 53:58.660
+si reis la palabra, porque la otra no aplica, fíjense que como valen 0 no pasa nada con la
+
+53:58.820 --> 54:05.620
+multiplicación, porque yo estoy diciendo e al a eso, ¿no? No me molesta el 0 en este caso. Y este
+
+54:05.620 --> 54:12.660
+es el factor de normalización, es simplemente para que esto de 0,20 y 0,8. Sumo esto más esto,
+
+54:12.660 --> 54:21.500
+sumo todas y bueno, entonces yo busco la clase que más se inicia que en este caso es verbo, ¿de acuerdo?
+
+54:22.340 --> 54:32.420
+Bueno, esos son los modelos de entropia máxima. Hay otros modelos discriminativos que lo voy a
+
+54:32.420 --> 54:39.260
+mencionar rápidamente, porque en la forma de aplicarlos es la misma, lo único que hay acá de
+
+54:39.260 --> 54:44.980
+diferente es que es diferente la forma de elegir clasificador, es decir, si acá lo hacíamos por
+
+54:44.980 --> 54:50.820
+regresión logística, el support vector machines, que es un método que se puso muy de moda en
+
+54:51.820 --> 55:01.940
+principio de este siglo, en la década pasada digamos, es un método que lo que hace es buscar
+
+55:01.940 --> 55:07.100
+separar linealmente, pero en vez de hacerlo por mínimos cuadrados, lo que dice es buscar la recta
+
+55:07.420 --> 55:16.220
+que separa más, que queda más en el medio digamos, la intuición atrás de support vector
+
+55:16.220 --> 55:25.780
+machines que yo busco, si yo tengo los ejemplos así, tengo muchas rectas que pasan, ¿sí? Yo trato
+
+55:25.780 --> 55:33.340
+de encontrar la que maximiza el margen de los que están más cerca y queda en el medio, ¿sí,
+
+55:34.100 --> 55:37.580
+por eso se llama, los support vectors son estos, son los que están más cerca,
+
+55:38.580 --> 55:44.820
+los demás, si se fijan, no importan para el clasificador. ¿Cuál es la hipótesis del support
+
+55:44.820 --> 55:51.580
+vector machines y por qué son tan robustos y por qué, como están justo en el medio? Quiero decir,
+
+55:51.580 --> 56:01.620
+si yo meto uno que está acá, si un ejemplo a clasificar queda muy cerquita del borde, me puedo
+
+56:01.620 --> 56:07.940
+equivocar, ¿se entiende? Es más probable que me esté equivocando, en cambio yo le pongo en el
+
+56:07.940 --> 56:13.680
+medio y bueno, quedan bastante lejos digamos, y de hecho funcionan muy bien clasificando. Fueron
+
+56:13.680 --> 56:17.700
+toda una revolución en la support vector machines, ahora como ahora están de moda la red neuronal
+
+56:17.700 --> 56:21.420
+en la support vector machines, hicieron lo mismo a principios, agarraron, fueron los primeros
+
+56:21.420 --> 56:26.340
+métodos de discriminativo clasificación que empezaron a batir todos los récords digamos de
+
+56:26.340 --> 56:34.300
+diferentes tareas, hasta que pasaron de moda con el tema de las, si bien se usan mucho pasaron
+
+56:34.300 --> 56:39.940
+de moda con el tema de las red neuronales que volvieron a batirle los récords, pero esencialmente
+
+56:39.940 --> 56:45.540
+el método cómo se aplica es el mismo, así la diferencia es como teóricamente como se calcula
+
+56:45.540 --> 56:58.060
+que está ahí, hay otros métodos de clasificación, hacen el aprendizaje automático, los aprenden,
+
+56:58.060 --> 57:05.700
+vecinos más cercanos, los caníres, que es, clasifico un documento buscando los que están más cerca
+
+57:05.700 --> 57:09.580
+del punto de vista tribu, calculo una distancia entre documentos y me quedo con los que están más
+
+57:09.740 --> 57:17.700
+cercanos, ¿no? Es como la idea de, bueno si este está acá, ¿quiénes son los vecinos más cercanos?
+
+57:17.700 --> 57:22.500
+Y bueno, supongamos que los tres vecinos más cercanos son estos, en este caso los tres son
+
+57:22.500 --> 57:27.020
+circulitos, o sea que eso seguramente sea un circulito, podemos tener problemas cuando estamos
+
+57:28.020 --> 57:35.140
+los métodos de vecinos más cercanos tienen la ventaja, obviamente, de que pueden reconocer,
+
+57:40.900 --> 57:42.340
+pueden reconocer clásteres,
+
+57:48.260 --> 57:51.380
+los métodos de vecinos más cercanos definen una cosa así,
+
+57:51.380 --> 57:57.100
+no, pero,
+
+58:06.300 --> 58:12.820
+la cosa así, pueden reconocer cosas que no son lineales, tienen el problema de que a veces
+
+58:12.820 --> 58:20.740
+sobreajustan demasiado, árboles de decisión que no son muy realizados en el procesamiento de
+
+58:20.740 --> 58:25.580
+la imaginación, rando fores que son como una, hay muchos, muchos métodos de clasificación,
+
+58:26.580 --> 58:35.460
+pero en todos lo que tienen en común es que las medidas para realizar, para el métodología
+
+58:35.460 --> 58:47.740
+es la que hay en la clasificación pasada. Y eso desde el punto de vista de los métodos de clasificación
+
+58:47.740 --> 58:54.140
+puros, pero también se acuerdan que habíamos visto los métodos de clasificación secuencial,
+
+58:54.140 --> 59:01.780
+cuando yo quiero asignar una secuencia de tangs, de clases, asumo que mi atributo tiene una secuencia,
+
+59:01.780 --> 59:08.300
+mi instancia es una secuencia, por ejemplo, una oración, que es una secuencia de palabra,
+
+59:08.300 --> 59:15.300
+y quiero asignar una secuencia de tangs, bueno, hay versiones generativas, en el caso de los,
+
+59:15.860 --> 59:21.620
+la versión generativa de Naive Bayes son los hidden Marco Models, que lo vimos bastante en detalle
+
+59:23.300 --> 59:34.420
+en alguna clase anterior, y hay una versión también de clasificadores secuenciales,
+
+59:34.420 --> 59:40.900
+que estos son por lejos los que bandan mejor, que son los temas secuenciales, que son los
+
+59:41.100 --> 59:48.700
+conditions al random fields, los conditions al random field también fueron una novedad en los temas
+
+59:48.700 --> 59:52.660
+de clasificación secuencial, porque andan mucho mejor el general que los hidden Marco Models,
+
+59:52.660 --> 59:59.420
+y tienen una, son como una versión, una versión secuencial del modelo entropiés máximo,
+
+01:00:01.860 --> 01:00:07.060
+no, no, no, no esperen que entren detalle, tampoco conozco mucho la detalle, el matemático del
+
+01:00:07.060 --> 01:00:13.700
+del conditional random fields, pero como herramienta digamos para el clasificación de secuencias
+
+01:00:13.700 --> 01:00:25.360
+funciona muy bien. Yo diría que si uno va a, a ver si me queda algo más, no, acá tienen
+
+01:00:25.360 --> 01:00:36.320
+un poco de show jugar, sí, de estas cosas. Hueca, sirve para jugar, pero es juguete en general.
+
+01:00:36.320 --> 01:00:42.200
+Salkill Learnes es una herramienta bastante, una librería bastante polenta de, en Python y
+
+01:00:42.200 --> 01:00:52.240
+que está bastante de moda. Y acá me faltan, me faltan todas las nuevas bolas de bibliotecas de
+
+01:00:53.200 --> 01:00:58.960
+Dib Learning, ¿no?, de que son de Red Lunar y que son Torch, este, Teano, Keras,
+
+01:01:02.560 --> 01:01:10.600
+TensorFlow. Pero bueno, Salkill Learnes es una biblioteca de, de genérica, de Machine Learning
+
+01:01:10.600 --> 01:01:19.360
+en Python, Orange también. En Ileteká es más de procedimiento en lenguaje natural, pero tiene
+
+01:01:19.360 --> 01:01:26.320
+por ejemplo un plazificador exceciano. CRF más más es un Toolkit para Condition Random Fields.
+
+01:01:28.320 --> 01:01:35.320
+PyBrain, creo que no, no, no corre más o no sé, que es Red Neuronal y Homebiteon.
+
+01:01:36.520 --> 01:01:41.960
+SMelite era la herramienta de Support Vector Machines, cuando estaba en moda.
+
+01:01:42.960 --> 01:01:50.080
+SMelite es el 99 para que se dieron una idea y estaba bastante estable porque no hay mucho para,
+
+01:01:50.080 --> 01:01:54.760
+es muy sencillo el modelo de la Support Vector Machines, por lo grande como me lo aplico.
+
+01:01:58.960 --> 01:02:08.840
+Yo diría que, que si, si, si vamos a lo que, a lo que es el procedimiento en lenguaje natural a nivel
+
+01:02:08.840 --> 01:02:19.600
+de, a nivel de, como decir, de mercado o de herramienta o de, no me sabe la palabra, de industria,
+
+01:02:19.600 --> 01:02:29.040
+digamos, a nivel industrial, no es la palabra correcta pero está. Yo diría que el procedimiento en
+
+01:02:29.040 --> 01:02:35.800
+lenguaje natural está en lo que hemos aprendido hasta ahora. No? Es decir, todas estas cosas que
+
+01:02:35.800 --> 01:02:40.960
+hemos aprendido en las clases hasta ahora ya se encuentra a nivel industrial. A nivel industrial
+
+01:02:40.960 --> 01:02:50.240
+estoy hablando de las compañías de Intermed, no? Reconocimiento de, en, reconocimiento de
+
+01:02:50.240 --> 01:02:57.920
+caracteres mal escrito, clasificación, clasificación de, sentimenta análisis, de todo lo que hemos
+
+01:02:57.920 --> 01:03:03.640
+hablado hasta ahora, no? En el grama y todas esas cosas. También, a ver, no es lo único, no?
+
+01:03:03.640 --> 01:03:13.480
+Machine Translation es un ejemplo de cosas que andan muy bien. Este, pero utilizan métodos más
+
+01:03:13.480 --> 01:03:18.520
+o menos hasta acá. Lo que quiero decir es que, y bueno, y ahí hay algún componente semántico
+
+01:03:18.520 --> 01:03:25.040
+también que lo van a ver después con Luis, pero esas cosas más avanzadas, digamos, recién,
+
+01:03:25.040 --> 01:03:30.320
+recién se está empezando a hablar, pero en algunas cosas de, por ejemplo,
+
+01:03:33.200 --> 01:03:39.640
+reconocimiento de entidades, no? El otro día lo veía en un diario, digamos, unos dos años atrás,
+
+01:03:39.640 --> 01:03:45.800
+que algo que decía que era una aplicación que reconocía a partir del New York Times lugares,
+
+01:03:45.800 --> 01:03:52.680
+bueno, Google lo hace, no? Lugares y cuando arma las citas, cuando a partir de un correo te lo
+
+01:03:52.680 --> 01:03:57.520
+meten en el calendario, ahí lo que está haciendo es reconocimiento de entidades. Está
+
+01:03:57.520 --> 01:04:02.120
+reconociendo que dice el jueves 23, cena con tal y lo está viendo, está haciendo clasificación
+
+01:04:02.120 --> 01:04:07.640
+secuencial, pero eso son cosas que en el academia están como hace como 10 años, digamos, los
+
+01:04:07.640 --> 01:04:11.400
+condillos hablando de FIT tienen como 10 años, recién están empezando como entrares, el tipo
+
+01:04:11.400 --> 01:04:17.040
+costo. Y hay cosas que todavía está por verse cómo se van a incorporar, que son las que vamos
+
+01:04:17.120 --> 01:04:24.400
+a ver de ahora en adelante, que son el parsing, o sea, análisis más complejo, ni que hablar de
+
+01:04:24.400 --> 01:04:28.840
+análisis semántico más allá de la semántica de palabras, son cosas que vamos a ir viendo después,
+
+01:04:30.840 --> 01:04:38.480
+o sea, hay mucho todavía para mejorar y en el academia también, porque no está en todo,
+
+01:04:38.480 --> 01:04:45.240
+resuelto ni mucho menos. Por ejemplo, en el poder analizar semánticamente las cosas,
+
+01:04:45.320 --> 01:04:53.400
+estamos bastante lejos. Pero lo que quería transmitir es que esto de la clasificación es
+
+01:04:53.400 --> 01:04:58.600
+lo más que anda en la vuelta, digamos, ¿no? Y que con esto se va a hacer un montón de cosas.
+
+01:04:59.720 --> 01:05:06.200
+Bueno, clases que vienen arrancamos con parci, ¿sí? Gracias.
+

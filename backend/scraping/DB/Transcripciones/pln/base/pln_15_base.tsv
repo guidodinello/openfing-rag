@@ -1,0 +1,783 @@
+start	end	text
+0	7600	Bueno, bienvenidos. En la clase de hoy vamos a ver el tema de redes neuronales que, bueno,
+7600	12120	es como digamos, el estado del arte, lo que son las cosas de procesamiento del lenguaje natural
+12120	18560	en general hoy en día se rosuelen con redes neuronales. Entonces, es un poco para continuar
+18560	22160	con lo que veíamos la vez pasada. Habíamos visto métodos de clasificación, habíamos
+22160	26640	visto que había algunos para clasificar cosas en categorías, había algunos secuenciales,
+26640	31760	había algunos que llamamos modelos del lenguaje y de los métodos de clasificación, en realidad,
+31760	36240	vimos en profundidad, nadie valles, pero vimos que había otro, por ejemplo, algo de la decisión,
+36240	43880	regresión logística, Supervector Machines y redes neuronales y para los métodos secuenciales
+43880	47400	también aparecian las reneonales, para los modelos del lenguaje también aparecian las reneonales.
+47400	50920	Entonces, como que las reneonales son un método muy importante que es muy versátil y se
+50920	54480	usa para muchas cosas. Entonces, nos vamos a concentrar un poco, vamos a dar en esta clase una
+54480	59400	introducción a lo que son las redes y además ver cómo se usan particularmente para el lenguaje.
+59400	64840	O sea, vamos a hablar las técnicas de vectores de palabras y cómo aplicar eso a precisamente
+64840	70240	el lenguaje natural. Entonces, ¿cómo empieza esto? Esto empieza inspirado en esto de acá, que es
+70240	77520	una neurona biológica, esto lo habrán visto en el hiceo, en biología. Una neurona es un tipo de
+77520	84560	célula del sistema nervioso de los animales. ¿Qué tiene distintas partes? ¿Cómo se puede ver ahí?
+84560	90440	Sí, puedo apuntar, o puedo apuntar. ¿Aboquela con esto?
+90440	97040	Hay, tiene distintas partes, tiene como unos pelitos que entran dentro del cuerpo de neuronas que se
+97040	102000	llaman dendritas y después tiene como una especie de cola que sale de la neurona que se llama
+102000	110000	acción y, bueno, acá en el centro tenemos lo que sería el cuerpo de la neurona, el soma. Entonces,
+110000	117280	en esas por esas dendritas vienen impulsos eléctricos, las dendritas actúan como inhibidores o activadores,
+117280	123320	pero vienen impulsos eléctricos, eso se condensan adentro del soma que sea el cuerpo y si se supera
+123320	127120	cierto un bral de actividad eléctrica, entonces la neurona dispara un solo punto por el acción,
+127520	133960	un solo impulso eléctrico por el acción, lo manda hacia afuera y ese acción está conectado a otras
+133960	141000	dendritas que están en otras neuronas. Entonces, esto tiene un montón de entradas, se condensan en el
+141000	146600	cuerpo de la célula, de la neurona, dispara un solo pulso eléctrico para afuera y ese pulso eléctrico
+146600	150120	viaja a otras neuronas. Entonces, como esas neuronas están conectadas en una especie de red,
+150120	155560	cada acción de una neuronas está conectada a las dendritas de otras, entonces la salida de una
+155560	160400	es la entrada de otras. Esto conforma una red dentro del cerebro o el sistema nervioso de los animales
+160400	165360	y eso es lo que componen una renauronal, en este caso una renauronal natural, una renauronal
+165360	173400	biológica. Entonces, en los años 40 se propuso la primera versión matemática de cómo
+173400	178240	funciona una neurona, entonces hubo unos científicos que dijieron, bueno, vamos a tratar de simplificar
+178240	183040	esto más posible, a estar a verlo y generar una versión en una ecuación que trata de representar
+183040	188520	esto. Entonces, ellos diseñaron esta ecuación de acá, en la cual yo dice, bueno, vamos a cambiar
+188520	193760	esta neurona biológica que tenía todas estas partes y vamos a crear una especie de neuronar
+193760	199520	artificial en la cual yo tengo un conjunto de entradas, un conjunto de pesos de entrada que están
+199520	204680	acá, que vendrían a hacer el equivalente a las dendritas. Voy a tener impulso eléctrico de
+204680	210400	entrada que son como X1, X2, X3 hasta Xn, que digamos que son los inputs que va a tener esa
+210400	216120	neurona. Después, en el centro lo que hago es sumarlos y en realidad lo que estoy sumando es el
+216120	223280	producto entre cada impulso de entrada y el peso correspondiente. También le voy a agregar un valor
+223280	228560	de sesgo y después la salida le voy a pasar por una función de activación y eso me va a dar
+228560	233680	la salida de la neurona. Bien, o sea, esta parte les vamos a estar viendo en detalle. Pero en
+233680	238280	definitiva, es como que yo tuviera esta ecuación de abajo, ¿no? Yo tengo la sumatoria de las
+238280	246280	entradas multiplicadas por pesos, a eso le subo un sesgo, que se llama B y todo eso se lo aplico
+246280	253560	una función sigma que es un poco que son esas funciones sigma. Entonces ven que es una, digamos,
+253560	259760	es como una ecuación lineal, ¿no? O sea, la sumatoria ni de XC por WB sub y más B,
+259760	265240	todo eso es una, digamos, una fórmula lineal y a eso le agrego un sigma, digamos, se lo aplica un
+265240	272280	sigma que esta va a ser una función lineal. Bien, entonces, más adelante para simplificar esta ecuación y
+272280	276760	para que después queden más fáciles de calcular las cosas, lo que se hace es decir, bueno, este valor
+276760	285320	que veníamos acá, esta B que está sumando, que digamos se usa para que, ahí, esta B que está acá,
+285320	291640	que se usa para que, digamos, para poder completar toda la ecuación lineal, lo que se hace
+291640	296120	agregarla como un peso más, entonces decimos, bueno, tenemos una entrada más que vale uno y su peso
+296120	301320	correspondiente es el sesgo. De eso, en realidad, digamos, después nos olvidamos. Cuando vamos a
+301320	305320	trabajar con estas cosas como que no utilizamos mucho el sesgo y nos concentramos en decir, bueno,
+305320	310920	vamos a tener un vector que son entradas, que son los X1 hasta XN y un montón de pesos que son
+310920	315640	los W1s WBN y adentro la neurona, lo que pasa es que voy a hacer el producto interro entre esos
+315640	324280	entre el vector X y el vector W y se lo voy a pasar a la función sigma. Bien, entonces,
+324280	330680	esas funciones de activación sigma hay varias, o sea, al principio, digamos, cuando diseñaron
+330680	336040	primero esta neurona, lo que se les había ocurrido primero era decir, bueno, yo lo que hago es sumar
+336040	344280	todas estas, digamos, todos estos impulsos multiplicados por los pesos, lo sumo y si esa suma supera
+344280	348520	cierto umbral, que el umbral lo podrían calcular o mucho que se ha utilizado en uno o en una de esas
+348520	354040	cosas, bueno, si supera cierto umbral, entonces mando uno para fuera y si no mando ser. Eso era lo primero
+354040	359640	que se le había ocurrido, pero bueno, después empezaron a encontrar otras funciones que eran mejores
+359640	365480	para poder entrenar mejores arredes y en definitiva, como que no hay mucho criterio de qué restricciones
+365480	371000	que tiene que tener esa función, salvo que tiene que ser derivable, tiene que ser, tiene que ir como
+371080	376240	de menos a más, digamos, puede ser de 0 a 1 o de 0 más infinito o de menos infinito más infinito y
+376240	380720	tiene que ser no lineal, tiene que tener algún punto de no linealidad. Entonces, estas son algunas muy
+380720	385160	usadas, por ejemplo, la función sigma o id o función logística, que es la misma que se usa,
+385160	391200	lo que estamos hablando de un rato, digamos, el método de regresión logística utiliza también esta
+391200	398480	función, la tangente parólica es otra, la función relu es muy usada y la relu se define como el
+398480	403080	máximo entre 0 y 0, relu de 0 es el máximo entre 0 y 0, entonces vale 0 para todos los valores,
+403080	409080	excepto para cuando todos los valores menores que 0, pero cuando vale el mayor que 0, vale directamente
+409080	412880	el valor. Estas son unas funciones un poco estaña, pues yo les dije que tenían que hacer todas
+412880	417640	derivables y esta justo no es derivable en el punto 0, pero después es derivable en todo el
+417640	423080	resto de los reales. Bueno, ya hay otras más, pero estas como son como de las más utilizadas.
+423080	431240	Bien, lo importante acá es que estas funciones de activación provenan una no linealidad y vamos a
+431240	438440	ver, ¿por qué? Ok, bueno, entonces vimos lo que era una neurona, imagínense que en general las
+438440	448120	neuronas se ponen como en grupos, digamos, y se distribuyen en capas dentro de una red, ¿no?
+448120	453000	Entonces, este es un ejemplo de una de las redes neuronales más simples, más simples que en
+453000	459040	realidad son útiles para algo, que se conoce como Perceptron Multi-Capa o Redfield Forward Multi-Capa,
+459040	464520	que funcione de la siguiente manera, ¿no? Nosotros tenemos todas las entradas, esas que yo les decía
+464520	470920	que la centrada es X1, X2, X3, etcétera, este Xn, sería como una primera capa de entrada y después
+470920	476680	yo ubico un montón de neuronas en una segunda capa y las capas que vienen después de la entrada le
+476680	482800	voy a llamar capas ocultas, o sea, tengo una primera capa de entrada, esa capa lleva a una capa oculta y
+482800	486480	todas las neuronas de la capa oculta están interconectadas con todas las neuronas de la capa de entrada,
+486480	494560	o sea, hay pesos que van de todas a todas, después puedo tener otra segunda capa oculta, otra tercera capa
+494560	499000	oculta, etcétera, hasta que llevo a una última capa que también está interconectada con la anterior,
+499000	506640	que es la capa de salida, bien, pero no hay enlaces que vayan entre la capa inicial y la capa de salida,
+506640	511280	digamos, la capa de entrada y la capa de salida, sino que siempre los enlaces van entre una capa y la siguiente,
+511280	518600	entonces acá yo digo que tengo una arquitectura en capas donde tengo este, en según esta imagen K,
+518600	523640	capas ocultas, tengo la capa oculta 1, capa oculta 2, capa oculta K y después una capa de salida,
+523640	529360	bien, entonces esta es como la arquitectura más sencilla, yo tengo un montón de capas, una atrás de
+529360	534080	otra y cada capa está completamente interconectada con la anterior, pero nunca saltan entre capas,
+534080	543120	bien, entonces analicemos un poco que es lo que pasa dentro de esas capas y para eso vamos a
+543120	550680	tratar de mirar la capa, bien, yo tengo entonces en esa imagen es como estamos viendo la frontera
+550680	558920	entre una capa y la siguiente, yo tengo la frontera de la capa W1, la capa y y la capa y más 1,
+559400	566280	entonces voy a decir que los estados de las neuronas en la capa y que llegan a la capa y son
+566280	575120	X1 superí, X2 superí, X3 superí, X4 superí, bien, eso va a ser el estado de la capa y y
+575120	582000	quiero calcular cuál va a ser el valor de la capa y más 1 dado que el valor de la capa y era eso,
+582000	593440	entonces la capa y yo tenía que valía esto, X1 superí, X2 superí, X3 superí y creo que
+593440	605760	llegamos a 4, esta, X4 super, esto es un vector, bien, entonces recuerden como calculábamos
+606520	611800	el valor de una neurona, decíamos que por ejemplo para calcular la neurona que está
+611800	623120	y arriba que es X1 y más 1 el valor de esta neurona se calculaba como y tenía que hacer las
+623120	629640	sumas digamos de los inputs que está donde la de izquierdo por los pesos que llegaban hasta ahí,
+629640	635320	entonces en este caso son todas las neuronas que están en la capa y, todos los valores de la
+635320	644320	neuronas multiplicados por todos los valores de las flechitas, entonces sería X1 superí por
+644320	651920	W y la flechita que está yendo desde la neurona 1 de la capa y hasta la neurona 1 de la capa y
+651920	662120	más 1 se llama W1, entonces X1 por W1, más la segunda capa, perdón la segunda neurona de la
+662120	673120	capa y por el segundo peso, este era el 2, 1, el peso 2, 1, esto también es de la capa y
+675120	691400	más X3 por W3, uno, todo esto es de la capa y, más X4 por W4, uno, bien, entonces la salida
+692400	703000	X sub 1 de la capa y más 1 es el producto de todas estas acá, bien, es el producto de la neurona 1 de la
+703000	707160	capa anterior por el peso 1, la neurona 2 de la capa anterior por el peso 2, 1, la neurona 3 de la
+707160	713400	capa anterior por el peso 3, 1, lo mismo puedo hacer para la otra, puedo decir X2 y sería igual
+713400	723320	solo que cambiando acá cambiando los lugares a 2, entonces yo es X1 y por W1, 2 y, más 2
+723320	737680	estos, más X4 y por W4, 2 y, bien, sí, decimos, ahí está, cuando estamos en una arquitectura en
+737680	741720	capas como ésta es así, cada de todas las neuronas de la capa siguiente están conectadas con
+741840	747560	la anterior, pero nunca saltan de capas, nunca cruzan hacia otra, y nunca vuelen hacia atrás,
+747560	750720	que es otra cosa que puede pasar en otras arquitecturas de redes, pero esta que es la más
+750720	757200	simple es cada capa con la siguiente, bueno, entonces X3 sería lo mismo, X1 y acá el peso 1, 3,
+757200	770920	tanda tata, X4, el peso 4, 3, sí, la dimensión es de ahí, los X son vectores de la carrera o de
+770920	778200	vez con reales, sí, o sea, no, acá son todos reales, X, todos los X y todos los doles son
+778200	785700	todos valores reales, entonces eso quería llegar, yo tengo, X1, X2, X3, X4 son 4 valores reales
+785700	791580	que componen un vector, y si yo agarro todos los doles 1, 1, 2, 1, doles 3, 1, doles 4, 1,
+791580	796460	doles 1, doles 2, etcétera, esto compone una matriz, en realidad, yo puedo construirme la
+796460	806600	matriz de la capa Y, es igual esta matriz que tiene dole 1, 1, hasta dole 4, 3, bien,
+806720	818080	W, 1, 3, W, 4, 1, bien, esto es una matriz, entonces al tener eso, en realidad yo puedo expresar la
+818080	823320	salida de esta capa, puedo expresar los estados en los cuales digamos los valores en los que quedan
+823320	827520	las neuronas de la capa siguiente, los puedo expresar como un producto de matrices, yo digo,
+827520	835080	el vector en la capa Y era esto, entonces el vector en la capa Y más 1 va a ser el producto de
+835080	840640	XC por WI, digamos esto termina siendo un producto de matrices, si hace el producto de matrices
+840640	847800	me daría X1 por W1, X2 por W1, X3 por W3, 1, X4 por W1, que es lo mismo que esté
+847800	851340	acá, y si vamos con la segunda columna, me da el mismo de acá, y si vamos con la
+851340	855560	tercera columna, me da el mismo de acá, pero es en definitiva la salida de esta capa,
+856760	862800	digamos si yo tengo esa neuron ahí, la salida de la capa, a ver dónde les creo,
+863520	867240	les pido acá porque esto nos va a tener que quedar para después para poder mirarlo,
+867240	876600	pero bueno, tengo X subraí, este es el vector de entrada, y voy a poner acá copiar la matriz
+876600	892080	esta, W1 1 hasta W4 1, W4 3, W1 3, la matriz, entonces, digo que el valor de X
+892080	902480	y más 1 va a ser el valor en Y por la matriz que representa los pesos de la capa Y,
+903360	909640	y a esto lo que me falta agregarle es el sigma, que es la función de activación y el
+909640	913400	sigma también puede pertenecer a la capa y digamos yo puedo tener distintas funciones de activación
+913400	922120	por capa, bien, entonces, concentremos en esto, decimos que si yo tengo una arquitectura en capa,
+922120	926440	donde cada capa está conectada con la anterior, digamos todas las neuronas una capa están conectadas
+926440	933840	con todas las neuronas de la anterior, entonces, puedo calcular la activación o los valores que
+933840	942720	va a tener la capa Y más 1 en función de la capa Y con esta formula acá, así que supongamos que
+942720	950440	tengo, eso creo que es exactamente lo mismo que dice acá, ahí está, tengo esa entrada,
+951240	956600	la salida va a ser ese vector, digamos, de tres neuronas y tengo esos pesos,
+956600	964640	por lo tanto puedo calcularlo de esta manera, bien, entonces supongamos que tengo una arquitectura
+964640	974040	que tiene tres capas, o más, digamos, tiene dos capas ocultas, entonces eso significa que si
+974040	979200	tengo dos capas ocultas voy a tener una matriz de pesos, que le voy a llamar W1 y una
+979200	986640	matriz de peso que le voy a llamar W2, entonces me va a venir un vector X que va a ser un vector que
+986640	995560	tiene un montón de trabajo, X1 hasta Xn, esto es un vector, quiero ver cuál va a ser la salida
+995560	1003080	de la red suponiendo que tengo una capa de pesos W1 con una función de activación sigma 1 y
+1003080	1008600	una capa de pesos W2 con una función de activación sigma 2, cómo me quedaría la salida de la red,
+1008600	1011840	digamos, de qué, cuál sería la fórmula para la salida de la red,
+1016400	1025240	vamos a llamarle Rn de X a la salida de esta red que es una red que tiene dos capas ocultas y
+1025240	1036120	tiene esa estructura, está estructura en capas, ¿qué les parece? Sí,
+1042120	1045760	ahí está, X por del V1 y esto le aplicamos sigma 1,
+1045760	1052160	y después esto multiplicamos por W2, ahí está, la hacemos W2 y le pasamos sigma 2,
+1052160	1060760	exacto, bien, entonces eso sería, digamos, la ecuación que te queda de una arquitectura con
+1060760	1066840	dos capas ocultas, y bueno, la salida se calcularía de esta manera, tenemos el vector X,
+1066840	1070960	el vector X que le multiplicamos por los pesos de la capa 1, después le pasamos la función
+1070960	1075160	de activación, a esa resultado le multiplicamos por los pesos de la capa 2 y le aplicamos la función
+1075160	1079800	de activación y esa es la salida. Si tuvieramos más capas, si esto fuera un perceptro
+1079800	1084400	multicapa de 30 capas, entonces tendríamos como más añadimiento en esto, pero más o menos
+1084400	1093160	el camino. Bien, entonces ¿qué pasaría si estas funciones de activación fueran la función
+1093160	1102700	identidad o fueran funciones lineales como multiplicar por 4 o algo del estilo, ¿qué
+1102700	1112940	pasaría en ese caso? Ahí está, en ese caso, si esto fuera la identidad o si fuera multiplicado
+1112940	1116940	por una constante, pero supongamos que fuera la función identidad, entonces acá esto
+1116940	1124140	me daría lo mismo que hacer X por W1 por W2, que es lo mismo que hacer X por una cosa que
+1124140	1131020	es un producto entre dos matrices y un producto entre dos matrices vea otra matriz, entonces
+1131020	1135280	si estas funciones fueran una función identidad o fueran una función lineal o fueran una función
+1135280	1141660	de esas, digamos, simples, entonces todo esto sería una ecuación lineal, o sea yo podría
+1141660	1145620	reescribirlo siempre como el producto entre un vector y una matriz, que es un sistema
+1145620	1151520	lineal. Bien, esa es la razón por la cual se necesita que estas cosas acasean no
+1151520	1154740	lineales, que era lo que les decía que bueno, casi que el único requisito que tienen
+1154740	1158580	es tener estas funciones de activación es que sean no lineales, porque si son lineales
+1158580	1162540	cuando yo empiezo a arquitecturar estas cosas en capas, me queda simplemente un producto
+1162540	1167020	de matrices, porque me interesa que sea no lineal y porque, o sea, me molesta que esto sea
+1167020	1171540	un sistema lineal, porque si yo tengo un sistema lineal, digamos, si yo tengo que el
+1171540	1175820	resultado de mi red lo puede expresar como X por una matriz, entonces bueno, hay cierta
+1175820	1179500	clase de problemas, que voy a poder resolver, pero todos los problemas que son no lineales,
+1179500	1182680	todos los problemas que no se pueden capturar por una estructura lineal, entonces no lo
+1182680	1193960	puedo resolver. Bien, sí. Incluso sin la activación, o sea, es una reneural que no tiene
+1193960	1199240	que ir a ninguna, o sea, simplemente es multiplicar un vector por un conjunto de pesos.
+1199240	1205400	Bien, entonces, si yo tengo solamente una función lineal, hay un conjunto de problemas que
+1205400	1210460	puedo modelar, es verdad, pero no son todos, y de hecho no lo vamos a ver, pero hay una
+1210460	1216020	demostración que dice que teniendo funciones de activación no lineales, alcanza incluso
+1216020	1220780	con tener una sola capa oculta y alguna cosita más para modelar cualquier tipo de función
+1220780	1224260	que habiamos interese, digamos, con ciertas propiedades, por lo menos que se ha continuo
+1224260	1229860	en siento intervalo, etcétera, pero asumiendo ciertas propiedades bastante normales, es
+1229860	1233500	posible incluso con una sola capa, con una cantidad ruitada de neuronas, modelar cualquier
+1233500	1239380	función posible. Y eso es un poco el poder que tiene las reneurales, en realidad, son
+1239380	1244820	como suficientemente flexibles como para modelar cualquier cosa, cosa que cuando veíamos,
+1244820	1249100	bueno, no hay valles, era un ejemplo que modelaba ciertos tipos de problemas, si miran
+1249100	1252940	regresión logística, podemos modelarse de dos tipos de problemas, pero algunos no,
+1252940	1258660	las reneurales en calidad son super flexibles y podemos modelar cualquier cosa.
+1258660	1264260	Entonces, sabemos que, para casi cualquier función que aún no le interese modelar, existe
+1264260	1268260	una reneural que podría llegar a cumplirla con suficienta nivel de precisión, que vamos
+1268260	1272700	ahí, teoría y más que les muestran, sin embargo, encontrarla en la práctica no es tan fácil,
+1272700	1277700	o sea, sabemos que existe una, la familia de la reneurales, hay alguna función que me
+1277700	1282500	va a permitir hacer todo lo que quiera, pero bueno, de allá encontrarla no es tan sencillo,
+1282500	1286780	pero bueno, por lo menos sabemos que existe. Igual, con estas cosas que tenemos, o sea,
+1286780	1290820	sabiendo lo más que es arquitecturando en capas y teniendo la función de activación
+1290820	1295620	no lineal en cada una, ya tenés un montón de funciones interesantes que pueden servir
+1295620	1311100	para modelar muchas cosas. Bien, preguntas acá. Bueno, estas otras funciones de activación
+1311100	1316820	interesante que se conoce como la función softmax, se utiliza para los problemas de
+1316820	1323500	clasificación discretos, por ejemplo, hay que tener en el segundo obligatorio que, bueno,
+1323500	1328140	es el problema de clasificar un tweet y lo quiero clasificar en si es positivo, negativo,
+1328140	1333500	neutro o nada, no, tengo esas cuatro clases. Entonces, la función de activación softmax es
+1333500	1340980	como una generalización de la función logística de la sigmoide, que se calcula de esta
+1340980	1347740	manera, dice bueno, yo asumo que los pesos de salida, que son números reales, van a formar
+1347740	1351220	una probabilidad, digamos, lo quiero transformar en una probabilidad, entonces lo calcula de
+1351220	1358780	manera, digo que el valor para y su y su v es e a la y su v sobre la sumatoria de e a la
+1358780	1365180	el resto. Esto solamente para que lo tengan en cuenta, es muy probable que si van a usar
+1365180	1369420	rengebranales en la segunda tarea, tengan que utilizar al final una capa, que se llama
+1369420	1373060	capas softmax, que es una capa que tiene una función de activación especial que sirve
+1373060	1376260	para transformar las salidas en distribución de probabilidad.
+1376260	1390980	Sí, y la mayor, si tiene una distribución de probabilidades, y bueno, la sociedad que
+1390980	1402060	tiene probabilidad mayor, ahí tienes que tener una, sería como una logística independiente
+1402060	1408260	por cada una. Entonces, si es mayor que cero, digo que es valido, si no, o sea, si
+1408260	1412420	voy a decir que puedo tener más de un label a la vez, ahí tendrías que hacer otra
+1412420	1416060	cosa. En softmax, va a intentar que sea una distribución de probabilidades, entonces
+1416060	1424060	probablemente te queda una clase que gane y las demás sea mucho más bajitas.
+1424060	1430860	Bien, bueno, entonces, recuerden que estamos siempre utilizando números, por ahora no hemos
+1430860	1434260	visto nada del lenguaje, eso lo vamos a ver un poco más adelante, ahora son todos
+1434260	1440300	números. En la entrada me vienen números reales, en los pesos tengo números reales,
+1440300	1443700	hago multiplicaciones, le paso funciones de activación, etcétera, y me da otro vector
+1443700	1447860	de números reales, o sea, la salida de esto va a ser un vector de números reales, tener
+1447860	1451340	en cuenta que cada una de estas cosas van a tener sus dimensiones, yo voy a tener, acá
+1451340	1457820	tenía una entrada que tenía cuatro vectores, para cuatro valores, una matriz que tenía
+1457820	1461900	cuatro por tres, entonces al multiplicarlo me devuelve tres, si la siguiente capa es
+1461900	1468060	de tres por ocho, entonces me va a volver ocho y así, o sea, los tamaños de las matrices,
+1468060	1473220	o sea, los tamaños de las capas tienen que coincidir. Pero en definitiva son todos
+1473220	1482060	vectores, ¿no? Por ahora, esto es un cálculo utilizando cálculo numérico vectorial.
+1482060	1486260	Entonces, vamos a hablar un poco de cómo se entrenan estas redes, y vamos a pensar
+1486260	1491620	de la siguiente manera, ¿cómo esto es un método de aprendizaje automático? Yo voy
+1491620	1495740	a tener, como vimos en las clases anteriores, voy a tener un conjunto de entrenamiento,
+1495740	1500420	un conjunto de desarrollo, un conjunto de test, entonces supongamos que yo tengo un
+1500420	1504780	conjunto de entrenamiento que tiene en ejemplos, o sea, en ejemplos significa que voy
+1504780	1513420	a tener en estos vectores y en salidas distintas, que les voy a llamar y, entonces, los vectores
+1513420	1518260	de entrada son estos, los vectores de salidas son estos de acá, y yo tengo que tratar
+1518260	1527540	de ver si la salida se parece al entrada. Entonces, supongamos que la salida es solamente
+1527540	1533220	un valor, ¿no? O sea, para simplificar, vamos a asumir que la entrada de la red es
+1533220	1538940	un vector de cualquier dimensión, y la salida solamente es un valor real, ¿no? Es posible,
+1538940	1542700	¿no? O sea, lo que estoy haciendo es tener una red que tiene muchas capas, lo que sea,
+1542700	1547400	en el final, todo se reduce a una sola salida un valor real, obviamente esto después
+1547400	1551380	se extiende a más valores reales, pero bueno, supongamos que tenemos una sola, ¿no?
+1551380	1560500	Entonces digo que tengo en instancias, o sea, en valores x v, este es mi conjunto de
+1560500	1567260	entrenamiento, supongamos, o el conjunto en el que estoy tratando de medir cosas x v y
+1567260	1573660	me dice que esto es x v, deberían corresponderse con diferentes valores de x v, ¿no?
+1573660	1580660	Este es el conjunto de valores esperados, yo digo que para x v 1 tengo un y v 1, para
+1580660	1589080	x v 2 tengo un y v 2, bien, por ahora son todos números reales, y además tengo que
+1589080	1597280	yo tengo una red neuronal con ciertos pesos, que se la puedo aplicar a x v y con sus
+1597280	1603160	matrices de pesos, entonces mi red neuronal me va a dar cierto valor y le voy a llamar
+1603160	1610800	y subí techo, ¿cómo puedo saber si está bien lo que me da la red neuronal para x v o
+1610800	1618080	no? De qué manera yo puedo llegar a medir si está bien o no, este valor que me dio.
+1619080	1628400	Si, ahí está, o sea, mi salida, en mi conjunto yo decía, bueno, la salida tenía
+1628400	1635120	haber sido y subí, y la salida de medio de la red es y subí techo, ¿cómo puedo saber
+1635120	1638960	si ese está bien o mal? O sea, ¿qué medida me dice si está bien o mal?
+1638960	1649680	Ahí está, lo puedo restar y digo bueno, ¿qué tanto se parecen estos dos? Si esto está
+1649680	1653480	cerca de cero, es un valor muy chiquito, entonces yo puedo decir que estas dos cosas son iguales,
+1653480	1660720	por lo tanto la red me está dando un resultado parecido al que yo esperaba, y si estos dos son
+1660720	1665800	muy diferentes, entonces esto me va a dar un valor bastante alto, entonces yo tengo muchos de
+1665920	1671440	estos, no tengo n ejemplos de este estilo, así que lo que voy a hacer es sumar todos estos,
+1671440	1679440	de igual 1 hasta n, sumo todos los valores, tengo un problema acá que es que a veces yo puedo
+1679440	1682680	le puedo ahorrar por mucho, a veces le puedo ahorrar por poco, pero a veces esto me va a dar
+1682680	1686960	negativo, esto me va a dar positivo, entonces si yo lo sumo todos capaz que me da cero por casualidad,
+1686960	1691880	entonces lo que hago es ponerlos acuadrado, para decir bueno, yo siempre voy a sumar valores
+1691880	1696680	positivos, entonces si mi salida es distinta, el valor esperado siempre esto me va a dar un resultado
+1696680	1701800	positivo, bien, entonces como estoy comparando n ejemplos, a esto lo voy a dividir entre n,
+1703640	1710720	esto de acá me da una métrica condensada que me dice que tanto se equivoco mi red respecto a los
+1710720	1714200	valores, a todos los valores esperados, y de hecho esta es una de las métricas posibles para
+1714320	1722400	medir eso, esta es muy usada, se llama mce, minzcuerderor o error cuadratico medio y es una de las
+1722400	1731280	métricas más conocidas, entonces esto es una métrica que me permite medir la discrepancia que
+1731280	1737520	hay entre los valores esperados de una red acá era isu y, entre los valores esperados de una red y
+1737520	1742720	los valores que la red dio con todos los pesos que tiene hasta el momento, recuerden que este
+1742720	1752520	isu y se calculaba como el resultado de la red para exu y los pesos de red, entonces este tipo
+1752520	1757600	de funciones que miden la diferencia entre los valores esperados y los valores que me dio la
+1757600	1763800	red de verdad se llaman funciones de perdida, bien, o sea el nombre de perdida no se movien de donde
+1763800	1768640	sale, pero se le fue, se le suele llamar funciones de perdida los functions y bueno es uno de los
+1768640	1773280	conceptos que no tiene que aprender cuando aprende de redes neuronales, porque para entrenarlas yo
+1773280	1777960	lo que tengo que hacer es elegir una los function apropiada para problemas, entonces estas de las
+1777960	1783280	más comunes, el error cuadratico medio sirve mucho para problemas donde los valores resultados son
+1783280	1789440	valores reales, no sirve tanto para cuando los valores esperados resultantes son por ejemplo una
+1789440	1795160	distribución de probabilidades o una categoría en muchas como ese problema que tienen en el laboratorio,
+1795640	1802540	para eso utiliza notas, por ejemplo la entropía cruzada o en particular una versión de entropía
+1802540	1807840	cruzada que sirve para decir yo tengo un solo valor correcto de entre muchos que en el laboratorio
+1807840	1813240	les pasa eso digamos que tengo un tweet y es positivo o en negativo o en neutro no puede ser más
+1813240	1817480	de une, entonces para eso se usa la última, es una versión de la entropía cruzada para valores
+1817600	1826400	categoricos, bien y existen unas cuantas más digamos, o sea pero en definitiva siempre tengo que
+1826400	1830200	tener funciones de estilo como pasaba con la función de activación lo que se espera de una
+1830200	1836240	función de perdias es que sea derivable y en el caso de las funciones de perdias lo que se
+1836240	1841700	espera es que cuando la salida de la red se parece muchísimo a los valores esperados,
+1841700	1845840	tiene que estar cercana a cero o tiene que ser un valor mínimo y cuando la salida de la red es
+1845840	1857160	muy diferente tengo que ser un valor más grande, bien, ok entonces ¿por qué es que yo quiero
+1857160	1868000	que todo esto sea derivable? ¿Por qué les parece? Sí, es exacto para minimizar el hecho de
+1868000	1877160	que yo voy a hacer que esto sea derivable digamos que lo que está dentro o sea este es y su
+1877160	1884800	techo y subí techo menos y subí y esto lo calculé con esto que está acá entonces esto
+1884800	1895040	es una sobre n por la sumatoria de 1 esta n de una cosa que tenía la forma sigma de
+1900160	1912520	sigma de sigma de x por w a la 1 por w2, no sé qué menos y subí al cuadrado, bien entonces acá
+1912520	1917680	entonces yo tenía una cosa que era todo derivable y acá afuera tengo otra función que también es
+1917680	1922760	derivable tanto de las funciones de activación como todos los resultados de la red nominal como
+1922760	1927120	la función de perdias como todas estas cosas son todos derivables para que quiero eso porque
+1927120	1933040	efectivamente voy a derivar digamos o sea la técnica se utiliza para entrenar estas cosas se
+1933040	1940400	basa mucho en encontrar derivadas y vamos a dotar de ver por qué bien entonces para entrenar
+1940400	1948240	una de estas redes recordemos que digamos para entrenar estas redes yo recordemos que tengo
+1948240	1955400	conjunto de entrenamiento, un conjunto de desarrollo, un conjunto de test y me interesa tratar
+1955400	1963960	de minimizar esto o sea yo tengo que la red se calcula como dependiendo de el valor de entrada
+1963960	1969480	y el conjunto de pesos que tengo yo voy a multiplicar ese valor de entrada por una matriz y por
+1969480	1975040	otra por la funcional activación etcétera hasta obtener un resultado pero entonces notar que
+1975040	1980920	este valor está en función de la entrada que es que es que es subir y el conjunto de pesos
+1980920	1986080	o leve, no acá yo tengo una función que es que están función de dos cosas estas son las
+1986080	1991080	entradas de conjunto de entrenamiento o del conjunto que estoy mediendo y estos son los pesos que
+1991080	1997640	yo le puedo dar a cada una de las capas entonces una cosa interesante es que yo puedo mirar
+1997640	2001840	este problema desde el punto de vista de que estos valores los dejó fijos digo mi conjunto
+2001840	2006280	de entrenamiento lo conozco entonces los valores están fijos y yo puedo ir cambiando los pesos
+2006280	2011920	hasta encontrar el conjunto de pesos ideales que permita que los valores de entrenamiento multiplicados
+2011920	2016960	por esos pesos me den la salía que yo quiero entonces ahí eso se transforma en un problema como
+2016960	2022360	decían por ahí un problema de demonización, un problema de optimización en el cual lo que
+2022360	2030160	voy a hacer es tomar esto como variable entonces yo lo que quiero encontrar es el argmin para la
+2030160	2037120	familia posible de pesos de las distintas matrices lo leve de esta función acá que es uno sobre
+2037120	2047680	n por sumatoria nn y subitecho menos y subí al cuadrado bien y voy a encontrar el argmin en
+2047680	2057160	w o sea lo que está acá dentro que es rn de xc w le voy variando estos w hasta que hasta
+2057160	2066200	encontrar el ideal bien entonces supongamos que tengo una función así no vamos a ver una función
+2066200	2072840	bastante simple como para ver cómo funciona esto el entrenamiento de una red se da utilizando
+2072840	2076840	una técnica de llama de senso por gradiente hay otras técnicas pero estas por lejos la más
+2076840	2083040	utilizada de todas y la técnica de senso por gradiente funcione la ciente manera si yo tuviera una
+2083040	2088080	función que va solamente en una dimensión y quiero minimizarla y arranco con un punto por acá
+2088080	2094040	digo bueno mi peso inicial me dice que voy a terminar en este lado entonces yo puedo calcular
+2094760	2103000	la derivada en ese lado y decir bueno para aquel lado voy bajando mi función de costo o sea
+2103000	2107600	suponiendo que esta es la función de pérdida o función de costo puedo decir para aquel lado
+2107600	2112280	voy bajando mi función de pérdida y dice bueno lo voy bajando si bajo por esta dimensión si
+2112280	2117640	bajo por esta dirección entonces ahí le digo bueno baja un poquito por ahí y calculame otro
+2117640	2121640	valor que va a estar acá y ahí devuelta voy a calcular la derivada y digo bueno en qué sentido
+2121640	2125660	voy bajando y se voy bajando si voy para allá entonces ahí me encuentro tu valor que este
+2125660	2130640	en esa dirección calculo de vuelta la derivada y así o sea yo puedo ir iterando de esta manera
+2130640	2137160	hasta llegar a un mínimo bien eso me llama de senso por gradiente porque yo tengo quiero encontrar
+2137160	2143440	el mínimo de una función supongamos que esta es mi función de pérdida y empecé teniendo este
+2143440	2149080	valor calculo donde está la dirección en la cual puedo bajar más y voy moviéndome por ahí hasta
+2149080	2156600	llegar al punto bajo esto es un caso ideal en el cual yo tengo una sola variable que estoy tratando
+2156600	2163720	de encontrar en el caso real yo estoy minimizando digamos minimizando esta función respecto a
+2163720	2168640	W que es una cosa que son muchas matrices con muchos pesos con muchas cosas y pueden llegar a
+2168640	2176800	hacer miles de millones de pesos pero bueno en un caso ideal si yo estuviera solamente minimizando
+2176800	2181480	una severía de esta manera cuando yo estoy minimizando millones de variables a la vez lo que pasa
+2181480	2185560	es que esta superficie digamos lo que tengo acá no va a ser una curva tan linda sino que va a ser
+2185560	2190960	una superficie rusa que tiene un montón de de de óptimos locales que no me van a servir pero
+2190960	2194560	cuando yo hago este algoritmo lo que va a hacer es caerse en un óptimo local imagínense que si
+2194560	2200440	esta curva tuviera esta forma entonces este algoritmo llegaría a un óptimo local por acá pero
+2200440	2205560	se perdería el óptimo global que estaba por acá bien eso es algo que puede pasar entonces bueno
+2205560	2209880	no se asusten que cuando uno entra en una rena uronal nunca va a estar seguro de que encontré el
+2209880	2214640	óptimo posible de toda la red de todas las posibles sino que bueno tengo que conformarme con encontrar
+2214640	2221360	una bastante buena probando varias veces bueno entonces decíamos esto sobre entrenamiento
+2225200	2230640	el entrenamiento intenta encontrar los pesos que minimizan esta función de perdiado o sea la
+2230640	2238160	combinación de matricios olv que hace que esta función sea lo menor posible la técnica se utiliza
+2238160	2243480	el senso por gradiente que es lo que está mencionando acá se usa una cosa de llamas de senso por
+2243480	2250240	dancias estocástico que se trata de agarrar cada punto yo agarró cada punto de entrada y
+2250240	2254440	trato de hacer el senso por gradiente consiguiendo solamente ese punto y después agarró otro punto de
+2254440	2259120	entrada y luego varias veces el problema que tiene eso es que es superlento o sea es como que tiene
+2259120	2263280	buena propiedad de convergencia pero es superlento entonces lo que se hace es hacer de senso por gradiente
+2264280	2271040	en lote o en batches que significa bueno en vez de tomar todo el conjunto de entrenamiento que
+2271040	2277360	puede tener 100 mil millones de ejemplos tomo de a 120 o no sé 200 o elijo un batch que digo bueno
+2277360	2281120	tomo este conjunto de ejemplos y hago de senso por ahí después tomo otro conjunto de
+2281840	2292120	senso por la gente por ahí y hasta llegar a un óptimo bien los siguientes backpropagation entonces
+2292120	2299320	yo les dije hasta ahora que todas las cosas tenían que ser derivables y el hecho de que sean
+2299320	2303320	derivables implica que lo vamos a derivar en algún momento no vamos a hacer acá ninguna derivada
+2303320	2308840	digamos porque en realidad los paquetes que se utilizan para trabajar con estas con estas cosas
+2308840	2313160	en realidad son paquetes que permiten hacer derivación automática o sea toda la gracia de construir
+2313160	2317800	redes neuronales utilizando ciertas librerías es que las librerías permiten definir todas estas
+2317800	2321640	cosas como vectores y después ellos hacen las derivadas automáticamente calculan todo automáticamente
+2321640	2328000	pero en definitiva la técnica que se usa para calcular se llama propiedad que implica que cuando
+2328000	2334000	yo voy calculando los pesos de una red para los valores de una red yo digo el lo que tornen
+2334720	2338960	lo multiplico por del V después le paso la función de activación lo multiplico por otra V
+2338960	2343120	le paso la función de activación a medida que voy calculando eso voy dejando como todos los
+2343120	2348760	valores intermedios esos valores se usan de atrás para adelante por el llamado propiedad
+2348760	2353400	y son para calcular las derivadas porque en realidad todos los valores de sumas multiplicaciones
+2353400	2357160	etcétera que yo fui dejando el medio se utilizan como que siempre calculan para después
+2357160	2361560	calcular la derivada y el vaculopadillo es una técnica que me ayuda a hacer eso rápidamente
+2362560	2367880	bien entonces esta es la pregunta que le decía hoy yo puedo encontrar la mejor función posible
+2367880	2373960	puedo contar la mejor reneuronal que explique mi problema 100% bien la verdad que no porque en general
+2373960	2380160	este proceso se cae en óptimos locales y este tipo de funciones que tienen miles de millones
+2380160	2385880	de parámetros lo que pasa que tiene muchísimos últimos locales y bueno el entrenamiento se va a
+2385880	2391240	caer siempre en un óptimo local lo que no hace para evitar eso de alguna manera es por ejemplo
+2391240	2395360	entrenar varias veces una misma red diciendo bueno tengo una misma récola, los mismos parámetros
+2395360	2399440	le entrenó muchas veces y veo cual cual le fue mejor de todos los entrenamientos esa es una de
+2399440	2405640	las formas y el otro problema detiene es el sobre ajuste creo que no lo mencionamos en la
+2405640	2411120	clase anterior sobre ajuste significa que las reneuronales tienen un problema que lo tienen
+2411120	2415920	otro método de clasificación pero las reneuronales es en particular porque como que son muy
+2415920	2420480	versátiles y es que se pueden aprender muy fácil todo el conjunto de entrenamiento yo puedo
+2420480	2424880	entrenar una red que se aprenda muy bien en conjunto de entrenamiento y me diga sí para este X le
+2424880	2430520	corresponde este I y anda bárbaro y el la función de los vea casi cero y sin embargo lo pruebo en
+2430520	2436800	conjunto de test y le va horrible y eso es muy fácil porque como les decía como las reneuronales
+2436800	2440200	pueden modelar cualquier tipo de función entonces es muy fácil que se aprendan todo el conjunto
+2440200	2445480	de entrenamiento y después para el conjunto de tele vaya espantoso ese ese fenómeno se llama
+2445480	2450080	sobre ajuste entonces bueno hay como distintas técnicas para tratar de evitarlo y que la red no
+2450080	2458640	digamos no sea ajustes a los datos sino que se va a generalizar más etcétera bien entonces sí
+2466800	2475520	es una pregunta interesante en realidad hay un conjunto de técnicas que sirven para decir yo
+2475520	2481080	puedo entrenar una red con un conjunto de datos más amplio que capaz que no está el todo correcto y
+2481080	2485360	después una vez que tengo una red de entrenada la entreno de vuelta con un conjunto más chico pero
+2485360	2490080	que tiene mejor calidad y eso da mejor resultado que entrenarla directamente con el conjunto más chico
+2490080	2494800	o con otro tipo de datos entonces de ahí hay variante es cierto que una red una vez que ya
+2494800	2498700	conseguí los pesos de la red lo puedo seguir entrenando usando otros conjuntos y eso es valido
+2500700	2506600	o sea se usa es una técnica que se usa y está buena porque da buenos resultados bien igual en
+2506600	2512200	atare de ustedes no sé no sé si va a la pena hacerlo o sea probablemente si van a entrenar
+2512200	2516440	reneurales lo hacen lo van con los datos que tienen no no creo que sean necesarios a mucha
+2516440	2523480	cosa más pero sí tratar de ver un poco lo que vamos a ver ahora que hasta ahora vieron que
+2523480	2527480	estamos viendo números reales o sea entra a un vector de números reales salían números reales
+2527480	2546320	vectores de números reales sí sí sí sí sí se usan a veces en la práctica da mejor resultado
+2546320	2552360	probar varias veces y o hacer una prueba digamos tipo grid search en el cual digo tengo tantos
+2552360	2558840	parámetros y probar con todos o aleatoriamente probar asampliando distintos parámetros y entrenar es
+2558840	2563600	cierto que también se usan meteorísticas evolutivos y algunas otras para tratar de optimizar la
+2563600	2569280	red pero no sé en la práctica si es que dan tan buenos resultados o simplemente ir probando
+2569280	2573920	con distintas combinaciones andando mejor bueno o general encontrar buenos resultados igual sí
+2573920	2594520	sí sí sí bueno claro pero el problema es que la función de pérdida no va a tener un
+2594520	2600080	óptimo global normalmente no va a tener porque la función de pérdida tiene esta cosa en el medio
+2600640	2606960	no estoy minimizando una cosa que es algo no lineal y que tiene millones de parámetros y yo
+2606960	2610720	puedo ir en la dirección de cualquiera de los millones de parámetros entonces por eso normalmente
+2610720	2616160	digamos eso te genera una superficie super rubosa que tiene un montón de de su día así bajada por
+2616160	2621800	todos lados y justo en boca la el óptimo global es muy difícil o sea nada te garantiza que puedas tener
+2621800	2632000	el óptimo global claro sí sí pero acá queremos esplicitamente que la función de activación sea algo
+2632000	2637880	que me deje la función complicada digamos si vos claro si claro si vos hace que la función
+2637880	2643280	de activación sea tan simple que esto queda como una función convexa entonces pierde
+2643280	2648760	capacidad de generalización la red por eso se dice también que esto es un problema de
+2648760	2653520	optimización no convexa entonces en optimización convexa uno puede asegurar que siempre tenemos un
+2653520	2657120	óptimo global y lo podríamos llegar a encontrar con alguna técnica pero esto es la minimización no
+2657120	2661600	convexa la forma de la gráfica siempre va a tener subidas y bajadas en algún lado
+2664160	2670920	bien más preguntas acá entonces pasemos a la parte del lenguaje bien decíamos hasta el momento
+2671800	2678360	teníamos una reneuronal que a la cual le entraban valores reales y salían valores reales
+2678840	2683640	pero nosotros en realidad nos interesa trabajar con texto nos interesa trabajar con palabras oraciones
+2683640	2690720	documentos tweets en el caso del oriatorio y el problema de este que tenemos una red que le entra
+2690720	2694800	valores reales no es un problema raro digamos un problema que le pasa a la mayoría de los métodos
+2694800	2698280	de prenses automáticos y estuvieron mirando algo de regresión logística etcétera siempre yo
+2698280	2704080	tengo que mandarle valores reales a las cosas salvo en la iglesia es que más o menos uno puede decir bueno
+2704080	2708520	trabajo con palabras o sea como en la extracción esto trabaja en nivel de palabras en el resto
+2708520	2714000	siempre está esperando que yo le mande valores numéricos entonces yo necesito poder tener una
+2714000	2721360	buena representación numérica de los textos y de paso voy a pedir una propiedad más que es
+2721360	2726380	que esa representación numérica tenga algunas propiedades interesantes como por ejemplo una
+2726380	2731280	métrica de distancia que haga que las palabras más cercan las palabras más similares y
+2731800	2736840	este más cerca y la más diferente de este más lejos por ejemplo puedo pedir eso en una
+2736840	2744240	en una representación entonces vamos a ver una técnica de llamar warden bedings o
+2744240	2748680	vectores de palabras que se utiliza para representar las palabras y después eso lo pudo
+2748680	2754120	utilizar como entrada una red y la técnica se basa en la hipótesis distribucional que son hipótesis
+2754120	2762020	que surgió en los 50 con este Firth que era un linguista lógico etcétera y decían lo
+2762020	2765880	siguiente bueno las palabras que aparecen en contextos similares tienden a tener significados
+2765880	2772120	similares y acá tenemos un ejemplito que dice este ejemplito tiene como algunas palabras y
+2772120	2776680	algunas ideas de contexto no la milanesa con queso más rica la uruguayas si es rica la
+2776680	2781800	hamburguesa con queso la milanesa con queso musarelas le decimos una politana no sé qué está
+2781800	2785560	eso como que está hablando de milanesas hamburguesas comida y después el otro dice el
+2785560	2788840	autoño es una de las citaciones del año el verano es mi situación de favoritas el
+2788840	2793080	invierno en invierno hace pila de frío en verano nunca hace frío y está hablando como de otra
+2793080	2797880	cosa no claramente las palabras rojas se parecen más entre sí las palabras azules se
+2797880	2802160	parecen más entre sí entonces idealmente yo quería tener una representación que a las rojas las
+2802160	2807680	deje más o menos cerca y a las azules violetas las deje más o menos en otro lado
+2811480	2817400	bueno una primera idea que surgía es lo que se conoce como matriz término término que
+2819400	2825040	se se realiza contando palabras contando cuando una palabra parece cuánta vez aparece una
+2825040	2831400	palabra en el contexto de otra entonces por ejemplo en este caso yo digo yo tomo alrededor de
+2831400	2836520	una palabra en palabras de contexto alrededor y cuento cuánta vez se aparece otra en ese contexto
+2836520	2843480	entonces como ejemplo tenemos bueno estos son los ejemplos anteriores no la milanesa con queso
+2843480	2848400	más rica la hamburguesa no sé qué el autoño tal cosa y pregunta cómo quedaría la matriz
+2848400	2854720	utilizando un contexto de cuatro palabras y acá no sé si lo llevan a ver todos pero me
+2854720	2862320	aparece que por ejemplo la palabra milanesa tiene las palabras rica y queso en su contexto
+2862320	2867120	de la palabra hamburguesa también pero la palabra toño no la palabra toño tiene en su contexto
+2867920	2872360	bueno acá justo como estoy tomando en igual cuatro no pasa pero las palabras verano y invierno
+2872360	2881240	tienen en su contexto la palabra frío y no tienen ni rica ni queso entonces eso es con
+2881240	2886120	en igual cuatro no contando cuatro palabras alrededor si yo considerara en igual cinco entonces ahí
+2886120	2894200	si aparecería o toño tiene la palabra estaciones en su en su contexto y verano también tiene
+2894200	2898880	estaciones en su contexto entonces es como que me van quedando zonas de la matriz que están
+2898880	2904520	como más acopladas entre sí no como que tienen mayor nivel de proximidad y otras zonas que no
+2904520	2911680	entonces ahí ya tendría como una especie de primera aproximación a lo que sería en
+2911680	2915440	vectores de palabras que es decir bueno yo puedo representar cada palabra con una fila de esta
+2915440	2919400	matriz y esa fila de la matriz va a tener ciertas propiedades cosas de que palabras que están
+2919400	2925360	cerca van a semánticamente similares van a estar cerca en esas en esas filas un problema que tiene
+2925360	2929120	esta representación que dice ahí abajo es que son vectores muy grandes yo tengo vectores de
+2929240	2933920	tamaño básicamente el tamaño del vocabulario si yo tengo considero 10 mil para
+2933920	2938640	ver vocabulario o tener vectores de tamaño de 10 mil donde la mayoría de los de los números
+2938640	2943140	van a ser cero y algunos van a ser valores distintos de cero entonces me va a pasar que los
+2943140	2951720	vectores son dispersos o spars bien entonces ahí como refinaciones esta técnica que se utiliza
+2951720	2957440	bastante o sea esta esta técnica de de construir matriz y determinos términos se puede usar como
+2957440	2962000	base para calcular ciertos tipos de vectores de palabras el algoritmo glob se basa en
+2962000	2968800	comentar comenzar en esta matriz los algoritmos de pca de principal componente análisis se pueden
+2968800	2973640	usar para reducir la dimensionelidad de esta matriz en realidad este tipo de matrices tiene sus
+2973640	2979600	usos pero la que vamos a ver es una técnica un poco posterior a las matrices también
+2979600	2986160	o término que digamos que está como en el inicio de lo que fue las revoluciones que se han dado
+2986160	2992360	en pelea en los últimos años no este este es un trabajo de 2013 un trabajo de bueno un
+2992360	2997280	investigador que ya no es mi collode que propuso en 2013 una técnica que en realidad son dos
+2997280	3003640	acorimos distintos que se llama Word to back o sea ir acorribo para ir de palabras a vectores y
+3003640	3009480	que su idea era construir vectores de ensos o sea vectores que tuviera una dimensión mucho más
+3009480	3013600	chica de vocabulario en vez de tener un vectore tamaño de 10 mil yo voy a tener un vectore tamaño 100 o
+3013600	3020360	250 o 300 y por el hecho de comprimir todo el vocabulario en esos vectores más densos entonces
+3020360	3027440	ganó esas propiedades de que palabras más cercanas son simánticamente similares entonces bueno
+3027440	3032840	obviamente no lo van sólo por comprimir sino por cómo se entrena esto entonces la idea de los
+3032840	3040000	algoritmos de Word to back es decir bueno en vez de contar como la matriz determinó término
+3040000	3043680	de las palabras dentro de un contexto yo lo voy a ver con un problema de clasificación un
+3043680	3049960	problema de probabilístico en el cual voy a predecir qué tan probable es que la palabra C aparezca
+3049960	3057880	en el contexto de la palabra W bien entonces voy a tener una predicción la producción de que es
+3057880	3062360	cierto que aparece la palabra W en el contexto de la palabra C en el contexto de la palabra W
+3062360	3067560	eso sería P de más WS pero a su vez tengo que tener una predicción negativa o sea yo tengo que
+3067560	3072320	saber cuáles son los ejemplos positivos y cuáles son los ejemplos negativos entonces
+3073960	3078920	lo que se hace para esto es decir bueno yo tengo un gran corpus una gran colección de palabras y
+3078920	3085440	yo puedo medir puedo llegar a medir cuáles son los contextos donde aparece la palabra C en el
+3085440	3091000	contexto de la palabra W pero además puedo llegar a medir los casos en los cuales no pasa o sea
+3091000	3095800	yo puedo soltear palabra solatoria si decir bueno una palabra aleatoria no siempre están en
+3095800	3100960	contexto de una palabra W entonces con eso me invento ejemplos negativos tengo ejemplos
+3100960	3106760	positivos que son bueno la palabra queso aparece en el contexto de la palabra burbesa ejemplos
+3106760	3111880	negativos son sortes de una palabra cualquiera y salió yo que se árbol bueno la palabra árbol
+3111880	3121440	no aparece en el contexto de la palabra burbesa bien entonces el algoritmo skip gran que es uno
+3121440	3128880	de los algoritmos de portubec más más utilizados utiliza este ese principio y lo ve como una red
+3128880	3134320	neuronal intenta modelar esto como una renebronal en la cual yo tengo una capa de entrada y la capa
+3134320	3138760	de entrada va a ser una representación one hot esto lo mencionamos la de pasada la representación
+3138760	3145840	one hot es así no en la representación one hot yo voy a tener un vector para la palabra queso y un
+3145840	3156240	vector para la palabra hamburguesa donde voy a tener una columna para cada una de las palabras
+3156240	3162280	posibles entonces voy a tener acá perro acá voy a tener comer acá voy a tener árbol
+3162280	3168000	tan tata y acá va a estar queso en angulado y acá va a estar hamburguesa en otro lado y acá
+3168000	3173760	va a dar más cosas y entonces la representación de la palabra queso es cero en todos lados
+3174720	3181640	y un uno acá y cero en todo el resto la palabra burbesa es cero en todos lados cero acá y
+3181640	3187080	un uno en la burbesa y cero en todo el resto esto es la representación one hot entonces esta red
+3187080	3192320	neuronal en realidad digamos es una renebronal que intenta predecir este problema probabilístico
+3192320	3199280	toma como entrada ese vector de cero y uno es el vector one hot donde la entrada es todo el vocabulario
+3199280	3206000	posible tiene una capa oculta en el medio es una red que tiene una sola capa oculta y como salida
+3206000	3212000	tiene una distribución de probabilidades de todas las palabras en contexto entonces la entrada
+3212000	3220040	es supongamos que esto tiene tamaño 10 mil no tengo 10 mil palabras posibles 10 mil palabras en
+3220040	3231440	el vocabulario entonces la entrada de la red va a ser una cosa de tamaño 10 mil entrada tiene
+3231440	3242320	tamaño 10 mil y la salida va a tener c por 10 mil c es cuántas palabras de contexto estoy contando
+3242320	3248120	o sea si yo estoy contando no sé 10 palabras alrededor de la que estoy mirando entonces va a ser
+3248120	3254720	una salida c por 10 mil esto c por 10 mil representan cuál es la probabilidad de que una palabra
+3254720	3260120	cualquiera por ejemplo hamburguesa esté en un contexto de tres palabras para atrás de la palabra
+3260120	3264680	queso cuál es la probabilidad que la palabra perro esté en un contexto de dos palabras para
+3264680	3270600	adelante la palabra queso y así eso es las c por 10 mil salidas y en el medio tiene una capa
+3270600	3287800	que ahí dice en edim la capa oculta que tiene tamaño 10 mil por dim y dim es la dimensión
+3287800	3292600	de los vectores que eso que les decía que podía hacer dimensión 100 o dimensión 300 o dimensión
+3292600	3300480	150 es un número mucho más chico que vocabulario entonces pensemólo como esto la tano mientras
+3300480	3306520	es un vector o un hot que tiene un uno y un montón de ceros y después lo paso por una
+3306520	3313040	matriz de pesos que tiene este tamaño 10 mil por por ejemplo 300 10 mil por 300 entonces al
+3313040	3319840	multiplicar eso por mi vector acá esto me devuelve una sola fila de esa matriz que tiene dimensión
+3319840	3328320	300 y eso se lo voy a pasar a la función de activación a su vez eso tiene como una especie
+3328320	3333480	de segunda capa en la cual aparece más peso para poder calcular estas salidas pero en realidad al
+3333480	3338000	método después de que se entrena con un montón de valores positivos un montón de valores negativos
+3338000	3342040	dice bueno que eso parece en el contexto de muruesas pero perro no aparece en el contexto de
+3342040	3347800	la muruesa etcétera tengo un montón de valores de este estilo cuando termina de entrenar y
+3347800	3352640	se bueno llegué al mejor cálculo de probabilidades en realidad yo tiro todo el resto de las capas y me
+3352640	3359160	quedo solamente con esta de acá con la capa oculta la capa oculta es una tabla que me dice para
+3359160	3364880	cada una de las palabras hay 300 valores reales que le representan bien entonces me dice bueno para
+3364880	3369920	la palabra que eso esto 300 valores van a ser menos uno tres con cuatro ocho con seis no sé qué
+3369920	3374800	está todo así 300 valores y para las palabras muruesa menos dos tres con uno etcétera etcétera
+3374800	3379160	o sea voy a tener un montón de valores reales que le representan que representan esos números
+3379160	3385600	no lo sé y nadie lo sabe pero sabemos que ahí está codificada la información importante para
+3385600	3393440	poder después trabajar con esos números con esos con esas palabras bien hay eso se le llama
+3393440	3400200	Word in badings esta capa oculta que está acá en esta en esta técnica de Wordback se le llama
+3400200	3404800	capa de badings a la capa oculta que queda entrenada después de esto bien preguntas
+3409160	3417200	ustedes que palabra que esto sí es para ir a la capa oculta y por el producto porque la
+3417200	3422760	matriz doble vez una matriz de 10 mil por dimensión y mi vector one hot es un vector que tiene
+3422760	3427040	tamaño de 10 mil pero hay un solo uno no son todos heros y uno entonces al hacer el producto me
+3427040	3432640	queda exclusivamente la fila que representa la matriz la palabra que eso
+3433640	3442440	bien entonces con esto se logra con esta técnica Wordback y otras técnicas de construcción
+3442440	3453800	de Word in badings sí no el resultado de la capa oculta se lo pasas en esta técnica por lo
+3453800	3458840	menos le pasas el resultado de la capa oculta a otros pesos que van a ir a la salida y esos pesos
+3458840	3463720	son los que calculan la probabilidad de salida pero en realidad después todos esos pesos que aparecen
+3463720	3468240	después no me importa o sea después de que yo termino de entrenar todo la única capa con la
+3468240	3471600	que me voy a quedar es con la del medio que es la que me he interesado entrenar el resto es
+3471600	3476680	como una especie de excusa que se usa para esta tarea para poder encontrar la capa del medio
+3479760	3485920	la salida tiene c por 10 mil que significa yo estoy prediciendo cuál es la probabilidad en todas las
+3485920	3488120	seis palabras de contexto de caparesca alguna palabra
+3492960	3498560	bien entonces les hicimos logramos nuestro objetivo que era decir que hago que puedo
+3498560	3505200	asociar a una palabra a un string un vector de valores reales entonces tengo la palabra perro y
+3505200	3511240	me va a dar un vector de valores reales la palabra comer y me va a dar otro vector de valores reales
+3512200	3518920	además se cumple que los vectores cuanto más cercanos están en ese espacio de dimensión
+3518920	3524000	300 entonces significa las palabras son más similares en algún sentido o si están más
+3524000	3531240	lejanos entonces son más disímiles puedo utilizar por ejemplo la similiaridad coseno para
+3531240	3534520	eso si yo calculo el coseno del ángulo del otro lado vectores eso es una buena medida para
+3534520	3538000	saber qué están parecidos son o incluso para usar la distancia o clídea también para
+3538000	3544520	calcular eso pero la similiaridad coseno es la que más se usa y además de que tiene esa
+3544520	3550960	propiedad de que las palabras más cercanas son más parecidas de alguna manera estas técnicas
+3550960	3556360	descubren cosas interesantes que uno no las entrenó para que las descubran digamos sino que aparecen
+3556360	3561280	como de yapa y aparecen cosas como que por ejemplo yo puedo hacer operaciones entre los vectores
+3561280	3565440	entonces si yo tengo el vector de rey y le resto el vector de hombre y le sumo el vector de
+3565440	3569920	mujer me queda el vector de rey y eso es una propiedad que aparece después de que yo
+3569920	3576080	entren estos vectores suele suceder en alendenar estas colecciones de vectores que agarro el vector de
+3576080	3582960	mujer le resto de hombre y le sumo rey y me queda rey o agarro el vector de Uruguay le resto
+3582960	3588280	donde veo le sumo Francia me da París no entonces ahí en un caso estoy haciendo una transformación
+3588280	3593520	un poco morfológica decir bueno este hombre es la mujer como rey esa rey y el otro estoy
+3593520	3597480	haciendo una transformación más semántica como diciendo la capital de Uruguay y la capital
+3597480	3602280	de Francia es París y de alguna forma yo nunca le dije al sistema que tiene que aprender eso pero
+3602280	3609200	por la forma que hayan creado los vectores suelen tener propiedad de este estilo bien eso fue como
+3609200	3614880	lo lo primero sorprendente que encontraron acerca de estos métodos que es que se pueden como que
+3614880	3619000	derrebo de aprender esas cosas pero no están excesos del problema como por ejemplo si yo tengo
+3619000	3624080	una palabra la palabra vela voy a tener un solo vector que representa la palabra vela y vela
+3624080	3629360	es una palabra que es amigo o sea es polisémica yo puedo tener una vela para aprender una vela
+3631360	3636080	vamos para poner una vela de cumpleaños o sea una pagón o puedo tener un barco a vela y bueno
+3636080	3641120	en los dos casos tengo la misma representación o el gato hidráulico y el gato animal también tengo
+3641120	3645640	la misma representación el banco de sentarse y el banco de financiero también tengo la misma
+3645640	3650120	representación etcétera entonces eso es un problema que tienen estos estas técnicas y es que yo
+3650120	3654240	no tengo digamos no estoy usando por ejemplo wordnet que vieron guarnas en una acción
+3654240	3660520	es clase no no tengo un repositorio significado de wordnet que me ayude a decir cuál es cuál sino
+3660520	3668720	que acá solamente tengo un representante para cada palabra bien y bueno esta esta técnica tiene
+3668720	3672680	ese problema después hay otras tecnicas me permiten crear vectores contextuales que día bueno
+3672680	3679120	es la palabra gato en esta oración donde probablemente sea un gato animal y no un gato hidráulico
+3682120	3689080	bien entonces una vez que construimos esta colección de vectores como los evaluamos cómo sabemos
+3689080	3695280	están bien bueno hay como dos formas de evaluarlos bastante comunes se habla de test intrínsecos y
+3695280	3700600	test en extrínsecos que significan cosas distintas intrínsecos significa yo mido propiedades del
+3700600	3707120	conjunto de vectores que construí entonces una de las que se miden es exactamente lo que decía
+3707120	3713600	no recién me diamos que aparece una propiedad que es que yo puedo hacer dibujar como en
+3713600	3718720	especie para el logramos en el cual digo que hombre es a mujer como rey esa y espero que
+3718720	3725800	es mi colección de vectores haya quedado reina digamos como resultado de su operación o Uruguay
+3725800	3731560	esa montevideo como francia esa y espero que haya quedado parís en ese lugar entonces bueno una
+3731560	3737160	forma de valor estos estos sistemas es construirme una colección grande de estos test se llaman test de
+3737160	3744160	analogías entonces me puedo hacer una colección grande estos test y ver a cuántos le moca mi colección
+3744160	3747960	entonces con yo tengo varias colecciones en vez de distintas veo que este le invoco más veces y
+3747960	3755640	el invoco menos veces otro son los test de similitud o similaridad que esto se hacen con
+3755640	3760120	intervención humana un poco más fuerte que es preguntar un montón de personas por ejemplo
+3760120	3766920	que es más parecido a un durasno una silla una mesa o una manzana a un avestrus o cosas de
+3766920	3772360	estilo entonces tal le dicen a la gente trata de arranquear estas cuatro cinco palabras de cuál es
+3772360	3776200	más parecida menos parecida entonces le preguntar un montón de personas las personas hacen sus
+3776200	3781120	listas y después mirás dentro de tu colección de vectores si las distancias relativas entre esas
+3781120	3785880	palabras son similares o no a la que esperaban los humanos entonces cuanto más similar sea haciendo
+3785880	3791280	el el test de Spirman para eso el descorrelación de Spirman se puede sacar una medida de qué tanto
+3791280	3797080	se parece a la intuición humana lo que el sistema dice eso es llamante es intrínseco porque yo
+3797080	3802520	estoy abarrando la colección de vectores que construí y las estoy testeando sola los test
+3802520	3808920	extrínsecos se refieren a agarro mi colección de vectores y la meto en una tarea de p l n un
+3808920	3814640	poco más grande y veo qué tal le va entonces acá significa bueno yo supongamos que tengo un
+3814640	3820680	sistema de p l n que hace traducción automática o análisis de sentimiento o recuperación de información
+3820680	3827640	o un chatbot o lo que sea si yo tengo un sistema que ya funciona y le cambio su capa de
+3827800	3832360	su colección de vectores por la mía que yo entrené y el sistema mejora en su performance entonces
+3832360	3837400	digo que puedo decir que mi colección de vectores mejora la performance entonces puedo decir que la
+3837400	3842040	colección de vectores es buena eso de llamas test extrínseco o sea no estoy probando directamente
+3842040	3846280	las propiedades de los en vectores sino que estoy probando cómo se comportan en un sistema más grande
+3850760	3856080	bien entonces otra forma de evaluar esto más bien no creo que lleguen a ver nada porque está
+3856080	3860960	muy chiquito pero bueno vamos a mencionarlo es visualizarlos en bedings recuerden que esto tenía
+3860960	3868840	dimensión 100 350 que era una dimensión mucho más chica que el vocabulario pero igual es una
+3868840	3872760	dimensión muy grande o sea lo sumano podemos visualizar dos tres dimensiones de lo sumo y más de
+3872760	3878440	eso ya nos mareamos y estos son vectores de 300 dimensiones pero una forma de visualizarlos es
+3878440	3884000	usar las técnicas de reducción de dimensionalidad por ejemplo p c a y t s n s son de las más comunes
+3885000	3889160	son técnicas que me permiten agarrar 300 dimensiones y bajarlas a dos para poder dibujarlo en un
+3889160	3893440	plano entonces acá no llegan a ver estos son dos trabajos que hicimos en el grupo para distintos
+3893440	3900840	colecciones en bedings en distintos idiomas voy a agarrar esto ahora sí sí queda bien entonces en
+3900840	3906200	este tenemos un trabajo hecho para el español son vectores de palabras en español y
+3906200	3910200	están no van a llegar a verlo lo que están acá porque se ve muy chiquito pero por ejemplo acá
+3910200	3916080	aparece un cláster de años que están todos juntos acá aparecen nombres de personas que
+3916080	3922720	están todos juntos abajo aparecen lugares perú, Uruguay, Bolivia que aparecen como clásterizados
+3922720	3927040	todos juntos entonces uno espera que una colección de vectores que haya quedado bien entrenada aparezcan
+3927040	3932200	como clásters con cosas que son semánticamente similares y el trabajo de la derecha es un trabajo
+3932200	3936880	similar pero que está hecho para el Guarani y bueno acá se ve también más claro que aparecen
+3936880	3942760	cosas como relacionadas con fechas están en héroes las relacionadas con colores están en
+3942760	3952960	en cian las relacionadas con no se bien que dice ahí animales están en verde etcétera países
+3952960	3957920	están en azul etcétera como que no puede estar en esas regiones obviamente esto no es perfecto
+3957920	3963280	van a quedar alguna cosa por fuera etcétera pero si uno logra ver que más o menos clásteriza
+3963280	3970920	entonces tiene como cierta cierta entuición de que andan mejor esos vectores bien preguntas
+3973480	3979760	entonces los guerden beings fueron en definitiva una de las primeras revoluciones que ocurrieron los
+3979760	3986320	últimos años en lo cual es pln y posible que después se empezaron a utilizar arquitecturas de
+3986320	3990760	redes más complejas o sea gracias a que tenemos en bedings y decimos puedo representar una
+3990760	3995000	palabra como un vector de 30 dimensiones ese vector de 30 dimensiones que son números reales
+3995000	4000160	se lo pueden chufar como entrada a una red neuronal y puedo obtener cosas más complicadas a mí me
+4000160	4006680	interesaba de hace un rato dijimos tener representaciones de palabras pero además de oraciones o de
+4006680	4012480	tweets o de documentos enteros y bueno por lo menos yo tengo representación de palabras usando
+4012480	4018000	guerden bedings como que eso está bastante bien resuelto y gracias a que ahora tengo guerden
+4018000	4022480	bedings para usar arquitecturas más complejas como las redes convolucionales las redes
+4022480	4028680	lstm las redes tipo transformers los transformers son lo que más se utiliza bien día pero además
+4028680	4032760	puedo hacer otra cosa con los en bedings algo un poco más simple pero que a su vez me sirve para
+4034360	4037360	resolver otras problemas y es usar la técnica de centróide
+4038840	4043160	que es así esta les va a servir en la tarea salvo que quieran entrenar una red más compleja que
+4043160	4048800	también son bienvenidos si quieren entrenar una lstm un transformer pero el centróide es una
+4048800	4054200	técnica es muy sencilla supongamos que yo tengo mi mi capa en bedings que tiene bueno dice quesos
+4054200	4060040	representas y hamburguesas representas y perro es así gato es así etcétera tengo
+4060040	4066200	vectores para cada palabra y tengo ahora un tweet que le quiero representar utilizando la
+4066200	4070560	colección en bedings yo simplemente puedo agarrar todas las palabras del tweet buscar todos los
+4070560	4075640	vectores correspondientes y hacer el promedio a eso se llama hacer un centróide de todos los
+4075640	4081720	en bedings del tweet y uno dice está apreciado el promedio de perro gato no o sea el tweet dice
+4081720	4087880	este no me gustó la película se hago el promedio no me gustó la película y aún promedio todos
+4087880	4094160	en bedin mediar papa frita pero sin embargo funciona bastante bien es como un poco antintuitivo pero
+4094160	4099400	hacer el promedio de todas esas 300 dimensiones de las distintas palabras después yo utilizo eso
+4099400	4103880	como entrada para otro otro sistema de clasificación no sólo una rena urnal sino que ahí ya
+4103880	4108520	puede utilizar otro tipo de cosas como su proyecto en machines o regresión logística y
+4108520	4112840	anda bastante bien o sea es como extraño pero sobre todo para el problema de análisis de
+4112840	4118160	sentimiento anda bastante bien bueno esa es la técnica del centróide es una técnica fácil de decir
+4118160	4123920	si yo tengo una colección en bedings puedo hacerme en bedings de oraciones o en bedings de textos
+4123920	4131480	un poco más grandes simplemente promediendo los en bedings que tengo bien entonces ahora lo que
+4131480	4137880	vamos a ver en el resto de la clase en unos minutos son ejemplos de cómo funcionan estas
+4137880	4142280	arquitecturas más complejas que puede utilizar gracias a que tengo en bedings no las vamos a
+4142280	4146320	ver en profundidad sino que simplemente vamos a pasar por arriba pero es una idea para ver qué clase
+4146320	4154640	de cosas se pueden hacer y empecemos por las convolutivas las redes tipo CNN se llaman
+4154640	4160800	redes convolutivas o convolucionales y originalmente se utilizaban como para procesar imágenes o sea
+4160800	4166520	también se utilizan todavía en día para procesar imágenes y lo que hacen es ir recorriendo como que
+4166520	4171120	se aumenta una imagen en cuadraditos y lo van recorriendo digamos y después obtienen como
+4171120	4177960	información de cada uno de los cuadraditos bueno pero también se han aplicado al lenguaje y la
+4177960	4182000	forma que se aplica el lenguaje es como decir va tomando de enegramos y va viendo yo que se
+4182000	4187080	por ejemplo tres palabras a la vez y va obteniendo datos de cada una de las tres palabras a la vez y
+4187080	4195240	después con eso después saca un total entonces lo interesante es que digamos puedo pasar a tener
+4195240	4199000	cosas de orden más grande que una palabra o sea ahora en bedes para usar una sola palabra estoy
+4199000	4204520	produciendo toda una variación entonces tenias una pregunta bien entonces un ejemplo
+4204520	4209360	como funciona esto supongamos que estoy tratando de clasificar tweets y digo la película fue
+4209360	4215360	muy aburrida yo me puedo construir una red neuronal de tipo convolutiva que lo que va a ser es decir
+4215360	4221440	bueno a los embeddings de la de a tres palabras los voy tomando de a tres palabras considero
+4221440	4226880	los embeddings de la película fue y a esos tres embeddings se los paso a una red a esa unidad
+4226880	4232240	convolutiva que lo que va a ser es mirar estas tres palabras y tratar de sacar información de
+4232240	4237640	las tres y devolverme una cosa que tenga cierto tamaño fijo y después se va a mover la ventana y en
+4237640	4242240	vez de la película fue va a considerar las palabras películas fue muy y de vuelta lo va a pasar por
+4242240	4246560	esa subred y va tratar de sacar salidas y después fue muy aburrida lo va a pasar por la misma subred
+4246560	4252160	tratar de sacar salidas después voy a tener una capa que dice bueno de todas estas salidas
+4252160	4258440	intermedias que tuve obtengo los máximos y esos máximos los uso para calcular mi salida que
+4258440	4264760	mi salida final sería positivo o negativo en el otro o no no estas redes esta capa convolutiva
+4264760	4269440	que ahí en el medio parece como capa convolutiva es entonces a sus redes que estoy viendo ahí en
+4269440	4273840	realidad son los mismos pesos no es como la misma que se va moviendo y me va dando resultados distintos
+4274720	4279920	bien entonces lo bueno que tiene es que yo agarró todo una entrada que son muchas palabras y me
+4279920	4285520	va a dar una salida única digamos condensa todas las palabras se queda como con las digamos las
+4285520	4290840	dimensiones máximas de cada una que le quede más le interesen y con eso calcula una salida bien esa es
+4290840	4299320	la red tipo convolutiva las redes el STM pertenecen a un grupo más grande de redes que se llama
+4299320	4304760	las redes recurrentes que significa son redes con memoria que van mirando una cada palabra a la
+4304760	4309200	vez y van recordando lo que viene hasta el momento entonces esto me sirve para obtener una salida final
+4309200	4313720	o también para obtener salidas por palabras entonces vamos a ver cómo funciona de estas
+4315320	4321080	esto como una especie de diagrama de cómo sería una una red recurrente similar a la que veíamos
+4321080	4326200	hace un rato digamos en capas pero ahora yo voy a tener una capa que tiene un enlace ese asimismo
+4326200	4330800	digamos todas las neuronas de esa capa van a tener un enlace de vuelto de vuelta a ese asimismo se
+4330800	4335840	llama capa recurrente y bueno después voy a tener una capa de salida entonces cuando yo voy a
+4335840	4340920	ver cómo funciona eso con un tweet que quiero clasificar como la película fue muy aburrida funcionaría
+4340920	4345260	esta manera yo digo bueno primero agarró la palabra a la el embedding de la palabra a la se lo
+4345260	4351560	paso a la red y después voy a agarrar el embedding de la palabra película y se lo paso de vuelta a la
+4351560	4356640	red pero esta vez además de poner el embedding de la palabra película voy a poner también la salida
+4356640	4363640	del paso anterior entonces esto va consumiendo una palabra a la vez y siempre consumiendo la salida de
+4363640	4370680	la etapa anterior entonces va consumiendo la película fue muy aburrida cuando llegó aburrida ya
+4370680	4376800	consumió la salida de todas las capas anteriores y la palabra nueva y ahí es como que la salida de
+4376800	4380360	ese último paso ya medio tiene como una especie de versión condensada de todo lo que era la
+4380360	4386080	elaboración y ahí con esos últimos pesos calculo la salida positivo, negativo, neutro o no
+4387080	4394720	además si yo quisiera podría ir sacando para ir sacando los pesos de cada una de las salidas
+4394720	4398760	entonces ahí tendría como una salida por palabra entonces esto podría servir por ejemplo para
+4398760	4403120	los problemas de clasificación de secuencia que veíamos la despasada bueno con una red de estetilo se
+4403120	4406720	puede hacer clasificación de secuencia sacando una salida por palabra sí tenía una pregunta
+4409720	4413720	el embedding exacto sí sí la entrada en esto caso yo digo bueno asumo que tengo
+4413720	4423400	bordemente yo ya puedo utilizar estas redes más complejas bien y la que es la arquitectura del
+4423400	4428640	estado del arte hoy en día es la arquitectura de tipo transformer que también es una arquitectura que
+4428640	4432280	utiliza secuencias de entrada pero es una arquitectura bastante más compleja acá vamos a
+4432280	4436480	ver solamente una idea muy muy básica como funciona pero es una arquitectura que tiene con muchos
+4436800	4443440	muchos pedazos y hace muchas cosas distintas y bueno se basa en una cosa que se llama capas
+4443440	4447760	autotensionales ahora no vamos a ver qué es el modelo attentional pero lo vamos a ver la clase que
+4447760	4454240	viene normalmente como bueno un ejemplo de cómo funciona el sistema de traducción automática
+4454240	4460000	que utiliza modelos autotensionales bueno una variante de eso es el modelo autotensional que
+4460000	4465520	lo que hace es construir una matriz entre las palabras de una oración y sí misma yo tengo una
+4465520	4470800	oración que tiene en palabras y va a tratar de cruzar las n palabras con las propias n palabras
+4470800	4475120	y tratar de establecer conexiones entre cada uno de los pares entonces termina calculando una
+4475120	4480880	matriz y lo bueno que tiene es que me permite construir en beding contextuales por palabra o
+4480880	4485440	sea en bedings de una palabra vista en contexto y además un embeding total de la oración entonces
+4485440	4489480	funciona más o menos así esto como una especie de representación muy vaga de lo que es un
+4489480	4494840	transformer no o sea de forma de realidad tiene como muchas partes más complejas pero imagínense
+4494840	4499640	que funciona esta manera no yo digo tengo una oración en la película fue muy aburrida entonces
+4499640	4505520	la voy a pasar por una capa autotensional que significa yo cruzo todas las palabras con todas y
+4505520	4512080	calculo la relevancia de cada palabra contra las demás eso me va a dar una serie de salidas y eso
+4512080	4516680	lo que hace es construirme como una colección de en bedings de nivel 1 o sea yo empecé con los
+4516680	4522080	borde en bedings de la película fue una fue muy aburrida y ahora voy a tener una colección de
+4522080	4527480	en beding de nivel 1 que ya mirando algo de contexto eso eso es en beding de nivel 1 a su vez
+4527480	4532200	de los pasos de vuelta a otra capa autotensional que devuelta los cruzos a todos con todos y me
+4532200	4537320	devuelta a dar una salida que son los en beding de nivel 2 y eso lo sigo pasando por varias capas
+4537320	4542360	autotensionales que los cruzan todos con todos hasta que al final me terminan dando o sea lo voy
+4542360	4549240	a pasar en el capas y me terminan dando una salida de nivel 5 digamos entonces al inicio tenía
+4549240	4554480	borde en bedings que miraban solamente una palabra a la vez y lo que tengo al final ya son como
+4554480	4558760	en bedings contextuales en los cuales ya considero varias veces cruzar todas las palabras con todas
+4558760	4566000	entonces como que eso va ganando información en cada paso a su vez a bien después de que yo
+4566000	4570880	tengo estos en beding contextuales en general se utiliza otra red más de tipo de coder puede ser
+4570880	4575360	un transforme puede ser una lstm algo más pero necesito otra cosa que es la que me diga por
+4575360	4580120	ejemplo si es positivo negativa o neutro etcétera pero es otro tipo de red que después decodifica
+4580120	4585440	esa información pero bueno por lo menos atacayo ya construí en bedings de cosas pero bien lo que
+4585440	4591520	tengo acá son tenía la película fue muy aburrida y eso lo transformé en tenía cinco palabras y lo
+4591520	4596120	transformé en cinco en bedings digamos que de distintos niveles pero siempre son cinco en bedings
+4597120	4601600	entonces yo diría que el primero se corresponde con la el segundo con película tercero con fue
+4602160	4607120	es una una versión contextual del en beding porque significa la palabra película en el contexto de
+4607120	4611600	la película fue muy aburrida no es la palabra película en general entonces si yo tuviera una
+4611600	4616480	bración que tiene gato sería gato en el contexto de el gato como pescado que no sería lo mismo que
+4616480	4619600	cuando estoy hablando un gato y un gato y un gato y un gato probablemente o sea los en bedings
+4619600	4626680	que de distintos bien pero además me interesa tener una representación de la oración entera y
+4626680	4631480	para eso lo que se hace es agregar un toque en extra un toque en llamado celse se pone al
+4631480	4637440	principio de la oración y se lo hace jugar con todos los las capas atenciónales del medio entonces
+4637440	4642640	yo tengo una palabra extra que como no es una palabra de la oración no tiene un en beding contextual
+4642640	4646920	sino lo que hace es capturar la información de toda la oración a la vez entonces es en beding que
+4646920	4652680	me queda afuera el en beding que corresponde al toque en celse ese que después yo puedo utilizar
+4652680	4658160	para predecir cosas yo lo utilizo como un en beding que tiene cierto tamaño y se lo paso una
+4658160	4666960	capa de softmax para que me prediga así esa es positiva negativo a neutra o no bien bueno y para
+4666960	4672320	terminar terminar comentarles lo el tipo de herramientas que pueden utilizar para trabajar con
+4672320	4677200	redes neuronales obviamente para el segundo laboratorio van a poder utilizar redes neuronales si
+4677520	4683360	quieren de todo tipo si quieren colecciones en bedings nosotros también les podemos dar o pueden
+4683360	4687640	bajar algunas que estén disponibles en la web pero bueno herramientas habituales para trabajar con
+4687640	4692560	esto son por ejemplo tensorflow y pator que son dos ilotecas el tensorflow de google y pator es
+4692560	4698200	de meta o de facebook y bueno queras en general trabaja contar sonflog y hanginfaces es un
+4698200	4701960	repositorio que tiene un montón de modelos ya aprendrenados para muchos idiomas y para muchas
+4701960	4708160	cosas que ya se pueden utilizar autos de box y funciona muy bien y bueno estas son estas
+4708160	4713840	herramientas y otras más las van a poder utilizar en laboratorio bueno por hoy eso la
+4713840	4715640	próxima vez vamos a ver producción automática

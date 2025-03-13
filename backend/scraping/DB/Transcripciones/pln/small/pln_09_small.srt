@@ -1,0 +1,2123 @@
+WEBVTT
+
+00:00.000 --> 00:24.520
+La clase de hoy que espero que no sea tan larga como las anteriores este por vuestro bien yo en realidad posegué
+
+00:24.520 --> 00:36.400
+es como una especie de curso acelerado de aprendizaje automático va en realidad de
+
+00:36.400 --> 00:46.680
+clasificación y es una clase esta y la que viene son clases que las agregamos hace 2 o 3 años al
+
+00:46.680 --> 00:52.200
+curso lo comento porque en realidad muestra del tipo de evolución que ha tenido algunas cosas en el
+
+00:52.200 --> 00:57.760
+aprendizaje automático en el procesamiento de lenguaje natural y en particular los métodos de
+
+00:57.760 --> 01:04.440
+no me cierran la puerta y molestias o pueden echar a los que están en la puerta también si quieren
+
+01:04.440 --> 01:18.640
+aprovechar nos encanta hacer eso este que estaba diciendo así que es una trata de ser una clase
+
+01:18.640 --> 01:26.440
+sobre metodología sobre clasificación sobre problemas de clasificación visto en genérico
+
+01:26.440 --> 01:31.040
+ahora vamos a ver la motivación de porque son importantes para el procesamiento de lenguaje
+
+01:31.040 --> 01:38.240
+natural los los métodos de clasificación y visto desde un punto de vista metodológico esta
+
+01:38.240 --> 01:43.560
+clase más que meterse en cuáles métodos hay de clasificación trata de verlos en general
+
+01:44.320 --> 01:51.360
+en un marco de metodología decir cómo aplicamos un método de clasificación y algunos detalles
+
+01:51.360 --> 01:58.040
+que aparecen que tienen en común está la clase que viene vamos a ver cómo son o cómo lucen algunos
+
+01:58.040 --> 02:03.200
+métodos de clasificación muy utilizados en el procesamiento de lenguaje natural está este
+
+02:03.840 --> 02:05.880
+pero la clase de hoy más que nada es para
+
+02:08.800 --> 02:12.240
+para entender la metodología
+
+02:16.440 --> 02:24.320
+clasificación el problema de clasificación es muy fácil de definir yo tengo un conjunto de un
+
+02:24.320 --> 02:32.280
+objeto o algo en particular van a ver que toda la clase de hoy no hablamos el procesamiento de
+
+02:32.280 --> 02:37.160
+lenguaje natural aplica cualquier problema de clasificación esto que estoy hablando lo
+
+02:37.160 --> 02:40.800
+pasa que los problemas de clasificación son muy comunes el procesamiento de lenguaje natural
+
+02:40.800 --> 02:50.320
+y algunos ya los hemos visto pero la clasificación es tengo un objeto tengo un conjunto de clases
+
+02:50.320 --> 03:01.600
+discreto puede ser infinito pero tiene que ser discreto no es real y quiero saber a qué clase
+
+03:01.600 --> 03:05.360
+pertenece al objeto es un problema de clasificación esa es la definición de problema de clasificación
+
+03:05.360 --> 03:10.440
+si yo quiero saber el idioma de un documento es un problema de clasificación
+
+03:11.880 --> 03:16.280
+es decir mapeo a este documento le digo bueno están inglés español
+
+03:17.280 --> 03:23.280
+quiero saber si una palabra lleva tilde y acríptico no el tilde acríptico es el que no se
+
+03:23.280 --> 03:28.600
+corresponde con la acentuación sino para distinguir una palabra de otro de un uso de otro como el
+
+03:28.600 --> 03:41.320
+el de y de y de dar y el de de la preposición eso es un problema de clasificación todavía la
+
+03:41.320 --> 03:47.000
+palabra y vamos a tener que decir y decirlo no te doy te doy la palabra sin tilde si yo estoy
+
+03:47.000 --> 03:53.200
+corrigiendo por ejemplo cómo lo hago a no sé pero el problema de clasificación es ese saber
+
+03:53.200 --> 04:01.880
+si una oración es especulativa o sea si es el tipo yo creo que tal cosa va a suceder es un
+
+04:01.880 --> 04:08.120
+problema de clasificación yo te doy la oración y vos me decís si es especulativo no cómo lo hace
+
+04:08.120 --> 04:12.360
+si bueno tiene un créo entonces como no deja de hacer un problema de clasificación
+
+04:15.360 --> 04:21.480
+un huísel una palabra huísel es una palabra que sugiere algo pero en realidad no lo afirma
+
+04:23.040 --> 04:26.040
+puse ese ejemplo que tuvimos un proyecto de grabo que intentaba detectar las huíses
+
+04:26.040 --> 04:33.280
+son cosas como descuentos de hasta hasta un 90 por ciento sugiere que son enormes descuentos
+
+04:33.280 --> 04:38.640
+pero si pues yo puedo hacer un descuento un 5 por ciento y eso es un es verdad eso es una
+
+04:38.640 --> 04:47.320
+huísel bueno una palabra que sugiere algo que no hace una huísel sentenso una huísel bueno si
+
+04:47.320 --> 04:52.640
+una una oración es una huísel a huísel quiere decir es comadreja porque los como las comadrejas
+
+04:52.640 --> 04:57.760
+se se come en la parte de adentro de los huevos deja la cáscara de ahí viene el origen del nombre
+
+04:58.040 --> 05:03.040
+que es una oración que no tiene contenido bueno eso es un problema de clasificación
+
+05:04.320 --> 05:06.280
+como ven acá el objeto
+
+05:14.200 --> 05:15.680
+como tengo problema
+
+05:15.680 --> 05:20.960
+este me mata me mata este
+
+05:23.320 --> 05:29.680
+como pueden ver el objeto son el objeto diferente en cada caso no bueno en el en este
+
+05:29.680 --> 05:35.360
+es un documento es una palabra de una oración pero todas son problemas de clasificación
+
+05:35.360 --> 05:40.200
+nosotros hemos visto otros por visto otros problemas de clasificación identificados
+
+05:40.840 --> 05:43.800
+si una comentario una película es positivo negativo
+
+05:46.920 --> 05:51.720
+en el cuerpo que tiene ustedes a ver si una sentencia a partir del texto qué tipo de sentencia es
+
+05:51.720 --> 05:56.240
+es un problema de clasificación es un montón de problemas de clasificación por eso es tan
+
+05:56.240 --> 06:07.360
+importante entender los métodos de clasificación un ejemplo histórico de clasificación es el
+
+06:07.360 --> 06:13.960
+del el aire y data set fischer que es como el papá de la estadística por allá por los años 30
+
+06:15.080 --> 06:21.600
+probablemente la década más importante del siglo pasado si me preguntan a mí una de los que
+
+06:21.600 --> 06:26.720
+vivió en esa época fue fischer y una de las cosas que hizo fue tomar un data set que ya existía
+
+06:28.400 --> 06:31.240
+y utilizarlo para hacer sus análisis predictivos
+
+06:32.240 --> 06:38.120
+si fischer fue el fundador de la de la estadística como él la conocemos que es una cosa muy nueva
+
+06:38.120 --> 06:43.680
+la estadística tiene menos de 100 años como hoy la conocemos estadística antes era sólo en el
+
+06:43.680 --> 06:50.320
+sentido de datos números pero no el análisis como hoy lo entendemos y que entendemos más o menos
+
+06:50.320 --> 06:54.720
+todavía es el fischer para adelante hay otros antecedentes pierson y es una historia muy muy
+
+06:54.720 --> 07:00.120
+interesante hay un libro que se llama la la la mujer que tomaba el te que se los recomiendo
+
+07:00.120 --> 07:08.880
+que es entretenido y habla de toda la historia de la estadística y bueno y fischer trabajó con
+
+07:08.880 --> 07:16.360
+ese data set que es muy famoso que tiene 150 tomaron 150 flores de una especie iris de en la
+
+07:16.360 --> 07:26.160
+especie iris hay tres clases la setosa la versicolor y la versitica y lo que hicieron fue tomar esa
+
+07:26.160 --> 07:34.440
+150 flora y medir el ancho y al largo del pétalo y del sépalo de la flor o sea tenemos un data set
+
+07:34.440 --> 07:41.480
+que tiene cuatro atributos y una clase es como el problema más estándar de clasificación que
+
+07:41.480 --> 07:56.120
+existe si acá yo los ejemplos que aparecen acá en en como se llama en curiérnios son ejemplos
+
+07:56.120 --> 08:00.640
+de código que ustedes lo van a poder acceder es parte de un libro que escribimos con raúl
+
+08:00.640 --> 08:05.920
+garretas sobre aprendizaje automático y que tiene algunos blogs en la web a ver cómo hago yo para
+
+08:05.920 --> 08:11.760
+que esto no se me apague no sé cómo hacer
+
+08:14.520 --> 08:21.200
+van a poder ver el código asociado a esto al análisis de este problema donde trata de introducir
+
+08:21.200 --> 08:29.840
+eso después le pasa el link está bueno acá lo que tenemos es en el corpus tenemos cuatro fitur
+
+08:29.840 --> 08:34.680
+como le decía en la medida del sépalo la medida del ancho el sépalo y el largo del pétalo y el
+
+08:35.040 --> 08:41.120
+y tenemos tres clases setosa versicolor overginica y por ejemplo la primera instancia de le dice
+
+08:41.120 --> 08:47.920
+bueno tiene 5 5.1 centímetros de largo de sépalo 3.5 de ancho y blablá son cuatro números son los
+
+08:47.920 --> 09:01.800
+atributos de acuerdo a veces un poco más complicado que sólo solo números a veces yo tengo
+
+09:01.800 --> 09:07.720
+cosas como por ejemplo otro data set que es el del titánic que son los pasajeros del titánic y una
+
+09:07.720 --> 09:20.880
+cantidad de atributos si y la clase que tratamos de predecir es si el pasajero sobrevivió o no
+
+09:20.880 --> 09:26.440
+es otro problema clasificación no parece demasiado útil porque no se suele dar muy seguido los
+
+09:26.600 --> 09:32.200
+hundimientos de barco pero pero si nos puede servir para hacer análisis entonces decir por
+
+09:32.200 --> 09:38.760
+ejemplo si hubo algún cejo de las personas que se que se ahogaron si es verdad que se
+
+09:38.760 --> 09:47.280
+ahogaron más hombres o más de clase baja como en la película eso está bueno cuestión que acá
+
+09:47.280 --> 09:55.440
+tenemos un un un data set que es un poquito más complejo porque tiene cosas como la clase que es un
+
+09:55.440 --> 10:05.920
+descriptor o sea que esa subes un valor discreto si sobrevivió que acá el nombre la edad de blablá
+
+10:05.920 --> 10:12.880
+donde se embarcó el destino la habitación en la que estaba el número de ticket el bote y el sexo
+
+10:14.880 --> 10:21.600
+está claro está claro de mirarlo así nomás que este data set algunos atributos tienen
+
+10:21.600 --> 10:25.920
+pinta de servir para clasificar bueno el problema clasificación es a ver si sobrevivió no o sea
+
+10:25.920 --> 10:30.480
+que 1 o 0 está claro que hay algunos atributos que no parece ser muy útiles para la clasificación
+
+10:31.360 --> 10:40.640
+por ejemplo el nombre ahora voy a ir al nombre pero antes por ejemplo quiero hablar de el destino
+
+10:40.640 --> 10:53.280
+por ejemplo a priori no parece muy muy útil el destino no el nombre es muy útil porque nos permite
+
+10:53.280 --> 11:04.760
+saber exactamente si sobrevivió no no cuál es el problema que tiene el nombre que no va a ser
+
+11:04.920 --> 11:11.000
+nada porque sólo va a funcionar para ese vamos a volver sobre eso está claro que no sirve pero no
+
+11:11.000 --> 11:16.080
+sirve por por porque su correlación es demasiado ahora vamos a volver a hablar de eso que se llama
+
+11:16.080 --> 11:23.240
+sobre ajuste pero qué es con el pensamiento de eso bueno para la clasificación hay otra vez
+
+11:23.240 --> 11:29.000
+dos grandes líneas las de regla y la de aprendizaje automático yo puedo hacer mirar el corpo y tratar
+
+11:29.000 --> 11:33.960
+de construir unos y como hemos estado hablando ahora que día bueno si es mujer y está en tercera
+
+11:33.960 --> 11:40.120
+clase porque a mí se me ocurre o porque conozco la realidad porque no sé qué y a un significador
+
+11:42.320 --> 11:49.800
+si o si el pétalo está porque observo y porque conozco porque soy un experto con si el pétalo
+
+11:49.800 --> 11:55.840
+está entre tal y cual valor eso es una aproximación por reglas pero lo que mayormente vamos a hablar
+
+11:55.840 --> 12:03.600
+de aprendizaje automático y es trato de inferir un modelo a partir de los datos de entrenamiento o
+
+12:03.600 --> 12:11.680
+sea agarro las 150 flores y trato de inferir algún modelo no importa cuál es el modelo de alguna
+
+12:11.680 --> 12:16.160
+forma yo construjo un modelo por ejemplo puede ser un árbol de decisión o un clasificador
+
+12:16.160 --> 12:20.720
+vallesiano la clase viene a mover la cuestión es que yo de alguna forma construjo un modelo para
+
+12:20.720 --> 12:29.120
+nosotros eso es como una caja negra a la clase de hoy o sea agarro saikiler le mando los atributos
+
+12:29.160 --> 12:36.000
+el tipo me genera un modelo y yo aplico ese modelo a nuevas intancia y me la predice eso es todo lo
+
+12:36.000 --> 12:43.960
+que vamos a hacer cómo es el modelo hay millones de versiones diferentes por miles está la clase
+
+12:43.960 --> 12:52.680
+que viene a mover algunas otras está pero y en general los mejores clasificadores combinan
+
+12:52.680 --> 13:01.960
+ambos ahora vamos a ver por qué se puede atacar bueno entonces vamos a los métodos que son de
+
+13:01.960 --> 13:10.680
+aprendizaje automático en particular como como es nuestra situación bueno tenemos perdón tenemos
+
+13:10.680 --> 13:22.960
+un corpus con un conjunto de entrenamiento que son pares el objeto de de un dominio palabras este
+
+13:22.960 --> 13:32.040
+pasajero el titánic y de toda oraciones representadas de alguna forma puede ser fotos pues yo puedo
+
+13:32.040 --> 13:40.120
+clasificar sin esa foto y un gato no cosa así y una categoría donde
+
+13:44.120 --> 13:47.560
+hay va de un conjunto de que dominio y un conjunto c de categoría
+
+13:48.800 --> 13:54.320
+y lo hice acá un espacio de intancia un conjunto de categoría una función de clasificación lo
+
+13:54.320 --> 14:01.040
+único que hace es mapear un documento de del dominio de quiz a la clase guardó
+
+14:03.960 --> 14:10.320
+un método de aprendizaje supervisado que es de lo que vamos a ver ahora hablar ahora es recibe los
+
+14:10.320 --> 14:16.440
+ejemplos anotado y devuelve la función de clasificación en realidad no es un método
+
+14:16.440 --> 14:21.400
+de aprendizaje supervisado es un método de clasificación supervisado porque si lo que
+
+14:21.400 --> 14:28.760
+nosotros tratáramos es de predecir un valor real continuo por ejemplo si yo quiero saber
+
+14:30.120 --> 14:35.600
+el precio de algo en base a sus características es un valor real continuo no es un valor discreto
+
+14:35.600 --> 14:41.720
+se entiende eso se llama regresión y los métodos son un poco diferente acá estamos hablando de
+
+14:41.720 --> 14:50.280
+clasificación e discreto estamos con otra la diferencia de algunas clases anteriores en esto
+
+14:50.280 --> 14:56.160
+es mucho más metodológico que de matemático o de probabilístico es cómo aplicar estas cosas
+
+14:56.160 --> 15:06.600
+y hay algunas sutilezas que son importantes pues nos puede hacer cometer errores bueno entonces
+
+15:08.040 --> 15:16.120
+tenemos el corpus nuestro corpus de por ejemplo para el problema de la clasificación en idiomas
+
+15:16.120 --> 15:23.680
+del idioma de un documento cuál sería nuestro corpus que de qué corpus partiríamos
+
+15:33.000 --> 15:38.600
+textos en idiomas a ver cómo se yo cuál sería nuestro conjunto este x que sería
+
+15:46.120 --> 15:52.520
+idioma de un documento
+
+15:54.920 --> 15:59.840
+un documento un conjunto de textos de documentos no y sé qué es
+
+16:01.800 --> 16:07.880
+el idioma de cada uno de ellos de acuerdo tengo documento 1 inglés documento 2 frances
+
+16:08.600 --> 16:16.360
+está en el caso de la iris se tosa cuál es el cuál es el cuál es son el x
+
+16:25.240 --> 16:27.920
+el x podría ser en principio
+
+16:29.960 --> 16:32.800
+en principio y como rela general la flor
+
+16:32.800 --> 16:40.720
+si yo la tengo identificada de alguna forma de acuerdo y yo lo que devuelvo su clase
+
+16:42.920 --> 16:47.920
+yo en este caso sé que la rep tengo representado por cuatro números ya vienen representado por
+
+16:47.920 --> 16:52.480
+cuatro números entonces esos cuatro números también son mi instancia de último o yo podría
+
+16:52.480 --> 16:56.240
+tener un proceso que los extraiga de alguna forma que no sé cuál es en principio en nuestro
+
+16:56.960 --> 17:01.040
+entonces
+
+17:02.720 --> 17:12.200
+yo tengo que hacer lo siguiente tengo que agarrar ejemplos a partir de eso generar el dama la función
+
+17:12.200 --> 17:19.040
+de clasificación que es la función que voy a aplicar cuando venga una instancia nueva para saber
+
+17:19.040 --> 17:26.640
+qué tipo es y como habíamos visto ahora yo necesito que tengo que hacer con el corpo
+
+17:28.320 --> 17:29.200
+que tengo que hacer
+
+17:31.960 --> 17:35.920
+tiene que bueno eso es claro en todos los casos alguien tiene que haberlo hecho a mano a esa
+
+17:35.920 --> 17:40.440
+notación o sea alguien me tiene que haber dicho a mano esto tan inglés esto tan francés no lo
+
+17:40.440 --> 17:44.800
+que mismo que hemos hablado otra vez esta es una versicolor de eso le es un experto
+
+17:45.120 --> 17:50.280
+pero una vez que yo tengo el corpo que tengo que hacer con él
+
+17:52.160 --> 17:56.720
+tengo que dividirlo porque yo necesito entrenar sobre una parte y usar el resto para evaluarse
+
+17:56.720 --> 18:05.240
+acuerdan eso es muy importante entonces yo voy a dividir el cuerpo en dos partes que más o menos
+
+18:05.240 --> 18:10.120
+siempre son el 80 veinte una cosa así esto ya lo hemos hablado en el modelo lo hablamos acuerdan
+
+18:10.120 --> 18:15.320
+el modelo lenguaje en treno sobre el 80 por ciento y evalúo sobre el 20 restante
+
+18:18.680 --> 18:25.080
+y acá es muy importante muy importante y es como la regla de oro es que yo siempre
+
+18:25.080 --> 18:31.920
+tengo que entrenar sobre una parte y evaluar sobre la otra pero además de ser diferentes tendrían
+
+18:31.920 --> 18:37.760
+que tener una distribución de ejemplo similar porque digamos si yo entreno con algo que son
+
+18:38.080 --> 18:43.280
+por ejemplo en el corpo de líquida tacet si yo lo ordeno por clase a las intancia
+
+18:44.800 --> 18:48.960
+ordenó toda la intancia primero toda la cetosa de todas las versicolores de todas las
+
+18:48.960 --> 18:56.600
+vircínicas y me quedo con las primeras 80 van a ser casi toda cetosa entiende mi modelo
+
+18:56.600 --> 19:03.520
+se va a ajustar a los datos del 80 por ciento y el 20 por ciento restante que son todas versicolor
+
+19:03.520 --> 19:10.960
+van a dar mal porque este porque no son parecidos al modelo en el que entrené entonces la idea es
+
+19:10.960 --> 19:14.320
+que yo siempre tengo que tratar de dividir el cuerpo entrenamiento de evaluación de forma
+
+19:14.320 --> 19:22.920
+que tengan más o menos la misma distribución de clases una forma directa de hacerlo es elegir
+
+19:22.920 --> 19:29.280
+ejemplo al azar no tomar renado sino agarrar eso es lo que típicamente uno hace busca al azar saca
+
+19:29.440 --> 19:35.840
+80 de un lado 20 del otro pero al azar hay métodos más evaluados más evolucionados para
+
+19:35.840 --> 19:40.640
+hacer eso sobre todo cuando hay clases que tienen muy pocas intancia porque por ejemplo si hubiera
+
+19:40.640 --> 19:48.240
+una clase que tiene 10 en el total o 5 del total de 150 a mí me gustaría que hubiera 3 y 2 entonces
+
+19:48.240 --> 19:55.360
+es como que hago lo que se llama selección estratificada cosa así cosa más evolución más
+
+19:55.360 --> 20:01.600
+evaluada para asegurar que la distribución sea más o menos la bien pero en general con muchos datos
+
+20:01.600 --> 20:06.640
+y una distribución más o menos pareja de las clases con hacerlo al azar no cometer el error de
+
+20:06.640 --> 20:13.280
+entrenar sobre una clase de valor sobre otra más o menos de acuerdo este es un método hay otras
+
+20:13.280 --> 20:18.840
+formas que ahora vamos a ver alguna más pero lo estándar es esto de acuerdo
+
+20:19.840 --> 20:25.320
+la cosa es más o menos así en este dibujito que me robé de la internet
+
+20:27.560 --> 20:29.160
+nosotros tenemos el data set
+
+20:36.000 --> 20:39.840
+y yo divido el training set
+
+20:49.280 --> 20:51.760
+y el test de evaluación
+
+20:53.000 --> 20:59.680
+de acuerdo yo este test de evaluación este perdón en
+
+21:00.680 --> 21:07.320
+corpus evaluación o set de evaluación solamente lo voy a utilizar solamente
+
+21:07.320 --> 21:13.800
+cuando yo haya terminado de construir mi modelo terminé no voy a hacer ningún cambio no voy a
+
+21:13.800 --> 21:17.760
+mejorar nada esto es lo mejor que tengo y quiero saber cuál es su performan en una medida que
+
+21:17.760 --> 21:24.640
+ahora vamos a ver cómo se mide recién ahí yo agarro el modelo final lo aplico al coso y tengo
+
+21:24.640 --> 21:28.020
+la evaluación final de acá no sucede nunca más nada que
+
+21:32.520 --> 21:35.440
+ahora voy a retomar esto que quiero decir con esto
+
+21:37.520 --> 21:43.200
+acá este modelo es esa caja negra que construye el modelo que no sé cómo es para eso yo uso
+
+21:43.360 --> 21:47.040
+el entrenamiento el cuerpo de entrenamiento
+
+21:48.320 --> 21:52.280
+lo pruebo y tengo una medida construye un modelo y tengo una medida de predicción
+
+21:53.320 --> 22:01.080
+pero yo típicamente es un proceso iterativo es decir yo pruebo de alguna forma mejoró mi
+
+22:01.080 --> 22:06.880
+método le agregó un atributo nuevo o cambió un parámetro o lo detalle eso hago cambios
+
+22:07.040 --> 22:14.640
+que va cambiando mi va ir cambiando mi performance de acuerdo también la forma por ahora también
+
+22:14.640 --> 22:18.040
+es una caja negra ahora vamos a ver cómo se mide pero supongamos que es mi medida de la que
+
+22:18.040 --> 22:22.320
+ahora si cuántas cuántos de los ejemplos del corpo evaluación clasificó correctamente
+
+22:22.320 --> 22:31.480
+es una medida directa no si de los 50 que tengo acá 48 40 40 tengo cuatro quintos de aquí ahora
+
+22:32.240 --> 22:33.200
+o ser 8
+
+22:35.760 --> 22:39.920
+entonces yo puedo ir cambiando cosas pero si yo
+
+22:43.200 --> 22:48.360
+utilizar esa medida esto es el concepto más importante si yo utilizar esa medida
+
+22:49.640 --> 22:53.280
+y fuera evaluando contra el te final y mejorando mi performance
+
+22:55.040 --> 22:59.400
+si cuál es el problema que por el qué riesgo tiene eso
+
+23:00.400 --> 23:06.080
+yo hago pruebas a o previas pruebas pruebas y voy probando sobre el conjunto de evaluación y
+
+23:06.080 --> 23:07.960
+mi performance va mejorando cuál es mi problema
+
+23:10.600 --> 23:18.560
+exacto exactamente que mi cuerpo finalmente yo estoy tratando de ajustar acá estoy ajustando
+
+23:18.560 --> 23:23.960
+demasiado acá además está demasiado adecuado para este como que en un caso de borde yo probar a
+
+23:23.960 --> 23:31.080
+todas las calificadas yo podría hacer un método que asigne al azar clases y pruebo todas las
+
+23:31.080 --> 23:36.640
+combinaciones posibles hay una que me va a dar perfecto pero no estoy aprendiendo nada se me
+
+23:36.640 --> 23:44.000
+ajustó hacia el cuerpo de evaluación entiende entonces yo para evitar eso mientras voy aprendiendo
+
+23:44.000 --> 23:49.280
+mientras voy mejorando mi método lo que tengo que hacer es separar un cuerpo algo como una
+
+23:49.360 --> 23:54.480
+subdivisión del cuerpo de entrenamiento separo lo que llamo un un grupo de validación
+
+23:56.560 --> 24:00.960
+que es como una subdivisión en treno sobre una parte de valor sobre la otra y ahí sí voy
+
+24:00.960 --> 24:05.600
+mejorando qué me puede pasar y bueno me puede pasar que sobreajuste a esto claro el método
+
+24:05.600 --> 24:10.840
+tiene que ser robusto a eso eso es un problema que el método puede tener pero por lo menos me
+
+24:10.840 --> 24:16.240
+aseguro que si sobreajuste a esto cuando lo mide acá voy a tener una idea de que también funcionó
+
+24:16.240 --> 24:25.600
+mi método se entiende es un problema clásico ese incluso un hace no mucho tiempo un medio
+
+24:25.600 --> 24:34.840
+un lío con con un concurso porque hay un concurso uno una competencia que se llaman kagel
+
+24:36.560 --> 24:44.160
+que son te dan el conjunto entrenamiento no te dicen el data se el conjunto de evaluación
+
+24:44.640 --> 24:49.360
+vos presentaste un método de los ubis y automáticamente te evalúa la performance y hace un ranking
+
+24:49.360 --> 24:55.000
+yo una gente que no me acuerdo si no de los laboratorios de bayu que los acusaron de haber
+
+24:55.000 --> 25:01.400
+hecho trampa porque lo que hacían era subían muchos modelos y claro probaban tanto que al
+
+25:01.400 --> 25:07.360
+final este empezaban a mejorar porque estaban sobreajustando aún sin verlo al cuerpo de
+
+25:07.360 --> 25:12.560
+evaluación de acuerdo eso puede pasar entonces uno es es una de las cosas que uno tiene que
+
+25:12.560 --> 25:18.920
+tener cuidado la arquitectura generalmente es esta y yo cuando les digo en el laboratorio que
+
+25:18.920 --> 25:23.360
+hagan una metodología lo que le está pidiendo es solamente que hagan este tipo de cosas que
+
+25:23.360 --> 25:28.080
+digan bueno yo quiero voy a dividir el cuerpo no tiene que hacerlo toca notar el cuerpo de
+
+25:28.080 --> 25:33.960
+esta forma tengo que separar tanto de entrenamiento tanto evaluación un validation set voy a
+
+25:33.960 --> 25:37.240
+evaluar con tal medida claro eso es lo que queremos que crida en el laboratorio
+
+25:37.240 --> 25:45.440
+de acuerdo cómo lo hicimos en particular en el ir y data set bueno si en todo se quedan en el
+
+25:45.440 --> 25:51.320
+cuerpo de entrenamiento y 38 en el cuerpo de evaluación y con la cintas de elegida al azar
+
+25:54.320 --> 26:03.440
+está entonces bueno ahora sí tenemos tenemos el cuerpo de entrenamiento el cuerpo de evaluación
+
+26:03.440 --> 26:09.920
+el cuerpo de evaluación lo guardamos en una cajita y estos son los pasos típicos de los
+
+26:09.920 --> 26:15.420
+problemas de clasificación de los métodos tradicionales de aprendizaje automático los
+
+26:15.420 --> 26:22.800
+métodos tipo diplarno y funcionan un poco diferente porque esta parte no la hace la
+
+26:22.800 --> 26:29.640
+dejan la infierena automáticamente esa es como el gran cambio de los métodos de diplarno pero
+
+26:29.640 --> 26:37.360
+los métodos tradicionales tenemos todas estas tareas para hacer y vamos a ver las una por una
+
+26:38.360 --> 26:44.880
+recuerden partimos de un objeto un cuerpo de entrenamiento y una evaluación nada más
+
+26:46.480 --> 26:50.720
+la primera tarea es la de la ingeniería de tributos que se llama
+
+26:50.720 --> 26:57.400
+feature ingeniería y es bueno tengo el objeto cuáles son mis atributos para el aprendizaje
+
+26:58.040 --> 27:03.560
+típicamente por ejemplo típicamente dependen del método
+
+27:06.200 --> 27:12.840
+por ejemplo saikinlearn la biblioteca de python para aprendizaje automático asume que todos sus
+
+27:12.840 --> 27:21.640
+clasificadores todas sus intancias son en euplas de reales o sea que yo tengo que llevar todo a
+
+27:21.640 --> 27:24.320
+cosa de la forma una cosa así
+
+27:28.400 --> 27:35.080
+por ejemplo de acuerdo porque porque están hechos los métodos así y adaptaron incluso métodos
+
+27:35.080 --> 27:38.920
+que no son originalmente así para que para que para que todo tengan un formato común entonces
+
+27:38.920 --> 27:44.040
+que yo lo único que tengo que hacer es cambiar el enchufar el método y todo el resto me queda
+
+27:44.040 --> 27:50.960
+igual esa es la idea saikinlearn de acuerdo asume cosas que entran así con una clase que también
+
+27:50.960 --> 28:00.320
+es un número aplica el método entre en el modelo cosa evaluado son todos iguales lo quiero
+
+28:00.320 --> 28:03.200
+cambiar por método que no tiene nada que ver en su principio no importa desde el chufo uno en
+
+28:03.200 --> 28:12.160
+chufo el otro para eso necesito transformar mis atributos de entrada a esto entonces y esto
+
+28:12.160 --> 28:17.320
+es todo laburo la ingeniería de tributos es como el la parte en gorrosa del aprendizaje automático
+
+28:18.240 --> 28:23.560
+porque es yo tengo el objeto y tengo que saber cuáles son los atributos por ejemplo
+
+28:26.400 --> 28:32.400
+si yo quiero la palabra tengo una palabra que son atributos de clasificar yo no le puedo dar la
+
+28:32.400 --> 28:37.640
+palabra a lo a lo bestia digamos le doy la palabra y clasificar no yo tengo que sacar atributos de
+
+28:37.640 --> 28:43.840
+esa palabra que me sirvan para clasificar para hacer una representación de la palabra que es lo que
+
+28:43.840 --> 28:49.360
+le pedimos al laboratorio que haga no con los campitos que tiene por ejemplo para palabra la
+
+28:49.360 --> 28:56.480
+forma de superficie o sea la palabra en sí misma el lema la terminación por ejemplo a mí saber
+
+28:56.480 --> 29:01.400
+que una palabra termina en ese me puede dar una idea de que de que es un plural por ejemplo
+
+29:01.800 --> 29:08.800
+el part of pitch si pertenece a una lista por ejemplo si yo quiero detectar
+
+29:12.120 --> 29:24.360
+si quiero detectar por ejemplo claro este ahí voy a decir bueno este este tipo de cosas
+
+29:25.360 --> 29:33.240
+supongo que yo tengo un documento tomando tengo un documento donde quiero saber si se trata
+
+29:33.240 --> 29:38.120
+es si o tengo una oración y que eso es un insulto entonces yo puedo tener
+
+29:39.720 --> 29:43.080
+una lista de palabras como un insulto
+
+29:45.760 --> 29:51.040
+lo cual no quiere decir que la oración sea un insulto solo por contenerla porque yo podría
+
+29:51.040 --> 29:58.960
+insultar sin usar esas palabras pero me sirve como atributo se entiende yo uno de los atributos
+
+29:58.960 --> 30:03.720
+de mi oración puede ser tiene una palabra de la lista tal
+
+30:07.920 --> 30:12.840
+la cantidad de letras de la palabra depende de la tarea la ingeniería porque la ingeniería
+
+30:12.840 --> 30:19.480
+tributa que hacerlo cada vez porque depende de la tarea si los métodos de tipo de learning
+
+30:20.280 --> 30:26.960
+son un poco más brutos lo que hacen es y a su vez un poco más inteligentes porque lo que hacen es
+
+30:26.960 --> 30:29.080
+bo dame todos los pixels
+
+30:31.040 --> 30:36.040
+todos los píxeles de una foto y la quiero clasificar tiene un gato dame todos los píxeles que yo me manejo
+
+30:37.760 --> 30:45.320
+si es lo que se llama aprendizaje de representaciones que es voy construyendo los atributos a partir de
+
+30:45.320 --> 30:50.560
+los píxeles no hay ingeniería de atributos sino que la propia red en neuronar lo que los crea
+
+30:52.400 --> 30:55.920
+los invito el año que viene para el curso vamos a armar de esto
+
+30:59.760 --> 31:04.600
+si de diplano como haciendo seminario ahora y mi idea es para el año que viene a un curso
+
+31:04.600 --> 31:09.280
+abandonar este curso y vamos a ver bueno
+
+31:10.280 --> 31:17.360
+de aplicar el procedimiento de lenguaje natural bueno o para oraciones tenemos palabras una lista
+
+31:17.360 --> 31:22.960
+número de veces capaz de una palabra para un documento largo cada palabra que aparece
+
+31:24.960 --> 31:33.280
+cada objeto va a tener su fitur selección método fitur ingeniería y por supuesto uno el atributo
+
+31:33.280 --> 31:35.320
+es la clase objetivo no degan para llegar
+
+31:38.320 --> 31:43.040
+de acuerdo entonces la ingeniería de atributos es eso es cómo genero los atributos a partir
+
+31:43.040 --> 31:49.840
+del objeto original se entiende estamos a acuerdo descarto algunas y otros lo dejo por ejemplo
+
+31:51.480 --> 31:58.840
+y bueno y tengo que hacer algunas cosas un poco bastante estándar en el procedimiento
+
+31:59.280 --> 32:04.120
+pero que lleva mucho tiempo generalmente que es el tol preprocesamiento de mi cuerpo para
+
+32:04.120 --> 32:10.640
+conllevar la forma por ejemplo una cosa típica es el one hotend coding que es yo tengo un idioma
+
+32:10.640 --> 32:19.040
+que es español inglés o francés eso sea que es una clase un conjunto discreto de valores y lo
+
+32:19.040 --> 32:27.160
+transformo a tres atributos uno que dice es español que 0 1 es inglés que 0 1 y es francés que 0 1
+
+32:28.160 --> 32:36.520
+de acuerdo también podría ponerle 1 2 o 3 a un valor de la en vez de poner español y
+
+32:36.520 --> 32:42.520
+leer francés mapearlo y poner 1 2 3 si esa es otra forma de llevarlo un valor numérico
+
+32:42.680 --> 32:44.840
+cuál es el problema que puede tener eso
+
+32:57.280 --> 32:59.240
+bueno pero ahí tengo que meter más atributos a mí no
+
+33:02.240 --> 33:08.080
+exacto que asume que hay una especie de ordenamiento o eventualmente podría ser una
+
+33:08.080 --> 33:13.880
+distancia también y que algún método podría marearse con eso acá es más
+
+33:15.320 --> 33:20.080
+dice son independientes está esto tiene algún riesgo no podría llegar a aprender que dos
+
+33:20.080 --> 33:23.480
+en uno que hay que de ese español y es inglés pero también
+
+33:26.320 --> 33:29.120
+no podía llegar a aprender porque yo no lo estoy aprendiendo dije cualquier cosa
+
+33:31.720 --> 33:37.200
+es decir la restricción en mi data sete que no pueden ser más de uno a la vez uno solo puede
+
+33:37.200 --> 33:42.720
+ser uno quiero decir o al revés y yo quiero convertir números a categoría bueno en el
+
+33:42.720 --> 33:44.520
+curso aprendizaje automático van a aprender todo eso
+
+33:47.360 --> 33:51.160
+pero tenemos cosas en el pensamiento de lo que natural más complicadas todavía como por ejemplo
+
+33:52.480 --> 33:56.880
+si yo quiero transformar si lo que yo tengo es un árbol por ejemplo un árbol de parsing
+
+33:58.440 --> 34:05.000
+cómo transformo eso en atributo bueno puedo tomar medidas como la distancia de la raíz en el árbol
+
+34:05.080 --> 34:11.120
+la secuencia de categorías de la raíz a cierta hoja componente padre de una hoja
+
+34:12.640 --> 34:18.280
+profundidad del árbol para cada palabra no se entiende yo quiero llegar a tener algo que es
+
+34:18.280 --> 34:24.280
+un atributo por cada cada palabra no yo tengo tengo una oración tengo una oración
+
+34:25.880 --> 34:27.600
+tengo su árbol sintáctico
+
+34:30.360 --> 34:31.520
+y acá tengo la palabra
+
+34:31.520 --> 34:38.000
+para que no yo no puedo aprender sobre esto derecho bueno no se corresponde con lo que
+
+34:38.000 --> 34:41.240
+queremos nosotros que una lista de números no es una lista de números yo transformaré
+
+34:41.240 --> 34:47.120
+toda una lista de atributos obviamente que pierdo información en el momento claro es un modelo
+
+34:47.120 --> 34:52.400
+los modelos son eso son una representación simplificada de la realidad y esto tampoco
+
+34:52.400 --> 34:56.960
+de la realidad pero es una representación más compleja hay método aprendizaje algunos por
+
+34:56.960 --> 35:04.320
+ejemplo los basados en kernels que trabajan con estos objetos directamente toda una línea
+
+35:04.320 --> 35:11.640
+con eso no voy a hablar de eso ahora o si tengo un grafo bueno cuál es la conectividad número
+
+35:11.640 --> 35:15.920
+de relaciones cierto tipo etcétera dependiendo de mi objeto yo tengo que crear lo atributo
+
+35:19.800 --> 35:25.280
+y esto es las reglas del conocimiento esa es una cosa con la que yo he trabajado
+
+35:25.280 --> 35:34.400
+bastante en mi tesis que son tengo una regla que la construye un experto es bien un método
+
+35:34.400 --> 35:39.120
+híbrido la construcción experto que dice bueno esta oración es una
+
+35:42.200 --> 35:52.400
+es una un insulto si yo ya sé que las oraciones que empiezan diciendo mira querido
+
+35:53.120 --> 36:00.600
+este esas son insultos va a terminar no eso lo dice un experto pero yo quiero incorporarlo
+
+36:00.600 --> 36:04.840
+a mi aprendizaje pero tampoco darle la firma porque lo diga el experto
+
+36:08.280 --> 36:10.920
+entonces yo quiero incorporar el conocimiento del experto
+
+36:10.920 --> 36:23.360
+el conocimiento del experto del experto pero sin tan poco darlo como la única fuente entonces
+
+36:23.360 --> 36:28.200
+qué hago simplemente lo pongo como un atributo más del aprendizaje
+
+36:30.280 --> 36:32.880
+se entiende sumamos que es un 1 un 0
+
+36:33.880 --> 36:41.440
+entonces todas las oraciones que yo la voy a representar de una cierta forma atributo 1
+
+36:41.440 --> 36:46.080
+atributo 2 atributo 3 y acaba de tener un atributo especial que es la regla de esta
+
+36:46.080 --> 36:52.200
+de conocimiento que vale 1 si empieza con mira querido y vale 0 si no si y después
+
+36:54.680 --> 37:00.040
+en mi anotación a mano para ir pisando en mi anotación a mano
+
+37:03.760 --> 37:10.080
+por supuesto que por acá voy a tener la clase es insulto que va a valer 1 o 0
+
+37:13.680 --> 37:21.400
+de acuerdo y por acá la regla de también vale 1 no va a pasar que a veces el experto va a
+
+37:21.400 --> 37:31.040
+estar en lo cierto y a veces no y va a ser el método el modelo como cualquier otro atributo
+
+37:31.040 --> 37:34.480
+que va termina evaluando si lo que dijo el experto era era bien o era un volazo
+
+37:35.480 --> 37:40.880
+de acuerdo es un atributo más conocimiento bien un método híbrido yo incorporo conocimiento
+
+37:44.120 --> 37:47.120
+de un experto pero lo dejo metido dentro del método
+
+37:47.920 --> 37:53.160
+adentro el clasificador lo que termina preponderando es el aprendizaje y cómo
+
+37:53.800 --> 38:02.800
+es digamos si acá hay otro atributo que dice si tiene la palabra estúpido
+
+38:02.800 --> 38:11.840
+digamos este va a haber y si dice mira querido sos un estúpido todo bien pero no puede no empezar
+
+38:11.840 --> 38:18.080
+diciendo mira querido y decir estúpido y ser bueno el método es el que determina la eso
+
+38:18.080 --> 38:22.000
+los métodos lo que hacen es tomar todos esos atributos lo que mueva la clase que viene y
+
+38:22.000 --> 38:27.240
+cómo hacer eso pero tomar todos esos atributos te va a construir algún modelo que tiene arto esto
+
+38:36.320 --> 38:37.960
+bueno para que te lo tomes así
+
+38:39.960 --> 38:46.560
+entonces por ejemplo en el caso del titani data set terminamos terminamos quedándonos con cuatro
+
+38:46.560 --> 38:53.200
+atributos porque sí porque hay atributos en la ingeniería tributo también uno puede descartarlos
+
+38:53.200 --> 38:58.160
+porque si esto es un volazo el nombre no tiene sentido hay uno por clase no voy a ponerse al nombre
+
+38:59.600 --> 39:06.360
+y acá nos quedamos con la edad el sexo y si estaban primera segunda tercera clase acá
+
+39:06.360 --> 39:14.960
+y hicimos 1 jote en codi está el ejemplo de juguetes mismo recordó bueno en el titani no se
+
+39:14.960 --> 39:19.840
+puede hacer mucho más porque no hay muchos atributos pero para mostrar cómo se transforma
+
+39:19.840 --> 39:20.960
+los atributos de acuerdo
+
+39:26.960 --> 39:32.600
+la segunda etapa es la deselección de atributos que es esto justamente de bueno
+
+39:35.240 --> 39:40.800
+tengo todos los atributos candidatos hay algunos que lo pueden eliminar de estos porque no sirve
+
+39:40.800 --> 39:49.080
+para nada y esto por qué bueno generalmente por dos razones una vez por performas porque me interesa
+
+39:49.080 --> 39:53.960
+tener menos atributos para ser computacionalmente más rápido si bien la mayoría de los métodos
+
+39:53.960 --> 40:00.560
+modernos no les importa mucho eso que están pensados para tener mucho atributo y a veces
+
+40:00.560 --> 40:04.760
+también pasa que demasiado atributo puede producir sobre ajuste es como que si yo tengo
+
+40:04.760 --> 40:09.440
+demasiado atributos estoy cometiendo mucho ruido digamos y si hay una cosa que yo ya sé
+
+40:09.440 --> 40:17.080
+que no me va a aportar nada por algún motivo extra al modelo así no lo incorporo como el nombre
+
+40:17.080 --> 40:22.960
+para que voy a procesar el nombre si ya sé que no me vas a abrir o por mi conocimiento del problema
+
+40:22.960 --> 40:32.000
+por supuesto que en la lista de pasajeros titani que si ponemos el color del pelo parece difícil que
+
+40:32.000 --> 40:41.160
+sirva para el acuerdo en lo de la selección de atributos en los hechos es cada vez menos
+
+40:41.160 --> 40:52.840
+importante en todo los métodos de clasificación funcionan tipo licuadora y hay dos tipos de
+
+40:52.840 --> 40:58.960
+métodos clásicos para hacerlo uno es el método estadístico que lo que dicen es bueno
+
+41:03.000 --> 41:07.960
+corre un test estadístico sobre los atributos un chiscuart test
+
+41:09.720 --> 41:16.600
+que esencialmente el test chiscuart lo que hace es dadas dos atributos dado dos conjunto de valores
+
+41:19.680 --> 41:25.120
+te indica qué tan independientes son entre ellos desde un punto de vista de probabilístico
+
+41:26.120 --> 41:32.720
+acuerdo y entonces si yo tengo un atributo que es completamente independiente de la clase
+
+41:34.800 --> 41:42.000
+de la clase final qué quiere decir eso si estadísticamente son independientes que quiere decir
+
+41:47.360 --> 41:54.120
+no te aporta nada que no hay relación ninguna entre ahora si uno es perfecto
+
+41:54.120 --> 42:02.640
+la asociación entre la clase y el atributo en el otro extremo es el mejor de los mundos tengo
+
+42:02.640 --> 42:13.240
+un predictor perfecto es muy probable que esté sobreajustando si yo no sé puede ser que esté
+
+42:13.240 --> 42:18.320
+sobreajustando pues que no si yo tengo uno que vale exactamente no sé si estoy sobreajustando
+
+42:18.320 --> 42:22.880
+es que capaz que lo más probable que esté usando la clase que de alguna forma
+
+42:24.920 --> 42:28.440
+la clase se deriva de ese atributo y mi problema tan mal formulado
+
+42:30.720 --> 42:31.480
+se le dé
+
+42:33.920 --> 42:40.280
+pero en el mundo de la presión automática y otro método mucho más común para esto que es
+
+42:40.600 --> 42:51.000
+calcular la performance en el gel dado simplemente pruebo diferentes conjuntos de atributos empiezo
+
+42:51.000 --> 42:57.840
+con un atributo en la grama empiezo con un atributo y voy calculando la performance se
+
+42:57.840 --> 43:03.400
+acuerdo en el cuerpo gel dado que hicimos se acuerdan que sabíamos sacamos un pedacito vamos
+
+43:03.400 --> 43:08.600
+probando ahí pruebo con un atributo grego otro grego otro grego otro voy construyendo todas las
+
+43:08.600 --> 43:11.600
+combinaciones no puedo hacer todas las combinaciones posible pues sería computacionalmente horrible
+
+43:11.600 --> 43:17.880
+pero ahí hay unos jurísticos para ir armando eso y me quedo con una se le unos atributos
+
+43:17.880 --> 43:26.920
+seleccionado otra forma otra forma es en vez de usar un cuerpo gel dado es hacer lo que
+
+43:26.920 --> 43:29.240
+llamamos cross validation que voy a explicar lo que es
+
+43:30.120 --> 43:37.320
+pero vale ellos es una forma de utilizar mejor mi corpus ahora voy a hablar de eso
+
+43:42.040 --> 43:48.440
+si porque es lo mismo que usamos para seleccionar modelos la tercera etapa es lo que se llama
+
+43:48.440 --> 43:55.000
+selección de modelo que es un término que uno nunca se acuerda que es eso si no sabe la definición
+
+43:55.000 --> 44:03.080
+y es la típica pregunta de prueba de malo que es uno porque la selección de modelo es simplemente
+
+44:05.480 --> 44:11.200
+si nosotros tenemos un método generalmente tenemos lo que se llama hiperparámetros es decir
+
+44:13.880 --> 44:20.000
+característica que son del método variables digamos hablando en término de programación no
+
+44:20.000 --> 44:25.400
+decir yo quiero hacer un clasificado un método clasificación que se llama árbol de decisión que
+
+44:25.400 --> 44:34.640
+lo que hace es construir un árbol que dice bueno pasajero titani es mujer voy para un lado
+
+44:34.640 --> 44:40.160
+es hombre voy para el otro y así va está en primera voy para un lado y al final cuando
+
+44:40.160 --> 44:45.840
+llega la hoja dice bueno si tenía todo atributo la probabilidad de sobrevivir a tanto o si lo
+
+44:45.840 --> 44:51.360
+quiero redondear digo sobrevivido el modelo que se construye es un árbol un árbol de decisión
+
+44:52.360 --> 44:57.920
+cuando yo construyendo ese árbol a partir de los datos tengo tengo parámetros por ejemplo el criterio
+
+44:57.920 --> 45:02.680
+que utilizo para dividirlo para seleccionar cuál es el atributo más relevante y acá simplemente
+
+45:02.680 --> 45:07.800
+por usar tres criterios diferentes que hay en la literatura son como tres métodos diferentes
+
+45:08.760 --> 45:11.560
+se entiende es bien la noción de parámetros
+
+45:14.200 --> 45:21.000
+la mayor profundidad a la que llega el árbol si yo quiero podar el árbol cuando la menor
+
+45:21.000 --> 45:26.600
+cantidad de ejemplos que tienen que estar en un nodo para que yo siga intentando abrirlo
+
+45:26.600 --> 45:32.420
+cosas que dependen del método que no son atributos sino que son característica del método y yo
+
+45:32.420 --> 45:42.440
+hago uno de esos que probar los valores posible de acuerdo entonces cómo hago para con cuál
+
+45:42.440 --> 45:48.580
+conjunto de parámetros me quedó decir cuál es el mejor para mí y eso va a depender mucho de mi
+
+45:48.580 --> 45:55.220
+corpus hay corpus donde va a funcionar mejor un criterio y hay otro donde va a funcionar mejor
+
+45:55.220 --> 46:03.460
+un criterio de tropía máxima que son no importa lo que son son parte del método entonces lo que
+
+46:03.460 --> 46:16.820
+hacemos es en ese caso probar diferentes combinaciones de parámetros que en el caso más extremo son
+
+46:18.100 --> 46:25.020
+probar todas las combinaciones posibles si es que eso es posible a un chart y digo bueno de
+
+46:25.020 --> 46:28.740
+este parámetro contra éste de parámetros con él te da todas las combinaciones posibles no son tantas
+
+46:28.740 --> 46:36.420
+en general por acá estamos hablando de tres dos podemos hacer 500 pruebas diferentes 500
+
+46:36.420 --> 46:43.060
+corrida diferente con diferentes parámetros de acuerdo eso se llama un método clásico que
+
+46:43.060 --> 46:49.620
+allá se hay que leer por ejemplo que se llama grid search que es esto construye una grilla y voy
+
+46:49.780 --> 46:55.740
+probando todas las combinaciones posibles para hay otras que son hacer los modificaciones métodos
+
+46:55.740 --> 47:03.460
+pero esencialmente lo que quiero es hacer el elegir cuál combinación de parámetros lo
+
+47:03.460 --> 47:09.180
+mismo en lugar en el lugar además de elegir cuá tributo se dijo que parámetros todo eso
+
+47:09.180 --> 47:15.540
+nuevamente no lo puedo hacer con el corpus de evaluación obviamente porque nunca puedo hacerlo
+
+47:15.700 --> 47:19.980
+con el corpus de entrenamiento porque si yo evaluo sobre el corpus de entrenamiento tengo
+
+47:19.980 --> 47:25.740
+un problema sobre ajuste mi dato se ajustan demasiado el corpus de entrenamiento si luego
+
+47:25.740 --> 47:30.580
+muchas veces con el corpus de evaluación me pasa lo mismo que decíamos hoy que es que puedo
+
+47:30.580 --> 47:34.180
+sobreajustar el corpus de evaluación entonces yo lo que hago típicamente es
+
+47:36.100 --> 47:42.060
+o hacer un corpus gel dado es decir tener una parte del corpus de entrenamiento que yo lo utilizo
+
+47:42.060 --> 47:48.340
+para entrenar y una parte del corpus de entrenamiento que lo utilizo para evaluar mi método y ver
+
+47:48.340 --> 47:56.740
+cómo va mejorando de acuerdo que sería una cosa así el corpus de evaluación lo guardamos nunca
+
+47:56.740 --> 48:02.500
+aun se acuerda no eso no lo tenemos entonces yo evaluó acá y prueba acá cambio el método
+
+48:02.500 --> 48:06.060
+de valor acá y prueba acá y así voy obteniendo valores y me quedo el mejor
+
+48:06.060 --> 48:13.540
+se entiende estamos acuerdo otra forma es abarrar el corpus
+
+48:15.540 --> 48:20.900
+porque acá mi problema es que yo esto lo desperdicio para el entrenamiento
+
+48:20.900 --> 48:27.180
+así estoy echicando nuevamente mi cuerpo de entrenamiento y los datos son un valor escaso
+
+48:28.460 --> 48:35.180
+un recurso escaso entonces la crow validation lo que hace es y además tiene un problema
+
+48:35.180 --> 48:40.500
+adicional esto y es que yo puedo sobreajustar a esto
+
+48:42.900 --> 48:48.860
+no esto podrían ser muy pocos datos yo podría sobreajustar a eso se entiende
+
+48:50.100 --> 48:54.700
+crow valia y yo tratar de resolver esas dos cosas usar mejor los datos y no sobreajustarse
+
+48:54.700 --> 48:59.940
+a uno a un corpus el dato entonces lo que hace es lo siguiente divide
+
+49:01.820 --> 49:03.700
+en cada parte del corpus
+
+49:07.220 --> 49:11.860
+entra en sobre cámenos una y evalúa sobre la queda
+
+49:14.340 --> 49:21.420
+si después primero entra en sobre esta esta esta y esta y evalúa sobre esta
+
+49:22.420 --> 49:28.660
+después entra en sobre ésta ésta ésta ésta y evalúa sobre ésta y así
+
+49:36.660 --> 49:40.980
+con todas las cinco combinaciones bueno las cá combinaciones posibles de acuerdo
+
+49:42.060 --> 49:47.300
+y obtiene cinco resultados de medida que también no sabemos cuál es la medida pero sabemos que
+
+49:47.300 --> 49:51.620
+no va cinco supongamos por ahora que la queura si cuánto acertamos de todos los ejemplos que
+
+49:51.620 --> 49:59.540
+estaban acá y hago el promedio esto lo que tiene es que me reduce la varianza
+
+50:00.540 --> 50:05.660
+estadísticamente hablando decir yo hago cinco prueba y me quedo en el promedio de las cinco no
+
+50:05.660 --> 50:09.060
+es justo que agarre la mejor y ligue después me va a dar horrible en el cuerpo de evaluación
+
+50:10.060 --> 50:12.980
+el crow validation es eso trata de
+
+50:15.220 --> 50:20.700
+bajar la varianza y utilizar mejor los datos de entrenamiento entonces
+
+50:23.860 --> 50:29.980
+esta es una forma gráfica de darlo no entrenó sobre éste y evalúa sobre éste
+
+50:29.980 --> 50:38.900
+de acuerdo todos estos métodos son tan estándares que en psyche learn uno tiene todo ya hecho
+
+50:38.900 --> 50:45.900
+es decir ya separa el corp se hace crow validation se hace gridser y todas esas cosas de acuerdo
+
+50:48.260 --> 50:49.140
+una pregunta
+
+50:51.460 --> 50:59.220
+no preguntas no se entiende muy claro bueno nos queda saber cuál es la medida de evaluación
+
+51:00.580 --> 51:05.540
+bueno perdón después que yo hice la generación de ahora molerme después que yo hice la generación
+
+51:05.540 --> 51:14.340
+del modelo simplemente termino siento esto no utilizo el cuerpo entrenamiento para generar
+
+51:14.340 --> 51:20.260
+un modelo utilizo la función de clasificación para calcular la clase objetivo para cada
+
+51:20.260 --> 51:25.340
+instancia del corpo de evaluación o sea a una predicción para la instancia del cuerpo de evaluación
+
+51:25.580 --> 51:30.460
+y evaluó la performance y ese es el número que da mi método
+
+51:33.780 --> 51:39.700
+el hecho de tener un corpus estándar nos permite comparar diferentes métodos los métodos y es
+
+51:39.700 --> 51:46.620
+la forma clásica de saber qué está el estado del arte en algún tema si yo quiero saber en qué
+
+51:46.620 --> 51:53.660
+está el estado del arte en post time entonces digo bueno me comparo contra la sección tanto del
+
+51:53.660 --> 51:59.420
+pen triban que es un corpus estándar del inglés y que muchos otros se han probado contra eso
+
+52:01.100 --> 52:08.540
+y me da tal resultado y ese es el estado del arte por supuesto que no hago trampa es decir no
+
+52:08.540 --> 52:15.340
+yo no puedo usar las secciones a que estoy evaluando para entrenar mi modelo podría hacerlo
+
+52:16.060 --> 52:18.580
+recuerdo
+
+52:21.260 --> 52:27.980
+lo que nos queda ver es bueno pero cómo es la que medida utiliza muy bueno la primera de la
+
+52:27.980 --> 52:38.020
+qr así la qr así es esto que vimos que es la proporción de las instancias que se clasificaron
+
+52:38.020 --> 52:46.500
+correctamente de todo el corpus parece la más razonable yo tengo cien instancias
+
+52:46.500 --> 52:52.140
+sumamos yo tengo el corpus de las se acuerda el corpus y se tosa yo tengo
+
+52:54.580 --> 52:58.260
+cientos dos en el corpus entrenamiento 38 vamos a evaluar sobre esta 38
+
+53:04.580 --> 53:05.900
+de esas 38
+
+53:08.020 --> 53:15.900
+yo voy a ver yo tengo la la instancia
+
+53:19.180 --> 53:20.460
+la clase real
+
+53:24.740 --> 53:27.460
+por ejemplo se tosa y mi predicción
+
+53:38.220 --> 53:49.060
+no así luce mi mi mi cuerpo porque lo de mi corpus y de mi predicción
+
+53:52.900 --> 53:57.580
+acuerdo la qr así es muy fácil es total
+
+53:59.260 --> 54:06.300
+a bueno podemos hablar en este caso de podemos dividirla en cuatro bueno vamos a empezar suponiendo
+
+54:09.020 --> 54:17.700
+vamos a suponer que yo tengo un problema más sencillo que el de predecir tres porque
+
+54:17.700 --> 54:25.340
+estas medidas son en general son no general no son para clasificado de binarios entonces
+
+54:25.340 --> 54:32.980
+yo voy a suponer que en lugar de tener esta clase yo tengo una que es la transforma en una
+
+54:32.980 --> 54:44.460
+nueva problema que es es cetosa o no es cetosa de acuerdo esto se transforma en positivo negativo
+
+54:48.740 --> 54:52.100
+de acuerdo después vamos a ver cómo volvemos a esto porque en realidad esto es
+
+54:52.100 --> 54:56.620
+menos información está claro no acá estoy haciendo un clasificador que me dice sólo si
+
+54:56.620 --> 55:01.060
+es cetosa después vemos cómo lo transformamos a otro al poder y bueno general un suponíqueta
+
+55:01.140 --> 55:02.980
+porque nuestro clasificado es un binario
+
+55:05.380 --> 55:16.900
+la qr así es a bueno los y ahí no parecen cuatro clases los tropos y tips que son los que eran
+
+55:18.500 --> 55:23.380
+la clase es positiva y la predicción también
+
+55:23.700 --> 55:29.540
+esos son los tropos y los tropos y los tropos negativos como se imaginarán que son
+
+55:29.540 --> 55:35.380
+los que la clase negativa y están predichos como negativo los falsos positivos
+
+55:40.180 --> 55:48.500
+que son predige positivo y era negativo y los falsos negativos al revés son las cuatro
+
+55:48.500 --> 55:53.300
+clases que yo tengo y todos los clasificados todos las medidas que yo puedo definir se puede
+
+55:53.300 --> 55:57.940
+pasar en esto la qr así como sería cómo es calcularíamos la qr así
+
+56:11.300 --> 56:15.620
+eso lo vemos ahora pero pero cómo lo defino cómo defino la qr sin base de eso está muy bien
+
+56:18.500 --> 56:22.660
+y cuáles son las correctas en base a esto te pema tiene
+
+56:25.300 --> 56:28.100
+dividido todo no
+
+56:35.940 --> 56:36.580
+de acuerdo
+
+56:40.420 --> 56:42.260
+qué problema tiene la qr así
+
+56:42.580 --> 56:48.740
+que problema puede tener la qr así
+
+56:57.220 --> 57:01.140
+es difícil es difícil imaginarse cuál es el primer pues parece obvia la qr así no
+
+57:01.140 --> 57:10.580
+está muy bien
+
+57:11.540 --> 57:14.020
+porque no es
+
+57:27.940 --> 57:31.380
+exactamente ese es un ejemplo el ejemplo del cáncer es un ejemplo
+
+57:32.580 --> 57:38.820
+clásico de problema no de que a veces yo pero en realidad eso va es un poco más la diferencia
+
+57:38.900 --> 57:43.220
+de prisión rico ahora lo mueve también tenemos el problema no es decir a veces a mí me interesa
+
+57:43.220 --> 57:48.500
+favorecer los falsos positivos contra los este
+
+57:52.260 --> 57:56.260
+contra los falsos negativos yo quiero que prefiero equivocarme
+
+57:58.260 --> 58:01.540
+a favor o en contra según mi problema entiende
+
+58:03.460 --> 58:07.700
+pero la qr así tiene un eso es todo bien después la qr es un problema principal que es el problema
+
+58:07.700 --> 58:13.380
+el balance entre las clases si yo tengo las clases más o menos igual separada está todo bien con la
+
+58:13.380 --> 58:21.140
+qr así pero supónganse que yo tengo un corpus donde hay un 95 por ciento de clase positiva
+
+58:22.180 --> 58:24.900
+y un 5 por ciento de clase negativa
+
+58:26.660 --> 58:33.940
+si yo un clasificador que simplemente diga positivo a todo que va a pasar me hago por 95 por ciento de
+
+58:34.260 --> 58:36.740
+qr así
+
+58:36.740 --> 58:42.660
+de acuerdo y yo no quiero eso general no me interesa eso no no de cubrir nada
+
+58:44.900 --> 58:49.300
+ese es el problema que tiene la qr así como medida que cuando el corpus está de balanceado no
+
+58:49.300 --> 58:54.020
+no funciona bien entonces hay dos medidas que son las usuales en el procesamiento de lenguaje
+
+58:54.020 --> 58:58.960
+natural que son mucho más usuales que la qr así que son porque en el procesamiento del
+
+58:59.120 --> 59:03.040
+procesamiento de lenguaje natural es muy común eso no es decir la mayoría de las frases no son insultos
+
+59:05.600 --> 59:07.600
+si
+
+59:09.120 --> 59:12.720
+las usuales son que vienen del informeción retrieval pero el procesamiento de lenguaje natural también son
+
+59:12.720 --> 59:16.480
+estándar que son la precisión y el recall
+
+59:18.080 --> 59:22.080
+casi todos los métodos de procesamiento de lenguaje natural evalúan en términos de precisión y record
+
+59:22.960 --> 59:25.600
+y la precisión que es bueno la precisión es
+
+59:25.600 --> 59:30.080
+la precisión es
+
+59:32.880 --> 59:33.760
+la proporción
+
+59:36.240 --> 59:37.120
+de positivas
+
+59:42.880 --> 59:49.920
+de todas las positivas que clasifique de todas las que clasifique como positivas
+
+59:50.240 --> 59:56.720
+cuando invoqué o sea que está qué tan bueno soy invocando
+
+59:58.960 --> 01:00:04.320
+está es decir cuando yo digo que esto es yo cuando yo digo que tenés cáncer
+
+01:00:10.080 --> 01:00:11.680
+ochenta por ciento la vez a invoco
+
+01:00:12.000 --> 01:00:16.400
+pues habrás y preocuparte
+
+01:00:19.040 --> 01:00:22.960
+el recall el problema que tiene eso es que a veces yo quiero prefiero
+
+01:00:27.840 --> 01:00:31.280
+el recall lo que trata de todas las que son positivas
+
+01:00:34.320 --> 01:00:36.240
+de todas las que son positivas
+
+01:00:42.080 --> 01:00:42.800
+cuántas traje
+
+01:00:47.200 --> 01:00:51.680
+si por ejemplo para el cinco por ciento es muy importante yo quiero recuperar las todas
+
+01:00:51.680 --> 01:00:54.800
+si puedo ser muy preciso en un caso extremo
+
+01:00:56.240 --> 01:00:59.360
+en un caso extremo si yo nunca clasifico como positivo qué pasa
+
+01:01:02.960 --> 01:01:05.360
+o mejor yo clasifico todas como positivos qué pasa
+
+01:01:11.760 --> 01:01:12.880
+yo siempre digo que son positivas
+
+01:01:18.160 --> 01:01:23.280
+el recall me va a dar 100% el recall me va a dar 100% voy a traerlas a todas
+
+01:01:23.920 --> 01:01:27.760
+porque siempre le había clasificado como positiva pero mi precisión seguramente se baja
+
+01:01:32.480 --> 01:01:34.720
+si clasifico todas como negativa qué va a pasar
+
+01:01:36.320 --> 01:01:37.600
+con la negativa no importa mucho
+
+01:01:41.760 --> 01:01:44.720
+el tru positivo es cero las dos me van a dar cero
+
+01:01:48.000 --> 01:01:51.680
+los métodos de precisión y recall están orientados muy a la clase positiva
+
+01:01:55.120 --> 01:01:58.640
+yo generalmente de la clase positiva si tengo un 95-5 va a ser la de 5
+
+01:01:59.680 --> 01:02:03.920
+porque esa es la que me interesa mirar en detalle se entiende
+
+01:02:04.080 --> 01:02:08.160
+todo esto se hacen cuentas en la casa
+
+01:02:08.880 --> 01:02:22.400
+si vas a ver en finito eso te da un rey que te dice que me pese a todos los plazos
+
+01:02:28.400 --> 01:02:33.520
+no pero yo no puedo yo lo máximo que puedo llegar a tp es a esto al total del cuerpo
+
+01:02:33.760 --> 01:02:39.760
+claro con tp te begresen muchos esos como que te me odicias todo el negativo
+
+01:02:50.240 --> 01:02:54.560
+y finalmente esto es el recall
+
+01:02:54.560 --> 01:02:57.600
+típicamente uno tiene el tradeoff entre precisión y recall
+
+01:02:58.480 --> 01:03:05.760
+en un método típicamente uno si se pone menos exigente con la precisión su recall aumenta
+
+01:03:08.640 --> 01:03:14.880
+es decir si yo bajo mi supongo que yo tengo un método para predecir si tiene cáncer o no
+
+01:03:15.600 --> 01:03:20.560
+entonces yo tengo la barrera acá soy muy preciso
+
+01:03:20.720 --> 01:03:31.120
+no soy muy preciso pero pierdo recall porque cuando digo que sí en boco pero digo poco que sí
+
+01:03:33.040 --> 01:03:37.040
+por cómo es mi método yo es que realmente casi todos los métodos puedo bajar la barrera y bueno
+
+01:03:37.040 --> 01:03:42.480
+si me da más de 08 yo yo más de lo que sea el número no entonces yo lo que hago es aumentar
+
+01:03:42.480 --> 01:03:47.840
+el recall porque voy a descubrir más casos verdaderos pero empieza a fallar mi precisión
+
+01:03:47.920 --> 01:03:51.200
+empiezo a meter casos que eran negativos los presos predecí como positivo
+
+01:03:52.080 --> 01:03:56.240
+qué es lo que yo quiero depende mucho del método depende mucho del problema perdón
+
+01:03:57.520 --> 01:03:59.760
+hay casos donde prefiero equivocarme menos
+
+01:04:02.160 --> 01:04:04.400
+por ejemplo en la clasificación de un documento
+
+01:04:06.320 --> 01:04:08.320
+si me equivoco de cuándo no calienta mucho
+
+01:04:12.000 --> 01:04:14.240
+en cambio para perecer una enfermedad está más complicado
+
+01:04:14.240 --> 01:04:17.760
+entiende
+
+01:04:22.320 --> 01:04:25.120
+vamos a ver por ejemplo con el iris data set y se acuerdan que nos habíamos quedado
+
+01:04:25.120 --> 01:04:30.400
+con el problema original era el iris data set bueno construir el el el el corpus
+
+01:04:31.920 --> 01:04:35.040
+si el cuerpo pero tiene tres clases
+
+01:04:36.320 --> 01:04:43.520
+tres clases la forma típica de resolver el problema de medir la performa cuando yo tengo
+
+01:04:44.320 --> 01:04:47.040
+mi problema de clasificación no es binario es dividirlo
+
+01:04:48.320 --> 01:04:52.640
+en tantos problemas como clases tengo eso se llama
+
+01:04:55.040 --> 01:05:04.560
+one versus sol o one versus rest es lo divido en tres problemas uno es si es cetosa o no
+
+01:05:05.680 --> 01:05:11.200
+el otro es si es versicolor o no y el otro es si es virginico o no
+
+01:05:12.160 --> 01:05:16.480
+si ustedes fijan nuestro método divide muy bien es lo que le pasa el cuerpo de
+
+01:05:17.760 --> 01:05:22.720
+de alinear y cetosa es muy fácil separar la cetosa acá este es el clasificador no
+
+01:05:23.360 --> 01:05:26.160
+mi clasificador es una recta que separa las instancias
+
+01:05:27.680 --> 01:05:31.360
+y que dejan de un lado las que son positivas del otro de las negativas
+
+01:05:33.200 --> 01:05:39.280
+la cetosa la separa bien la versicolor más o menos y la virginicada bueno
+
+01:05:41.840 --> 01:05:45.520
+nuestros corpus son sucios ese es uno de los temas el pensamiento de manera natural
+
+01:05:46.400 --> 01:05:51.760
+y el aprendizaje automático trabajan siempre con corpus que no no hay una respuesta canónica
+
+01:05:53.520 --> 01:05:57.040
+vivimos con lo que hay tenemos que aprender a medir la incertidumbre que tenemos
+
+01:05:59.280 --> 01:06:02.320
+porque yo podría ser un clasificador un poco más elaborado me estoy metiendo en cosa que no
+
+01:06:02.320 --> 01:06:06.800
+son de tecurso pero yo podría ser un un clasificador más elaborado que lo que hiciera fue una curva
+
+01:06:06.880 --> 01:06:10.480
+más complicada que una recta cuál sería el problema de ese clasificador
+
+01:06:20.000 --> 01:06:21.520
+bueno pero con esto yo sí
+
+01:06:25.680 --> 01:06:30.000
+precisó más informaciones más parómetro de si va para ajustar si precisó más pero
+
+01:06:30.000 --> 01:06:32.320
+supongamos que yo puedo hacerlo porque tengo suficiente
+
+01:06:32.640 --> 01:06:40.000
+entonces sobre ajustado exactamente si me va a ajustar demasiado el corpus delamiento y muy
+
+01:06:40.000 --> 01:06:45.360
+probable que esto no tiene solución no hay vuelta que darle esto son complicados
+
+01:06:47.040 --> 01:06:50.800
+aumento más tributo o algo pero acá no no aumentó si yo aumento el número de
+
+01:06:50.800 --> 01:06:53.840
+densión y mi posibilidad aumenta también puede aumentar la posibilidad de predecir cosa que
+
+01:06:53.840 --> 01:07:00.560
+no son pero no importa está tengo tres problemas y en cada uno de ellos hay a calcular precisión
+
+01:07:00.560 --> 01:07:05.280
+y recall precisión a perdón la medida de f la medida de f que es la media armónica entre la
+
+01:07:05.280 --> 01:07:10.320
+presión y record lo que trata de hacer es balancear los dos y ese es el número estándar
+
+01:07:10.320 --> 01:07:15.120
+cuando yo quiero tener un número performado uso la medida de f en general que es bueno
+
+01:07:16.400 --> 01:07:18.480
+tengo buena precisión y tengo buen recall
+
+01:07:20.000 --> 01:07:25.200
+si él es mejor la media armónica que la aritmética en este caso porque
+
+01:07:25.840 --> 01:07:29.760
+castiga más cuando hay un salto demasiado grande que el promedio
+
+01:07:30.560 --> 01:07:34.480
+promedio si te ha cero uno te ha cero cinco la armonica cuando son más parecidos a mejor
+
+01:07:38.640 --> 01:07:39.120
+pero
+
+01:07:40.720 --> 01:07:45.280
+acabó el volviar entonces por ejemplo en el ir y a tacet
+
+01:07:48.240 --> 01:07:54.400
+entrenamos un modelo ese que mostramos medimos la que ahora sí sobre el cuerpo entrenamiento
+
+01:07:54.400 --> 01:08:04.240
+que nos dio 083 y además construimos la matriz de confusión la clave esto es lo que se llama
+
+01:08:04.240 --> 01:08:12.800
+matriz de confusión es una matriz donde yo digo bueno en la columna y en la fila y
+
+01:08:13.760 --> 01:08:14.000
+si
+
+01:08:16.960 --> 01:08:18.160
+son lo que eran
+
+01:08:19.840 --> 01:08:26.720
+setosa o sea la clase original y en la columna son lo que le predijo en este caso yo
+
+01:08:27.760 --> 01:08:34.880
+si ustedes se fijan miren las setosas son estas la clasifica casi todas menos una como setosa o sea
+
+01:08:34.880 --> 01:08:40.320
+soy muy bueno separando setosa la versicolor
+
+01:08:43.520 --> 01:08:46.160
+soy bastante le pego bastante pero me equivoco
+
+01:08:49.840 --> 01:08:53.760
+y con la versinica me equivoco bastante no es la que más me equivoco la versinica me equivoco
+
+01:08:53.760 --> 01:08:59.920
+menos las tiendo a confundirlas con la versicolor o sea la matriz de confusión tiene toda la información
+
+01:09:01.120 --> 01:09:08.080
+de cómo se cruzar la disparación cuál que cuál sería la matriz de confusión ideal
+
+01:09:13.760 --> 01:09:16.480
+si yo clasificaba todo bien qué pasaría con la matriz de confusión
+
+01:09:19.120 --> 01:09:21.520
+es una diagonal es una matriz diagonal exactamente
+
+01:09:22.880 --> 01:09:24.560
+pues si yo tengo que acumular valores acá
+
+01:09:26.320 --> 01:09:29.920
+se entiende ahora lo vamos a ver con etiqueta pero esto qué problema tiene
+
+01:09:32.320 --> 01:09:33.520
+qué problema tiene esto
+
+01:09:38.240 --> 01:09:39.280
+qué está mal de esto
+
+01:09:43.280 --> 01:09:45.520
+no se van de acá hasta que no me digan qué está mal de esto
+
+01:09:47.760 --> 01:09:50.880
+con mi tal no si eso sí pero qué está mal
+
+01:09:55.360 --> 01:10:01.280
+no no no porque justamente yo puedo clasificar la setosa puedo clasificarla como versicolor pero
+
+01:10:01.280 --> 01:10:04.400
+no va a haber al revés yo puedo tener buena forma de identificar la versicolor
+
+01:10:06.240 --> 01:10:10.240
+no tendría que ser ahí hay algo que está mal de acá que medimos la cura si sobre el
+
+01:10:10.320 --> 01:10:15.040
+cuerpo entrenamiento esto no vale nada porque fue el cuerpo que usamos para entrenar
+
+01:10:16.800 --> 01:10:20.320
+uno nunca evaluaba performance sobre el cuerpo entrenamiento error
+
+01:10:23.360 --> 01:10:27.360
+error yo tengo que mirar crisis sobre el cuerpo de valoración
+
+01:10:28.640 --> 01:10:30.960
+y si se fijan bajó mucho y esto es típico
+
+01:10:31.920 --> 01:10:38.160
+esta es mi mi mejor edición de performance de este método
+
+01:10:39.680 --> 01:10:43.280
+pueden no aprender nada de la clase de menos esto esto se tiene que ir para la casa
+
+01:10:43.280 --> 01:10:45.040
+llevarse luego para la casa y meditarlo y eso
+
+01:10:46.080 --> 01:10:50.160
+está tengo que lograr que uno se brote pues es una fuente de rumo y comunes
+
+01:10:50.720 --> 01:10:54.640
+bueno y acá pasó con la matriz de confusión que igual más o menos se mantiene no en el cuerpo de
+
+01:10:54.640 --> 01:11:02.880
+evaluación la la soy perfecto clasificando las versicolor la setosa
+
+01:11:06.560 --> 01:11:09.840
+soy tirando a malo clasificando la versicolor
+
+01:11:11.840 --> 01:11:16.800
+y la piloteo con las versílicas la piloteo es una pilotea
+
+01:11:16.960 --> 01:11:25.360
+y acá está calculada las esto me voy a dejar de ver para que lo van en la casa las cuentas
+
+01:11:25.360 --> 01:11:32.800
+que también pero la setosa tiene uno uno uno o sea es perfecto tiene precisión uno
+
+01:11:32.800 --> 01:11:35.360
+recall uno fm su uno claro si son los iguales
+
+01:11:40.080 --> 01:11:42.320
+versicolor tiene
+
+01:11:47.200 --> 01:11:53.760
+una precisión tirando a mala si estoy abajo de 05 pues hoy espantoso
+
+01:11:54.560 --> 01:11:56.960
+porque tirar una moneda me hubiera ido mejor
+
+01:11:57.680 --> 01:11:58.480
+no
+
+01:12:01.040 --> 01:12:05.280
+un recall es peor y o sea soy bastante malo y la versinica si se fijan
+
+01:12:06.400 --> 01:12:08.480
+tengo buena precisión mejor recall
+
+01:12:11.040 --> 01:12:14.000
+mejor recall recall lo mío acá
+
+01:12:17.760 --> 01:12:20.640
+3 de 7 perdón la precisión la mío acá
+
+01:12:22.240 --> 01:12:23.120
+y el recall lo mío acá
+
+01:12:27.520 --> 01:12:32.240
+y si yo quiero tener un número para mí método hago el promedio de las tres
+
+01:12:34.880 --> 01:12:40.080
+de las tres precisiones porque yo quiero uno y está mi método en promedio funciona bastante bien
+
+01:12:41.920 --> 01:12:44.400
+todo depende de la medida depende mucho del problema en este caso
+
+01:12:44.960 --> 01:12:49.600
+por ejemplo este promedio no es muy útil a mí me sirve como para sacar conclusiones
+
+01:12:49.600 --> 01:12:54.720
+cualitativas de esto que yo vi y bueno yo la principal conclusión cualitativa es que
+
+01:12:54.800 --> 01:12:59.120
+yo lo sé toda la puedo separar muy bien del resto porque tengo uno esa es como la conclusión
+
+01:12:59.120 --> 01:13:04.800
+más importante si yo digo que el método tiene 067 en realidad no sé mucho lo que dije
+
+01:13:05.440 --> 01:13:09.760
+queda una pregunta por responder que es bueno pero cómo hicimos esto porque yo tengo tres
+
+01:13:09.760 --> 01:13:16.160
+clasificadores y cómo cómo tomo estos tres clasificadores cómo lo transformo en la clase
+
+01:13:16.720 --> 01:13:24.160
+que predigo bueno si es consistente lo que dice mi clasificador está todo bien si dice
+
+01:13:24.800 --> 01:13:32.720
+ese tosa no es versicolor y nueve sinica entonces porque se tosa ahora si este dice que es que se
+
+01:13:32.720 --> 01:13:35.200
+tosa y este dice que versicolor
+
+01:13:35.760 --> 01:13:37.440
+está
+
+01:13:39.360 --> 01:13:47.600
+depende del método por ejemplo típicamente uno tiene que tener un escorazo el método que diga
+
+01:13:47.600 --> 01:13:53.600
+qué tan seguro estoy en mi predicción por ejemplo si está por acá
+
+01:13:55.840 --> 01:13:56.400
+el punto
+
+01:13:58.000 --> 01:14:04.240
+está mucho más lejos del gol de la frontera de decisión en cambio acá en este vamos a
+
+01:14:04.240 --> 01:14:09.840
+suponer que estoy acá está mucho más cerca del borde entonces yo voy a elegir ésta porque
+
+01:14:09.840 --> 01:14:14.400
+mi predicción es mejor es una mediterra me puedo estar equivocando pero me quedo con esa
+
+01:14:15.280 --> 01:14:19.360
+y así es como o botando o por el escorre el hijo cual de ella
+
+01:14:27.600 --> 01:14:31.040
+en esta dirección en esta dirección hay un hay unos ejemplos elaborado
+
+01:14:32.000 --> 01:14:35.280
+de un de un librito que escribimos sobre estas cosas con raúl garreta
+
+01:14:36.080 --> 01:14:39.520
+ahí tienen el detalle de cómo aplicado cómo aplicarlo a un data set
+
+01:14:42.000 --> 01:14:45.680
+y bueno para ir cerrando que a poco pero esto es tío
+
+01:14:48.800 --> 01:14:54.000
+hay otro tipo de métodos que son los métodos de clasificación secuencial que es cuando que
+
+01:14:54.000 --> 01:14:58.160
+algunos sabemos que son los gilmar como del son un método clasificación secuencial que es cuando
+
+01:14:58.880 --> 01:15:06.480
+lo que yo quiero hacer es clasificar no una un objeto sino una secuencia de objetos por ejemplo
+
+01:15:06.480 --> 01:15:16.800
+cuando quiero hacer post hay ahí lo que sucede es que la función de clasificación tiene
+
+01:15:16.800 --> 01:15:21.600
+secuencias como mío y comín y después todo queda más o menos igual pero parecen algunos problemas
+
+01:15:28.400 --> 01:15:29.920
+por ejemplo cuando yo quiero reconocer
+
+01:15:31.280 --> 01:15:34.240
+un conjunto de quiero identificar por ejemplo
+
+01:15:37.360 --> 01:15:44.080
+quiero hacer chanquín
+
+01:15:44.640 --> 01:15:50.000
+y
+
+01:15:54.880 --> 01:15:58.480
+está yo quiero identificar en esta oración que esto
+
+01:16:01.120 --> 01:16:02.000
+es un grupo nominal
+
+01:16:04.640 --> 01:16:05.840
+hay nunca me acuerdo cómo es
+
+01:16:10.080 --> 01:16:12.080
+n que horrible grupo nominal
+
+01:16:14.080 --> 01:16:20.160
+y este es otro eso se llama chanquín identificar los grupos nominales
+
+01:16:24.160 --> 01:16:25.120
+y los grupos verbales
+
+01:16:29.200 --> 01:16:32.800
+vamos a suponer que yo quiero identificar los grupos nominales cómo transformo esto en un problema
+
+01:16:32.800 --> 01:16:38.880
+de clasificación secuencial y bueno digo esto es el comienzo
+
+01:16:38.880 --> 01:16:42.640
+esto es una forma
+
+01:16:45.760 --> 01:16:47.680
+es decir pongo una clase a cada palabra
+
+01:17:01.520 --> 01:17:03.920
+que es lo mismo que vimos en entidades con nombre en el laboratorio
+
+01:17:04.880 --> 01:17:08.160
+sí y lo que trato de hacer es predecir una secuencia de categorías
+
+01:17:09.840 --> 01:17:16.560
+sí lo que hablábamos cuando decíamos y de marco model yo quiero la secuencia de categorías
+
+01:17:16.560 --> 01:17:21.360
+mejor no palabra a palabra no puedo yo puedo llegar a clasificar palabra por palabra pero
+
+01:17:21.360 --> 01:17:25.360
+estoy perdiendo información porque acá no estoy en cuenta de hecho que es una secuencia
+
+01:17:26.320 --> 01:17:37.840
+entonces bueno es un ejemplo hay otro hay otra forma de marcar diferente sin acá es
+
+01:17:37.840 --> 01:17:44.000
+veín y auto hay otra forma para expand más largo que decir este es el primero este es el first
+
+01:17:47.600 --> 01:17:48.560
+y este es al last
+
+01:17:48.560 --> 01:17:54.560
+si que lo que tenemos acá fm
+
+01:17:57.360 --> 01:18:02.000
+y luego aplica un método de clasificación supervisada de clasificación secuencial los
+
+01:18:02.000 --> 01:18:05.600
+métodos clasificaciones secuenciales y de marco modo el condición al random field
+
+01:18:06.240 --> 01:18:11.840
+son métodos pensados para secuencias son otro tipo de métodos que tienen en cuenta el hecho de
+
+01:18:12.000 --> 01:18:20.240
+que hay una secuencia el la metodología es la misma pero tenemos algunos temas como
+
+01:18:20.240 --> 01:18:27.360
+cómo determinó si algo es un true positive si yo clasifique como tengo varias categorías puede
+
+01:18:27.360 --> 01:18:33.520
+decir bueno pero si le pedí a todo menos al último que también estuve no sé en general
+
+01:18:34.960 --> 01:18:40.880
+en estos métodos se asume esto lo van a tener por eso también se asume exact match sea es válido
+
+01:18:40.960 --> 01:18:47.520
+si invocaste todos en el espalm si pegaste a todo el espalm si no marchaste y después los métodos
+
+01:18:47.520 --> 01:18:52.160
+se cuentan igual los trupos y lo tru negativo en los métodos clasificación secuencialmente
+
+01:18:52.960 --> 01:18:59.520
+un trupos y un falso positivo también introduce un falso negativo porque re me corrí y es real que
+
+01:18:59.520 --> 01:19:06.960
+era el correcto digamos no hay variantes pero no son muy estando en la literatura
+
+01:19:07.040 --> 01:19:14.320
+y después pero el procedimiento es el mismo a un cuerpo de valoración entrenamiento valoración
+
+01:19:14.320 --> 01:19:20.080
+bla bla bla y hasta por acá llegamos con clasificación en la clase que viene vamos a seguir hablando
+
+01:19:20.080 --> 01:19:24.400
+de clasificación pero más del punto de vista de los métodos es decir cómo son los métodos cómo
+
+01:19:24.400 --> 01:19:30.240
+luce un método de clasificación nosotros ya hemos visto algunos hemos visto
+
+01:19:30.960 --> 01:19:37.920
+bueno ahí vaya y no lo vimos pero vimos algo parecido pero vimos y de marco modo que es un
+
+01:19:37.920 --> 01:19:44.240
+método de clasificación y hemos mencionado otro así que eso sería todo por aquí
+

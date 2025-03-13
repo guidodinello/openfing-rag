@@ -1,0 +1,38 @@
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    # Poetry configuration
+    POETRY_VERSION=1.7.1 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    # Development-specific variables
+    PYTHONPATH=/app \
+    PATH="$POETRY_HOME/bin:$PATH"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    netcat-traditional \
+    curl \
+    libpq-dev \
+    postgresql-client \
+    git \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -sSL https://install.python-poetry.org | python3 - \
+    && ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry
+# TODO: can we just set that path as POETRY_HOME
+
+WORKDIR /app/backend
+
+COPY ./backend/pyproject.toml ./backend/poetry.lock ./
+
+# Install dependencies and create virtualenv
+RUN poetry install --no-interaction --no-root && \
+    poetry install --no-interaction
+
+EXPOSE 8000
+
+# Default command (will be overridden by docker-compose)
+CMD ["poetry", "run", "dev"]
+

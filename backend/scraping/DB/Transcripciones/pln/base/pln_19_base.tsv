@@ -1,0 +1,541 @@
+start	end	text
+0	23560	Una vez que elegí en mi, con el paso 1, elegí cuántas palabras en español e usar,
+23560	27760	en el paso 2 lo que voy a elegir es una lineación, una función de lineación que me dice
+27760	31600	cada palabra con cuál se va a corresponder, cada palabra al lado del español, con qué palabra
+31600	37360	en inglés se va a corresponder. Este modelo asume de manera muy naï que todas las
+37360	44640	lineaciones que yo puedo tener son equiprobables, o sea, asume que yo voy a tener un conjunto
+44640	49680	de lineaciones posibles y todas van a tener la misma probabilidad. Bien, entonces, la probabilidad
+49680	55120	de elegir una lineación en particular, si yo tengo un montón de lineaciones, digamos,
+55120	60140	la probabilidad de elegir una lineación en particular va a ser uno sobre la cantidad de
+60140	65000	lineaciones que tengo, porque en realidad todas van a ser equiprobables. Bien, entonces,
+65000	69580	¿cuántas lineaciones puedo tener entre dos oraciones, una oración en inglés que tiene
+69580	73220	largo y una oración en español que tiene largo jota? ¿Cómo puedo calcular cuántas
+73220	86620	lineaciones existen? Más o menos, sí, casi de la jota. Recuerden que el lado de inglés
+86620	100620	yo tenía ciertas palabras, en inglés tenía la palabra E1, E2 hasta E subí y en español
+100620	109020	tenía las palabras E1, E2 hasta E subjota. Entonces, yo podía trazar líneas para
+109020	115940	alinear, pero además, en inglés yo siempre considerado que tenía un token null, entonces
+115940	121780	todas las palabras que no estaban alineadas del lado del español y van a parar ahí. Así
+121780	126400	que en inglés en realidad no tengo y posibilidades, tengo una más, tengo y más uno. Entonces,
+126400	130600	¿cuántas formas tengo yo de mapear estas jota posibilidades en español con las E de
+130600	136520	inglés? Exacto, y más uno de la jota, porque yo tengo y más uno opciones para la primera
+136520	142120	y más uno opciones para la segunda, etcétera, hasta que yo al final. Así que son y más uno
+142120	148120	a las jota lineaciones posibles.
+148120	163400	Ojo, el null es como una pizadita que he oye para alinear cosas que no tienen un correspondiente,
+163400	166880	o sea, yo tenía una palabra en español que...
+166880	175800	Estar varias de las CF buenas alineadas de ese null, no importa en qué orden están.
+176800	185520	Bien, entonces eran y más uno a las jota posibles alineaciones, por lo tanto. La probabilidad
+185520	191760	de elegir una alineación A, dada la elaboración en inglés, la probabilidad de elegir una alineación
+191760	198380	cualquiera, dada la oración en inglés, va a ser el producto de la probabilidad de haber
+198380	204320	sorteado un valor jota primero, que era Epsilon, por la probabilidad de elegir una alineación
+204360	210320	cualquiera para ese jota, que es uno sobre y más uno a la jota.
+210320	215320	Bien, entonces esto lo resubimos como Epsilon sobre y más uno a la jota.
+220320	226320	Epsilon sobre y más uno a la jota es la probabilidad de dada una oración en inglés,
+226320	232320	elegir cierta alineación que yo voy a utilizar. Bien, ese fue el segundo paso.
+232320	238320	El tercer paso es, una vez que ya tengo la alineación, voy mirando cada palabra de lado
+238320	241320	en inglés y le voy poniendo una palabra correspondiente de lado español.
+243320	247320	Para acá voy a sumir que yo tengo una tabla de traducción, una tabla de traducción que me dice
+247320	251320	que tiene de un lado todas las palabras en español y de otro lado todas las palabras en inglés,
+251320	258320	entonces mi tabla va a tener una forma como, por ejemplo, hace una tabla así,
+258320	267320	de lado decir las palabras en español como banco, perro, gato y más cosas y de otro lado
+267320	274320	va a tener las correspondientes en inglés como bank, bench, cat, tree y más cosas.
+276320	279320	Y entonces esta tabla va a decir la probabilidad de traducir una cosa en la jota,
+279320	283320	entonces banco probablemente tenga cierta probabilidad para bank y cierta probabilidad para bench,
+283320	294320	0.4 y 0.6, 0.06. Y para acá no va a tener ninguna probabilidad y para tree tampoco y después perro
+294320	300320	no va a tener nada de esto, pero sí después y cat va a ser 0.8 en este caso, etcétera.
+300320	305320	Voy a tener una tabla bastante grande que tiene todas las posibilidades de traducir una palabra como otra.
+306320	316320	Entonces, si yo tengo esa tabla lo que puedo decir es que la forma de calcular la probabilidad
+316320	321320	de esa oración final que yo tradujé va a depender de cuáles son las palabras que yo elija,
+321320	327320	va a depender de cuáles son las palabras que yo haya puesto dentro de mi oración para traducir.
+328320	336320	Entonces, esa tabla que está ahí definida le llamamos acá en la slide aparece como tdf sux su y
+336320	341320	y dice que la probabilidad de traducir la palabra su y como f sux.
+343320	345320	Entonces, saca de una cosa importante.
+347320	355320	Si tenemos la oración en inglés, la oración en inglés recuerdan que tenía las palabras,
+355320	365320	es su 1, es su 2 hasta de su vn, la oración en español tenía las palabras, es su 1, f su 1, f su 2 hasta f su j,
+365320	372320	y yo tenía en el medio una función de alineación que me decía qué palabras se correspondía con cuál.
+374320	383320	Entonces, no era de su vn ni f su j, era su y y f su j.
+384320	398320	Entonces, si yo tengo una palabra cualquiera dentro de la oración en español, tengo un f su j da chica,
+398320	405320	dentro de la oración en español, esto se va a corresponder con algún f su y chica en la oración en inglés,
+405320	406320	digamos.
+406320	412320	Yo sé que esto se cumple por la función de alineación, porque agarra y mapea todas las palabras que está en español con algo que está lado del inglés.
+413320	415320	Potencialmente con el doque en vacío null.
+417320	423320	Bien, entonces, tengo una palabra del lado del español que es f su j y una palabra del lado del inglés que es su v.
+423320	428320	¿Cuál es la relación entre ese j y su y? ¿Cómo se relaciona entre sí?
+431320	434320	Yo puedo decir que el y es igual a algo de j,
+434320	440320	de alguna manera.
+443320	448320	La función de alineación, ahí está, o sea, el y es igual a la función de alineación aplicada j,
+451320	455320	como la y, el índice de acá es igual a la función de alineación aplicada j,
+455320	464320	entonces yo puedo decir que la palabra es su y es igual a la palabra su a su j,
+464320	468320	así que puedo decir que en realidad los que están alineados son la palabra,
+468320	472320	es f su j está alineado con la palabra e su a su j,
+472320	475320	y ahí me saqué el y de encima, digamos.
+475320	479320	Simplemente, itero sobre las palabras y tirándose la j,
+479320	482320	puedo establecer la correspondencia entre las dos palabras.
+485320	491320	Y eso es un poco lo que dice acá para terminar de armar lo que es el modelo de traducción.
+491320	494320	Para terminar de armar el modelo de traducción dicen que en el tercer paso
+494320	496320	yo voy a elegir cuáles son las palabras,
+496320	504320	entonces lo que voy a hacer es iterar sobre todas las palabras y haciendo el producto de todas las probabilidades,
+504320	509320	o sea, el producto de dado que hecho tenía la palabra f su j,
+510320	512320	dado que yo tenía la palabra, eso va a su j en inglés,
+512320	515320	entonces elegir la palabra f su j en español,
+516320	521320	eso a una productoria con todos los valores de las distintas palabras.
+523320	530320	Bien, entonces ahí llegué a el último de los valores que quería calcular,
+530320	538320	que es la probabilidad de f dado que conozco a y es igual a la productoria,
+538320	545320	con j igual 1 hasta j grande, de el valor de la tabla de traducción,
+545320	552320	que es f su j, t de f su j e suba su j.
+556320	561320	Bueno, está, entonces ahí tengo como en cada paso fui calculando cosas,
+561320	565320	este se correspondía al paso 1 del modelo, paso 1,
+565320	568320	este se corresponde con el paso 2 del modelo, en realidad,
+568320	571320	este ya tiene el paso 1 del paso 2 juntos porque ya tengo el epsilon acá,
+571320	574320	y este se corresponde con el paso 3 del modelo,
+574320	577320	el paso 3 de la historia de generación.
+579320	586320	Mi objetivo con todos estos valores que están acá es calcular pd fedadue.
+586320	595320	¿Qué parámetros introduje? ¿Qué parámetros fueron surgiendo a medida que lleva
+595320	599320	y tirando sobre estos pasos? Bueno, en primer lugar, el epsilon aquel que estábamos viendo,
+599320	602320	este es un valor que yo tendría que estimar a partir de mirar en los corpus,
+602320	606320	como son los largos de las oraciones relativas,
+606320	609320	y el otro parámetro importante es aquella tabla allá,
+609320	613320	aquella tabla de traducciones que me dice banco, con qué probabilidad lo puedo traducir como banco,
+613320	616320	que probabilidad lo puedo traducir como bench, etcétera, etcétera,
+616320	619320	esa tabla en realidad es un parámetro del modelo,
+619320	622320	es un parámetro del sistema que si yo lo tuviera me alcanzaría con eso
+622320	627320	para poder construirme este modelo y calcular la probabilidad de cualquier par de braciones.
+632320	634320	Bien, y entonces, antes de continuar,
+634320	638320	vamos a terminar de armar cuál es la imagen de esto,
+638320	642320	que es decir, yo en realidad lo que quería calcular era pd fedadue,
+642320	646320	que eso va a ser mi modelo de traducción,
+646320	650320	y de hecho va a ser el encargado de medir la adecuación de una frase.
+650320	654320	Pd fedadue, lo puedo calcular con esta descomposición de paso,
+654320	658320	que dice acá, en realidad, porque lo hago de la siguiente manera.
+658320	668320	Yo quiero calcular pd fedadue,
+668320	679320	y entonces voy a mirar lo que dice acá,
+679320	684320	pd fedadue es igual de la sumatoriana de pd fedadue,
+684320	691320	que significa eso, que para traducir entre una variación en español y una variación en inglés,
+691320	695320	o más bien, para el sí, bueno, para traducir entre una variación en inglés y una variación en español,
+695320	699320	hay muchas formas de alinear las palabras entre el inglés y en español,
+699320	701320	y una vez que yo elegí una forma alinear,
+701320	704320	hay muchas formas de elegir las palabras que vienen después,
+704320	709320	digamos, yo miro la traducción y capaz que hay varias maneras de elegir distintas palabras.
+710320	716320	Entonces, lo que eso significa es que no existe una sola manera de traducir una variación en inglés a una variación en español.
+716320	720320	Yo puedo encontrar varias formas de alinear las palabras y de varias formas de elegir las palabras,
+720320	723320	de manera de que muchas alineaciones son posibles.
+723320	730320	Entonces, para saber cuál es la probabilidad de traducir fd fedadue,
+730320	733320	entonces yo voy a tener que sumar sobre todo las alineaciones posibles,
+733320	737320	sobre todo las formas de alinear las dos oraciones fie,
+737320	742320	voy a tener que iterar sobre eso y para cada una voy a tener que alcular la probabilidad parcial.
+742320	747320	Entonces, digamos, yo tengo cinco formas alinear las dos oraciones,
+747320	751320	cinco es un número un poco raro, pero digamos, tengo n formas alinear las dos oraciones,
+751320	754320	voy a tener que mirar, bueno, para la primera alineación,
+754320	758320	cuál es la probabilidad de encontrar la oración f,
+758320	761320	para la segunda alineación, cuál es la probabilidad de encontrar la oración f,
+761320	765320	para la tercera alineación y así hasta llegar al final y agarrar el sumo todo eso.
+765320	770320	Eso lo puedo hacer porque las alineaciones son una descomposición del espacio de probabilidades.
+770320	773320	En realidad yo puedo descomponer el espacio de probabilidades en pedacitos disjuntos
+773320	775320	y cada alineación va a ser uno de ellos.
+775320	780320	Así que, digamos que para calcular el modelo de traducción fd fedadue,
+780320	783320	necesito sumar sobre todo las alineaciones posibles.
+783320	788320	Ahora, lo que me falta es saber cómo calculo este valor acá.
+788320	793320	Así que lo que estoy diciendo es que la probabilidad de fd fedadue es la suma
+793320	798320	sobre las alineaciones de la probabilidad de f y esa alineación dado de.
+798320	801320	Eso es simplemente lo que dice ahí en la slide.
+801320	804320	Lo que me falta a calcular entonces es esta parte de acá.
+804320	806320	Y esa parte de acá la calculo de esta manera.
+806320	810320	Yo digo que la probabilidad de fdado es igual,
+810320	815320	ahí está más o menos al resultado final pero podemos sacar
+815320	820320	que es lo que tendría que poner de este lado.
+820320	823320	Y ahora sí me acuerdo bien.
+832320	833320	Ah, ahí está.
+833320	835320	Por definición de probabilidad condicional.
+835320	838320	Eso.
+838320	841320	Fd fedadue, de verdad, lo haría manera hacerlo.
+841320	846320	Pero esto se puede definir como pdf a e sobre pd.
+846320	848320	¿No?
+848320	851320	Por definición de probabilidad condicional.
+851320	862320	Pero además esto, si quiero, podría llegar a decir esto es lo mismo que pdf a e sobre pd por,
+862320	865320	podría que me faltaba.
+865320	871320	No, ahí.
+871320	878320	Por pd a e sobre pd a e.
+878320	882320	¿Ela esto lo quería?
+882320	884320	Sí, el esto lo quería.
+884320	887320	O sea, yo puedo arrar esta probabilidad que está acá y multiplicarla
+887320	890320	y dividirla por el mismo número que sea que son mayores que cero,
+890320	896600	eso es la división me va a dar uno y ahí yo puedo tomar y así no este con este y este con este
+896600	908000	en definitiva lo que me queda es si asocio estos dos me va a quedar pdf dado a e y si asocio
+908000	917560	estos dos de acá me va a quedar pd a dado e qué es lo que dice allá la probabilidad de pdf a dado
+917560	924160	de bueno sí de los dos de f e a dado e es igual a la probabilidad de f dados a y es por la
+924160	930320	probabilidad de a dado e bien y estos dos valores que están acá no los elegimos casualidad sino que
+930320	937800	son los valores que tenía antes en el modelo o sea yo tenía que el pd a dado e es igual a epsilón
+937800	949360	sobre y más uno a la j y el otro era la productoria desde j igual 1 hasta j grande de las valores
+949360	958080	de traducción el f subj y el e suba subj entonces en definitiva puedo calcular pdf a dado e y
+958080	963560	además puedo calcular haciendo una suma sobre todas las alineaciones posibles puedo calcular el pdf
+963560	971960	dado e bien con eso y con todo ese montón de cociones llegamos a construir lo que es un modelo de
+971960	977120	traducción o sea solamente teniendo una tabla de traducciones que me diga cuál es la probabilidad de
+977120	983600	traducir una palabra como otra palabra yo puedo llegar a definirme cuál es la probabilidad de traducir
+983600	992000	una oración dada otra oración bien y hay una cosa más bueno esto ya lo estoy moviendo que
+992000	1001080	aplicamos en cada paso y hay una cosa más que es si yo tuviera las dos oraciones digamos la
+1001080	1004720	oración en inglés y la oración en español y además tuviera la tabla de esta con todas las
+1004720	1009240	probabilidades yo podría hacer un algoritmo de programación dinámica un algoritmo estilo
+1009240	1013840	británico que vaya recorriendo alineaciones y media cuál es la alineación más probable no vamos
+1013840	1018240	a ver los detalles del algoritmo pero hay una forma de decir bueno voy recorriendo las dos
+1018240	1023960	oraciones y me voy quedando con las sus secciones más probables y al final me termina devolviendo
+1023960	1030160	cuál es la alineación más probable dadas esas oraciones o sea que si yo tuviera ya esa tabla de
+1030160	1034920	traducciones esa tabla de probabilidad de traducción podría construirme las alineaciones del corpus
+1037680	1043400	así que bueno hasta el momento decíamos bueno suponemos que tenemos esta tabla de traducción que
+1043400	1049520	me dice para bank si se traduce para bank si se traduce como bank o como bench etc. estaba
+1049520	1055080	diciendo que tenía esa tabla pero en realidad la realidad es que no tengo esa tabla y me gustaría
+1055080	1060760	poder construirlo entonces no gustaría poder estimar esas probabilidades para poder construir
+1060760	1064800	esa tabla si yo tuviera un corpus para el hilo simplemente podría ir recorriendo el corpus y
+1064800	1069040	contando cuántas veces aparece de banco alineado con bench y cuántas veces aparece alineado con
+1069040	1077400	bench y ahí sacaría una probabilidad pero no tengo las alineaciones y con lo que vimos digamos
+1077400	1082200	recién si yo tuviera la tabla entonces yo además podría ir recorriendo el corpus y construirme
+1082200	1086800	las alineaciones así que si yo tuviera las alineaciones podría contar y sacar la tabla si yo
+1086800	1092600	tuviera la tabla podría pasarle un algoritmo y construir las alineaciones pero la verdad que no
+1092600	1097240	tengo ninguna de las dos cosas entonces se vuelve un problema de huevo y lagallina o sea si yo
+1097240	1101800	tuviera las alineaciones construiría el modelo construir la tabla probabilidades si yo tuviera la
+1101800	1108400	tabla probabilidades podría construir las alineaciones para este tipo de problemas en los cuales yo
+1108400	1112680	tengo como dos variables interdependentes y no conozco exactamente el valor de ninguna de las
+1112680	1117920	dos si utiliza lo que se conoce como el algoritmo de expectation maximización o maximización de
+1117920	1124480	la esperanza y bueno es un algoritmo que sirve exactamente para este tipo de problemas en
+1124480	1128200	realidad lo que va a hacer el algoritmo es iterar es un algoritmo iterativo que va tratando de
+1128200	1134400	converger a una solución y lo que hace es decir bueno yo no tengo ninguno de los dos valores o
+1134400	1141680	sea si yo tuviera mi tabla de probabilidades de traducción me podría calcular las alineaciones y
+1141680	1146320	tuviera mis alineaciones me podría calcular las probabilidades de traducción entonces lo que
+1146320	1151480	hace es decir bueno asumo que mi tabla de traducción va a ser uniformes digamos cualquier
+1151480	1155460	palabra se puede traducir como cualquier otra palabra con la misma probabilidad a partir de eso
+1155460	1159400	calculo alineaciones y a partir de esas nuevas alineaciones calculo otra vez la tabla
+1162200	1168240	y de vuelta con esa tabla que calculé vuelvo a medir las alineaciones y de vuelta con esas nuevas
+1168240	1173640	alineaciones vuelvo a calcular la tabla entonces aunque no me crean estos después de muchas
+1173640	1178840	iteraciones va convergiendo a algo y parece mágico no parece como que tal realidad si yo no
+1178840	1185440	tengo ninguno de los valores no debería nada debería como dar fruta pero voy a tratar de
+1185440	1194440	comenzarlos de que en realidad esto sí funciona con un ejemplito bien tenemos entonces vamos a
+1194440	1200080	construir un sistema que es de traducción entre frances y inglés donde hay un cuerpo muy grande
+1200080	1204680	pero bueno vamos a concentrar solo en tres pequeñas oraciones que dicen la mesón se traduce como
+1204680	1208720	de house la mesón blu se traduce como de luz house y la flaus se traduce como de flauer
+1209840	1213920	entonces al principio lo que hago es decir bueno todas las traducciones entre todas las palabras
+1213920	1219560	son equiprobables así que lo que me va a quedar es cuando reparta entre las alineaciones todas
+1219560	1224580	van a tener el mismo peso entre la y mesón la probabilidad de que la se traduja como de o que se
+1224580	1228400	traduja como house va a ser la misma en realidad porque todas las alineaciones son equiprobables
+1228400	1233580	en la mesón blu también va a ser lo mismo la probabilidad de traducirla como de como blu o como
+1233580	1239300	house va a ser la misma y en la flauer pasa igual entonces eso es la primera
+1243220	1248100	el primer paso digamos en el primer paso yo voy a tener todas las alineaciones equiprobables y
+1248100	1250620	todas las los valores de las palabras iguales
+1263580	1271180	entonces en mi algoritmo yo empecé con una tabla de traducción que era toda uniforme digamos
+1271180	1276940	yo tenía la probabilidad de traducir cualquier palabra en cualquier otra era la misma a partir de
+1276940	1281380	eso yo me construí estas alineaciones que también parece que son todas equiprobables y parece
+1281380	1286020	que no tienen como mucha información entonces lo que voy a hacer ahora a partir de esto es tratar
+1286020	1290260	de construirme de vuelta la tabla de traducciones pero mirando estas nuevas alineaciones que hay
+1290260	1296580	entonces lo que voy a construir es una tabla que tiene todas las palabras de la de francés tiene
+1296580	1314700	la mesón blu flado y de house blu flado y para llenar esta nueva tabla lo que tengo que hacer es
+1314700	1319660	iterar sobre las alineaciones mirar cada una de las palabras cuantas veces esta alinear con las
+1319660	1325900	otras y contar o sea y digamos y sumar los pesos de cada una de las alineaciones entonces la alineación
+1325900	1331260	entre la y de en total mirando ese ejemplo de corpus cuánto me daría de cómo cuál sería el
+1331260	1338700	peso de esa alineación para verlo en realidad lo que hago es contar miro cuántas veces la y de
+1338700	1346180	están alineados entonces tengo 0.5 de peso en la primera en la segunda tengo 0.33 y en la última tengo
+1346180	1355260	0.5 de vuelta así que en total tengo como 1.33 de peso entre la y de después miro entre la y house
+1355260	1363660	cuantos peso tengo cuánta masa de probabilidad tengo bueno tengo 0.5 en la primera relación 0.33 en
+1363660	1371220	la segunda y nada en la tercera por lo tanto en total tengo 0.83 de probabilidades entre la y house
+1371220	1375300	después miro entre la y blu cuantos peso tengo
+1375300	1385340	0.33 solo solamente 0.33 solo está en la del med y entre la y flero cuánto tengo no entre la
+1385340	1391540	y flower cuánto tengo 0.5 solo aparecen la del final bien como tenemos la siguiente entre
+1391540	1401900	emesón y de cuánto tendría 0.83 está en la primera en la segunda entre emesón y
+1401900	1415260	house entre emesón y house sí 0.83 porque aparecen en las dos bien entre emesón y blu solamente
+1415260	1420620	aparecen la segunda así que voy a tener 0.33 y entre emesón y flower no tengo nada después
+1420620	1428060	entre blu y de solamente aparece en la segunda así que voy a tener 0.33 entre blu y house creo que
+1428060	1434820	de vuelta tengo 0.33 y entre blu y blu también 0.33 y no aparece junto con flower y para después para
+1434820	1445420	flower tengo 0.5 con de 0 con house 0.5 con flower bien entonces hice una pasada por todas las
+1445420	1450860	alineaciones y me calculé cuáles son los pesos relativos de cada uno de estos pares lo
+1450860	1454980	siguiente que hago como esto va a ser una probabilidad es normalizar entonces me voy a construir una
+1454980	1460660	tabla digamos normalizando por digamos voy a sumar en cada fila y voy a dividir entre la cantidad
+1460660	1466620	que aparece para cada fila así que de vuelta también construye la tabla que me queda la me son
+1466620	1485700	blu y de este lado de la house acá de house blu flower y lo que voy a hacer normalizar entonces
+1485700	1493020	si yo sumo estos de acá creo que me da 2 en total no 3 en total tengo los valores acá
+1493020	1499220	no tiene que hacer los cálculos pero sí me da 3 en total entonces lo que pasa cuando yo normalizo
+1499220	1509060	es que acá me queda 0.44 acá me queda 0.28 acá me queda 0.11 y acá me queda 0.17 pues el
+1509060	1517980	segundo también lo normalizo esta vez entre dos y me queda 0.42 0.42 0.16 0 el tercero ya
+1517980	1531180	suma 1 así que me queda 0.23 0.33 0.33 0 y el último también queda igual 0.5 0 0 0.5 bien
+1531180	1539740	entonces me construí una nueva tabla de probabilidad de traducción dado que ahora las alineaciones
+1539740	1545860	serían estas y no tenlo que pasó acá si yo miro la fila correspondiente a la que es lo que
+1545860	1556220	pasa ahora con esta fila recuerde que yo empecé teniendo todas las alineaciones todas las
+1556220	1559420	traducciones pero todas las probabilidades de traducción de que parecen palabras eran
+1559420	1563220	equiprobables si yo ahora miro la fila de la que es lo que pasa
+1563220	1579260	exacto aparece claramente que la asociación entre la id es más fuerte tengo un 0.44 de probabilidad de
+1579260	1585140	traducirla como de y tengo bastante menos en los otros tengo 0.28 0.11 0.17 y yo había
+1585140	1589780	empezado diciendo que eran equiprobables entonces yo probablemente tenía 0.25 0.25 0.25 0.25
+1590340	1600020	cada una y después de un paso de la iteración descubrió que la id tienen más chance de ser una
+1600020	1606420	traducción de la otra en vez de traducirla como chaos o la como blue o la como flower eso pasa en
+1606420	1612020	el primer paso en la primera iteración el tipo descubre el algoritmo descubre que la asociación
+1612020	1619020	entre la id es bastante más fuerte como pasa eso lo que va a pasar es que cuando yo reparta de
+1619020	1624060	vuelta en las alineaciones estas líneas que se corresponden a la asociación entre la id van a
+1624060	1629660	estar más fuertes van a tener un poco más de peso y como esto es una distribución de probabilidades
+1629660	1634980	esa masa que ganó la asociación entre la id se va a tener que sacar de otras alineaciones
+1634980	1638980	posibles o sea si la está asociada con de entonces no está asociada con las otras que están
+1638980	1647180	alrededor entonces esa masa que se pierde digamos o sea que que gana en la de se tiene que repartir en
+1647180	1654100	las otras alineaciones posibles o sea en las que no son entre la id entonces después de una
+1654100	1662060	iteración la asociación entre la id empieza a ser más fuerte y como pasa eso en la siguiente
+1662060	1666940	iteración va a empezar a descubrir que como la estaba alineado con de entonces me son tiene que
+1666940	1674940	estar alineado con haus y como me son esta alineado con haus digamos esa esa misma masa de probabilidades
+1674940	1680700	se va a traducir a transferir a la segunda y lo mismo como le ha estado alineado con de entonces
+1680700	1687260	flea tiene que estar alineado con flauer entonces si yo sigo iterando en estos pasos en cada paso
+1687260	1691500	lo que va a pasar es que se va a mover un poco más de probabilidad hasta que al final va a terminar
+1691500	1697180	descubriendo cuál es la alineación real de las palabras o sea va a descubrir que la va a
+1697180	1703500	social con con de me son con haus lu con blu la ver con flauer como que va a descubrir eso porque en
+1703500	1708860	cada paso lo que va pasando es que alguna de las asociaciones como están como aparecen como ocurren
+1708860	1713740	digamos en más oraciones tiene más fuerza que otras entonces el peso que esas asociaciones ganan
+1713740	1719340	lo va sacando otro lado y eso hace que de otro lado se empiecen a generar otras alineaciones
+1719340	1726460	diferentes entonces al final esto termina convergiendo y termina revelando lo que es la estructura su
+1726460	1731780	yasente de las palabras y cómo se alinean unas con otras bueno y una vez que yo termine de hacer
+1731780	1737700	esto puedo agarrar y construirme efectivamente la tabla final de traducciones que es simplemente busco cada
+1737700	1742340	una de las posibles traducciones digamos de los posibles pares y saco las probabilidades
+1745780	1750820	y qué pasó acá mientras yo estaba construyendo mi modelo de traducción mientras yo estaba construyendo
+1750820	1757660	la tabla de traducciones además de como efecto secundario se construyo un corbuz alineado un corbuz
+1757660	1766860	que está alineado a nivel de palabra así que bueno el algoritmo de expectations maximizaciones
+1770300	1774500	funciona de esa manera tiene siempre dos pasos un paso de expectations y un paso de maximizaciones
+1776500	1783340	en este caso la expectation era decir el paso de expectations es tratado de agarrar la tabla de
+1784300	1789660	probabilidad de traducción que tengo y con eso me armó alineaciones y después el de maximización
+1789660	1794140	es al revés agarró las alineaciones que acabo de construir y me armó una nueva tabla y voy
+1794140	1801660	iterando todos esos pasos hasta que eventualmente converge bien dijimos que eran cinco modelos
+1801660	1806900	dvm no vamos a ver muy en detalle los otros o sea solo mencionar que empiezan a agregar
+1806900	1812460	complejidad en este modelo uno habíamos dicho que todas las alineaciones eran equiprobables en el
+1812460	1818060	modelo dos abandonan esa noción y dicen bueno en vez alineaciones equiprobables yo voy a tener un
+1818060	1822300	modelo de reordenamiento de las palabras para decir bueno tengo cierta probabilidad de que las
+1822300	1826920	palabras que están si yo tengo y palabras en inglés jada palabras en español tengo cierta
+1826920	1832660	probabilidad de mover la palabra ahí y la palabra jota y bueno y así siguen subiendo en complejidad
+1832660	1838420	hasta llegar al modelo 5 que el modelo 5 es el que anda mejor pero de todas maneras estos
+1838420	1845140	modelos que ya no se usan digamos esto es del año 93 y en general se han obtenido mejor
+1845140	1849860	resultados abandonando estos modelos entonces el que vamos a pasar a ver a continuación es un
+1849860	1855660	modelo bastante más moderno que es lo que sí se utiliza hoy en día en traductores como los de google
+1868540	1873060	es que en realidad lo claro a ver estos modelos estadísticos no utilizan ningún tipo de
+1873060	1877860	analizador morfuelo o egoí nada para sacarlo hay otros modelos que sí lo hacen no vamos a dar
+1877860	1883140	ninguno en esta clase de brota hay dos modelos que sí hacen uso de esa información igual son como
+1883140	1887580	un refinamiento creo que ninguno lo tiene como en la base del modelo el uso de de parto
+1887580	1893260	speech pero pero sí cuando vos no sabes una palabra de una palabra que es desconocida en realidad
+1893260	1899500	a utilizar información sobre parto speech y eso probablemente te ayude en estos modelos
+1899500	1904060	porómenos no lo habían tenido en cuenta bien entonces si lo que vamos a ver ahora es el modelo
+1904060	1908900	de frases que es algo más moderno y es o sea el google translate o bin translate se basan
+1908900	1913380	en modelos de este estilo y bueno y antes de ver cómo se modelo de frases voluamos un poco a lo que
+1913380	1917820	era la alineación entre palabras yo tenía esta frase clásica no mariano de una ofitada
+1917820	1925020	la bruja verde en ingles era mary de not slap green witch y una alineación entre esas
+1925020	1929140	dos oraciones en realidad se vería como algo así yo tengo que maría se alinea con mary no se
+1929140	1935060	alinea con this not slap se alinea con da una ofitada de se alinea con ala podría ser solamente
+1935060	1939540	con la y el a que no esté alineado nada green se alinea con verde y bruja con witch
+1939540	1945140	qué diferencia tiene esto con la la otra alineación que habíamos visto hoy
+1946180	1950580	a ver si se les ocurre algo distinto que tiene esta alineación y la que habíamos visto hoy
+1954820	1959780	era not con no sí y qué es lo que cambia acá para que pase eso
+1959780	1972620	lo que estaba pasando hoy era que yo partida de las palabras en español iba a las palabras en
+1972620	1976140	inglés y yo tenía una función que me mapeaba las palabras en español con las palabras en inglés
+1976140	1980540	entonces yo a cada palabra en español como máximo le podía hacer corresponder una palabra en
+1980540	1985860	inglés entonces me quedaba que yo podía expresar cosas como que daba una ofitada daba esta
+1985860	1991220	asociado a slap una esta asociado slap bofeta esta asociado slap eso lo podía expresar pero no
+1991220	1996340	podía expresar algo como esto que no esta asociado did not porque no sería una función yo no
+1996340	2003500	puedo asociar uno de los valores de la función con dos cosas del lado del codominio y acá en
+2003500	2007060	realidad no puedo hacerlo ni en este sentido ni en el otro sentido con una función no me sirve
+2007060	2011460	porque de vuelta me pasa que slap esta asociado tres cosas entonces con una función de alineación yo
+2011460	2016740	no puedo construir este tipo de expresiones en realidad necesito algo como un poco más poderoso
+2018340	2023500	esto es lo que decíamos los modelos dvm siempre usan un mapeo de uno a muchos usan a una función
+2023500	2027500	de alineación mapeo uno a muchos pero en realidad lo que necesito para poder capturar realmente
+2027500	2031980	con función en el en el lenguaje es mapeo de muchos a muchos yo voy a tener que un conjunto de
+2031980	2036900	palabras se va a traducir en otro conjunto de palabras definitiva lo que pasa es que pequeñas
+2036900	2041140	frases se traducen como otras pequeñas frases por eso necesito un mapeo de muchos a muchos
+2043140	2048060	entonces bueno hay algoritmos que agarran estos mapeos que como el construimos recién el mapeo de uno a
+2048060	2054300	muchos en los dos en las dos direcciones digamos y a partir de eso construyen este mapeo de muchos a
+2054300	2059540	muchos por ejemplo el algoritmo de la herramienta guisamas más lo que hace es decir bueno yo tengo un
+2059540	2066900	corpus en inglés en español alineo utilizando los modelos dvm digamos voy alineo por un lado de
+2066900	2072820	inglés español y por otro lado de español inglés y acá me quedan dos mapeos de uno a n digamos dos
+2072820	2077860	mapeos con funciones y después lo que hago es intersectar esos dos esas dos alineaciones que
+2077860	2084860	me quedaron y unirlas cuando las intersecto obtengo lo que se conoce como puntos de alta confianza
+2085860	2091700	los puntos negros son los puntos de alta confianza que son los de la intersección y los puntos
+2091700	2096260	grises son lo que están en la unión o sea los que pertenecían algunos de los modelos
+2096260	2100500	entonces la herramienta lo que hace es decir bueno una vez que yo tengo la intersección y la
+2100500	2104840	unión hago crecer los puntos que están en la intersección colonizando otros puntos que
+2104840	2108940	estén en la unión hasta que al final terminó completando digamos toda la imagen este punto
+2108940	2114580	que quedó solito ahí ese no sería parte de la alineación al final sólo los que puede llegar
+2115580	2123340	moviéndote a través de puntos ya conocidos entonces bueno eso es una forma que utiliza se llama
+2123340	2129600	el algoritmo de ox y ney que partiendo alineaciones unidireccionales digamos me permite construir una
+2129600	2135220	alineación completa muchos a muchos entre las palabras bien eso le quería mencionar acerca de
+2135220	2139420	las alineaciones en de palabras y ahora sí vamos a ver cómo funciona un modelo basado en frases
+2139420	2146740	un modelo basado en frases tiene cierta semejanza con el modelo anterior que hayamos visto pero es un
+2146740	2150740	poco más expresivo en realidad yo parte de una oración por ejemplo en alemán que decía Morgan
+2150740	2156460	Fliggs ganas ganas de su conference lo primero que hace el modelo cuando quiere traducir digamos en
+2156460	2162260	este caso es decir bueno yo voy a segmentar esa oración de origen en cierta cantidad de frases
+2162660	2167420	después voy a traducir cada una de esas frases usando una tabla de traducción y esta vez no es una
+2167420	2171020	tal de traducción de palabras sino que es una tal de traducción de frases que me dice para cada
+2171020	2176660	frase con que otra frase se corresponde y una vez que yo traduje cada una esa frase las voy a
+2176660	2182100	reordenar de alguna manera buscando que suene lo manatural posible buscando aumentar la fluidez
+2182100	2187100	de esa oración entonces como que la historia de generación es un poco más simple que la otra no
+2187100	2193060	tenía que ir sortiendo cosas simplemente digo separo mi oración en segmentos que les voy a
+2193060	2200180	llamar frases los traducos y los reordenos esa segmentación en frases no tiene porque tener
+2200180	2205420	una un significado lingüístico yo no voy a separarla sin grupo nominal grupo verbal grupo
+2205420	2209700	profesional etcétera no tengo por qué o sea capaz que yo segmento las frases y justo me queda
+2209700	2215220	un grupo proposicional capaz que no lo único que tiene que pasar es que estos segmentos que yo
+2215220	2219300	construyo tienen que estar en mi tabla de traducción de frases alcanza con eso como para que yo
+2219300	2223700	puedo utilizarlos en mi traducción pero no tienen por qué tener una motivación lingüística
+2226460	2231500	bueno entonces un modelo bastante frases tiene estos componentes parecido la anterior porque
+2231500	2237420	de vuelta yo lo que quiero hacer es encontrar la probabilidad de fdb digamos sigo teniendo la misma
+2237420	2242060	ecuación fundamental de la traducción automática estadística la quiero resolver necesito pdf
+2242060	2247660	db y pd sólo que ahora el pdf db lo voy a calcular una manera distinta voy a decir que para
+2247660	2252620	calcular esto tengo un modelo de traducción de frases y un modelo de ordenamiento un modelo de
+2252620	2257180	una gran tabla de frases que me dice cada frase con qué probabilía la traducción otra y después
+2257180	2263260	una forma de decir cómo reordenó esa frase para tener mejores oraciones y bueno como siempre
+2263260	2268460	voy a tener otro componente que es el que mide la la fluidez que es el modelo del lenguaje
+2268460	2275620	porque los modelos de frases funcionan mejor que los modelos basados en palabras porque la
+2275620	2280700	frase ya tienen cierto contexto las frases en realidad son como pequeños grupos de palabras que
+2280700	2289260	yo puedo traducir uno en el otro entonces cosas como dar la mano dar una ofetada a tomar el pelo
+2289260	2293180	etcétera todas esas cosas como expresiones son mucho más fáciles de traducir si en realidad
+2293180	2297100	yo ya sé que esta presión que son tres cuatro palabras le puedo traducir en esta otra expresión que
+2297100	2301940	son tres cuatro palabras es como más expresivo entonces puede aprender más cosas y bueno obviamente
+2301940	2306140	cuanto más cuanto más atostenga cuanto más largo sea el corpo que yo tengo yo puedo aprender
+2306140	2312820	la frase más largas mejores probabilidades y mejores frases bueno acá hay un ejemplo de cómo
+2312820	2316960	sería una tabla de traducción de frases o sea es parecido la tabla de traducción de palabras o
+2316960	2322660	lo que acá tengo de en borslac o sea si yo busco la fila asociado en borslac o sea encontraría
+2322660	2327660	todas estas traducciones de propósal con sesenta dos por ciento de probabilidad posesivo propósal con
+2327660	2334740	diez por ciento a propósal con tres por ciento etcétera o sea como vence traducen frases en frases bueno
+2334740	2342620	y cómo hago para aprender una tabla de traducción de frases yo parto de esta alineación de palabras
+2342620	2346920	digamos esta alineación completa que ya no es una función sino que es digamos una alineación de
+2346920	2353000	muchos a muchos y voy a tratar de encontrar todos los todas las frases todos los pares de frases que
+2353000	2359600	son consistentes con la alineación a que me refiero con que son consistentes acá hay ejemplos yo quiero
+2359600	2368000	decir que mariano y maría did not son son un par de frases que son consistentes con esta alineación
+2368000	2373400	en cambio mariano y maría did no lo son cómo es que miro esto lo que pasa es que cuando yo tengo
+2373400	2379400	mariano y maría did la palabra no está alineada con did not y el did not digamos el not no
+2379400	2384400	pertenece hasta alineación que yo estoy tratando de decir entonces digo que es no consistente lo mismo
+2384400	2392040	pasa con si yo dato alinear mariano daba y maría did not lo que pasa ahí es que daba no está digamos
+2392040	2395920	los puntos alineación de daba no están dentro de este cuadrante que estoy tratando de buscar entonces
+2395920	2400960	en definitiva digo que no es consistente las alineaciones consistentes correctas son las que consideran
+2400960	2405600	todos los puntos dentro de ese cuadrante entonces mariano está asociado con mariano did not y
+2405600	2416080	es así es consistente así que como aprendo frases consistentes empiezo por las alineaciones digamos
+2416080	2419520	empiezo con la alineación de palabra después busco de alguna palabra y digo bueno me quedo con
+2419520	2424760	todas esas traducciones de palabras y las pongo mi tabla de frases y después voy tomando de
+2424760	2429520	dos y me quedo con todas esas otras frases y las voy agregando mi tabla de frases después me
+2430080	2436360	puedo avanzar en uno tomada tres tomada de cuatro y llegar a tomar incluso toda la elaboración como
+2436360	2441640	frases entonces a partir de estas oraciones que tenían no sé este 1 2 3 4 5 6 7 8 no es
+2441640	2448440	palabras yo terminó aprendiendo como 17 frases digamos cada vez más grandes y bueno
+2448440	2455600	vi hoy sacando esto de todo el corpus y calculando mi tabla de probabilidades de qué manera calculo
+2455600	2460480	esas probabilidades yo lo que puedo hacer es como siempre ver cuánta vez aparece en el corpus y
+2460480	2467320	contar o si no si yo tenía construido el modelo anterior el modelo de la tabla de traducciones de
+2467320	2471400	palabra a palabra en realidad lo que puedo hacer es aprovechar ese modelo de traducción de palabra
+2471400	2476880	a palabra y decir bueno me armo una traducción entre un par de frases basándome en las traducciones
+2476880	2481480	palabra a palabra son como dos formas distintas de construirlo y a veces hasta complementarias
+2485600	2490200	bien eso fue el modelo de frases los modelos de frases son los más usados hoy en día en realidad en
+2490200	2495240	lo que es la traducción automática son los que han dado mejores resultados y bueno y no
+2495240	2500680	faltaba una cosa para terminar toda la imagen de lo que es la traducción automática estadística
+2500680	2510240	que es la decodificación entonces vamos un resumen de lo que teníamos hasta ahora hasta ahora
+2510240	2515400	yo partí de yo quería resolver la cocción fundamental de la traducción automática estadística
+2516400	2521640	y yo tenía un corpus para el hilo que tenía texto en el idioma origen y el idioma destino y a
+2521640	2525200	partir de haciendo análisis estadístico yo me construí un modelo de traducción que lo que
+2525200	2531880	vimos en esta clase además yo tenía cierta cantidad de texto en el idioma destino y a partir
+2531880	2536440	de cierto análisis estadístico me construí un modelo de lenguaje que me dice que tan fluido es
+2536440	2542760	una oración en el lenguaje destino entonces ahora lo que me falta recuerden que yo lo que
+2542760	2546880	tenía que hacer era iterar sobre todas las oraciones el lenguaje destino y pasar las
+2546880	2550320	atraves del modelo de traducción y del modelo de lenguaje para que me dé la probabilidad de esa
+2550320	2556400	oración bueno lo que me falta es el algoritmo de codificación que en vez de probar con toda
+2556400	2560620	la oración del lenguaje destino me va a decir unas cuantas oraciones para probar capaz que me
+2560620	2566100	dice 150 oraciones para probar sobre las cuales utilizar el modelo de traducción y el modelo
+2566100	2571580	de lenguaje entonces esto es como un diagrama de de módulos en los cuales el algoritmo de codificación
+2571580	2580340	utiliza los dos módulos tanto el de traducción como el de lenguaje bueno cómo funciona el
+2580340	2585180	algoritmo de codificación y que vamos a ver es un algoritmo de codificación de tipo
+2585180	2591900	beam search y bueno funciona de así de manera yo tengo la oración María no dio una ofetada
+2591900	2596820	a la bruja verde y la quiero traducir al inglés y tengo una tabla de traducción de frases
+2598420	2604380	entonces mi oración María no dio una ofetada a la bruja verde yo busco en la tabla de frases
+2604380	2610820	cuales de esas digamos cuales segmentos cuales sus segmentos de esa oración yo puedo encontrar en
+2610820	2614460	la tabla de traducción de frases entonces voy a encontrar por ejemplo que María lo puedo
+2614460	2619500	traducir como Mary no lo busco en la tabla y lo puedo traducir como Not como Did Not o como No
+2619500	2625460	dio lo puedo traducir como Guid pero además no dio esa frase entera yo lo busco en la tabla
+2625460	2630300	y me aparece que lo puedo traducir como Did Not Guid dio una ofetada a toda esa frase lo
+2630300	2638300	puedo traducir como Slap una ofetada lo puedo decir como a Slap y bueno otras cosas bruja lo
+2638300	2641900	puedo decir como Witch verde como Green pero además en algún lado de la tabla tengo que bruja verde
+2641900	2648100	lo puedo traducir como Green Witch y así digamos yo puedo encontrar tengo diferentes maneras de
+2648100	2652580	segmentar la oración y además para cada uno de esos segmentos pueden encontrar distintas formas de
+2652580	2660260	traducirlo en el lenguaje destino con mi tabla de frases entonces el algoritmo de codificación
+2660260	2664660	funciona de la siguiente manera empezamos teniendo en cada paso de la algoritmo vamos a tener un
+2664660	2670660	conjunto de hipótesis de traducción se llega a ver ahí lo que dice de ojos más o menos
+2680220	2685460	acá quedaron mal los correditos bueno en cada uno de los pasos yo voy a tener un conjunto de hipótesis
+2685460	2692780	de traducción al principio el algoritmo voy a empezar con una hipótesis vacía como se le
+2692780	2697740	potecis dice que lo importante de leer es la parte de la F que tiene un montón de guiones significa
+2697740	2701980	que no hay ninguna palabra del español cubierta esas son todas las nueve creo nueve palabras en
+2701980	2707820	español ninguna esta cubierta y esta hipótesis tiene probabilidad uno entonces en cada paso del
+2707820	2713620	algoritmo lo que voy a hacer es elegir un par de frases tal que una traducción de la otra y
+2713620	2718020	voy a crear una hipótesis nueva a partir de una que ya tengo entonces en este paso lo que hice
+2718020	2725780	fue decir el hijo el par de frases María Mary y ahí me creo una nueva hipótesis que cubre la
+2725780	2730740	primera palabra por eso parece una serie con este caso elige la frase en inglés Mary y ahora
+2730740	2736500	tiene una probabilidad de 0 punto 534 ese número de esa probabilidad va a servir para guiar un
+2736500	2740100	poco en el algoritmo pero vamos a ver después como es que se calcula por ahora que se es solamente
+2740100	2745880	con el número bien pero entonces yo tenía otra opción en realidad yo podía haber elegido
+2745880	2750560	empezar en vez de traducir María por Mary podía haber elegido empezar por traducir brujo por
+2750560	2759880	witch y ahí me crearía otra hipótesis de traducción donde cubro la penúltima de las de las
+2759880	2764880	palabras en español agarró la palabra witch del hijo de la palabra witch y tiene una probabilidad de
+2764880	2772280	0 punto 182 entonces en cada paso del algoritmo lo que hace es elegir una hipótesis que tiene elegir un
+2772280	2777440	par de frases y expandir así que lo siguiente que puedo hacer es elegir la frase did not
+2777440	2783240	expandirla a partir de la hipótesis que tenía con Mary y bueno eso me cubre ahora dos palabras en
+2783240	2790680	español y me tiene medio otra probabilidad y después sigo avanzando y sigo avanzando hasta que
+2790680	2795440	llevo a cubrir en algún momento si yo sigo avanzando y sigo arregando hipótesis en algún momento voy
+2795440	2801400	a llegar a cubrir todas las palabras del idioma español todas las palabras de la abrasión en
+2801400	2806520	español entonces ahí una vez que yo cubri todas las palabras digo bueno esto es una hipótesis
+2806520	2812840	completa y esto lo devuelvo como una potencial candidata digamos una oración candidata a traducción
+2812840	2818640	pero claro a medida que yo fui avanzando una cosa que pasó es que fui dejando hipótesis colgadas
+2818640	2824360	y esas hipótesis podrían tener otras traducciones posibles yo acá lo que devolí era una posible
+2824360	2828640	traducción pero a medida que yo tenía las otras hipótesis si yo hubiera seguido por las otras hipótesis
+2829360	2835200	hubiera podido devolver otras cosas entonces yo necesito hacer un backtracking para poder devolver todas
+2835200	2842320	las posibilidades poder volver a ver las hipótesis a revisitar las hipótesis y cabilladas y volver a explorar
+2842320	2848800	los otros caminos entonces necesitaría ser un backtracking para recorrerlas todas y si hago un
+2848800	2856640	backtracking lo que va a pasar es que voy a ocurrir una explosión de exponencial del espacio de
+2856640	2862200	búsqueda porque en realidad todas las posibilidades que se abren son exponenciales y ahí esto como
+2862200	2868880	que se vuelve bastante lento entonces yo quería un decodificador para volver este problema un
+2868880	2873400	problema tratable en vez de agarrar las infinitas oraciones del idioma me quedo con algunas que
+2873400	2879480	sean más probables con este acorimo de codificación logré reducir de infinito a algo finito pero aun
+2879480	2884760	así es demasiado lento porque hay una explosión combina explosión combinatoria digamos de
+2884880	2892040	hipótesis y me queda una cantidad exponencial de hipótesis entonces como es tan grande este problema
+2892040	2896880	digamos como la cantidad de hipótesis es ponencial y este es un problema en el completo entonces se
+2896880	2902360	utilizan técnicas para reducir el espacio de búsqueda y hay como dos tipos de técnicas algunas
+2902360	2907640	son con riesgo y otras son sin riesgo las técnicas sin riesgo lo que quiere decir es que si yo
+2907640	2913760	aplico una técnica de reducción de hipótesis sin riesgo la solución ideal que yo tenía dentro de
+2913760	2918520	mi búsqueda no la voy a perder utilizando una técnica sin riesgo en cambio en la con riesgo si yo
+2918520	2923640	podría llegar a perder la solución óptima bien entonces la técnica sin riesgo que conocemos es la
+2923640	2929080	de recombinación de hipótesis que dice que si yo tengo dos hipótesis voy avanzando por dos
+2929080	2933640	caminos dentro del acorimo y llevo a dos hipótesis iguales por lo menos dos hipótesis que cubren las
+2933640	2939080	mismas palabras entonces me pudo quedar con la que tiene mayor probabilidad de las dos y descartar
+2939080	2943080	la otra porque porque a medida que yo voy a seguir avanzando en el acorimo lo que va a pasar es
+2943080	2947760	que van a bajar las probabilidades digamos eligiendo más palabras y eligiendo más frases me
+2947760	2953480	va a bajar la probabilidad y nunca me va a pasar que una de las hipótesis que tenía menos probabilidad
+2953480	2959240	vaya a subir en realidad siempre va a tener menos entonces en definitiva yo puedo con seguridad
+2959240	2965640	descartar la que tiene menos probabilidad bueno esa es recombinación de hipótesis pero ni si
+2965640	2969920	quiera con eso alcanza digamos para la reducción del espacio de búsqueda lo suficiente aún queda
+2969920	2975400	muchísimas hipótesis entonces se suele utilizar técnicas de podado con riesgo la técnica de
+2975400	2979880	histograma la técnica de lumbral el histograma significa que a cada paso digamos en cada paso del
+2979880	2985960	acorimo yo me quedo con los n las n hipótesis de traducción más probable y descarto las otras y
+2985960	2991080	la técnica con humbral dice que a cada paso del acorimo me quedo con la hipótesis de mayor
+2991080	2998520	probabilidad y las que estén a una distancia alpha máximo de esa cuál es el riesgo de las
+2998520	3003720	técnicas de podado que si la mejor traducción y la traducción óptima tenía algunas frases muy
+3003720	3010480	poco probables al principio entonces probablemente yo descarte esa solución de en los primeros pasos y
+3010480	3013760	no llegan a contar la solución óptima digamos la perdí por el hecho de arpodado
+3015480	3020520	sin embargo bueno tiene como ventaja que en realidad reduce muchísimo el espacio de búsqueda y vuelve
+3020520	3028800	este problema un problema tratable bueno y ahora sí qué significaba esa probabilidad que estaba
+3028800	3034720	viendo en cada una de las hipótesis o sea el podado necesita tener las mejores hipótesis y bueno para
+3034720	3038640	la recomendación también necesito saber la probabilidad de la hipótesis bueno la forma de
+3038640	3043360	calcular la probabilidad de la hipótesis se divide en dos digamos tengo lo que encontré hasta el
+3043360	3047520	momento la hipótesis lleva cubierta a cierta cantidad de palabras entonces para esa cantidad
+3047520	3052440	palabra que ya llevo cubiertas utilizo los tres modelos el modelo de traducción el modelo de
+3052440	3057520	ordenamiento del modelo de lenguaje utilizo los tres modelos para calcular la probabilidad de la
+3057520	3063480	frase hasta el momento pero para lo que me falta traducir yo no puedo utilizar todo porque no tengo
+3063480	3067520	toda la información de traducción entonces lo que hago es utilizar solamente el modelo de traducción
+3067520	3072840	y el modelo de lenguaje descarto el modelo de reordenamiento y bueno entonces hago calcula una
+3072840	3076440	probabilidad que es una parte con todos los tres modelos y otra parte sínimo del modelo de
+3076440	3083520	reordenamiento bien este algoritmo que acabamos de describir que hace esta búsqueda basándose
+3083520	3089320	hipótesis que utiliza recomendación hipótesis y bueno el calcula de las probabilidades de esta
+3089320	3095320	manera se conoce como algoritmo búsqueda esterisco es un algoritmo de vincers que se usa muchísimo
+3095320	3101760	en lo que es traducción automática estadística por ejemplo el sistema Moses acá tenemos este
+3101760	3108600	ejemplo de herramientas open source o gratuita que sirven para construcción de traducciones automáticos
+3108600	3114240	el sistema Moses es un sistema open source para desarrollar este tipo de traducciones automáticos
+3114240	3122280	estadísticos y implementa este algoritmo de codificación búsqueda a esterisco y bueno lo que
+3122280	3126000	tiene el sistema Moses de bueno es que en realidad lo que hace además de implementar el
+3126040	3131320	codificadores utiliza a los otros sistemas y los integra de alguna manera entonces integra
+3131320	3136600	este otro sistema el ircdlm que es una herramienta para crear modelos de lenguaje basados en
+3136600	3141960	en enegramas y el otro sistema se guiza más más que lo vió mencionado hoy que es el sistema
+3141960	3149040	que me permite alinear corpus de variaciones en los distintos idiomas llegando los modelos
+3149040	3154040	del 1 al 5 de traducción de IBM bueno entonces estas tres herramientas sirven si uno quiere
+3154040	3158160	construir un traducador automático estadístico entre cualquier par de diomas puede utilizar estas
+3158160	3164400	tres herramientas y teniendo un corpus para el hilo y un corpus monolingue puede construirse un
+3164400	3170840	traducador pero bueno además otra cosa que mencionamos en la clase pasada pero eran los sistemas
+3170840	3175520	basados en reglas los sistemas basados en reglas han caído un poco este digamos no tienen tanta
+3175520	3180600	popularidad como antes sin embargo algunos es inusando y el sistema apertym es un sistema open source
+3180600	3185280	para construir sistema de traducción basados en reglas que tienen con un montón de pares de
+3185280	3190400	lenguajes y bueno ya anda relativamente bien digamos entonces sigue desarrollando hasta hoy
+3190400	3196560	entonces es una alternativa open source que está basado en reglas en vez de estar basado en estadísticas
+3201160	3204360	y bueno esto es un resumen de lo que vimos así que dejamos por acá

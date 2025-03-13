@@ -1,0 +1,1622 @@
+WEBVTT
+
+00:00.000 --> 00:23.680
+Una vez que elegí en mi, con el paso 1, elegí cuántas palabras en español y bolsar en el
+
+00:23.680 --> 00:27.800
+paso 2, es lo que voy a elegir es una lineación, una función de lineación que me dice
+
+00:27.800 --> 00:31.000
+cada palabra, con cual se va a corresponder, cada palabra, el lado de español, con que
+
+00:31.000 --> 00:37.260
+palabra en inglés se va a corresponder. Este modelo ha sumed de manera muy naïve que todas
+
+00:37.260 --> 00:44.280
+las salinaciones que yo puedo tener son equiprobables, o sea, ha sumed que yo voy a tener un
+
+00:44.280 --> 00:48.640
+conjunto de lineaciones posibles y todas van a tener la vina de probabilidad. Bien, entonces,
+
+00:48.640 --> 00:54.600
+la probabilidad de elegir una lineación en particular, si yo tengo un montón de lineaciones,
+
+00:54.600 --> 00:59.640
+digamos, la probabilidad de elegir una, una lineación en particular, va a ser uno sobre
+
+00:59.640 --> 01:03.480
+la cantidad de lineaciones que tengo, porque en realidad todas van a ser equiprobables.
+
+01:03.480 --> 01:09.280
+Bien, entonces, cuántas lineaciones puedo tener entre dos oraciones, una oración en inglés
+
+01:09.280 --> 01:13.160
+que tiene largo y una oración española que tiene largo jota, como puedo calcular cuántas
+
+01:13.160 --> 01:19.160
+a lineaciones existen.
+
+01:19.160 --> 01:30.400
+Más o menos, casi de la jota. Recuerden que el lado de inglés, yo podía, yo tenía ciertas
+
+01:30.400 --> 01:39.200
+palabras en inglés tenía la palabra, en inglés era ahí, la palabra 1, 2 hasta,
+
+01:39.200 --> 01:48.000
+sui y en español tenía las palabras f1, f2 hasta, f subjota. Entonces, yo podía
+
+01:48.000 --> 01:53.600
+atrazar líneas para alinear, pero además en inglés, yo siempre considerado que tenía un
+
+01:53.600 --> 01:59.480
+token null. Entonces, todas las palabras que no estaban alineadas del lado del español y van
+
+01:59.480 --> 02:03.000
+a parar ahí. Así que en inglés en realidad no tengo
+
+02:03.040 --> 02:07.560
+y posibilidades, tengo una más, tengo y más uno. Entonces, cuántas formas tengo yo de
+
+02:07.560 --> 02:13.320
+mapear estas jota posibilidades en español con las y en inglés.
+
+02:13.320 --> 02:16.720
+Es alto, y más una la jota, porque yo tengo y más una opción para la primera y más
+
+02:16.720 --> 02:22.600
+una opción para la segunda, etcétera, que yo al final. Así que son y más uno a las jota
+
+02:22.600 --> 02:32.600
+alineaciones, posibles. ¿No voy a tener un cliente medio de la red? ¿No voy?
+
+02:32.600 --> 02:35.960
+¿No voy a dar esta porillas a las a las a las a las a las de los múltiples en medio
+
+02:35.960 --> 02:42.000
+de la ingestación? Ojo, el null es como una pizadita que hago yo para alinear cosas que
+
+02:42.000 --> 02:45.160
+no tienen un correspondiente. O sea, yo tenía una palabra en español que...
+
+02:45.160 --> 02:52.440
+¿Tar? Varias de las cefes pueden estar alineadas en español, no importa en qué
+
+02:52.440 --> 02:59.680
+orden están. Eso. Bien, entonces, eran y más uno a las jota posibles alineaciones,
+
+02:59.680 --> 03:08.920
+por lo tanto. La probabilidad de elegir una alineación a data de la
+
+03:08.920 --> 03:13.480
+operación en inglés, la probabilidad de elegir una alineación cualquiera, data, la
+
+03:13.480 --> 03:19.400
+oración en inglés, va a ser el producto de la probabilidad de haber sortiado un valor
+
+03:19.400 --> 03:25.400
+jota primero que era de epsilon por la probabilidad de elegir una alineación cualquiera para
+
+03:25.400 --> 03:32.560
+ese jota, que es uno sobre y más uno a la jota. Bien, entonces esto lo resolvimos como
+
+03:32.560 --> 03:43.280
+epsilon sobre y más uno a la jota. Epsilon sobre y más uno a la jota es la probabilidad
+
+03:43.280 --> 03:49.500
+de data de una oración en inglés, elegir cierta alineación que yo voy a utilizar.
+
+03:49.500 --> 03:56.840
+Bien, ese fue el segundo paso. El tercer paso es una vez que se atengo la alineación,
+
+03:56.840 --> 04:00.640
+voy mirando cada palabra de la dolin inglés y le voy poniendo una palabra correspondiente
+
+04:00.640 --> 04:06.320
+de la de español. Para acá voy a sumir que yo tengo una tabla de traducción, una tabla de
+
+04:06.320 --> 04:10.080
+traducción que me dice que tiene de un lado todas las palabras en español y el otro lado
+
+04:10.080 --> 04:17.040
+de las palabras en inglés, entonces mi tabla va a tener una forma como, por ejemplo,
+
+04:17.040 --> 04:24.040
+hace una tabla así que de un lado decir las palabras en español como banco, perro,
+
+04:24.040 --> 04:30.480
+chato y más cosas y del otro lado va a tener las correspondientes en inglés como banco,
+
+04:30.480 --> 04:38.240
+bench, cat, tri y más cosas. Y entonces esta tabla va a decir la probabilidad de traducir
+
+04:38.240 --> 04:40.840
+una cosa en la botan. Entonces banco probablemente tenga cierta probabilidad para
+
+04:40.840 --> 04:52.000
+avanzar y cierta probabilidad para bench, 0.4 y 0.6, 0.6 y para cat no da ninguna probabilidad
+
+04:52.000 --> 04:57.480
+para tri tan poco y después perro no va a tener nada esto, pero si después y cat va a ser
+
+04:57.480 --> 05:02.240
+este no sé, 0.8 en este caso, etcétera voy a tener una tabla bastante grande que tiene
+
+05:02.240 --> 05:11.480
+toda la posibilidad de traducir una palabra como otra. Entonces, si yo tengo esa tabla lo
+
+05:11.480 --> 05:18.720
+que puedo decir es que la forma de calcular la probabilidad de esa oración final que
+
+05:18.720 --> 05:23.080
+yo traduce va a depender de cuáles son las palabras que yo elija va a depender de cuáles son las
+
+05:23.080 --> 05:30.920
+palabras que yo haya puesto dentro de mi, de mi oración para traducir. Entonces esa tabla que
+
+05:30.920 --> 05:36.800
+está ahí definida le llamamos acá en la, en la, en la, la, aparece como T de f su x,
+
+05:36.800 --> 05:44.160
+su y y dice que la probabilidad de traducir la palabra su y como f su x. Entonces,
+
+05:44.160 --> 05:54.520
+acá hay una cosa importante. Si tenemos la oración en inglés, la oración en inglés
+
+05:54.520 --> 06:01.840
+recuerdan que tenía las palabras, es su 1, es su 2, hasta de su 9, la oración en español
+
+06:01.840 --> 06:09.080
+tenía las palabras, es su 1, f su 2, hasta de f su jota. Y eso tenía en el medio una función
+
+06:09.080 --> 06:17.320
+de la lineación que me decía que palabras se correspondía con cual. Entonces, no era su
+
+06:17.320 --> 06:30.800
+vene ni f su jota, era su y y f su jota grande. Esto era su y, esto era f su jota grande.
+
+06:30.800 --> 06:38.200
+Entonces, si yo tengo una palabra cualquiera dentro de la oración en español, tengo un f su jota
+
+06:38.200 --> 06:45.200
+de chica dentro de la oración en español. Esto se va a corresponder con algún f su y chica en la
+
+06:45.200 --> 06:49.760
+oración en inglés, digamos. Yo sé que esto se cumble por la función de la lineación
+
+06:49.760 --> 06:52.560
+porque agarra y mape a todas las palabras que están en español con algo que estaba
+
+06:52.560 --> 06:57.880
+a la dole inglés. Potencialmente con el doque en vacío, no olvides.
+
+06:57.880 --> 07:02.440
+Bien, entonces, tengo una palabra de la dole español que es f su jota y una palabra de la dole
+
+07:02.440 --> 07:07.960
+inglés que es f su y. ¿Cuál es la relación entre ese jota y ese y? ¿Cómo es la relación
+
+07:07.960 --> 07:23.480
+entre sí? Tiamos. Yo puedo decir que el i es igual a algo de jota. La buena manera.
+
+07:23.480 --> 07:27.920
+La función de la lineación, ahí está. O sea, el i es igual a la función de la lineación
+
+07:27.920 --> 07:35.080
+aplicada jota. Como la i, el índice de este acá es igual a la función de la lineación
+
+07:35.080 --> 07:43.320
+aplicada jota. Entonces, yo puedo decir que la palabra su i es igual a la palabra su
+
+07:43.320 --> 07:48.440
+a su jota. Así que puedo decir que en realidad los que están alineados son la palabra
+
+07:48.440 --> 07:55.000
+f su jota está alineada con la palabra y su a su jota. Y ahí me sacqué el i de encima,
+
+07:55.000 --> 08:01.200
+digamos, simplemente y te eros sobre las palabras y te erando sobre la jota puedo establecer
+
+08:01.200 --> 08:10.160
+la correspondencia entre las dos palabras. Y eso es un poco lo que dice acá para terminar
+
+08:10.160 --> 08:13.360
+de armar lo que es el modelo de traducción. Para terminar de armar el modelo de traducción
+
+08:13.360 --> 08:17.240
+dicen que en el tercer paso yo voy a elegir cuáles son las palabras. Entonces, lo que
+
+08:17.240 --> 08:23.920
+voy a hacer es iterar sobre todas las palabras y haciendo el producto de todas las
+
+08:24.000 --> 08:29.440
+las probabilidades. O sea, el producto de dado que yo tenía la palabra f su jota,
+
+08:29.440 --> 08:34.800
+pero dado que su tenía la palabra eso va su jota en inglés. Entonces, elegir la palabra f su jota
+
+08:34.800 --> 08:41.120
+en español. Eso haga una productoria con todos los valores de las distintas palabras.
+
+08:43.680 --> 08:51.680
+Bien, entonces ahí, llegue a el último de los valores que quería calcular, que es la
+
+08:51.680 --> 09:02.720
+probabilidad de f dado que conozco. Ahí es igual a la productoria con jota igual uno hasta
+
+09:02.720 --> 09:10.680
+jota grande, de el valor de la tabla de traducción, que es de su f su jota, t de f su jota
+
+09:10.680 --> 09:21.640
+y su vasu jota. Bueno, ta. Entonces, ahí tengo como en cada paso fui calculando cosas
+
+09:21.840 --> 09:27.600
+este se correspondía al paso uno del modelo, paso uno, este se corresponde con el paso del modelo.
+
+09:27.600 --> 09:31.680
+En realidad, este ya tiene el paso uno del paso dos juntos porque ella tengo el epsilon acá y este
+
+09:31.680 --> 09:37.800
+se corresponde con el paso tres del modelo. El paso tres de la historia de generación.
+
+09:39.800 --> 09:46.160
+Mi objetivo con todos estos valores que están acá es calcular pdf de hoy.
+
+09:46.240 --> 09:55.160
+¿Qué parametro sin traduje? ¿Qué parametro fueron surgiendo a medida que se iba
+
+09:55.160 --> 09:58.400
+y derando sobre estos pasos? Bueno, en primer lugar, el epsilon aquel que estaba
+
+09:58.400 --> 10:02.560
+moviendo, este es un valor que yo tendría que estimar a partir de mirar en los corcos,
+
+10:02.560 --> 10:08.200
+como son los largos y las oraciones relativos. Y el otro parametro importante es aquella
+
+10:08.200 --> 10:11.920
+tabla allá, aquella tabla de traducción es que me dice banco, con que probabilidad lo
+
+10:11.920 --> 10:15.920
+puede traducir como banco y como que probabilidad lo puede traducir como véns, etcétera, etcétera.
+
+10:15.920 --> 10:20.680
+Esta tabla en realidad es un parametro del modelo, es un parametro el sistema que si yo lo tuviera,
+
+10:20.680 --> 10:26.640
+me alcanzaría con eso para poder construirme este modelo y calcular la probabilidad de cualquier
+
+10:26.640 --> 10:27.600
+par de operaciones.
+
+10:32.600 --> 10:38.840
+Bien, y entonces, antes de continuar, vamos a terminar de armar cuál es la imagen de esto,
+
+10:39.080 --> 10:46.840
+que es decir, yo en realidad lo quería calcular era pdf da doe, que eso va a ser mi modelo de traducción
+
+10:46.840 --> 10:52.840
+y de hecho va a ser el encargado de medida de ecuación de una frase, pdf da doe lo puedo calcular
+
+10:52.840 --> 10:57.640
+con esta descomposición de pasos que dice acá en realidad porque luego de la siguiente manera.
+
+11:09.800 --> 11:21.800
+Yo quiero calcular pdf da doe, y entonces voy a mirar lo que dice acá pdf da doe, es igual a la sumatoria
+
+11:21.800 --> 11:30.920
+en la pdf da doe, que significa eso que para traducir en la generación en español y una versión
+
+11:30.920 --> 11:35.840
+en inglés o más bien para la situación, para traducir en una generación en español,
+
+11:35.840 --> 11:41.760
+hay muchas formas de alinear las palabras en el inglés en español y una vez que yo elegí una forma
+
+11:41.760 --> 11:45.520
+alinear, hay muchas formas de elegir las palabras que vienen después de vamos a mirar a través de
+
+11:45.520 --> 11:51.800
+traducción y capaz que hay varias maneras de elegir distintas palabras. Entonces lo que eso significa es que
+
+11:51.800 --> 11:56.960
+no existe una sola manera de traducir una versión en inglés a una versión español. Yo puedo encontrar
+
+11:56.960 --> 12:01.200
+varias formas de alinear las palabras si darías formas de elegir las palabras de manera de que muchas
+
+12:01.200 --> 12:09.120
+alineaciones son posibles. Entonces para saber cuál es la probabilidad de traducir de traducir F da doe.
+
+12:10.400 --> 12:15.400
+Entonces yo voy a tener que sumar sobre todas las alineaciones posibles, sobre todas las formas de alinear las
+
+12:15.400 --> 12:21.280
+dos oraciones FI, voy a tener que ir a ir a ir sobre eso y para cada una voy a tener que acular la probabilidad
+
+12:21.280 --> 12:26.600
+partial. Entonces, digamos, yo tengo cinco formas alinear las dos oraciones,
+
+12:27.280 --> 12:31.000
+cinco es un número un poco raro, pero digamos tengo eneformas de alinear las dos oraciones.
+
+12:31.800 --> 12:38.160
+Voy a tener que mirar bueno para la primera alineación cuál es la probabilidad de encontrar la
+
+12:38.160 --> 12:41.560
+oración F para la segunda alineación cuál es la probabilidad de encontrar la oración F para la tercera
+
+12:41.560 --> 12:47.920
+oración y así hasta llegar al final y agarró y sumo todo eso. Eso lo puedo hacer porque las alineaciones son
+
+12:47.920 --> 12:51.960
+una descomposición de la espacio de probabilidad, en realidad yo puedo descomponar el espacio de probabilidad,
+
+12:51.960 --> 12:57.760
+en pedacitos disjuntos y cada alineación va a ser uno de ellos. Así que digamos que para
+
+12:57.760 --> 13:02.360
+cagular el modelo de traducción, pede F da doe, necesito sumar sobre todas las alineaciones posibles.
+
+13:03.360 --> 13:07.200
+Ahora, lo que me falta es saber cómo calculo este valor acá.
+
+13:08.200 --> 13:14.480
+Así que lo que estoy diciendo es que la probabilidad de F da doe es la suma sobre las alineaciones
+
+13:14.480 --> 13:20.960
+de la probabilidad de F y esa alineación da doe. Eso es simplemente lo que dice ahí en la
+
+13:20.960 --> 13:25.400
+la Ley. Lo que me falta calcular entonces es esta parte de acá y esa parte de acá,
+
+13:25.400 --> 13:31.480
+la calcula esta manera. Yo digo que la probabilidad de F da doe es igual, ahí está más
+
+13:31.480 --> 13:39.320
+o menos al resultado final, pero podemos sacar que es lo que tendría que poner de este lado.
+
+13:51.960 --> 14:00.760
+Esta, por definición de probabilidad de condicional es pede F da doe, de verdad lo
+
+14:00.760 --> 14:08.960
+alian van a ser lo, pero esto se puede definir cómo pede F a e sobre pede, no, por definición
+
+14:08.960 --> 14:16.000
+de probabilidad de condicional. Pero además esto si quiero podría llegar a decir esto es lo mismo
+
+14:16.000 --> 14:35.240
+que pede F a e sobre pede, por, voy a que me falta va, no, ahí, por pede a e sobre pede a e
+
+14:35.240 --> 14:42.800
+pede F a e sobre pede F a e sobre pede F a e sobre pede F a e sobre pede F a e sobre pede F a e
+
+14:42.800 --> 14:51.280
+sobre pede F a e sobre pede F a e sobre pede F a e sobre pede F a e sobre pede F a e sobre pede F a e
+
+14:51.280 --> 14:57.320
+sobre pede F a e sobre pede F a e sobre pede F a e sobre pede F a e sobre pede F a e sobre pede F a e
+
+14:57.400 --> 15:08.500
+definitiva yo que me queda, es si, asociós los dos, meda que dar pede F da do ahh e y si asociós estos
+
+15:08.500 --> 15:15.340
+dos de acá sabrón me va a quedar pede aa dagoes qué lo que tra ya.
+
+15:15.340 --> 15:22.320
+La probabilidad pede F, que sea de bueno si te los dos, de f, y ya dago... E eh, es igual a la
+
+15:22.320 --> 15:26.660
+la roguelidad de desfeitados ahí por la progulidad de a da doy.
+
+15:26.660 --> 15:30.720
+Y estos dos valores que están acá no lo sé el equipo casualidad sino que son los
+
+15:30.720 --> 15:32.740
+valores que tenían antes en el modelo.
+
+15:32.740 --> 15:41.240
+O sea, yo tenía que el pedea da doy, el igual a épsilón sobre y más uno a la jota.
+
+15:41.240 --> 15:49.500
+Y el otro era la productoria de jota igual uno hasta jota grande de las valores de
+
+15:49.500 --> 15:54.660
+traducción, el efe subjota y el e suba subjota.
+
+15:54.660 --> 15:59.620
+Entonces en definitiva puedo calcular pdf a da doy y además puedo calcular haciendo
+
+15:59.620 --> 16:06.700
+una suma sobre todas las alienaciones posibles puedo calcular pdf da doy.
+
+16:06.700 --> 16:11.900
+Bien, con eso y con todo ese montón de cocciones, llegamos a construir lo que es un modelo
+
+16:11.900 --> 16:16.740
+de traducción o sea solamente teniendo una tabla de traducciones que me diga cuál es la
+
+16:16.740 --> 16:22.620
+progulidad de traducir una palabra como otra palabra yo puedo llegar a definirme
+
+16:22.620 --> 16:28.140
+cuál es la progulidad de traducir una oración da da otra oración.
+
+16:28.140 --> 16:32.660
+Bien, y hay una cosa más, bueno esto ya lo estoy moviendo que aplicamos en cada
+
+16:32.660 --> 16:41.380
+paso, y hay una cosa más que es si yo tuviera las dos oraciones digamos la oración
+
+16:41.380 --> 16:45.260
+en inglés y la oración en español y además tuviera la tabla de esta con todas las
+
+16:45.260 --> 16:48.940
+de progulidades yo podría hacer un algoritmo de programación dinámica, un algoritmo
+
+16:48.940 --> 16:53.020
+estilo biter, y que vaya recorriendo alienaciones y media cuál es la lineación más
+
+16:53.020 --> 16:57.500
+probable. No vamos a ver los detalles de algoritmo, pero viene a forma de decir bueno,
+
+16:57.500 --> 17:01.300
+voy recorriendo las dos oraciones y me voy quedando con las sus secciones más
+
+17:01.300 --> 17:05.780
+probable y al final me termina de volviendo cuál es la lineación más probable edadas
+
+17:05.780 --> 17:11.900
+esas oraciones. O sea que si yo tuviera ya esa tabla de traducciones, esa tabla de
+
+17:11.900 --> 17:18.340
+progulidades de traducción podría construirme las a la lineaciónes del corpus.
+
+17:18.340 --> 17:23.260
+Así que bueno, hasta el momento decíamos bueno, suponemos que tenemos esta tabla de traducción
+
+17:23.260 --> 17:28.100
+que me dice para bank, si se traduce, para bancos, si se traduce como bank o como
+
+17:28.100 --> 17:33.940
+bench, etcétera, estaba diciendo que tenía esa tabla, pero en realidad la realidad que no
+
+17:33.940 --> 17:39.340
+tengo esa tabla y me gustaría poder construirla. Entonces, no gustaría poder estimar esas
+
+17:39.340 --> 17:43.420
+progulidades para construirme esa tabla. Si yo tuviera un corpus paralelo, simplemente
+
+17:43.420 --> 17:47.540
+podría ir recorriendo el corpus y contando cuántas veces aparece banco al inado con
+
+17:47.540 --> 17:53.260
+bench y cuántas veces al inado con bank y ahí sacaría una progulidad, pero no tengo
+
+17:53.260 --> 17:59.900
+las a la lineaciónes. Y como lo que vimos digamos recién, si yo tuviera la tabla, entonces
+
+17:59.900 --> 18:03.140
+yo va además poder ir recorriendo el corpus y construirme las a la lineaciónes. Así
+
+18:03.140 --> 18:08.060
+que si yo tuviera las a la lineaciónes podría contar y sacar la tabla, si yo tuviera la tabla
+
+18:08.060 --> 18:12.700
+podría pasarle un agorismo y construir las a la lineaciónes. Pero la verdad que no tengo
+
+18:12.700 --> 18:17.020
+ninguna de las dos cosas, entonces se vuelve un problema de hueve la gallina, o sea, si
+
+18:17.020 --> 18:20.460
+yo tuviera las a la lineaciónes, construiría el modelo, construiría la tabla de
+
+18:20.460 --> 18:23.660
+progulidades, si yo tuviera la tabla de progulidades podría construir las a la
+
+18:23.660 --> 18:30.620
+lineaciónes. Parece tipo de problemas en los cuales yo tengo como dos variables interdependentes
+
+18:30.620 --> 18:34.500
+y no conozco exactamente el valor de ninguna de las dos, si utiliza lo que se conoce como
+
+18:34.500 --> 18:40.620
+el algoritmo de expectation maximización o maximización de la esperanza. Y bueno, es un algoritmo
+
+18:40.620 --> 18:45.340
+que sirve exactamente para este tipo de problemas. En realidad lo que va a hacer es el
+
+18:45.340 --> 18:50.660
+algoritmo citerar, es un algoritmo iterativo que va tratando de convertir una solución y lo
+
+18:50.660 --> 18:55.340
+que hace es decir, bueno, yo no tengo ninguno de los dos valores, o sea si yo tuviera
+
+18:55.340 --> 19:02.140
+mi tabla de probabilidad de traducción, me podría calcular las a la lineaciónes y tuviera
+
+19:02.140 --> 19:06.780
+mi salinación, me podría calcular la probabilidad de traducción. Entonces lo que hace es decir,
+
+19:06.780 --> 19:11.900
+bueno, a sumo que mi tabla de traducción va a ser uniformes, digamos, cualquier palabra se
+
+19:11.900 --> 19:15.620
+puede traducir como cualquier otra palabra con la misma probabilidad. A partir de eso, que
+
+19:15.620 --> 19:19.060
+alculo de la lineaciónes, y a partir de esas nuevas a la lineaciónes, cálculo otra vez
+
+19:19.060 --> 19:26.740
+la tabla. Y de vuelta con esa tabla que cálculo vuelva, medir las a la lineaciónes y
+
+19:26.740 --> 19:32.260
+vuelta con esas nuevas a la lineaciónes, vuelvo a calcular la tabla. Entonces, aunque no me
+
+19:32.260 --> 19:37.100
+crean, esto después de muchas iteraciones va convergiendo a algo, y parece mágico, ¿no?
+
+19:37.100 --> 19:42.460
+parece como que tal realidad si yo no tengo ninguno de los dos valores, no debería como
+
+19:42.460 --> 19:50.340
+dar fruta. Pero voy a tratar de comenzar los que en realidad esto si funciona, con un ejemplo.
+
+19:51.260 --> 19:56.940
+Bien, tenemos. Entonces, vamos a construir un sistema que es de traducción entre frances
+
+19:56.940 --> 20:01.300
+y lingles, donde hay un cuerpo muy grande, pero bueno, vamos a concentrar sobre el
+
+20:01.300 --> 20:06.100
+entre pequeñas oración cita que dicen la mesón se traduce como deja, la mesón blu, se traduce
+
+20:06.100 --> 20:11.620
+como de lujados y la flea o se traduce como de flower. Entonces, al principio lo que hago es decir,
+
+20:11.620 --> 20:16.780
+bueno, todas las traducciones en todas las palabras son equiprobables, así que lo que me va
+
+20:16.780 --> 20:21.100
+a quedar es cuando reparten de las salinaciones, todas van a tener el mismo peso. Entre la
+
+20:21.100 --> 20:25.780
+y mesón, la probabilidad de que la se traduca como de, o que se traduca como javos, va a ser
+
+20:25.780 --> 20:30.700
+la misma, en realidad, porque todas las salinaciones son equiprobables. En la mesón blu, también
+
+20:30.700 --> 20:34.860
+va a ser lo mismo, la probabilidad de traducirla como de como blu o como javos, va a ser la misma
+
+20:34.860 --> 20:44.640
+y en la flea pasa igual. Entonces, eso es la primera, el primer paso, digamos, en el
+
+20:44.640 --> 20:49.600
+primer paso, yo voy a tener todas las salinaciones equiprobables y todas las los valores
+
+20:49.600 --> 21:04.240
+de las palabras iguales.
+
+21:04.240 --> 21:11.040
+Entonces, en mi algorithmo, yo empecé con una tabla de traducción que era todo uniforme.
+
+21:11.040 --> 21:16.560
+Como yo tenía la probabilidad de traducir cualquier palabra en cualquier otra era la misma.
+
+21:16.560 --> 21:21.080
+A partir de eso, yo me construí estas salinaciones, que también parece que son todas equiprobables
+
+21:21.080 --> 21:25.040
+y parece que no tienen como mucha información. Entonces, lo que voy a hacer ahora, a partir
+
+21:25.040 --> 21:29.200
+de esto, es tratar de construirme de vuelta, la tabla de traducciones, pero mirando estas
+
+21:29.200 --> 21:34.480
+nuevas salinaciones que hay. Entonces, lo que voy a construir es una tabla que tiene
+
+21:34.480 --> 21:52.640
+todas las palabras de las diferencias y en el mesón blu, blu, blu, blu, blu, blu, blu, blu, blu.
+
+21:52.640 --> 21:57.320
+Y para llenar, esta nueva tabla es lo que tengo que hacer es iterar sobre las salinaciones,
+
+21:57.320 --> 22:00.960
+mirar cada una de las palabras, cuantas veces está linear con las otras y contar, o sea,
+
+22:00.960 --> 22:07.440
+y sumar los peso de cabunas de las salinaciones. Entonces, la lineación entre la y de
+
+22:07.440 --> 22:11.540
+en total, mirando ese ejemplo de corpus, cuanto me daría de agua, cual sería el peso de
+
+22:11.540 --> 22:19.180
+salinación. Para verlo, en realidad lo que hago es contar, miro cuántas veces la y de están
+
+22:19.180 --> 22:25.980
+lineados. Entonces, tengo 0.5 de peso en la primera, en la segunda tengo 0.293 y en la última
+
+22:25.980 --> 22:34.100
+tengo 0.5 de vuelta. Así que en total tengo como 1.33 de peso entre la y de. Después,
+
+22:34.100 --> 22:40.940
+mira, entre la y j, cuanto peso tengo, cuanta masa de probabilidad tengo. Bueno, tengo 0.5 en la
+
+22:40.940 --> 22:48.180
+primera relación, 0.103 en la segunda y nada en la tercera. Por lo tanto en total, tengo 0.83
+
+22:49.100 --> 22:55.300
+de probabilidades entre la y j. Después, mira, entre la y blu, cuanto peso tengo.
+
+22:59.540 --> 23:05.220
+0.303, solamente 0.33, sólo está en la y entre la y fler, cuanto tengo. No, entre
+
+23:05.220 --> 23:11.220
+la y flavor, cuanto tengo. 0.5, sólo aparece en la del final. Bien, como lo tengo la siguiente,
+
+23:11.220 --> 23:21.820
+entre msón y de cuanto tendría. 0.83, está en la primera y la segunda, entre msón y
+
+23:21.820 --> 23:30.860
+j. En la primera y la segunda, entre msón y j. En la segunda, entre msón y j. Si,
+
+23:30.860 --> 23:35.500
+se ve usted de trepo que aparece en las dos. Bien, entre msón y blu solamente aparece en
+
+23:35.500 --> 23:40.820
+la segunda, así que voy a tener 0.33 y entre msón y flavor, no tengo nada. Después, entre
+
+23:40.820 --> 23:48.060
+blu y de solamente aparece en la segunda, así que voy a tener 0.33, entre blu y j. Creo que
+
+23:48.060 --> 23:53.580
+de vuelta tengo 0.33 y entre blu y blu también, 0.33 y no aparece junto con flavor.
+
+23:53.580 --> 24:03.980
+Y para después para flar, tengo 0.5, donde 0.jero con j. 0.5 con flavor. Bien, entonces,
+
+24:03.980 --> 24:08.940
+y si una pasada por todas las salinaciones y me calculé cuáles son los peso relativos de cada
+
+24:08.940 --> 24:14.140
+una de estos pares. Lo siguiente que hago, como esto va a ser una probabilidad, es normalizar.
+
+24:14.140 --> 24:18.740
+Entonces, no voy a construir una tabla, digamos, normalizando por, digamos, voy a sumar en cada
+
+24:18.740 --> 24:23.660
+fila y voy a adir entre la cantidad que aparece para cada fila, así que, igual también.
+
+24:23.660 --> 24:48.100
+Entonces, lo que voy a hacer es normalizar, entonces, si yo sumo a estos sacas, creo que me da dos
+
+24:48.100 --> 24:56.300
+centodal, no, tres centodal, tengo los valores acá, vamos a tener que hacer los cálculos, pero
+
+24:56.300 --> 25:02.160
+sí, me da tres centodal, entonces lo que pasa cuando yo normalizo es que acá me queda 0.24,
+
+25:02.160 --> 25:10.700
+acá me queda 0.28, acá me queda 0.12 y acá me queda 0.17, pues el segundo también lo normalizo,
+
+25:10.700 --> 25:21.540
+es entre 2 y me queda 0.42, 0.42, 0.16, 0, el tercero ya suma 1, así que me queda 0.23, 0.23,
+
+25:21.540 --> 25:35.980
+0.23 y el último también queda igual, 0.5, 0, 0, 0, 0.25. Bien, entonces, me construí una nueva tabla
+
+25:35.980 --> 25:41.940
+de probabilidad de traducción dado que ahora la salinación es serianistas, y no te lo que pasó
+
+25:41.940 --> 25:52.900
+acá, si yo miro la fila correspondiente a la que lo que pasa ahora con esta fila, recuerden que yo
+
+25:52.900 --> 25:57.900
+empecé de deniendo todas las salinaciones, todas las traducciones de pronto, todas las probabilidades
+
+25:57.900 --> 26:03.100
+de traducción de equipares de palabras eran equiprobables, si yo ahora miro la fila de la que es lo que pasa,
+
+26:05.980 --> 26:19.740
+es acto, aparece claramente que la asociación entre la idea es más fuerte, tengo un 0.44 de probabilidad de traducir
+
+26:19.740 --> 26:26.220
+la como de y tengo bastante menos en los otros, tengo 0.28, 0.27 y yo había empezado diciendo que eran
+
+26:26.220 --> 26:32.500
+equiprobables, entonces yo probablemente tenía 0.25, 0.25, 0.25, 0.25, 0.25 en cada una, y después de
+
+26:32.500 --> 26:40.460
+un paso de la iteración, descubrió que la idea tiene más chance de ser una traducción
+
+26:40.460 --> 26:46.460
+de la otra, en vez de traducirla como jados o la como blú o la como flower, eso pasa en
+
+26:46.460 --> 26:51.660
+el primer paso, en la primera iteración, el tipo descubre, el algoritmo descubre que la
+
+26:51.660 --> 26:58.060
+asociación entre la idea es bastante más fuerte, como pasa eso, lo que va a pasar es que cuando
+
+26:58.060 --> 27:03.120
+yo reparto de vuelta en las alinaciones, estas líneas que se corresponden a la asociación
+
+27:03.120 --> 27:08.760
+entre la idea van a estar más fuertes, van a tener un poco más de peso, y como esto es una
+
+27:08.760 --> 27:13.680
+distribución de probabilidad es esa masa que ganó la asociación entre la idea, se va a tener
+
+27:13.680 --> 27:17.220
+que sacar de otras alinaciones posibles, así la asociación va a con de, entonces no está
+
+27:17.220 --> 27:23.620
+asociada con las otras que están alrededor, entonces esa masa que se pierde, digamos, o sea
+
+27:23.620 --> 27:31.000
+que gana en la de, se tiene que repartir en las otras alinaciones posibles, o sea, en las
+
+27:31.000 --> 27:36.340
+que no son entre la idea, entonces después de una iteración la asociación entre la
+
+27:36.340 --> 27:43.420
+idea empieza a ser más fuerte, y como pasa eso, en la siguiente iteración va a empezar
+
+27:43.420 --> 27:48.060
+a descubrir que como la estaba alinado con de, entonces me son tiene que estar alinado con jados,
+
+27:48.060 --> 27:55.340
+y como me son estaba alinado con jados, digamos esa esa misma masa de probabilidad se va a
+
+27:55.340 --> 28:00.740
+traducir a transferir a la segunda, y lo mismo, como le ha estado alinado con de, entonces
+
+28:00.740 --> 28:07.100
+fler tiene que estar alinado con flower, entonces si yo sigo iterando en estos pasos, en cada
+
+28:07.100 --> 28:10.980
+paso lo que va a pasar es que se va a mover un poco más de probabilidad, hasta que al final
+
+28:10.980 --> 28:15.980
+va a terminar descubriendo cuál es la alinación real de las palabras, o sea va a descubrir
+
+28:15.980 --> 28:22.900
+que la va, o sea, con de, me son con jados, luego con blue, luego con flower, como que va descubrir
+
+28:22.900 --> 28:27.060
+eso, porque en cada paso lo que va pasando es que algunas de las asociaciones, como están,
+
+28:27.060 --> 28:32.300
+como aparecen co-curren, digamos, en más oraciones, tienen más fuerza que otras, entonces el
+
+28:32.300 --> 28:37.060
+peso que esas asociaciones ganan lo va sacando otro lado, y eso hace que de otro lado se
+
+28:37.060 --> 28:44.340
+empieza a generar otras alinaciones diferentes, entonces al final esto termina convergiendo que termina
+
+28:44.340 --> 28:48.740
+revelando lo que es la, la estructura, su yacente de las palabras, y como se alinian unas
+
+28:48.740 --> 28:54.500
+con otras, bueno, bien, a ver que yo termine de hacer esto, puedo agarrar y construir me efectivamente
+
+28:54.500 --> 29:00.060
+la tabla final de traducciones, que es simplemente busco cada una de las posibles traducciones,
+
+29:00.060 --> 29:07.420
+digamos, de los posibles pares y saco las probabilidades, y qué pasó acá, mientras yo
+
+29:07.420 --> 29:12.500
+estaba construyendo mi modelo traducción, mientras yo estaba construyendo la tabla de traducciones
+
+29:12.500 --> 29:18.340
+además de, como efectos secundarios se construyó un corpus alinia, un corpus que está alineado
+
+29:18.340 --> 29:31.500
+nivel de palabras, así que bueno, el algoritmo de espectrexión maximización, funcionan esa manera,
+
+29:31.500 --> 29:37.420
+tiene siempre dos pasos, un paso de espectrexión y un paso de maximización, en este caso,
+
+29:37.420 --> 29:44.380
+el espectrexión era decir el paso de espectrexión, se trataba de agarrar la tabla de
+
+29:44.380 --> 29:49.780
+propiedad traducción que tengo, y con eso me damos alinianciones, y después el de maximización
+
+29:49.780 --> 29:54.260
+es al revés, agarrar las alinianciones que acabo de construir y me damos una nueva tabla, y voy
+
+29:54.260 --> 30:01.660
+alterando todos esos pasos hasta que eventualmente converg, bien, dijimos que eran 5 modelos
+
+30:01.660 --> 30:06.620
+de IBM, nos vamos a ver muy en detrás y los otros, o sea, solo mencionar que empiezan a
+
+30:06.620 --> 30:12.420
+agregar complejidad, en este modelo uno habíamos dicho que todas las alinianciones eran equiprobables,
+
+30:12.420 --> 30:16.900
+en el modelo 2 abandonan esa noción y dicen bueno en vez de alinianciones equiprobables, yo voy a
+
+30:16.900 --> 30:22.180
+tener un modelo de reordinamiento de las palabras para decir bueno, tengo cierta probabilidad de que
+
+30:22.180 --> 30:26.940
+las palabras que están si yo tengo y palabras en inglés, jota palabras en español, tengo cierta
+
+30:26.940 --> 30:32.740
+probabilidad de mover la palabra ahí y la palabra jota, y bueno ya sí siguen subiendo en complejidad
+
+30:32.740 --> 30:38.460
+hasta llegar al modelo 5, que modelos 5 es el que anda mejor, pero de todas maneras estos
+
+30:38.460 --> 30:45.180
+son modelos que ya no se usan, digamos esto es del año 93 y en general se han obtenido mejores
+
+30:45.180 --> 30:50.140
+resultados abandonando estos modelos, entonces que vamos a pasar a ver a continuación, es un modelo
+
+30:50.140 --> 30:55.860
+bastante más moderno que es lo que sí, si utiliza bien día en traductores como los de Google,
+
+30:55.860 --> 31:13.100
+sí, es que en realidad lo claro, a ver estos modelos está dícicos no utiliza ningún tipo de
+
+31:13.100 --> 31:18.100
+analizador un boludo jico, hay otros modelos que sí lo hacen, no vamos a dar ningún
+
+31:18.100 --> 31:22.580
+no en esta clase pero está, hay otros modelos que sí hacen uso de esa información, igual
+
+31:22.580 --> 31:27.340
+son como un refinamiento, creo que ninguno lo tiene como en la base del modelo, el uso de
+
+31:27.340 --> 31:33.380
+partos pitch, pero sí cuando no sabes una palabra de una palabra que se conocida en realidad
+
+31:33.380 --> 31:39.500
+utilizar información sobre el partos pitch y eso probablemente te ayuda, en esto modelo
+
+31:39.500 --> 31:44.100
+por lo menos no lo habían tenido en cuenta, bien entonces sí lo que vamos a ver ahora es el modelo
+
+31:44.100 --> 31:49.140
+de frases que es algo más moderno y o sea el Google Translate o Bing Translate se basan
+
+31:49.380 --> 31:53.100
+el modelo de este estilo, y bueno antes de ver cómo se modió el frases volvamos un poco
+
+31:53.100 --> 31:57.500
+de lo que era la alineación entre palabras, yo tenía estas frases clásicas, no María no di una
+
+31:57.500 --> 32:04.620
+ofretada de la bruja verde, en inglés era Merit is Not Slap Greenwich y una alineación
+
+32:04.620 --> 32:08.140
+entre esas dos oraciones en realidad se vería como algo así, yo tengo que María se alinea con
+
+32:08.140 --> 32:14.700
+Merit no se alinea con disnot, se alinea con daba una ofretada de se alinea con ala podría ser
+
+32:14.700 --> 32:22.220
+solamente con la y el que no esté alineona, grince alinea con verde y bruja con Wedch,
+
+32:22.220 --> 32:26.660
+qué diferencia tiene esto con la otra alineación que habíamos visto hoy,
+
+32:26.660 --> 32:35.220
+así se les ocurre algo distinto que tiene esta alineación y la que habíamos visto hoy,
+
+32:35.220 --> 32:39.820
+era Not con No, sí, y que es lo que cambia acá para que pase eso.
+
+32:44.700 --> 32:52.580
+Lo que estaba pasando hoy era que yo partida de las palabras en español y a las palabras
+
+32:52.580 --> 32:55.540
+en inglés y yo tenía una función que me me apé a las palabras en español con las
+
+32:55.540 --> 32:59.340
+palabras en inglés, entonces yo a cada palabra en español como máximo le podía hacer
+
+32:59.340 --> 33:04.180
+corresponder una palabra en inglés, entonces me quedaba que yo podía expresar cosas como que
+
+33:04.180 --> 33:09.740
+daba una ofretada daba esta ofretada a Slap una, esta ofretada, esta ofretada, esta ofretada,
+
+33:09.740 --> 33:14.260
+esa ofretada, eso le podía expresar, pero no podía expresar algo como esto, que no, esta ofretada
+
+33:14.260 --> 33:18.340
+es Not porque no sería una función, yo no puedo asociar uno de los valores de la función
+
+33:18.340 --> 33:25.420
+con dos cosas de la olcodomínio y acá en realidad no puedo hacerlo ni en este sentido ni
+
+33:25.420 --> 33:28.620
+en el otro sentido, con una función no me sirve porque de vuelta me pasa que Slap está
+
+33:28.620 --> 33:32.980
+asociado tres cosas, entonces con una función de alineación yo no puedo construir este tipo
+
+33:32.980 --> 33:39.420
+de expresiones, en realidad necesito algo como un poco más poderoso, esto es lo que decíamos,
+
+33:39.420 --> 33:43.980
+los modelos dbms siempre usan un mapeo de uno a muchos, usan en una función de alineación,
+
+33:43.980 --> 33:47.420
+mapeo de uno a muchos, pero en realidad lo que necesito para poder capturar realmente
+
+33:47.420 --> 33:51.900
+vamos a funcionar en el lenguaje es mapeo de muchos a muchos, yo voy a tener que un conjunto
+
+33:51.900 --> 33:56.220
+de palabra se va a traducir en otro conjunto de palabras, definitiva lo que pasa es que
+
+33:56.220 --> 34:00.460
+pequeñas frases se traduce en como otras pequeñas frases, por eso necesito un mapeo de
+
+34:00.460 --> 34:06.460
+muchos a muchos, entonces bueno hay algoritmos que agarran estos mapeos que como
+
+34:06.460 --> 34:11.940
+el construimos recién el mapeo de uno a muchos en los dos, en las dos direcciones digamos
+
+34:11.940 --> 34:16.660
+y a partir de eso construyen este mapeo de muchos a muchos, por ejemplo el algoritmo de
+
+34:16.660 --> 34:20.820
+la herramienta quizás más, lo que hace decir bueno yo tengo un corpus en inglés en español
+
+34:20.820 --> 34:27.900
+alineo utilizando los modelos dbms, voy alineo por un lado de inglés en español, por
+
+34:27.900 --> 34:33.140
+otro lado de español en inglés, y acá me quedan dos mapeos de uno a n y vamos dos mapeos
+
+34:33.140 --> 34:37.980
+con funciones, y después lo que hago es interceptar esos dos esa dosa de alineación que me
+
+34:37.980 --> 34:46.500
+caron y unirlas, cuando la intercepto o tengo lo que se conoce como puntos de alta confianza no
+
+34:46.500 --> 34:50.540
+se llegan a ver bien, los puntos negros son los puntos de alta confianza que son los
+
+34:50.540 --> 34:54.780
+de la intersección y los puntos grises son lo que están en la unión, o sea los que
+
+34:54.780 --> 34:58.380
+pertenecían algunos de los modelos, entonces la herramienta lo que hace es decir bueno una
+
+34:58.380 --> 35:03.340
+vez que yo tengo la intersección y la unión hago crecer los puntos que están en la intersección
+
+35:03.340 --> 35:07.380
+coeleonizando otros puntos que están en la unión, hasta que al final terminó completando
+
+35:07.380 --> 35:11.780
+digamos todo el imagen, este punto que quedó solito ahí no sería parte de la alineación
+
+35:11.780 --> 35:20.740
+al final, solo los que puede llegar moviendo de otra vez de puntos ya conocidos, entonces bueno,
+
+35:20.740 --> 35:27.380
+eso es una forma que utiliza, se llama el algoritmo de ojinei, que partiendo de alineaciones
+
+35:27.380 --> 35:31.420
+uniraccionales y vamos me permite construir una alineación completa, muchos a muchos entre
+
+35:31.420 --> 35:36.980
+las palabras, bien, eso le quería mencionar acerca de las alineaciones de palabras y ahora
+
+35:36.980 --> 35:41.940
+sí vamos a ver cómo funciona un modelo basado en frases, un modelo basado en frases tiene
+
+35:41.940 --> 35:47.460
+cierto semejanza con el modelo anterior que hay hemos visto, pero es un poco más expresivo
+
+35:47.460 --> 35:51.300
+en realidad yo parte de una oración, por ejemplo en Aleman que decía Morgan Flick y que
+
+35:51.300 --> 35:56.260
+las canas de sus conference, lo primero que hace el modelo cuando quiere traducir, digamos
+
+35:56.260 --> 36:01.780
+en este caso es decir bueno, yo voy a segmentar esa oración de origen en cierta cantidad
+
+36:01.780 --> 36:06.820
+de frases, después voy a traducir cada una de esas frases usando una tabla de traducción
+
+36:06.820 --> 36:09.820
+y esta vez no es una tabla de traducción de palabras sino que es una tabla de traducción
+
+36:09.820 --> 36:15.060
+de frases que me dice para cada frase con que otra frase corresponde, y una vez que
+
+36:15.060 --> 36:19.620
+es otra duje cada una de esas frases la voy a ordenar de alguna manera buscando que suena
+
+36:19.620 --> 36:25.100
+el humanatural posible, buscando aumentar la fluidez de esa oración, entonces como que la
+
+36:25.100 --> 36:28.020
+historia de generación es un poco más simple que la otra, no tenía que ir sorteando
+
+36:28.020 --> 36:35.300
+cosas, simplemente digo separo mi oración en segmentos que le voy a llamar frases,
+
+36:35.300 --> 36:41.140
+los traducos y los reordenos, esa segmentación en frases no tiene por que tener una
+
+36:41.140 --> 36:45.420
+un significado lingüístico, yo no voy a separarla en grupo nominal, grupo global, grupo
+
+36:45.420 --> 36:49.140
+profesional, etcétera, no tengo por qué, o sea, capas que los segmentos de la frases
+
+36:49.140 --> 36:54.260
+y justo me queda un grupo preposicional capaz que no, lo único que tiene que pasar es que
+
+36:54.340 --> 36:58.460
+estos segmentos que yo construyo tienen que estar en mitad de traducción de frases, alcanza
+
+36:58.460 --> 37:01.820
+con eso como para que yo puedo utilizar los en mi traducción, pero no tienen por qué
+
+37:01.820 --> 37:08.900
+tener una motivación lingüística, bueno, entonces un modelo basado en frases tiene
+
+37:08.900 --> 37:13.660
+estos componentes, es parecido al anterior porque de vuelta, yo lo que quiero hacer es encontrar
+
+37:13.660 --> 37:19.340
+la probabilidad de ese dado de ambos sigo teniendo la misma ecuación fundamental de la traducción
+
+37:19.340 --> 37:25.660
+automática estadística, la quiero resolver, necesito pdfd y pd, solo que ahora el pdfd lo voy
+
+37:25.660 --> 37:29.580
+a calcular una manera extinta, voy a decir que para calcular esto tengo un modelo de traducción
+
+37:29.580 --> 37:34.260
+de frases y un modelo de ordenamiento, un modelo de una gran tabla de frases que me dice
+
+37:34.260 --> 37:38.980
+cada frase con qué probabilidad la traducción no otra, y después una forma de decir cómo
+
+37:38.980 --> 37:44.420
+reordenos a frases para tener mejores oraciones, y bueno, como siempre voy a tener otro componente
+
+37:44.420 --> 37:52.260
+que es el que mide la fluidez que es el modelo de lenguaje, porque los modelos de frases
+
+37:52.260 --> 37:56.580
+funcionan mejor que los modelos basados en palabras, porque las frases ya tienen cierto
+
+37:56.580 --> 38:01.540
+contexto, las frases en realidad son como pequeños grupos de palabras que yo puedo traducir
+
+38:01.540 --> 38:09.860
+uno en el otro, entonces cosas como dar la mano, dar una ofetada, tomar el pelo, etc.
+
+38:09.940 --> 38:13.900
+esas cosas como expresiones son mucho más fácil de traducir si en realidad eso es así que
+
+38:13.900 --> 38:17.300
+esta expresión que son tres cuatro palabras, le puedo traducir en esta otra expresión que son tres
+
+38:17.300 --> 38:21.980
+cuatro palabras, y como más expresivo entonces pueda aprender más cosas, y bueno obviamente
+
+38:21.980 --> 38:26.200
+cuanto más tenga, cuanto más largo sea el corpo, que yo tengo yo puedo aprender
+
+38:26.200 --> 38:32.860
+frases más largas, mejores probabilidades, y mejores frases. Bueno, hay un ejemplo de como
+
+38:32.860 --> 38:36.580
+sería una tabla de traducción de frases, o sea, es parecido la tabla de traducción de
+
+38:36.580 --> 38:40.980
+palabras, o lo que acá tengo de enforçla, o sea, si yo busco la fila, asociada en
+
+38:40.980 --> 38:44.820
+forçla, o sea, encontraría todas estas traducciones de proposa, el concediendo de
+
+38:44.820 --> 38:49.060
+oposición de broalidad, posesivo proposa, el con 10 por ciento, a proposa, el con
+
+38:49.060 --> 38:55.180
+3 por ciento, etc. O sea, como ven se traducen frases, en frases. Bueno, y como hago
+
+38:55.180 --> 39:02.180
+para aprender una tabla de traducción de frases, yo parte de esta alineación de
+
+39:02.180 --> 39:05.420
+palabras, digamos esta alineación completa, que ya no es una función, sino que es
+
+39:05.420 --> 39:11.500
+digamos una alineación de muchos a muchos, y voy a tratar de encontrar todos los todas las
+
+39:11.500 --> 39:15.860
+frases, todos los pares de frases que son consistentes con la alineación, a qué me refiero
+
+39:15.860 --> 39:24.020
+con que son consistentes, a que hay ejemplos, yo quiero decir que mariano y mariano
+
+39:24.020 --> 39:30.460
+no son un par de frases que son consistentes con esta alineación, en cambio, mariano y mariano
+
+39:30.460 --> 39:35.100
+no son, como es que miro esto, lo que pasa es que cuando yo tengo mariano y mariano, la
+
+39:35.100 --> 39:41.060
+palabra no esta alinea con 10 knot y el 10 knot, digamos, el knot no pertenece hasta alineación
+
+39:41.060 --> 39:45.540
+que yo estoy dando decir, entonces digo que es no consistente, lo mismo pasa con si
+
+39:45.540 --> 39:52.020
+yo dado alinear, mariano daba y mariano y mariano, lo que pasa es que daba no está, digamos,
+
+39:52.020 --> 39:55.020
+los puntos de alineación de daba, no están dentro de este cuadrante que estoy dando
+
+39:55.020 --> 39:59.700
+a buscar, entonces en definitiva digo que no es consistente, las alineaciones consistentes
+
+39:59.700 --> 40:04.180
+correctas son las que consideran todos los puntos dentro de ese cuadrante, entonces mariano
+
+40:04.180 --> 40:10.180
+está asociado con mariano de knot y esas y es consistente, así que como aprendo, frases
+
+40:10.180 --> 40:17.380
+consistentes, en piezo por las alineaciones, digamos, el piezo con la alineación es una palabra,
+
+40:17.380 --> 40:22.420
+después busco de una palabra y digo bueno, me quedo con todas esas traduciones de palabras
+
+40:22.420 --> 40:26.820
+y las pongamitables de frases y después voy tomando de 2 y me quedo con todas esas otras
+
+40:26.820 --> 40:31.580
+frases y la voy agregando, me quedo de frases, después me puedo avanzar en 1, tomar de
+
+40:31.580 --> 40:37.740
+3, tomar de 4 y llegar a tomar incluso toda la oración como frases, entonces a partir
+
+40:37.740 --> 40:43.100
+de estas oraciones que tenían, no sé, un 2, 3, 4, 5, 6, 7, 8, no hay palabras, yo termino
+
+40:43.100 --> 40:50.300
+aprendiendo como 17 frases, digamos, cada vez más grandes y bueno, hoy voy sacando esto
+
+40:50.300 --> 40:56.020
+de todo el corpus y calculando mitable de probabilidades, de qué manera, calcula esas
+
+40:56.020 --> 41:00.380
+probabilidades, yo lo que puedo hacer es como siempre ver cuántas veces aparecen el corpus
+
+41:00.380 --> 41:06.420
+y contar, o si no, si yo tenía construido el modelo anterior, el modelo de la tabla de
+
+41:06.420 --> 41:10.580
+traduciones de palabra palabra, en realidad lo que puedo hacer es aprovechar ese modelo
+
+41:10.580 --> 41:15.540
+traducción de palabra palabra y decir bueno, me arma una traducción entre un par de frases
+
+41:15.540 --> 41:19.860
+basándome en las traduciones palabra palabras, son como formas distintas de construirlo y
+
+41:19.860 --> 41:28.500
+a veces hasta complementarias, bien eso fue el modelo de frases, los modelos de frases son
+
+41:28.500 --> 41:33.180
+los más usados hoy en día en realidad en lo que es la traducción automática, son los
+
+41:33.180 --> 41:39.060
+candados mejor de resultados y bueno, no faltaba una cosa para terminar el toda la imagen
+
+41:39.060 --> 41:46.220
+de lo que es la traducción automática estadística que es la decodificación, entonces
+
+41:46.220 --> 41:53.060
+veamos un resumen de lo que teníamos hasta ahora, hasta ahora yo partí de yo quería resolver
+
+41:53.060 --> 41:58.460
+la cocción fundamental de la traducción automática estadística y yo tenía un corpus paralelo
+
+41:58.460 --> 42:02.620
+que tenía texto en el idioma origen y el idioma de estino y a partir de siendo analisis
+
+42:02.620 --> 42:08.580
+estadístico yo me construí un modelo traducción que lo que vimos en esta clase, además yo
+
+42:08.580 --> 42:13.340
+tenía cierta cantidad de texto del idioma de estino y a partir de cierto analisis estadístico
+
+42:13.340 --> 42:18.220
+me construí un modelo de lenguaje que me dice que tan fluido es una operación en el lenguaje
+
+42:18.220 --> 42:23.700
+estino, entonces ahora lo que me falta, recuerden que yo lo que tenía que hacer era
+
+42:23.700 --> 42:27.540
+y te era sobre todas las oraciones del lenguaje estino y pasar las a través del modelo
+
+42:27.540 --> 42:32.260
+traducción y del modelo de lenguaje para que me de la probabilidad de esa oración, bueno
+
+42:32.260 --> 42:36.980
+lo que me falta es el agorismo de codificación que en vez de probar con todas las oraciones
+
+42:36.980 --> 42:41.740
+de lenguaje estinos me va a decir unas cuantas oraciones para probar, porque me dice 150
+
+42:41.740 --> 42:46.700
+oraciones para probar sobre las cuales utiliza el modelo traducción en modelo de lenguaje,
+
+42:46.700 --> 42:52.860
+entonces esto es como un diagrama de modulos en los cuales el agorismo de codificación utiliza
+
+42:52.860 --> 43:00.780
+los dos modulos, tanto es la traducción como el lenguaje, bueno, como funciona el agorismo
+
+43:00.780 --> 43:08.460
+de codificación, que vamos a ver es un agorismo de codificación de tipo bean search y bueno
+
+43:08.460 --> 43:12.900
+la función de acinde manera, yo tengo la oración María no dio una ofetada a la bruja verde
+
+43:12.900 --> 43:18.820
+y la quiero traducir al inglés y tengo una tabla de traducción de frases
+
+43:18.820 --> 43:24.620
+entonces mi oración María no dio una ofetada a la bruja verde, yo busco en la tabla de frases
+
+43:24.620 --> 43:30.060
+¿Cuáles de esas digamos? ¿Cuáles segmento? ¿Cuáles subsegmento de esa oración?
+
+43:30.060 --> 43:33.660
+yo puedo encontrar en la tabla de traducción de frases, todo lo que me encanta por ejemplo que
+
+43:33.660 --> 43:38.500
+María lo pota o sí como Mary, no lo busco en la tabla y lo pota o sí como not como
+
+43:38.500 --> 43:45.060
+not o como no, dio lo pota o sí como guir, pero además no dio esa frase entera, yo le busco
+
+43:45.060 --> 43:50.220
+en la tabla y me aparece que la pota o sí como not guir, dio una ofetada a toda esa frase
+
+43:50.220 --> 43:57.900
+lo pota o sí como slape, una ofetada lo pota o sí como aslape y bueno de otras cosas
+
+43:57.900 --> 44:01.060
+bruja lo pota o sí como witch, verde como green pero además en algún lado de la tabla
+
+44:01.060 --> 44:07.700
+tengo que brujar verde lo puedo traducir como green witch y así, yo puedo encontrar diferentes
+
+44:07.700 --> 44:12.220
+maneras de segmentar la oración y además para cada uno de esos segmentos puedo encontrar distintas
+
+44:12.220 --> 44:19.620
+formas de traducirlo en el lenguaje destino con mitable de frases, entonces el algoritmo de
+
+44:19.620 --> 44:24.060
+codificación funciona de la siguiente manera, empezamos teniendo en cada paso el algoritmo
+
+44:24.060 --> 44:28.820
+vamos a tener un conjunto de hipótesis de traducción, se llega a ver ahí lo que dice a
+
+44:28.820 --> 44:43.940
+ojos, más o menos, bien, acá que eran malos, correctes, bueno, en cada uno de los pasos
+
+44:43.940 --> 44:50.700
+yo voy a tener un conjunto de hipótesis de traducción, al principio el algoritmo voy a empezar
+
+44:50.700 --> 44:56.020
+con una hipótesis vacía, como se le este hipótesis dice que lo importante de leer es la parte
+
+44:56.020 --> 44:59.220
+de la defe que tiene un montón de guiones, significa que no hay ninguna palabra del español
+
+44:59.220 --> 45:04.580
+cubierta, esas son todas las 9, 9 palabras en español, ninguna esta cubierta y esta hipótesis
+
+45:04.580 --> 45:10.860
+tiene probabilidad 1, entonces en cada paso el algoritmo lo que voy a hacer es elegir un par de
+
+45:10.860 --> 45:15.580
+frases, tal que una traducción de la otra y voy a crear un hipótesis nueva a partir de una
+
+45:15.580 --> 45:21.020
+que ya tengo, entonces en este paso lo que dice fue decir el hijo, el par de frases María
+
+45:21.020 --> 45:27.820
+Mary y ahí me creo, una nueva hipótesis que cubre la primera palabra, por eso parece una
+
+45:27.820 --> 45:31.820
+cerita en este caso, el hijo, la frase en inglés Mary y ahora tiene una probabilidad
+
+45:31.820 --> 45:37.180
+de 0.584, ese número de esa probabilidad va a servir para guiar un poco en el algoritmo
+
+45:37.180 --> 45:40.420
+pero vamos a ver después como es que se calcula, porabra que él se solamente con el
+
+45:40.420 --> 45:45.860
+número, bien, pero entonces yo tenía otra opción, en realidad yo podía haber elegido
+
+45:45.860 --> 45:50.140
+empezar en vez de traducir María por Mary, podía haber elegido empezar por traducir
+
+45:50.140 --> 45:57.860
+bruja por witch y ahí me crearía otra hipótesis de traducción donde cubro la penúltima
+
+45:57.860 --> 46:04.340
+de las palabras en español agarró la palabra witch, de el hijo de la palabra witch y tiene
+
+46:04.340 --> 46:10.780
+una probabilidad de 0.882. Entonces, en cada paso el algoritmo lo que hace es elegir una
+
+46:10.780 --> 46:15.540
+el hipótesis que tiene elegir un par de frases y expandir, así que lo siguiente que
+
+46:15.540 --> 46:20.260
+puedo hacer es elegir la frase, dir not, expandirla a partir de la hipótesis que tenía con
+
+46:20.260 --> 46:26.620
+Mary y bueno eso me cubre ahora dos palabras en español y me tiene medio otra probabilidad
+
+46:26.620 --> 46:32.460
+y después, si gobanzando y si gobanzando, hasta que llegó a cubrir en algún momento, si
+
+46:32.460 --> 46:36.540
+yo sigo avanzando y sigo arregando hipótesis, en algún momento voy a llegar a cubrir todas
+
+46:36.540 --> 46:42.460
+las palabras del idioma español, todas las palabras de elaboración en el idioma español.
+
+46:42.460 --> 46:47.340
+Entonces ahí una vez que yo cubrito a las palabras digo bueno, esto es una hipótesis completa
+
+46:47.340 --> 46:54.180
+y esto lo devuelvo como un potencial candidata, digamos, una abracción candidata a traducción.
+
+46:54.180 --> 46:58.180
+Pero claro, media que yo fie avanzando una cosa que paso es que fui dejando hipótesis
+
+46:58.180 --> 47:03.540
+colgadas y esas hipótesis podrían tener otras traducciones posible, yo acá lo que devolí era
+
+47:03.540 --> 47:07.300
+una hipótesis de traducción, pero a medida que yo tenía las otras hipótesis, si yo hubiera
+
+47:07.300 --> 47:13.020
+seguido por las otras hipótesis hubiera podido devoler otras cosas. Entonces, yo necesito
+
+47:13.020 --> 47:18.100
+hacer un backtracking para poder devoler todas las posibilidades, poder volver a ver las hipótesis
+
+47:18.100 --> 47:23.300
+a revisitar las hipótesis y que había dejado cogeadas y volver a explorar los otros caminos.
+
+47:23.300 --> 47:29.620
+Entonces, necesitarías en un backtracking para recorrer las todas. Y si hago un backtracking,
+
+47:29.620 --> 47:36.620
+lo que va a pasar es que voy a va a ocurrir una explosión de exponencial de la espacidad
+
+47:36.620 --> 47:41.460
+de búsqueda, porque en realidad todas las posibilidades que se abren son exponenciales
+
+47:41.460 --> 47:47.740
+y ahí esto como que se vuelve bastante lento. Entonces, yo quería un decodificador para
+
+47:47.740 --> 47:52.060
+volver este problema un problema tratable. En vez de agarrar las infinitas oraciones del idioma,
+
+47:52.060 --> 47:57.060
+me quedo con algunas que sea más probable. Con esta acorrimo de codificación, logré reducir
+
+47:57.060 --> 48:03.660
+de infinito a algo finito, pero aún así es demasiado lento, porque hay una explosión combinación
+
+48:03.660 --> 48:09.980
+combinatoria de asipotesis y me quedo una cantidad exponencial de hipótesis. Entonces,
+
+48:09.980 --> 48:14.580
+como es tan grande este problema, digamos como la cantidad hipótesis de exponencial y este
+
+48:14.580 --> 48:20.860
+es un problema en EP completo, entonces se utilizan técnicas para reducir el espacio de búsqueda.
+
+48:20.860 --> 48:25.340
+Y hay como dos tipos de técnicas, algunas son con riesgo y otras son sin riesgo. Las técnicas
+
+48:25.340 --> 48:30.000
+sin riesgo, lo que quiere decir es que si yo aplico una técnica de reducción de hipótesis,
+
+48:30.000 --> 48:36.020
+sin riesgo, la solución ideal que yo tenía, dentro de mi búsqueda, no le voy a perder utilizando
+
+48:36.020 --> 48:40.140
+una técnica sin riesgo. En cambio en la con riesgo, si yo podría llegar a perder la solución
+
+48:40.140 --> 48:46.100
+óptima. Bien, entonces, la técnica sin riesgo que conocemos es la de recombinación de hipótesis,
+
+48:46.100 --> 48:50.300
+que dice que si yo tengo dos hipótesis, voy avanzando por dos caminos, dentro del algoritmo
+
+48:50.300 --> 48:55.060
+y llevo a dos hipótesis iguales, por lo menos dos hipótesis que cubren las mismas palabras,
+
+48:55.060 --> 49:00.140
+entonces me puedo quedar con la que tiene mayor probabilidad de las dos y descartar la otra.
+
+49:00.140 --> 49:03.040
+Porque, porque a medida que yo voy a seguir avanzando en el algoritmo, lo que va a pasar
+
+49:03.040 --> 49:06.920
+es que van a bajar las probabilidades, digamos, elegiendo más palabras y elegiendo más
+
+49:06.920 --> 49:12.620
+frases, me va a bajar la probabilidad y nunca me va a pasar que una de las hipótesis que
+
+49:12.620 --> 49:16.780
+tenía menos probabilidad vaya a subir en realidad, siempre va a tener menos. Entonces,
+
+49:16.780 --> 49:21.600
+en definitiva, yo puedo conseguir de descartar la que tiene menos probabilidad. Bueno,
+
+49:21.600 --> 49:27.240
+esa es recomendación de hipótesis, pero ni siquiera con eso, alcanza, digamos, para
+
+49:27.240 --> 49:31.720
+reducir el espacio de búsqueda, lo suficiente, aún queda muchísimas hipótesis. Entonces,
+
+49:31.720 --> 49:36.360
+sólo utilizar técnicas de podado con riesgo, la técnica de listo grama, la técnica de
+
+49:36.360 --> 49:40.360
+lumbral, el listo grama significa que, a cada paso, digamos, en cada paso el algoritmo,
+
+49:40.360 --> 49:44.920
+yo me quedo con los N, las N hipótesis de traducción más probable y descartó las
+
+49:44.920 --> 49:50.400
+otras. Y la técnica de lumbral dice que, a cada paso el algoritmo, me quedo con la hipótesis
+
+49:50.400 --> 49:55.200
+de mayor probabilidad y las que estén a una distancia alfa máxima de esa.
+
+49:55.200 --> 50:02.040
+¿Cuál es el riesgo de las técnicas de podado? Que si la mejor traducción y la traducción
+
+50:02.040 --> 50:06.200
+óptima tenía algunas frases muy poco probable, es al principio, entonces probablemente yo
+
+50:06.200 --> 50:11.720
+descarte esa solución en los primeros pasos y no lleguen a contar la solución óptima.
+
+50:11.720 --> 50:18.760
+La pérdida, por eso yo haber podado. Sin embargo, bueno, tiene como, como ventaja que en realidad
+
+50:18.760 --> 50:26.040
+reducen muchísimo el espacio de búsqueda y vuelve este problema, un problema tratable.
+
+50:26.040 --> 50:29.560
+Bueno, y ahora sí, qué significaba esa probabilidad que estaba viendo en cada una de
+
+50:29.560 --> 50:35.040
+asipótesis. O sea, el podado necesita tener las mejores asipótesis y bueno, para la
+
+50:35.040 --> 50:39.360
+recomendación también exitos a ver la probabilidad de asipótesis. Bueno, la forma de calcular
+
+50:39.360 --> 50:43.320
+la probabilidad de asipótesis se divide en dos, digamos, tengo lo que, en contraste al
+
+50:43.320 --> 50:47.080
+momento, el asipótesis se va a cuidar a cierta cantidad de palabras. Entonces, para
+
+50:47.080 --> 50:51.160
+esa cantidad para la verdad, que se llevó cubiertas, utilizo los 3 modelos en modelos de
+
+50:51.160 --> 50:55.760
+traducción, el modelo de rodeonamiento y el modelo de lenguaje, utilizo los 3 modelos para
+
+50:55.760 --> 51:01.360
+calcular la probabilidad de las frases hasta el momento, pero para lo que me falta traducir,
+
+51:01.360 --> 51:05.440
+yo no puedo utilizar todo porque no tengo toda la información de traducción, entonces lo
+
+51:05.440 --> 51:09.440
+que hago es utilizar solamente el modelo de traducción y el modelo de lenguaje. Descarto
+
+51:09.440 --> 51:14.080
+el modelo de rodeonamiento y bueno, entonces algo, calcula una probabilidad que es una parte
+
+51:14.080 --> 51:19.680
+de con todos los 3 modelos y otra parte sin el modelo de rodeonamiento. Bien, este algoritmo
+
+51:19.680 --> 51:24.680
+que acabamos de describir que hace esta búsqueda basándose en hipótesis que utiliza
+
+51:24.680 --> 51:30.520
+recomendación y podado hipótesis y bueno, calcula las probabilidades de esta manera,
+
+51:30.520 --> 51:35.680
+se conoce como algoritmo búsqueda asterico, es un algoritmo de vincers que se usa muchísimo
+
+51:35.680 --> 51:41.600
+en lo que es traducción automática estadística. Por ejemplo, el sistema Moses, acá tenemos
+
+51:41.600 --> 51:48.000
+este ejemplos de herramientas o pensores o gratuitas que siguen para construcción de traducción
+
+51:48.000 --> 51:53.720
+automáticos. Es el sistema Moses, es un sistema o pensó para desarrollar este tipo de traducción
+
+51:53.720 --> 52:00.800
+automáticos estadísticos y hay implementa este algoritmo de codificación de búsqueda asterico.
+
+52:00.800 --> 52:05.480
+Y bueno, lo que tiene el sistema Moses de Buenio es que en realidad lo que hace además
+
+52:05.480 --> 52:10.680
+de implementar el de codificadores utiliza a los otros sistemas y los integrar alguna manera.
+
+52:10.680 --> 52:15.800
+Entonces, integra este otro sistema al ERCTLM que es una herramienta para crear modelos
+
+52:15.800 --> 52:20.240
+del lenguaje basados en el gramas y el otro sistema es el quiso más más que lo veo, mencionado
+
+52:20.240 --> 52:27.320
+hoy que es el sistema que me permite alinear corpus de operaciones en los distintos
+
+52:27.320 --> 52:32.680
+sitiomas llegando a los modelos del 1 ad 5 de traducción de BMS. Bueno, entonces, esta
+
+52:32.680 --> 52:36.760
+tres herramientas, si uno quiere construir un tradutor automático estadístico, entre cualquier
+
+52:36.760 --> 52:42.920
+par de idiomas, puede utilizar estas tres herramientas y tenían un corpus paralelo y un corpus
+
+52:42.920 --> 52:48.120
+monolingue puede construir un tradutor. Pero, bueno, además, otra cosa que me enseñamos en la
+
+52:48.120 --> 52:53.160
+clase basada, pero eran los sistemas basados en reglas, los sistemas basados en reglas han caído
+
+52:53.160 --> 52:58.680
+un poco, y a monotiene tanta popularidad como antes. Sin embargo, algunos se siguen usando,
+
+52:58.680 --> 53:02.680
+y el sistema aperty un sistema o pensor para construir sistema de traducción basados
+
+53:02.680 --> 53:08.520
+en reglas, que tienen un montón de pares de lenguajes. Y, bueno, ya anda relativamente bien,
+
+53:08.520 --> 53:13.520
+digamos, entonces, se sigue desarrollando esta hoy, entonces, es una alternativa o pensor que
+
+53:13.520 --> 53:17.880
+está basada en reglas en vez de estar basado en estas idicas.
+
+53:17.880 --> 53:24.400
+Y, bueno, esta es un resumen de lo que vimos, así que dejamos por acá.
+

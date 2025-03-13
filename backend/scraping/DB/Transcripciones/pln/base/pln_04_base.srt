@@ -1,0 +1,5582 @@
+WEBVTT
+
+00:00.000 --> 00:24.000
+Bueno, el primero que vamos a hablar es de lenguajes regulares.
+
+00:25.000 --> 00:29.000
+Ustedes hicieron el curso de teoría de lenguajes y este año
+
+00:30.000 --> 00:33.000
+generalmente damos una introducción más teórica a lenguajes regulares.
+
+00:33.000 --> 00:37.000
+Este año decidí cortar esa parte porque en realidad ustedes ya tienen
+
+00:37.000 --> 00:44.000
+bastante sufrieron bastante aparada y además y compañía en todos esos temas de lenguaje regulares
+
+00:44.000 --> 00:51.000
+y sus propiedades teóricas, propiedades de clausura y sus diferentes modelos
+
+00:51.000 --> 00:56.000
+y vamos a dar solo un repaso acá para nivelar un poco porque son del tipo de métodos
+
+00:56.000 --> 01:01.000
+que forman la base de otra cantidad y que para algunas tareas aplican directamente.
+
+01:05.000 --> 01:10.000
+Y arranco con esta frase porque como yo decía creo en la primera,
+
+01:10.000 --> 01:22.000
+en la primera clase Chonky por eso por 1997 mostró que el inglés no era susceptible
+
+01:22.000 --> 01:28.000
+de ser representado con automata finitos y eso hizo que la investigación en este tipo
+
+01:28.000 --> 01:31.000
+automata en el procedimiento de lenguaje natural se tuviera como oportunitas años.
+
+01:31.000 --> 01:35.000
+Y después volvieron, ahora os voy a hablar un poquito más de eso,
+
+01:35.000 --> 01:41.000
+pero que son los lenguajes regulares y me queda legísimo el teclado de acá.
+
+01:41.000 --> 01:45.000
+¿Por qué nos interesan los lenguajes regulares?
+
+01:45.000 --> 01:50.000
+Porque esencialmente la visto como herramienta para el procedimiento de lenguaje natural
+
+01:50.000 --> 01:57.000
+son una herramienta para especificar texto mediante patrones.
+
+01:57.000 --> 02:03.000
+Es decir, yo quiero especificar un conjunto de textos a través de un patrón
+
+02:03.000 --> 02:10.000
+con una expresión sola y generalmente puede utilizar expresiones regulares.
+
+02:10.000 --> 02:15.000
+Si yo quiero expresar todas las palabras que empiezan con C,
+
+02:15.000 --> 02:18.000
+tengo que expresar de alguna forma algo como,
+
+02:18.000 --> 02:26.000
+lo voy a poner en Per, digamos, C punto a Terisco.
+
+02:26.000 --> 02:31.000
+Es una C seguida de cualquier cosa, cualquier cantidad de veces.
+
+02:32.000 --> 02:34.000
+Ahora vamos a ver un poco más de eso.
+
+02:34.000 --> 02:37.000
+Esencialmente es una forma de expresar muchas.
+
+02:37.000 --> 02:43.000
+Quiero encontrar en un texto todas las palabras que empiezan con mayúscula y terminen con A.
+
+02:43.000 --> 02:48.000
+Voy a poner una cosa como H, con H en mayúscula que dice,
+
+02:48.000 --> 02:52.000
+cualquier cosa terminen con A.
+
+02:52.000 --> 02:54.000
+¿De acuerdo?
+
+02:54.000 --> 02:56.000
+Y ahí me parecen algunas cosas como, bueno,
+
+02:56.000 --> 03:01.000
+nada tiene que haber no haber espacios en emé y, por ejemplo, ¿no?
+
+03:01.000 --> 03:04.000
+Pero una serie de discusiones.
+
+03:04.000 --> 03:12.000
+Pero lo importante es que yo puedo expresar conjuntos un patrón a través de una expresión,
+
+03:12.000 --> 03:17.000
+un conjunto de texto a partir de un patrón.
+
+03:17.000 --> 03:21.000
+Tienen expresividad limitada, se acuerdan de la jerarquía choque, ¿no?
+
+03:21.000 --> 03:28.000
+Eso tenemos los lenguajes regulares, los lenguajes libre de contexto
+
+03:28.000 --> 03:33.000
+y los lenguajes recursivamente numerables por acá fuera.
+
+03:33.000 --> 03:37.000
+Los lenguajes regulares son sólo un subconjunto de los lenguajes.
+
+03:37.000 --> 03:40.000
+Pero antes, ¿qué son los lenguajes? ¿Qué son los lenguajes formales?
+
+03:40.000 --> 03:42.000
+¿Ese acuerdan los lenguajes formales?
+
+03:42.000 --> 03:44.000
+Ahí, se acuerdan.
+
+03:44.000 --> 03:49.000
+Yo tengo un alfabeto finito de símbolos, ¿sí?
+
+03:49.000 --> 03:54.000
+De fin o tiras de símbolos.
+
+03:54.000 --> 03:55.000
+¿De acuerdo?
+
+03:55.000 --> 04:00.000
+Y los lenguajes son un subconjunto de las tiras que yo puedo formar sobre ese alfabeto.
+
+04:00.000 --> 04:01.000
+Solamente eso.
+
+04:01.000 --> 04:06.000
+Es un conjunto de tiras, conjunto de palabras.
+
+04:06.000 --> 04:11.000
+Los lenguajes regulares sólo hay uno de los lenguajes son regulares.
+
+04:11.000 --> 04:18.000
+En tanto, pueden ser expresados de la forma que lo vamos a ver ahora con este tipo de expresiones regulares.
+
+04:18.000 --> 04:25.000
+O sea, no puedo expresar cualquier cosa con lenguajes regulares.
+
+04:25.000 --> 04:31.000
+Por ejemplo, el ejemplo de manual es que yo no puedo expresar cosas de la forma,
+
+04:31.000 --> 04:34.000
+igual cantidad deías que debes.
+
+04:34.000 --> 04:41.000
+Esto no lo puedo expresar con lenguajes regulares.
+
+04:41.000 --> 04:46.000
+Pero, a cambio de eso, son muy, muy, muy, muy eficientes.
+
+04:46.000 --> 04:51.000
+Es decir, típicamente cuando yo quiero hacer algo,
+
+04:51.000 --> 05:01.000
+hacer una búsqueda eficiente de algo en un texto,
+
+05:01.000 --> 05:05.000
+si lo logros expresar esa búsqueda con una presión regular,
+
+05:05.000 --> 05:12.000
+sé que lo voy a encontrar de una forma muy eficiente,
+
+05:12.000 --> 05:15.000
+si lo vuelvo determinístico, incluso de orden,
+
+05:15.000 --> 05:17.000
+en el largo de la palabra que te busca.
+
+05:17.000 --> 05:20.000
+¿Te guardó?
+
+05:20.000 --> 05:28.000
+Y son fácilmente adaptables para buscar un patrón en un corpus.
+
+05:28.000 --> 05:32.000
+Si yo tengo que buscar un texto como en Unix, con grep,
+
+05:32.000 --> 05:38.000
+o en un editor de texto, cuando controlo y buscar, o lo que sea,
+
+05:38.000 --> 05:40.000
+si yo lo puedo especificar con un patrón,
+
+05:40.000 --> 05:43.000
+generalmente nosotros ponemos una palabra que de última de sus patrón sencillos,
+
+05:43.000 --> 05:46.000
+que solamente expresa una asuntira,
+
+05:46.000 --> 05:49.000
+pero yo podría, casi todos los editores profesionales,
+
+05:49.000 --> 05:52.000
+permiten buscar expresiones regulares.
+
+05:52.000 --> 05:54.000
+Especificar esos patrónes para buscar,
+
+05:54.000 --> 05:56.000
+y casi todo lo lenguaje de hecho,
+
+05:56.000 --> 05:58.000
+creo que todo lo lenguaje de pronunciamiento hoy en día,
+
+05:58.000 --> 06:01.000
+tienen forma de especificar expresiones regulares.
+
+06:01.000 --> 06:04.000
+Por ejemplo, si yo tengo un problema de programación,
+
+06:04.000 --> 06:06.000
+estoy haciendo, y quiero decir, bueno,
+
+06:06.000 --> 06:09.000
+si lo que encuentro es una URL y quiero expresar una URL de alguna forma,
+
+06:09.000 --> 06:11.000
+la expresó con una expresión regular,
+
+06:11.000 --> 06:14.000
+no hay que escribir toda la URL del mundo o que me pueden abarcer.
+
+06:14.000 --> 06:16.000
+¿Te entiende?
+
+06:16.000 --> 06:19.000
+Es decir, yo estoy especificando conjuntos.
+
+06:19.000 --> 06:23.000
+Y esa expresión regulares son fácilmente adaptables para buscar un corpus.
+
+06:23.000 --> 06:26.000
+Ahora vamos a lo que es un corpus devolviendo todos los ocurrencia del patrón.
+
+06:27.000 --> 06:31.000
+Un corpus, para expresamiento, le baja natural.
+
+06:31.000 --> 06:34.000
+Es una cosa muy utilizada y nuestra base de trabajo,
+
+06:34.000 --> 06:37.000
+es un conjunto de textos.
+
+06:37.000 --> 06:40.000
+Nosotros llamamos corpus,
+
+06:40.000 --> 06:44.000
+o el plural corpora,
+
+06:44.000 --> 06:46.000
+cuando hablamos de un conjunto de textos.
+
+06:46.000 --> 06:49.000
+Yo tengo un conjunto de textos, eso es un corpus.
+
+06:50.000 --> 06:53.000
+Ahora vamos a volver a hablar de corpus,
+
+06:54.000 --> 06:57.000
+pero por ahora lo que estamos hablando es un tengo textos.
+
+07:01.000 --> 07:03.000
+Bien, ¿qué pasa?
+
+07:03.000 --> 07:06.000
+Los lenguajes regulares están completamente estudiados
+
+07:06.000 --> 07:09.000
+y yo diría que podrían considerarse un problema resuelto.
+
+07:09.000 --> 07:13.000
+Ustedes vienen al curso material lenguajes
+
+07:13.000 --> 07:22.000
+y saben lo que un ingeniero tiene que saber sobre lenguajes regulares,
+
+07:22.000 --> 07:27.000
+y eso está en un libro de 1979,
+
+07:27.000 --> 07:33.000
+o sea, y de hecho toda la teoría anterior al año 1970,
+
+07:33.000 --> 07:36.000
+si no me equivoco.
+
+07:36.000 --> 07:39.000
+O sea que están muy bien estudiados,
+
+07:39.000 --> 07:42.000
+y además están desde Unix incorporados los lenguajes para la amación.
+
+07:42.000 --> 07:50.000
+Unix ya venía con expresiones regulares, con C, con Greb,
+
+07:51.000 --> 07:56.000
+con AWS, todos, herramientas que incluían la expresión regulares dentro.
+
+07:56.000 --> 08:01.000
+Era en épocas maravillosa porque los mismos que definían la teoría
+
+08:01.000 --> 08:03.000
+de la expresión regulares, los que trabajaban implementar,
+
+08:03.000 --> 08:06.000
+la eso hoy ya no se ve tanto.
+
+08:08.000 --> 08:10.000
+Es decir, los que estaban creando los fundamentos
+
+08:10.000 --> 08:17.000
+eran los mismos riches, querrían que eran los que los implementaban en Unix.
+
+08:18.000 --> 08:22.000
+Y bueno, y lo que les decía, todos los lenguajes o los inclusions.
+
+08:25.000 --> 08:29.000
+Bueno, ¿y cómo son? ¿Cómo les usen las expresiones regulares?
+
+08:29.000 --> 08:32.000
+Y bueno, por ejemplo, una expresión regular,
+
+08:32.000 --> 08:38.000
+esto es como aparece en la expresión regulares en los lenguajes de formación,
+
+08:38.000 --> 08:41.000
+que no es lo mismo que las expresiones regulares que vieron
+
+08:41.000 --> 08:46.000
+en el juicio de los lenguajes que era con mucho menos operadores,
+
+08:47.000 --> 08:52.000
+que permitían definirla, pero la expresidad de la misma,
+
+08:52.000 --> 08:55.000
+acá es lo que hay es forma de abreviar cosas,
+
+08:55.000 --> 08:58.000
+digamos, para no escribir expresiones regulares monstruosas, digamos, ¿no?
+
+08:58.000 --> 09:01.000
+Entonces, hay cosas como la expresión regular cabeza,
+
+09:01.000 --> 09:04.000
+encuentra el patrón acá a cabeza, la palabra en esta escrita.
+
+09:06.000 --> 09:08.000
+Este signo exclamación, reconocer signo exclamación,
+
+09:09.000 --> 09:14.000
+este corta velarga, ve minúcula, ve mayúscula,
+
+09:14.000 --> 09:19.000
+entre corchetes es como un or, digamos, ¿si?
+
+09:19.000 --> 09:23.000
+Que seguía lo mismo que buscar, va a un gongo en mi corta o va a un gongo en mi larga.
+
+09:25.000 --> 09:29.000
+Esto busca A, B y O C, ¿si? Fíjese que acá es lo que está devolviendo
+
+09:29.000 --> 09:34.000
+en la primera ocurrencia, eso depende como yo programé la función de buscar.
+
+09:35.000 --> 09:39.000
+Número del ser al 9, hay algo que no sea mayúscula,
+
+09:40.000 --> 09:43.000
+este corchete funciona como un dot,
+
+09:45.000 --> 09:47.000
+y esto es que no sea una S.
+
+09:50.000 --> 09:53.000
+Esto no, no voy a entrar mucho en detalle, veamos, la idea que...
+
+09:53.000 --> 09:56.000
+Y acá es como el uso una búsqueda en Python, por ejemplo,
+
+09:57.000 --> 10:00.000
+con la biblioteca de expresiones regulares de Python,
+
+10:01.000 --> 10:05.000
+a un search del patrón, y esto se llama nuestro corpo, digamos.
+
+10:06.000 --> 10:09.000
+Y ahí devuelve la ocurrencia.
+
+10:10.000 --> 10:13.000
+Más cosas, ¿no?
+
+10:14.000 --> 10:17.000
+ahí sí, fíjense que el símbolo de...
+
+10:18.000 --> 10:23.000
+de circunflejo al final no tiene ningún significado especial,
+
+10:24.000 --> 10:26.000
+y en el medio de a poco,
+
+10:27.000 --> 10:31.000
+este signo de pregunta quiere decir que el carácter anterior es opcional,
+
+10:33.000 --> 10:36.000
+el punto maché a cualquier carácter, etcétera.
+
+10:40.000 --> 10:42.000
+Bueno, estos operadores son sintactic sugar,
+
+10:42.000 --> 10:45.000
+son formas de abreviar otras cosas, digamos, ¿no?
+
+10:45.000 --> 10:46.000
+Si yo pongo barra de,
+
+10:46.000 --> 10:48.000
+estoy pensando en un número,
+
+10:48.000 --> 10:50.000
+el ser al 9 es otra forma escribirse,
+
+10:50.000 --> 10:52.000
+el 9 son facilidades, ¿no?
+
+10:53.000 --> 10:55.000
+No agrega expresividad, pero vuelve la vida más fácil
+
+10:55.000 --> 10:57.000
+de que está programando.
+
+10:59.000 --> 11:01.000
+Y aquí hay forma de sustituir,
+
+11:01.000 --> 11:03.000
+esto es utilizar un nudo,
+
+11:03.000 --> 11:05.000
+y aquí hay forma de sustituir,
+
+11:05.000 --> 11:07.000
+esto es utilizar un nudo,
+
+11:07.000 --> 11:09.000
+y aquí hay forma de sustituir,
+
+11:09.000 --> 11:11.000
+esto es utilizar una expresión en una sustitución.
+
+11:18.000 --> 11:20.000
+Y casi todos los lenguajes de promoción,
+
+11:20.000 --> 11:22.000
+además uno puede incluir cosas como decir,
+
+11:22.000 --> 11:24.000
+quiero que lo que dice acá,
+
+11:24.000 --> 11:27.000
+sea exactamente lo mismo que lo que dice acá.
+
+11:28.000 --> 11:30.000
+¿Se tiene?
+
+11:31.000 --> 11:33.000
+Por ejemplo, acá dice,
+
+11:33.000 --> 11:36.000
+quiero estar aquí mañana, quiero,
+
+11:36.000 --> 11:38.000
+porque estamos apiando el chie,
+
+11:39.000 --> 11:40.000
+¿sí?
+
+11:40.000 --> 11:41.000
+con este.
+
+11:43.000 --> 11:45.000
+Aguardo, ¿en quién es?
+
+11:45.000 --> 11:48.000
+Esto formalmente no son expresiones regulares,
+
+11:50.000 --> 11:52.000
+sino que son extensiones.
+
+11:52.000 --> 11:55.000
+De hecho, esto es más expresivo que la expresión regulares.
+
+11:58.000 --> 12:01.000
+Esto es un poco de repaso, digamos, ¿no?
+
+12:01.000 --> 12:03.000
+del tipo de cosas que puedo hacer,
+
+12:03.000 --> 12:05.000
+pero lo que nos interesa para este curso es que yo puedo
+
+12:05.000 --> 12:06.000
+buscar rápidamente,
+
+12:06.000 --> 12:08.000
+y especificar muchas cosas a la vez buscar.
+
+12:09.000 --> 12:11.000
+Si yo, el asunto es,
+
+12:11.000 --> 12:14.000
+si yo puedo resolver algo de expresión en regular,
+
+12:14.000 --> 12:16.000
+debería resolverlo con la expresión en regular.
+
+12:16.000 --> 12:17.000
+¿Por qué?
+
+12:17.000 --> 12:19.000
+Porque hacerlo más complejo,
+
+12:20.000 --> 12:22.000
+me voy a perder eficiencia,
+
+12:22.000 --> 12:24.000
+porque no hay nada más eficiente que la expresión en regular.
+
+12:25.000 --> 12:26.000
+Aguardo,
+
+12:26.000 --> 12:28.000
+más que muchas veces no puedo,
+
+12:28.000 --> 12:30.000
+o me queda muy complicado escribirlo.
+
+12:32.000 --> 12:34.000
+Porque la expresión regular,
+
+12:34.000 --> 12:40.000
+fíjense que uno tiene que cubrir toda la casuistia
+
+12:40.000 --> 12:41.000
+que quiere identificar,
+
+12:42.000 --> 12:45.000
+lo cual es muy fácil cuando digo toda la palabra que empiezan con C,
+
+12:45.000 --> 12:47.000
+pero cuando yo quiero empezar a hacer cosas más complicadas,
+
+12:47.000 --> 12:48.000
+como identificar,
+
+12:48.000 --> 12:50.000
+y ahora lo vamos a ver,
+
+12:51.000 --> 12:53.000
+separar palabras, por ejemplo,
+
+12:54.000 --> 12:56.000
+ahí, bueno, ¿pero qué separa una palabra, un espacio?
+
+12:56.000 --> 12:58.000
+Sí, pero también puede ser un signo de puntuación,
+
+12:59.000 --> 13:01.000
+sí, y un dos puntos también.
+
+13:01.000 --> 13:02.000
+Entonces yo podría decir,
+
+13:02.000 --> 13:04.000
+buscar todos los signos de puntuación entre dos palabras,
+
+13:05.000 --> 13:07.000
+pero ¿y qué pasa si dieron enter?
+
+13:07.000 --> 13:10.000
+Es decir, representar todo por un expresión regular
+
+13:10.000 --> 13:12.000
+a veces es bastante complicado.
+
+13:12.000 --> 13:14.000
+Ahora vamos a hablar un poco más de eso.
+
+13:15.000 --> 13:17.000
+¿De cómo se usan las expresiones regular?
+
+13:20.000 --> 13:21.000
+Pero como le decía,
+
+13:22.000 --> 13:25.000
+las expresiones regulares definen un conjunto de tiras
+
+13:25.000 --> 13:27.000
+que se llaman lenguajes regulares.
+
+13:29.000 --> 13:30.000
+¿Sí?
+
+13:32.000 --> 13:34.000
+¿Y qué tienen interesantes y más propiedades de clausura
+
+13:34.000 --> 13:36.000
+como viernes de curso de tiras de lenguajes?
+
+13:37.000 --> 13:39.000
+Lo cual hace que yo pueda, por ejemplo,
+
+13:39.000 --> 13:41.000
+si quiero buscar una cosa,
+
+13:42.000 --> 13:45.000
+algo que está representado por una expresión regular
+
+13:46.000 --> 13:48.000
+y dos cosas que están representadas por la expresión,
+
+13:48.000 --> 13:50.000
+el or de ambas es cerrado,
+
+13:50.000 --> 13:51.000
+o sea que tenga una forma,
+
+13:51.000 --> 13:52.000
+no lo puse acá,
+
+13:52.000 --> 13:56.000
+tiene una forma inmediata de buscar ambos a la vez.
+
+13:57.000 --> 14:00.000
+Es decir, están fácil buscar una cosa como buscar una cosa u otra.
+
+14:01.000 --> 14:02.000
+Siempre es determinístico,
+
+14:02.000 --> 14:04.000
+porque son cerrados bajo todas estas propiedades.
+
+14:04.000 --> 14:05.000
+O si yo quiero buscar,
+
+14:07.000 --> 14:08.000
+es tan fácil buscar algo que sea,
+
+14:10.000 --> 14:12.000
+que si encuentro el estrín perro,
+
+14:12.000 --> 14:13.000
+como algo que no sea perro,
+
+14:14.000 --> 14:15.000
+lo explicó,
+
+14:16.000 --> 14:17.000
+porque son cerrados,
+
+14:17.000 --> 14:19.000
+porque si yo tengo un lenguaje regular
+
+14:20.000 --> 14:21.000
+que representa perro
+
+14:21.000 --> 14:23.000
+y media también tengo la negación.
+
+14:24.000 --> 14:26.000
+Pero lo más interesante de eso,
+
+14:26.000 --> 14:29.000
+es que la demostración de que son clausuras,
+
+14:30.000 --> 14:32.000
+son constructivas,
+
+14:32.000 --> 14:33.000
+porque,
+
+14:34.000 --> 14:35.000
+porque los lenguajes regulares,
+
+14:35.000 --> 14:38.000
+además de poder ser expresados con una expresión regular,
+
+14:40.000 --> 14:42.000
+también pueden ser representados
+
+14:43.000 --> 14:45.000
+por una automata finito.
+
+14:46.000 --> 14:47.000
+Claro, vamos a ver lo que es,
+
+14:47.000 --> 14:49.000
+pero me seguro que se acuerdan de tirar el lenguaje.
+
+14:50.000 --> 14:52.000
+Es decir, exactamente las mismas tiras
+
+14:52.000 --> 14:53.000
+que yo expreso con una expresión regular,
+
+14:54.000 --> 14:55.000
+hay una automata,
+
+14:56.000 --> 14:57.000
+una máquina de estado,
+
+14:58.000 --> 14:59.000
+que la reconoce.
+
+15:00.000 --> 15:01.000
+Sí, un lenguaje regular
+
+15:01.000 --> 15:03.000
+es el conjunto de estrín sobre un alfabeto
+
+15:04.000 --> 15:06.000
+sin más reconocidos por un automata finito.
+
+15:08.000 --> 15:10.000
+O sea, es una definición alternativa de lo mismo.
+
+15:13.000 --> 15:14.000
+Entonces,
+
+15:15.000 --> 15:17.000
+¿Cómo seguí una automata finito para dirección?
+
+15:18.000 --> 15:20.000
+¿Se acuerdan de cómo son las automatas finito?
+
+15:21.000 --> 15:22.000
+Este pizarro.
+
+15:26.000 --> 15:28.000
+Se acuerdan de los automatas finito,
+
+15:28.000 --> 15:31.000
+son, esencialmente, un conjunto de estados.
+
+15:35.000 --> 15:36.000
+Sí,
+
+15:37.000 --> 15:39.000
+un estado por donde se comienza,
+
+15:40.000 --> 15:41.000
+sí,
+
+15:42.000 --> 15:44.000
+un estado por donde se comienza,
+
+15:46.000 --> 15:47.000
+sí,
+
+15:48.000 --> 15:50.000
+transiciones que tienen símbolos
+
+15:52.000 --> 15:53.000
+y que van de un estado al otro,
+
+15:54.000 --> 15:55.000
+sí,
+
+15:56.000 --> 15:58.000
+y algunos estados especiales que se llaman estados finales.
+
+16:01.000 --> 16:02.000
+¿Se acuerdan de esto, no?
+
+16:03.000 --> 16:04.000
+Todos símbolos sobre el alfabeto.
+
+16:05.000 --> 16:07.000
+¿Cómo seguimos una automata finito para direcciones de correo?
+
+16:08.000 --> 16:09.000
+¿Más o menos?
+
+16:15.000 --> 16:16.000
+Este automata.
+
+16:17.000 --> 16:19.000
+Vamos a suponer que yo acá escribo todos los símbolos,
+
+16:19.000 --> 16:21.000
+tengo que hacer un arco por cada símbolo.
+
+16:27.000 --> 16:29.000
+Supongamos que en el alfabeto son mi núcleo,
+
+16:29.000 --> 16:30.000
+masúscula de arroz y punto, ¿no?
+
+16:31.000 --> 16:32.000
+Este automata.
+
+16:33.000 --> 16:36.000
+¿Reconoce de direcciones de correo?
+
+16:38.000 --> 16:41.000
+Yo iría que sí, pero,
+
+16:42.000 --> 16:43.000
+pero exactamente,
+
+16:44.000 --> 16:46.000
+reconoce eso y mucho más, o sea que no es lo que queremos.
+
+16:47.000 --> 16:49.000
+Nosotros queremos una automata que genere exactamente,
+
+16:50.000 --> 16:51.000
+o tan exactamente como podamos,
+
+16:52.000 --> 16:53.000
+las direcciones de correo.
+
+16:54.000 --> 16:55.000
+Entonces, ¿cómo sería?
+
+17:04.000 --> 17:05.000
+¿Qué hago?
+
+17:08.000 --> 17:09.000
+¿Qué sería?
+
+17:10.000 --> 17:11.000
+¿Aseta? ¿Aseta?
+
+17:13.000 --> 17:14.000
+¿Sí? ¿Y después?
+
+17:15.000 --> 17:17.000
+Bueno, sacamos los puntos, tenemos letras, puntos y arroba.
+
+17:19.000 --> 17:20.000
+¿Aboir una arroba?
+
+17:28.000 --> 17:29.000
+¿Sí?
+
+17:30.000 --> 17:31.000
+¿Punto?
+
+17:34.000 --> 17:35.000
+¿Lo mismo?
+
+17:35.000 --> 17:37.000
+Vamos a poner que el arco ya sale muy rápido, ¿sí?
+
+17:44.000 --> 17:45.000
+¿Con qué símbolo?
+
+17:48.000 --> 17:49.000
+¿Hay que ir a esto?
+
+17:53.000 --> 17:54.000
+¿Qué le parece?
+
+17:56.000 --> 17:57.000
+¿Qué le parece?
+
+17:59.000 --> 18:00.000
+¿Me?
+
+18:01.000 --> 18:02.000
+Por...
+
+18:03.000 --> 18:05.000
+¿Cómo compramos?
+
+18:06.000 --> 18:08.000
+¿Un problema que tiene que te pueden poner arroba algo?
+
+18:09.000 --> 18:11.000
+¿Sí? ¿Qué otra? ¿Tiene un otro problema más?
+
+18:15.000 --> 18:16.000
+¿Qué otra cosa pasa?
+
+18:17.000 --> 18:20.000
+Que de sólo más mate algo, punto con, punto a algo, ¿no?
+
+18:20.000 --> 18:22.000
+Sólo un punto y podría tener más de uno.
+
+18:26.000 --> 18:29.000
+Y acá, si no le ponemos el lepsilón, necesariamente tiene que tener una letra,
+
+18:29.000 --> 18:30.000
+lo cual no se necesita mal.
+
+18:31.000 --> 18:34.000
+Especificar una expresión regular no siempre es este,
+
+18:35.000 --> 18:37.000
+del todo sencillo y determina,
+
+18:38.000 --> 18:41.000
+y es parte de nuestro problema de especificación.
+
+18:41.000 --> 18:42.000
+Igual que tuvimos bastante bien.
+
+18:44.000 --> 18:47.000
+Aquí hay una que no es mucho mejor que lo que hicimos nosotros.
+
+18:49.000 --> 18:51.000
+No, porque ahí es más o menos.
+
+18:52.000 --> 18:55.000
+Ahí anda con mi Gmail.com, pero no anda con...
+
+18:56.000 --> 18:58.000
+No te digo muy.
+
+19:00.000 --> 19:01.000
+Pero está.
+
+19:01.000 --> 19:04.000
+Es decir, lo que tiene de bueno es que, a ver,
+
+19:04.000 --> 19:07.000
+lo que tiene de bueno y reitero es que si yo tengo eso rápidamente,
+
+19:07.000 --> 19:09.000
+puedo encontrar esas expresiones,
+
+19:10.000 --> 19:12.000
+la dirección y el correo, como la especificé,
+
+19:12.000 --> 19:14.000
+la puedo rápidamente encontrar en un cuerpo.
+
+19:17.000 --> 19:19.000
+¿Por qué las puedo ver? ¿Por qué las puedo?
+
+19:19.000 --> 19:21.000
+Porque yo siempre tengo la forma,
+
+19:21.000 --> 19:23.000
+y acá viene la explicación de por qué es eficiente,
+
+19:23.000 --> 19:25.000
+porque yo siempre tengo la forma de esto,
+
+19:26.000 --> 19:28.000
+esto es un automata finito de terminista.
+
+19:29.000 --> 19:30.000
+Quiere decir que yo,
+
+19:32.000 --> 19:35.000
+simplemente leo la entrada, voy recorriendo el automata
+
+19:35.000 --> 19:36.000
+y si cuando terminé,
+
+19:37.000 --> 19:40.000
+llegué a un estado final, quiere decir que reconoci esa entrada.
+
+19:41.000 --> 19:42.000
+Eso lo hago en orden,
+
+19:43.000 --> 19:45.000
+en tantos pasos como en largo tenga la entrada.
+
+19:47.000 --> 19:49.000
+No importa, lo...
+
+19:49.000 --> 19:51.000
+Y voy recorriendo el texto, digamos, ¿no?
+
+19:51.000 --> 19:53.000
+¿Cómo se hace la búsqueda de otra cosa?
+
+19:53.000 --> 19:54.000
+Pero, pero...
+
+19:54.000 --> 19:56.000
+Les voy recorriendo y intentando detectarse a parisono de eso.
+
+20:01.000 --> 20:02.000
+Entonces,
+
+20:03.000 --> 20:04.000
+en asuntos así,
+
+20:05.000 --> 20:06.000
+los lenguajes regulares,
+
+20:08.000 --> 20:11.000
+siempre pueden ser representados por una expresión regular,
+
+20:12.000 --> 20:14.000
+es mucho más fácil escribir una expresión regular,
+
+20:15.000 --> 20:16.000
+en general,
+
+20:16.000 --> 20:19.000
+que dibujar el automata, que es una cosa que va a poder creciendo
+
+20:19.000 --> 20:20.000
+y quedar enorme, ¿no?
+
+20:20.000 --> 20:22.000
+Porque yo puedo hacer una expresión regular,
+
+20:23.000 --> 20:26.000
+como le decía la demostración de la clausura es contrutiva,
+
+20:26.000 --> 20:29.000
+entonces yo hago, si yo quiero conocer, quiero reconocer expresiones de correo,
+
+20:29.000 --> 20:31.000
+o nombre de países de África,
+
+20:32.000 --> 20:34.000
+o una expresión regular para la dirección de correo,
+
+20:35.000 --> 20:36.000
+otra expresión regular,
+
+20:37.000 --> 20:39.000
+para los países de África,
+
+20:40.000 --> 20:42.000
+generos los automatas de ambos,
+
+20:43.000 --> 20:45.000
+que hay algoritmos para convertir expresión,
+
+20:45.000 --> 20:46.000
+por eso le decía que acá está,
+
+20:46.000 --> 20:48.000
+lo que tiene bueno que acá está todo resuelto.
+
+20:49.000 --> 20:50.000
+Generos los automatas de ambos,
+
+20:51.000 --> 20:52.000
+y simplemente,
+
+20:52.000 --> 20:53.000
+creo una automata nuevo,
+
+20:54.000 --> 20:55.000
+que lo que tiene es un estado inicial
+
+20:55.000 --> 20:57.000
+y que me manda a una automata o al otro.
+
+21:00.000 --> 21:01.000
+Y eso me da el horro.
+
+21:01.000 --> 21:03.000
+Ahora vamos a lo que se le decía, pero está.
+
+21:04.000 --> 21:05.000
+De acuerdo?
+
+21:05.000 --> 21:06.000
+Es decir, siempre puedo construir algo eficiente
+
+21:06.000 --> 21:08.000
+para reconocer cualquier cosa expresada con la expresión regular.
+
+21:12.000 --> 21:13.000
+¿Alguna duda?
+
+21:15.000 --> 21:16.000
+Bueno, esa es la definición de automata finito
+
+21:16.000 --> 21:17.000
+que coincide con lo que hablamos ¿no?
+
+21:18.000 --> 21:20.000
+Tengo un conjunto finito de estados,
+
+21:21.000 --> 21:22.000
+un alfabeto,
+
+21:22.000 --> 21:23.000
+un estado inicial,
+
+21:23.000 --> 21:25.000
+y un conjunto de estados y finales.
+
+21:26.000 --> 21:27.000
+¿De acuerdo?
+
+21:28.000 --> 21:30.000
+Y cuando reconozco, y bueno,
+
+21:30.000 --> 21:31.000
+sí,
+
+21:33.000 --> 21:34.000
+la función que me dice,
+
+21:34.000 --> 21:37.000
+ir desde una función
+
+21:38.000 --> 21:39.000
+denta extendida,
+
+21:39.000 --> 21:40.000
+que va al estado inicial,
+
+21:41.000 --> 21:43.000
+lee una tira y llegado a otro estado,
+
+21:43.000 --> 21:44.000
+si esa función me siga un final.
+
+21:45.000 --> 21:46.000
+Bueno,
+
+21:47.000 --> 21:49.000
+o sea, no importa si yo paso por un final en el camino,
+
+21:49.000 --> 21:51.000
+tengo que terminar mi tira en el estado final.
+
+21:56.000 --> 21:58.000
+La pregunta que le dejo de ver es cuál sería
+
+21:58.000 --> 22:00.000
+la expresión regular para las direcciones del correo.
+
+22:02.000 --> 22:03.000
+Y no solo eso,
+
+22:03.000 --> 22:05.000
+hay una tercera forma de representar lo que es
+
+22:05.000 --> 22:07.000
+a través de gramáticas regulares.
+
+22:08.000 --> 22:09.000
+Sí.
+
+22:09.000 --> 22:10.000
+Ya vamos a hablar luego de gramáticas.
+
+22:10.000 --> 22:12.000
+Pero hay una gramática que permite expresar
+
+22:13.000 --> 22:14.000
+los lenguajes regulares,
+
+22:14.000 --> 22:16.000
+es altamente las mismas tiras.
+
+22:19.000 --> 22:21.000
+Pero siempre son visiones alternativas
+
+22:21.000 --> 22:23.000
+de un conjunto de tiras.
+
+22:24.000 --> 22:26.000
+Siempre vamos a estar hablando de conjuntos de tira.
+
+22:26.000 --> 22:27.000
+En todos los lenguajes,
+
+22:27.000 --> 22:29.000
+un lenguaje es un conjunto de tiras.
+
+22:31.000 --> 22:33.000
+Incluido los lenguajes naturales.
+
+22:38.000 --> 22:39.000
+Los autómetas finitos además pueden ser,
+
+22:39.000 --> 22:41.000
+nosotros hablamos de no deterministas,
+
+22:41.000 --> 22:42.000
+de deterministas, perdón.
+
+22:43.000 --> 22:45.000
+Pero pueden ser no deterministas.
+
+22:45.000 --> 22:47.000
+El lenguaje de las sovejas que tengo acá
+
+22:47.000 --> 22:50.000
+es ver una cierta cantidad de es
+
+22:51.000 --> 22:52.000
+y una última es.
+
+22:53.000 --> 22:54.000
+Esto es no determinista,
+
+22:54.000 --> 22:56.000
+porque no sé cuándo es la última.
+
+22:57.000 --> 22:59.000
+¿Aca puedo arvuelta o no?
+
+23:00.000 --> 23:01.000
+¿De acuerdo?
+
+23:01.000 --> 23:03.000
+Los autómetas finitos no deterministas reconoce
+
+23:03.000 --> 23:05.000
+en una tira cuando algún camino lleva un estado final.
+
+23:07.000 --> 23:09.000
+Parecen más expresivos que los lenguajes de deterministas,
+
+23:10.000 --> 23:11.000
+pero no lo son.
+
+23:13.000 --> 23:15.000
+Conocemos algoritmos para transformar
+
+23:15.000 --> 23:19.000
+de esto a un automata finito de determinista.
+
+23:21.000 --> 23:22.000
+Y no sólo eso,
+
+23:22.000 --> 23:24.000
+es como hacer para que esto,
+
+23:25.000 --> 23:26.000
+este automata,
+
+23:26.000 --> 23:27.000
+que no solo es no determinista,
+
+23:27.000 --> 23:29.000
+sino que tiene transiciones cerocilogueares
+
+23:29.000 --> 23:30.000
+y que yo no puedo mover de este estado,
+
+23:30.000 --> 23:31.000
+este estado,
+
+23:31.000 --> 23:34.000
+sin consumir la entrada.
+
+23:35.000 --> 23:36.000
+Esto aparece más expresivo,
+
+23:36.000 --> 23:37.000
+pero no lo es.
+
+23:37.000 --> 23:39.000
+Todos son los mismos lenguajes regulares.
+
+23:40.000 --> 23:41.000
+De acuerdo,
+
+23:41.000 --> 23:43.000
+entonces yo siempre puedo transformar
+
+23:44.000 --> 23:45.000
+una automata finito,
+
+23:45.000 --> 23:46.000
+no determinista,
+
+23:46.000 --> 23:48.000
+que a veces me queda más fácil para pacificar.
+
+23:48.000 --> 23:49.000
+El lenguaje de la oveja es más fácil
+
+23:49.000 --> 23:51.000
+de pacificar con uno determinista.
+
+23:53.000 --> 23:55.000
+Por lenguajes cuyo último letra es una A.
+
+23:58.000 --> 24:00.000
+Yo puedo transformar esto a
+
+24:01.000 --> 24:04.000
+uno determinista y reconocer en tiempo lineal.
+
+24:05.000 --> 24:08.000
+¿Por qué no siempre me conviene
+
+24:08.000 --> 24:10.000
+me convendría hacer eso?
+
+24:11.000 --> 24:13.000
+¿Por qué no siempre me convendría
+
+24:13.000 --> 24:15.000
+y hay algoritmo para reconocer
+
+24:15.000 --> 24:17.000
+automatas no deterministas?
+
+24:19.000 --> 24:21.000
+Una forma que yo tengo es,
+
+24:22.000 --> 24:24.000
+quiero reconocer una expresión regular,
+
+24:25.000 --> 24:27.000
+la específico con una automata no determinista,
+
+24:29.000 --> 24:30.000
+lo convierto a determinista
+
+24:30.000 --> 24:32.000
+y el algoritmo de ese sencillo de buscar,
+
+24:33.000 --> 24:35.000
+recorrer los arcos como hicimos con el dedo, ¿no?
+
+24:35.000 --> 24:36.000
+Programar eso.
+
+24:37.000 --> 24:39.000
+¿Por qué a mí me podía convenir directamente
+
+24:39.000 --> 24:41.000
+tratar un algoritmo de que recorra esto?
+
+24:53.000 --> 24:54.000
+¿Por qué?
+
+24:54.000 --> 24:56.000
+Nada, el lenguaje se quedó con la idea
+
+24:56.000 --> 24:58.000
+de que era siempre mejor voluarlo de terministas,
+
+24:58.000 --> 24:59.000
+pues son mucho mejor y malino,
+
+24:59.000 --> 25:01.000
+pero también son mucho más grandes.
+
+25:02.000 --> 25:05.000
+Porque yo para resolver el no determinismo
+
+25:05.000 --> 25:07.000
+si bien puedo lo resuelvo creando
+
+25:07.000 --> 25:08.000
+Estados nuevos.
+
+25:09.000 --> 25:11.000
+Y a mí me puede convenir en lugar de crear
+
+25:11.000 --> 25:13.000
+una nueva automata mucho más grande
+
+25:13.000 --> 25:15.000
+y que es más tengo el costo de conversión, ¿no?
+
+25:16.000 --> 25:19.000
+Es mantener en memoria en qué posición estoy,
+
+25:19.000 --> 25:21.000
+mantener el no determinismo.
+
+25:22.000 --> 25:24.000
+Si ustedes se acuerdan,
+
+25:24.000 --> 25:25.000
+el algoritmo de Thompson,
+
+25:26.000 --> 25:28.000
+lo que permitiera pasar de este automata,
+
+25:28.000 --> 25:29.000
+uno determinista y lo que se era,
+
+25:29.000 --> 25:30.000
+en qué estado estoy,
+
+25:30.000 --> 25:31.000
+en tu incusero,
+
+25:31.000 --> 25:33.000
+viene una B, estoy en C1.
+
+25:33.000 --> 25:34.000
+Si viene una E,
+
+25:34.000 --> 25:35.000
+estoy en C2.
+
+25:36.000 --> 25:37.000
+Si viene una E,
+
+25:37.000 --> 25:38.000
+en C2,
+
+25:38.000 --> 25:40.000
+yo puedo estar en C2 o en C3.
+
+25:42.000 --> 25:44.000
+Recuerdo la lista de los estados en que estoy.
+
+25:44.000 --> 25:46.000
+Seguramente lo aprendieron para hacerlo
+
+25:46.000 --> 25:48.000
+en el segundo parcial y después se olvidaron.
+
+25:51.000 --> 25:52.000
+No, no.
+
+25:53.000 --> 25:54.000
+Entonces,
+
+25:54.000 --> 25:55.000
+en estos modelos,
+
+25:55.000 --> 25:57.000
+el problema es elegir el camino adecuado
+
+25:57.000 --> 25:58.000
+para procesar la tira.
+
+25:58.000 --> 26:00.000
+Eso no voy a entrar mucho en detalle en esto,
+
+26:01.000 --> 26:05.000
+pero como puedo elegir el camino adecuado
+
+26:05.000 --> 26:06.000
+para procesar la tira.
+
+26:08.000 --> 26:11.000
+Como digo,
+
+26:11.000 --> 26:13.000
+si una automata reconoce una tira.
+
+26:15.000 --> 26:16.000
+Y los caminos son varios,
+
+26:16.000 --> 26:17.000
+esencialmente uno,
+
+26:17.000 --> 26:18.000
+si ya es
+
+26:19.000 --> 26:20.000
+backup,
+
+26:20.000 --> 26:21.000
+es como
+
+26:22.000 --> 26:23.000
+es el viejo querido backtracking,
+
+26:24.000 --> 26:25.000
+es decir,
+
+26:26.000 --> 26:27.000
+si yo tengo
+
+26:28.000 --> 26:29.000
+este automata.
+
+26:31.000 --> 26:32.000
+¿Verdad?
+
+26:33.000 --> 26:34.000
+Cuando tengo una duda,
+
+26:35.000 --> 26:37.000
+toma un camino.
+
+26:37.000 --> 26:38.000
+Vino una E,
+
+26:38.000 --> 26:39.000
+me fui acá,
+
+26:39.000 --> 26:40.000
+o me quedé acá.
+
+26:40.000 --> 26:41.000
+Bueno,
+
+26:41.000 --> 26:42.000
+yo supongo que me quedé acá.
+
+26:44.000 --> 26:45.000
+Y si después,
+
+26:45.000 --> 26:46.000
+si no es clamación quedó trancado,
+
+26:46.000 --> 26:47.000
+o sea que ese camino no me servía,
+
+26:47.000 --> 26:48.000
+servía,
+
+26:49.000 --> 26:51.000
+y tomó el camino alternativo.
+
+26:52.000 --> 26:53.000
+Recuerdo?
+
+26:54.000 --> 26:55.000
+O sea, va a entrar.
+
+26:56.000 --> 26:58.000
+Pero también puedo hacer lucajed
+
+26:58.000 --> 26:59.000
+y es
+
+26:59.000 --> 27:01.000
+mirar adelante las transiciones que tengo,
+
+27:01.000 --> 27:03.000
+mirar los siguientes símbolos que vienen en la entrada
+
+27:03.000 --> 27:05.000
+para ver si yo es compatible con lo que tengo,
+
+27:05.000 --> 27:06.000
+en el automata.
+
+27:08.000 --> 27:10.000
+O eso que les contaba reciente el algoritmo de Thompson,
+
+27:10.000 --> 27:11.000
+hacer paralelismo,
+
+27:11.000 --> 27:12.000
+es decir,
+
+27:12.000 --> 27:14.000
+contar todos los caminos que tengo,
+
+27:15.000 --> 27:16.000
+posibles.
+
+27:17.000 --> 27:18.000
+Aguardo.
+
+27:26.000 --> 27:28.000
+Bueno, esto es lo que ya les dije, ¿no?
+
+27:30.000 --> 27:32.000
+En general, si utiliza una automata finito,
+
+27:32.000 --> 27:33.000
+no le termita con el algoritmo de cual.
+
+27:33.000 --> 27:34.000
+Esto es solo una introducción,
+
+27:34.000 --> 27:35.000
+no, no, no.
+
+27:36.000 --> 27:38.000
+No pretende ser más que eso.
+
+27:38.000 --> 27:39.000
+Hay un curso para eso.
+
+27:39.000 --> 27:40.000
+Como yo les decía,
+
+27:40.000 --> 27:41.000
+para cada cosa que yo,
+
+27:41.000 --> 27:42.000
+cada tema quedamos acá,
+
+27:42.000 --> 27:43.000
+hay un curso.
+
+27:44.000 --> 27:46.000
+No es que siempre exista un curso,
+
+27:46.000 --> 27:47.000
+pero digamos,
+
+27:47.000 --> 27:48.000
+se podría dar un curso.
+
+27:50.000 --> 27:51.000
+Y acá,
+
+27:51.000 --> 27:53.000
+volvemos a lo que nos interesa
+
+27:53.000 --> 27:54.000
+en este curso y eso.
+
+27:55.000 --> 27:56.000
+Esto que hablamos,
+
+27:56.000 --> 27:57.000
+los lenguajes regulares
+
+27:57.000 --> 27:58.000
+son lenguajes formales.
+
+27:59.000 --> 28:00.000
+¿Sí?
+
+28:00.000 --> 28:01.000
+O sea,
+
+28:03.000 --> 28:04.000
+los lenguajes formales
+
+28:04.000 --> 28:05.000
+son conjunto de tiras
+
+28:05.000 --> 28:06.000
+sobre un alfabeto finito o palabras.
+
+28:08.000 --> 28:10.000
+Y esto conjunto tiene ni general gramáticas
+
+28:10.000 --> 28:12.000
+que los generan exactamente.
+
+28:12.000 --> 28:13.000
+Sabemos exactamente como generarlos.
+
+28:16.000 --> 28:17.000
+Y eso son los lenguajes formales,
+
+28:17.000 --> 28:19.000
+que son los lenguajes que ustedes
+
+28:19.000 --> 28:20.000
+han conocido hasta el momento de la carrera.
+
+28:21.000 --> 28:23.000
+Todos los lenguajes de promoción son lenguajes formales.
+
+28:24.000 --> 28:26.000
+Esencialmente son no ambigos.
+
+28:26.000 --> 28:27.000
+Van a empezar.
+
+28:29.000 --> 28:31.000
+No puedo fácilmente dar dos interpretaciones.
+
+28:31.000 --> 28:32.000
+No, no puedo dar dos interpretaciones.
+
+28:32.000 --> 28:34.000
+Yo tiene que compilar a código máquina.
+
+28:34.000 --> 28:35.000
+No, no puedo hacer dos cosas a la vega.
+
+28:37.000 --> 28:38.000
+Los lenguajes naturales
+
+28:40.000 --> 28:41.000
+son los que la gente habla.
+
+28:43.000 --> 28:44.000
+Es muy difícil
+
+28:44.000 --> 28:46.000
+revelar con los lenguajes formales,
+
+28:46.000 --> 28:47.000
+los lenguajes naturales.
+
+28:48.000 --> 28:49.000
+¿Por qué?
+
+28:50.000 --> 28:51.000
+¿Por qué son ambigos?
+
+28:53.000 --> 28:54.000
+¿Más se guardan tener el tío?
+
+28:56.000 --> 28:57.000
+¿Por qué son vagos?
+
+28:57.000 --> 28:59.000
+¿Por qué hay cosas que uno dice
+
+28:59.000 --> 29:01.000
+que se puede interper dar una forma
+
+29:01.000 --> 29:02.000
+que no son clara,
+
+29:02.000 --> 29:04.000
+que uno la interpreta por el contexto?
+
+29:04.000 --> 29:05.000
+¿Sagueras de lo que vimos?
+
+29:05.000 --> 29:06.000
+¿No?
+
+29:06.000 --> 29:07.000
+Que según como yo diga...
+
+29:11.000 --> 29:12.000
+Venía a cenarte,
+
+29:12.000 --> 29:13.000
+espero...
+
+29:13.000 --> 29:14.000
+Venía que te espero,
+
+29:14.000 --> 29:15.000
+digamos, depende del contexto,
+
+29:15.000 --> 29:16.000
+pues son diferentes.
+
+29:18.000 --> 29:19.000
+Bueno, y un poco esto, ¿no?
+
+29:19.000 --> 29:20.000
+Depende del contexto.
+
+29:20.000 --> 29:21.000
+Las cosas que se dicen,
+
+29:21.000 --> 29:22.000
+dependen de dónde le estoy diciendo.
+
+29:24.000 --> 29:26.000
+Sin embargo, y yo acá les dejo algún link,
+
+29:27.000 --> 29:29.000
+uno podría llegar a discutir,
+
+29:29.000 --> 29:31.000
+sino puede representarlo con un...
+
+29:31.000 --> 29:32.000
+con un lenguaje de aula.
+
+29:33.000 --> 29:34.000
+Entonces, no es fácil.
+
+29:34.000 --> 29:35.000
+Es otra claricia.
+
+29:35.000 --> 29:36.000
+Que no es sencillo,
+
+29:36.000 --> 29:37.000
+yo no puedo hacer expresiones regulares
+
+29:37.000 --> 29:38.000
+para todo lo...
+
+29:38.000 --> 29:39.000
+para todo lo...
+
+29:39.000 --> 29:40.000
+el lenguaje natural.
+
+29:42.000 --> 29:44.000
+Pero dado que la cantidad de palabras
+
+29:44.000 --> 29:45.000
+es finita,
+
+29:45.000 --> 29:47.000
+yo eventualmente podría llegar a armar algo,
+
+29:47.000 --> 29:49.000
+que a representar a todas las palabras
+
+29:49.000 --> 29:50.000
+que se pudieran decir,
+
+29:50.000 --> 29:51.000
+sería muy difícil.
+
+29:52.000 --> 29:53.000
+Sobre todo por la creatividad,
+
+29:53.000 --> 29:54.000
+el lenguaje,
+
+29:54.000 --> 29:55.000
+porque el lenguaje está aumentando
+
+29:55.000 --> 29:56.000
+el palabra todo el tiempo.
+
+30:00.000 --> 30:04.000
+Hay un artículo que es de 1969, ¿verdad?
+
+30:04.000 --> 30:06.000
+Que discuto un poquito eso.
+
+30:11.000 --> 30:13.000
+¿Y qué pasa con las expresiones regulares
+
+30:13.000 --> 30:14.000
+y el lenguaje natural?
+
+30:14.000 --> 30:15.000
+Bueno, hay un fenómeno.
+
+30:16.000 --> 30:18.000
+En el lenguaje natural que se amacenten en Bedding,
+
+30:20.000 --> 30:22.000
+que es, yo puedo decir un hombre llora,
+
+30:23.000 --> 30:26.000
+puede decir un hombre que una mujer ama llora,
+
+30:27.000 --> 30:31.000
+puede decir un hombre que una mujer que un niño adora ama llora.
+
+30:32.000 --> 30:33.000
+Y así puedo seguir
+
+30:36.000 --> 30:37.000
+a infinito.
+
+30:39.000 --> 30:42.000
+Esa estructura de estas oraciones es
+
+30:42.000 --> 30:44.000
+Grupo nominal verbo.
+
+30:46.000 --> 30:47.000
+¿Sí?
+
+30:47.000 --> 30:48.000
+Grupo nominal 1, verbo 1.
+
+30:48.000 --> 30:49.000
+Grupo nominal 1,
+
+30:49.000 --> 30:51.000
+Grupo nominal 2, verbo 2, verbo 1.
+
+30:52.000 --> 30:53.000
+¿No?
+
+30:53.000 --> 30:54.000
+Grupo nominal 1
+
+30:54.000 --> 30:55.000
+y supuestamente,
+
+30:56.000 --> 30:57.000
+de alguna forma,
+
+30:57.000 --> 30:59.000
+yo tengo que mostrar que este verbo
+
+30:59.000 --> 31:01.000
+está pegado a este grupo nominal.
+
+31:02.000 --> 31:03.000
+Este verbo está pegado a este grupo nominal
+
+31:03.000 --> 31:05.000
+y este verbo está pegado a este grupo nominal.
+
+31:07.000 --> 31:08.000
+¿Sí?
+
+31:08.000 --> 31:10.000
+Tan relacionado desde el punto de vista sin que llora,
+
+31:10.000 --> 31:11.000
+¿Quién es que llora?
+
+31:12.000 --> 31:13.000
+¿Quién llora, acá?
+
+31:14.000 --> 31:15.000
+¿Qué un hombre?
+
+31:16.000 --> 31:17.000
+No hay la mujer la que está llora.
+
+31:20.000 --> 31:21.000
+Si ustedes ven esta estructura,
+
+31:22.000 --> 31:25.000
+1, 2, 3, 3, 2, 1, es muy parecido de esto,
+
+31:25.000 --> 31:26.000
+debemos ver, como que lo borré.
+
+31:27.000 --> 31:28.000
+W, W, W, R, verso.
+
+31:29.000 --> 31:31.000
+Que es el tipo de cosa que sabemos
+
+31:31.000 --> 31:33.000
+que no se pueden representar con el precio de regular.
+
+31:34.000 --> 31:35.000
+Esto fue lo que hizo,
+
+31:35.000 --> 31:36.000
+si yo más no recuerdo,
+
+31:36.000 --> 31:40.000
+decir a Chonky que al lenguaje natural,
+
+31:40.000 --> 31:43.000
+si yo no tengo forma de modelar
+
+31:43.000 --> 31:44.000
+con el precio de regular,
+
+31:44.000 --> 31:46.000
+es esto teóricamente no puedo.
+
+31:47.000 --> 31:48.000
+¿Sí?
+
+31:50.000 --> 31:52.000
+Ahora, también yo puedo decir que
+
+31:52.000 --> 31:53.000
+yo lo des...
+
+31:53.000 --> 31:55.000
+A mí no saben lo que me cotó armar este ejemplo.
+
+31:56.000 --> 31:58.000
+Porque yo conletas a mi mareo.
+
+31:59.000 --> 32:02.000
+Y probablemente una masa no seamos capaces de entenderlo.
+
+32:03.000 --> 32:05.000
+No seamos capaces de procesarlo entonces.
+
+32:05.000 --> 32:07.000
+Si yo digo bueno, pero
+
+32:07.000 --> 32:09.000
+esto sí es arbitrariamente largo,
+
+32:09.000 --> 32:11.000
+pero si yo supongo que lo más que puedo llegar es a 3,
+
+32:12.000 --> 32:14.000
+ahí sí puedo apresar una expresión regular.
+
+32:16.000 --> 32:17.000
+¿De acuerdo?
+
+32:17.000 --> 32:18.000
+¿Se entiende?
+
+32:18.000 --> 32:19.000
+Es decir, nuestra capacidad
+
+32:20.000 --> 32:22.000
+teóricamente podemos armar a Chonky,
+
+32:22.000 --> 32:23.000
+pero no las puedo volver,
+
+32:23.000 --> 32:24.000
+no las podemos compilar, digamos.
+
+32:25.000 --> 32:27.000
+Entonces, eso un poco pone en discusión que
+
+32:27.000 --> 32:28.000
+o no puedas...
+
+32:29.000 --> 32:30.000
+Esto como argumento de,
+
+32:30.000 --> 32:32.000
+bueno, deja de estudiar el precio de regular
+
+32:32.000 --> 32:34.000
+y para el lenguaje natural nunca te va a seguir pagando.
+
+32:40.000 --> 32:41.000
+Eh...
+
+32:41.000 --> 32:42.000
+¿Qué toco pasó?
+
+32:46.000 --> 32:48.000
+No podemos modelar el lenguaje natural con expresiones regulares.
+
+32:52.000 --> 32:54.000
+Pero sí podemos modelar a algunos fenómenos.
+
+32:55.000 --> 32:57.000
+Típicamente se modelan con expresiones regulares.
+
+32:58.000 --> 33:00.000
+La fonoilogía se ha representado durante mucho tiempo
+
+33:00.000 --> 33:02.000
+el estudio de los sonidos, ¿no?
+
+33:03.000 --> 33:05.000
+¿De cómo los sonidos forman las palabras?
+
+33:05.000 --> 33:06.000
+La amor fonogea que lo vamos a ver,
+
+33:06.000 --> 33:07.000
+la verdad es que viene.
+
+33:09.000 --> 33:11.000
+Y las sintaxis...
+
+33:14.000 --> 33:17.000
+de superficie, digamos, superficial,
+
+33:17.000 --> 33:20.000
+reconocer los grupos nominales y grupos verbales
+
+33:20.000 --> 33:23.000
+se ha resuelto con expresiones regulares.
+
+33:23.000 --> 33:24.000
+Si es cierto,
+
+33:24.000 --> 33:26.000
+sus grupos de problemas se pueden resuelar.
+
+33:27.000 --> 33:28.000
+¿De acuerdo?
+
+33:29.000 --> 33:30.000
+¿Hasta acá?
+
+33:32.000 --> 33:33.000
+¿Hay una pregunta?
+
+33:37.000 --> 33:38.000
+¿No? ¿Un lado?
+
+33:40.000 --> 33:42.000
+Esas son nuestras,
+
+33:42.000 --> 33:45.000
+nuestro primer modelo que es de las expresiones regulares.
+
+33:48.000 --> 33:51.000
+Ahí tienen el capítulo 2
+
+33:53.000 --> 33:56.000
+del libro de Martin Yuravsky,
+
+33:56.000 --> 33:58.000
+lo que buscamos para la clase de hoy.
+
+33:59.000 --> 34:01.000
+Si lo pueden encontrar en línea,
+
+34:01.000 --> 34:03.000
+porque está en la tercera edición,
+
+34:03.000 --> 34:05.000
+están los drafts de algunos capítulos de la tercera edición,
+
+34:05.000 --> 34:07.000
+lo pueden encontrar si no aparecen por ahí.
+
+34:08.000 --> 34:09.000
+Yo vuelvo.
+
+34:09.000 --> 34:10.000
+Bien.
+
+34:27.000 --> 34:28.000
+Bueno.
+
+34:29.000 --> 34:32.000
+Eso fue un poco el repaso de expresiones regulares.
+
+34:33.000 --> 34:35.000
+Y ahora vamos a ir a...
+
+34:41.000 --> 34:44.000
+a la primera tarea que enfrentamos como
+
+34:44.000 --> 34:46.000
+en el procedimiento de la tercera edición.
+
+34:46.000 --> 34:48.000
+Hay una realidad y una primera tarea
+
+34:48.000 --> 34:50.000
+que está siempre subestimada
+
+34:51.000 --> 34:53.000
+y que lleva mucho tiempo general
+
+34:53.000 --> 34:55.000
+que es la de preprocesamiento.
+
+34:56.000 --> 35:00.000
+Es decir, yo puedo partir de un texto escrito
+
+35:01.000 --> 35:06.000
+en un formato electrónicamente amigable,
+
+35:06.000 --> 35:09.000
+un texto en ánci o en un hícode.
+
+35:10.000 --> 35:12.000
+Pero, generalmente, para llegar del mundo real,
+
+35:12.000 --> 35:14.000
+a ese texto yo tengo que hacer todo el procedimiento
+
+35:14.000 --> 35:19.000
+porque los textos vienen en páginas huevos,
+
+35:19.000 --> 35:21.000
+con marcas de HTML,
+
+35:21.000 --> 35:23.000
+o hay que extraerlo de un PDF.
+
+35:23.000 --> 35:24.000
+Yo me acuerdo que...
+
+35:26.000 --> 35:29.000
+En una época que hacíamos algunos trabajos agujentes del pastor,
+
+35:29.000 --> 35:30.000
+la gente...
+
+35:31.000 --> 35:33.000
+Había un compañero y dice, pero no sabe nada,
+
+35:33.000 --> 35:35.000
+me venía a decir que venía a ese procedimiento de reglas natural
+
+35:35.000 --> 35:37.000
+y no sabía sacar el texto en un PDF.
+
+35:37.000 --> 35:39.000
+Tiened bueno, porque su problema antes de eso
+
+35:39.000 --> 35:42.000
+era sacar de los PDFs, de los paper, a texto puro.
+
+35:43.000 --> 35:44.000
+Qué es bastante difícil,
+
+35:44.000 --> 35:47.000
+por lo tanto, paréntese porque el PDF es una cosa de imprimir, ¿no?
+
+35:49.000 --> 35:51.000
+Ese trabajo lleva mucho, es muy engorroso,
+
+35:51.000 --> 35:53.000
+lleva mucho tiempo y está generalmente subestimado
+
+35:54.000 --> 35:55.000
+el tiempo que lleva
+
+35:55.000 --> 35:57.000
+y en este curso lo vamos a seguir subestimando
+
+35:57.000 --> 36:00.000
+porque vamos a sumir que partimos un texto como la gente, digamos,
+
+36:00.000 --> 36:02.000
+sin ese tipo de cosas.
+
+36:03.000 --> 36:05.000
+O sea que yo tengo un texto escrito, ¿no?
+
+36:06.000 --> 36:08.000
+Vamos a suponer también...
+
+36:11.000 --> 36:12.000
+Bueno, no tenemos que suponarlo, pero...
+
+36:13.000 --> 36:17.000
+Si les queda como ahora, que es un texto razonable,
+
+36:17.000 --> 36:21.000
+que no tiene cosas muy raras como Twitter o...
+
+36:23.000 --> 36:25.000
+o como, pues sí, incluso, ¿no?
+
+36:25.000 --> 36:27.000
+Yo tengo que analizar, pues sí,
+
+36:27.000 --> 36:29.000
+había que tener otros problemas, seguramente.
+
+36:29.000 --> 36:31.000
+De hecho, se hace, de hecho, tenemos un proyecto de grado,
+
+36:31.000 --> 36:33.000
+varios que analizan cosas de Twitter,
+
+36:33.000 --> 36:35.000
+pero ahí cambian un poquito las reglas.
+
+36:36.000 --> 36:39.000
+Ahora vamos a suponer de un texto como un texto narrativo,
+
+36:39.000 --> 36:42.000
+una noticia, pues así.
+
+36:43.000 --> 36:44.000
+Gente normal.
+
+36:45.000 --> 36:47.000
+Y lo que nos va a interesar es ver el tema
+
+36:47.000 --> 36:49.000
+de la normalización de los textos.
+
+36:49.000 --> 36:52.000
+Es decir, yo agarro ese texto y quiero dar alguna forma...
+
+36:53.000 --> 36:55.000
+eh...
+
+36:56.000 --> 36:58.000
+analizablo.
+
+36:58.000 --> 36:59.000
+Bueno,
+
+36:59.000 --> 37:01.000
+para empezar,
+
+37:01.000 --> 37:03.000
+tenemos que ver cuáles son las unidades del texto.
+
+37:03.000 --> 37:06.000
+Y ahí yo puse una definición que dice ese segmento
+
+37:06.000 --> 37:09.000
+del discurso unificado...
+
+37:11.000 --> 37:12.000
+Perdón.
+
+37:12.000 --> 37:14.000
+El segmento del discurso, todos los años,
+
+37:14.000 --> 37:15.000
+me pongo la cosa de no.
+
+37:15.000 --> 37:18.000
+El segmento del discurso unificado habitualmente por el asento,
+
+37:18.000 --> 37:21.000
+el significado y pausas potenciales, inicial y final.
+
+37:21.000 --> 37:23.000
+Eso es la definición de...
+
+37:29.000 --> 37:30.000
+¿Qué es eso?
+
+37:32.000 --> 37:33.000
+Asento?
+
+37:33.000 --> 37:34.000
+No.
+
+37:34.000 --> 37:35.000
+Más chico.
+
+37:35.000 --> 37:37.000
+Porque la pregunta de cuál son las más pequeñas, ¿no?
+
+37:38.000 --> 37:40.000
+Palabras, ¿no?
+
+37:40.000 --> 37:41.000
+Las palabras.
+
+37:42.000 --> 37:45.000
+Ustedes vieron que todas estas definiciones siempre se ponen muy cuidadosos
+
+37:45.000 --> 37:47.000
+porque siempre aparecen, pero está el costo,
+
+37:47.000 --> 37:48.000
+una palabra y no.
+
+37:48.000 --> 37:50.000
+Unificado habitualmente por el asento,
+
+37:50.000 --> 37:51.000
+no sé por qué el asento.
+
+37:51.000 --> 37:53.000
+Ah, porque por claro, porque tiene brujo,
+
+37:53.000 --> 37:54.000
+las esas cosas, ¿no?
+
+37:56.000 --> 37:58.000
+El significado tiene un significado,
+
+37:58.000 --> 38:01.000
+la clase que viene a molar de morfología,
+
+38:01.000 --> 38:03.000
+donde hay parte más chica en la palabra,
+
+38:03.000 --> 38:04.000
+pero que no tiene significado independiente.
+
+38:05.000 --> 38:07.000
+Y pausas potenciales, inicial y final.
+
+38:07.000 --> 38:10.000
+Porque nosotros nos creemos que las palabras tienen espacios.
+
+38:10.000 --> 38:13.000
+Pausas, pero nosotros no hablamos.
+
+38:13.000 --> 38:16.000
+Ah, sí, no, así no, así.
+
+38:16.000 --> 38:19.000
+Bueno, eso es la definición de palabra.
+
+38:19.000 --> 38:22.000
+O sea, nuestra primera aproximación va a ser, bueno,
+
+38:22.000 --> 38:25.000
+vamos a modificar las palabras dentro del texto, ¿sí?
+
+38:29.000 --> 38:31.000
+Y vamos a ver ahí, por ejemplo,
+
+38:34.000 --> 38:38.000
+un pedacito, un texto de un incuento muy lindo de Jorge,
+
+38:38.000 --> 38:39.000
+que se llama la elef.
+
+38:45.000 --> 38:47.000
+¿Qué palabras hay ahí? Díganme palabras.
+
+38:47.000 --> 38:48.000
+¿Qué palabras vamos contando?
+
+38:48.000 --> 38:58.000
+Bueno, yo les digo, si no se anima la candente mañana,
+
+38:58.000 --> 39:00.000
+fácil, ¿no? Los espacios se paran palabras.
+
+39:02.000 --> 39:05.000
+El febrero, en qué, ¿verdad?
+
+39:05.000 --> 39:07.000
+Pues seguir hasta el final.
+
+39:07.000 --> 39:09.000
+Ve a tributer, son dos palabras o una sola.
+
+39:14.000 --> 39:15.000
+Son dos palabras, ¿no?
+
+39:19.000 --> 39:24.000
+Pero, a mí me podría interesar para posteriores análisis,
+
+39:24.000 --> 39:27.000
+decir que esto se comporta como un nombre propio sol, ¿no?
+
+39:29.000 --> 39:30.000
+Eso podría ser interesante.
+
+39:30.000 --> 39:32.000
+Yo quiero saber todos los textos que hablan de Beatriz Viterbo.
+
+39:34.000 --> 39:37.000
+Me podría interesar y identificarlo como una sola cosa.
+
+39:37.000 --> 39:40.000
+Es que llama multiguor desprecion o entidades con nombre,
+
+39:40.000 --> 39:43.000
+que muchas veces me puede interesar y identificarla.
+
+39:44.000 --> 39:49.000
+¿No? ¿Murió? ¿Cómo? ¿Cómo es palabras o no es palabras?
+
+39:52.000 --> 39:54.000
+¿Pende pa qué? ¿No?
+
+39:57.000 --> 40:01.000
+No tiene ascento, o sea, de la definición de la Academia de Panyola,
+
+40:01.000 --> 40:03.000
+no es una palabra perta.
+
+40:03.000 --> 40:05.000
+Pero a mí me puede meter cómo algo hace ahí, ¿no?
+
+40:05.000 --> 40:09.000
+Se parado enunciado, creo.
+
+40:10.000 --> 40:13.000
+Después de una imperiosa hablar,
+
+40:13.000 --> 40:18.000
+acá tenemos la plaza constitución que es su lugar,
+
+40:20.000 --> 40:21.000
+puticoma.
+
+40:27.000 --> 40:31.000
+Y acá hay otra cosa muy interesante, ¿qué es lo que termina acá?
+
+40:33.000 --> 40:35.000
+La operación, ¿no? ¿Cómo saben que termina la operación?
+
+40:40.000 --> 40:43.000
+¿Pueden un punto? ¿No? ¿Punto? Si no es pregunta,
+
+40:43.000 --> 40:45.000
+o si no es clamación, termina la operación.
+
+40:47.000 --> 40:49.000
+A través de punto podría ser una abreviatura, ¿no?
+
+40:51.000 --> 40:53.000
+Podemos cortar la voz al medio y tenemos problemas.
+
+40:57.000 --> 40:59.000
+¿El puticoma separa a oraciones?
+
+41:02.000 --> 41:05.000
+Sí, yo que sé. ¿Por qué sí? ¿No?
+
+41:06.000 --> 41:09.000
+No, yo les avise que en este curso no os pere en todas las respuestas,
+
+41:09.000 --> 41:11.000
+porque no siempre están.
+
+41:11.000 --> 41:13.000
+Trabajamos con un lenguaje a ver.
+
+41:13.000 --> 41:16.000
+Trabajamos con un material que es ambivo o que es es,
+
+41:16.000 --> 41:20.000
+es movedizo, digamos, no podemos pretender tener todo determinismo.
+
+41:20.000 --> 41:22.000
+Pero si no sería muy fácil,
+
+41:22.000 --> 41:25.000
+por eso un cuerpo en español no es igual que un cuerpo en inglés,
+
+41:25.000 --> 41:30.000
+porque las características son diferentes y ni les dio un cuerpo en chino.
+
+41:31.000 --> 41:32.000
+Acá hay más cosas.
+
+41:34.000 --> 41:36.000
+Realmente no sé qué aporta esto, pero estoy lindos,
+
+41:36.000 --> 41:37.000
+te cuento.
+
+41:37.000 --> 41:40.000
+Mentón son tres puntos subvencidos, al final eso termino la acción.
+
+41:41.000 --> 41:44.000
+Bueno, toquenizar es un problema que en general es bastante fácil,
+
+41:45.000 --> 41:49.000
+pero para llegar a un nivel completo de análisis,
+
+41:49.000 --> 41:50.000
+tiene su problemitas.
+
+41:50.000 --> 41:56.000
+Hay un paper muy clásico que se llama What is a War, What is a Sentence,
+
+41:57.000 --> 42:00.000
+que están las referencias que habla de los problemas,
+
+42:00.000 --> 42:03.000
+que hay al toquenizar, que no son tan sencillos como,
+
+42:03.000 --> 42:05.000
+que hace que no sea un problema tan sencillo,
+
+42:05.000 --> 42:07.000
+un problema típico,
+
+42:07.000 --> 42:09.000
+un problema típico que en realidad con la,
+
+42:09.000 --> 42:13.000
+problema típico, en realidad con el adenimiento de los formatos,
+
+42:14.000 --> 42:16.000
+directamente digitales,
+
+42:16.000 --> 42:18.000
+eso es lo menos que es el corte de guiones,
+
+42:18.000 --> 42:19.000
+en el borde.
+
+42:19.000 --> 42:21.000
+Yo creo que me tiene una artificial por acá,
+
+42:21.000 --> 42:22.000
+porque esto no lo tenía.
+
+42:22.000 --> 42:25.000
+La primera como un nión, ¿sí?
+
+42:27.000 --> 42:31.000
+Comun, nión es una palabra sólida,
+
+42:31.000 --> 42:34.000
+pero yo en el texto la tengo separado por un nión.
+
+42:36.000 --> 42:39.000
+Y yo tengo que ver si ese nión se parte una palabra al medio,
+
+42:39.000 --> 42:41.000
+o es una palabra compuesta con un nión.
+
+42:41.000 --> 42:43.000
+Que esto se pasa en el pañón, ¿no hay pero?
+
+42:45.000 --> 42:47.000
+Pero bueno, para no siempre trabajamos en el pañón.
+
+42:50.000 --> 42:52.000
+Bueno, y entonces un poquito de,
+
+42:52.000 --> 42:54.000
+hay más y otra cosa, ¿no?
+
+42:54.000 --> 42:57.000
+Yo tengo que identificar para el análisis.
+
+42:58.000 --> 43:00.000
+¿Cuáles son las palabras que aparecen?
+
+43:00.000 --> 43:01.000
+Ay, hay otra pregunta, ¿ver?
+
+43:02.000 --> 43:03.000
+Por ejemplo,
+
+43:04.000 --> 43:05.000
+este d,
+
+43:06.000 --> 43:08.000
+y este d, son el mismo.
+
+43:10.000 --> 43:13.000
+Va justo a arreglar una, porque d nuevo es una multivisión.
+
+43:13.000 --> 43:15.000
+No es lo que hice pregunta.
+
+43:15.000 --> 43:16.000
+Esto es una expresión, ¿no?
+
+43:16.000 --> 43:17.000
+Que se interpreta a tu ajunta,
+
+43:17.000 --> 43:19.000
+a mí me podría convenir entre mi edad.
+
+43:19.000 --> 43:21.000
+Pero más allá de eso, a ver, es mi buscar otro.
+
+43:25.000 --> 43:31.000
+Ah, no lo tengo. Bueno, pero a parte de lo que es de nuevo,
+
+43:31.000 --> 43:32.000
+que es una expresión,
+
+43:32.000 --> 43:34.000
+este edad más yúscula es de la minúscula.
+
+43:35.000 --> 43:37.000
+Son la misma palabra o no.
+
+43:40.000 --> 43:42.000
+Son, en general, son.
+
+43:42.000 --> 43:46.000
+Me interesa pasarlas a minúscula.
+
+43:49.000 --> 43:50.000
+¿Aladó?
+
+43:50.000 --> 43:52.000
+Para pensando en cómo analizar.
+
+43:52.000 --> 43:54.000
+Cuando yo normalizo, trato de dejar el texto,
+
+43:54.000 --> 43:56.000
+lo más fácil de analizar para después.
+
+43:57.000 --> 43:59.000
+Separon las palabras claramente y digo,
+
+43:59.000 --> 44:00.000
+esto es una palabra.
+
+44:00.000 --> 44:01.000
+No me confío, son los espacios,
+
+44:01.000 --> 44:02.000
+porque si acá hay dos espacios,
+
+44:03.000 --> 44:05.000
+sigue siendo una separación entre palabras.
+
+44:10.000 --> 44:13.000
+Lo importante es la distinción entre lo que se llama WordType.
+
+44:15.000 --> 44:17.000
+Si en español le decimos más bien palabra,
+
+44:17.000 --> 44:21.000
+o palabra diferente, no hay una traducción directa que es.
+
+44:22.000 --> 44:23.000
+Si yo tengo un texto,
+
+44:23.000 --> 44:26.000
+las palabras son las palabras diferentes que hay.
+
+44:27.000 --> 44:29.000
+Y a cada uno de estos, como lo llamamos,
+
+44:29.000 --> 44:30.000
+los llamamos Tokens.
+
+44:31.000 --> 44:33.000
+Es las apariciones,
+
+44:33.000 --> 44:35.000
+una palabra en un texto llama Tokens.
+
+44:35.000 --> 44:37.000
+Y la tarea de partir esto,
+
+44:38.000 --> 44:40.000
+es la matóquenización.
+
+44:41.000 --> 44:43.000
+No es lo mismo, la palabra que el Tokens.
+
+44:44.000 --> 44:45.000
+Geramente un corpus,
+
+44:45.000 --> 44:46.000
+que es un conjunto de textos,
+
+44:46.000 --> 44:49.000
+tiene muchísimas más Tokens que palabras,
+
+44:49.000 --> 44:51.000
+porque se repiten.
+
+44:53.000 --> 44:54.000
+Vamos a ver algunas definiciones.
+
+44:56.000 --> 44:57.000
+De cosas que sobre las que vamos a ver,
+
+44:57.000 --> 44:58.000
+bueno, como les decía,
+
+44:58.000 --> 44:59.000
+el corpus es una colección de textos,
+
+44:59.000 --> 45:01.000
+seguramente lo vamos a...
+
+45:01.000 --> 45:02.000
+seguramente no,
+
+45:02.000 --> 45:03.000
+lo vamos a usar en todo el curso.
+
+45:07.000 --> 45:08.000
+La oración,
+
+45:08.000 --> 45:10.000
+yo con mis recursos de español uno me dijeron,
+
+45:10.000 --> 45:12.000
+la oración es una estructura,
+
+45:13.000 --> 45:14.000
+anidad por un verbo,
+
+45:14.000 --> 45:18.000
+lo cual me suena a definición más intacta y la otra cosa.
+
+45:19.000 --> 45:21.000
+Bueno, ¿qué la definición que hay en la Wikipedia?
+
+45:21.000 --> 45:23.000
+No, la puedo comprar todo,
+
+45:23.000 --> 45:24.000
+la he demasiado.
+
+45:24.000 --> 45:25.000
+Pero más o menos es...
+
+45:28.000 --> 45:29.000
+un constituyente...
+
+45:29.000 --> 45:30.000
+el sí, el sí,
+
+45:30.000 --> 45:31.000
+el sí, el sí, el sí, el sí,
+
+45:31.000 --> 45:33.000
+tengo más pequeño necesario para expresar un predicado completo.
+
+45:35.000 --> 45:36.000
+Lo que quiere que eso sea.
+
+45:38.000 --> 45:40.000
+No, decir afirmamos algo,
+
+45:40.000 --> 45:41.000
+no me quiero,
+
+45:41.000 --> 45:42.000
+me da miedo a meter el pato.
+
+45:43.000 --> 45:44.000
+No es otra de oración,
+
+45:44.000 --> 45:45.000
+de oración,
+
+45:45.000 --> 45:46.000
+de oración, ¿no?
+
+45:47.000 --> 45:49.000
+El perro comió el hueso,
+
+45:49.000 --> 45:50.000
+oración.
+
+45:51.000 --> 45:52.000
+Tiene un verbo,
+
+45:52.000 --> 45:53.000
+yo un verbo tiene,
+
+45:53.000 --> 45:54.000
+llueve,
+
+45:54.000 --> 45:55.000
+esa oración.
+
+45:56.000 --> 45:57.000
+Tenemos la versión,
+
+45:57.000 --> 45:58.000
+este,
+
+45:59.000 --> 46:00.000
+o la de hablada,
+
+46:00.000 --> 46:01.000
+que son los anunciados,
+
+46:01.000 --> 46:02.000
+o,
+
+46:02.000 --> 46:03.000
+uterans,
+
+46:04.000 --> 46:05.000
+¿sí?
+
+46:05.000 --> 46:06.000
+¿Qué es la versión para el lenguaje hablado?
+
+46:06.000 --> 46:08.000
+¿Qué por ahora queda como conocimiento general?
+
+46:08.000 --> 46:10.000
+Porque acá no vamos a la lenguaje hablado.
+
+46:12.000 --> 46:14.000
+Y, después tenemos también los lemas,
+
+46:14.000 --> 46:18.000
+la forma de superficie,
+
+46:18.000 --> 46:20.000
+la palabra como la conocemos,
+
+46:20.000 --> 46:22.000
+la palabra como la conoce,
+
+46:22.000 --> 46:24.000
+con todas sus flexiones,
+
+46:24.000 --> 46:26.000
+vamos a hablar la clase que viene de flexiones derivaciones,
+
+46:26.000 --> 46:27.000
+pero es,
+
+46:27.000 --> 46:29.000
+las flexiones son las que, por ejemplo,
+
+46:29.000 --> 46:30.000
+dan el género y el lúmero,
+
+46:30.000 --> 46:33.000
+y las derivaciones son las que construyen la palabra
+
+46:33.000 --> 46:34.000
+a partir de otra,
+
+46:34.000 --> 46:36.000
+como velojmente,
+
+46:38.000 --> 46:40.000
+mente es una derivación,
+
+46:40.000 --> 46:41.000
+inflesión de derivativo,
+
+46:41.000 --> 46:42.000
+una derivación.
+
+46:42.000 --> 46:44.000
+La palabra como tal,
+
+46:44.000 --> 46:45.000
+pero,
+
+46:45.000 --> 46:47.000
+el lema es cuando,
+
+46:47.000 --> 46:49.000
+nosotros,
+
+46:49.000 --> 46:51.000
+representamos por una palabra,
+
+46:51.000 --> 46:54.000
+a un conjunto de ellas que tienen el mismo significado,
+
+46:54.000 --> 46:56.000
+que tienen la misma raíz,
+
+46:56.000 --> 46:58.000
+la misma categoría gramatical,
+
+46:58.000 --> 47:00.000
+que era la categoría gramatical.
+
+47:00.000 --> 47:03.000
+¿Qué es la categoría gramatical?
+
+47:03.000 --> 47:07.000
+Es saber eso, ¿quién que es saber eso?
+
+47:07.000 --> 47:09.000
+El ver, si es un verbo,
+
+47:09.000 --> 47:10.000
+si es un sustantivo,
+
+47:11.000 --> 47:13.000
+y el mismo significado,
+
+47:13.000 --> 47:14.000
+o sea,
+
+47:14.000 --> 47:18.000
+gato, gato, gato, gato, gato, gato, gato,
+
+47:18.000 --> 47:21.000
+todos tienen un lema que gato.
+
+47:22.000 --> 47:24.000
+¿Para qué puede servir,
+
+47:24.000 --> 47:28.000
+identificar el lema de una palabra?
+
+47:34.000 --> 47:35.000
+Por ejemplo,
+
+47:40.000 --> 47:42.000
+¿Por qué me interesa reconocer
+
+47:42.000 --> 47:44.000
+distinguir gato,
+
+47:44.000 --> 47:46.000
+de gato, de gato, y de gatos?
+
+47:51.000 --> 47:52.000
+Típicamente,
+
+47:52.000 --> 47:54.000
+en la recuperación de información,
+
+47:54.000 --> 47:57.000
+cuando yo quiero traer los documentos que hablan de gato,
+
+47:57.000 --> 47:59.000
+yo pongo gato,
+
+47:59.000 --> 48:01.000
+si hay un documento que dice gatos,
+
+48:01.000 --> 48:03.000
+seguramente me da salir,
+
+48:03.000 --> 48:04.000
+por eso me interesa
+
+48:04.000 --> 48:06.000
+y es típico de recuperación de información,
+
+48:06.000 --> 48:07.000
+buscar problemas,
+
+48:08.000 --> 48:09.000
+no por la palabra,
+
+48:09.000 --> 48:10.000
+por la forma oprecionada,
+
+48:10.000 --> 48:11.000
+por la
+
+48:11.000 --> 48:12.000
+Surface Phone.
+
+48:14.000 --> 48:15.000
+Entonces,
+
+48:15.000 --> 48:16.000
+estos son conceptos,
+
+48:18.000 --> 48:19.000
+el lema es como el,
+
+48:21.000 --> 48:23.000
+el representante canónico de,
+
+48:23.000 --> 48:26.000
+de, de, de las formas,
+
+48:26.000 --> 48:28.000
+de superficie flexionada, digamos.
+
+48:28.000 --> 48:29.000
+Bueno, vamos a hablar más de eso
+
+48:29.000 --> 48:30.000
+en la clase que viene.
+
+48:33.000 --> 48:35.000
+Bien, como le decía en un corpucho,
+
+48:35.000 --> 48:36.000
+tengo los word types,
+
+48:36.000 --> 48:38.000
+que son las palabras distintas en el corpucho,
+
+48:38.000 --> 48:41.000
+y los toques que son el total de palabras en el corpucho.
+
+48:42.000 --> 48:43.000
+¿Sí?
+
+48:43.000 --> 48:45.000
+Total de apariciones de palabras en el corpucho.
+
+48:46.000 --> 48:47.000
+¿Qué pasa?
+
+48:48.000 --> 48:49.000
+Por ejemplo,
+
+48:55.000 --> 48:56.000
+bueno, esto que debe ver,
+
+48:56.000 --> 48:57.000
+porque es muy fácil.
+
+48:57.000 --> 48:58.000
+Cuánta palabra hay ahí,
+
+48:58.000 --> 48:59.000
+cuántos toques,
+
+48:59.000 --> 49:00.000
+y la discusión que tuvimos,
+
+49:00.000 --> 49:02.000
+tengo que ver si cuento como toques en las comas,
+
+49:02.000 --> 49:05.000
+realmente se consideran toques en las comas,
+
+49:05.000 --> 49:07.000
+porque a mí me interesa que aparezcan en el texto.
+
+49:08.000 --> 49:10.000
+A veces las unifico,
+
+49:10.000 --> 49:11.000
+como signos de puntuación,
+
+49:11.000 --> 49:12.000
+en el análisis,
+
+49:12.000 --> 49:13.000
+muchas veces ya sé eso.
+
+49:14.000 --> 49:15.000
+Pero yo creo que eso lo hace,
+
+49:15.000 --> 49:17.000
+se hace para facilitar el análisis,
+
+49:17.000 --> 49:18.000
+no porque esté bien,
+
+49:18.000 --> 49:19.000
+porque yo a mí me interesaría
+
+49:19.000 --> 49:21.000
+separar una coma de un punto.
+
+49:21.000 --> 49:22.000
+Muchas veces no se hace.
+
+49:23.000 --> 49:24.000
+Es decir, para etapa subsiguiente,
+
+49:24.000 --> 49:25.000
+esto se identifica con una marca
+
+49:25.000 --> 49:26.000
+que es un signo de puntuación.
+
+49:30.000 --> 49:31.000
+Pero por acá hay palabras que,
+
+49:31.000 --> 49:33.000
+seguramente haber más toques en que palabra,
+
+49:34.000 --> 49:35.000
+porque acá hay la,
+
+49:38.000 --> 49:39.000
+acá hay dos a,
+
+49:45.000 --> 49:46.000
+bueno,
+
+49:48.000 --> 49:49.000
+y bueno, por ejemplo,
+
+49:49.000 --> 49:52.000
+ahí tradicionalmente,
+
+49:52.000 --> 49:54.000
+uno en este tipo de análisis trabaja
+
+49:54.000 --> 49:55.000
+sobre corpus grandes,
+
+49:57.000 --> 49:58.000
+los corpus,
+
+49:59.000 --> 50:00.000
+que nos permiten analizar
+
+50:00.000 --> 50:02.000
+las diferentes ocurrencias de cosas,
+
+50:02.000 --> 50:03.000
+en la lenguaje,
+
+50:03.000 --> 50:04.000
+son corpus grandes,
+
+50:04.000 --> 50:06.000
+porque yo necesito ver la casuística,
+
+50:06.000 --> 50:08.000
+los linguistas hacen muchos,
+
+50:08.000 --> 50:09.000
+hace becas,
+
+50:09.000 --> 50:10.000
+que trabajan sobre corpus,
+
+50:11.000 --> 50:12.000
+donde identifican la,
+
+50:13.000 --> 50:15.000
+si yo, como se comporta el verbo,
+
+50:17.000 --> 50:18.000
+ser en el español,
+
+50:18.000 --> 50:19.000
+bueno,
+
+50:19.000 --> 50:20.000
+entonces que ver todas las ocurrencias
+
+50:20.000 --> 50:21.000
+de ser que aparecen y estudiar,
+
+50:21.000 --> 50:22.000
+como se,
+
+50:22.000 --> 50:23.000
+es bien empilco esto.
+
+50:25.000 --> 50:26.000
+Si nosotros nos creemos
+
+50:26.000 --> 50:27.000
+que la realidad acá en mi español
+
+50:27.000 --> 50:28.000
+la sabe todo,
+
+50:28.000 --> 50:29.000
+pero en realidad,
+
+50:29.000 --> 50:30.000
+primero que ya en un lado
+
+50:30.000 --> 50:31.000
+tuvo que aprender y,
+
+50:32.000 --> 50:33.000
+y luego que,
+
+50:34.000 --> 50:36.000
+uno tiene que estudiar la casística,
+
+50:36.000 --> 50:37.000
+la casuística.
+
+50:37.000 --> 50:38.000
+Bueno,
+
+50:38.000 --> 50:39.000
+entonces,
+
+50:39.000 --> 50:40.000
+hay un corpo bastante conocido
+
+50:40.000 --> 50:41.000
+que si el corpo crea el corpo de referencia
+
+50:41.000 --> 50:42.000
+del español actual,
+
+50:43.000 --> 50:45.000
+que junta acá tiene un link
+
+50:45.000 --> 50:46.000
+para verlo,
+
+50:46.000 --> 50:47.000
+lo detalle pero,
+
+50:47.000 --> 50:49.000
+junta textos de diferentes lugares,
+
+50:51.000 --> 50:52.000
+mayormente España,
+
+50:52.000 --> 50:53.000
+pero también América Latina,
+
+50:53.000 --> 50:54.000
+de diferentes temas,
+
+50:55.000 --> 50:56.000
+cuando uno coge,
+
+50:56.000 --> 50:57.000
+construye un corpo,
+
+50:57.000 --> 50:58.000
+es todo un trabajo,
+
+50:59.000 --> 51:01.000
+porque primero uno tiene que identificar
+
+51:01.000 --> 51:02.000
+de qué quiere armar el corpo,
+
+51:02.000 --> 51:03.000
+porque como le decía,
+
+51:03.000 --> 51:04.000
+un corpo de ingleno
+
+51:04.000 --> 51:05.000
+es igual que un corpo de español,
+
+51:05.000 --> 51:06.000
+obviamente,
+
+51:06.000 --> 51:07.000
+pero un corpo de noticias,
+
+51:07.000 --> 51:10.000
+no es lo mismo con un corpo de poemas,
+
+51:12.000 --> 51:13.000
+porque las cosas que hay,
+
+51:13.000 --> 51:14.000
+incluso las frecuencias,
+
+51:14.000 --> 51:15.000
+la palabra van a ser diferentes.
+
+51:16.000 --> 51:17.000
+Seguramente,
+
+51:17.000 --> 51:18.000
+la cantidad de palabras desconocidas
+
+51:18.000 --> 51:19.000
+en un corpo de noticias
+
+51:19.000 --> 51:21.000
+sea muchísimo menor
+
+51:21.000 --> 51:23.000
+que a la cantidad de palabras desconocidas
+
+51:23.000 --> 51:24.000
+en un corpo de poemas,
+
+51:25.000 --> 51:26.000
+porque uno cuando cree poemas
+
+51:26.000 --> 51:27.000
+se le da por inventar.
+
+51:29.000 --> 51:31.000
+Por inventar palabras,
+
+51:31.000 --> 51:32.000
+cosas también.
+
+51:32.000 --> 51:34.000
+Por ejemplo, el corpo crea tiene
+
+51:35.000 --> 51:37.000
+125 millones de tokens,
+
+51:38.000 --> 51:40.000
+es un corpo bastante grande,
+
+51:40.000 --> 51:42.000
+para los parámetros de año 2000,
+
+51:42.000 --> 51:43.000
+para este, ahora no,
+
+51:43.000 --> 51:45.000
+ahora vamos a ver un poquito más.
+
+51:45.000 --> 51:50.000
+Y tiene 737.799 palabras distintos.
+
+51:51.000 --> 51:54.000
+Esto debería converger, digamos,
+
+51:54.000 --> 51:56.000
+al tamaño del vocabulario que existe,
+
+51:57.000 --> 51:59.000
+que no es lo mismo que el vocabulario
+
+51:59.000 --> 52:00.000
+que no lo tiene número,
+
+52:00.000 --> 52:02.000
+porque no me lo acuerdo,
+
+52:02.000 --> 52:03.000
+de un diccionario,
+
+52:03.000 --> 52:05.000
+porque otra forma mira un diccionario.
+
+52:06.000 --> 52:08.000
+El diccionario me dice todas las palabras,
+
+52:08.000 --> 52:09.000
+pero me lo dice,
+
+52:09.000 --> 52:10.000
+me trae los lemas.
+
+52:12.000 --> 52:14.000
+Entonces, va a ser más chico, digamos, ¿no?
+
+52:14.000 --> 52:15.000
+Esto es un comundicionario
+
+52:15.000 --> 52:16.000
+para la palabra flexionada.
+
+52:17.000 --> 52:18.000
+Por supuesto, no es,
+
+52:20.000 --> 52:23.000
+no son las palabras lenguajes,
+
+52:23.000 --> 52:25.000
+porque si yo no lo emití en este corpo,
+
+52:25.000 --> 52:26.000
+no, no existe.
+
+52:26.000 --> 52:27.000
+Sí.
+
+52:30.000 --> 52:32.000
+El corpo crea esta separado
+
+52:32.000 --> 52:34.000
+en diferentes secciones,
+
+52:34.000 --> 52:35.000
+es típico de los corpos,
+
+52:35.000 --> 52:36.000
+si eso también,
+
+52:36.000 --> 52:37.000
+como tiene diferentes secciones,
+
+52:37.000 --> 52:39.000
+estos son de Venezuela,
+
+52:39.000 --> 52:40.000
+estos son de Venezuela.
+
+52:43.000 --> 52:44.000
+Generalmente vos en los corpos
+
+52:44.000 --> 52:45.000
+tenés eso,
+
+52:45.000 --> 52:47.000
+de dividir su corpo, digamos.
+
+52:48.000 --> 52:49.000
+Por si vos querés especificar,
+
+52:49.000 --> 52:50.000
+por ejemplo,
+
+52:50.000 --> 52:51.000
+si querés hablar del español
+
+52:51.000 --> 52:52.000
+del rey de la plata,
+
+52:52.000 --> 52:54.000
+te remití a ese corpo.
+
+52:55.000 --> 52:57.000
+Y todos los análisis que uno hace
+
+52:57.000 --> 52:59.000
+en esto, de todo lo que, como en el curso,
+
+52:59.000 --> 53:01.000
+siempre tiene que decir sobre qué corpo lo hizo.
+
+53:02.000 --> 53:03.000
+Porque uno,
+
+53:04.000 --> 53:05.000
+en trena,
+
+53:05.000 --> 53:06.000
+lo que sea que significa en trena,
+
+53:06.000 --> 53:07.000
+es para mover,
+
+53:08.000 --> 53:10.000
+porque uno aprende,
+
+53:10.000 --> 53:11.000
+ya sea mano
+
+53:11.000 --> 53:12.000
+o automáticamente,
+
+53:12.000 --> 53:13.000
+de un corpo,
+
+53:13.000 --> 53:14.000
+pero además tiene que evaluar
+
+53:14.000 --> 53:15.000
+sobre un corpo.
+
+53:15.000 --> 53:16.000
+A ver cómo le fue,
+
+53:16.000 --> 53:17.000
+eso lo vamos a hablar luego.
+
+53:18.000 --> 53:19.000
+Siempre va a hacer sobre un,
+
+53:19.000 --> 53:20.000
+uno tiene que decir sobre el corpo,
+
+53:20.000 --> 53:21.000
+que corpo es,
+
+53:21.000 --> 53:22.000
+a mí esto me dio tal resultado
+
+53:22.000 --> 53:23.000
+en el corpo crea.
+
+53:24.000 --> 53:25.000
+Lo cual no quiere decir
+
+53:25.000 --> 53:26.000
+que me va a dar igual resultado
+
+53:26.000 --> 53:27.000
+en un corpo de Twitter.
+
+53:30.000 --> 53:31.000
+Hace poquito,
+
+53:31.000 --> 53:32.000
+se aprobó,
+
+53:32.000 --> 53:33.000
+es un proyecto de grado
+
+53:33.000 --> 53:34.000
+del grupo nuestro,
+
+53:35.000 --> 53:36.000
+se aprobó ahora,
+
+53:36.000 --> 53:37.000
+es un par de meses,
+
+53:37.000 --> 53:38.000
+que construyeron,
+
+53:38.000 --> 53:39.000
+a partir de,
+
+53:41.000 --> 53:42.000
+fuentes de noticias
+
+53:42.000 --> 53:43.000
+de la Wikipedia,
+
+53:44.000 --> 53:45.000
+y otros foros,
+
+53:45.000 --> 53:46.000
+y otros fuentes,
+
+53:46.000 --> 53:48.000
+un corpo de
+
+53:48.000 --> 53:50.000
+6.000 millones de tokens,
+
+53:51.000 --> 53:52.000
+esto es un muy buen corpo.
+
+53:53.000 --> 53:54.000
+Incluso,
+
+53:54.000 --> 53:56.000
+a nivel de lo que hay para el inglés,
+
+53:56.000 --> 53:57.000
+que son de 8.000 millones,
+
+53:57.000 --> 53:58.000
+más o menos.
+
+53:59.000 --> 54:00.000
+Y,
+
+54:01.000 --> 54:04.000
+ahí aparecieron 1.460 millones
+
+54:04.000 --> 54:05.000
+de palabras de ti.
+
+54:06.000 --> 54:07.000
+No,
+
+54:07.000 --> 54:08.000
+no puede ser.
+
+54:08.000 --> 54:09.000
+Perdón,
+
+54:10.000 --> 54:12.000
+1.460,
+
+54:12.000 --> 54:13.000
+quedo malito,
+
+54:13.000 --> 54:14.000
+no me lo voy.
+
+54:15.000 --> 54:16.000
+1.4,
+
+54:16.000 --> 54:18.000
+1.5 millones de palabras de tinta.
+
+54:18.000 --> 54:19.000
+Fíjense,
+
+54:21.000 --> 54:22.000
+que,
+
+54:22.000 --> 54:23.000
+para
+
+54:23.000 --> 54:25.000
+125 millones de tokens,
+
+54:25.000 --> 54:26.000
+había 737.000 palabras,
+
+54:27.000 --> 54:28.000
+para
+
+54:28.000 --> 54:29.000
+6.000 millones,
+
+54:29.000 --> 54:30.000
+había
+
+54:30.000 --> 54:31.000
+el doble.
+
+54:32.000 --> 54:33.000
+Lo que decíamos,
+
+54:33.000 --> 54:34.000
+deberían convergiendo,
+
+54:34.000 --> 54:35.000
+pero sí nos parecieron cosas raras.
+
+54:37.000 --> 54:38.000
+Esto es un corpo del español.
+
+54:38.000 --> 54:39.000
+Es un corpo
+
+54:39.000 --> 54:41.000
+no anotado,
+
+54:41.000 --> 54:43.000
+quiere decir que nadie
+
+54:43.000 --> 54:44.000
+lo miró a mano,
+
+54:44.000 --> 54:45.000
+obviamente.
+
+54:45.000 --> 54:46.000
+Es solamente,
+
+54:46.000 --> 54:47.000
+y no es poco
+
+54:47.000 --> 54:49.000
+una gran cantidad de textos.
+
+54:49.000 --> 54:50.000
+¿Qué cosa puedo aprender
+
+54:50.000 --> 54:52.000
+yo de un corpo de ese tipo de cosas?
+
+54:52.000 --> 54:53.000
+Bueno,
+
+54:53.000 --> 54:54.000
+¿cómo se agrupan las palabras?
+
+54:56.000 --> 54:58.000
+La frecuencia de las palabras,
+
+54:58.000 --> 54:59.000
+como voy a poter,
+
+54:59.000 --> 55:00.000
+cuanto más grande,
+
+55:00.000 --> 55:01.000
+si el corpo es más
+
+55:01.000 --> 55:02.000
+clara va a ser minución
+
+55:02.000 --> 55:03.000
+de la frecuencia de las palabras.
+
+55:03.000 --> 55:04.000
+El palabra es más común y pañez,
+
+55:04.000 --> 55:05.000
+creo que es bien.
+
+55:06.000 --> 55:08.000
+Saber esas frecuencias,
+
+55:08.000 --> 55:09.000
+sabrarlas contando,
+
+55:09.000 --> 55:11.000
+supongo que es muy representativo
+
+55:11.000 --> 55:12.000
+de mi lenguaje,
+
+55:12.000 --> 55:13.000
+porque es todo,
+
+55:13.000 --> 55:14.000
+la cantidad,
+
+55:14.000 --> 55:15.000
+es una cantidad de cosas
+
+55:15.000 --> 55:16.000
+que ha dicho una cantidad de gente.
+
+55:17.000 --> 55:20.000
+Esto,
+
+55:20.000 --> 55:21.000
+este tipo de cosas,
+
+55:21.000 --> 55:22.000
+son los que ha hecho,
+
+55:22.000 --> 55:23.000
+que,
+
+55:23.000 --> 55:24.000
+radicalmente,
+
+55:24.000 --> 55:25.000
+cambiar el procedimiento
+
+55:25.000 --> 55:26.000
+de boba de natural
+
+55:26.000 --> 55:27.000
+en los últimos años.
+
+55:27.000 --> 55:28.000
+Porque,
+
+55:28.000 --> 55:30.000
+porque tengo muchos elementos nuevos.
+
+55:30.000 --> 55:32.000
+Y hoy en día es prácticamente,
+
+55:32.000 --> 55:35.000
+impensable hacer análisis a mano,
+
+55:35.000 --> 55:38.000
+a ver,
+
+55:38.000 --> 55:40.000
+subestimando el poder
+
+55:40.000 --> 55:41.000
+de todas estas cosas,
+
+55:41.000 --> 55:42.000
+lo cual no quiere decir que uno,
+
+55:42.000 --> 55:43.000
+nada,
+
+55:43.000 --> 55:44.000
+estudios analístico,
+
+55:44.000 --> 55:45.000
+pero tiene otra herramienta
+
+55:45.000 --> 55:46.000
+totalmente nueva.
+
+55:46.000 --> 55:47.000
+Si yo quiero saber,
+
+55:47.000 --> 55:49.000
+cómo es el verbo ser
+
+55:49.000 --> 55:50.000
+en el español,
+
+55:50.000 --> 55:51.000
+bueno, tengo herramienta,
+
+55:51.000 --> 55:52.000
+tengo corpos muy grande
+
+55:52.000 --> 55:53.000
+para probar mis hipótesis.
+
+55:59.000 --> 56:00.000
+Bueno,
+
+56:00.000 --> 56:01.000
+la tokenización es
+
+56:01.000 --> 56:02.000
+identificar las palabras,
+
+56:02.000 --> 56:03.000
+dijimos que era bastante fácil,
+
+56:03.000 --> 56:04.000
+pero parecían cosas
+
+56:04.000 --> 56:06.000
+como los que fuimos encontrando.
+
+56:07.000 --> 56:08.000
+Por ejemplo,
+
+56:10.000 --> 56:12.000
+esto que está entre comillas,
+
+56:12.000 --> 56:13.000
+tengo que ver si
+
+56:13.000 --> 56:15.000
+no puedo considerar un token solo,
+
+56:15.000 --> 56:16.000
+o una entidad,
+
+56:16.000 --> 56:18.000
+o varios tokens con una entidad.
+
+56:18.000 --> 56:19.000
+Toco que ver si las comillas
+
+56:19.000 --> 56:21.000
+las considero toque en la parte.
+
+56:21.000 --> 56:22.000
+Las fechas,
+
+56:22.000 --> 56:23.000
+los números,
+
+56:23.000 --> 56:25.000
+las direcciones jueves,
+
+56:25.000 --> 56:27.000
+fenómenos que en el español
+
+56:27.000 --> 56:29.000
+no tenemos que son estos,
+
+56:29.000 --> 56:30.000
+como que saben,
+
+56:30.000 --> 56:31.000
+son,
+
+56:31.000 --> 56:34.000
+¿eh?
+
+56:34.000 --> 56:35.000
+Contraacciones,
+
+56:35.000 --> 56:36.000
+pero con,
+
+56:36.000 --> 56:38.000
+con apóstol,
+
+56:38.000 --> 56:40.000
+parecían el útil.
+
+56:40.000 --> 56:41.000
+Nosotros tenemos
+
+56:41.000 --> 56:42.000
+contraacciones que son dos,
+
+56:42.000 --> 56:43.000
+como sabe de cualquiera
+
+56:43.000 --> 56:44.000
+que hizo crucigramos,
+
+56:44.000 --> 56:45.000
+al ideal,
+
+56:45.000 --> 56:48.000
+pero esto no los tenemos.
+
+56:48.000 --> 56:50.000
+Esto también hay que ver como separarlo,
+
+56:50.000 --> 56:51.000
+y al ideal,
+
+56:51.000 --> 56:52.000
+es un tome problema,
+
+56:52.000 --> 56:53.000
+al ideal,
+
+56:53.000 --> 56:54.000
+en el mundo real,
+
+56:54.000 --> 56:55.000
+del análisis,
+
+56:55.000 --> 56:57.000
+porque uno viene muy contento,
+
+56:57.000 --> 56:58.000
+separando por palabras,
+
+56:58.000 --> 56:59.000
+y se encuentra con al,
+
+56:59.000 --> 57:00.000
+que es una palabra,
+
+57:00.000 --> 57:01.000
+pues son dos.
+
+57:01.000 --> 57:02.000
+Entonces,
+
+57:02.000 --> 57:04.000
+después,
+
+57:04.000 --> 57:06.000
+uno armó un modelo de token,
+
+57:06.000 --> 57:07.000
+es decir,
+
+57:07.000 --> 57:08.000
+es una lista de palabras,
+
+57:08.000 --> 57:09.000
+es decir,
+
+57:09.000 --> 57:10.000
+bueno,
+
+57:10.000 --> 57:11.000
+las palabras me olvidé
+
+57:11.000 --> 57:12.000
+de la separación,
+
+57:12.000 --> 57:13.000
+sí,
+
+57:13.000 --> 57:15.000
+pero cuando lo quiere machar contra el,
+
+57:15.000 --> 57:16.000
+texto original,
+
+57:16.000 --> 57:17.000
+dice bueno,
+
+57:17.000 --> 57:18.000
+primera palabra,
+
+57:18.000 --> 57:19.000
+segunda palabra, no,
+
+57:19.000 --> 57:20.000
+para, para,
+
+57:20.000 --> 57:21.000
+después que hizo el análisis,
+
+57:21.000 --> 57:22.000
+quiere volver al texto,
+
+57:22.000 --> 57:23.000
+para mostrarlo.
+
+57:23.000 --> 57:24.000
+Cuando vuelve,
+
+57:24.000 --> 57:25.000
+hubo dos palabras,
+
+57:25.000 --> 57:26.000
+que se le transformaron en una,
+
+57:26.000 --> 57:27.000
+o, mejor dicho,
+
+57:27.000 --> 57:28.000
+una palabra,
+
+57:28.000 --> 57:29.000
+que se le transformaron
+
+57:29.000 --> 57:30.000
+todo,
+
+57:30.000 --> 57:31.000
+cuando vuelve ese equivo,
+
+57:31.000 --> 57:32.000
+que muestra la,
+
+57:32.000 --> 57:33.000
+las cosas corridas,
+
+57:33.000 --> 57:34.000
+de hecho,
+
+57:34.000 --> 57:35.000
+sucede.
+
+57:35.000 --> 57:36.000
+Todo por qué,
+
+57:36.000 --> 57:37.000
+por al ideal,
+
+57:37.000 --> 57:38.000
+que son,
+
+57:38.000 --> 57:39.000
+una palabra,
+
+57:39.000 --> 57:40.000
+y bien,
+
+57:40.000 --> 57:41.000
+ese es otro problema
+
+57:41.000 --> 57:42.000
+de los críticos.
+
+57:42.000 --> 57:43.000
+Si a usted,
+
+57:43.000 --> 57:44.000
+puede interesar,
+
+57:44.000 --> 57:45.000
+sacar el decil,
+
+57:45.000 --> 57:46.000
+porque para el análisis,
+
+57:46.000 --> 57:47.000
+es muy importante,
+
+57:47.000 --> 57:48.000
+exactamente,
+
+57:48.000 --> 57:49.000
+para el análisis,
+
+57:49.000 --> 57:51.000
+son dos palabras.
+
+57:51.000 --> 57:52.000
+Y yo,
+
+57:52.000 --> 57:53.000
+yo tengo que conservar
+
+57:53.000 --> 57:54.000
+de alguna forma,
+
+57:54.000 --> 57:55.000
+y perdón,
+
+57:55.000 --> 57:56.000
+porque parece,
+
+57:56.000 --> 57:57.000
+parece trivial,
+
+57:57.000 --> 57:58.000
+y yo no tengo,
+
+57:58.000 --> 57:59.000
+dice bueno,
+
+57:59.000 --> 58:00.000
+ya una lista,
+
+58:00.000 --> 58:01.000
+dice paro con los espacios,
+
+58:01.000 --> 58:02.000
+pero no,
+
+58:02.000 --> 58:03.000
+pues yo tengo de alguna forma,
+
+58:03.000 --> 58:04.000
+tengo que tener,
+
+58:04.000 --> 58:05.000
+y es un lío de implementación,
+
+58:05.000 --> 58:06.000
+le digo,
+
+58:06.000 --> 58:07.000
+vuelve bien carne propia,
+
+58:07.000 --> 58:08.000
+muchas veces.
+
+58:08.000 --> 58:09.000
+Cuando su lista pala,
+
+58:09.000 --> 58:10.000
+ahora, después,
+
+58:10.000 --> 58:11.000
+hace,
+
+58:11.000 --> 58:13.000
+ahora,
+
+58:13.000 --> 58:14.000
+después,
+
+58:14.000 --> 58:15.000
+el clase que viene lo va a mover,
+
+58:15.000 --> 58:16.000
+le hace,
+
+58:16.000 --> 58:17.000
+análisis gramatical,
+
+58:17.000 --> 58:19.000
+análisis sintáctico,
+
+58:19.000 --> 58:20.000
+arma,
+
+58:20.000 --> 58:21.000
+largolito,
+
+58:21.000 --> 58:22.000
+pla pla,
+
+58:22.000 --> 58:23.000
+cuando quiere volver a mostrar la oración,
+
+58:23.000 --> 58:24.000
+no sabe donde la tenía.
+
+58:24.000 --> 58:26.000
+De un punto de implementación,
+
+58:26.000 --> 58:27.000
+estamos hablando, ¿no?
+
+58:27.000 --> 58:28.000
+Sí.
+
+58:28.000 --> 58:30.000
+¿Este criterio de requerización,
+
+58:30.000 --> 58:32.000
+cuando vamos a presentar un texto?
+
+58:32.000 --> 58:34.000
+¿Pas tardado?
+
+58:34.000 --> 58:35.000
+¿No?
+
+58:35.000 --> 58:36.000
+¿No?
+
+58:36.000 --> 58:37.000
+No.
+
+58:38.000 --> 58:40.000
+¿Vas tardado por lo que vos quieras hacer?
+
+58:41.000 --> 58:43.000
+Es decir, depende más de la tarea
+
+58:43.000 --> 58:44.000
+que estés completando.
+
+58:44.000 --> 58:46.000
+Por ejemplo, si vamos a hacer,
+
+58:49.000 --> 58:51.000
+un conteo simple de palabras,
+
+58:51.000 --> 58:53.000
+no te calienta esto.
+
+58:54.000 --> 58:55.000
+De hecho, capaz que te interesa,
+
+58:55.000 --> 58:56.000
+tendrán lo junto,
+
+58:56.000 --> 58:57.000
+porque tengo,
+
+58:59.000 --> 59:00.000
+es algo que se da muy,
+
+59:00.000 --> 59:02.000
+es una colocación,
+
+59:02.000 --> 59:03.000
+digamos, un dos palabras,
+
+59:03.000 --> 59:04.000
+se da mucho junta,
+
+59:04.000 --> 59:05.000
+yo creo que sea.
+
+59:06.000 --> 59:07.000
+Ahora, si yo creaciera,
+
+59:07.000 --> 59:08.000
+análisis sintáctico,
+
+59:09.000 --> 59:11.000
+cómo se organiza el largo del oración,
+
+59:11.000 --> 59:13.000
+esto te va a interesar separar lo sin duda.
+
+59:14.000 --> 59:15.000
+¿De acuerdo?
+
+59:16.000 --> 59:18.000
+Eso depende mucho de tu tarea.
+
+59:21.000 --> 59:22.000
+Si de todos,
+
+59:22.000 --> 59:24.000
+es bastante estándar estas cosas,
+
+59:24.000 --> 59:25.000
+tenerlas separadas.
+
+59:25.000 --> 59:27.000
+De hecho, hay un estándar muy sencillo.
+
+59:28.000 --> 59:29.000
+Ah, bueno,
+
+59:29.000 --> 59:30.000
+porque además hay otro problema,
+
+59:30.000 --> 59:31.000
+y eso también lo he vivido,
+
+59:32.000 --> 59:33.000
+que es,
+
+59:33.000 --> 59:35.000
+vos toquenizas con una herramienta,
+
+59:37.000 --> 59:39.000
+esto suponema bien de herramientas,
+
+59:39.000 --> 59:41.000
+uno toqueniza de una forma de su programa,
+
+59:41.000 --> 59:43.000
+y después utiliza una,
+
+59:43.000 --> 59:45.000
+una otra herramienta para poner
+
+59:45.000 --> 59:47.000
+en la categoría gamaticada cada palabra.
+
+59:48.000 --> 59:49.000
+Si esta herramienta,
+
+59:50.000 --> 59:51.000
+al hacer el análisis gramatical,
+
+59:51.000 --> 59:53.000
+a la vez toqueniza, según su criterio,
+
+59:53.000 --> 59:55.000
+que es lo que sucede muchas veces.
+
+59:56.000 --> 59:57.000
+Ahora, yo tenía un tager para,
+
+59:57.000 --> 01:00:00.000
+para, yo hice mi tesis en textos biológicos,
+
+01:00:00.000 --> 01:00:02.000
+digamos, que son biología molecular,
+
+01:00:02.000 --> 01:00:04.000
+que aparece muchas palabras raras.
+
+01:00:06.000 --> 01:00:08.000
+Y habéis tenido un toquen,
+
+01:00:08.000 --> 01:00:10.000
+un tiquetador gramatical propio,
+
+01:00:12.000 --> 01:00:14.000
+específico de los entrenados
+
+01:00:14.000 --> 01:00:15.000
+sobre un corpus de ese tipo,
+
+01:00:16.000 --> 01:00:18.000
+y tipo, no era una herramienta cerrada,
+
+01:00:18.000 --> 01:00:19.000
+digamos, lo que haciera,
+
+01:00:19.000 --> 01:00:21.000
+tomó el texto, lo toquenizaba y lo notaba.
+
+01:00:22.000 --> 01:00:24.000
+Para machiar este texto que me había toquenizado
+
+01:00:24.000 --> 01:00:25.000
+con mi texto original,
+
+01:00:25.000 --> 01:00:27.000
+como no toquenizaba igual,
+
+01:00:28.000 --> 01:00:29.000
+yo me ponía,
+
+01:00:29.000 --> 01:00:30.000
+había cosas que fue, por ejemplo,
+
+01:00:30.000 --> 01:00:33.000
+decía, 25 guion y hidro,
+
+01:00:33.000 --> 01:00:35.000
+nunca entendía nada de lo que estaban haciendo, ¿no?
+
+01:00:35.000 --> 01:00:38.000
+25 y hidroxil, no sé qué.
+
+01:00:39.000 --> 01:00:41.000
+Y mito-quenizador,
+
+01:00:41.000 --> 01:00:43.000
+es mi método de toquenización de 7 guion,
+
+01:00:43.000 --> 01:00:44.000
+es una palabra.
+
+01:00:45.000 --> 01:00:46.000
+El toquenizador,
+
+01:00:48.000 --> 01:00:49.000
+el toquenizador del tager,
+
+01:00:49.000 --> 01:00:50.000
+el otro tager,
+
+01:00:50.000 --> 01:00:52.000
+lo partía acá para devaluar el 25 por un lado,
+
+01:00:53.000 --> 01:00:55.000
+y yo después tenía que volver a unificarlos
+
+01:00:55.000 --> 01:00:57.000
+para poder seguir trabajando.
+
+01:00:58.000 --> 01:01:00.000
+Bueno, esto era un hombre y esto era un número, yo quese.
+
+01:01:04.000 --> 01:01:05.000
+Bueno,
+
+01:01:06.000 --> 01:01:08.000
+acá hay un estándar de toquenización
+
+01:01:08.000 --> 01:01:09.000
+bastante conocido,
+
+01:01:09.000 --> 01:01:10.000
+es el pen triban.
+
+01:01:11.000 --> 01:01:15.000
+El pen triban es un corpus de Pamo,
+
+01:01:15.000 --> 01:01:16.000
+porque es anotado,
+
+01:01:17.000 --> 01:01:19.000
+es decir, no solo tomaron texto,
+
+01:01:19.000 --> 01:01:21.000
+sino que analizaron cada oración,
+
+01:01:21.000 --> 01:01:23.000
+le pusieron la categoría gramatical a cada palabra.
+
+01:01:24.000 --> 01:01:27.000
+Y para eso tuvieron primero que toquenizar,
+
+01:01:27.000 --> 01:01:29.000
+la toquenización del pen triban es muy sencilla.
+
+01:01:31.000 --> 01:01:33.000
+Se separan los signos de fundación de las palabras,
+
+01:01:34.000 --> 01:01:36.000
+se separan las contraacciones
+
+01:01:36.000 --> 01:01:38.000
+y las separan en it.
+
+01:01:40.000 --> 01:01:42.000
+Y las comillas doles se transforman
+
+01:01:43.000 --> 01:01:46.000
+en comillas de apertura de cierre para separarlas,
+
+01:01:47.000 --> 01:01:49.000
+y las parentes y los corchetes
+
+01:01:49.000 --> 01:01:51.000
+las llaves se transforman en símbolo así.
+
+01:01:51.000 --> 01:01:53.000
+Esto es por un tema de facilitar el parcinama.
+
+01:01:54.000 --> 01:01:55.000
+Es un estándar.
+
+01:01:55.000 --> 01:01:57.000
+Lo que tiene de bueno es que es un estándar,
+
+01:01:57.000 --> 01:01:59.000
+que si yo aplico el pen triban, se lo que me da.
+
+01:02:00.000 --> 01:02:02.000
+Me voy a andar inventando yo,
+
+01:02:02.000 --> 01:02:05.000
+mi propio algoritmo de toquenización.
+
+01:02:08.000 --> 01:02:10.000
+Pero bueno, después yo puedo querer
+
+01:02:10.000 --> 01:02:12.000
+post-processar, digamos, ¿no?
+
+01:02:12.000 --> 01:02:13.000
+Porque me parece en cierta realidad,
+
+01:02:13.000 --> 01:02:15.000
+por ejemplo, si quiero identificar nombre o cosas así.
+
+01:02:15.000 --> 01:02:19.000
+Bueno, el chino de japonés tienen algún problema
+
+01:02:19.000 --> 01:02:22.000
+y es que no marcan los límites de las palabras,
+
+01:02:23.000 --> 01:02:29.000
+sino que cada simbolito Jansi del chino representa morfema
+
+01:02:29.000 --> 01:02:31.000
+o sílabas.
+
+01:02:33.000 --> 01:02:38.000
+Entonces, toquenizar acá es un poco más difícil.
+
+01:02:46.000 --> 01:02:47.000
+¿Cómo probo?
+
+01:02:50.000 --> 01:02:52.000
+No son normales para eso, son normales.
+
+01:02:53.000 --> 01:02:55.000
+Ah, Roman, normal.
+
+01:02:55.000 --> 01:02:57.000
+No, no, no, no, no.
+
+01:02:57.000 --> 01:02:59.000
+Acá hay una palabra de hecho.
+
+01:02:59.000 --> 01:03:00.000
+¿De hecho hay palabras?
+
+01:03:03.000 --> 01:03:05.000
+¿Tenés una analizadora que va sobre el chino?
+
+01:03:10.000 --> 01:03:12.000
+No, analizan derecho.
+
+01:03:13.000 --> 01:03:16.000
+Sí, analizan, analizan derecho sobre los caracteres Jansi.
+
+01:03:19.000 --> 01:03:21.000
+Y ahora vamos a ver cómo.
+
+01:03:21.000 --> 01:03:23.000
+El problema que no tenemos espacio para separar,
+
+01:03:23.000 --> 01:03:26.000
+pero de hecho las palabras existen en tanto unidades con significado.
+
+01:03:26.000 --> 01:03:28.000
+Pero no la ve en el texto.
+
+01:03:28.000 --> 01:03:30.000
+Es lo mismo que nos pasa cuando hablamos.
+
+01:03:30.000 --> 01:03:33.000
+Si vos crees toquenizar el texto hablado,
+
+01:03:33.000 --> 01:03:35.000
+vas a tener un problema.
+
+01:03:38.000 --> 01:03:40.000
+Hay un algoritmo muy popular,
+
+01:03:41.000 --> 01:03:45.000
+que tiene una lista de palabras, de palabras.
+
+01:03:45.000 --> 01:03:47.000
+Digamos, ¿no?
+
+01:03:47.000 --> 01:03:49.000
+No hay morfema como de nada.
+
+01:03:49.000 --> 01:03:52.000
+Y es muy sencillo, comienza al principio de la entrada.
+
+01:03:52.000 --> 01:03:54.000
+De la entrada que tiene el texto,
+
+01:03:54.000 --> 01:03:58.000
+elige siempre la palabra más larga en la posición actual de la entrada.
+
+01:04:00.000 --> 01:04:03.000
+Y si no encuentran ninguna, se queda con una letra suave.
+
+01:04:04.000 --> 01:04:06.000
+Y avanza.
+
+01:04:07.000 --> 01:04:08.000
+Bra.
+
+01:04:09.000 --> 01:04:10.000
+Por ejemplo,
+
+01:04:12.000 --> 01:04:15.000
+si yo tengo la entrada, me saca de la cancha, sin motivo.
+
+01:04:17.000 --> 01:04:18.000
+Acá ubica en mesa.
+
+01:04:24.000 --> 01:04:27.000
+C, el símbolo del calcio,
+
+01:04:28.000 --> 01:04:29.000
+D,
+
+01:04:32.000 --> 01:04:34.000
+y la cancha de la letra.
+
+01:04:34.000 --> 01:04:36.000
+Y a cada vez a mesa,
+
+01:04:37.000 --> 01:04:39.000
+no anda muy bien.
+
+01:04:39.000 --> 01:04:41.000
+En español en inglés no funciona más mal,
+
+01:04:41.000 --> 01:04:43.000
+pues la palabra es más larga,
+
+01:04:43.000 --> 01:04:45.000
+pero en el chino funciona bastante bien.
+
+01:04:46.000 --> 01:04:48.000
+Nadie usa esto en un español.
+
+01:04:49.000 --> 01:04:52.000
+Y si el método más básico de cosas,
+
+01:04:52.000 --> 01:04:54.000
+y hay mejoras sobre esto,
+
+01:04:54.000 --> 01:04:56.000
+empezando a la vez de izquierda de derecha,
+
+01:04:56.000 --> 01:04:58.000
+por ejemplo, de izquierda de la derecha
+
+01:04:58.000 --> 01:05:00.000
+o de derecha de izquierda,
+
+01:05:00.000 --> 01:05:02.000
+al mismo tiempo de lado,
+
+01:05:02.000 --> 01:05:03.000
+como yo le decía, hay variantes.
+
+01:05:04.000 --> 01:05:06.000
+Y esto no lleva una cosa bastante interesante que es.
+
+01:05:09.000 --> 01:05:11.000
+Si yo tengo, ¿qué tan bueno?
+
+01:05:11.000 --> 01:05:14.000
+Ah, hay todo un tema en el posimiento de la hoja natural.
+
+01:05:14.000 --> 01:05:15.000
+¿Qué es la evaluación?
+
+01:05:15.000 --> 01:05:17.000
+Yo cuando ejecuto una tarea,
+
+01:05:18.000 --> 01:05:20.000
+tengo que evaluar mi resultado.
+
+01:05:24.000 --> 01:05:25.000
+¿Sí?
+
+01:05:27.000 --> 01:05:29.000
+Sobre qué la tengo de evaluar y esto vale siempre,
+
+01:05:29.000 --> 01:05:31.000
+sobre un cuerpo que no sé para aprender.
+
+01:05:34.000 --> 01:05:36.000
+Si de alguna forma yo aprendo a toquenizar,
+
+01:05:36.000 --> 01:05:38.000
+viendo cómo se sepan a las palabras con los textos de esto
+
+01:05:38.000 --> 01:05:39.000
+que tuve mirando,
+
+01:05:39.000 --> 01:05:40.000
+y no sé qué,
+
+01:05:40.000 --> 01:05:42.000
+no puede utilizar esto vale,
+
+01:05:42.000 --> 01:05:43.000
+como regla general,
+
+01:05:43.000 --> 01:05:44.000
+después lo mover más,
+
+01:05:44.000 --> 01:05:46.000
+en detalle con los métodos de la presa automático,
+
+01:05:46.000 --> 01:05:49.000
+pero yo no puedo utilizar el mismo texto del que aprendí
+
+01:05:49.000 --> 01:05:51.000
+para evaluar mi resultado.
+
+01:05:51.000 --> 01:05:52.000
+¿Por qué?
+
+01:05:55.000 --> 01:05:56.000
+Me va a dar todo bien,
+
+01:05:56.000 --> 01:05:57.000
+o por lo menos,
+
+01:05:57.000 --> 01:05:59.000
+me va a dar mejor,
+
+01:05:59.000 --> 01:06:02.000
+que siempre tengo que evaluar sobre texto no visto.
+
+01:06:03.000 --> 01:06:06.000
+O sea, yo siempre que tengo un cuerpo sobre el cual trabajar
+
+01:06:06.000 --> 01:06:09.000
+tengo que agarrar una porción del texto típicamente aquí
+
+01:06:09.000 --> 01:06:10.000
+y 70 por ciento.
+
+01:06:10.000 --> 01:06:11.000
+Vamos a ver más de detalle.
+
+01:06:11.000 --> 01:06:16.000
+Y lo guardo a un costado hasta que llegue el momento de evaluar.
+
+01:06:17.000 --> 01:06:19.000
+¿Y cómo evaluó la toquenización?
+
+01:06:19.000 --> 01:06:22.000
+Y bueno, si yo tengo el nuestra entrada
+
+01:06:24.000 --> 01:06:27.000
+y tengo lo que se llama un gol standard,
+
+01:06:28.000 --> 01:06:32.000
+un texto correctamente segmentado.
+
+01:06:32.000 --> 01:06:34.000
+A alguien, un ser humano,
+
+01:06:34.000 --> 01:06:35.000
+me dijo bueno,
+
+01:06:35.000 --> 01:06:37.000
+la toquenización correcta es
+
+01:06:37.000 --> 01:06:39.000
+me saca de la cancha sin motivo.
+
+01:06:43.000 --> 01:06:48.000
+Y cómo se calcula la performance de un toquenizador
+
+01:06:48.000 --> 01:06:50.000
+y bueno, con la word error rate,
+
+01:06:50.000 --> 01:06:54.000
+o sea, el ratio de error de las palabras,
+
+01:06:54.000 --> 01:06:57.000
+que es entre estos dos,
+
+01:06:58.000 --> 01:07:01.000
+entre estos dos,
+
+01:07:03.000 --> 01:07:05.000
+lista de palabras.
+
+01:07:06.000 --> 01:07:09.000
+¿Qué tengo que cambiar para llegar de esta ésta?
+
+01:07:10.000 --> 01:07:11.000
+¿Sí?
+
+01:07:12.000 --> 01:07:16.000
+¿Cómo sería? ¿Qué sería lo que tendría que hacer yo?
+
+01:07:17.000 --> 01:07:21.000
+¿Y dónde cambiar quiere sin insertar borrar o sustituir?
+
+01:07:23.000 --> 01:07:24.000
+¿Qué tengo que hacer?
+
+01:07:27.000 --> 01:07:29.000
+Mesa por M
+
+01:07:30.000 --> 01:07:31.000
+y qué más.
+
+01:07:32.000 --> 01:07:34.000
+Y K por saca, ¿no?
+
+01:07:37.000 --> 01:07:39.000
+Ah, por que me gobe, y eso es por que me gobe.
+
+01:07:41.000 --> 01:07:42.000
+¿De acuerdo?
+
+01:07:43.000 --> 01:07:45.000
+Entonces, eso es la tasa de error.
+
+01:07:45.000 --> 01:07:47.000
+Acá tengo un error de 2.
+
+01:07:47.000 --> 01:07:48.000
+Cuando toma baja mejor, ¿no?
+
+01:07:48.000 --> 01:07:50.000
+Y tengo 0 porque es 1 igual.
+
+01:07:51.000 --> 01:07:53.000
+Luego, eso se llama distancia mínima de edición
+
+01:07:54.000 --> 01:07:55.000
+y luego vamos a agarrar luego.
+
+01:07:56.000 --> 01:07:58.000
+Distancia mínima de edición, pero en palabras.
+
+01:08:00.000 --> 01:08:01.000
+¿De acuerdo?
+
+01:08:01.000 --> 01:08:02.000
+Que sorvido.
+
+01:08:06.000 --> 01:08:08.000
+Bueno, además de tokenizar.
+
+01:08:08.000 --> 01:08:09.000
+No tengo nada.
+
+01:08:11.000 --> 01:08:12.000
+Además de tokenizar.
+
+01:08:17.000 --> 01:08:18.000
+Bueno, ya lo he movilado,
+
+01:08:18.000 --> 01:08:19.000
+prácticamente todo.
+
+01:08:21.000 --> 01:08:23.000
+La normalización implica llevar la palabra
+
+01:08:23.000 --> 01:08:25.000
+a un formato estándar para procesarlas.
+
+01:08:26.000 --> 01:08:28.000
+Llevar los números a un formato único
+
+01:08:28.000 --> 01:08:31.000
+porque así no metemos ruido para nuestro análisis posterior.
+
+01:08:33.000 --> 01:08:35.000
+Por decir que esto es la base de una cascada de tarea,
+
+01:08:35.000 --> 01:08:37.000
+el principio de una cascada de tarea.
+
+01:08:38.000 --> 01:08:40.000
+La URL y otra forma con estructura,
+
+01:08:40.000 --> 01:08:44.000
+identificarlas y marcarlas, detectar entidades con nombre
+
+01:08:45.000 --> 01:08:46.000
+y este cash folding,
+
+01:08:46.000 --> 01:08:48.000
+llevar toda mi núscula a mayúscula
+
+01:08:48.000 --> 01:08:49.000
+que a veces lo hacemos a veces no.
+
+01:08:51.000 --> 01:08:52.000
+Según nuestra tarea.
+
+01:08:53.000 --> 01:08:55.000
+Bueno, tradicionalmente la tokenización
+
+01:08:57.000 --> 01:08:59.000
+y la normalización se ha realizado
+
+01:08:59.000 --> 01:09:00.000
+utilizando automata finito.
+
+01:09:01.000 --> 01:09:03.000
+Porque son problemas bastante sencillos
+
+01:09:04.000 --> 01:09:08.000
+y porque además son como son el comienzo de la cascada,
+
+01:09:08.000 --> 01:09:09.000
+necesitamos que sean rápido.
+
+01:09:11.000 --> 01:09:14.000
+Yo necesito tokenizar rápidamente para poder después empezar
+
+01:09:14.000 --> 01:09:15.000
+el análisis.
+
+01:09:16.000 --> 01:09:18.000
+Y porque además la automata desde hecho funciona.
+
+01:09:18.000 --> 01:09:22.000
+Esa especificación
+
+01:09:22.000 --> 01:09:26.000
+del algoritmo del pen-tribank.
+
+01:09:27.000 --> 01:09:30.000
+Tiene su equivalente en un pequeño programista en sed,
+
+01:09:30.000 --> 01:09:32.000
+es la herramienta UNICE para tokenizar con eso.
+
+01:09:34.000 --> 01:09:36.000
+Y cualquier biblioteca,
+
+01:09:36.000 --> 01:09:38.000
+procedimiento de lenguaje natural de sente,
+
+01:09:38.000 --> 01:09:39.000
+por ejemplo en LTC,
+
+01:09:40.000 --> 01:09:43.000
+te permite especificar un tokenizador en base de una expresión regular.
+
+01:09:43.000 --> 01:09:45.000
+Por decir cómo crece para las palabras
+
+01:09:49.000 --> 01:09:50.000
+y lo hace.
+
+01:09:53.000 --> 01:09:57.000
+Bueno, también le matizar,
+
+01:09:58.000 --> 01:10:01.000
+es decir a veces nos puede interesarte en el solo el lema.
+
+01:10:01.000 --> 01:10:03.000
+Por ejemplo, si mis documentos le voy a usar
+
+01:10:03.000 --> 01:10:04.000
+para recuperar información,
+
+01:10:05.000 --> 01:10:06.000
+contener lo el mismo alcanza.
+
+01:10:08.000 --> 01:10:09.000
+Hay una forma mucho más sencilla
+
+01:10:09.000 --> 01:10:12.000
+porque le matizar implica hacer un análisis morfológico
+
+01:10:12.000 --> 01:10:13.000
+de la palabra,
+
+01:10:13.000 --> 01:10:16.000
+es decir, sacar lo como la clase que viene al otro,
+
+01:10:16.000 --> 01:10:19.000
+es la Carla Reis y las derivaciones.
+
+01:10:20.000 --> 01:10:21.000
+Hola, a los afijos.
+
+01:10:22.000 --> 01:10:23.000
+O sea, la p...
+
+01:10:23.000 --> 01:10:24.000
+Puedes ver esto de cosas bien,
+
+01:10:24.000 --> 01:10:25.000
+después vamos a lo ver.
+
+01:10:26.000 --> 01:10:27.000
+Es un poco más costoso.
+
+01:10:28.000 --> 01:10:29.000
+Hay un método muy viejo,
+
+01:10:30.000 --> 01:10:31.000
+menos de 180 que se llama Steming,
+
+01:10:31.000 --> 01:10:32.000
+que es mucho más simple,
+
+01:10:32.000 --> 01:10:34.000
+que simplemente corta las palabras.
+
+01:10:35.000 --> 01:10:37.000
+Si yo sé que perros,
+
+01:10:38.000 --> 01:10:40.000
+perritos, perra, no sé qué.
+
+01:10:40.000 --> 01:10:42.000
+Yo sé que per es el Stem
+
+01:10:43.000 --> 01:10:45.000
+y yo lo puedo utilizar como una aproximación al lema.
+
+01:10:46.000 --> 01:10:48.000
+Va a cometer errores, claro.
+
+01:10:48.000 --> 01:10:49.000
+Pero...
+
+01:10:50.000 --> 01:10:52.000
+es muchísimo más rápido.
+
+01:10:53.000 --> 01:10:55.000
+Y no necesito ningún tipo de análisis morfológico pasar.
+
+01:10:57.000 --> 01:11:00.000
+Eso es el famoso Porter Stemer
+
+01:11:00.000 --> 01:11:02.000
+que mal que bien se sigues usando
+
+01:11:02.000 --> 01:11:05.000
+y ya pasaron como 30 y pico de año.
+
+01:11:05.000 --> 01:11:06.000
+¿De qué se le hizo?
+
+01:11:07.000 --> 01:11:08.000
+Ahora, una pregunta.
+
+01:11:08.000 --> 01:11:09.000
+Sí.
+
+01:11:09.000 --> 01:11:12.000
+Hay que necesitar por lo que contiene mucho con que se le di una
+
+01:11:12.000 --> 01:11:13.000
+de las seguridades.
+
+01:11:13.000 --> 01:11:15.000
+Sí, de eso vamos a hablar en la clase que viene
+
+01:11:15.000 --> 01:11:16.000
+que es morfología.
+
+01:11:16.000 --> 01:11:17.000
+Sí, claro.
+
+01:11:17.000 --> 01:11:18.000
+Y la...
+
+01:11:18.000 --> 01:11:20.000
+No solo la irregularidad de lo bueno,
+
+01:11:20.000 --> 01:11:21.000
+sino la ortográfica también.
+
+01:11:22.000 --> 01:11:23.000
+Lo imposible y eso.
+
+01:11:23.000 --> 01:11:24.000
+Morir y muerto.
+
+01:11:24.000 --> 01:11:25.000
+Sí, claro.
+
+01:11:25.000 --> 01:11:26.000
+Claro.
+
+01:11:26.000 --> 01:11:27.000
+Sí.
+
+01:11:27.000 --> 01:11:28.000
+Sí.
+
+01:11:28.000 --> 01:11:29.000
+Lo vamos a hablar la clase que viene.
+
+01:11:30.000 --> 01:11:32.000
+Igual se resuelve con...
+
+01:11:32.000 --> 01:11:33.000
+también es...
+
+01:11:34.000 --> 01:11:36.000
+se puede resolver con el agonismo de esta ufinita.
+
+01:11:38.000 --> 01:11:40.000
+Bueno, también hay otro tema
+
+01:11:40.000 --> 01:11:42.000
+y con esto vamos a irse como también...
+
+01:11:42.000 --> 01:11:44.000
+No, no vamos a terminar y voy a hacer trabajar hoy.
+
+01:11:45.000 --> 01:11:49.000
+Y con esto vamos al último tema de esto de la cosa que además no interesa
+
+01:11:49.000 --> 01:11:51.000
+se inventar en oraciones.
+
+01:11:52.000 --> 01:11:54.000
+Y ustedes, a mí, ¿cómo separamos en oraciones?
+
+01:11:59.000 --> 01:12:00.000
+¿Cómo separamos?
+
+01:12:00.000 --> 01:12:01.000
+¿Dónde están las oraciones ahí?
+
+01:12:02.000 --> 01:12:04.000
+Su mamá porque lo punticoma en los honoraciones.
+
+01:12:04.000 --> 01:12:05.000
+¿Más fácil de la humía?
+
+01:12:05.000 --> 01:12:07.000
+¿Eh?
+
+01:12:08.000 --> 01:12:09.000
+¿Esten comas siempre?
+
+01:12:11.000 --> 01:12:13.000
+Empiezan con masúscula y terminan?
+
+01:12:13.000 --> 01:12:14.000
+¿Y terminan?
+
+01:12:15.000 --> 01:12:16.000
+Con un punto.
+
+01:12:17.000 --> 01:12:18.000
+Problemas.
+
+01:12:19.000 --> 01:12:22.000
+Ahí se llamamos un 90 y pico de precisión.
+
+01:12:23.000 --> 01:12:25.000
+Pero algún problema tiene. ¿Cuál?
+
+01:12:27.000 --> 01:12:28.000
+Las abreviaturas?
+
+01:12:29.000 --> 01:12:31.000
+¿Qué pasa con la abreviatura?
+
+01:12:33.000 --> 01:12:34.000
+¿Tienes punto?
+
+01:12:34.000 --> 01:12:36.000
+Hay punto que son internos en la oración.
+
+01:12:37.000 --> 01:12:39.000
+¿Qué pasa con un número?
+
+01:12:40.000 --> 01:12:43.000
+Nombres propios, se pueden mariar con el tema de las masúsculas, claro.
+
+01:12:46.000 --> 01:12:50.000
+¿Esten, si todo el mundo es más bueno encontrar problemas de bucado de sución?
+
+01:12:51.000 --> 01:12:52.000
+¿Qué hay otro problema más?
+
+01:12:54.000 --> 01:12:56.000
+Si empieza con un número, por ejemplo...
+
+01:12:58.000 --> 01:12:59.000
+¿No?
+
+01:12:59.000 --> 01:13:00.000
+¿Qué empieza con minúsculas más difícil?
+
+01:13:00.000 --> 01:13:01.000
+¿No se me ocurre?
+
+01:13:01.000 --> 01:13:02.000
+Pero puede haber.
+
+01:13:02.000 --> 01:13:04.000
+Si buscan los cuerpos de 6.000 millones de palabras,
+
+01:13:04.000 --> 01:13:06.000
+de euros de vuelta a todos los casos.
+
+01:13:09.000 --> 01:13:11.000
+Y es eso, efectivamente es eso.
+
+01:13:11.000 --> 01:13:13.000
+Reconocer a oraciones.
+
+01:13:14.000 --> 01:13:16.000
+Se puede hacer con expresión regular, como dice él,
+
+01:13:17.000 --> 01:13:22.000
+tratando de buscar algunos casos especiales.
+
+01:13:24.000 --> 01:13:26.000
+Pero esta gente...
+
+01:13:28.000 --> 01:13:29.000
+Los métodos más...
+
+01:13:29.000 --> 01:13:32.000
+Lo he estado del arte en separación de oraciones.
+
+01:13:33.000 --> 01:13:34.000
+Es...
+
+01:13:35.000 --> 01:13:36.000
+Utiliza...
+
+01:13:38.000 --> 01:13:39.000
+Una especie de...
+
+01:13:39.000 --> 01:13:40.000
+Una especie de análisis.
+
+01:13:40.000 --> 01:13:43.000
+Lo que sea análisis no es supervisado o clasificación no es supervisado.
+
+01:13:44.000 --> 01:13:47.000
+Cuando yo digo análisis, no es supervisado.
+
+01:13:48.000 --> 01:13:53.000
+Luego el curso movió mucho esto, pero no es supervisado, quiere decir que yo no tengo ningún texto anotado.
+
+01:13:53.000 --> 01:13:55.000
+Nadie me dijo cómo eran las palabras.
+
+01:13:55.000 --> 01:13:59.000
+Yo simplemente miró en el texto en crudo y yo hice mi análisis dentro de ese texto.
+
+01:14:00.000 --> 01:14:03.000
+Cuando yo hablo de la clasificación supervisada, alguien me dijo,
+
+01:14:04.000 --> 01:14:06.000
+acá empieza la oración y acá termina.
+
+01:14:06.000 --> 01:14:07.000
+¿De acuerdo?
+
+01:14:07.000 --> 01:14:09.000
+Hay una notadora humana.
+
+01:14:09.000 --> 01:14:12.000
+Como cuando comparamos hoy con el tokenizador,
+
+01:14:12.000 --> 01:14:14.000
+tengo un gol de estándar, acá no.
+
+01:14:17.000 --> 01:14:22.000
+Estas gente, lo que hizo fue crear un tokenizador entrenado a dar un gran conjunto de testos
+
+01:14:23.000 --> 01:14:26.000
+y tomo ciertas hipótesis y dijo bueno.
+
+01:14:29.000 --> 01:14:32.000
+Identifica candidatos a abbreviaturas.
+
+01:14:33.000 --> 01:14:36.000
+Y dice bueno, en general,
+
+01:14:37.000 --> 01:14:42.000
+las palabras que terminan en punto son abbreviaturas.
+
+01:14:45.000 --> 01:14:47.000
+En general, las abbreviaturas son cortas,
+
+01:14:47.000 --> 01:14:52.000
+o sea que si una palabra es corta es más probable que sea abbreviatura que no, o que otra vez se.
+
+01:14:53.000 --> 01:14:56.000
+Y en general tienen puntos internos.
+
+01:14:57.000 --> 01:14:59.000
+¿La guardó?
+
+01:15:00.000 --> 01:15:03.000
+Y con eso
+
+01:15:04.000 --> 01:15:08.000
+trataron de ver contar en un texto de las frecuencias.
+
+01:15:08.000 --> 01:15:11.000
+Ahí está el link al ver.
+
+01:15:11.000 --> 01:15:17.000
+Contar en un texto de la cantidad de veces que esa palabra, la misma palabra aparecía con y sin punto.
+
+01:15:18.000 --> 01:15:20.000
+Si yo, por ejemplo,
+
+01:15:21.000 --> 01:15:26.000
+la palabra etcétera casi todas las veces aparecen con punto.
+
+01:15:26.000 --> 01:15:29.000
+O de hecho todas las veces aparecen con punto.
+
+01:15:29.000 --> 01:15:34.000
+En el corpus. O sea que fuertemente candidata a hacer una abbreviatura.
+
+01:15:35.000 --> 01:15:39.000
+Pero si yo parece guillermo con un punto al final,
+
+01:15:41.000 --> 01:15:46.000
+seguramente no sea una abbreviatura sino que sea el final de noración.
+
+01:15:47.000 --> 01:15:49.000
+¿La guardó?
+
+01:15:49.000 --> 01:15:52.000
+Entonces lo que hacían en ese tipo de conteos en el texto,
+
+01:15:52.000 --> 01:15:59.000
+para ver cuáles giran más candidatas, digamos, a priori hacer abbreviaturas.
+
+01:15:59.000 --> 01:16:02.000
+Porque ¿qué se trataba esto de desambiguar el punto?
+
+01:16:02.000 --> 01:16:05.000
+Que es nuestro problema que mencionamos hoy, ¿no?
+
+01:16:05.000 --> 01:16:08.000
+Desambiguar el punto y la masúscula.
+
+01:16:10.000 --> 01:16:13.000
+Lo mismo hacía cuando era palabras cortas, palabras largas.
+
+01:16:17.000 --> 01:16:21.000
+Con esa lista de candidato después se veían en qué contexto aparecían.
+
+01:16:21.000 --> 01:16:24.000
+Me dijeron una segunda fase y dice bueno, si si perdiste guillermo punto
+
+01:16:24.000 --> 01:16:27.000
+y la palabra que la siguen, empiezan minúsculas,
+
+01:16:27.000 --> 01:16:30.000
+entonces capaz que sí era una abbreviatura.
+
+01:16:31.000 --> 01:16:34.000
+No se me ocurre, porque guillermo punto es una abbreviatura,
+
+01:16:34.000 --> 01:16:36.000
+pero está, es que si yo hacía una abbreviatura.
+
+01:16:36.000 --> 01:16:37.000
+¿De acuerdo?
+
+01:16:39.000 --> 01:16:41.000
+O colocaciones.
+
+01:16:41.000 --> 01:16:43.000
+Por ejemplo, cuando yo digo,
+
+01:16:43.000 --> 01:16:46.000
+en lo que son las colocaciones son palabras que aparecen juntas, usualmente.
+
+01:16:47.000 --> 01:16:49.000
+De nuevo, es una colocación.
+
+01:16:50.000 --> 01:16:53.000
+No sé si se dice colocación, pero en inglés se dice colocación.
+
+01:16:54.000 --> 01:16:56.000
+Una de ser colocación.
+
+01:16:56.000 --> 01:16:58.000
+Por ejemplo, si yo digo, y etcétera,
+
+01:17:01.000 --> 01:17:04.000
+y etcétera, no sé si es como, etcétera,
+
+01:17:05.000 --> 01:17:07.000
+y etcétera aparecen muchas veces juntas.
+
+01:17:08.000 --> 01:17:09.000
+Entonces,
+
+01:17:10.000 --> 01:17:13.000
+y entonces digamos,
+
+01:17:14.000 --> 01:17:17.000
+es muy raro que si aparece con un punto en el medio,
+
+01:17:18.000 --> 01:17:20.000
+ese punto sea de separación.
+
+01:17:21.000 --> 01:17:23.000
+El ejemplo que dijiste horrible el año que viene o que elegí uno bueno,
+
+01:17:24.000 --> 01:17:27.000
+pero ese punto es raro que sea de separación,
+
+01:17:28.000 --> 01:17:30.000
+porque siempre que aparecen juntas, digamos,
+
+01:17:31.000 --> 01:17:32.000
+yo digo,
+
+01:17:35.000 --> 01:17:36.000
+de nuevo,
+
+01:17:36.000 --> 01:17:39.000
+esto es horrible, pero no es tan malo como el anterior.
+
+01:17:39.000 --> 01:17:41.000
+De nuevo, siempre aparece así.
+
+01:17:42.000 --> 01:17:43.000
+¿De acuerdo?
+
+01:17:43.000 --> 01:17:45.000
+Si hay ningún momento aparece con un punto acá,
+
+01:17:45.000 --> 01:17:47.000
+probablemente esto hace un fin de ración.
+
+01:17:49.000 --> 01:17:50.000
+¿De acuerdo?
+
+01:17:51.000 --> 01:17:52.000
+Pésimo el ejemplo.
+
+01:17:53.000 --> 01:17:55.000
+Y luego las palabras iniciales frecuentes,
+
+01:17:56.000 --> 01:17:58.000
+es decir, cuando aparece una malleúscula,
+
+01:18:01.000 --> 01:18:03.000
+digamos, esa palabra que apareció,
+
+01:18:04.000 --> 01:18:07.000
+que tan candidata es hacer el comienzo de una oración,
+
+01:18:07.000 --> 01:18:09.000
+a hacer una malleúscula,
+
+01:18:09.000 --> 01:18:10.000
+en vez de ser un nombre,
+
+01:18:10.000 --> 01:18:11.000
+es ser un comienzo de oración.
+
+01:18:12.000 --> 01:18:14.000
+Y vemos que hay palabras que es mucho más frecuentemente aparecen
+
+01:18:14.000 --> 01:18:15.000
+al comienzo de oración.
+
+01:18:15.000 --> 01:18:17.000
+La con malleúscula,
+
+01:18:18.000 --> 01:18:22.000
+es una buena candidata a hacer comienzo de oración.
+
+01:18:23.000 --> 01:18:26.000
+Porque hay muchos lá al comienzo de las oraciones.
+
+01:18:27.000 --> 01:18:30.000
+Entonces, eso aumenta mi probabilidad de que sea entonces,
+
+01:18:30.000 --> 01:18:32.000
+en base un estudio de conteo y de frecuencias
+
+01:18:33.000 --> 01:18:35.000
+y de lo que se llama la Eclipse Jude,
+
+01:18:35.000 --> 01:18:36.000
+o verosimilitud,
+
+01:18:38.000 --> 01:18:39.000
+de San Vivo en el punto.
+
+01:18:39.000 --> 01:18:41.000
+Dice, bueno, esto es un punto de abreviatura
+
+01:18:41.000 --> 01:18:43.000
+o es un punto de oración.
+
+01:18:45.000 --> 01:18:48.000
+Y de esa forma, separan oraciones.
+
+01:18:52.000 --> 01:18:54.000
+Eso en el Entecac existe.
+
+01:18:54.000 --> 01:18:56.000
+Y yo le voy a mostrar un poco el corpus.
+
+01:19:02.000 --> 01:19:05.000
+No está, ¿y feisu no, ¿no lo吗o yo?
+
+01:19:32.000 --> 01:19:40.000
+Esto es la base de jurisprudencia del Poder Judicial del Uruguay.
+
+01:19:55.000 --> 01:19:56.000
+Esto está publicado.
+
+01:19:56.000 --> 01:19:57.000
+¿Dónde dice Paul?
+
+01:19:59.000 --> 01:20:00.000
+Ah, por favor.
+
+01:20:13.000 --> 01:20:14.000
+¿Qué dice?
+
+01:20:19.000 --> 01:20:21.000
+Esto es una sentencia del...
+
+01:20:27.000 --> 01:20:31.000
+La base de sentencias de ejemplo del Poder Judicial del Uruguay.
+
+01:20:32.000 --> 01:20:33.000
+¿Si se fijan?
+
+01:20:35.000 --> 01:20:36.000
+Este es el texto.
+
+01:20:39.000 --> 01:20:40.000
+No era interesante.
+
+01:20:41.000 --> 01:20:42.000
+No eran todas iguales.
+
+01:20:44.000 --> 01:20:47.000
+Fíjese que si yo quiero separar el texto acá...
+
+01:20:48.000 --> 01:20:50.000
+No tengo mucho problema, pero acá aparecen cosas raras.
+
+01:20:50.000 --> 01:20:53.000
+No como este es punto que me interesa.
+
+01:20:54.000 --> 01:20:55.000
+Fue de dentro de la relación.
+
+01:20:56.000 --> 01:21:01.000
+Pero me sorprendió un poco, acá hay un número que aparece con punto también.
+
+01:21:02.000 --> 01:21:07.000
+Pero además hay otras sentencias que terminan en punto y raya, ¿no?
+
+01:21:08.000 --> 01:21:09.000
+punto y guión.
+
+01:21:10.000 --> 01:21:13.000
+punto y guión, o sea que hay el separador totalmente raro.
+
+01:21:14.000 --> 01:21:17.000
+Para lo que se le está a andar y que uno tiene que ver cómo modificar la tokenización.
+
+01:21:18.000 --> 01:21:22.000
+Este corpus es el que van a usar usted para el laboratorio.
+
+01:21:23.000 --> 01:21:25.000
+Así que vayan a ser haciendo amigos de él.
+
+01:21:28.000 --> 01:21:30.000
+Mira referencias de tan por ahí.
+
+01:21:31.000 --> 01:21:32.000
+Los invito a leerlas.
+
+01:21:36.000 --> 01:21:37.000
+¿Alguna pregunta?
+
+01:21:40.000 --> 01:21:41.000
+Acá, que...
+
+01:21:48.000 --> 01:21:50.000
+Bueno, tal vez ya ha sido demasiado para ustedes.
+
+01:21:52.000 --> 01:21:54.000
+Si no hay dudas, dejamos por acá en la clase que viene.
+
+01:21:55.000 --> 01:21:59.000
+Vamos a hablar de distancia mínima edición para empezar.
+
+01:22:01.000 --> 01:22:05.000
+¿Qué es cómo ver cuál es la distancia entre dos palabras?
+
+01:22:06.000 --> 01:22:08.000
+Una noción de distancia entre dos palabras.
+
+01:22:09.000 --> 01:22:11.000
+Que esencialmente captura la idea de parecido.
+
+01:22:12.000 --> 01:22:14.000
+Es un punto de vista ortográfico.
+
+01:22:15.000 --> 01:22:19.000
+Y podemos seguir hablando de morfología.
+
+01:22:21.000 --> 01:22:22.000
+Gracias.
+

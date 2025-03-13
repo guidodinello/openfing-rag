@@ -1,0 +1,4540 @@
+1
+00:00:00,000 --> 00:00:29,400
+¿Se acuerdan que lo que hemos estado hablando era del... de lo que es un al... de lo que era el parcino? ¿Y volvimos a... o te digo que si no me equivoco? No, no, no lo vimos. Nosotros hemos visto algo parecido que era lo que era un postaguer.
+
+2
+00:00:29,400 --> 00:00:36,400
+Eso de lo que vamos a ver ahora es que es un parcer. Un parcer que es... es algo que tomo un texto y una gramática.
+
+3
+00:00:36,400 --> 00:00:48,400
+Sí. Y de vuelve el árbol de análisis intactico correspondiente a ese... a ese... a ese texto de entrada o faixa.
+
+4
+00:00:48,400 --> 00:00:55,400
+Entonces, si la analizador se intactico en lo que haces tomo un texto de vuelve una estructura.
+
+5
+00:00:55,400 --> 00:01:08,400
+¿De acuerdo a la gramática que le estamos pasando? ¿Le vamos? Intenta a machar lo que sea que sagramáticas tenga con el texto o sea el formali.
+
+6
+00:01:08,400 --> 00:01:15,400
+Según el formalismo que te especifica y vuelve el texto con estructura y vamos. Eso llama parcino.
+
+7
+00:01:15,400 --> 00:01:24,400
+Nosotros vimos la clase pasada, lo que era un... que el general vimos mencionamos ahora el formalismo pero en general hablamos de...
+
+8
+00:01:24,400 --> 00:01:31,400
+gramáticas libre de contexto como el formalismo principal para el parcino que había existe y de hecho sigue siendo así.
+
+9
+00:01:31,400 --> 00:01:42,400
+Es decir, si bien, mucho más orientada a árbol es inducido a partir de corpus y con muchas modificaciones.
+
+10
+00:01:42,400 --> 00:01:48,400
+En el fondo sigue bien, sigue siendo gramática libre de contexto de la base de los formalismo macumnevaros.
+
+11
+00:01:48,400 --> 00:01:56,400
+Hay otros, la mática categoría, la gramática dependencia, la gramática dependencia, los últimos años se han popularizado bastante.
+
+12
+00:01:56,400 --> 00:02:03,400
+Pero los parcer principales siguen estando basados en esto. Es decir, no son tan naís como esto.
+
+13
+00:02:03,400 --> 00:02:09,400
+Tienen sombarciones evolucionadas, esto, ¿verdad?
+
+14
+00:02:09,400 --> 00:02:15,400
+Y en estas clases lo que vamos a ver es uno o dos de los algoritmos macumulares de parcino.
+
+15
+00:02:15,400 --> 00:02:25,400
+Que incluye una cantidad de nociones que luego se repite y algunas de las cuales repiten cosas que vimos antes.
+
+16
+00:02:25,400 --> 00:02:31,400
+En otros contextos van a dar. Entonces, pero lo que vamos a hablar ahora es de la taría de la análisis intacta.
+
+17
+00:02:31,400 --> 00:02:40,400
+Entonces, a sumimos que yo tengo el texto que tengo la gramática que voy a suponer que es una gramática libre de contexto que modela mi lenguaje.
+
+18
+00:02:40,400 --> 00:02:45,400
+Y en la analizar y voy a ver cómo funciona un analizar sin táctico.
+
+19
+00:02:45,400 --> 00:02:50,400
+Lo mismo que hacía como la lenguaje para la macio, los compiladores tienen un parcer de la lenguaje para la macio.
+
+20
+00:02:50,400 --> 00:02:54,400
+¿Cuál es el problema que tienen la lenguaje natural y comparado con los lenguaje?
+
+21
+00:02:54,400 --> 00:03:00,400
+Perdón, de programación es que es amigo. Entonces, nosotros tenemos que manejar y se ambigüera.
+
+22
+00:03:05,400 --> 00:03:14,400
+Pero, además, es muy interesante para ver para poner un poco más filosófico y ver que hay dos aproximaciones a la resolución de los problemas.
+
+23
+00:03:14,400 --> 00:03:23,400
+¿Qué se corresponden con? Esencialmente dos ramas de la filosofía, a lo largo de la historia,
+
+24
+00:03:23,400 --> 00:03:32,400
+que es la que parte de los conceptos para llegar a los datos o en la que parte de los datos e induce los conceptos.
+
+25
+00:03:32,400 --> 00:03:43,400
+En ese libro de 1620, Francisco Eico, como que introducías, ese concepto de que decía, bueno, hay solo dos formas de investigar y descubrir la verdad.
+
+26
+00:03:43,400 --> 00:03:58,400
+Una parte de los sentidos y de los objetos particulares, induciendocio más generales y de ahí de nivel y a partir de eso descubre lo que había en el medio digamos.
+
+27
+00:03:58,400 --> 00:04:02,400
+La otra, perdón, al revés.
+
+28
+00:04:02,400 --> 00:04:08,400
+El primero, rápidamente, va arriba y baja. O sea, generaliza rápidamente, va bajando hasta los sujetos.
+
+29
+00:04:08,400 --> 00:04:12,400
+Y el otro contúcio y los encima de abajo se arriba.
+
+30
+00:04:12,400 --> 00:04:22,400
+Si yo puedo partir de los datos y tratar de inferir mis reglas, miramati, mi árbol o partir de la primera producción de la gramática ahí,
+
+31
+00:04:22,400 --> 00:04:27,400
+generando el árbol hacia abajo y ver al final y se corresponde con algún texto que yo tengo.
+
+32
+00:04:27,400 --> 00:04:35,400
+modeles a dos formas tradicionales de aproximarse a los problemas.
+
+33
+00:04:35,400 --> 00:04:41,400
+Entonces, efectivamente correspondiendo a eso, tenemos dos grandes que las sean elisicinta y pico,
+
+34
+00:04:41,400 --> 00:04:49,400
+si bien por supuesto, siempre aparecen cosas en el medio, pero una es un análisis sintático descendente.
+
+35
+00:04:49,400 --> 00:04:58,400
+Sí, o top down, que lo que hace es, bueno, construyo mi árbol de análisis, que es un árbol de análisis.
+
+36
+00:04:58,400 --> 00:05:12,400
+El árbol de análisis lo habíamos dejado es algo que parte de una raíz, que siempre es la raíz de la gramática y construye las elementos del medio con los diferentes componentes.
+
+37
+00:05:12,400 --> 00:05:24,400
+Ahora vamos a ver algún caso, pero es lo que habíamos la clase pasado, una oración es un grupo nominal y un grupo global y así voy abriendo esto.
+
+38
+00:05:24,400 --> 00:05:30,400
+Y al final acá tengo las palabras.
+
+39
+00:05:30,400 --> 00:05:41,400
+Determinante, nombre, el perro.
+
+40
+00:05:41,400 --> 00:05:46,400
+Las árboles no se nací y se corresponde en la producción el armentica, ¿verdad?
+
+41
+00:05:46,400 --> 00:05:57,400
+Entonces, el desenente de la árbol desde la raíz hacia las hojas, mientras que los botonap parten de la palabra y tratan de ir a encontrar un árbol,
+
+42
+00:05:57,400 --> 00:06:03,400
+a tener contra la raíz.
+
+43
+00:06:03,400 --> 00:06:12,400
+Lo que son botonap van, de la secuencia palabra y construye un árbol de las hojas a la raíz, con la doforma de aproximarse.
+
+44
+00:06:12,400 --> 00:06:16,400
+Y por supuesto, el sitio en combinación.
+
+45
+00:06:16,400 --> 00:06:19,400
+¿Qué vamos a suponer en nuestros parcias?
+
+46
+00:06:19,400 --> 00:06:24,400
+Bueno, que tenemos las palabras en un buffer.
+
+47
+00:06:25,400 --> 00:06:50,400
+Ahora tenemos mis palabras para hacer así, tomo un vuelo de montevideo a paris.
+
+48
+00:06:51,400 --> 00:06:53,400
+Y la voy a tener en un buffer.
+
+49
+00:06:53,400 --> 00:06:58,400
+Esta es la palabra 1, 2, 3.
+
+50
+00:06:59,400 --> 00:07:03,400
+No tiene su etiqueta gramática, o sea que yo no sé la clase.
+
+51
+00:07:03,400 --> 00:07:06,400
+En principio, voy a tenerlo.
+
+52
+00:07:06,400 --> 00:07:09,400
+Visipio no, o sea que la voy a tener y buscar.
+
+53
+00:07:09,400 --> 00:07:15,400
+Y esos todas conocidas, no tengo el problema de la palabra, es desconocía.
+
+54
+00:07:15,400 --> 00:07:22,400
+Son todas cosas con las que luego tendré que hacer algo, pero para el nuestro ejercicio vamos a ver esto.
+
+55
+00:07:22,400 --> 00:07:31,400
+Y por supuesto, yo puedo construir parcias topdamp, topdamp y botonamp usando métodos fuerzas gruta.
+
+56
+00:07:31,400 --> 00:07:39,400
+Es decir, yo parto, por ejemplo, de la raíz,
+
+57
+00:07:39,400 --> 00:07:43,400
+y entro a probar, porque me hace una gramática, ¿no?
+
+58
+00:07:43,400 --> 00:07:46,400
+Yo un parto y una gramática.
+
+59
+00:07:46,400 --> 00:07:51,400
+Tengo una gramática, como la que...
+
+60
+00:07:51,400 --> 00:07:56,400
+Tengo por acá, la que vimos la clase pasado.
+
+61
+00:07:56,400 --> 00:08:00,400
+Sí, que más o menos luce.
+
+62
+00:08:00,400 --> 00:08:04,400
+Así que dice, bueno, una oración,
+
+63
+00:08:04,400 --> 00:08:10,400
+me voy a copiar por ahora porque la necesitar es un grupo verbal o un grupo nominal.
+
+64
+00:08:10,400 --> 00:08:12,400
+Seguido un grupo global.
+
+65
+00:08:12,400 --> 00:08:16,400
+Un grupo nominal es un determinante.
+
+66
+00:08:16,400 --> 00:08:20,400
+Seguido un hombre o un determinante.
+
+67
+00:08:20,400 --> 00:08:23,400
+Seguido un hombre, seguido un objetivo.
+
+68
+00:08:23,400 --> 00:08:25,400
+El parroflaco.
+
+69
+00:08:25,400 --> 00:08:29,400
+Un hombre propio Juan.
+
+70
+00:08:29,400 --> 00:08:33,400
+Un grupo nominal.
+
+71
+00:08:33,400 --> 00:08:37,400
+Y un grupo preposicional dulce de leche.
+
+72
+00:08:37,400 --> 00:08:39,400
+dulce de leche.
+
+73
+00:08:39,400 --> 00:08:44,400
+Un grupo nominal, un grupo preposicional y otro grupo preposicional.
+
+74
+00:08:44,400 --> 00:08:49,400
+dulce de leche con pasas.
+
+75
+00:08:49,400 --> 00:08:55,400
+Un grupo verbal, por supuesto, es un barvo, un barvo seguido un grupo nominal.
+
+76
+00:08:55,400 --> 00:09:00,400
+Un barvo seguido un grupo nominal, seguido un grupo preposicional.
+
+77
+00:09:00,400 --> 00:09:02,400
+Sí.
+
+78
+00:09:02,400 --> 00:09:05,400
+Un grupo nominal.
+
+79
+00:09:05,400 --> 00:09:11,400
+Y a su vez un grupo preposicional y su una preposición,
+
+80
+00:09:11,400 --> 00:09:13,400
+seguía un grupo nominal.
+
+81
+00:09:13,400 --> 00:09:16,400
+¿Cónguas pasas?
+
+82
+00:09:16,400 --> 00:09:17,400
+¿Y ahora?
+
+83
+00:09:17,400 --> 00:09:18,400
+¿Pero?
+
+84
+00:09:18,400 --> 00:09:23,400
+No, no, no, no, no, no, no, no.
+
+85
+00:09:23,400 --> 00:09:26,400
+Bueno, en esta aramática no lo tenemos.
+
+86
+00:09:26,400 --> 00:09:28,400
+Podría haberse, pero...
+
+87
+00:09:28,400 --> 00:09:32,400
+¿Cónguas pasas?
+
+88
+00:09:32,400 --> 00:09:34,400
+Ah, claro, tengas razón.
+
+89
+00:09:34,400 --> 00:09:37,400
+Sí, porque en realidad es el ejemplo de todo un vuelo a parís.
+
+90
+00:09:37,400 --> 00:09:40,400
+Para tener estación necesitaría tener 2 grupos profesionales.
+
+91
+00:09:40,400 --> 00:09:42,400
+Esta abracción no la voy a analizar.
+
+92
+00:09:42,400 --> 00:09:45,400
+Como cambiarla, no un vuelo a parís.
+
+93
+00:09:49,400 --> 00:09:52,400
+¿O podría llegar a una regla más acá, no?
+
+94
+00:09:52,400 --> 00:09:55,400
+Bueno, yo tengo esta aramática y puedo empezar,
+
+95
+00:09:56,400 --> 00:10:01,400
+tendréERERERERERERERERERERERERERERERERERERERER infernis en 1,
+
+96
+00:10:01,400 --> 00:10:06,400
+es à presión que se busca una regla de la bruna de los gilas.
+
+97
+00:10:06,400 --> 00:10:22,900
+Una consedia, que está en account que bajó más y se sigue aqui en la camunctora del
+
+98
+00:10:22,900 --> 00:10:47,900
+Det es un, no es tomo, examen igualo, preposición es aire y verbo tomo y adjetivo
+
+99
+00:10:47,900 --> 00:11:03,420
+de directo, bueno, pero yo puedo decir un grupo verbal, es un determinante nombre, determinante
+
+100
+00:11:03,420 --> 00:11:11,780
+es un, es un, pero mi gración no empieza con un, empieza con tomo, o sea yo estoy parado en el
+
+101
+00:11:11,780 --> 00:11:24,780
+lo afer en la primera posición, entonces si te lo te ha hecho, perdón, y grupo verbal
+
+102
+00:11:24,780 --> 00:11:30,980
+es verbo, perdón, sí claro, esto es lo que tiene bueno convertirse en un parser, uno
+
+103
+00:11:30,980 --> 00:11:46,820
+no piensa, grupo verbal verbo, verbo es tomo, todo bien, tomo vale, verdad, tomo vale y
+
+104
+00:11:46,820 --> 00:11:53,260
+terminé y logré un análisis valido, el único problema que no va a ser el buffer, entonces
+
+105
+00:11:53,260 --> 00:12:00,260
+que esto no me sirve con manaliciloración, bueno, entonces yo tengo que probar otra regla,
+
+106
+00:12:00,260 --> 00:12:08,060
+grupo verbal solo puede ser un verbo, no, entonces este, parece no es, tacho, tacho
+
+107
+00:12:08,060 --> 00:12:16,260
+este, y prueba grupo verbal es agua tranquilo, grupo verbal es verbo, grupo nominal, verbo
+
+108
+00:12:16,260 --> 00:12:25,820
+es tomo, sí, bien, ahora te canaliza y grupo nominal, pero acá moví mi, mi puntero, un lugar
+
+109
+00:12:25,820 --> 00:12:38,700
+más adelante, sí, grupo nominal, grupo nominal, el principio es un determinante y un nombre,
+
+110
+00:12:38,780 --> 00:12:58,620
+determinante es un también funciona, bien, sí, se acaban en su mi puntero a vuelo, sí, y
+
+111
+00:12:58,620 --> 00:13:08,980
+estaba acá, ahora tengo decir nombre es vuelo, bien, no, nombre es tomo, no es tomo porque tomo
+
+112
+00:13:08,980 --> 00:13:27,500
+no coincide con vuelo, pero nombre examen, no es, nombre es vuelo, bien, avanzo, avanzo, avanzo
+
+113
+00:13:27,500 --> 00:13:39,220
+en el traca, alá, pero para mi grupo nominal era determinante y nombre se me había terminado,
+
+114
+00:13:39,220 --> 00:13:49,540
+o sea que se me terminó mi analicil, sí, porque yo estaba partiendo de verbo, grupo nominal,
+
+115
+00:13:49,540 --> 00:13:53,340
+esta combinación no funciona, tengo que probar otra, acá no tengo más opciones para
+
+116
+00:13:54,260 --> 00:13:59,060
+no, tengo que te achar, voy para atrás, hago al traca y prueba con grupo nominal de determinante
+
+117
+00:13:59,060 --> 00:14:08,020
+nombre es objetivo, voy a hacer todo este mismo camino, determinante es un, no es el problema que
+
+118
+00:14:08,020 --> 00:14:18,260
+tiene en los métodos de este tipo de ultrakin, de fuerza gruta, es que hace varias cosas muy repetidamente,
+
+119
+00:14:18,260 --> 00:14:26,060
+no, a decir cosas un poco absurda como probar con cosas que en la entrada no la tenés, digamos, si
+
+120
+00:14:26,060 --> 00:14:36,900
+tu palabra ahí, tomo, o vuelo, no voy a probar con tomo porque solo ocurre la que tengan
+
+121
+00:14:36,900 --> 00:14:44,740
+vuelo a la derecha, a decir, voy a hacer cosas como eso, al revista también podría ser lo mismo
+
+122
+00:14:44,740 --> 00:14:49,940
+fuerza gruta, por lo que todas las combinaciones de palabras que hay y con cada part trato de
+
+123
+00:14:49,940 --> 00:14:54,900
+construir hacia arriba, una dramática eso nuevamente es costosísimo porque se ponencial la cantidad
+
+124
+00:14:54,900 --> 00:15:02,580
+de preos que puede ser, entonces los métodos todos la univotona de fuerza gruta no funcionan con
+
+125
+00:15:02,580 --> 00:15:10,380
+la acción muy complicada, bueno, porque explotan rápidamente formos ponencial, tenemos que
+
+126
+00:15:10,380 --> 00:15:20,180
+tocar forma un poco más inteligente de hacer las cosas, y además tenemos que resolver el tema
+
+127
+00:15:20,180 --> 00:15:32,100
+de la ambiguidad, no, el famoso vio con hijo con un telés copio, sí, si en ese caso yo tengo dos análisis
+
+128
+00:15:32,100 --> 00:15:37,460
+posibles, en el mundo de las sintaxis, en el mundo reáeca más que no, porque un hijo con un telés copio
+
+129
+00:15:37,460 --> 00:15:43,180
+no sea mucho, pero nosotros todavía no llegamos a la parte de la semántica, entonces vio con hijo
+
+130
+00:15:43,180 --> 00:15:52,140
+con un telés copio, sería una cosa como oración, grupo verbal, grupo preposicional, grupo
+
+131
+00:15:52,140 --> 00:16:13,660
+verbal evi, verbobi, esto es a, grupo nominal, determinante nombre un conejo y el grupo
+
+132
+00:16:13,660 --> 00:16:24,420
+posicional es con un telés copio, este triangulito es como que no me interesa la estructuridad
+
+133
+00:16:24,420 --> 00:16:31,380
+más darbo, no, es notación más, pero también podría ser que este grupo preposicional hubiera
+
+134
+00:16:31,380 --> 00:16:40,580
+un árbol que lo tuviera acá, son dos posibles árboles analisis de, de árboles analisis
+
+135
+00:16:40,580 --> 00:16:46,020
+de la estructura, eso se llama como le decía de que hace pasar a pipiatachmen, preposición
+
+136
+00:16:46,020 --> 00:16:53,500
+el freizatachmen y es un problema, y mi parcer lo puede levantar esa, esa ambiguidad,
+
+137
+00:16:53,500 --> 00:17:00,500
+tiene que darme los dos análisis posibles, yo de poderé como lo resuelvo, y como vimos
+
+138
+00:17:00,500 --> 00:17:05,220
+lo que hace pasado también, también tenemos problema de coordinación, esto puede ser hombres
+
+139
+00:17:05,220 --> 00:17:13,620
+y mujeres, de 60 años o hombres y mujeres de 60 años, son los dos casos en vivo de
+
+140
+00:17:13,620 --> 00:17:18,820
+más comunes, y también tenemos el vivo de más local que es los posibles postagues que
+
+141
+00:17:18,820 --> 00:17:23,940
+puedan tener en una palabra, por ejemplo todo lo mismo, ahí puede ser un sustantivo como
+
+142
+00:17:23,940 --> 00:17:31,620
+el tomo de un libro de una colección o tomo de tomar, yo sé que el único análisis valio de
+
+143
+00:17:31,620 --> 00:17:37,020
+esta restauración es con todo como un verbo, tengo un vivo de a local, pero no es general,
+
+144
+00:17:37,020 --> 00:17:48,860
+en aquel caso no puedo levantar la mibeada, por lo menos a nivel sintético, bueno,
+
+145
+00:17:48,860 --> 00:17:52,660
+esta nuestra llamática que es la misma que dibujamos ahí con la cama trabajar en la clase,
+
+146
+00:17:53,580 --> 00:18:03,540
+la matiga muy sencillo, la dije, escrita ya porque la vamos a ver, bueno, como decía
+
+147
+00:18:03,540 --> 00:18:12,180
+a mono, yo puedo hacer metos topdown, de arriba hacia abajo, ese señor es en padre
+
+148
+00:18:12,180 --> 00:18:19,700
+del racionalismo, que es descartes, es bueno, yo sé como es la realidad, yo aparto de mi
+
+149
+00:18:19,700 --> 00:18:26,020
+concepto y trato de llegar a los árboles, a través de la razón, antes de ir a escarte,
+
+150
+00:18:26,020 --> 00:18:31,420
+y cuando llegó el final de la suja veo, si la oración corresponde, recién cuando estoy,
+
+151
+00:18:31,420 --> 00:18:38,620
+después de ir y de todo el árbol, qué problema tiene, qué problema tiene, no, que
+
+152
+00:18:38,620 --> 00:18:43,020
+ventaja tiene que él solo va a generar árboles que comienzan y nese, obviamente, porque empieza
+
+153
+00:18:43,020 --> 00:18:48,580
+por ahí, así, a los árboles que armando son siempre razonados posibles,
+
+154
+00:18:49,940 --> 00:18:55,780
+desde el punto de vista de la estructura, no pierde el tiempo, es una cosa que no llenan nada,
+
+155
+00:18:55,780 --> 00:19:01,060
+pero claro, pierde tiempo, probando árboles que no son consistentes con el trato, porque como no
+
+156
+00:19:01,060 --> 00:19:06,260
+tienen cuenta de los datos, hasta el final genera, va generando todos los árboles posibles, pero
+
+157
+00:19:06,260 --> 00:19:10,820
+pero pierde tiendo, probando cosas que no lo llevan en el ningún lado, cuando si miramos
+
+158
+00:19:10,820 --> 00:19:18,220
+los datos, no podíamos dar cuenta, bueno, si esa ración empieza con un verbo, nunca puede
+
+159
+00:19:18,220 --> 00:19:28,180
+usar la rera genige, yo está real a no de Oriini, probarla, por el otro lado, si es
+
+160
+00:19:28,180 --> 00:19:34,580
+niverexium, que es el bueno uno de los padres en penicimos, el otro dice, bueno, no voy a mirar
+
+161
+00:19:34,580 --> 00:19:39,860
+lo datos que tengo, voy a construir para arriba, pero tiene un problema inverso, es explorar
+
+162
+00:19:39,860 --> 00:19:44,860
+árboles que no van a llegar a ese, empieza a combinar cosas, pero nunca no hay ninguna
+
+163
+00:19:44,860 --> 00:19:51,020
+rira que les contéble, pero, por otro lado, tiene la ventaja de que nunca va a sugerir
+
+164
+00:19:51,020 --> 00:19:55,220
+árboles que no sean al menos localmente consistente con el trato, por lo menos, como
+
+165
+00:19:55,220 --> 00:20:01,420
+parte de los datos, en las soja van a coincidir, porque después termina en creciendo y
+
+166
+00:20:01,420 --> 00:20:06,420
+se corte, porque no hay nada que los generes, empieza a combinar, se entiende, eso no le
+
+167
+00:20:06,420 --> 00:20:13,980
+todo a aproximación que hay, un parcer, bueno, esto es un poco lo que mostraba hoy,
+
+168
+00:20:13,980 --> 00:20:19,980
+un parcer toque da un básico, esa es que si mula en un estado que el proceso generación
+
+169
+00:20:19,980 --> 00:20:28,980
+del entrada, y lo que yo te guardando en esta análisis que hacía acá es por un lado,
+
+170
+00:20:28,980 --> 00:20:35,340
+si un defe se no, una estrategia de profundidad, de busque en profundidad, yo voy derivando
+
+171
+00:20:35,340 --> 00:20:44,980
+lo que yo iba siendo de era, tomo una rira o jeve de termina ante nombre, de termina ante,
+
+172
+00:20:44,980 --> 00:20:49,660
+bueno, esa va derecho al vocabulario, después tomo un hombre, si uno no prueba o actra
+
+173
+00:20:49,660 --> 00:20:54,380
+que puedo con el siguiente, y cada entrar en él, y voy sacando del estado que lo que
+
+174
+00:20:54,380 --> 00:20:58,660
+había bien realizado ya, era en los cachones que yo hacía, eso era el estado, cada
+
+175
+00:20:58,660 --> 00:21:02,980
+entrar en el estado tiene un árbol de sin tag, de una inciteta o parciablo, que
+
+176
+00:21:02,980 --> 00:21:10,940
+vengo obteniendo hasta el momento, y un punto era la siguiente palabra leer, bueno, el problema
+
+177
+00:21:10,940 --> 00:21:18,940
+como habíamos que tiene eso es que arrepite muchos árboles, yo puedo llegar a agregar para
+
+178
+00:21:18,940 --> 00:21:23,540
+aparecer un poco más inteligente, agregar un poco de filtra o botona, que era un poco
+
+179
+00:21:23,540 --> 00:21:34,860
+lo que veía muy, si yo tengo una rira del tipo A va deriva en B, gama, o en B, sí,
+
+180
+00:21:34,860 --> 00:21:41,100
+las nociones a que yo le decía, si empieza con tomo, no uso grupo nominal, porque, porque
+
+181
+00:21:41,100 --> 00:21:46,900
+si yo, acá lo tenemos, no utiliza la rira si no hay sequencia de derivaciones que se
+
+182
+00:21:46,900 --> 00:21:53,260
+ven de B a una forma que empieza por la palabra, si yo tomo o grupo nominal, grupo nominal
+
+183
+00:21:53,300 --> 00:22:02,140
+va en determinante o en nombre propio, sí, y por lo tanto en ningún estomo, que es la
+
+184
+00:22:02,140 --> 00:22:07,780
+primera palabra de mi bafar, entonces yo esa rira diré también de no la tomo, no dice la prueba
+
+185
+00:22:07,780 --> 00:22:12,460
+de todos los análisis de árbol, simplemente mire, lo que se llama Lestcorner, que es un
+
+186
+00:22:12,460 --> 00:22:18,700
+concepto muy importante, y esto se puede guardar en una tabla, además, yo puedo saber
+
+187
+00:22:18,700 --> 00:22:23,780
+lo en Lestcorner rápidamente, porque yo puedo detatico luego sobre la gramática, yo
+
+188
+00:22:23,780 --> 00:22:29,900
+voy a saber cuál es el Lestcorner de cada regla, sí, en el caso de esta regla, el Lestcorner
+
+189
+00:22:29,900 --> 00:22:48,340
+va a ser un determinante, perdón un vero, se tiene, pues se podría mejorar un poco, pero
+
+190
+00:22:48,420 --> 00:22:53,260
+hay cosas, hay formas más inteligentes, de evolucionar, tiene algunos problemas como
+
+191
+00:22:53,260 --> 00:22:57,580
+decíamos, tiene el problema de la recursión por la izquierda, que hay que resolverla de
+
+192
+00:22:57,580 --> 00:23:03,040
+una forma, algo rínica, porque un grupo nominal, tenía un grupo nominal, tenía un grupo
+
+193
+00:23:03,040 --> 00:23:08,260
+nominal, viejo problema de la recursión por la izquierda, pero que lo podemos resolver haciendo
+
+194
+00:23:08,260 --> 00:23:13,100
+trampa como siempre, no, cambié, cortando el análisis y si ya estoy en un grupo nominal,
+
+195
+00:23:13,100 --> 00:23:18,780
+no dejando, no dejando el trabajo, pero está, no de hecho un problema, por otra parte
+
+196
+00:23:18,780 --> 00:23:23,720
+este, según el problema, y es que hacemos parcín repetido, muchas veces lo mí, muchas
+
+197
+00:23:23,720 --> 00:23:31,380
+veces volvimos a analizar lo mismo, ¿qué cómo resolvemos en este curso, las estas cosas?
+
+198
+00:23:31,380 --> 00:23:37,700
+Pón transformación dinámica, por tercera vez vamos a hablar de probación, es lo cuarto,
+
+199
+00:23:37,700 --> 00:23:39,460
+vamos a hablar de probación dinámica, ¿no?
+
+200
+00:23:39,460 --> 00:23:56,220
+Le voy a hablar de la minimación, quiero otro golpe, le goremos forward, y ahora vamos a
+
+201
+00:23:56,220 --> 00:24:06,300
+hacer lo mismo, vamos a hablar de una tabla, los analices parcial, entonces cuando hacemos
+
+202
+00:24:06,380 --> 00:24:12,140
+parcín compramación dinámica, lo que vamos a hacer es, bueno, lo subarvole, los con los
+
+203
+00:24:12,140 --> 00:24:20,500
+almacenamos en tablas, lo subarvole, es posible, que no son tanto, van a verlo, y entonces
+
+204
+00:24:20,500 --> 00:24:25,140
+he visto repetir parcín, cada vez que yo hago un analic y luego hago una tabla, y hay tres
+
+205
+00:24:25,140 --> 00:24:31,860
+métodos clásicos de lo cual lo vamos a ver lo primero, echar parcín es como una generalización
+
+206
+00:24:31,860 --> 00:24:39,380
+en realidad, el otro dos, pero estos métodos son, se caí y abliz, como te veis, es un bastante
+
+207
+00:24:39,380 --> 00:24:52,380
+viejos, el parcín es una cosa bastante, bastante vieja, los principios, el parcín, y vamos
+
+208
+00:24:52,380 --> 00:24:59,380
+a primero de ellos, y no hemos casos, todos los casos funcionan con la malógica de analizar
+
+209
+00:24:59,380 --> 00:25:07,820
+el de guardar los analices, y se ha hecho, vamos a empezar con el primer algoritmo que se
+
+210
+00:25:07,820 --> 00:25:29,380
+le agorimos, cocañan, cocazamilla, sí, que es un algoritmo, que parte de las hojas, e intenta
+
+211
+00:25:29,380 --> 00:25:38,660
+ser a la raíz, para mover, lo primero que trata de hacer el algoritmo se caí, el algoritmo
+
+212
+00:25:38,660 --> 00:25:44,940
+se caí perdón, lo que exige es que la gramática está en la forma normal de choc, la forma
+
+213
+00:25:44,940 --> 00:25:51,940
+normal de choc, y una gramática libre contexto esencialmente lo que dice es todas las reglas son
+
+214
+00:25:51,940 --> 00:26:05,620
+de la forma, una variable de derivando variables, o una variable de derivas en una caída
+
+215
+00:26:05,620 --> 00:26:17,020
+determinales, y afortunadamente toda gramática se puede llevar a forma normal de choc,
+
+216
+00:26:17,100 --> 00:26:23,660
+y afortunadamente en algoritmo, bastante sencillo para sal, el algoritmo bastante sencillo lo que
+
+217
+00:26:23,660 --> 00:26:30,340
+lo que usa, lo que hace es, elimina las reglas que mezclan terminales y no terminales, si yo tengo
+
+218
+00:26:30,340 --> 00:26:50,660
+algo como x, todo lo que dice, esto es muy fácil de cómo resolvermos esto, cómo resolveríamos
+
+219
+00:26:50,660 --> 00:27:03,420
+algo como esto, para pasar a la forma de choc, es aquí se está ahí, y se está vando, entonces
+
+220
+00:27:03,420 --> 00:27:08,500
+nosotros no lo tenemos acá, nosotros es la gramática que planteamos este, no tiene
+
+221
+00:27:08,500 --> 00:27:15,100
+esto, porque es malo, no me es claga, si te viene acá, son todas, esencialmente porque siempre
+
+222
+00:27:15,100 --> 00:27:22,100
+dejamos el vocabulario aparte, lo mismo aparte, lo que a ver, entonces nunca tenemos un problema,
+
+223
+00:27:26,100 --> 00:27:29,860
+es decir, el primer paso, el segundo paso es la eliminación de las reglas unitarias,
+
+224
+00:27:29,860 --> 00:27:53,860
+la regla unitarias son reglas de la forma x, x, y cómo podemos eliminar esas reglas, exacto,
+
+225
+00:27:53,860 --> 00:28:07,460
+esencialmente, veo que deriva esto, y digo, aquí deriva lo que esto deriva, y no tanto a veces como se
+
+226
+00:28:07,460 --> 00:28:14,780
+necesario, entonces nuestra amática como va a quedar en forma normal de choc y va a quedar bueno,
+
+227
+00:28:15,780 --> 00:28:21,780
+oración y grupo normal, eso es una regla unitaria, acá hay una regla unitaria, entonces yo voy a decir una oración,
+
+228
+00:28:21,780 --> 00:28:29,780
+es un grupo verbal, y un grupo verbal es un verbo que otra vez es una regla en unitaria y el verbo
+
+229
+00:28:29,780 --> 00:28:39,780
+estomo, entonces yo voy a quedar algo como la oración estomo, tomo, es una oración, y verga,
+
+230
+00:28:39,780 --> 00:29:00,780
+verbo, verbo, grupo normal, exacto, verbo, ahí va, y qué más, que ahora debemos originalmente,
+
+231
+00:29:00,780 --> 00:29:18,780
+te puede viene, grupo nominal, determinante nombre, determinante nombre agetivo,
+
+232
+00:29:18,780 --> 00:29:26,780
+por ahora podemos la siguiente, por ahora lo único que te haciendo el eliminador de unitaria,
+
+233
+00:29:26,780 --> 00:29:41,780
+es es unitaria, que sería, pues lo me parí, parí, lo te veo, no, es un arco, pues bueno,
+
+234
+00:29:42,780 --> 00:29:59,780
+o, grupo nominal, grupo posible o, grupo nominal, grupo posible y otro grupo posible,
+
+235
+00:30:00,780 --> 00:30:13,780
+que es, que grupo nominal, tomo, bien aunque yo acá está reglado, tengo que volver a sustituir,
+
+236
+00:30:13,780 --> 00:30:18,780
+porque tomo es un grupo global en sí mismo, el hecho es que lo haya recolocido en la caída de la oración,
+
+237
+00:30:18,780 --> 00:30:32,780
+no quiere decir que acá no vaya, tomo o, ahí es verbo, gente, y grupo composicional es lo que
+
+238
+00:30:32,780 --> 00:30:50,780
+humano, pero grupo nominal, sí, y con eso simplemente eliminé las reglas,
+
+239
+00:30:50,780 --> 00:31:08,780
+es eliminar las reglas, que tienen más largo mayor a dos, como ésta, como ésta, como ésta,
+
+240
+00:31:08,780 --> 00:31:31,780
+como lo, como puedo hacer esto, cómo vamos a hacer eso, sí, que sea, por ésta,
+
+241
+00:31:31,780 --> 00:31:38,780
+como se llama la primera, se diría que es, ¿no? Bueno, pues eso es el poriquiere por el hecha y lo mismo,
+
+242
+00:31:38,780 --> 00:31:44,780
+yo siempre me confundo, cuando hago la solución para los, para las pruebas siempre lo hago por el hecha y,
+
+243
+00:31:44,780 --> 00:32:07,780
+realidad el o mismo, pero usualmente si así por lo que, está, el out 2 sería determinante nombre y el out 3,
+
+244
+00:32:07,780 --> 00:32:32,780
+jn, jp, y su deduja acá por out 3, su deduja acá por out 2, y su deduja acá por out 1,
+
+245
+00:32:33,780 --> 00:32:45,780
+bueno, y ahí tenemos nuestra gramática, en la forma normal de chunky, y ahora si tenemos listo,
+
+246
+00:32:45,780 --> 00:33:00,780
+si si hemos todo bien, ahí a no, a me faltó uno acá, porque me faltó uno en jv, ah, porque no,
+
+247
+00:33:00,780 --> 00:33:27,780
+es que el bjn, jp, que es el mismo get, out 3, no, perdón, out 1, bjn, jp, sí, remember,
+
+248
+00:33:27,780 --> 00:33:36,780
+tenemos forma normal de chunky, y ahora si lo vamos a hacer, es tratar de armar nuestro árbol,
+
+249
+00:33:36,780 --> 00:33:43,780
+sí, vamos a, los parser tienen dos características, recuerden esto, uno es que son ricos nocedores,
+
+250
+00:33:43,780 --> 00:33:49,780
+que lo que te dicen es, esta razión es valgia, y como parser, te devuelve en el árbol,
+
+251
+00:33:50,780 --> 00:34:00,780
+pero nosotros hacemos algo que sale a ver, ahora lo vamos a ver, bueno, entonces,
+
+252
+00:34:00,780 --> 00:34:14,780
+le abrimos y caí, parte de las hojas, y trata de armar algo, de llegar a la raíz, y se va a ser en el hecho
+
+253
+00:34:14,780 --> 00:34:28,780
+de que, como todo mi rey la son, como todo mi rey la son binarias, sí, si yo quiero saber, en un expande texto,
+
+254
+00:34:28,780 --> 00:34:35,780
+un expande, es un conjunto de palabras, no, un pedazo de texto, si yo quiero saber entre la posición 0 y la posición 4,
+
+255
+00:34:35,780 --> 00:34:46,780
+por ejemplo, si hay algún constituyente, seguramente el constituyente son, lo parte del medio,
+
+256
+00:34:46,780 --> 00:34:54,780
+el árbol, lo es la, esto es no del medio, si hay algún constituyente, entre la posición 0 y la 4,
+
+257
+00:34:55,780 --> 00:35:04,780
+si, podéis verlo en un problema más chico que es, saber si hay un subcontituyente entre la 1 y la 3,
+
+258
+00:35:04,780 --> 00:35:12,780
+y otro entre la 3 y la 4, y que vamos en el lado derecho de una regla, quiero decir,
+
+259
+00:35:12,780 --> 00:35:20,780
+si entre la posición 1, por ejemplo, tomo un vuelo, claro, yo digo bueno entre la posición, tomo un vuelo,
+
+260
+00:35:20,780 --> 00:35:37,780
+vamos poner un agar, tomo un vuelo, yo podría encontrar un constituyente entre la 1 y la 3, y otro entre la 3 y la 4,
+
+261
+00:35:38,780 --> 00:35:45,780
+o sea que recursiamente voy a tener que volver a analizar esta parte, pero supogamos que yo encuentro un constituyente para este,
+
+262
+00:35:45,780 --> 00:35:53,780
+encuentro un constituyente para este, y son al lado derecho de una regla, entonces todo esto va a ser en la izquierda una regla,
+
+263
+00:35:53,780 --> 00:36:06,780
+por ejemplo, en todo un vuelo a parís, sí, yo tengo el grupo verbal acá, tengo, esto lo sé,
+
+264
+00:36:06,780 --> 00:36:14,780
+no es que lo tiene el algoritmo, no tengo un grupo en un minel acá, y ambos son el lado derecho de una regla,
+
+265
+00:36:14,780 --> 00:36:21,780
+entonces, como el lado izquierdo de esa regla, es o todo esto es una oración,
+
+266
+00:36:21,780 --> 00:36:30,780
+ahora, como si yo que esto es un grupo en un minel, y bueno, porque busco ahora el mismo procedimiento para vos,
+
+267
+00:36:30,780 --> 00:36:36,780
+pero en realidad, abrimos muy insatamente al revés, parte de las hojas y va a infiriendo esto para arriba,
+
+268
+00:36:36,780 --> 00:36:45,780
+porque lo que conoce al principio es las palabras, este es como el último paso, digamos, de nuestro algoritmo,
+
+269
+00:36:45,780 --> 00:36:55,780
+sí, y lo que voy a hacer es utilizar una matrimia de mencionar para representar el algo, para representar el algo que tenemos a tal momento,
+
+270
+00:36:56,780 --> 00:37:06,780
+entonces, no sé si borrar acá, borrar allá, vamos a borrar allá, capaz que volto escribir el algoritmo,
+
+271
+00:37:11,780 --> 00:37:14,780
+entonces,
+
+272
+00:37:15,780 --> 00:37:20,780
+papas que ahora si voy a aprender el algo,
+
+273
+00:37:25,780 --> 00:37:29,780
+entonces, yo ya tengo una tablita,
+
+274
+00:37:32,780 --> 00:37:36,780
+y te la posición uno, dos, tres, cuatro y cinco, no, yo quiero analizar la frase, tomo una parisa,
+
+275
+00:37:36,780 --> 00:37:39,780
+creo que acá se trata la solución,
+
+276
+00:37:40,780 --> 00:37:46,780
+entonces, tengo una tablita,
+
+277
+00:37:59,780 --> 00:38:04,780
+y te son las sí, y te son las jotas,
+
+278
+00:38:09,780 --> 00:38:14,780
+y yo en cada casilla voy a tener,
+
+279
+00:38:15,780 --> 00:38:19,780
+en cada casilla hijota, o sea, hijota, por ejemplo,
+
+280
+00:38:19,780 --> 00:38:23,780
+en esta casilla hijota, de y es uno, hijota, tres,
+
+281
+00:38:24,780 --> 00:38:29,780
+lo que voy a tener es el análisis posible para el espán,
+
+282
+00:38:30,780 --> 00:38:35,780
+uno, tres, o sea para éste, para tomo un vuelo,
+
+283
+00:38:36,780 --> 00:38:42,780
+sí, y cómo lo voy a hacer, y con esa también tengo el algoritmo que dije recién,
+
+284
+00:38:42,780 --> 00:38:48,780
+si yo estoy en la casilla hija y tres, o sea, un o tres,
+
+285
+00:38:49,780 --> 00:38:53,780
+veo las combinaciones posible que hay acá en el medio,
+
+286
+00:38:53,780 --> 00:38:57,780
+como es uno, tres, sólo tengo uno, es uno, dos, tres,
+
+287
+00:38:57,780 --> 00:39:02,780
+si tiene,
+
+288
+00:39:03,780 --> 00:39:08,780
+uno, de la uno, dos, no tengo uno, tengo uno,
+
+289
+00:39:08,780 --> 00:39:15,780
+tengo uno, dos, y dos, tres,
+
+290
+00:39:18,780 --> 00:39:23,780
+a porque perdón es, es porque siempre me confundo,
+
+291
+00:39:23,780 --> 00:39:27,780
+porque yo no sé espacio en el medio, entonces,
+
+292
+00:39:28,780 --> 00:39:33,780
+acá yo voy en, en tres pasios acá,
+
+293
+00:39:34,780 --> 00:39:36,780
+pero, es que entonces,
+
+294
+00:39:42,780 --> 00:39:47,780
+sí, y de su uno, entonces,
+
+295
+00:39:47,780 --> 00:39:54,780
+sí,
+
+296
+00:39:55,780 --> 00:39:58,780
+acá yo quiero saber entre la posición uno y la tres, es un vuelo,
+
+297
+00:39:59,780 --> 00:40:02,780
+acuerdo,
+
+298
+00:40:03,780 --> 00:40:07,780
+porque después del tomo, hasta, hasta la tres,
+
+299
+00:40:08,780 --> 00:40:10,780
+entonces, esto es un vuelo,
+
+300
+00:40:10,780 --> 00:40:13,780
+la única forma de hacer esto es uno, dos, tres,
+
+301
+00:40:13,780 --> 00:40:17,780
+un por un lado y un vuelo por el otro,
+
+302
+00:40:17,780 --> 00:40:19,780
+acuerdo,
+
+303
+00:40:19,780 --> 00:40:24,780
+pero, para eso, tuve que tener primero el análisis de, de un,
+
+304
+00:40:24,780 --> 00:40:28,780
+bueno, vamos a ver nosotros vamos a curir el, el charta así,
+
+305
+00:40:28,780 --> 00:40:32,780
+entonces, y bueno,
+
+306
+00:40:32,780 --> 00:40:34,780
+si hay un cab, donde tengo una regla,
+
+307
+00:40:34,780 --> 00:40:37,780
+vc, donde vc, sea,
+
+308
+00:40:37,780 --> 00:40:40,780
+el, el, el, el, el, el posto,
+
+309
+00:40:40,780 --> 00:40:43,780
+es constituyente de icá y sea,
+
+310
+00:40:43,780 --> 00:40:46,780
+es el de cajote, y es al lado derecho,
+
+311
+00:40:46,780 --> 00:40:47,780
+la regla, entonces,
+
+312
+00:40:47,780 --> 00:40:49,780
+lo que yo hago va a entrar la,
+
+313
+00:40:49,780 --> 00:40:52,780
+es, es, vamos a ponerle la regla,
+
+314
+00:40:52,780 --> 00:40:54,780
+ahí en el pan,
+
+315
+00:40:54,780 --> 00:40:56,780
+en la que así se correspondiente,
+
+316
+00:40:56,780 --> 00:40:59,780
+mejores dos, hay un ejemplo,
+
+317
+00:41:02,780 --> 00:41:04,780
+bueno, entonces,
+
+318
+00:41:04,780 --> 00:41:06,780
+aparto acá,
+
+319
+00:41:06,780 --> 00:41:09,780
+y digo,
+
+320
+00:41:09,780 --> 00:41:12,780
+todo,
+
+321
+00:41:12,780 --> 00:41:15,780
+sí,
+
+322
+00:41:15,780 --> 00:41:17,780
+está, perdón, y si es una hoja,
+
+323
+00:41:17,780 --> 00:41:18,780
+entonces, simplemente veo,
+
+324
+00:41:18,780 --> 00:41:20,780
+si la entrada puede tener el posto,
+
+325
+00:41:20,780 --> 00:41:23,780
+correspondiente,
+
+326
+00:41:23,780 --> 00:41:28,780
+o sea, todo que es,
+
+327
+00:41:29,780 --> 00:41:35,780
+si,
+
+328
+00:41:35,780 --> 00:41:37,780
+mi primera análisis es,
+
+329
+00:41:37,780 --> 00:41:42,780
+01,
+
+330
+00:41:42,780 --> 00:41:44,780
+entre la posición 01,
+
+331
+00:41:44,780 --> 00:41:47,780
+tengo la palabra tomo,
+
+332
+00:41:47,780 --> 00:41:50,780
+tomo que puede ser,
+
+333
+00:41:50,780 --> 00:41:51,780
+ese uno es tragrado,
+
+334
+00:41:51,780 --> 00:41:56,780
+ah, y los, esa quila,
+
+335
+00:41:57,780 --> 00:41:59,780
+tomo que puede ser,
+
+336
+00:41:59,780 --> 00:42:02,780
+según nuestra gramática,
+
+337
+00:42:02,780 --> 00:42:03,780
+pues,
+
+338
+00:42:03,780 --> 00:42:05,780
+es una oración,
+
+339
+00:42:05,780 --> 00:42:06,780
+bien,
+
+340
+00:42:06,780 --> 00:42:07,780
+un grupo global,
+
+341
+00:42:07,780 --> 00:42:10,780
+o que más,
+
+342
+00:42:10,780 --> 00:42:12,780
+un baro,
+
+343
+00:42:12,780 --> 00:42:14,780
+puede ser también un grupo luminal,
+
+344
+00:42:14,780 --> 00:42:15,780
+en realidad,
+
+345
+00:42:15,780 --> 00:42:16,780
+un grupo luminal,
+
+346
+00:42:16,780 --> 00:42:18,780
+es un,
+
+347
+00:42:22,780 --> 00:42:24,780
+es un hombre,
+
+348
+00:42:24,780 --> 00:42:25,780
+pero, un poco,
+
+349
+00:42:25,780 --> 00:42:26,780
+porque yo no puse,
+
+350
+00:42:26,780 --> 00:42:28,780
+perdí el,
+
+351
+00:42:28,780 --> 00:42:31,780
+el diccionario,
+
+352
+00:42:47,780 --> 00:42:49,780
+tomo, también puede ser un nombre,
+
+353
+00:42:49,780 --> 00:42:51,780
+¿verdad?
+
+354
+00:42:55,780 --> 00:42:57,780
+Todo esto puede estar en esta casilla,
+
+355
+00:42:59,780 --> 00:43:01,780
+sí, de acuerdo,
+
+356
+00:43:08,780 --> 00:43:11,780
+entonces ahora pasó en la segunda posición,
+
+357
+00:43:11,780 --> 00:43:12,780
+porque acá,
+
+358
+00:43:12,780 --> 00:43:14,780
+esto acá abajo no tiene sentido,
+
+359
+00:43:14,780 --> 00:43:15,780
+porque yo puedo ir entre la cero,
+
+360
+00:43:15,780 --> 00:43:16,780
+acá tiene la posición 1,
+
+361
+00:43:16,780 --> 00:43:18,780
+puedo ir entre la cero y la 1,
+
+362
+00:43:18,780 --> 00:43:21,780
+de la 1 y la 1 no hay nada,
+
+363
+00:43:21,780 --> 00:43:22,780
+entonces,
+
+364
+00:43:22,780 --> 00:43:24,780
+bueno,
+
+365
+00:43:24,780 --> 00:43:25,780
+si,
+
+366
+00:43:25,780 --> 00:43:26,780
+entonces se analiza acá,
+
+367
+00:43:26,780 --> 00:43:27,780
+1,
+
+368
+00:43:27,780 --> 00:43:31,780
+1 que va a ser,
+
+369
+00:43:31,780 --> 00:43:34,780
+solamente puede ser un determinante,
+
+370
+00:43:34,780 --> 00:43:37,780
+según miramática,
+
+371
+00:43:37,780 --> 00:43:38,780
+o sea,
+
+372
+00:43:38,780 --> 00:43:42,780
+que entre la posición 1 y la 2,
+
+373
+00:43:42,780 --> 00:43:44,780
+¿cuál es la de 1?
+
+374
+00:43:44,780 --> 00:43:45,780
+Perdón,
+
+375
+00:43:45,780 --> 00:43:46,780
+¿que qué?
+
+376
+00:43:46,780 --> 00:43:47,780
+Es acá,
+
+377
+00:43:47,780 --> 00:43:49,780
+entre la posición 1 y la 2,
+
+378
+00:43:49,780 --> 00:43:50,780
+donde el determinante es un,
+
+379
+00:43:50,780 --> 00:43:52,780
+y eso va abajo para arriba,
+
+380
+00:43:52,780 --> 00:43:53,780
+acuerdo,
+
+381
+00:43:53,780 --> 00:43:56,780
+porque se entre la 1 y la 2,
+
+382
+00:43:56,780 --> 00:43:59,780
+que se esté espacio con el mes,
+
+383
+00:43:59,780 --> 00:44:01,780
+¿sí?
+
+384
+00:44:09,780 --> 00:44:11,780
+Ahora voy a estar acá,
+
+385
+00:44:21,780 --> 00:44:25,780
+yo tengo entre la posición 0 y la 2,
+
+386
+00:44:25,780 --> 00:44:27,780
+¿sí?
+
+387
+00:44:27,780 --> 00:44:30,780
+¿que sería todo 1?
+
+388
+00:44:30,780 --> 00:44:35,780
+¿cómo puedo vivir ese tomo 1 en 2 partes?
+
+389
+00:44:35,780 --> 00:44:38,780
+¿cómo puedo vivir ese tomo 1 en 2 partes?
+
+390
+00:44:38,780 --> 00:44:47,780
+¿cómo puedo seguir el espane entre 0 y 2 en 2 partes?
+
+391
+00:44:47,780 --> 00:44:49,780
+0 y 1 y 1 y 2.
+
+392
+00:44:49,780 --> 00:44:52,780
+En 0 y 1,
+
+393
+00:44:52,780 --> 00:44:55,780
+¿qué tengo?
+
+394
+00:44:55,780 --> 00:44:58,780
+Todo esto me encontra acá,
+
+395
+00:44:58,780 --> 00:45:00,780
+y en 1 y 2 tengo esto que tengo acá,
+
+396
+00:45:00,780 --> 00:45:01,780
+o sea,
+
+397
+00:45:01,780 --> 00:45:02,780
+que necesito una regla que tenga,
+
+398
+00:45:02,780 --> 00:45:03,780
+a la izquierda,
+
+399
+00:45:03,780 --> 00:45:05,780
+uno de estos,
+
+400
+00:45:05,780 --> 00:45:07,780
+y a la de ver,
+
+401
+00:45:07,780 --> 00:45:08,780
+como primero,
+
+402
+00:45:08,780 --> 00:45:09,780
+siempre mirando la derecha,
+
+403
+00:45:09,780 --> 00:45:10,780
+la regla,
+
+404
+00:45:10,780 --> 00:45:11,780
+el primer componente,
+
+405
+00:45:11,780 --> 00:45:13,780
+si uno de estos y el segundo sea esto,
+
+406
+00:45:13,780 --> 00:45:15,780
+tenemos una regla,
+
+407
+00:45:15,780 --> 00:45:17,780
+no tenemos,
+
+408
+00:45:17,780 --> 00:45:19,780
+tomo 1 y tiene sentido,
+
+409
+00:45:19,780 --> 00:45:20,780
+porque tomo 1,
+
+410
+00:45:20,780 --> 00:45:21,780
+no se corresponde a ningún
+
+411
+00:45:21,780 --> 00:45:23,780
+constituyente de la matica,
+
+412
+00:45:23,780 --> 00:45:25,780
+tomo 1 en nada,
+
+413
+00:45:25,780 --> 00:45:26,780
+y nada,
+
+414
+00:45:26,780 --> 00:45:29,780
+entonces ahora tengo nada,
+
+415
+00:45:29,780 --> 00:45:32,780
+ahora voy a vuelo,
+
+416
+00:45:32,780 --> 00:45:34,780
+vuelo que es,
+
+417
+00:45:36,780 --> 00:45:38,780
+un nombre,
+
+418
+00:45:38,780 --> 00:45:40,780
+solo puede ser un nombre,
+
+419
+00:45:40,780 --> 00:45:43,780
+¿sí?
+
+420
+00:45:44,780 --> 00:45:47,780
+Ahora vamos a la posición,
+
+421
+00:45:47,780 --> 00:45:49,780
+1
+
+422
+00:45:49,780 --> 00:45:51,780
+3
+
+423
+00:45:51,780 --> 00:45:53,780
+o sea,
+
+424
+00:45:53,780 --> 00:45:55,780
+un vuelo,
+
+425
+00:45:55,780 --> 00:45:57,780
+¿y?
+
+426
+00:45:57,780 --> 00:45:59,780
+¿cómo divido 1 o 3?
+
+427
+00:45:59,780 --> 00:46:01,780
+1 o 2
+
+428
+00:46:01,780 --> 00:46:02,780
+1 o 2,
+
+429
+00:46:02,780 --> 00:46:03,780
+3,
+
+430
+00:46:03,780 --> 00:46:04,780
+o sea,
+
+431
+00:46:04,780 --> 00:46:05,780
+determinante nombre,
+
+432
+00:46:05,780 --> 00:46:07,780
+tengo alguna regla que la derecha sea,
+
+433
+00:46:07,780 --> 00:46:09,780
+determinante nombre,
+
+434
+00:46:09,780 --> 00:46:12,780
+grupo nominal,
+
+435
+00:46:12,780 --> 00:46:15,780
+hay alguna otra,
+
+436
+00:46:15,780 --> 00:46:16,780
+no,
+
+437
+00:46:16,780 --> 00:46:18,780
+no,
+
+438
+00:46:18,780 --> 00:46:20,780
+no,
+
+439
+00:46:20,780 --> 00:46:21,780
+sí,
+
+440
+00:46:21,780 --> 00:46:23,780
+aux 2,
+
+441
+00:46:23,780 --> 00:46:25,780
+no,
+
+442
+00:46:25,780 --> 00:46:27,780
+aux 2 también,
+
+443
+00:46:35,780 --> 00:46:37,780
+una pregunta,
+
+444
+00:46:37,780 --> 00:46:38,780
+¿vieron que yo,
+
+445
+00:46:38,780 --> 00:46:39,780
+a cabo le puse,
+
+446
+00:46:39,780 --> 00:46:41,780
+a determinante nombre,
+
+447
+00:46:41,780 --> 00:46:43,780
+le osame aux 2,
+
+448
+00:46:43,780 --> 00:46:45,780
+se acuerda cuando creamos la variable,
+
+449
+00:46:45,780 --> 00:46:47,780
+porque no le puse grupo nominal,
+
+450
+00:46:47,780 --> 00:46:50,780
+si luego se están,
+
+451
+00:46:50,780 --> 00:46:52,780
+podría haberle puesto a esta grupo nominal
+
+452
+00:46:52,780 --> 00:46:54,780
+y me ahorro una variable,
+
+453
+00:46:54,780 --> 00:46:57,780
+no,
+
+454
+00:46:57,780 --> 00:46:59,780
+no,
+
+455
+00:46:59,780 --> 00:47:01,780
+no,
+
+456
+00:47:01,780 --> 00:47:02,780
+no,
+
+457
+00:47:02,780 --> 00:47:04,780
+no,
+
+458
+00:47:04,780 --> 00:47:05,780
+no,
+
+459
+00:47:05,780 --> 00:47:07,780
+no,
+
+460
+00:47:08,780 --> 00:47:11,780
+no,
+
+461
+00:47:11,780 --> 00:47:12,780
+blas donas,
+
+462
+00:47:12,780 --> 00:47:13,780
+paucu¡plis,
+
+463
+00:47:13,780 --> 00:47:15,780
+autos Amen,
+
+464
+00:47:15,780 --> 00:47:17,780
+si luego grupo nominal達,
+
+465
+00:47:17,780 --> 00:47:19,780
+le� kidney que te voy a y para un laboro,
+
+466
+00:47:19,780 --> 00:47:22,780
+es importante,
+
+467
+00:47:22,780 --> 00:47:23,780
+el importe de solot,
+
+468
+00:47:23,780 --> 00:47:25,780
+no,
+
+469
+00:47:25,780 --> 00:47:28,780
+Ella me di...
+
+470
+00:47:28,780 --> 00:47:30,780
+el reque de aeroponominal...
+
+471
+00:47:30,780 --> 00:47:31,780
+exactamente,
+
+472
+00:47:31,780 --> 00:47:32,780
+autos,
+
+473
+00:47:32,780 --> 00:47:35,780
+solos generating determinante nombre,
+
+474
+00:47:35,780 --> 00:47:41,140
+Un grupo nominal de genera determinante nombre, pero genera otras cosas, además.
+
+475
+00:47:41,140 --> 00:47:42,900
+Entonces, ya sabré generando, digamos.
+
+476
+00:47:42,900 --> 00:47:45,540
+Yo soy algo solo puede generar eso.
+
+477
+00:47:45,540 --> 00:47:49,100
+Este horro, justamente, es un horro de cosas, ¿no?
+
+478
+00:47:50,100 --> 00:47:53,340
+Si yo pongo acá, aux en aux dos, me tocó poner algo,
+
+479
+00:47:53,340 --> 00:47:55,340
+va a hacer cualquier cosa, y acá, solamente estoy permitiendo
+
+480
+00:47:55,340 --> 00:47:58,860
+determinando de nombre, una vez.
+
+481
+00:47:58,860 --> 00:48:02,780
+Entonces, bueno, esto es algo 2 sobre un grupo nominal.
+
+482
+00:48:03,740 --> 00:48:08,740
+0-3, todo un vuelo, ¿qué es?
+
+483
+00:48:08,740 --> 00:48:12,020
+¿Cómo puedo vivir 0-3?
+
+484
+00:48:12,020 --> 00:48:16,180
+Yo puedo vivir como 0-1,
+
+485
+00:48:16,180 --> 00:48:22,060
+1-3, o 0-2-3.
+
+486
+00:48:22,060 --> 00:48:22,900
+Sí?
+
+487
+00:48:22,900 --> 00:48:25,500
+Solo puedo siempre dividir los dos partes, porque, por qué?
+
+488
+00:48:25,500 --> 00:48:28,220
+Porque mi rela solo tienen dos variables de la derecha,
+
+489
+00:48:28,220 --> 00:48:31,340
+o sea que no es posible que hay altres combinaciones.
+
+490
+00:48:31,420 --> 00:48:34,300
+Por eso le lleve la por me chonquí.
+
+491
+00:48:35,580 --> 00:48:41,100
+Entonces, 0-1 es que 0-1, ¿eh?
+
+492
+00:48:41,100 --> 00:48:43,540
+Esto es como.
+
+493
+00:48:43,540 --> 00:48:46,220
+Y 1-3, o sea que es todo esto.
+
+494
+00:48:46,220 --> 00:48:50,620
+Y 1-3 es esto.
+
+495
+00:48:50,620 --> 00:48:54,620
+Y, bueno, entonces, acá, que hay.
+
+496
+00:48:54,620 --> 00:49:02,220
+Esto nunca está la derecha, grupo verbal aux dos no hay.
+
+497
+00:49:02,220 --> 00:49:05,860
+O dos al la derecha nunca está.
+
+498
+00:49:05,860 --> 00:49:10,860
+Grupo verbal, grupo nominal es una oración.
+
+499
+00:49:11,740 --> 00:49:13,860
+No, no.
+
+500
+00:49:16,820 --> 00:49:19,460
+No no, Russell puede ir como ¿por qué eso es?
+
+501
+00:49:19,460 --> 00:49:23,020
+Se fueMax, pero hay una más.
+
+502
+00:49:23,120 --> 00:49:27,340
+Ahí una más.
+
+503
+00:49:27,340 --> 00:49:29,020
+Virvo grupo nominal, ¿eh?
+
+504
+00:49:29,020 --> 00:49:30,780
+N.
+
+505
+00:49:30,880 --> 00:49:32,140
+No, por eso usted fue cuando pasaste al rango.
+
+506
+00:49:32,140 --> 00:49:33,320
+No, usted venga.
+
+507
+00:49:33,320 --> 00:49:37,460
+Grupo s'un grupo neutral.
+
+508
+00:49:37,460 --> 00:49:45,460
+Si un grupo borón, hay algo más.
+
+509
+00:49:45,460 --> 00:49:48,460
+Pero no hay más.
+
+510
+00:49:48,460 --> 00:49:51,460
+Y también no traves tiene sentido, ¿no?
+
+511
+00:49:51,460 --> 00:49:54,460
+Porque es una oración en sí mismo, todo muy bueno.
+
+512
+00:49:54,460 --> 00:49:56,460
+Todo muy bueno, es una oración.
+
+513
+00:49:56,460 --> 00:50:02,460
+Pero además, es un grupo borón.
+
+514
+00:50:02,460 --> 00:50:06,460
+Ahora vengo con a, a, es una preposición.
+
+515
+00:50:06,460 --> 00:50:11,460
+¿En tres lados y la tres?
+
+516
+00:50:11,460 --> 00:50:22,460
+Es dos tres, eh, perdón, entre la dos y la cuatro, es dos tres, tres cuatro.
+
+517
+00:50:22,460 --> 00:50:25,460
+Dos tres que es, es un nombre.
+
+518
+00:50:25,460 --> 00:50:28,460
+Y tres cuatro es una preposición.
+
+519
+00:50:28,460 --> 00:50:31,460
+Hay una regla que tenga nombre proposión de la derecha.
+
+520
+00:50:31,460 --> 00:50:41,460
+No, vuelo a, no hay nada.
+
+521
+00:50:41,460 --> 00:50:45,460
+En realidad yo tiene un vuelo a, tampoco nada, vamos a ver que no pueden hacerlo,
+
+522
+00:50:45,460 --> 00:50:47,460
+pero seguro que no hay nada.
+
+523
+00:50:47,460 --> 00:50:49,460
+Y todo un vuelo a tampoco nada.
+
+524
+00:50:49,460 --> 00:50:52,460
+No vamos a encontrar nada en esta regla.
+
+525
+00:50:52,460 --> 00:50:55,460
+Entonces yo lo estoy haciendo, porque colosco, pero en realidad,
+
+526
+00:50:55,460 --> 00:50:58,460
+cuando la de Gorina, la de Gorina, no, no, no, no.
+
+527
+00:50:58,460 --> 00:50:59,460
+No camionada.
+
+528
+00:50:59,460 --> 00:51:02,460
+París que es.
+
+529
+00:51:06,460 --> 00:51:10,460
+París es un grupo nominal.
+
+530
+00:51:10,460 --> 00:51:13,460
+Y nada más.
+
+531
+00:51:14,460 --> 00:51:18,460
+Bueno, es un nombre propio y es un grupo nominal.
+
+532
+00:51:18,460 --> 00:51:21,460
+Por supuesto.
+
+533
+00:51:21,460 --> 00:51:24,460
+Sí?
+
+534
+00:51:24,460 --> 00:51:29,460
+Pues hay una regla unitaria.
+
+535
+00:51:29,460 --> 00:51:32,460
+Preposición grupo nominal.
+
+536
+00:51:32,460 --> 00:51:35,460
+Forma algo.
+
+537
+00:51:35,460 --> 00:51:40,460
+Grupo preposicional.
+
+538
+00:51:40,460 --> 00:51:44,460
+Dos cinco.
+
+539
+00:51:45,460 --> 00:51:48,460
+Vuelvo a París.
+
+540
+00:51:53,460 --> 00:51:59,460
+Que puedo, como puedo vivir los cinco.
+
+541
+00:51:59,460 --> 00:52:06,460
+Es dos tres tres cinco o dos cuatro cuatro cinco.
+
+542
+00:52:06,460 --> 00:52:13,460
+Dos tres dos tres es nombre y tres cinco es.
+
+543
+00:52:13,460 --> 00:52:18,460
+No, no.
+
+544
+00:52:18,460 --> 00:52:23,460
+No.
+
+545
+00:52:23,460 --> 00:52:27,460
+No.
+
+546
+00:52:27,460 --> 00:52:34,460
+Y dos cuatro.
+
+547
+00:52:34,460 --> 00:52:41,460
+Dos cuatro no hay nada, o sea que no puede estar en el aire.
+
+548
+00:52:41,460 --> 00:52:57,620
+A mí en acá no olvidamos de oxuno, oxuno también es esto.
+
+549
+00:52:57,620 --> 00:53:00,820
+Verbo el grupo no miras, acá es una oxuna.
+
+550
+00:53:00,820 --> 00:53:19,200
+O sea, acá no tenemos nada, dos, dos, cinco, que es vuelo a parir no hay nada, porque guarda, no hay nada
+
+551
+00:53:19,200 --> 00:53:26,020
+porque vuelo, no es verbo, no es nuestra dramática, si lo fuera ahí tendríamos una
+
+552
+00:53:26,020 --> 00:53:42,460
+construcción, pero nunca derivamos el baro ahí, uno, cinco es un vuelo a parir, este cae
+
+553
+00:53:42,460 --> 00:53:54,620
+debería parecer algo, uno, cinco lo pueden ir en uno, dos, cinco, uno, tres, tres, cinco o uno,
+
+554
+00:53:54,620 --> 00:54:08,020
+cuatro, cuatro, cinco, uno, dos, dos, cinco es uno, dos, es det, y dos, cinco es nada,
+
+555
+00:54:08,020 --> 00:54:21,540
+se que no puede ser, uno, tres, no es nada, se que no puede ser, uno, cuatro, tampoco es nada,
+
+556
+00:54:21,540 --> 00:54:33,780
+o sea, ¿qué? No, pues tendría que ser ahí o sea, uno, tres, cinco, uno, tres, tres, cinco,
+
+557
+00:54:33,780 --> 00:54:40,580
+el grupo preposicionar, ahí va, necesito un grupo no mirar, seguido un grupo preposicionar, tengo algo,
+
+558
+00:54:40,580 --> 00:54:54,800
+tengo un grupo, lo está, grupo no mirar, es un bueno para irse a un grupo no mirar, como
+
+559
+00:54:54,800 --> 00:54:56,800
+¿Cómo? ¿Cuando?
+
+560
+00:55:00,800 --> 00:55:06,800
+Si te quita acá. Y a usted también, es unaada de otro más. Hay una a U3.
+
+561
+00:55:08,800 --> 00:55:10,800
+¿Sí?
+
+562
+00:55:10,800 --> 00:55:12,800
+Luego,
+
+563
+00:55:12,800 --> 00:55:14,800
+toda la relación.
+
+564
+00:55:14,800 --> 00:55:21,800
+Toda la relación va a ser una combinación de tomos, un vuelo a parís o tomo un vuelo a parís, etcétera.
+
+565
+00:55:21,800 --> 00:55:25,800
+Y aquí lo vamos a encontrar.
+
+566
+00:55:25,800 --> 00:55:31,800
+Es que tenemos un grupo en 0, 1, tenemos un grupo verbal.
+
+567
+00:55:33,800 --> 00:55:39,800
+Y un vuelo parís que es 1, 5, es un grupo nominal.
+
+568
+00:55:39,800 --> 00:55:41,800
+Entonces, si todo va a ser una relación.
+
+569
+00:55:43,800 --> 00:55:45,800
+¿Cuándo?
+
+570
+00:55:45,800 --> 00:55:47,800
+Creo que hay algún caso más.
+
+571
+00:55:51,800 --> 00:55:59,800
+Es un grupo verbal, además.
+
+572
+00:55:59,800 --> 00:56:03,800
+Todo lo parece en todo el sí mismo, es un grupo verbal.
+
+573
+00:56:03,800 --> 00:56:07,800
+Porque yo grupo verbal lo definí como.
+
+574
+00:56:07,800 --> 00:56:11,800
+Verbo grupo nominal.
+
+575
+00:56:11,800 --> 00:56:15,800
+No, bueno.
+
+576
+00:56:15,800 --> 00:56:19,800
+Entonces, si yo tengo una oca,
+
+577
+00:56:19,800 --> 00:56:23,800
+quiere decir que me oraciones valia.
+
+578
+00:56:23,800 --> 00:56:25,800
+¿Cómo?
+
+579
+00:56:30,800 --> 00:56:39,800
+Como yo no guardé de dónde venía,
+
+580
+00:56:39,800 --> 00:56:43,800
+solo funcionan como reconocedor, no como parcer.
+
+581
+00:56:43,800 --> 00:56:46,800
+Para yo poder armar el árbol,
+
+582
+00:56:47,800 --> 00:56:49,800
+me necesito agregarle, me algoritmo,
+
+583
+00:56:49,800 --> 00:56:52,800
+que cosa indicadores de qué,
+
+584
+00:56:52,800 --> 00:56:56,800
+cómo formé la, cómo compuse las dos partes.
+
+585
+00:56:56,800 --> 00:56:59,800
+Esto que yo dije acá, que lo fui diciendo,
+
+586
+00:56:59,800 --> 00:57:02,800
+tengo una forma de que guardálo.
+
+587
+00:57:02,800 --> 00:57:05,800
+Porque si yo sé que está o,
+
+588
+00:57:05,800 --> 00:57:09,800
+se corresponde con este gb y este gn.
+
+589
+00:57:09,800 --> 00:57:13,800
+Entonces, es que mi árbol de parís no empieza así,
+
+590
+00:57:13,800 --> 00:57:15,800
+o gb gn.
+
+591
+00:57:16,800 --> 00:57:19,800
+Y a su vez, el gn yo sé dónde veno,
+
+592
+00:57:19,800 --> 00:57:21,800
+y entonces se lo compone de que lo generaron.
+
+593
+00:57:21,800 --> 00:57:23,800
+Y así voy generando toda a tal asoja.
+
+594
+00:57:23,800 --> 00:57:27,800
+Eso es lo de convierte en mi árbol,
+
+595
+00:57:27,800 --> 00:57:30,800
+mi reconocedor en un parcer.
+
+596
+00:57:30,800 --> 00:57:32,800
+Me acuerdo.
+
+597
+00:57:32,800 --> 00:57:33,800
+Entonces, esa forma,
+
+598
+00:57:33,800 --> 00:57:36,800
+partiendo de las asojas,
+
+599
+00:57:36,800 --> 00:57:40,800
+vamos a encontrar la raíz,
+
+600
+00:57:40,800 --> 00:57:41,800
+mejor y yo sí,
+
+601
+00:57:41,800 --> 00:57:43,800
+y si encontramos la raíz,
+
+602
+00:57:43,800 --> 00:57:45,800
+vamos a encontrar un árbol valido,
+
+603
+00:57:45,800 --> 00:57:46,800
+a nuestro procedimiento.
+
+604
+00:57:46,800 --> 00:57:47,800
+Eso es lo que hace lo granimo,
+
+605
+00:57:47,800 --> 00:57:51,800
+y la algoritmo se caí.
+
+606
+00:57:51,800 --> 00:57:53,800
+Bueno,
+
+607
+00:57:53,800 --> 00:57:55,800
+problemas que tienes,
+
+608
+00:57:55,800 --> 00:57:58,800
+necesita rescribir la gramática
+
+609
+00:57:58,800 --> 00:58:01,800
+inicialmente no funciona como reconocedor
+
+610
+00:58:01,800 --> 00:58:02,800
+de que me tardes.
+
+611
+00:58:02,800 --> 00:58:04,800
+Y hay un problema que no tiene mucha solución,
+
+612
+00:58:04,800 --> 00:58:05,800
+aunque es que,
+
+613
+00:58:05,800 --> 00:58:06,800
+si bien,
+
+614
+00:58:06,800 --> 00:58:07,800
+el costo de reconocerlo,
+
+615
+00:58:07,800 --> 00:58:08,800
+reduce un tiempo polinomial,
+
+616
+00:58:08,800 --> 00:58:10,800
+esto tiene orden polinomial.
+
+617
+00:58:11,800 --> 00:58:13,800
+Calcular todos los árboles te puede llevar
+
+618
+00:58:13,800 --> 00:58:15,800
+un tiempo exponencial,
+
+619
+00:58:15,800 --> 00:58:17,800
+porque yo puedo generar un árbol
+
+620
+00:58:17,800 --> 00:58:19,800
+de más de una forma diferente.
+
+621
+00:58:19,800 --> 00:58:21,800
+Entonces, voy a tener como muchos punteros,
+
+622
+00:58:21,800 --> 00:58:22,800
+digamos,
+
+623
+00:58:22,800 --> 00:58:24,800
+desde,
+
+624
+00:58:24,800 --> 00:58:25,800
+acá no,
+
+625
+00:58:25,800 --> 00:58:26,800
+no sé,
+
+626
+00:58:26,800 --> 00:58:27,800
+porque no teníamos a mi cuidado,
+
+627
+00:58:27,800 --> 00:58:28,800
+pero yo podría decir,
+
+628
+00:58:28,800 --> 00:58:29,800
+bueno,
+
+629
+00:58:29,800 --> 00:58:30,800
+estáo,
+
+630
+00:58:30,800 --> 00:58:31,800
+viene de acá
+
+631
+00:58:31,800 --> 00:58:32,800
+y de acá,
+
+632
+00:58:32,800 --> 00:58:33,800
+o,
+
+633
+00:58:33,800 --> 00:58:34,800
+viene de acá
+
+634
+00:58:34,800 --> 00:58:36,800
+y de acá.
+
+635
+00:58:36,800 --> 00:58:38,800
+Y a su vez eso
+
+636
+00:58:38,800 --> 00:58:40,800
+puede tener el mismo polinomial,
+
+637
+00:58:40,800 --> 00:58:41,800
+entonces,
+
+638
+00:58:41,800 --> 00:58:42,800
+puede llegar a hacer el polinomial
+
+639
+00:58:42,800 --> 00:58:43,800
+tiempo de conocer todos los árboles,
+
+640
+00:58:43,800 --> 00:58:44,800
+posible.
+
+641
+00:58:44,800 --> 00:58:45,800
+Todos los árboles,
+
+642
+00:58:45,800 --> 00:58:46,800
+vale,
+
+643
+00:58:46,800 --> 00:58:47,800
+eso es decir,
+
+644
+00:58:47,800 --> 00:58:48,800
+porque los árboles
+
+645
+00:58:48,800 --> 00:58:49,800
+pueden ser,
+
+646
+00:58:49,800 --> 00:58:51,800
+a poder un número polinomial,
+
+647
+00:58:51,800 --> 00:58:52,800
+no,
+
+648
+00:58:52,800 --> 00:58:53,800
+es inevitable.
+
+649
+00:58:57,800 --> 00:58:59,800
+Por otra parte,
+
+650
+00:59:04,800 --> 00:59:06,800
+por otra parte,
+
+651
+00:59:06,800 --> 00:59:07,800
+de lo largo,
+
+652
+00:59:07,800 --> 00:59:08,800
+pues son las nueve.
+
+653
+00:59:08,800 --> 00:59:09,800
+Entonces,
+
+654
+00:59:09,800 --> 00:59:10,800
+vamos a ver todas,
+
+655
+00:59:10,800 --> 00:59:11,800
+algoritmos,
+
+656
+00:59:11,800 --> 00:59:12,800
+falta de uno,
+
+657
+00:59:12,800 --> 00:59:14,800
+pero el juego no hay clase.
+
+658
+00:59:14,800 --> 00:59:15,800
+Este,
+
+659
+00:59:15,800 --> 00:59:16,800
+por otra parte,
+
+660
+00:59:16,800 --> 00:59:18,800
+el algoritmos de héroe.
+
+661
+00:59:20,800 --> 00:59:21,800
+Tiene el enfoque,
+
+662
+00:59:21,800 --> 00:59:23,800
+exactamente opuesto.
+
+663
+00:59:23,800 --> 00:59:25,800
+Tiene el enfoque topdown.
+
+664
+00:59:25,800 --> 00:59:26,800
+Sí?
+
+665
+00:59:29,800 --> 00:59:30,800
+Y tiene la ventaja
+
+666
+00:59:30,800 --> 00:59:32,800
+de que no hay que convertir la gramática,
+
+667
+00:59:32,800 --> 00:59:34,800
+que trabaja con la gramática,
+
+668
+00:59:34,800 --> 00:59:35,800
+original.
+
+669
+00:59:36,800 --> 00:59:37,800
+Así que,
+
+670
+00:59:37,800 --> 00:59:39,800
+tiene que volver a escribir la gramática.
+
+671
+00:59:39,800 --> 00:59:40,800
+Sí?
+
+672
+00:59:40,800 --> 00:59:42,800
+Lo que hace el algoritmo de héroe
+
+673
+00:59:42,800 --> 00:59:43,800
+es,
+
+674
+00:59:48,800 --> 00:59:50,800
+recorre las cenas palabras
+
+675
+00:59:50,800 --> 00:59:52,800
+del algoritmo.
+
+676
+00:59:52,800 --> 00:59:54,800
+Sí?
+
+677
+00:59:54,800 --> 00:59:57,800
+Y a medida que vamos avanzando
+
+678
+00:59:57,800 --> 00:59:59,800
+por las palabras,
+
+679
+00:59:59,800 --> 01:00:01,800
+lo que me va diciendo es,
+
+680
+01:00:02,800 --> 01:00:07,800
+como fue avanzando
+
+681
+01:00:07,800 --> 01:00:08,800
+por los diferentes árboles
+
+682
+01:00:08,800 --> 01:00:10,800
+que propuso de parci.
+
+683
+01:00:10,800 --> 01:00:12,800
+De acuerdo a la regla de la gramática,
+
+684
+01:00:12,800 --> 01:00:14,800
+he guiado por las reglas,
+
+685
+01:00:14,800 --> 01:00:16,800
+parte de una vez y al comienzo
+
+686
+01:00:16,800 --> 01:00:18,800
+y empieza,
+
+687
+01:00:18,800 --> 01:00:20,800
+empieza a ver cómo se avanzó.
+
+688
+01:00:20,800 --> 01:00:22,800
+Ahora vamos a verlo de sus máscentitas.
+
+689
+01:00:22,800 --> 01:00:25,800
+Vamos a escribir acá
+
+690
+01:00:25,800 --> 01:00:27,800
+de vuelta a la gramática,
+
+691
+01:00:27,800 --> 01:00:29,800
+porque le vamos a necesitar.
+
+692
+01:00:32,800 --> 01:00:34,800
+Algunas preguntas acá
+
+693
+01:00:34,800 --> 01:00:37,800
+le falta la parte de alguna pregunta.
+
+694
+01:00:37,800 --> 01:00:39,800
+¿Cómo preguntan nada?
+
+695
+01:01:02,800 --> 01:01:03,800
+¿Cómo preguntan?
+
+696
+01:01:03,800 --> 01:01:04,800
+¿Cómo preguntan?
+
+697
+01:01:04,800 --> 01:01:05,800
+¿Cómo preguntan?
+
+698
+01:01:05,800 --> 01:01:06,800
+¿Cómo preguntan?
+
+699
+01:01:06,800 --> 01:01:07,800
+¿Cómo preguntan?
+
+700
+01:01:07,800 --> 01:01:08,800
+¿Cómo preguntan?
+
+701
+01:01:08,800 --> 01:01:09,800
+¿Cómo preguntan?
+
+702
+01:01:09,800 --> 01:01:10,800
+¿Cómo preguntan?
+
+703
+01:01:10,800 --> 01:01:11,800
+¿Cómo preguntan?
+
+704
+01:01:11,800 --> 01:01:12,800
+¿Cómo preguntan?
+
+705
+01:01:12,800 --> 01:01:13,800
+¿Cómo preguntan?
+
+706
+01:01:13,800 --> 01:01:14,800
+¿Cómo preguntan?
+
+707
+01:01:14,800 --> 01:01:15,800
+¿Cómo preguntan?
+
+708
+01:01:15,800 --> 01:01:16,800
+¿Cómo preguntan?
+
+709
+01:01:16,800 --> 01:01:17,800
+¿Cómo preguntan?
+
+710
+01:01:17,800 --> 01:01:18,800
+¿Cómo preguntan?
+
+711
+01:01:18,800 --> 01:01:19,800
+¿Cómo preguntan?
+
+712
+01:01:19,800 --> 01:01:20,800
+¿Cómo preguntan?
+
+713
+01:01:20,800 --> 01:01:21,800
+¿Cómo preguntan?
+
+714
+01:01:21,800 --> 01:01:22,800
+¿Cómo preguntan?
+
+715
+01:01:22,800 --> 01:01:23,800
+¿Cómo preguntan?
+
+716
+01:01:23,800 --> 01:01:24,800
+¿Cómo preguntan?
+
+717
+01:01:24,800 --> 01:01:25,800
+¿Cómo preguntan?
+
+718
+01:01:25,800 --> 01:01:26,800
+¿Cómo preguntan?
+
+719
+01:01:26,800 --> 01:01:27,800
+¿Cómo preguntan?
+
+720
+01:01:27,800 --> 01:01:28,800
+¿Cómo preguntan?
+
+721
+01:01:29,800 --> 01:01:30,800
+¿Cómo preguntan?
+
+722
+01:01:30,800 --> 01:01:31,800
+¿Cómo preguntan?
+
+723
+01:01:31,800 --> 01:01:32,800
+¿Cómo preguntan?
+
+724
+01:01:32,800 --> 01:01:33,800
+¿Cómo preguntan?
+
+725
+01:01:33,800 --> 01:01:34,800
+¿Cómo preguntan?
+
+726
+01:01:34,800 --> 01:01:35,800
+¿Cómo preguntan?
+
+727
+01:01:35,800 --> 01:01:36,800
+¿Cómo preguntan?
+
+728
+01:01:36,800 --> 01:01:37,800
+¿Cómo preguntan?
+
+729
+01:01:37,800 --> 01:01:38,800
+¿Cómo preguntan?
+
+730
+01:01:38,800 --> 01:01:39,800
+¿Cómo preguntan?
+
+731
+01:01:39,800 --> 01:01:40,800
+¿Cómo preguntan?
+
+732
+01:01:40,800 --> 01:01:41,800
+¿Cómo preguntan?
+
+733
+01:01:41,800 --> 01:01:42,800
+¿Cómo preguntan?
+
+734
+01:01:42,800 --> 01:01:43,800
+¿Cómo preguntan?
+
+735
+01:01:43,800 --> 01:01:44,800
+¿Cómo preguntan?
+
+736
+01:01:44,800 --> 01:01:45,800
+¿Cómo preguntan?
+
+737
+01:01:45,800 --> 01:01:46,800
+¿Cómo preguntan?
+
+738
+01:01:46,800 --> 01:01:47,800
+¿Cómo preguntan?
+
+739
+01:01:47,800 --> 01:01:48,800
+¿Cómo preguntan?
+
+740
+01:01:48,800 --> 01:01:49,800
+¿Cómo preguntan?
+
+741
+01:01:49,800 --> 01:01:50,800
+¿Cómo preguntan?
+
+742
+01:01:50,800 --> 01:01:51,800
+¿Cómo preguntan?
+
+743
+01:01:51,800 --> 01:01:52,800
+¿Cómo preguntan?
+
+744
+01:01:52,800 --> 01:01:53,800
+¿Cómo preguntan?
+
+745
+01:01:53,800 --> 01:01:54,800
+¿Cómo preguntan?
+
+746
+01:01:54,800 --> 01:01:55,800
+¿Cómo preguntan?
+
+747
+01:01:55,800 --> 01:01:56,800
+¿Cómo preguntan?
+
+748
+01:01:56,800 --> 01:01:57,800
+¿Cómo preguntan?
+
+749
+01:01:57,800 --> 01:01:58,800
+¿Cómo preguntan?
+
+750
+01:01:58,800 --> 01:01:59,800
+¿Cómo preguntan?
+
+751
+01:01:59,800 --> 01:02:00,800
+¿Cómo preguntan?
+
+752
+01:02:00,800 --> 01:02:01,800
+¿Cómo preguntan?
+
+753
+01:02:01,800 --> 01:02:02,800
+¿Cómo preguntan?
+
+754
+01:02:02,800 --> 01:02:03,800
+¿Cómo preguntan?
+
+755
+01:02:03,800 --> 01:02:04,800
+¿Cómo preguntan?
+
+756
+01:02:04,800 --> 01:02:05,800
+¿Cómo preguntan?
+
+757
+01:02:05,800 --> 01:02:06,800
+¿Cómo preguntan?
+
+758
+01:02:06,800 --> 01:02:07,800
+¿Cómo preguntan?
+
+759
+01:02:07,800 --> 01:02:08,800
+¿Cómo preguntan?
+
+760
+01:02:08,800 --> 01:02:09,800
+¿Cómo preguntan?
+
+761
+01:02:09,800 --> 01:02:10,800
+¿Cómo preguntan?
+
+762
+01:02:10,800 --> 01:02:11,800
+¿Cómo preguntan?
+
+763
+01:02:11,800 --> 01:02:12,800
+¿Cómo preguntan?
+
+764
+01:02:12,800 --> 01:02:13,800
+¿Cómo preguntan?
+
+765
+01:02:13,800 --> 01:02:14,800
+¿Cómo preguntan?
+
+766
+01:02:14,800 --> 01:02:15,800
+¿Cómo preguntan?
+
+767
+01:02:15,800 --> 01:02:16,800
+¿Cómo preguntan?
+
+768
+01:02:16,800 --> 01:02:17,800
+¿Cómo preguntan?
+
+769
+01:02:17,800 --> 01:02:18,800
+¿Cómo preguntan?
+
+770
+01:02:18,800 --> 01:02:19,800
+¿Cómo preguntan?
+
+771
+01:02:19,800 --> 01:02:20,800
+¿Cómo preguntan?
+
+772
+01:02:20,800 --> 01:02:21,800
+¿Cómo preguntan?
+
+773
+01:02:21,800 --> 01:02:22,800
+¿Cómo preguntan?
+
+774
+01:02:22,800 --> 01:02:23,800
+¿Cómo preguntan?
+
+775
+01:02:23,800 --> 01:02:24,800
+¿Cómo preguntan?
+
+776
+01:02:24,800 --> 01:02:26,800
+¿Cómo preguntan?
+
+777
+01:02:26,800 --> 01:02:27,800
+¿Cómo preguntan?
+
+778
+01:02:33,800 --> 01:02:35,800
+¿Cómo preguntan?
+
+779
+01:02:35,800 --> 01:02:36,800
+¿Cómo preguntan?
+
+780
+01:02:40,800 --> 01:02:41,800
+¿Cómo preguntan?
+
+781
+01:02:41,800 --> 01:02:42,800
+¿Cómo preguntan?
+
+782
+01:02:53,800 --> 01:02:55,800
+¿Cómo preguntan?
+
+783
+01:03:26,800 --> 01:03:35,800
+Entonces, tenemos una tabla con la cine palabra del álgo enemas uno donde tiene las palabras,
+
+784
+01:03:35,800 --> 01:03:46,800
+la cine palabra a reconocer. En este caso, era tomo un vuelo a París, o sea que son 5 palabras.
+
+785
+01:03:46,800 --> 01:04:06,920
+5, mi chart, mi tabla tiene 6 lugares. Y la entrada en la tabla tiene los contituyentes completos y
+
+786
+01:04:06,920 --> 01:04:20,920
+las posiciones en las que están, es decir, cosas como entre las 5 hay un grupo nominal,
+
+787
+01:04:20,920 --> 01:04:34,920
+los posiciones, 0 y 2 entre la 1 y la 3 hay un grupo nominal por ejemplo. Pero visto de
+
+788
+01:04:34,920 --> 01:04:45,920
+que ahora lo vamos a ver desde la gramática, es decir, cómo yo vengo avanzando en el reconocimiento.
+
+789
+01:04:45,920 --> 01:04:55,920
+Y los contituyentes que se aprendizieron ahora vamos a ver lo que son detrás.
+
+790
+01:04:55,920 --> 01:05:08,920
+Las entradas se llaman estados y son reglas de la gramática, ¿sí? Con que tienen un punto que nos dice dónde
+
+791
+01:05:08,920 --> 01:05:30,920
+venimos en el análisis. Entonces, yo tengo 3 casos posibles durante mi análisis. Uno es que el punto té la izquierda,
+
+792
+01:05:30,920 --> 01:05:39,920
+esto que quiere decir, quiere decir, estoy en una oración y lo que espero que se amigrecha su grupo nominal.
+
+793
+01:05:39,920 --> 01:05:49,920
+En mi análisis. Hasta que ha sido mi análisis, lo que hay en la derecha de donde la posión la que estoy, es grupo nominal.
+
+794
+01:05:49,920 --> 01:06:04,920
+La otra es que yo tengo el punto en el medio, lo que estoy diciendo ahí es, y vi que sí que acá tengo un postaba la derecha.
+
+795
+01:06:04,920 --> 01:06:14,920
+Estoy reconociendo un grupo nominal, ya reconociendo terminante y espero que la izquierda la derecha de un número.
+
+796
+01:06:14,920 --> 01:06:24,920
+Y en esta re la donde el punto está la derecha, lo que digo es, acabo de reconocer un grupo nominal,
+
+797
+01:06:24,920 --> 01:06:31,920
+un verbo y un grupo nominal, o sea que acabo de encontrar un grupo global.
+
+798
+01:06:31,920 --> 01:06:41,920
+El acuerdo, que esto quiere decir que si alguien estaba esperando un grupo global, puede que hace tranquilo que acaba de tenerlo y hace avanzar el punto de la rela correspondiente.
+
+799
+01:06:41,920 --> 01:06:50,920
+Si había alguna rela que estaba acá y yo tengo esto, yo quiere decir que podamos avanzar el punto para acá.
+
+800
+01:06:50,920 --> 01:06:54,920
+Cuando yo llegó el punto al final, en conocimiento de la oración, es un poco la idea.
+
+801
+01:06:54,920 --> 01:07:00,920
+Y como lo ha sido esto y bueno, viendo por la, por cada palabra que va a reconocer y decir,
+
+802
+01:07:00,920 --> 01:07:04,920
+él va avanzando diciendo, bueno, con todo lo que pasa.
+
+803
+01:07:04,920 --> 01:07:09,920
+Bueno, tengo esta posibilidad de apostar en una rela que empieza ahora, voy.
+
+804
+01:07:09,920 --> 01:07:14,920
+Es decir, ya mandó de truos, oréla con punto.
+
+805
+01:07:18,920 --> 01:07:25,920
+Entonces, como decía cada entrada, contiene la lista de estado con los árboles.
+
+806
+01:07:26,920 --> 01:07:31,920
+Y necesitamos relación a los estados con el trabajo, esto dice.
+
+807
+01:07:32,920 --> 01:07:37,920
+Predesimos un grupo global, o sea, predesimos y se esperamos, ¿no?
+
+808
+01:07:37,920 --> 01:07:43,920
+Un grupo global, al comiso la laación entre la posión y serie de acero.
+
+809
+01:07:44,920 --> 01:07:49,920
+Al principio, la laación, yo tengo un grupo global, estoy esperando un grupo global.
+
+810
+01:07:50,920 --> 01:07:55,920
+Acá lo que estoy diciendo es, estoy reconociendo un grupo nominal.
+
+811
+01:07:55,920 --> 01:08:03,920
+Sí, y entre uno y dos, o sea, lo que hay es que era el punto, hay un determinante.
+
+812
+01:08:03,920 --> 01:08:07,920
+Yo tengo que indicar esplicitamente que acá unidad, pues, y no es una posibilidad.
+
+813
+01:08:08,920 --> 01:08:11,920
+Yo sé que, entre la posión uno y dos ya reconocí un determinante.
+
+814
+01:08:14,920 --> 01:08:17,920
+Y acá lo que digo es encontrar un grupo global de cero a tres.
+
+815
+01:08:18,920 --> 01:08:20,920
+Acá aún encontrar un grupo global de cero a tres.
+
+816
+01:08:20,920 --> 01:08:22,920
+¿A acuerdo? ¿Dienes?
+
+817
+01:08:33,920 --> 01:08:37,920
+Y ahora vamos así, es muy, es muy sencillo.
+
+818
+01:08:38,920 --> 01:08:40,920
+Eso es lo aplicar estas tres reglas.
+
+819
+01:08:41,920 --> 01:08:44,920
+Te he hecho, lo vamos a dejar ahí presente y lo vamos a aplicar,
+
+820
+01:08:44,920 --> 01:08:50,920
+rigorosamente por dos motivos, por uno es porque vamos a mostrar que efectivamente es un agorismo
+
+821
+01:08:50,920 --> 01:08:53,920
+que un día se arregla y dos de que no me desnopreparé la clase de esta ley,
+
+822
+01:08:53,920 --> 01:08:56,920
+entonces no me lo puedo así, hay gente, entonces voy a aplicar las reglas solamente.
+
+823
+01:08:57,920 --> 01:08:58,920
+Y vamos a ver cómo nos va.
+
+824
+01:08:59,920 --> 01:09:03,920
+¿A acuerdo? Entonces, bueno, la idea es, yo recorro la tabla y quiero la derecha.
+
+825
+01:09:04,920 --> 01:09:05,920
+Sí.
+
+826
+01:09:06,920 --> 01:09:09,920
+Recorro, sí, así, digo el.
+
+827
+01:09:10,920 --> 01:09:13,920
+En piezo comitabla que le voy a llamar char de cero.
+
+828
+01:09:18,920 --> 01:09:22,920
+Y quiero a las entradas que tengo ahí dentro de esa primera posición, ¿no?
+
+829
+01:09:23,920 --> 01:09:25,920
+Y tengo tres operadores que hay.
+
+830
+01:09:26,920 --> 01:09:27,920
+Uno se llama predecir.
+
+831
+01:09:31,920 --> 01:09:33,920
+Por supuesto yo en piezo con.
+
+832
+01:09:33,920 --> 01:09:39,920
+Mi reconocimiento empieza con una cosa así.
+
+833
+01:09:44,920 --> 01:09:47,920
+¿Por qué? Cuando yo en piezo lo que quiero reconocer.
+
+834
+01:09:48,920 --> 01:09:50,920
+Es una nación.
+
+835
+01:09:51,920 --> 01:09:52,920
+Bueno.
+
+836
+01:09:53,920 --> 01:09:59,920
+El pre, entonces la reala dice bueno, cuando la derecha del punto hay un no terminal y no postado.
+
+837
+01:09:59,920 --> 01:10:03,920
+O sea, no son los últimos, no es una hoja.
+
+838
+01:10:05,920 --> 01:10:08,920
+¿Crees? Estados nuevos que representan las posibles expansiones
+
+839
+01:10:08,920 --> 01:10:10,920
+del no terminarse una gramática.
+
+840
+01:10:11,920 --> 01:10:13,920
+O sea, acá voy a expandir todas las ojos.
+
+841
+01:10:15,920 --> 01:10:18,920
+Porque, justamente, es un, esto es un no terminal y no es un posto.
+
+842
+01:10:24,920 --> 01:10:25,920
+¿Cuándo?
+
+843
+01:10:25,920 --> 01:10:28,920
+Entonces yo le voy a decir acá, es, según mi gramática.
+
+844
+01:10:33,920 --> 01:10:34,920
+Y esto está en cero, ¿no?
+
+845
+01:10:38,920 --> 01:10:41,920
+Sí, según mi gramática.
+
+846
+01:10:43,920 --> 01:10:46,920
+Esto puede llegar a hacer. Creo una entrada para grupo global.
+
+847
+01:10:49,920 --> 01:10:50,920
+Cero cero.
+
+848
+01:10:51,920 --> 01:10:52,920
+O.
+
+849
+01:10:56,920 --> 01:10:58,920
+Grupo nominal, grupo global.
+
+850
+01:10:59,920 --> 01:11:00,920
+También cero cero.
+
+851
+01:11:02,920 --> 01:11:04,920
+Bueno, aplique, predict.
+
+852
+01:11:06,920 --> 01:11:07,920
+Vamos por en la g.
+
+853
+01:11:20,920 --> 01:11:21,920
+Un comacuerdo del.
+
+854
+01:11:21,920 --> 01:11:23,920
+Si el predito.
+
+855
+01:11:25,920 --> 01:11:26,920
+Sí.
+
+856
+01:11:27,920 --> 01:11:30,920
+Este es un minón, este es el primero que no, no, no, no, no.
+
+857
+01:11:34,920 --> 01:11:37,920
+Aplique el predito y generé estas dos reglas.
+
+858
+01:11:38,920 --> 01:11:39,920
+O sea, ¿qué está?
+
+859
+01:11:40,920 --> 01:11:42,920
+Esto es lo que voy a hacer, esta ya está analiza.
+
+860
+01:11:43,920 --> 01:11:44,920
+Y voy bajando por el chart.
+
+861
+01:11:44,920 --> 01:11:48,920
+Acá te voy a aplicar.
+
+862
+01:11:57,920 --> 01:12:00,920
+Otra vez, que si un grupo global es un posto, no ocoso, te doblegar.
+
+863
+01:12:01,920 --> 01:12:03,920
+Yo que es pandire, es grupo global.
+
+864
+01:12:04,920 --> 01:12:07,920
+Predito, que sería grupo global que.
+
+865
+01:12:07,920 --> 01:12:13,920
+¿Puntóvero?
+
+866
+01:12:14,920 --> 01:12:15,920
+Cero cero?
+
+867
+01:12:17,920 --> 01:12:18,920
+¿Qué más?
+
+868
+01:12:20,920 --> 01:12:21,920
+No.
+
+869
+01:12:23,920 --> 01:12:25,920
+Yo en el predito, no van a su nunca el punto.
+
+870
+01:12:26,920 --> 01:12:28,920
+Esto es punto, verbo, grupo nominal.
+
+871
+01:12:31,920 --> 01:12:33,920
+Yo después voy a avanzar el punto.
+
+872
+01:12:33,920 --> 01:12:37,920
+¿Qué más?
+
+873
+01:12:38,920 --> 01:12:40,920
+Verbo, grupo nominal, grupo posible, ¿no?
+
+874
+01:12:53,920 --> 01:12:56,920
+Esto es lo que podría mejorarlo con un...
+
+875
+01:12:57,920 --> 01:12:59,920
+Utilizando el escor, ¿no?
+
+876
+01:12:59,920 --> 01:13:01,920
+Poy cosas que no van, ya sé que no van a generar nada,
+
+877
+01:13:02,920 --> 01:13:04,920
+pero acá estoy en una visión bien topdown.
+
+878
+01:13:07,920 --> 01:13:09,920
+Porque si yo revisara el left corner,
+
+879
+01:13:10,920 --> 01:13:11,920
+alguno de esto no...
+
+880
+01:13:12,920 --> 01:13:14,920
+Bueno, grupo nominal no podría ir a ningún lado.
+
+881
+01:13:15,920 --> 01:13:16,920
+Bueno.
+
+882
+01:13:19,920 --> 01:13:20,920
+¿Y está?
+
+883
+01:13:21,920 --> 01:13:23,920
+Voy a esta regla, grupo nominal, ¿qué es?
+
+884
+01:13:24,920 --> 01:13:25,920
+¿Qué puedo aplicar?
+
+885
+01:13:26,920 --> 01:13:28,920
+Otra vez, predito.
+
+886
+01:13:30,920 --> 01:13:33,920
+El grupo nominal es un,
+
+887
+01:13:34,920 --> 01:13:35,920
+por qué yo no.
+
+888
+01:13:36,920 --> 01:13:37,920
+¿Depnón.
+
+889
+01:13:47,920 --> 01:13:49,920
+¿Depnón ad.
+
+890
+01:13:59,920 --> 01:14:00,920
+¿No?
+
+891
+01:14:00,920 --> 01:14:01,920
+¿No?
+
+892
+01:14:08,920 --> 01:14:09,920
+¿JNGP?
+
+893
+01:14:13,920 --> 01:14:14,920
+¿Y?
+
+894
+01:14:15,920 --> 01:14:17,920
+¿JNGP?
+
+895
+01:14:23,920 --> 01:14:24,920
+¿Todo es 0?
+
+896
+01:14:30,920 --> 01:14:32,920
+Sí, ¿de acuerdo?
+
+897
+01:14:33,920 --> 01:14:36,920
+Todo esto no resulta particularmente aburrido porque ya sabemos que no hemos llegado nada,
+
+898
+01:14:37,920 --> 01:14:40,920
+pero porque no nosotros estamos mirando el entrar, ¿no?
+
+899
+01:14:41,920 --> 01:14:43,920
+Porque estoy terminante obviamente no.
+
+900
+01:14:44,920 --> 01:14:46,920
+Pueso va a suceder ahora, bueno.
+
+901
+01:14:47,920 --> 01:14:48,920
+¿Aca qué aplico?
+
+902
+01:14:49,920 --> 01:14:50,920
+Bueno, acá lo que tengo es un verbo.
+
+903
+01:14:51,920 --> 01:14:52,920
+¿Qué es un postad?
+
+904
+01:14:53,920 --> 01:14:55,920
+¿Cómo es un postad y no hago predito?
+
+905
+01:14:55,920 --> 01:14:56,920
+¿Cuándo es un postad?
+
+906
+01:14:57,920 --> 01:14:59,920
+¿Cómo es un postad y no hago predito?
+
+907
+01:15:01,920 --> 01:15:03,920
+¿Cuándo a la derecha hay un postad?
+
+908
+01:15:05,920 --> 01:15:06,920
+¿Qué es lo que hago?
+
+909
+01:15:06,920 --> 01:15:07,920
+Bueno, miro el entrar.
+
+910
+01:15:08,920 --> 01:15:11,920
+Miro el entrar para ver si mientras se corresponde con ese postad
+
+911
+01:15:12,920 --> 01:15:14,920
+y puedo seguir adelante o no.
+
+912
+01:15:16,920 --> 01:15:18,920
+Sí, porque yo cuando llevo el postad,
+
+913
+01:15:18,920 --> 01:15:19,920
+porque llegué al final del árbol.
+
+914
+01:15:20,920 --> 01:15:22,920
+Ahí donde tengo que mirar el entrar a ver donde te paraba.
+
+915
+01:15:23,920 --> 01:15:24,920
+Entonces acá.
+
+916
+01:15:26,920 --> 01:15:29,920
+Es un verbo y bueno, lo que hago es Macheo
+
+917
+01:15:29,920 --> 01:15:31,920
+y va a crear un nuevo estado usando el dot,
+
+918
+01:15:32,920 --> 01:15:33,920
+si es que Macheo.
+
+919
+01:15:34,920 --> 01:15:35,920
+Entonces,
+
+920
+01:15:38,920 --> 01:15:39,920
+es como ya ha cerido.
+
+921
+01:15:49,920 --> 01:15:50,920
+¿Qué pasa con verbo?
+
+922
+01:15:51,920 --> 01:15:52,920
+El tomo.
+
+923
+01:15:52,920 --> 01:15:53,920
+Es verbo.
+
+924
+01:15:55,920 --> 01:15:56,920
+Sí.
+
+925
+01:15:57,920 --> 01:15:58,920
+Entonces,
+
+926
+01:15:59,920 --> 01:16:01,920
+lo que creo es una nueva entrada en el chart.
+
+927
+01:16:03,920 --> 01:16:04,920
+Sí.
+
+928
+01:16:07,920 --> 01:16:08,920
+¿Dónde digo?
+
+929
+01:16:14,920 --> 01:16:17,920
+Que reconocí entre la posición es 0 y 1,
+
+930
+01:16:17,920 --> 01:16:19,920
+fíjense que acaban en su una palabra.
+
+931
+01:16:20,920 --> 01:16:21,920
+Un grupo global.
+
+932
+01:16:23,920 --> 01:16:24,920
+Sí.
+
+933
+01:16:27,920 --> 01:16:29,920
+Se tiene, un acuerdo.
+
+934
+01:16:37,920 --> 01:16:38,920
+Acá quedó.
+
+935
+01:16:41,920 --> 01:16:42,920
+Lo mismo, ¿no?
+
+936
+01:16:44,920 --> 01:16:46,920
+Grupo global, verbo,
+
+937
+01:16:46,920 --> 01:16:49,920
+un todo grupo luminal entre la célula.
+
+938
+01:16:50,920 --> 01:16:51,920
+Fíjense que acá.
+
+939
+01:16:51,920 --> 01:16:54,920
+Lo que estoy guardando yo es todo lo posible algo leje yo tengo.
+
+940
+01:16:54,920 --> 01:16:57,920
+Todo lo posible análisis que puedo hacer para en repetirlos.
+
+941
+01:16:58,920 --> 01:16:59,920
+No?
+
+942
+01:16:59,920 --> 01:17:00,920
+O sea, el apoyo no,
+
+943
+01:17:00,920 --> 01:17:02,920
+después leí todo,
+
+944
+01:17:02,920 --> 01:17:04,920
+puedo estar en un verbo reconocido.
+
+945
+01:17:04,920 --> 01:17:07,920
+O puedo estar en el medio del reconocimiento un grupo global.
+
+946
+01:17:09,920 --> 01:17:10,920
+Sí.
+
+947
+01:17:10,920 --> 01:17:12,920
+Que tiene un grupo luminal de la derecha.
+
+948
+01:17:13,920 --> 01:17:15,920
+Son todas las posibilidades, que tengo.
+
+949
+01:17:15,920 --> 01:17:16,920
+¿No?
+
+950
+01:17:18,920 --> 01:17:19,920
+Aca.
+
+951
+01:17:21,920 --> 01:17:22,920
+Lo mismo, ¿no?
+
+952
+01:17:22,920 --> 01:17:26,920
+JVB JNGP.
+
+953
+01:17:26,920 --> 01:17:28,920
+0.
+
+954
+01:17:30,920 --> 01:17:31,920
+Cuero.
+
+955
+01:17:32,920 --> 01:17:33,920
+¿Qué pasa acá?
+
+956
+01:17:39,920 --> 01:17:40,920
+¿Qué?
+
+957
+01:17:41,920 --> 01:17:42,920
+Terminante que es.
+
+958
+01:17:42,920 --> 01:17:58,760
+es un postad y que hacemos con esta regla. Cuando hay un postad que pasa, tengo que machar la
+
+959
+01:17:58,760 --> 01:18:06,240
+palabra y qué palabra tengo acá. Todo, es un determinante, no, entonces con esta regla no
+
+960
+01:18:06,240 --> 01:18:15,120
+nada. Acá pasa lo mismo. Es decir, esta regla yo le elimino en el 5, 2 veo la palabra.
+
+961
+01:18:15,120 --> 01:18:27,920
+¿Tomo es un nombre? Sí, es un nombre, entonces yo tengo que avanzar a cajény, es, ah,
+
+962
+01:18:27,920 --> 01:18:47,220
+pero no hay un nombre propio. ¿Para? ¿Y el determinante? ¿Qué falta algo? Ah, no, está bien,
+
+963
+01:18:47,220 --> 01:18:51,440
+ya lo está siempre en pronunciar, te lo eliminí con el determinante. Y estos genes, este
+
+964
+01:18:51,440 --> 01:19:00,920
+nombre propio. ¿Y estos? ¿A acá qué tenemos que hacer? ¿Eh? Preci, ¿y qué voy a
+
+965
+01:19:00,920 --> 01:19:14,000
+aparecer? ¿Pueso se lo hice? Porque estoy en el la misma posición del chart, se
+
+966
+01:19:14,000 --> 01:19:22,640
+acá, como ya tengo algo, se ha generado nada. No, no, no, no recurro, digamos, ¿no? Y
+
+967
+01:19:22,640 --> 01:19:41,560
+terminé, pero es el chart 0, ¿no? Bueno, ahora yo con el chart 1, ¿y acá qué pasó? ¿Acacago de completar?
+
+968
+01:19:41,560 --> 01:19:49,360
+¿Acago de completar un estado? Tengo el punto más a la derecha. Entonces lo que yo digo
+
+969
+01:19:49,360 --> 01:19:52,920
+bueno, cuando un estado está completo, busque cual estaba en esperando el cotituciente que
+
+970
+01:19:52,920 --> 01:19:58,000
+fue completado y en la posición de la capareció, o sea, había alguien esperando un
+
+971
+01:19:58,000 --> 01:20:05,600
+verbo en cero, pero había alguien esperando un grupo verbal en cero, si había alguien
+
+972
+01:20:05,600 --> 01:20:16,360
+un poco avanzar el dot. Y había no vía. ¿Quién esperaba un grupo verbal en el chart cero?
+
+973
+01:20:16,360 --> 01:20:29,160
+Porque esta aparición cero, ¿no? ¿Quién esperaba un grupo verbal? La relación. Entonces yo
+
+974
+01:20:29,160 --> 01:20:50,440
+puedo, en la misma entrada, agregó muy volviendo a la derecha. Entonces acá lo que yo digo es, o.
+
+975
+01:20:50,440 --> 01:21:12,960
+¿Efectivamente en todo morego de una relación? ¿Quién más esperaba un grupo verbal?
+
+976
+01:21:12,960 --> 01:21:42,960
+¿Acacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacaca
+
+977
+01:21:42,960 --> 01:22:12,960
+cacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacaca
+
+978
+01:22:12,960 --> 01:22:21,640
+y otra vez, la puerta de casa de escino, o sea, grupo nominal, determinante nombre,
+
+979
+01:22:24,640 --> 01:22:30,320
+la pues ya es 1 o 1, ¿no?, acá estoy en la 1 o 1.
+
+980
+01:22:42,960 --> 01:23:12,960
+¿No, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no, no,
+
+981
+01:23:12,960 --> 01:23:22,500
+No, no, no, no, no, no, no, no, no, no, no, no, ahh, sí.
+
+982
+01:23:22,500 --> 01:23:27,280
+¿Esea está más inf metros por supuesto?
+
+983
+01:23:27,280 --> 01:23:34,760
+ił, aquí dice, aquí dice, house, ella.
+
+984
+01:23:34,760 --> 01:23:36,720
+¿
+
+985
+01:23:36,720 --> 01:23:38,400
+¿Eh, se dice?
+
+986
+01:23:38,400 --> 01:23:40,840
+¿Me發ga las partes, y ya es una arabara?
+
+987
+01:23:40,840 --> 01:23:50,840
+Acá aquí voy a hacer.
+
+988
+01:23:50,840 --> 01:23:54,840
+¿Cómo?
+
+989
+01:23:54,840 --> 01:24:09,840
+¿Qué te va a hacer ahí?
+
+990
+01:24:09,840 --> 01:24:15,840
+¿Qué hacemos acá?
+
+991
+01:24:15,840 --> 01:24:18,840
+¿Y tengo a Andal Noanda?
+
+992
+01:24:18,840 --> 01:24:20,840
+Es un determinante.
+
+993
+01:24:20,840 --> 01:24:24,840
+Así que acá, y todo que acero tengo que aplicar,
+
+994
+01:24:24,840 --> 01:24:27,840
+buscar.
+
+995
+01:24:27,840 --> 01:24:32,840
+Y esto es crear una nueva entrada en el chart en la posición siguiente.
+
+996
+01:24:32,840 --> 01:24:37,840
+Diciendo, entre la posición 1 y 2,
+
+997
+01:24:37,840 --> 01:24:40,840
+Maché un determinante.
+
+998
+01:24:53,840 --> 01:24:57,840
+Fíjense que interesante, bueno, es interesante.
+
+999
+01:24:57,840 --> 01:24:58,840
+¿Qué acá?
+
+1000
+01:24:58,840 --> 01:25:03,840
+Lo que estoy diciendo es, en la posición 2, reconocí un determinante
+
+1001
+01:25:03,840 --> 01:25:08,840
+y estoy esperando un nombre entre la 1 y la 2.
+
+1002
+01:25:08,840 --> 01:25:12,840
+O sea, acá no cuento el tomo.
+
+1003
+01:25:12,840 --> 01:25:15,840
+El tomo lo voy a completar después.
+
+1004
+01:25:15,840 --> 01:25:20,840
+Bueno, y después, pero también podría ser un determinante.
+
+1005
+01:25:28,840 --> 01:25:33,840
+¿Sí?
+
+1006
+01:25:33,840 --> 01:25:39,840
+¿No me propias no?
+
+1007
+01:25:39,840 --> 01:25:46,840
+¿Brupo nominarse a lo generé?
+
+1008
+01:25:46,840 --> 01:25:48,840
+¿Brupo nominarse a lo generé?
+
+1009
+01:25:48,840 --> 01:25:51,840
+Te irá bueno, pero estoy despreciando de esta posibilidad,
+
+1010
+01:25:51,840 --> 01:25:53,840
+porque yo si completo, ¿Brupo no minalve?
+
+1011
+01:25:53,840 --> 01:25:56,840
+Tengo que avanzar todas las redes que estaban esperando.
+
+1012
+01:25:56,840 --> 01:25:59,840
+Bueno, voy a completar, ahora lo vemos.
+
+1013
+01:25:59,840 --> 01:26:02,840
+Bien, bueno, acá, el chart 2.
+
+1014
+01:26:02,840 --> 01:26:10,840
+Tejéme de repasar, pues si no me te comido ningún caso, por las dudas.
+
+1015
+01:26:10,840 --> 01:26:12,840
+No, está muy bien.
+
+1016
+01:26:12,840 --> 01:26:17,840
+Bueno, no puse los números y la regla que aplicaba, pero está.
+
+1017
+01:26:26,840 --> 01:26:36,840
+Bueno, ¿qué pasa con acá?
+
+1018
+01:26:36,840 --> 01:26:41,840
+¿Qué vamos a aplicar acá?
+
+1019
+01:26:41,840 --> 01:26:46,840
+Chializa el hanto que acá.
+
+1020
+01:26:46,840 --> 01:26:51,840
+Vamos a buscar un nombre.
+
+1021
+01:26:52,840 --> 01:26:57,840
+Entonces vamos a encontrarlo, porque vuelvo.
+
+1022
+01:26:57,840 --> 01:26:58,840
+Es un nombre.
+
+1023
+01:26:58,840 --> 01:27:09,840
+Entonces, si esto me va a generar un nuevo grupo nominal, que dice det, no.
+
+1024
+01:27:09,840 --> 01:27:20,840
+Entre la 1 y la 3.
+
+1025
+01:27:20,840 --> 01:27:30,840
+Bueno, el grupo nominal de no aljetivo.
+
+1026
+01:27:30,840 --> 01:27:33,840
+¿Sí?
+
+1027
+01:27:33,840 --> 01:27:39,840
+Que se que se haga un escán o escán.
+
+1028
+01:27:39,840 --> 01:27:43,840
+Y acá, que voy a aplicar.
+
+1029
+01:27:43,840 --> 01:27:45,840
+¿Qué aplica acá?
+
+1030
+01:27:45,840 --> 01:27:48,840
+Completar.
+
+1031
+01:27:48,840 --> 01:27:54,840
+La posición 1 había alguien esperando un grupo nominal.
+
+1032
+01:27:54,840 --> 01:28:00,840
+¿Eh?
+
+1033
+01:28:00,840 --> 01:28:03,840
+Este.
+
+1034
+01:28:03,840 --> 01:28:06,840
+Está esperando un grupo nominal.
+
+1035
+01:28:06,840 --> 01:28:14,840
+O sea que puedo estar teniendo un grupo global.
+
+1036
+01:28:15,840 --> 01:28:18,840
+Vergo grupo nominal, al final.
+
+1037
+01:28:18,840 --> 01:28:24,840
+Entre la posición acá, esto es 01 y acá es 1-3.
+
+1038
+01:28:24,840 --> 01:28:27,840
+O sea que esto es 0-3.
+
+1039
+01:28:27,840 --> 01:28:29,840
+¿Seguando?
+
+1040
+01:28:29,840 --> 01:28:31,840
+Está apriando la en el 1.
+
+1041
+01:28:31,840 --> 01:28:34,840
+Contré 1-3, tengo 0-3.
+
+1042
+01:28:34,840 --> 01:28:37,840
+¿Qué es tomo vuelo, grupo global?
+
+1043
+01:28:37,840 --> 01:28:40,840
+¿Quién más está apriando un grupo nominal?
+
+1044
+01:28:40,840 --> 01:28:43,840
+¿Tenó?
+
+1045
+01:28:43,840 --> 01:28:46,840
+Vergo grupo nominal.
+
+1046
+01:28:46,840 --> 01:28:51,840
+Y a la derecha debería ver un grupo profesional.
+
+1047
+01:28:51,840 --> 01:28:54,840
+También entre las 0-3.
+
+1048
+01:28:54,840 --> 01:29:01,840
+¿Qué está tomo vuelo y esto tomo vuelo a parir?
+
+1049
+01:29:01,840 --> 01:29:04,840
+Quiero decir, al final terminación.
+
+1050
+01:29:04,840 --> 01:29:06,840
+¿Qué es tomo vuelo?
+
+1051
+01:29:06,840 --> 01:29:08,840
+Esta es la que va a terminar ganando, digamos.
+
+1052
+01:29:08,840 --> 01:29:13,840
+Tomo un vuelo y está esperando un grupo profesional a la derecha.
+
+1053
+01:29:17,840 --> 01:29:21,840
+¿Qué más está esperando un grupo nominal?
+
+1054
+01:29:21,840 --> 01:29:23,840
+La última dos.
+
+1055
+01:29:34,840 --> 01:29:48,840
+¿Y estaba en el principio?
+
+1056
+01:29:48,840 --> 01:29:49,840
+¿Seguétos?
+
+1057
+01:29:49,840 --> 01:29:51,840
+¿Acas 1-3, ¿no?
+
+1058
+01:30:04,840 --> 01:30:23,840
+¿Tamos bien ahí, ¿no?
+
+1059
+01:30:23,840 --> 01:30:26,840
+¿Tamos bien ahí, ¿no?
+
+1060
+01:30:34,840 --> 01:30:42,840
+¿Avejetivo?
+
+1061
+01:30:42,840 --> 01:30:53,840
+Esto te trato de hacer un predil y no puedo poner ningún adjetivo.
+
+1062
+01:30:53,840 --> 01:31:02,840
+Entonces, bueno, entre 0-3, entre 0-3, hay un grupo global.
+
+1063
+01:31:02,840 --> 01:31:07,840
+¿A día alguien esperando un grupo global en 0?
+
+1064
+01:31:07,840 --> 01:31:10,840
+¿Sí, a día, ¿no?
+
+1065
+01:31:10,840 --> 01:31:15,840
+Esto.
+
+1066
+01:31:15,840 --> 01:31:20,840
+¿Sí, después?
+
+1067
+01:31:20,840 --> 01:31:22,840
+¿Cómo vía tengo acá?
+
+1068
+01:31:22,840 --> 01:31:28,840
+Voy a tener que borrar la plama.
+
+1069
+01:31:28,840 --> 01:31:46,840
+¿Y qué?
+
+1070
+01:31:46,840 --> 01:31:48,840
+¿Y qué?
+
+1071
+01:31:48,840 --> 01:31:53,840
+¿Y qué?
+
+1072
+01:31:53,840 --> 01:31:56,840
+¿Y qué?
+
+1073
+01:31:56,840 --> 01:31:58,840
+¿Y acá fíjense que reconocinuración?
+
+1074
+01:32:01,480 --> 01:32:03,720
+Todo un vuelo, reconocinuración.
+
+1075
+01:32:03,720 --> 01:32:07,320
+No hay la oración que estoy reconociendo, porque todavía no en términos de analisión.
+
+1076
+01:32:08,520 --> 01:32:11,400
+Se se necesita una olah última posición del chart, ¿no acá?
+
+1077
+01:32:13,400 --> 01:32:14,680
+¿Quién más se perunje V?
+
+1078
+01:32:16,680 --> 01:32:17,800
+En la posición 0.
+
+1079
+01:32:22,920 --> 01:32:23,560
+¿Nay más?
+
+1080
+01:32:25,880 --> 01:32:26,360
+¿No?
+
+1081
+01:32:27,800 --> 01:32:28,840
+¿Nay más?
+
+1082
+01:32:39,800 --> 01:32:41,800
+¿A acá?
+
+1083
+01:32:43,000 --> 01:32:45,000
+¿Qué tengo que hacer?
+
+1084
+01:32:48,680 --> 01:32:50,680
+¿Qué tengo que hacer acá?
+
+1085
+01:32:50,680 --> 01:32:52,680
+Preciso, ¿no?
+
+1086
+01:32:52,680 --> 01:32:53,640
+¿Qué p?
+
+1087
+01:32:56,200 --> 01:32:58,200
+Ya lo produce, pero que la tengo acá.
+
+1088
+01:33:00,440 --> 01:33:03,640
+¿Qué p es un prep gen?
+
+1089
+01:33:07,240 --> 01:33:09,240
+¿Y la posición 3-3?
+
+1090
+01:33:11,240 --> 01:33:12,440
+¿Sí?
+
+1091
+01:33:15,000 --> 01:33:16,520
+¿Y el único que hay?
+
+1092
+01:33:19,880 --> 01:33:21,880
+¿Y esto también es un predic de jp?
+
+1093
+01:33:23,640 --> 01:33:25,640
+¿Y esto es la oración que reconocí?
+
+1094
+01:33:27,880 --> 01:33:29,880
+O sea que el único camino que me ha quedado, ¿sí?
+
+1095
+01:33:31,320 --> 01:33:33,320
+¿Y acá qué pasa?
+
+1096
+01:33:33,320 --> 01:33:35,320
+¿Aí un prep allá?
+
+1097
+01:33:41,560 --> 01:33:43,560
+¿Aí un... ¿Aí va, una?
+
+1098
+01:33:43,800 --> 01:33:45,080
+¿En el 3-4?
+
+1099
+01:33:52,120 --> 01:33:53,480
+¿Y el aire de jp?
+
+1100
+01:33:56,520 --> 01:33:58,120
+¿Y el aire de jp?
+
+1101
+01:33:59,800 --> 01:34:01,800
+¿Y el aire de jp?
+
+1102
+01:34:08,520 --> 01:34:10,120
+¿Y el aire de jp?
+
+1103
+01:34:13,720 --> 01:34:16,040
+¿Y ese es un poco lo mismo que hemos estado haciendo?
+
+1104
+01:34:16,040 --> 01:34:25,720
+Hay una pequeña diferencia de un notacion que acá lo primero que tenía reconociero vuelo, pero el pretemente lo lo mimos.
+
+1105
+01:34:26,440 --> 01:34:28,120
+El pretimiento y no lo mire lo mismo.
+
+1106
+01:34:28,120 --> 01:34:31,400
+Este paso uno lo escribimos, porque lo hicimos implicitamente.
+
+1107
+01:34:31,400 --> 01:34:32,400
+Yes, y que es lo mismo que el un lugar de él,
+
+1108
+01:34:32,400 --> 01:34:36,840
+qué cái el que vamos a mostrañ цisas,
+
+1109
+01:34:39,160 --> 01:34:41,640
+hay una pequeña oportunidad,
+
+1110
+01:34:41,640 --> 01:34:48,240
+¿Ataigo entramos esto?
+
+1111
+01:34:48,240 --> 01:34:53,800
+Encontramos que entre la posición cero y las cinco es decir en todo el
+
+1112
+01:34:53,800 --> 01:35:03,000
+pertezto, pero dije correctamente en relación, ¿y esto es lo que me dice que
+
+1113
+01:35:03,000 --> 01:35:11,720
+la oración es valida? Si yo lo que quiero es nuevamente, parciar, tengo que
+
+1114
+01:35:11,720 --> 01:35:16,600
+avisar cuál es ir a los análisis posible que me generaron esto, para guardar, para
+
+1115
+01:35:16,600 --> 01:35:25,360
+atrás. Y estos son los pasos que afirmó dando y yo siguiendo para
+
+1116
+01:35:25,360 --> 01:35:29,200
+traer camino, si conservo quién lo generó, a partir de quién es y si el
+
+1117
+01:35:29,200 --> 01:35:41,360
+complito, yo tengo en los pasos que fueron generándome esto. Y eso me da el con eso
+
+1118
+01:35:41,360 --> 01:35:51,240
+poco truíela. Bueno, hay otros enfoces, más allá de esto, que yo
+
+1119
+01:35:51,240 --> 01:35:55,000
+poco lo lo voy a mostrar, la clase basada, el par心 probabilístico, hay una
+
+1120
+01:35:55,000 --> 01:36:01,280
+forma más sencilla de parcin, que es el parcin parcial, que se llama ya lo parcin, que
+
+1121
+01:36:01,280 --> 01:36:07,120
+utiliza el único que hace identificar lo ponominal y verbales, los primeros niveles
+
+1122
+01:36:07,120 --> 01:36:13,760
+digamos. Como le decía, y otro método que se llama a charparcin, que se
+
+1123
+01:36:13,760 --> 01:36:18,000
+va a ser en una agenda, es como una versión más generica de los anteriores, que lo
+
+1124
+01:36:18,000 --> 01:36:25,120
+casi elegir una agenda en el que va tomando la sarista, va tomando los anteriores.
+
+1125
+01:36:25,120 --> 01:36:33,080
+Todos los métodos se basan en este tipo de técnicas, en la clase que viene,
+
+1126
+01:36:33,080 --> 01:36:36,080
+correcto terminó por hoy, en la clase que viene, juega el nuevo a ver clase, poco
+
+1127
+01:36:36,080 --> 01:36:43,360
+y dedos clase en uno, realmente esto yo lo doy en dos partes, el personal grino y usted
+
+1128
+01:36:43,360 --> 01:36:47,720
+está acostumbrado, se le goyemos, sufren un poco de polestudia ni lo aprenden, esto siempre
+
+1129
+01:36:47,720 --> 01:36:54,920
+hay algunos de estos típicos problemas de prueba, nunca les ponemos tan poco en un
+
+1130
+01:36:54,920 --> 01:37:02,040
+caso horrible, tiene que saber de la corriente, no es la idea como hablamos el principio,
+
+1131
+01:37:02,040 --> 01:37:07,800
+como este curso es un curso con muchas cosas, tampoco la idea es que en la, en la, en la
+
+1132
+01:37:07,800 --> 01:37:14,960
+prueba final lo que queremos que sepan son los algoritmos, pero tampoco es que van a
+
+1133
+01:37:14,960 --> 01:37:22,760
+se causemurrar, te lo van a ver la prueba, y la semana que viene hay retoma Luis, ahora ya
+
+1134
+01:37:22,760 --> 01:37:26,920
+no me ven más hasta la evaluación, porque ahora toma Luis que va a empezar con la parte
+
+1135
+01:37:26,920 --> 01:37:33,720
+de semántica, así que no vemos el martes, bye bye
+

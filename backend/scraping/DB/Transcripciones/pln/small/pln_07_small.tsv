@@ -1,0 +1,820 @@
+start	end	text
+0	26680	En la clase de hoy, vamos a ver un tema nuevo que es el de los modelos de lenguaje.
+27680	35680	Si se acuerdan a la clase pasada, vimos dos temas que eran bastante diferentes.
+35680	44680	El de los traductores para resolver el tema de la morfología de estado finito, unos artefactos
+44680	54680	de estado finito que permiten resolver temas a través de un método de reglas.
+54680	70680	Y de esa forma resuelvo el tema de convertir de la palabra a su análisis y viceversa.
+70680	74680	En la segunda parte vimos un método que era bastante diferente de su concepción,
+74680	81680	que es su método estadístico, que lo que hace era aplicando el modelo del canal ruidoso,
+81680	87680	aproximarse al problema de corregir errores ortográficos.
+87680	95680	Cuando yo hablo de un modelo probabilista, lo que estoy diciendo es que además de, por ejemplo,
+95680	103680	clasificar o sugerir una solución, lo que hace es asignarle probabilidades a las posibles respuestas.
+103680	110680	Un método probabilista, típicamente no da una respuesta, sino que devuelve una distribución de probabilidad.
+110680	120680	Es decir, si yo tengo varios eventos posibles, una distribución de probabilidad es un número
+120680	128680	entre 0 y 1 que yo asigno a cada evento posible, de forma que la suma de todos los eventos dan 1,
+128680	130680	eso es lo que llamamos una distribución de probabilidad.
+130680	134680	Entre 0 y 1 son todos, son todos mayores o iguales que 0, menores y iguales que 1,
+134680	137680	y además su suma da 1, eso es una distribución de probabilidad.
+137680	140680	0, 5, 0, 25, 0, 25 es una distribución de probabilidad.
+140680	146680	Si el evento 1 tiene probabilidad 0, 5, el otro 0, 25, y el otro 0, 25, eso es una distribución de probabilidad.
+146680	150680	Si no suma a un 1, no son una distribución de probabilidad.
+150680	157680	Y si yo, por ejemplo, tengo un evento que ocurre 10 veces, si por ejemplo hago conteo de frecuencia,
+157680	161680	por ejemplo, no digo hay un evento 1 que ocurre 10 veces,
+161680	168680	hay un evento 2 que ocurre 5 y hay un evento 3 que ocurre 5.
+168680	178680	Eso no es una distribución de probabilidad, porque esto no está entre 0 y 1, porque no suman 1.
+178680	185680	¿Cómo hago yo para convertir esto en una distribución de probabilidad?
+186680	191680	Lo que hago es dividir por el total de ocurrencias, ¿verdad?
+191680	202680	Que en este caso es 20 y eso me da la proporción respecto a 1,
+202680	204680	y eso es siempre una distribución de probabilidad.
+204680	209680	Esto se llama normalizar para obtener una probabilidad.
+209680	215680	Esto ustedes lo van a ver que lo vamos a ver en varias veces.
+215680	225680	El método de este corrección utilizaba fuertemente la regla de Valles para modelar la situación.
+225680	230680	Hasta ahora hemos hablado en todas las cosas que hemos tratado de palabras aisladas.
+230680	233680	La morfología estudia, primero hablamos de cómo separar las palabras
+233680	238680	y después vimos cómo analizarla internamente, pero siempre hablábamos de palabras aisladas.
+238680	247680	Acá lo que vamos a empezar a mirar es qué pasa cuando las palabras aparecen juntas.
+247680	266680	Es decir, nosotros lo que vamos a hablar es de la probabilidad de una secuencia de palabras.
+266680	275680	¿Por qué esto importa?
+275680	281680	Porque, como ustedes bien sabrán, las palabras en el idioma pañón las aparecen solas.
+281680	283680	Y no cualquier palabra sigue a otra palabra.
+283680	293680	Nosotros tenemos una cantidad de reglas para expresar en el idioma que hace que el orden importe.
+293680	303680	Es decir, lo que se trata es de ver cómo tener en cuenta ese orden nos puede ayudar a otra estaria.
+303680	306680	Creo que con algún ejemplo lo vamos a ver más claro.
+306680	315680	Primero que nada, vamos a recordar a Chonky, que esto yo lo comentaba en la primera clase,
+315680	325680	aquello de que Chonky dijo la noción de probabilidad de una oración es completamente inútil bajo cualquier interpretación de este término.
+325680	329680	Y trancó por 20 años, la investigación hasta acá apareció.
+329680	342680	Chelline, que volvió a revivir el tema de los métodos probabilistas o basados en conteos para aproximarse a los problemas de procesamiento en el lenguaje natural.
+343680	350680	Chonky lo que decía esencialmente es cuando nosotros lo hacemos con teo y sacamos conclusión en base a cuenta, en base a números, en base a experiencia,
+350680	353680	que es típicamente lo que vamos a ver en este caso de los enegramas,
+353680	358680	estamos obteniendo soluciones a problemas, pero no estamos entendiendo qué es lo que está pasando.
+358680	360680	Y eso es una discusión catalida de hoy sí.
+360680	366680	Es decir, hay una famosa discusión por ahí en internet entre Chonky,
+366680	372680	esto te hablando hace dos o tres años, o cinco años, entre Chonky y Peter Norby,
+375680	377680	que discute un poco esto.
+377680	386680	Es decir, si esto que estamos haciendo ahora y que ha tenido tan buenos resultados desde el punto de vista de reconocimiento del habla y el procesamiento del lenguaje natural
+386680	391680	es en realidad inteligencia artificial o es solamente number crunching que no nos aporta mucho.
+392680	396680	Norby lo que le dice es bueno, de hecho la ciencia es siempre más o menos funcionada así.
+399680	402680	Bueno, entonces ¿cuál es el objetivo de lo que vamos a hablar acá?
+402680	403680	Son de modelos del lenguaje.
+403680	408680	El objetivo del modelo del lenguaje es calcular la probabilidad de una secuencia de palabra.
+409680	415680	Es decir, qué tan probable es en mil lenguajes que una secuencia se dé.
+416680	417680	¿De acuerdo?
+418680	420680	¿Para qué nos puede servir eso?
+420680	427680	Bueno, imagínense ustedes que, y acá vamos a recordar otra vez el modelo del canal ruidoso, de la otra vez,
+427680	438680	imagínense ustedes que tengo este texto escrito y por medio de un método que no sé cuál es.
+439680	444680	Tengo dos oraciones candidatas, ¿de acuerdo?
+444680	445680	Dos textos candidatos.
+448680	454680	Uno que es PRNEVA para el curso de PLN y PREVA para el curso de PLN.
+455680	456680	¿De acuerdo?
+456680	464680	Y además supongamos que el método que utilicé para reconocer la escritura
+465680	467680	me dice que este es más probable que este.
+469680	470680	¿Cuál vamos a elegir?
+470680	471680	¿Cuál vamos a elegir?
+473680	474680	Vamos a elegir el de abajo.
+477680	478680	¿Por qué?
+478680	480680	¿Por qué esto no es una palabra válida?
+481680	487680	Pero aún siendo una palabra válida, o aún suponiendo que fuera una palabra válida,
+489680	492680	podría darse un caso donde yo identifico una palabra válida, ¿se acuerdan lo corrección?
+493680	496680	Aún así, yo podría decir, bueno, pero en este lugar,
+501680	504680	esa palabra no calza, digan.
+505680	506680	Si de alguna forma yo sé.
+507680	511680	Es decir, si yo logro detectar que esta oración es más probable que esta,
+511680	515680	de alguna forma, eso me va a ayudar en la tarea de reconocimiento.
+516680	518680	Lo mismo pasa con el reconocimiento del habla,
+518680	521680	de lo que hablamos el otro día con el speed recognition,
+521680	523680	y cuando yo hablo y digo una palabra, ustedes me escuchan.
+525680	529680	Entonces, los modelos de lenguaje sirven para ayudar en este tipo de tarea.
+529680	532680	Típicamente los modelos de lenguaje ayudan en otra tarea.
+534680	535680	Nos agregan mucha información.
+538680	542680	Entonces, cuando nosotros hacemos reconocimiento de escritura,
+543680	545680	un poco lo que decimos es,
+547680	552680	¿Cuál es la probabilidad de la oración origen dada la observación que tengo?
+552680	555680	Yo tengo una observación, ¿sí?
+556680	558680	¿Cuál es la probabilidad de una oración origen?
+559680	565680	Es proporcionar a la probabilidad de la observación dada la oración
+565680	567680	por la probabilidad de la oración.
+568680	569680	¿Y esto qué es?
+569680	572680	Eso es valles, es la regla de valles.
+573680	576680	Entonces, nosotros por valles sabemos eso,
+576680	580680	y como ven, acá aparece la noción de probabilidad de la oración.
+580680	583680	Por eso es que nos interesa conocer la probabilidad de la oración.
+586680	590680	Ahora, ¿Cómo calculamos la probabilidad de la oración?
+591680	593680	Bueno, hay algún ejemplo más, ¿no?
+594680	596680	Por ejemplo, en la traducción autonática,
+599680	603680	en la traducción autonática, si tenemos estos tres candidatos,
+603680	606680	nuevamente a mí me va a ayudar conocer el orden
+607680	610680	o saber cuál es la más probable en mi lenguaje.
+616680	619680	En la corrección de errores, como vimos en la vez pasada,
+620680	624680	hordas de botero es una secuencia muy de poca probabilidad,
+624680	626680	y pensemos un poquito,
+630680	632680	¿Preguntemos no?
+636680	643680	¿Por qué esta oración no les parece que sea muy probable?
+644680	649680	¿Qué nos podría determinar que esta oración no es muy probable?
+659680	663680	¿O esta? ¿Implementación a la educación ley?
+664680	667680	¿Por qué podemos suponer que esa no es probable?
+675680	677680	Bueno, a mí se me ocurren dos razones principales,
+677680	680680	dos aproximaciones, una es por la sintaxis, ¿no?
+681680	684680	La sintaxis del idioma pañón no es así.
+685680	689680	¿Nos decimos educación ley, educación que...?
+690680	692680	En la segunda, porque no publicamos la procesión.
+692680	693680	¿Por qué no qué?
+693680	696680	En la procesión, porque si tenemos sus y de botero,
+696680	698680	estamos publicando, ¿verdad?
+701680	704680	Ah, bueno, pero ese podría ser un sus de un tercero, ¿no?
+705680	709680	Acá seguramente lo que hay es un error toráfico de sus hordas de botero.
+710680	712680	O sea, acá tenemos un tema de sintaxis.
+712680	714680	Acá no tenemos un tema de sintaxis.
+717680	720680	Deberíamos conocer un poco de semántica para asociar botero,
+720680	722680	que pintaba mujeres gordas y entonces...
+723680	725680	O una aproximación un poco más humilde,
+725680	728680	que es la segunda, es la una aproximación más detalística,
+728680	730680	porque si nosotros...
+730680	733680	y que juega con el hecho de que tenemos grandes volúmenes de texto
+733680	736680	y de ahí el cambio de los modelos probabilísticos,
+736680	740680	es que sus gordas de botero seguramente apareció
+740680	742680	antes en mis corpus de texto
+743680	745680	y hordas de botero, no.
+747680	749680	Es una aproximación mucho más detalística.
+749680	752680	Eso es lo que vamos a hacer en los modelos de diagrama, justamente.
+752680	754680	A partir de grandes volúmenes de texto,
+754680	756680	detectar e calcular las probabilidades.
+757680	759680	Es una aproximación puramente estadística,
+759680	761680	es bien salvaje, es.
+761680	763680	Yo no sé qué estructura tiene esto,
+763680	765680	pero sé que esto no se dio nunca
+765680	767680	de botero, sí, muchas veces.
+767680	769680	Entonces, es más probable que me haya equivocado.
+777680	779680	A ver, relacionado con esto,
+779680	781680	ahora vamos a ver por qué está relacionado.
+781680	784680	Está el tema de la predicción de la siguiente palabra.
+786680	789680	¿Cuáles se imaginan que es la siguiente palabra
+789680	791680	a la primera oración?
+792680	794680	¿Cuál puede ser la siguiente palabra?
+797680	798680	¿Para?
+799680	800680	¿Para?
+800680	801680	Para.
+801680	802680	¿Para?
+802680	803680	¿Para?
+803680	804680	¿Para?
+804680	805680	¿Para?
+805680	807680	¿Para es una preposición, no?
+813680	814680	¿Qué más?
+814680	816680	¿Qué otra cosa puede decir ahí?
+816680	818680	¿Cuál, por ejemplo?
+818680	820680	¿Un pronóstico alentador?
+820680	822680	¿Un pronóstico alentador?
+823680	825680	¿O puede decir un pronóstico terrible?
+825680	827680	¿Un pronóstico...
+828680	829680	¿O qué otra cosa más?
+829680	831680	Hay uno más común para mí.
+831680	834680	Elmitió un pronóstico meteorológico, no?
+835680	838680	¿A raíz de este fenómeno se sucederán tormentas?
+838680	840680	Fuertes,
+840680	842680	importantes,
+842680	844680	muy.
+844680	846680	No creo que hay diga tormentas
+846680	848680	gatito, ¿no?
+848680	851680	Esto no es muy probable que sea la palabra siguiente.
+851680	853680	Nuevamente, ¿por qué sabemos esto?
+853680	856680	Porque es muy raro que hay un día tormentas gatito, digamos, ¿no?
+857680	859680	Entonces,
+859680	861680	esto que tenemos acá
+861680	863680	es
+863680	866680	las posibilidades que hay de siguiente palabra.
+866680	869680	Dadas todas las anteriores.
+869680	872680	Es decir, yo tengo todo el contexto, lo que se llama contexto,
+872680	875680	dado el contexto de la palabra que sigue acá.
+875680	877680	¿Sí?
+877680	879680	Una de las, lo que nosotros vamos a querer hacer
+879680	881680	en un modelo de lenguaje,
+881680	883680	como camino para calcular la probabilidad de una oración,
+883680	885680	es dado el contexto
+885680	887680	calcular la palabra.
+887680	889680	Siguiente.
+889680	891680	¿Sí?
+893680	895680	Rachas de viento fuerte de componente.
+897680	899680	Veremos que.
+901680	903680	Bueno, resulta ser que de los ejemplos que yo tomé,
+903680	906680	ah bueno, puse viento fuerte de componente,
+906680	908680	el linómede emitió pronótico especial,
+908680	910680	o sea que le ramos,
+910680	912680	se sonan tormentas fuertes,
+912680	914680	viento fuerte de componente sudo este,
+914680	916680	ejemplo, predicción.
+919680	921680	Vamos a poner un poquito de notación
+921680	923680	antes de que,
+923680	925680	antes de seguir,
+925680	927680	porque vamos a ver cómo enfrentamos este problema,
+927680	929680	es decir, ¿cómo calculamos esa probabilidad?
+929680	931680	Un poco de notación para seguir,
+931680	933680	yo lo que estoy diciendo es
+934680	936680	la probabilidad de que una variable aleatoria
+936680	938680	ahí
+938680	940680	valga,
+940680	942680	tome el valor conocimiento,
+942680	944680	en este caso tendría una variable aleatoria
+944680	946680	por cada posición en el texto,
+946680	948680	¿verdad?
+948680	950680	Tengo una X1, que es la primera palabra, aquí dos,
+950680	952680	que es la segunda, aquí tres.
+952680	954680	Son variables aleatorias, que la variable aleatoria
+954680	956680	es un mapeo, es una función que mapea
+956680	958680	de un evento, un número entre 0 y 1.
+958680	960680	¿La probabilidad de una?
+960680	962680	La probabilidad de una.
+964680	966680	Perdón.
+966680	968680	Perdón.
+968680	970680	Bueno, no vamos a entrar en definiciones,
+970680	972680	mapea con un real y la probabilidad
+972680	974680	me devuelve un número entre 0 y 1,
+974680	976680	es decir, yo defino la probabilidad
+976680	978680	de una variable aleatoria,
+978680	980680	como
+980680	982680	la distribución
+982680	984680	de probabilidad de una variable aleatoria,
+984680	986680	dado los diferentes valores que puede tomar
+987680	989680	¿Cuál es el valor de cada uno de ellos?
+989680	991680	¿Sí?
+991680	993680	Y esto, ¿cuál es el rango?
+993680	995680	¿Qué valor es probable que tiene acá
+995680	997680	una variable aleatoria
+997680	999680	que refiera palabras?
+1002680	1004680	Todo el vocabulario, ¿no?
+1004680	1006680	Todas las palabras diferentes que yo puedo tener.
+1006680	1008680	¿De acuerdo?
+1008680	1010680	Entonces nosotros vamos a poner
+1010680	1012680	en notación probabilidad de conocimiento,
+1012680	1014680	de que la palabra sea conocimiento.
+1016680	1018680	Vamos a denotar W1n
+1018680	1020680	1n
+1020680	1022680	a la secuencia
+1022680	1024680	de palabras W1
+1024680	1026680	W2
+1026680	1028680	Wn, por ejemplo, en una eración
+1028680	1030680	y vamos a decir
+1030680	1032680	vamos a decir que vamos a hablar
+1032680	1034680	de la probabilidad de
+1034680	1036680	la secuencia de palabras queriendo decir, bueno,
+1036680	1038680	la probabilidad de la que la primera sea W1
+1038680	1040680	que la segunda sea W2, etc.
+1040680	1042680	¿De acuerdo?
+1042680	1044680	O sea que esta distribución de probabilidad
+1046680	1048680	tiene como rango
+1048680	1050680	todas las secuencias posibles de palabras.
+1050680	1052680	¿Sí?
+1052680	1054680	O sea que si mi vocabulario es B
+1054680	1056680	tengo
+1056680	1058680	N a la B
+1060680	1062680	V a la N
+1062680	1064680	V a la N
+1064680	1066680	Posita V a la N
+1066680	1068680	O sea que es enorme
+1068680	1070680	esencialmente, ¿no?
+1070680	1072680	Todas las posibles secuencias.
+1072680	1074680	Y
+1074680	1076680	vamos a recordar
+1076680	1078680	la chain rule
+1078680	1080680	la regla de multiplicación
+1080680	1082680	de las probabilidades
+1082680	1084680	que es, si yo tengo la probabilidad de una
+1084680	1086680	secuencia de palabras
+1086680	1088680	W1, Wn
+1088680	1090680	esto es
+1090680	1092680	la probabilidad de la primera
+1092680	1094680	palabra, de alguna forma
+1094680	1096680	la calculo
+1096680	1098680	por la probabilidad de la segunda dada
+1098680	1100680	la primera, dado que la primera
+1100680	1102680	fue W1
+1102680	1104680	observen acá que
+1104680	1106680	no son independientes
+1106680	1108680	es decir, las palabras por definición
+1108680	1110680	acá, no son eventos independientes
+1110680	1112680	es decir
+1112680	1114680	tengo una cierta probabilidad de que
+1114680	1116680	empiece con W1
+1116680	1118680	la multiplico por la probabilidad de que
+1118680	1120680	la segunda sea W2, dado que la primera
+1120680	1122680	fue W1
+1122680	1124680	por la probabilidad que
+1124680	1126680	la tercera sea W3, dado que las dos primeras
+1126680	1128680	fueron uno de hoy así
+1128680	1130680	de acuerdo
+1130680	1132680	de esa forma con esta regla yo
+1132680	1134680	y al final Wn
+1134680	1136680	la última dada todas las anteriores
+1136680	1138680	esto se llama
+1138680	1140680	regla de la cadena
+1140680	1142680	yo con la regla de la cadena
+1142680	1144680	puedo calcular la probabilidad
+1146680	1148680	de una secuencia o de una oración
+1148680	1150680	dada la secuencia
+1150680	1152680	si logro calcular estas
+1152680	1154680	probabilidades, o sea
+1154680	1156680	si logro calcular
+1156680	1158680	predecir las palabras
+1158680	1160680	correctamente
+1160680	1162680	voy a
+1162680	1164680	poder predecir la secuencia
+1164680	1166680	de esa forma paso de la predicción al cálculo
+1166680	1168680	de toda la probabilidad de la oración ¿se entienden?
+1172680	1174680	bien
+1174680	1176680	entonces vamos a quedarnos con esa notación
+1178680	1180680	entonces yo digo bueno
+1180680	1182680	un ejemplo no, si yo quiero saber
+1182680	1184680	la probabilidad de
+1184680	1186680	viento fuerte de componente sudoeste
+1186680	1188680	como el que está soplando
+1188680	1190680	no sé si de componente sudoeste pero es fuerte
+1190680	1192680	es la probabilidad de viento
+1192680	1194680	por la probabilidad de fuerte
+1194680	1196680	dado viento por la probabilidad de
+1196680	1198680	dado viento fuerte etc.
+1198680	1200680	nada menos que la regla de la cadena
+1206680	1208680	entonces
+1208680	1210680	yo quiero saber la última
+1210680	1212680	p de sudoeste dado viento fuerte
+1212680	1214680	de componente
+1214680	1216680	y vos con google por ejemplo y digo
+1216680	1218680	bueno viento fuerte de componente
+1218680	1220680	aparece 9.230 veces
+1222680	1224680	viento fuerte de componente sudoeste
+1224680	1226680	aparece 347 veces
+1226680	1228680	y yo entonces
+1228680	1230680	voy a estimar la probabilidad de esa
+1230680	1232680	por medio de conteos
+1232680	1234680	la cantidad de veces que apareció
+1234680	1236680	viento fuerte de componente sudoeste
+1236680	1238680	dividido la cantidad de veces que aparece
+1238680	1240680	fuerte de componente
+1240680	1242680	dividido 9.230
+1242680	1244680	¿Aguardo?
+1244680	1246680	y esta es la probabilidad
+1246680	1248680	de que la siguiente palabra
+1248680	1250680	sea sudoeste en mi estimación
+1250680	1252680	si ustedes se fijan
+1252680	1254680	esto es una probabilidad
+1254680	1256680	porque
+1256680	1258680	contando
+1258680	1260680	todas las palabras posibles que pueden seguir
+1260680	1262680	acá si yo logro determinar cuáles son
+1264680	1266680	yo sé que van a ver 9.230
+1266680	1268680	van a sumar 9.230
+1268680	1270680	¿no?
+1270680	1272680	es decir todos los casos posibles
+1272680	1274680	miro todos los casos junto a lo que es la siguiente palabra
+1276680	1278680	eso hace que como esto me va a dar
+1278680	1280680	9.230 a la suma de todas las cantidades
+1280680	1282680	esto va a dar uno
+1282680	1284680	el total
+1284680	1286680	entonces esto sí es una distribución de probabilidad
+1286680	1288680	entonces que estamos bien
+1288680	1290680	efectivamente aquello es una probabilidad
+1290680	1292680	¿de acuerdo? esto lo que me dice es
+1292680	1294680	bueno
+1294680	1296680	el 3,76% de las veces
+1296680	1298680	es sudoeste la siguiente palabra
+1308680	1310680	eso que acabamos de hacer
+1310680	1312680	es estimar la probabilidad
+1312680	1314680	a partir de la frecuencia
+1314680	1316680	de ocurrencia en un cuerpo grande
+1316680	1318680	eso Google es un cuerpo grande
+1318680	1320680	muy grande
+1320680	1322680	y eso se llama principio máximo
+1322680	1324680	pero similitud que lo vimos en la de pasada
+1324680	1326680	es trato de hacer
+1326680	1328680	calcular la probabilidad en base
+1328680	1330680	a lo mejor posible
+1330680	1332680	a los datos que tengo
+1332680	1334680	es decir considero
+1334680	1336680	yo estoy considerando que los datos que tengo
+1336680	1338680	es decir el corpo de Google
+1338680	1340680	es una buena aproximación
+1340680	1342680	del mundo de lenguaje
+1342680	1344680	en realidad
+1344680	1346680	yo no sé si en realidad
+1346680	1348680	efectivamente cuando los seres humanos hablamos
+1348680	1350680	hay un 3,76%
+1350680	1352680	de probabilidad
+1352680	1354680	de que después de decir
+1354680	1356680	viento fuerte componente
+1356680	1358680	viene sudoeste
+1358680	1360680	pero el corpo de Google
+1360680	1362680	que es lo mejor que tengo como aproximación
+1362680	1364680	me dice eso y eso es lo que yo utilizo
+1364680	1366680	como un estimador de máxima verosimilitud
+1366680	1368680	es lo mejor que puedo acercarme
+1368680	1370680	con el cuerpo que tengo
+1370680	1372680	eso es lo que vamos a hacer todo el tiempo acá
+1372680	1374680	calcular
+1374680	1376680	componentes de máxima verosimilitud
+1378680	1380680	pero tenemos algún problema
+1380680	1382680	y es
+1382680	1384680	en el otro casos
+1384680	1386680	dice, a raíz de estos fenómenos se producirán
+1386680	1388680	tormentas fuertes
+1388680	1390680	la probabilidad de fuertes
+1390680	1392680	y a raíz de estos fenómenos se producirán tormentas
+1394680	1396680	tienen un problema y es que
+1396680	1398680	nunca apareció en mi corpus
+1398680	1400680	a raíz de estos fenómenos
+1400680	1402680	se producirán tormentas
+1402680	1404680	y nunca apareció en mi corpus
+1404680	1406680	a raíz de estos fenómenos se producirán tormentas fuertes
+1406680	1408680	y
+1408680	1416440	Y eso nos da una horrible visión por cero, que queremos evitar, o sea que nuestra probabilidad
+1416440	1421720	da infinito, no sé, no está definida.
+1421720	1426560	Esto, una pregunta, ¿esto les parece que es un fenómeno común o no, que nos puede
+1426560	1434120	pasar cuando estemos estimando todo el tiempo, porque por más grande que sea el corpus, el
+1434120	1438960	lenguaje es muy creativo?
+1438960	1445080	Entonces tenemos que buscar forma y además porque estamos haciendo un conteo de palabras
+1445080	1446080	de oraciones muy largas.
+1446080	1452320	O sea que la regla de la cadena no resuelve mi problema, porque yo, una aproximación
+1452320	1457600	bien naif para calcular la probabilidad de calcular toda la secuencia posible, ¿sí?
+1457600	1461120	¿cuántas veces aparece la secuencia que quiero calcular, la oración del total de
+1461120	1462120	oraciones?
+1462120	1465560	Bueno, tengo un corpus evidentemente grande, pero esta aproximación tampoco nos ayuda
+1465560	1471960	mucho porque sigo teniendo contestos muy largos, porque si ustedes se fijan en la regla de
+1471960	1477560	la cadena, bueno, en lo que acabamos de hacer, la última probabilidad es casi la misma
+1477560	1491040	que la primera, menos una palabra, tengo que buscar una forma de achicar eso.
+1491040	1500680	Entonces, una de las ideas fuerzas para computar esta probabilidad es en lugar de tomar todas
+1500680	1508120	las palabras, tomar sobre las últimas, es decir, yo me quedo con las últimas n menos
+1508120	1520400	un palabras, ¿sí? n menos n, bueno. ¿sí? En esto es enigrante, ¿no? Y las otras no
+1520400	1529120	las considero, digo, bueno, mi humilde aproximación para que esto se pueda volver manejable es
+1529120	1532960	decir, bueno, yo en realidad solamente me importan las últimas palabras afectan a la
+1532960	1542320	que voy a predecir, son las últimas. Y de eso se tratan los modelos enigramas que
+1542320	1545840	utilizan lo que se llama, eso que acabo de decir, yo llamo hipótesis de marcovo, hipótesis
+1545840	1556880	marcoviana. Solamente las últimas palabras afectan a siguiente, hay un límite. Y fíjense
+1556880	1564080	que en la hipótesis de bigrama, yo digo, cada palabra es la próxima por la anterior,
+1564080	1569640	simplemente, estoy diciendo una cosa tan sencilla como la última, la última palabra es la
+1569640	1575520	única, cada palabra es la siguiente, pero las anteriores no. Es muy fuerte, ¿no? Y
+1575520	1584440	de trigramas son dos y con n, con n son n. ¿sí? Con la hipótesis de bigrama, mi probabilidad
+1584440	1591160	es mucho más sencilla que antes, porque es como cada palabra solo depende, vamos a mirar,
+1591160	1600080	uno bueno uno no está más, pero cada palabra depende de la anterior, simplemente me queda
+1600080	1612400	que la probabilidad de una secuencia es la probabilidad de la primera, por la probabilidad
+1612400	1632200	de la segunda a la primera, por la probabilidad de la tercera a la segunda, etcétera. ¿Le
+1632200	1639880	guardo? Acá nos falta este PW1 en esa fórmula, pero no nos preocupa demasiado porque eso
+1639880	1644760	lo resolvemos poniendo una marca al comienzo de la secuencia que siempre vale uno, su probabilidad,
+1644760	1651120	es decir, que toda la gración empieza con una marca. Y si no, multiplico acá, ¿no? Si
+1651120	1656920	no, si lo quiero hacer de otra forma, agregue un PW0 acá y lo mismo. Pero esencialmente
+1656920	1661200	lo importante acá es que esto se transforma en una simple multiplicación de probabilidades
+1661200	1669000	de una palabra dada en anterior. ¿Y cómo hago para calcular esto? ¿Cómo puedo calcular
+1669000	1680400	esto acá? ¿Cómo calcula la probabilidad de una palabra dada en anterior? Contando,
+1680400	1684120	pero solamente tienen cuenta dos, lo cual lo vuelve un problema mucho más manejable.
+1684120	1693440	Y eso es justo lo que vamos a hacer. Un modelo de lenguaje intenta predecir la próxima palabra
+1693440	1698680	de una oración a partir de las n menos una anteriores y, por supuesto, que importa el
+1698680	1709320	orden en ese cálculo, ¿no? También tenemos que plantearnos cuando hagamos los engramas,
+1710320	1714920	cuando calculemos la probabilidad de una palabra, bueno, cosas que ya hemos conversado. ¿Qué
+1714920	1724720	elemento vamos a contar? Por ejemplo, tengo un tema de toquenización, esta coma, ¿la tengo
+1724720	1730040	que considerar un engrama o no la tengo que considerar un engrama? ¿La tengo que considerar
+1730040	1734760	un token o no la tengo que considerar un token? ¿Me interesa? Bueno, eso seguramente va a
+1734760	1737880	depender un poco de la aplicación en la que lo estoy aplicando, a lo que lo estoy utilizando.
+1737880	1747640	O tengo un cuerpo oral donde tengo disfluencias, disfluencias, creo que se llama esto. ¿Qué tengo
+1747640	1752120	que hacer con las mayúsculas? ¿Qué hago con la forma flexionada? Todo los problemas de la
+1752120	1756920	toquenización me parecen en los engramas, es decir, estos son cascadas, digamos, ¿no? Yo acabo
+1756920	1761400	de tener la toquenización realizada. En realidad no hay respuesta universal, depende de la tarea
+1761480	1767240	que estamos haciendo. Por ejemplo, típicamente los corporeales están todos pasados a mayúsculas,
+1767240	1779800	porque como son más continuos, la identificación de oraciones no es tan importante. Si yo voy
+1779800	1785440	a hacer análisis, si estoy haciendo un análisis de cómo se usan los signos de puntuación
+1785440	1788960	en mi lenguaje, obviamente la coma la tengo que identificar, sino capaz que no me interese.
+1789960	1796440	O me puede interesar todo estos, mapearlos a una cosa sola que se llama signo de puntuación
+1798040	1803880	y juntar los puntos con las comas. Van a tener que hacer eso en el laboratorio.
+1803880	1809240	Ya se van a colar. Bueno, nada, se necesita un pretratamiento disponible al menos para
+1809240	1816480	las oraciones y el modelo no hay modelos generales. También va a depender un poco,
+1816960	1823680	nuestros números van a depender de la cantidad de palabras. El dictionary,
+1823680	1831800	el Oxford English dictionary tiene 290.000 entradas, el Tresor de la langue francés tiene 54.000
+1831800	1838880	y el dicionario de la radio 88.000. ¿Por qué les parece que hay tantas más acá que acá?
+1839880	1847600	Porque el dicionario no parece en la forma flexionada y el español está mucho más flexionado.
+1851680	1857360	O sea que el inglés la tiene que arreglar más solito. Bueno, y después tenemos corpus.
+1858800	1863800	Esto ya hablamos un poco y aquello distinguir entre el número de token que son la cantidad de
+1863800	1867560	ocurrencias que hay en el texto y el número de palabras distintas, el vocabular.
+1874040	1877360	Acá está la respuesta a la pregunta que hacíamos antes. ¿Cómo estimamos los
+1877360	1881640	bigramas utilizando otra vez lo que se llama un estimador de máxima verosimilituos,
+1881640	1886120	lo que se llama métodos de frecuencias relativas? Que es, cuento las cantidades de
+1886280	1895840	la cantidad de veces que apareció una palabra con, por ejemplo, la probabilidad de fuerte,
+1895840	1904720	dado viento, se aproxima como la cantidad de veces que aparece viento fuerte.
+1904960	1917320	Por la dividida de la cantidad de veces que apareció
+1926400	1934360	dividido todas las posibles continuaciones. ¿De acuerdo? Viento fuerte, viento calmo,
+1934360	1942760	viento, viento dile, viento, no sé, lo que quieras. Y sumo todas las posibles,
+1942760	1945920	lo que estoy haciendo es normalizando, como hablamos al principio de, como hablamos acá,
+1945920	1952080	¿no? Estoy normalizando. Ahora, esto aquí es equivalente. ¿Cómo puedo simplificar esto?
+1952320	1962000	Si yo tengo todas las veces que aparecen viento fuerte,
+1962000	1968000	viento calmo, no sé, ¿cuál es la suma de todo eso?
+1973840	1977720	Es la cantidad de veces que apareció viento. Esto es igual a la cantidad de
+1977720	1981120	secas que aparecen vientos en el cuerpo. ¿Cómo puedo recordar?
+1983240	1985280	Como son todas las posibles ocurrencias.
+1990680	1995720	Ahí tenemos la simplificación y, además, para tener en cuenta la primera y última
+1995720	2000040	palabra en oración, le vamos a agregar siempre los símbolos de comienzo y de fin. Eso para
+2000040	2007080	asegurarnos de que, para no tener que calcular separada la probabilidad de la primera palabra.
+2007240	2014760	Yo sé que la primera palabra siempre es ese y calculo la probabilidad de la primera en el texto,
+2014760	2023080	digamos, ponerle el dado que la anterior era ese. De acuerdo? Y así lo dejo en una sola forma.
+2024840	2033960	Por ejemplo, si supongamos que yo tengo ese cuerpo, ¿no? Juan abrió la puerta, el viento abrió
+2034040	2040520	la puerta, enero abrió limones en tus mejillas nuevas, Juan recoge limones. Y quiero saber
+2040520	2046600	la probabilidad de estas oraciones. Evidentemente no las tengo en el cuerpo, o sea, que no puedo
+2046600	2057320	contar directamente. Pero quiero utilizar un modelo de diagrama para calcular. Y con lo que
+2057400	2066440	sabemos es bastante sencillo. Primero que nada decimos, bueno, la probabilidad de Juan abrió
+2066440	2075560	limones es probabilidad de Juan dado el comienzo. Probabilidad de comienzo siempre es uno. Probabilidad
+2075560	2084040	de abrió dado Juan, probabilidad de limones dado abrió, etcétera, ¿no? Fíjense que la probabilidad
+2084040	2089240	Juan dado el comienzo de la cantidad de veces que apareció Juan en la marca de comienzo dividido
+2089240	2099960	de la cantidad de marcas de comienzo que es uno. Entonces esto me da 2 de 4. Ah, porque hay cuatro
+2099960	2104680	oraciones. Perdón. Claro, porque yo estoy haciendo contegos directamente. No, no estoy haciendo
+2105640	2116040	2 de 4 veces arrancó con Juan, ¿sí? Juan abrió es una de dos. Ya había aparecido Juan abrió
+2117160	2123880	en el corpus y Juan aparece dos veces. O sea, de dos veces le apareció Juan y la siguiente apareció
+2123880	2131640	una vez abrió. Y así sigo multiplicando y como me multiplico la fracción y me da, bueno, 0-0-42.
+2131640	2143000	Esa es la probabilidad de Juan abrió el limón. Enero abrió la puerta 0-17. Esto no tiene mucho
+2143000	2148200	sentido, ¿no? A ver, justamente el hecho de que sea un ejemplo de juguete le hace perder la gracia
+2148200	2157160	todo esto porque esto funciona porque tengo grandes volúmenes, sino es una pasada. ¿Y acá que nos
+2157160	2181640	pasó? ¿Qué puede haber pasado acá? La palabra come nunca está. ¿Y en la puerta?
+2181640	2191400	En la puerta está. La primera se explica porque come nunca está, ¿no?
+2191400	2205640	Creo que está así. Perdón. La así, la puerta.
+2205640	2224040	¿Por qué da 0? Porque lo que no está es en la. En la no aparece nunca. Si ustedes miran acá la
+2224040	2229160	probabilidad de, perdón, la cantidad de, la probabilidad de esto es la probabilidad de que
+2229160	2236680	empiece con él, ya tenemos un problema con el comienzo con él porque creo que no hay ninguna.
+2236680	2244200	Ninguna empieza con él y eso ya tiene un problema. Y además en la tampoco está. O sea que el
+2244200	2252920	conteo me va a dar 0. Si el bigrama no aparece en el cuerpo de entrenamiento, siempre mi
+2253240	2261000	problema da 0. Y más interesante aún, si cualquier bigrama de todos los que aparecen en la oración
+2261000	2271640	da 0, la probabilidad de la oración es 0. Eso es un gran problema. Resolver el problema de eso,
+2271640	2275640	de lo que se llama el suavizado de engramas que vamos a ver cómo. Tenemos que buscar alguna forma
+2275640	2281480	de resolver eso que nos va a pasar siempre. Es decir, como nuestro cuerpo nunca puede ser tan,
+2281880	2286520	aunque solo sean dos palabras, igual puede parecerme parezca de palabras que no aparecieron y yo no me
+2286520	2300200	puedo trascar con eso. ¿De acuerdo? Bueno, nos queda ese pendiente de 0 que lo vamos a ver
+2300200	2303560	después porque ya te quiero comentar alguna cosa. Pero vamos a acordarnos de eso, que tuvimos este
+2303640	2315160	problema pendiente. Bien, en general, ustedes dirán, bueno, pero ¿cuál es el mejor N? ¿Por qué? ¿Cuál es el tema?
+2315160	2329320	¿Es? ¿Cuanto? ¿Cuanto más largo sea el tigrama que yo utilizo? Más información tengo de contexto. Es decir,
+2329560	2333400	intuitivamente es mejor estimar con cinco palabras que con una.
+2337400	2340520	Estamos guardados con eso. ¿Cuál es el problema de los tigramas largos?
+2345000	2346680	¿Por qué no puedo usar 15?
+2352280	2355640	Porque tenemos el mismo problema por el que llegamos acá, que con 15 no tengo
+2355720	2359720	cuerpo suficientemente grande como para que aparezcan esa ocurrencia.
+2362040	2368040	Entonces, ese balance entre cantidad de ocurrencia, porque si yo no tengo una buena estimación de la
+2368040	2372360	cantidad de ocurrencia, no voy a poder estimar bien la probabilidad. Con lo que yo estoy estimando la
+2372360	2377080	probabilidad partido en conteos. Si yo tengo una, dos, tres ocurrencias, seguramente esa probabilidad
+2377080	2382440	sea artificial. Porque si hubo una ocurrencia en un cuerpo de miles de millones de palabras,
+2382920	2390040	no me está diciendo mucho. Generalmente en igualtré se obtienen buenos resultados.
+2394120	2402200	Por lo menos para aproximarse da muy bien. Google hace unos años atrás sacó un cuerpo de negra,
+2402200	2409400	un sí, una lista de negramas de hasta cinco. Me acuerdo en esa época bien en ese.
+2413400	2416920	O sea que determinar n va a depender un poco de la tarea y ese se me dio a ojo, digamos, pues una
+2416920	2423000	tarea un poco complica. Ahora vamos a ver un poco de evaluación. Ita y lo que decíamos, ¿no? ¿Se
+2423000	2426840	agregan? Como cuando son trigramas, tengo que agregar dos símbolos al comienzo de la oración.
+2428600	2429080	Tengo a poner.
+2432600	2440120	Enero, abrió. Porque yo necesito dos de contexto para calcular el trigramo en detalle.
+2440840	2453880	Y bueno, y la pregunta es cómo calculamos
+2457320	2460920	desde el punto de vista metodológico, cómo hacemos para calcular buenas probabilidades.
+2460920	2466680	Ya vimos cómo se hace el conteo. Ya ahora quiero ver cómo organiza el corpus y me parece
+2466760	2471240	que es interesante ver esto porque nos va a pasar en muchas cosas, en este tema de
+2471240	2477160	preservamiento del lenguaje natural y que muchas veces induce el mal uso metodológico de estas cosas
+2479560	2484840	lleva error. Entonces me parece que vale la pena comentarlo esto.
+2485880	2492840	Yo. Yo dije que iba a hacer conteo para calcular las probabilidades, ¿no? Entonces yo por acá tengo
+2492920	2496600	un corpus, un corpus de texto.
+2501960	2508600	Sí. Entonces esencialmente lo que tengo son muchos textos, ¿no? Obviamente, esencialmente no,
+2508600	2511000	tengo muchos textos. Esa es la definición de corpus.
+2511320	2525640	Y yo voy a establecer, voy a crear un modelo de una, de un, un modelo de un lenguaje. Es decir,
+2525640	2531160	yo lo que quiero construir con esto de las probabilidades de las olaciones es un modelo
+2531160	2535560	del idioma español. Yo tengo un corpus de texto en español y quiero hacer un modelo del idioma
+2536040	2541720	español. Supongo que yo entren un modelo, entrenar el modelo en este caso quiere decir
+2541720	2547800	calcular todas esas probabilidades. ¿Cómo hago para saber qué tan bueno es?
+2550200	2551400	¿Sí? ¿Cómo lo evalúo?
+2555400	2558280	Supongo que yo, ahora vamos a hablar de cuál es la medida, pero supongo que yo tengo una
+2558360	2562360	medida de performa que me dice, bueno, aplicarle tu modelo a este texto.
+2564920	2569400	Sí. Supongamos que la medida es el que le asigne, ahora vamos a ver por qué, pero el que le asigne
+2569400	2577720	mayor probabilidad a todo el texto, a las oraciones del texto, es el mejor. El mejor modelo es el que
+2577720	2587400	la asigna probabilidad mayor a las oraciones que tengo en el texto. Si yo aplico mi método,
+2588040	2592600	mi modelo, o sea, evalúo mi modelo. Sobre este mismo corpus, ¿qué problema tengo?
+2594600	2600520	Que me va a dar bárbaro porque lo calculé ahí. Es decir, yo nunca puedo, nunca, pero nunca,
+2600520	2606360	nunca, evaluar un modelo en el mismo corpus en el que entrené. Esto aplica siempre. Cabe que
+2606360	2610680	yo utilizo un método estadístico, aprendizaje automático. Lo más importante a saber en el
+2610680	2617080	aprendizaje automático es nunca evalúes tu modelo en un corpus, en el mismo corpus que entrenaste,
+2617160	2619720	porque por definiciones estás haciendo trampa, eso lo que se llama
+2621320	2627480	sobreajuste. Vos sobreajustas a tu corpus de entrenamiento. Entonces yo lo que voy a hacer es
+2628520	2635320	dividir mi corpus en dos y voy a decir, este es el corpus de entrenamiento,
+2637800	2638680	voy a poner en inglés,
+2641320	2642360	y el corpus de evaluación.
+2642360	2658280	Entonces lo que yo voy a hacer es entrenar y ¿cuánto se para acá? Bueno,
+2661960	2664600	la regla más o menos es 80-20.
+2672360	2676760	Pregunto, ¿por qué me interesaría que esto fuera lo más grande posible?
+2683800	2690760	Para que tener más información. ¿Y por qué no abuso 90-10 o 95-5 o 97-3?
+2694520	2694760	¿Cómo?
+2695720	2697560	¿Quieres evaluarlo con una cantidad de datos?
+2697560	2702040	Tengo que solucionar ese balance, entretener una cantidad razonable de datos para hablar,
+2702040	2709320	porque si yo le evaluo sobre una oración, la varianza es muy grande, es decir, la posibilidad
+2709320	2714920	de equivocarme es muy grande. Entonces una regla es más o menos 80-20.
+2715880	2716680	¿Sí?
+2723880	2729800	Y bueno, ahí habla de 90-10, yo tengo la regla de 80-20.
+2732920	2738200	Va a surgir un problema adicional acá, y es que ahora lo que voy a mover es,
+2738520	2747720	por ejemplo, si yo quiero saber cuántos elegí el n, ¿no?
+2749720	2758040	Yo quiero elegir el n, yo necesito, lo que puedo hacer es pruebo con un n acá,
+2758360	2768360	modelo 1, n igual 2, y hago modelo 2, n igual 3.
+2774360	2781320	Esto es un poco más útil de ver. Y lo evaluo acá y digo m1 y m2, y me quedo con el que me da mejor.
+2782280	2787080	Eso metodologicamente no está bien. ¿Por qué?
+2790760	2797240	Y esto es una de las cosas que es más difícil de entender a veces. Si yo pruebo los dos modelos
+2797240	2802360	acá, de alguna forma también estoy haciendo trampa, porque supónganse que yo tengo no dos
+2802360	2807240	parámetros, porque acá tengo un parámetro que tiene dos valores. Supongamos que yo quiero
+2807320	2816040	ajustar otro parámetro de mi método que puede tomar 500 valores posibles. Si yo hago 500
+2816040	2825000	entrenamientos y 500 pruebas, muy probablemente también esté ajustando acá, esté sobreajustando
+2825000	2829480	acá, porque estoy eligiendo de los 500, y a veces pueden ser miles o cientos de miles,
+2830920	2835400	el que mejor anda en este cuerpo de evaluación, o sea que estoy sobreajustando el cuerpo de evaluación.
+2835720	2841000	Entonces, para el ajuste de parámetros, yo usualmente lo que tengo que hacer es definir
+2842280	2850760	dividir este corpus, sacar un pedacito del cuerpo de entrenamiento,
+2854440	2857480	que lo llamo corpus held auto, corpus de desarrollo.
+2858280	2867800	Y lo que hago es entreno sobre esta parte y evaluo sobre el held auto, y me reservo este
+2869320	2873480	de evaluación, solamente para cuando tengo mi modelo definitivo y quiero saber su
+2873480	2876200	performance, con su medida de evaluación, ¿de acuerdo?
+2880600	2884840	Esto lo van a, algo como esto van a tener que presentar en el laboratorio,
+2885800	2888280	decir, cómo evaluarían el método, un método.
+2890520	2895080	Hay otras posibilidades que no implican un corpus held auto, por ejemplo, hacer lo que se
+2895080	2901000	llama cross validation, que es separo este pedacito, entreno sobre esto y evaluo sobre este,
+2903000	2909160	si, después separo otra franjita, entreno sobre el resto y evaluo sobre la franjita y así con
+2909480	2916440	en cada franca, franjas y saco el promedio, eso me sirve para no desperdiciar, digamos,
+2916440	2922600	esta parte del corpus, para poder utilizar todo el cuerpo de entrenamiento, se llama cross
+2922600	2930680	validation. Vamos a volver a hablar un poquito de cross validation, cuando hablemos de
+2930680	2935560	clasificación, pero lo que me interesa es que le quede claro la diferencia entre estos corpus
+2936200	2944200	y cuando, como decía, cuando tengo el modelo final, uso esto solamente para evaluar las
+2944200	2951160	performas, en una medida que determinaría ese unitaria. ¿Cómo evaluamos un modelo bueno?
+2951160	2956320	La manera correcta de evaluar un modelo debería, sería empíricamente, es decir, si yo quiero
+2956320	2961880	valorar un modelo de lenguaje y lo estoy usando para el reconocimiento del habla, debería ser una
+2961880	2967880	evaluación de qué también reconozco el habla o qué también reconozco la escritura, pero eso puede
+2967880	2971800	ser muy costoso a veces, o yo puedo estar haciendo un modelo en lenguaje y no sé para qué se va a
+2971800	2979280	usar, entonces me interesa mucho o me puede interesar tener una media intrínseca de la
+2979280	2990280	performa de mi modelo. Entonces, vamos a ver una forma de evaluar. A mí esta parte de este
+2990280	2999560	parte en el libro está puesta como un tema avanzado, pero a mí me parece interesante mostrarlo porque
+2999560	3006240	porque la entropía es un concepto que aparece muchas veces en el profesoramiento del lenguaje
+3006240	3011920	natural y en otras cosas me parece que le vale la pena por lo menos aproximarse. Supongan que
+3011920	3017040	yo tengo una variada de la aleatoria y todo esto voy a llegar a una forma de evaluar un modelo,
+3017040	3023240	¿no? No hay que empezar a hablar de esto porque sí. Supongan que yo tengo una variada de la
+3023240	3028640	aleatoria que tiene varios eventos posibles, en nuestro caso dijimos que eran las palabras
+3028640	3039360	posibles. La entropía, la entropía es una variada de la aleatoria que es un concepto que viene de la
+3039360	3053320	teoría de la información, de Claude Shannon. La teoría de información lo que hablaba era, bueno,
+3053320	3058760	alguno capaz que hicieron, lo vieron en un curso, pero la teoría de información lo que trataba
+3058760	3062080	era de medir cuánto me cuesta a mí transmitir un mensaje. ¿Cómo puedo transmitir un mensaje
+3062080	3071080	de forma óptima? Digamos, es un poco la idea, o qué hay atrás de una comunicación. La noción
+3071080	3078120	de entropía, esta función es, tengo el evento, quiero decir, la probabilidad del evento por el
+3078120	3084080	valorismo de esa probabilidad, ¿sí? La entropía tiene como característica fundamental que es una
+3084080	3092520	medida que, si hay un evento que tiene toda la masa de probabilidad, la entropía es mínima. Es decir,
+3092520	3098280	si yo tengo un dado que está tan cargado y una forma, algo que, equivalentemente se puede decir
+3098280	3105000	que la entropía mide migrado disertidumbre sobre un evento. Si yo tengo un dado que está tan cargado,
+3105000	3111160	que cabe que lo tiro, sé que siempre va a salir seis, no tengo disertidumbre. Mi entropía es cero.
+3113160	3124080	En cambio, si el dado está perfectamente calibrado, equilibrado, ¿sí? Mi entropía es máxima.
+3125080	3130160	Es decir, ¿por cómo está definida la entropía? No puedo tener
+3134960	3140920	entropía más alta que cuando los eventos están equipobables. Entonces, justamente la entropía,
+3140920	3146360	generalmente lo que uno mide con la entropía es eso. ¿Qué tan parecido son los resultados? ¿Qué
+3146360	3152520	tan balanceados están de alguna forma? Cuanto más incertidumbre tengo, ¿por qué tan más balanceados?
+3152520	3158280	Si yo no tengo ni la menor idea de la palabra que sigue, mi entropía es máxima.
+3166200	3173040	Y además tiene otra característica que es que si el logaritmo es en base 2, este número,
+3175120	3178440	la entropía me mide la cantidad de bits que yo necesito,
+3179440	3189240	mínimo para transmitir los eventos. Esto es lo mejor forma de verlo con un ejemplo.
+3191040	3196440	Supongamos, y es el ejemplo que aparece en el libro, supongamos que yo tengo ocho caballos.
+3198040	3202160	Sí, tengo ocho caballos y quiero transmitir las apuestas que se están haciendo por un cable.
+3202160	3208520	Entonces digo, bueno, una forma cantada de transmitirlo o directa de transmitir llamar al
+3208520	3227720	primer caballo 001, 010, 011, 100, 101, 110, 111. ¿De acuerdo? Acá yo uso ocho bits.
+3228040	3237080	Cada vez que se apuesta por el caballo 01, yo pongo 001, blablabla. Entonces en total yo
+3237080	3243720	utilizo tres bits para transmitirlo por un cable. Tres bits por cada apuesta, ¿no? Ahora,
+3243720	3251880	cuando nosotros vemos las apuestas descubrimos que la mitad de las veces se apuesta por el caballo 1.
+3252880	3260240	Un cuarto del caballo 02, un tercio, blablabla. Un octavo del caballo 03, un 16ado del caballo 04,
+3260240	3267680	y todos estos se apuestan mucho menos. Teniendo en cuenta eso, yo lo que trato de hacer ahora es decir,
+3267680	3277120	bueno, quiero proponer una codificación mejor que hace que yo, los caballos que se apuestan más,
+3277120	3284400	o sea que tengo que transmitir más seguido, los codifico con menos bits. ¿De acuerdo? La
+3284400	3290720	mitad de los bits, el primer bit, lo utilizo solo para el caballo 01. Es decir, que si es un 0,
+3292000	3303840	es que transmitir el caballo 01 necesita un solo bit. Si es un 01, si es un 01 y un 0 después,
+3303840	3312120	es el caballo 02. Si son 01 y un 0, después es el caballo 03. Si son 01 y un 0, fíjense que yo
+3312120	3322040	para transmitir estos caballos utilizo 1, 2, 3, 4, 5, 6 bits. Utilizo más bits. Pero como son
+3322040	3330240	mucho menos probables, mi entropía me da 2 bits. O sea, el promedio de bits que yo utilizo según
+3330240	3341040	la distribución es 2 bits, que es más baja que los 3 bit originales. ¿Se entiende? Incorporando
+3341040	3348160	la información de la distribución bajo. Podemos mejorar eso. No, no podemos mejorar eso. Nunca
+3348160	3352160	vamos a, la entropía lo que nos dice es eso. Nunca vas a encontrar una, porque justamente la
+3352160	3357480	entropía es 2. Como la entropía es 2, la entropía me da una cota inferior sobre cuánto puedo llegar.
+3357960	3362400	Con menos de 2 bits no puedo. ¿De acuerdo?
+3364960	3366920	Entonces se preguntarán para qué sirve esto.
+3371200	3375560	De hecho no, la entropía es una cota de lo que decía, una cota mínima para el número de bits
+3375560	3382120	necesarios. A partir de la entropía yo puedo calcular la entropía de una secuencia.
+3382120	3393320	La entropía de una secuencia es de todas las combinaciones posibles,
+3395360	3399720	de una secuencia la probabilidad de esa combinación es lo mismo para aplicado a secuencia.
+3399720	3404280	Este si lo ven es un número muy complicado porque es la sumatoria de una cantidad impresionante del
+3404280	3410560	número, porque son todas las combinaciones posibles de secuencia. Eso es lo que me
+3410560	3418560	dice es la entropía de la secuencia. ¿Qué tanta incertidumbre hay en una secuencia?
+3427920	3438520	Y la tasa entropía sería eso dividido de n, es decir el promedio, porque si no la secuencia
+3438520	3444320	más larga o no la entropíamos antes. El promedio por palabra de la entropía.
+3449840	3462920	Entonces, la entropía de un lenguaje que sería como la medida de qué tanta incertidumbre hay en un
+3462920	3472840	lenguaje. ¿Qué tanto puedo yo llegar a predecir lo que va a seguir diciendo el lenguaje?
+3472840	3478200	Ese al límite, pero como valoró, no en un contexto en general en el lenguaje,
+3478200	3485360	es una medida para el lenguaje. Ese al límite cuando la secuencia tiene infinito de la tasa
+3485360	3488120	entropía.
+3498000	3502400	Y que sé que acá es la suma, como decíamos, es la suma de todas las secuencias posibles.
+3502400	3508360	Es decir, que es una cosa imposible, calcular. Pero hay un teorema que es el de Llano Muamí
+3508360	3514640	Lambrayman que dice que el lenguaje es estacionario y ergódico. Estacionario y ergódico quiere
+3514640	3521880	decir que no importa dónde yo esté parado en una secuencia, todas las posiciones, las probabilidades
+3521880	3528240	son las mismas de continuidad. Lo cual no es así en el lenguaje, porque lo que yo digo ahora
+3528240	3533680	incide dentro de lo que estoy diciendo entre un minuto más. No, no es aleatorio, digamos. Pero
+3533680	3540520	suponiendo eso es una simplificación, lo que me permite es simplemente para calcular la entropía,
+3541520	3548080	la tasa de entropía del lenguaje es simplemente uno sobre n dividido en logaritmo. Fíjense que
+3548080	3552960	perdí las probabilidades de cada una de las de la secuencia. Es como que si yo tomo una secuencia
+3552960	3561040	suficientemente larga del lenguaje, voy a incluir a todas las subsecuencias. O sea que si yo una
+3561040	3566160	secuencia suficientemente larga, puede ser el cuerpo de evaluación. Yo puedo calcular la entropía
+3566160	3583320	sobre el cuerpo de evaluación. Entonces esto es un número, hasta ahora lo que dije acá es un
+3583320	3590200	número, no sabemos por qué tengo esto. Pero fíjense que si yo puedo calcular lo que se llama la
+3590200	3597720	entropía cruzada, porque yo que tengo, yo tengo un lenguaje que genera las palabras con una cierta
+3597720	3603720	distribución de probabilidad, que es lo que queremos averiguar, que es tan lo que es lo que es
+3603720	3609080	nuestro problema original, cómo da las palabras anteriores y genera la siguiente. Eso es algo
+3609080	3613720	que he desconocido, no sabemos cómo es, porque es el del lenguaje español el que yo quiero
+3614040	3621880	pero yo tengo un modelo M, que es el modelo de negramas. La entropía cruzada lo que dice es bueno
+3621880	3632960	calculamos esta H utilizando la probabilidad original por el logaritmo de la probabilidad
+3632960	3638800	asignada por el modelo. La probabilidad de la secuencia es la que tenía el lenguaje general,
+3638800	3646960	que no la conozco, y el logaritmo sí, o sea esa distancia, esa largo envícese del modelo.
+3648560	3653240	Según el teorema otra vez, ya no manmilan, yo puedo sacar esta probabilidad simplificándola,
+3653240	3662200	suponiendo que es ergodico, y digo bueno, la entropía cruzada depende solo del logaritmo
+3662200	3673880	de la probabilidad asignada por el modelo. Y esto es lo interesante, cualquier entropía cruzada
+3673880	3680480	que yo obtenga, que yo calcule con un modelo, va a ser mayor necesariamente que la entropía
+3680640	3693120	dé lenguaje. Cualquier modelo va a asignarme una entropía mayor a la de lenguaje, esto es la cota inferior.
+3693120	3718080	Entonces fíjense que como son todas mayores, cuanto más parecido sea mi modelo, al modelo
+3718080	3723240	del lenguaje, cuanto más aparecido, asigne probabilidad más parecida de las de acá,
+3723240	3734440	por como está definido, va a ser mejor. Entonces, cuanto menor sea la entropía cruzada de mi modelo,
+3734440	3739040	evaluado sobre una secuencia suficientemente larga, es decir, sobre el corpo de evaluación,
+3739040	3746560	mejor va a ser mi aproximación. Y justamente, la medida de esa intrínseca que estábamos buscando
+3746560	3761440	era esto, que es dos, ¿por qué es dos? No lo sé, porque es lo mismo, es para sacarlos
+3761440	3769000	logaritmos nada más, es dos a la entropía cruzada, a este valor, y esto se llama perplejidad. La
+3769000	3786880	perplejidad es lo que mide qué tan bueno es intrínseamente mi modelo sobre mi cuerpo de
+3786880	3792000	entrenamiento, sobre mi cuerpo de evaluación. Es decir, si yo tengo dos modelos, el que asigne
+3792000	3799080	mayor probabilidad, menor perplejidad, mayor probabilidad al cuerpo de evaluación, es mejor
+3799080	3803600	desde ese punto de vista, lo consideramos mejor. ¿Por qué? Porque tiene menos dudas de cómo se
+3803600	3813200	comporta, porque la perplejidad es como la incertidumbre que yo tengo ante... Dada una palabra,
+3813200	3816920	cuando yo me paro una palabra, ¿cuál es mi incertidumbre? Mi branching factor,
+3817320	3822240	en cuanto se puede abrir la siguiente palabra en promedio? Un poco eso es lo que captura la
+3822240	3829160	perplejidad. Mi lenguaje va a tener un branching factor, es decir, no es que es cero, pero mi modelo
+3829160	3833680	siempre va a calcular algo mayor o igual a ese branching factor. Cuanto más bajo sea,
+3833680	3838440	es que quiere decir que yo no estoy acercando más a la perplejidad posta, por eso la perplejidad
+3838440	3850600	es la medida de que también hace las cosas. ¿De acuerdo? Bueno, no, eso es cuentas.
+3853240	3860240	Por ejemplo, si nosotros entrenamos unigramas, bigramas y triramas en un corpo de artículo
+3860240	3868560	de Wall Street Journal de 38 millones de palabras, probaron el cuerpo sobre un modelo de un
+3868560	3875320	cuerpo de prueba de 1,5 millones de palabras y calcularon la perplejidad. Y fíjense que la
+3875320	3884640	perplejidad con los unigramas es de 962. ¿No sabemos cuál es el mínimo de esto? No sabemos cuánto
+3884640	3890560	puede bajar, pero sabemos que con bigrama llega a 170 y con triramas a 109. Es decir, si yo tengo
+3890560	3895360	dos palabras antes, puedo predecir con mejor, porque acá es con unigrama, es la probabilidad
+3895360	3901680	que a palabra no dice mucho. Si yo tengo el anterior, lo rápidamente baja. Y si se fija,
+3901680	3914240	cuando agrega un tercero baja, pero no tanto, ni cerca tanto. Bueno, lo último que nos queda
+3914240	3923800	hablar es muy bien. ¿Qué pasó con las probabilidades nuladas? ¿Se acuerdan que nos quedaban las
+3923800	3928880	probabilidades nuladas cuando no había conteo? Bueno, uno de los problemas es la palabra que
+3928880	3934920	no existen. La palabra que no existen lo único que podemos hacer o lo que típicamente se hace es
+3934920	3942960	crear un vocabulario fijo y sustituyo las palabras de conocida por una especial. Esto es típicamente
+3943120	3947640	lo que se hace. Es decir, todas las palabras de conocida las considero una sola palabra que nos
+3947640	3955840	equivalece. Y cuando aparecen enigramas que no ocurren, este es el caso de come que no aparecía,
+3957040	3961120	pero puede ser que el enigrama no ocurra, lo que voy a hacer son técnicas de suavizado.
+3961120	3977920	Yo tengo, ¿se acuerdan? Tengo el contador de, por ejemplo, acá es un enigrama, ¿no?
+3979600	3985120	Contador de la palabra, el cantidad de veces de la palabra, dividido el total de token que hay.
+3985440	3997440	Y así calculo las probabilidades. La técnica de la plaz, lo que dice es, bueno, le agrego uno
+3997440	4001000	a cada contador, o sea que nunca me va a dar cero, lo hago a lo bestia, digamos, ¿no? Compare
+4001000	4006040	que no me dé cero, le sumo uno. Y le sumo B, ¿se acuerdan? Que lo he vivido en la clase pasada. Le sumo
+4006040	4021120	B para que esto me siga dando una distribución de probabilidad. Esto simplemente lo que hace
+4021120	4029240	es calcular un contador ajustado, multiplica por T y divide por T más B, es decir, multiplica
+4029240	4045080	por el junial y divide por esto, ¿no? Por el PWBI. Por ejemplo, si yo digo, si este es mi corpo
+4045080	4050680	entrenamiento, esta es la historia de un hombre de la ciudad que creo, fíjense que me conté
+4050680	4064560	o da uno, y quiso me da cero. Perdón, este es el conteo. Ahí va, el conteo de esta es uno,
+4064560	4071120	de la es dos y de quiso es cero. La probabilidad de esta es uno dividido trece. En total de palabras,
+4071120	4077000	una es esta y es cero, cero, ocho. La es dos dividido trece y quiso me da cero en la probabilidad
+4077000	4085240	de que no queremos que no de cero. Si nosotros aplicamos la plaza, lo que me da es sumo veinticinco,
+4085240	4093520	¿no? Son doce palabras en el vocabulario porque la única que está repetida es la. O sea que tengo
+4093520	4102520	doce en el vocabulario, no trece, trece es T y doce es B. Entonces, se hago dos dividido veinticinco y
+4102520	4109600	así me da las nuevas probabilidades. Y acá quiso deja de ser cero. El contador ajustado
+4109600	4113720	de lo que nos permite es comparar lo que teníamos antes con lo que teníamos ahora. Por ejemplo,
+4113720	4124960	esta valía uno y baja a cero noventa y seis. ¿De acuerdo? La valía dos y baja a uno cuarenta y cuatro.
+4124960	4136640	Y quiso va de cero a cero cuarenta y ocho. Si se fijan acá, lo que se llama descuento,
+4136640	4145480	que es el cociente entre los dos valores, me permite ver que le estoy sacando más masa de
+4145480	4154480	probabilidad a la que a esta, que queda casi igual. Es decir, le tenía a la plaza el problema,
+4154480	4161000	porque ¿qué es lo que está pasando acá? Esto es lo que me muestra, es que yo le tengo que sacar
+4161000	4167400	masa de probabilidad a los que aparecen, porque todo me tiene que sumar uno, todas las probabilidades
+4167400	4172760	me tienen que sumar uno. Si yo iba a agregar diagramas que antes estaban en cero, tengo que
+4172760	4178000	sacarle probabilidad a los que están, pues no me suma más que uno. Entonces, esto es lo que tiene
+4178000	4185960	que castiga mucho a los más frecuentes. Les sacan mucho probabilidad a los más frecuentes y como
+4185960	4194680	que premia demasiado a los que no aparecen. Hay otras técnicas, no vamos a entrar en eso que tratan
+4194680	4203560	de ajustarlo un poco mejor, pues ahora vamos a mover algunas, perdón. Mueve demasiada probabilidad.
+4203560	4214640	Otra posibilidad es usar un delta en lugar de uno. Ese delta tengo que calcularlo, se acuerdan lo
+4214720	4219320	calamos del cuerpo de, siempre que yo tengo esos parámetros para calcular, los calculo sobre el
+4219320	4234040	cuerpo de desarrollo. Finalmente, hay otra, esa es una aproximación, es decir, con técnicas sobre
+4234040	4241080	el contenci. Hay otra posibilidad que son un poco más avanzadas, digamos que es cuando yo quiero
+4241080	4250240	estimar, por ejemplo, en técnicas de trigrama, una palabra a partir de las dos anteriores y
+4252480	4259920	no existen casos de las dos anteriores en el texto, de las dos anteriores seguidas a W,
+4260920	4272240	acá es WN, perdón. Sí, lo que hago es hacer lo que se llama BACOV, calcularlo a través de la
+4272240	4275840	probabilidad de la anterior. Bueno, si no tengo la anterior, pruebo con la anterior, se entiende,
+4275840	4284880	eso se llama hacer BACOV. El BACOV, tenés que resolver también que ahora otra vez se
+4284880	4289560	está introduciendo nuevas, luego caso que no tenías antes. Estas probabilidades tengo que
+4289560	4292920	calcularlo y darle más a la probabilidad. O sea, otra vez tengo que mover probabilidad.
+4297040	4304400	Cuando los corpus son muy, muy, muy grandes, una forma alternativa y es un método muy nuevo,
+4304400	4309840	se llama STUPID BACOV, que es, como mi cuerpo es muy grande, típicamente el cuerpo de Google,
+4310000	4318320	no normalizo nada las probabilidades, conteo nomás como me fué y ya está. Si una no me da
+4318320	4327080	pruebo con la anterior, si es igual tengo un montón de edad. O también se puede hacer
+4327080	4332120	interpolación, es decir, la probabilidad de una palabra dada a las dos anteriores
+4332120	4342840	es la probabilidad de la palabra, la probabilidad nueva, es la probabilidad original de la palabra
+4342840	4348360	dada a las dos anteriores por un cierto lambda, más un cierto lambda 2 por la probabilidad de la
+4348360	4355680	palabra dada solo en el bigrama, más la probabilidad del unigrama. Y combino las tres a la vez,
+4355840	4363440	es como combino las tres técnicas a la vez, ¿de acuerdo? Es decir, le doy un cierto peso a las
+4363440	4369200	probabilidades que yo quiero. De esta forma, porque acá podría ser que existiera el bigrama anterior,
+4369200	4374720	pero existiera una vez sola, entonces yo no le tengo mucha confianza a esa. Puedes usarme y no
+4374720	4378800	le tenga mucha confianza, entonces le doy un cierto peso a este también, capaz que le doy un
+4378800	4384160	poquito más alto a este. O sea, el 7 existe, está todo bien, pero este siempre me ayuda. Y de esa
+4384160	4389440	forma va balanceo. ¿Cómo calculo estos lambda y con el cuerpo de... tengo que
+4392080	4397200	de alguna forma calcularlo sobre el cuerpo de desarrollo o el cuerpo gel dado?
+4402320	4403760	También hay interpolación
+4405760	4411360	condicionada por el contexto, o sea, hay un lambda, acá ya lo que pasa es un poco más raro,
+4411440	4416560	y un poco más moderno. Digamos que es que más de estas épocas, digamos, donde a mí ya no me
+4416560	4421920	preocupa tanto tener muchos parámetros. Acá estoy definiendo un parámetro para cada combinación de palabras.
+4430560	4437040	Y hasta aquí llegamos hoy. Esto es el... es este capítulo que tengo acá, capítulo 4 del
+4437120	4440800	libro de Juraski. Tiene algunas cositas más, pero esencialmente es eso.
+4443920	4450720	Y es lo que vamos a hablar de en este curso de Enigrama. La clase que viene presentamos laboratorio.

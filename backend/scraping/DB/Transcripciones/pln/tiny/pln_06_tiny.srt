@@ -1,0 +1,7360 @@
+1
+00:00:00,000 --> 00:00:27,640
+Vamos a tener, vamos a terminar de ponernos al guía, espero con luego de la dos clase que
+
+2
+00:00:28,560 --> 00:00:41,240
+que suprendimos por la zona es fuerza mayor y va a hacer un poquito larga y vamos a hablar de dos temas
+
+3
+00:00:41,240 --> 00:00:48,920
+bien diferentes, si yo hubiera que planificar, bueno, de hecho tengo que planificar, pero no tengo más gente,
+
+4
+00:00:48,920 --> 00:00:55,720
+no pondría todos temas en la misma clase, porque son dos temas bien, bien, bien diferentes y capaz que es
+
+5
+00:00:55,720 --> 00:01:00,760
+interesante marcar cuando lo veamos y ese puede ser un valor agregado, la diferencia entre los dos de
+
+6
+00:01:00,760 --> 00:01:08,320
+el punto de vista de los métodos utilizados, vamos a ver dos, dos, dos temas uno va a ser,
+
+7
+00:01:08,320 --> 00:01:17,640
+se acuerdan que la clase pasada hablamos de morphología, no, va, y trabajimos un formalismo que es el
+
+8
+00:01:17,640 --> 00:01:22,880
+de los transladores de todo finito y su alge y su bien dicho, su alge era expresiones regulares,
+
+9
+00:01:22,880 --> 00:01:30,520
+es tendida a relaciones, se acuerdan que, así como teníamos una algebra de expresiones regulares para
+
+10
+00:01:30,520 --> 00:01:35,840
+los lenguajes, ahora teníamos una algebra de expresión regulares para los transladores, para
+
+11
+00:01:35,840 --> 00:01:43,320
+las relaciones en realidad, que eran computadas por los, por los transladores de todo finito, y
+
+12
+00:01:43,320 --> 00:01:48,120
+pues introdujimos un problema que era el de la morphología, es decir, encontrar la estructura interna
+
+13
+00:01:48,200 --> 00:01:57,520
+de las palabras, dado una palabra, analizar su estructura y devolver su estructura interna y dice
+
+14
+00:01:57,520 --> 00:02:02,200
+versas, es una cosa más analicil, la otra esa más generación, dice, vas a crecir, yo te de la estructura
+
+15
+00:02:02,200 --> 00:02:09,400
+y me da la palabra, sí, y vimos un poco que la morphología dependía un poco de los lenguajes,
+
+16
+00:02:09,400 --> 00:02:19,760
+pero que, esencialmente, de lo que se trataba era de tener, o que podía modelar, sí, como
+
+17
+00:02:19,760 --> 00:02:27,020
+la licitencia de raíces, que eran los morfemas, la palabra estaba de 10 morfemas y que son
+
+18
+00:02:27,020 --> 00:02:33,560
+morfemas se devían en dos, en raíces que son lo que contenían, la mayor parte del significado
+
+19
+00:02:33,560 --> 00:02:38,480
+de la palabra, la porción de la palabra que tiene la mayor parte significado y los afijos,
+
+20
+00:02:39,200 --> 00:02:45,220
+que esencialmente, o por lo menos para, para nuestro idioma son dos, son prefijos y sufijos,
+
+21
+00:02:45,220 --> 00:02:52,840
+prefijo ganantes, sufijos guanda, tal, en la clase de hoy lo vamos a ver, en la primera parte,
+
+22
+00:02:52,840 --> 00:03:03,480
+es justamente la comien, como los transductores o la algebra de de estado finito, no sirve para
+
+23
+00:03:03,480 --> 00:03:07,640
+modelar los problemas de morfología, pero los problemas de análisis y generaciones,
+
+24
+00:03:07,640 --> 00:03:14,880
+algunas ventajas que ya vimos que los transductores tienen y como se aplican a esto, este método
+
+25
+00:03:14,880 --> 00:03:32,320
+es un método esencialmente determinista o orientado a reglas, reglas, a Venezuela,
+
+26
+00:03:32,320 --> 00:03:38,040
+más que determinista, me decir, van a ver que mi solución consiste en, bueno, dado una palabra,
+
+27
+00:03:38,040 --> 00:03:44,280
+aplicota a las reglas y me devuelve la análisis, en la segunda parte de la que hacemos a un método,
+
+28
+00:03:44,280 --> 00:03:50,720
+no tiene nada que ver desde su fundamento, porque su método provaabilista, que esencialmente
+
+29
+00:03:50,720 --> 00:04:02,120
+aprende de los datos, y esencialmente los dos grandes grupos que tenemos en el
+
+30
+00:04:02,120 --> 00:04:08,440
+análisis del lenguaje de neutral como una tracantía de cosas que involucran datos, metos orientados
+
+31
+00:04:08,440 --> 00:04:15,440
+a la reglas, donde un experto específica de alguna forma reglas aplicar para resolver el problema,
+
+32
+00:04:15,440 --> 00:04:22,080
+y otro conjunto de métodos donde yo aprendo de los datos, los detadísticos son uno de ellos,
+
+33
+00:04:22,080 --> 00:04:28,760
+hay otro tipo, pero donde yo esencialmente infiero el conocimiento en ese día a partir
+
+34
+00:04:28,760 --> 00:04:34,280
+de los datos, esos datos son los que usualmente llamamos métodos de aprendizaje automático,
+
+35
+00:04:34,280 --> 00:04:44,080
+sí, van a ver que en muchos de los problemas hay, hay de los dos enfocos, y en algunos
+
+36
+00:04:44,080 --> 00:04:48,440
+anda mejor uno, si otros mejor otros hay una vieja guerra, en el precisamente de la
+
+37
+00:04:48,440 --> 00:04:59,880
+general sobre el cual es métodos, pero miña sobre otros, el siglo XXI vamos a mostrar una
+
+38
+00:04:59,880 --> 00:05:08,960
+prevalencia de los métodos basados en datos, como vamos a ver acá, pero hay dominos
+
+39
+00:05:08,960 --> 00:05:13,720
+de los orientadores, la función es muy bien, y cuando funcionan bien, cuando yo puedo
+
+40
+00:05:13,800 --> 00:05:19,280
+escribir la realidad completamente a través de reglas, lo mejor, a veces que la realidad
+
+41
+00:05:19,280 --> 00:05:22,960
+son demasiado compleja para moverla a la conregla, y ahí donde ganan sobre los métodos
+
+42
+00:05:22,960 --> 00:05:26,920
+de precios automáticos, y general los métodos ya aprendizaje, en el precisamente del
+
+43
+00:05:26,920 --> 00:05:30,000
+debate, no son más de los cuadros, porque el lenguaje natural, como hemos visto, es muy
+
+44
+00:05:30,000 --> 00:05:37,440
+ambiguo, es muy creativo, es muy cambiante, bueno, probamos algo que nos convocan hoy,
+
+45
+00:05:37,440 --> 00:05:44,840
+y lo vamos a hablar de morphología de Estados Unidos, esto es modelar los problemas de
+
+46
+00:05:44,840 --> 00:05:50,880
+morphología, que hay una clase pasada, con a través de herramientas de Estados Unidos,
+
+47
+00:05:50,880 --> 00:06:05,840
+esto es un desambiguador morphocentático, interpróblemas de amor, de
+
+48
+00:06:05,840 --> 00:06:12,200
+morphología es, bueno, acá lo que es nuevo que hizo fue separar parada por palabra,
+
+49
+00:06:12,200 --> 00:06:20,400
+y dice, la que puede ser un sustantivo, pero no hombre, un artículo, esto es clasificación,
+
+50
+00:06:20,400 --> 00:06:23,640
+pero además,
+
+51
+00:06:23,640 --> 00:06:44,040
+puede ver las flexiones, bueno, es una palabra poco más, por ejemplo, Villa, que es un adjetivo,
+
+52
+00:06:44,040 --> 00:07:03,640
+forma ganónica esbella, y la flexión es, sin suf, bueno, que tanto alir,
+
+53
+00:07:03,640 --> 00:07:12,640
+más culino es simular es bello, la forma introducia bella, y se acuerdan que la flexión
+
+54
+00:07:12,640 --> 00:07:17,800
+es cambiando los morfeimas, yo cambio el final de la palabra y la flexión,
+
+55
+00:07:17,800 --> 00:07:28,080
+es la verdad que pensé que te tenía marcabas, los sufijos y prefijos, pero no me equivocé
+
+56
+00:07:28,080 --> 00:07:33,520
+de cosas, pero bueno, el importante es que nosotros vamos a admitir flexionar capa la
+
+57
+00:07:33,520 --> 00:07:49,120
+palabra, lavar, por ejemplo, que es un verbo, se flexiona diferente, justamente, que es un verbo,
+
+58
+00:07:49,120 --> 00:07:58,200
+la bola va, la bola va, la bola va, la bola va, ok, entonces la morphología es, la
+
+59
+00:07:58,200 --> 00:08:04,440
+vamos, yo tengo que decir de alguna forma que esto es un verbo, que está conjuado en la primera persona
+
+60
+00:08:04,440 --> 00:08:11,960
+del plural, en el presente indicativo, bueno, esa es la, las características que tendrían, las marcas
+
+61
+00:08:11,960 --> 00:08:17,000
+que teníamos que asociarle a la palabra, en el análisis, se tiende, como lo mismo la clase
+
+62
+00:08:17,000 --> 00:08:33,560
+pasaba a ver un poco más en algunos casos, por ejemplo, yo lo sé que en la edición perdí una,
+
+63
+00:08:33,560 --> 00:08:45,240
+por ejemplo, lo que le díamos la vez pasada que yo quiero llevar a que gatito, si es gato,
+
+64
+00:08:45,240 --> 00:08:57,800
+que la forma canónica, o alema, alema, alema, alema, alema, alema, más, masculino, más es un marca, nada más, no,
+
+65
+00:08:57,800 --> 00:09:14,480
+es una forma está más, masculino, singular, y minutino, bueno, ni problema de ir de acá, acá se llama análisis,
+
+66
+00:09:14,480 --> 00:09:29,480
+ir de acá, acá se llama generación, bueno, esto se llama forma de superficie, esto es una forma
+
+67
+00:09:29,480 --> 00:09:42,200
+lexica, lo que le parece más fácil es la análisis que la generación, y aquí le parece más fácil la
+
+68
+00:09:42,200 --> 00:09:50,280
+generación que la análisis, al segundo, no hay una otra, lo dejamos por ahí, yo también me parece
+
+69
+00:09:50,280 --> 00:09:56,480
+más fácil la generación que la análisis, no, al suo también no, a mí también, bueno, vamos a dejarlo por ahí,
+
+70
+00:09:56,480 --> 00:10:13,520
+vamos después vamos a ver, bueno, en fin de los años 60, las reglas morfológicas son muy parecidas
+
+71
+00:10:13,520 --> 00:10:22,040
+a las reglas fonéticas, decir cómo transformar una palabra en sonidos, bueno, hay una similitud,
+
+72
+00:10:22,080 --> 00:10:28,760
+yo tengo la forma de superficie y después la mapeva los fonemas que la produce y al revés,
+
+73
+00:10:28,760 --> 00:10:38,440
+el guarón, es un problema muy similar, de hecho, lo que se llama en alternaciones en la fonética ya en los años 60
+
+74
+00:10:38,440 --> 00:10:49,440
+se describían por reglas de agricultura que decía bueno, reglas de equipo, no, si hay una idea delante y una p después,
+
+75
+00:10:51,440 --> 00:11:02,440
+la n se transforma en n, bueno, entonces la palabra que podría ser pegar inconposible en realidad debería ser imposible,
+
+76
+00:11:02,440 --> 00:11:10,440
+pero no estaba claro cómo va a usar las para para analizar, se sabía que había reglas que uno
+
+77
+00:11:10,440 --> 00:11:16,440
+otra usaba este tipo de reglas en gascada para generar la palabra, pero no se sabía bien cómo usar las
+
+78
+00:11:16,440 --> 00:11:23,880
+para el análisis, porque este tipo de reglas en su formato más genérico son igual de, son de igual
+
+79
+00:11:23,880 --> 00:11:34,880
+expresivas que una maquina de Turin, o sea que podría poder expresar lenguaje tan complejo como si quisiera y cuando uno es muy expresivo,
+
+80
+00:11:34,880 --> 00:11:42,880
+en un formalismo, el costo que va a iguales, que es computacionalmente muy costoso en el caso general,
+
+81
+00:11:42,880 --> 00:11:50,880
+el automata está o finito, son muy sencillos, el automata está o finito, no son muy expresivos,
+
+82
+00:11:50,880 --> 00:11:58,880
+no son tan expresivos que son muy eficientes computacionalmente, en cambio, si yo mueve lo con maquina de Turin,
+
+83
+00:11:58,880 --> 00:12:05,880
+tengo problemas de eficiencia, potenciales, problemas de eficiencia, es decir, una computadora completa para
+
+84
+00:12:05,880 --> 00:12:13,880
+el poder computación igual de la computadora, bueno, entonces quedaron por ahí, esas reglas quedaron por ahí por allá
+
+85
+00:12:14,880 --> 00:12:31,880
+el milo de 172, un señor que se llamaba Jones, dijo, bueno, pero esto, esto me difícil de aplicar sin más contexto,
+
+86
+00:12:31,880 --> 00:12:40,880
+pero lo fue una logita siempre a su milo, que si yo cambiaba y la ene por la ene, es que yo tengo analizando esta palabra,
+
+87
+00:12:40,880 --> 00:12:47,880
+no, y yo cambió la ene por la ene, luego, ha sido avanzando haciendo otros cambios en la palabra,
+
+88
+00:12:47,880 --> 00:12:55,880
+no utilizo esa ene como el nuevo, está ene que puse como parte de otra regla,
+
+89
+00:12:55,880 --> 00:13:06,880
+eso computacionalmente es muy importante, porque permite, si yo saco esas restricciones,
+
+90
+00:13:06,880 --> 00:13:11,880
+si yo siempre que digo, después que reemplazo algo me sigo moviendo en la tiro original,
+
+91
+00:13:11,880 --> 00:13:17,880
+reemplazo en esta transformación, se tiene, yo estoy idea es ir por el lado de gatito
+
+92
+00:13:17,880 --> 00:13:24,880
+e ingenirando esto, el guardo analizar esta entrada y ingenuado esta salida, es ese es nuestro problema,
+
+93
+00:13:24,880 --> 00:13:31,880
+si yo aplico una regla y me muevo hacia adelante, una regla de este tipo de sustitución,
+
+94
+00:13:32,880 --> 00:13:39,880
+de esta, pero este veta que yo sustituyo acá, este alfa, el sustituyo por un veta,
+
+95
+00:13:39,880 --> 00:13:47,880
+luego no lo uso con para otra regla, las propiedades formales de esa transformación,
+
+96
+00:13:47,880 --> 00:13:55,880
+así que esas reglas se pueden escribir por transductores, yo tengo la posibilidad de escribir este tipo de reglas de
+
+97
+00:13:55,880 --> 00:14:03,880
+la agricultura contra el doctor, es igual está o finito, todo esto es un tema muy, muy, muy largo y,
+
+98
+00:14:03,880 --> 00:14:09,880
+como yo le decía en un momento en un curso sobre esto, pero la idea de esto es que entender un que
+
+99
+00:14:09,880 --> 00:14:18,880
+ese tipo de sustitución es que yo hago, eran computacionalmente equivalentes a un transductor
+
+100
+00:14:18,880 --> 00:14:23,880
+de esta o finito y por lo tanto estaban en el lado del estado finito, o sea que eran potencialmente
+
+101
+00:14:23,880 --> 00:14:29,880
+ficient, nadie se enteró porque en esa época no había internet, bueno voy a para unos poco
+
+102
+00:14:29,880 --> 00:14:37,880
+de los jugaciones un se ve que no estaba, por allá por 1980 aparece en Kaplanikai, que dice en
+
+103
+00:14:37,880 --> 00:14:43,880
+bueno, descubren esto de Johnson, y en bueno, por entonces las reglas de escritura,
+
+104
+00:14:43,880 --> 00:14:49,880
+si yo puedo escribir reglas de escritura para modelar la morphología, yo voy a escribir
+
+105
+00:14:49,880 --> 00:15:01,880
+reglas de escritura, que la reacción de escritura se puede ver como reglas de escritura
+
+106
+00:15:01,880 --> 00:15:06,880
+se puede ver como reglas de escritura, yo puedo modelar la desinforma, y entonces yo podría
+
+107
+00:15:06,880 --> 00:15:10,880
+representar toda esta su tuttusión y el contra el doctor, el problema de que en ese momento
+
+108
+00:15:10,880 --> 00:15:15,880
+el doctor y los hacían amano como tratamos de hacer nosotros el doctor que hacía el plural,
+
+109
+00:15:15,880 --> 00:15:18,520
+que empezamos a hacer todo el tomo de un arma muy libero,
+
+110
+00:15:18,520 --> 00:15:24,000
+porque lo hacían al mano, pero sobre esa basitió rica,
+
+111
+00:15:24,000 --> 00:15:27,840
+se empezaron a implementar operaciones genericas
+
+112
+00:15:27,840 --> 00:15:30,280
+que permitían representar más sencillamente
+
+113
+00:15:30,280 --> 00:15:31,640
+ese tipo de sustitución.
+
+114
+00:15:36,040 --> 00:15:38,200
+Pero al mal se había otro problema,
+
+115
+00:15:38,200 --> 00:15:40,800
+y el siguiente, ¿qué?
+
+116
+00:15:40,800 --> 00:15:45,800
+Si yo tengo una...
+
+117
+00:15:45,800 --> 00:15:48,800
+¿Qué no se ve bien?
+
+118
+00:15:51,800 --> 00:15:56,800
+Si yo tengo una palabra que dice,
+
+119
+00:15:56,800 --> 00:15:59,800
+esto es phonología, ¿no?
+
+120
+00:15:59,800 --> 00:16:02,800
+Cá en el pat.
+
+121
+00:16:02,800 --> 00:16:05,800
+¿A qué es como el estructura de la palabra?
+
+122
+00:16:05,800 --> 00:16:07,800
+Yo estoy generando la palabra.
+
+123
+00:16:07,800 --> 00:16:08,800
+Sí?
+
+124
+00:16:08,800 --> 00:16:10,800
+Acá lo dice que hay una regla que sí,
+
+125
+00:16:10,800 --> 00:16:13,800
+está en el fono lógica.
+
+126
+00:16:13,800 --> 00:16:14,800
+Sí?
+
+127
+00:16:14,800 --> 00:16:17,800
+Se transforma en una m y si hay una p, después.
+
+128
+00:16:17,800 --> 00:16:19,800
+O sea, que suena como una m, después de...
+
+129
+00:16:19,800 --> 00:16:22,800
+Esto es una representación actual de sonido.
+
+130
+00:16:22,800 --> 00:16:23,800
+¿Tá?
+
+131
+00:16:23,800 --> 00:16:25,800
+¿Cómo que fuera?
+
+132
+00:16:25,800 --> 00:16:27,800
+Está abajo.
+
+133
+00:16:27,800 --> 00:16:28,800
+No puedo.
+
+134
+00:16:28,800 --> 00:16:30,800
+La regla dice, está en herandota,
+
+135
+00:16:30,800 --> 00:16:32,800
+que es una marca de phonema,
+
+136
+00:16:32,800 --> 00:16:33,800
+digamos.
+
+137
+00:16:33,800 --> 00:16:37,800
+No sé exactamente cómo se dice en cosas de fono los.
+
+138
+00:16:38,800 --> 00:16:41,800
+Se transforma en una m y en una m,
+
+139
+00:16:41,800 --> 00:16:43,800
+perdón, antes de una p.
+
+140
+00:16:46,800 --> 00:16:47,800
+Sí.
+
+141
+00:16:47,800 --> 00:16:49,800
+Una m, en una m, antes de una p.
+
+142
+00:16:49,800 --> 00:16:51,800
+Entonces, yo acá estoy digo,
+
+143
+00:16:51,800 --> 00:16:54,800
+c, m, pata.
+
+144
+00:16:54,800 --> 00:16:55,800
+Es bueno.
+
+145
+00:16:58,800 --> 00:17:00,800
+Pero además,
+
+146
+00:17:01,800 --> 00:17:03,800
+pero además,
+
+147
+00:17:04,800 --> 00:17:08,800
+la p, por lo que estoy en ortografía,
+
+148
+00:17:08,800 --> 00:17:10,800
+se transforma en una m y lo que hay antes
+
+149
+00:17:10,800 --> 00:17:12,800
+es una m, misma m.
+
+150
+00:17:13,800 --> 00:17:16,800
+Entonces, esta palabra se debería expresar
+
+151
+00:17:16,800 --> 00:17:18,800
+como c, m, pata.
+
+152
+00:17:20,800 --> 00:17:24,800
+Luego, hay una transformación acá
+
+153
+00:17:24,800 --> 00:17:26,800
+y hay otro transformación acá.
+
+154
+00:17:26,800 --> 00:17:29,800
+Y esta en mi palabra destino.
+
+155
+00:17:29,800 --> 00:17:32,800
+De una representación fonológica,
+
+156
+00:17:32,800 --> 00:17:35,800
+pasé una representación de superficie.
+
+157
+00:17:35,800 --> 00:17:37,800
+Sí.
+
+158
+00:17:37,800 --> 00:17:39,800
+Pero el problema es que,
+
+159
+00:17:39,800 --> 00:17:42,800
+si yo tengo esta representación de superficie,
+
+160
+00:17:43,800 --> 00:17:46,800
+¿Cuál es el análisis?
+
+161
+00:17:46,800 --> 00:17:48,800
+Bien, análisis lo tengo por acá.
+
+162
+00:17:52,800 --> 00:17:53,800
+¿De acuerdo?
+
+163
+00:17:53,800 --> 00:17:56,800
+Todas estas palabras.
+
+164
+00:17:58,800 --> 00:17:59,800
+Sí.
+
+165
+00:17:59,800 --> 00:18:01,800
+Todas estas palabras.
+
+166
+00:18:03,800 --> 00:18:05,800
+¿Pueden ser validas
+
+167
+00:18:06,800 --> 00:18:09,800
+para generar esta forma de superficie?
+
+168
+00:18:10,800 --> 00:18:12,800
+Porque todas harían lo mismo,
+
+169
+00:18:12,800 --> 00:18:15,800
+aunque yo, porque te arrelas son aplicas
+
+170
+00:18:15,800 --> 00:18:16,800
+cuando hay una inegrande,
+
+171
+00:18:16,800 --> 00:18:18,800
+sino hay una inegrande, no aplica.
+
+172
+00:18:20,800 --> 00:18:22,800
+Se tiende, se siente cuál es cuál es la situación,
+
+173
+00:18:22,800 --> 00:18:24,800
+que yo tengo problema de no determinismo,
+
+174
+00:18:25,800 --> 00:18:27,800
+que yo, para generar,
+
+175
+00:18:27,800 --> 00:18:28,800
+tengo no tengo problema,
+
+176
+00:18:28,800 --> 00:18:30,800
+pero para volverme pueden generar muchas.
+
+177
+00:18:32,800 --> 00:18:33,800
+Sí.
+
+178
+00:18:33,800 --> 00:18:35,800
+Entonces,
+
+179
+00:18:35,800 --> 00:18:37,800
+no sabéis que hacer con esto,
+
+180
+00:18:37,800 --> 00:18:38,800
+porque sí, bueno,
+
+181
+00:18:38,800 --> 00:18:39,800
+pero entonces acá,
+
+182
+00:18:39,800 --> 00:18:40,800
+¿qué hago yo?
+
+183
+00:18:40,800 --> 00:18:42,800
+¿Cuál de estas tres en la posta?
+
+184
+00:18:43,800 --> 00:18:46,800
+¿Cuál es la real la buena, digamos?
+
+185
+00:18:48,800 --> 00:18:50,800
+¿Cómo sé que esta,
+
+186
+00:18:50,800 --> 00:18:53,800
+que esta es buena y estados, no?
+
+187
+00:18:58,800 --> 00:19:01,800
+Y lo que descubrieron por allá por los años 80
+
+188
+00:19:01,800 --> 00:19:03,800
+es que,
+
+189
+00:19:03,800 --> 00:19:05,800
+yo sé que la buena,
+
+190
+00:19:05,800 --> 00:19:07,800
+yo que esta puede ser buena,
+
+191
+00:19:07,800 --> 00:19:09,800
+porque esta no tienen sentido
+
+192
+00:19:09,800 --> 00:19:10,800
+como forma eléxicas,
+
+193
+00:19:10,800 --> 00:19:12,800
+son formalesias que no tienen,
+
+194
+00:19:12,800 --> 00:19:14,800
+que si yo les busco el indicio anterior,
+
+195
+00:19:14,800 --> 00:19:16,800
+forma eléxicas posibles,
+
+196
+00:19:16,800 --> 00:19:18,800
+sí, no van a aparecer,
+
+197
+00:19:18,800 --> 00:19:20,800
+pero acá tengo problema,
+
+198
+00:19:20,800 --> 00:19:21,800
+que si le da que se pasaba,
+
+199
+00:19:21,800 --> 00:19:23,800
+yo no puedo meter todas las combinaciones
+
+200
+00:19:23,800 --> 00:19:25,800
+en un indicio anterior posible,
+
+201
+00:19:25,800 --> 00:19:26,800
+porque son demasiado,
+
+202
+00:19:26,800 --> 00:19:28,800
+pero lo que sí puedo hacer
+
+203
+00:19:28,800 --> 00:19:30,800
+es
+
+204
+00:19:30,800 --> 00:19:33,800
+meter otro transductor,
+
+205
+00:19:33,800 --> 00:19:34,800
+que lo único que haga
+
+206
+00:19:34,800 --> 00:19:35,800
+es decir,
+
+207
+00:19:35,800 --> 00:19:37,800
+me cuáles son las posibles combinaciones
+
+208
+00:19:37,800 --> 00:19:40,800
+que hay de prefijo y sufijo y afijos.
+
+209
+00:19:41,800 --> 00:19:43,800
+Entonces yo,
+
+210
+00:19:43,800 --> 00:19:46,800
+si construy un transductor que haga estas reglas
+
+211
+00:19:46,800 --> 00:19:47,800
+y la peo,
+
+212
+00:19:47,800 --> 00:19:50,800
+un transductor que identifica las posibles combinaciones,
+
+213
+00:19:50,800 --> 00:19:53,800
+tengo algo que daba una palabra,
+
+214
+00:19:53,800 --> 00:19:56,800
+una combinación de vuelve su forma de superficie
+
+215
+00:19:56,800 --> 00:19:57,800
+y alrede,
+
+216
+00:19:57,800 --> 00:19:58,800
+también.
+
+217
+00:19:59,800 --> 00:20:01,800
+Y eso justamente lo que hace la morphología
+
+218
+00:20:01,800 --> 00:20:02,800
+está o finito.
+
+219
+00:20:02,800 --> 00:20:06,800
+Yo tengo un repositorio para palabras
+
+220
+00:20:06,800 --> 00:20:08,800
+que se llama lexicon,
+
+221
+00:20:08,800 --> 00:20:12,800
+que es una realidad es un repositorio de morfemas,
+
+222
+00:20:12,800 --> 00:20:14,800
+que generalmente no hace nada,
+
+223
+00:20:14,800 --> 00:20:15,800
+los lemas,
+
+224
+00:20:15,800 --> 00:20:20,800
+los prefijos y los sufijos y lo que llamamos morfotácticas,
+
+225
+00:20:20,800 --> 00:20:22,800
+las morfotácticas,
+
+226
+00:20:22,800 --> 00:20:25,800
+lo que son son todas las combinaciones
+
+227
+00:20:25,800 --> 00:20:27,800
+posibles que hay de morfemas,
+
+228
+00:20:27,800 --> 00:20:29,800
+en al lenguaje.
+
+229
+00:20:29,800 --> 00:20:32,800
+¿Qué morfemas se pean con alguna cosa?
+
+230
+00:20:32,800 --> 00:20:34,800
+¿Cuál es la no de inelefantemente
+
+231
+00:20:34,800 --> 00:20:36,800
+que esto puedo hacerlo y esto no?
+
+232
+00:20:36,800 --> 00:20:38,800
+Bueno, eso son las morfotácticas.
+
+233
+00:20:38,800 --> 00:20:41,800
+¿Qué prefijo pueden seguir a otro?
+
+234
+00:20:41,800 --> 00:20:43,800
+Es decir, yo no puedo tener tu plurales seguido.
+
+235
+00:20:43,800 --> 00:20:45,800
+Es decir, es una morfotáctica.
+
+236
+00:20:45,800 --> 00:20:47,800
+Es decir, yo tengo una palabra
+
+237
+00:20:47,800 --> 00:20:48,800
+que termina nada,
+
+238
+00:20:48,800 --> 00:20:49,800
+bueno,
+
+239
+00:20:49,800 --> 00:20:51,800
+si es un sustantivo
+
+240
+00:20:51,800 --> 00:20:54,800
+y además después puede opcionalmente tener una ese
+
+241
+00:20:55,800 --> 00:20:58,800
+para asegurar entre otras cosas.
+
+242
+00:20:58,800 --> 00:21:03,800
+Entonces, yo puedo escribir relas de ese tipo.
+
+243
+00:21:03,800 --> 00:21:05,800
+Entonces, te voy a tener en cuenta esas cosas,
+
+244
+00:21:05,800 --> 00:21:07,800
+los morfemas son, hay un morfema que son emocionales,
+
+245
+00:21:07,800 --> 00:21:08,800
+lo que vas a decir,
+
+246
+00:21:08,800 --> 00:21:10,800
+los afijo dependen de la raíz,
+
+247
+00:21:10,800 --> 00:21:11,800
+yo puedo decir imposible,
+
+248
+00:21:11,800 --> 00:21:13,800
+pero no importante,
+
+249
+00:21:13,800 --> 00:21:15,800
+porque mi idioma no es valio,
+
+250
+00:21:15,800 --> 00:21:18,800
+y en general la derivación es más complicada
+
+251
+00:21:18,800 --> 00:21:19,800
+que la flexión,
+
+252
+00:21:19,800 --> 00:21:21,800
+la flexión tiene un comportamiento más regular,
+
+253
+00:21:21,800 --> 00:21:22,800
+principalmente porque finito,
+
+254
+00:21:22,800 --> 00:21:24,800
+porque no es creativa a la flexión.
+
+255
+00:21:24,800 --> 00:21:25,800
+Se acuerdan la flexión,
+
+256
+00:21:25,800 --> 00:21:27,800
+era para hacer los plurales,
+
+257
+00:21:27,800 --> 00:21:29,800
+los que no cambiaban la clase de la palabra
+
+258
+00:21:29,800 --> 00:21:30,800
+o significado,
+
+259
+00:21:30,800 --> 00:21:31,800
+plurales,
+
+260
+00:21:31,800 --> 00:21:32,800
+género,
+
+261
+00:21:32,800 --> 00:21:33,800
+verbos,
+
+262
+00:21:33,800 --> 00:21:35,800
+con jugación de verbos.
+
+263
+00:21:36,800 --> 00:21:37,800
+Entonces,
+
+264
+00:21:37,800 --> 00:21:38,800
+bueno,
+
+265
+00:21:38,800 --> 00:21:40,800
+los transductores lexicos,
+
+266
+00:21:40,800 --> 00:21:41,800
+que fue lo que en los años 80
+
+267
+00:21:41,800 --> 00:21:43,800
+centros de género para resolver
+
+268
+00:21:43,800 --> 00:21:45,800
+el problema de la morfología,
+
+269
+00:21:45,800 --> 00:21:47,800
+lo que hacen el par心 morfológico,
+
+270
+00:21:47,800 --> 00:21:48,800
+y entonces dicen,
+
+271
+00:21:48,800 --> 00:21:50,800
+bueno, yo lo que quiero es una correspondencia
+
+272
+00:21:50,800 --> 00:21:51,800
+de nivel lexico,
+
+273
+00:21:51,800 --> 00:21:53,800
+que es una colección de morfemas,
+
+274
+00:21:53,800 --> 00:21:56,800
+y el nivel de superficie.
+
+275
+00:21:58,800 --> 00:22:01,800
+Si yo veo en los automatas de tao finito,
+
+276
+00:22:01,800 --> 00:22:04,800
+como automatas sobre 200,
+
+277
+00:22:04,800 --> 00:22:08,800
+yo podría haber la transformación entre una palabra
+
+278
+00:22:08,800 --> 00:22:09,800
+y son marcas,
+
+279
+00:22:09,800 --> 00:22:11,800
+como simplemente una traducción,
+
+280
+00:22:11,800 --> 00:22:12,800
+que me lleva,
+
+281
+00:22:12,800 --> 00:22:15,800
+de la gela y por acá empieza a cambiar
+
+282
+00:22:15,800 --> 00:22:16,800
+y a general,
+
+283
+00:22:16,800 --> 00:22:19,800
+sobre el alfabeto del lado lexico.
+
+284
+00:22:19,800 --> 00:22:20,800
+Bueno,
+
+285
+00:22:20,800 --> 00:22:21,800
+se tiene más o menos.
+
+286
+00:22:23,800 --> 00:22:24,800
+Entonces yo,
+
+287
+00:22:24,800 --> 00:22:26,800
+voy a tener un auto un transductor
+
+288
+00:22:26,800 --> 00:22:27,800
+de tao finito,
+
+289
+00:22:27,800 --> 00:22:29,800
+que en un lado tiene la forma
+
+290
+00:22:29,800 --> 00:22:30,800
+de superficie y la otra,
+
+291
+00:22:30,800 --> 00:22:31,800
+la eléxica.
+
+292
+00:22:37,800 --> 00:22:38,800
+Pero el más teníamos el tema
+
+293
+00:22:38,800 --> 00:22:40,800
+de las reglas ortográficas,
+
+294
+00:22:40,800 --> 00:22:41,800
+o sea,
+
+295
+00:22:41,800 --> 00:22:42,800
+hasta ahora yo tengo,
+
+296
+00:22:42,800 --> 00:22:45,800
+fíjense que yo tengo paláveras
+
+297
+00:22:45,800 --> 00:22:47,800
+y cómo pegarlo,
+
+298
+00:22:48,800 --> 00:22:49,800
+morfema,
+
+299
+00:22:49,800 --> 00:22:52,800
+tengo la lista de palabras de posibles,
+
+300
+00:22:52,800 --> 00:22:53,800
+de morfema posibles,
+
+301
+00:22:53,800 --> 00:22:54,800
+la raíz,
+
+302
+00:22:54,800 --> 00:22:55,800
+el sufigo,
+
+303
+00:22:55,800 --> 00:22:56,800
+la fíjense,
+
+304
+00:22:56,800 --> 00:22:57,800
+tengo todo junto por el lado,
+
+305
+00:22:57,800 --> 00:22:59,800
+tengo la exesonita,
+
+306
+00:22:59,800 --> 00:23:00,800
+la solita,
+
+307
+00:23:00,800 --> 00:23:01,800
+la o,
+
+308
+00:23:01,800 --> 00:23:02,800
+y después tengo gato,
+
+309
+00:23:02,800 --> 00:23:03,800
+per,
+
+310
+00:23:03,800 --> 00:23:05,800
+cas,
+
+311
+00:23:05,800 --> 00:23:06,800
+murcielado,
+
+312
+00:23:06,800 --> 00:23:08,800
+no,
+
+313
+00:23:08,800 --> 00:23:10,800
+y mente,
+
+314
+00:23:10,800 --> 00:23:13,800
+mente para decir el fantemente,
+
+315
+00:23:13,800 --> 00:23:15,800
+y después tengo las morfotardías
+
+316
+00:23:15,800 --> 00:23:16,800
+que dice que el fantemente no se puede.
+
+317
+00:23:17,800 --> 00:23:18,800
+Sí,
+
+318
+00:23:18,800 --> 00:23:19,800
+si el luego está clase,
+
+319
+00:23:19,800 --> 00:23:20,800
+lo ya hemos introducido al idioma,
+
+320
+00:23:20,800 --> 00:23:21,800
+entonces vamos a poder
+
+321
+00:23:21,800 --> 00:23:22,800
+también.
+
+322
+00:23:22,800 --> 00:23:23,800
+Sí.
+
+323
+00:23:23,800 --> 00:23:26,800
+Pero no falta en la reina
+
+324
+00:23:26,800 --> 00:23:28,800
+ortográfica.
+
+325
+00:23:28,800 --> 00:23:29,800
+Si yo digo,
+
+326
+00:23:29,800 --> 00:23:30,800
+tengo,
+
+327
+00:23:30,800 --> 00:23:31,800
+por un lado,
+
+328
+00:23:31,800 --> 00:23:32,800
+tengo,
+
+329
+00:23:32,800 --> 00:23:33,800
+importante,
+
+330
+00:23:33,800 --> 00:23:34,800
+por el otro,
+
+331
+00:23:34,800 --> 00:23:35,800
+pero yo no digo,
+
+332
+00:23:35,800 --> 00:23:36,800
+bueno,
+
+333
+00:23:36,800 --> 00:23:37,800
+no,
+
+334
+00:23:37,800 --> 00:23:38,800
+tengo,
+
+335
+00:23:38,800 --> 00:23:39,800
+y posible,
+
+336
+00:23:39,800 --> 00:23:40,800
+yo tengo,
+
+337
+00:23:40,800 --> 00:23:41,800
+imposible,
+
+338
+00:23:41,800 --> 00:23:42,800
+las pedo me da,
+
+339
+00:23:42,800 --> 00:23:43,800
+imposible,
+
+340
+00:23:43,800 --> 00:23:44,800
+que no es baño,
+
+341
+00:23:44,800 --> 00:23:46,800
+porque la enéctina que cambiarse
+
+342
+00:23:46,800 --> 00:23:47,800
+porque estaba,
+
+343
+00:23:47,800 --> 00:23:48,800
+a la ante una p,
+
+344
+00:23:48,800 --> 00:23:49,800
+como no se enseñan
+
+345
+00:23:49,800 --> 00:23:51,800
+desde ese segundo año de escuela.
+
+346
+00:23:51,800 --> 00:23:52,800
+Entonces,
+
+347
+00:23:52,800 --> 00:23:53,800
+no falta la reina ortográfica,
+
+348
+00:23:53,800 --> 00:23:54,800
+bueno,
+
+349
+00:23:54,800 --> 00:23:55,800
+la reina ortográfica también
+
+350
+00:23:55,800 --> 00:23:57,800
+pueden representarse
+
+351
+00:23:57,800 --> 00:23:58,800
+por un transductor
+
+352
+00:23:58,800 --> 00:24:00,800
+que modifique
+
+353
+00:24:00,800 --> 00:24:01,800
+en una cascada,
+
+354
+00:24:01,800 --> 00:24:03,800
+lo que la reina anterior transforma.
+
+355
+00:24:06,800 --> 00:24:07,800
+Entonces,
+
+356
+00:24:07,800 --> 00:24:08,800
+no queda una cosa así,
+
+357
+00:24:08,800 --> 00:24:09,800
+la,
+
+358
+00:24:09,800 --> 00:24:10,800
+la,
+
+359
+00:24:10,800 --> 00:24:12,800
+yo tengo la forma de superficie,
+
+360
+00:24:12,800 --> 00:24:15,800
+una especie de forma intermedia,
+
+361
+00:24:16,800 --> 00:24:18,800
+que dice,
+
+362
+00:24:18,800 --> 00:24:20,800
+bueno,
+
+363
+00:24:20,800 --> 00:24:21,800
+acá apareció,
+
+364
+00:24:21,800 --> 00:24:22,800
+y todo,
+
+365
+00:24:22,800 --> 00:24:24,800
+la marca y todo,
+
+366
+00:24:24,800 --> 00:24:25,800
+y luego,
+
+367
+00:24:25,800 --> 00:24:26,800
+de la análisis,
+
+368
+00:24:26,800 --> 00:24:27,800
+y todo quiere decir
+
+369
+00:24:27,800 --> 00:24:28,800
+masculino singular,
+
+370
+00:24:28,800 --> 00:24:30,800
+diminutivo.
+
+371
+00:24:30,800 --> 00:24:31,800
+Tá.
+
+372
+00:24:31,800 --> 00:24:32,800
+Todo eso lo he perdido
+
+373
+00:24:32,800 --> 00:24:33,800
+a un transductor.
+
+374
+00:24:36,800 --> 00:24:38,800
+Tiene el modelo que proponía
+
+375
+00:24:38,800 --> 00:24:39,800
+a cosqueñémi,
+
+376
+00:24:39,800 --> 00:24:40,800
+que había mucha,
+
+377
+00:24:40,800 --> 00:24:41,800
+para la reina ortográfica
+
+378
+00:24:41,800 --> 00:24:42,300
+pero ponía mucho
+
+379
+00:24:42,300 --> 00:24:43,800
+a un transductor en paralelo.
+
+380
+00:24:43,800 --> 00:24:44,800
+Pero en realidad
+
+381
+00:24:44,800 --> 00:24:46,800
+la reina ortográfica
+
+382
+00:24:46,800 --> 00:24:49,800
+es un transduccionando hacia
+
+383
+00:24:49,800 --> 00:24:50,800
+otra cosa que son
+
+384
+00:24:50,800 --> 00:24:52,800
+una cascada de reina,
+
+385
+00:24:52,800 --> 00:24:54,800
+que lo vamos a ver ahora,
+
+386
+00:24:54,800 --> 00:24:56,800
+que lo que introdujeron
+
+387
+00:24:56,800 --> 00:24:57,800
+la huricartura,
+
+388
+00:24:57,800 --> 00:24:58,800
+eran tofinantes,
+
+389
+00:24:58,800 --> 00:24:59,800
+se acuerdan el finlandes,
+
+390
+00:24:59,800 --> 00:25:00,800
+era medio.
+
+391
+00:25:00,800 --> 00:25:02,800
+Y este país,
+
+392
+00:25:02,800 --> 00:25:03,800
+porque es muy famoso
+
+393
+00:25:03,800 --> 00:25:04,800
+de la,
+
+394
+00:25:04,800 --> 00:25:05,800
+de la,
+
+395
+00:25:05,800 --> 00:25:06,800
+de la,
+
+396
+00:25:06,800 --> 00:25:07,800
+de la,
+
+397
+00:25:07,800 --> 00:25:08,800
+de la,
+
+398
+00:25:08,800 --> 00:25:10,800
+de la,
+
+399
+00:25:10,800 --> 00:25:11,800
+de la,
+
+400
+00:25:11,800 --> 00:25:13,800
+de la,
+
+401
+00:25:13,800 --> 00:25:15,800
+de la recalación regular.
+
+402
+00:25:15,800 --> 00:25:16,800
+Y a lo que vese mincedscó
+
+403
+00:25:16,800 --> 00:25:18,800
+de nuestro método surgen
+
+404
+00:25:18,800 --> 00:25:19,800
+de la equivalencia.
+
+405
+00:25:19,800 --> 00:25:20,800
+Mi jet,
+
+406
+00:25:20,800 --> 00:25:22,800
+mientras razo no amo.
+
+407
+00:25:22,800 --> 00:25:24,800
+Pero,
+
+408
+00:25:24,800 --> 00:25:25,800
+su recalación regular
+
+409
+00:25:25,800 --> 00:25:27,800
+es en término savedätter
+
+410
+00:25:27,800 --> 00:25:28,800
+es conj montón,
+
+411
+00:25:28,800 --> 00:25:31,800
+de escribimoslo conjundo
+
+412
+00:25:31,800 --> 00:25:35,800
+de discudktion por medio
+
+413
+00:25:35,800 --> 00:25:37,800
+operaciones constructidas
+
+414
+00:25:37,800 --> 00:25:40,800
+sobre el estránductor,
+
+415
+00:25:40,800 --> 00:25:41,800
+de estadounidoles,
+
+416
+00:25:41,800 --> 00:25:48,240
+me viene en gratis, que yo tengo al modernarlo a través de unas reglas, yo transformo
+
+417
+00:25:48,240 --> 00:25:56,160
+a los transdures una cosa automática, y eso justamente lo que vamos a hacer para
+
+418
+00:25:56,160 --> 00:26:03,040
+escribir reglas, yo acá lo voy a mostrar con un lenguaje de expresiones regulares que
+
+419
+00:26:03,040 --> 00:26:11,320
+es el de cero que es uno de los más conocidos, sí, vamos a ver rápidamente operaciones sobre
+
+420
+00:26:11,320 --> 00:26:20,040
+expresiones regulares y cómo escribirlas y cómo se transforman estas transductores,
+
+421
+00:26:20,040 --> 00:26:24,880
+y después vamos a escribir con eso la morphología de un lenguaje, entonces bueno,
+
+422
+00:26:24,880 --> 00:26:34,040
+qué quiere decir esto, yo tengo, voy a tener una expresión regular, esto es como se
+
+423
+00:26:34,040 --> 00:26:46,320
+privé y el lenguaje o relación de aquel lado, estos son lenguajes, el cero de notar a
+
+424
+00:26:46,320 --> 00:26:56,560
+ércillo en el lenguaje vacío, sí, o sea que yo estoy perdón, acabo de decir una cosa que
+
+425
+00:26:56,560 --> 00:27:01,480
+se me escucha en mi compañía de tener el lenguaje de mi matal, el cilo no es el lenguaje vacío y no
+
+426
+00:27:01,480 --> 00:27:13,040
+el estrim vacío, no, en decir lo único que tiene es el estrim vacío, o en la correspondiente
+
+427
+00:27:13,040 --> 00:27:20,600
+relación de identidad, en todo esto nosotros estamos denotando relaciones, padres de
+
+428
+00:27:20,600 --> 00:27:25,680
+strings, se aguardan o, es decir, yo tengo un entrado una salida en el trábotor, a un lenguaje
+
+429
+00:27:25,680 --> 00:27:30,200
+y yo lo puedo ver como un caso especial de una relación que es y la cual la entrada
+
+430
+00:27:30,200 --> 00:27:38,920
+es igual a la salida, el mapeo es una un, entonces yo acá el el cilo de nota o lenguaje o la relación
+
+431
+00:27:38,920 --> 00:27:46,920
+correspondiente de identidad, este símbolo quiere decir cualquier cosa que de nota cualquier
+
+432
+00:27:46,920 --> 00:27:53,160
+string que tiene un símbolo azul, que es septo de visión, y si yo pongo a ese
+
+433
+00:27:53,160 --> 00:27:58,400
+string que he hecho con solamente la letra a la iguala, ahora la diferencia del símbolo
+
+434
+00:27:58,400 --> 00:28:05,460
+y el string son símbolos pegados, yo tengo un string de un símbolo, pero no es lo
+
+435
+00:28:05,460 --> 00:28:10,200
+mismo símbolo, un string símbolo, pero yo también pongo que viene en mi expresión y
+
+436
+00:28:10,200 --> 00:28:15,040
+el cabiene y la noveda, respeto a lo de cosa como esto, específicar que este símbolo
+
+437
+00:28:15,040 --> 00:28:22,880
+a lo, leo la entrada pero en la salida no de vuelvo la propiedad sin una vez, y esto
+
+438
+00:28:22,960 --> 00:28:29,800
+a dos puntos a ese equivalente a solo, escribir a solo y lo mismo escribir a se mapea,
+
+439
+00:28:29,800 --> 00:28:34,760
+por defecto, yo asumo que si no pongo nada, lo mapea la misma salida que la entrada,
+
+440
+00:28:34,760 --> 00:28:47,280
+sí, y ese to y esto es una cuestión de notación acá, sí, quiere decir que cualquier cosa mapea
+
+441
+00:28:47,280 --> 00:28:50,520
+con cualquier cosa que es igual en todo contra todo como el producto cartesiano de símbolo,
+
+442
+00:28:51,440 --> 00:28:57,560
+o sea que yo escribir esto, no es lo mismo que escribir esto, porque acá lo que estoy
+
+443
+00:28:57,560 --> 00:29:02,520
+diciendo es cualquier símbolo y de vuelvo el mismo, y acá estoy diciendo cualquier símbolo
+
+444
+00:29:02,520 --> 00:29:10,160
+y de vuelvo cualquier símbolo, o sea que la salida es muy libre, bueno, pasas más cosas,
+
+445
+00:29:10,160 --> 00:29:15,080
+no, yo puedo usar paredmente si puedo decir una o más vez, lo que estaba antes,
+
+446
+00:29:15,080 --> 00:29:21,200
+es cero o más vez, lo que estaba antes, esto quiere decir cualquier cosa cero más vez,
+
+447
+00:29:21,200 --> 00:29:28,640
+eso sea que estoy hacer lenguaje universal, decir más tarde, y esto es cualquier cosa,
+
+448
+00:29:28,640 --> 00:29:32,240
+siempre cuando tenga la misma relación entre la salida, es mismo largo, entre la salida,
+
+449
+00:29:32,240 --> 00:29:40,640
+es decir mapea cualquier símbolo a otro, pero es uno, uno, uno, y yo puedo definir el complemento
+
+450
+00:29:40,720 --> 00:29:44,440
+que son los que definió con lenguaje, la negación hay que usar, hay alguna presión regulada es
+
+451
+00:29:44,440 --> 00:29:52,640
+un muy interesante, porque por ejemplo, contiene, parece muy sencilla de escribir, pero en
+
+452
+00:29:52,640 --> 00:29:59,840
+raya no es tan fácil, es cualquier cosa, la expresión y cualquier cosa, pero ni es
+
+453
+00:29:59,840 --> 00:30:07,080
+cualquier cosa que no tenga, esencialmente, cada uno de estos, pero ahora tiene un país
+
+454
+00:30:07,080 --> 00:30:14,160
+y perdí algo, un predecible de una forma, esto es la expresión, sin contar las cosas
+
+455
+00:30:14,160 --> 00:30:18,800
+que tal vez, y estábamos muchas ciosos para definir otros, pero ahora hemos avanzado, que viene
+
+456
+00:30:18,800 --> 00:30:29,440
+después, acá tengo este muy, la unión, esa oe, la intersección o nojo de intersección
+
+457
+00:30:29,440 --> 00:30:33,360
+son los que definían para la expresión regulada, para cuando son expresiones porque las
+
+458
+00:30:33,360 --> 00:30:39,320
+regaciones, si se acuerdan de la clase de la industria, no son ingenieras cerradas bajo intersección,
+
+459
+00:30:39,320 --> 00:30:48,000
+y este es el producto que artesiano es muy importante, es si yo expreso acá un conjunto de
+
+460
+00:30:48,000 --> 00:30:56,120
+tiras, va en quiera, tiras que empiezan con nada, las mapea a todas las tiras de la otra presión,
+
+461
+00:30:56,280 --> 00:31:06,200
+si yo digo, por ejemplo, aáster, producto artesiano, voy a aster, lo que tengo es un
+
+462
+00:31:06,200 --> 00:31:11,440
+transductor que me devuelve, para cada tira que empiezan, cualquier tira que empiezan con
+
+463
+00:31:11,440 --> 00:31:18,120
+nada, me la devuelve, en cualquier tira de pisa con me, si se producto artesiano de los dos
+
+464
+00:31:18,120 --> 00:31:24,000
+conjuntos, sencillamente. ¿Qué te hace en las proyecciones?
+
+465
+00:31:24,000 --> 00:31:28,960
+El reabarso en inverso y este es muy importante, es la composición, se acuerda en cuál
+
+466
+00:31:28,960 --> 00:31:38,240
+era la composición de tradutoria, ahí se acuerda en cuál era la composición, es muy importante.
+
+467
+00:31:38,240 --> 00:31:47,880
+Ahí se acuerda en ahí, se acuerda en ahí, se acuerda en ahí, la composición era, yo
+
+468
+00:31:47,880 --> 00:31:56,400
+tenia un transductor por acá, que tomaba una entrada y evoluiona esa lida, y tenía otro
+
+469
+00:31:56,400 --> 00:32:01,920
+acá, que también, que era de evoluiona esa lida, la composición era la aplicación
+
+470
+00:32:01,920 --> 00:32:13,120
+en cascada de los dos, es decir, yo tomo una entrada, tiene una salida y esa salida,
+
+471
+00:32:13,120 --> 00:32:22,120
+la paso por este tradutor, y como los tradutores son cerrados o composición, eso quiere
+
+472
+00:32:22,120 --> 00:32:28,920
+decir que si yo lo lo modelaré esto, una regla con esto, y luego la aplicación de
+
+473
+00:32:28,920 --> 00:32:35,560
+y luego otra, que tiene la segunda, la aplicación de los dos, en cascada, se
+
+474
+00:32:35,560 --> 00:32:42,840
+puede modelar por un transductor que hace las dos cosas a la vez, nosotros vamos a usar eso.
+
+475
+00:32:42,840 --> 00:32:52,280
+Bueno, hay toda una área de análisis, hay que son los operadores de remplazo, que es forma
+
+476
+00:32:52,280 --> 00:32:58,600
+de decir, bueno, cada vez que aparezca a reemplazándolo por ver en la salida, por ejemplo,
+
+477
+00:32:58,680 --> 00:33:07,040
+cada vez que diga, y bueno, el pasado me lo vamos a masculino, por decirme la pagada que no te
+
+478
+00:33:07,040 --> 00:33:13,240
+sentí, en este caso, pero ahora como combinamos todo esto, hay un montón de operadores
+
+479
+00:33:13,240 --> 00:33:19,880
+de remplazo, dependiendo del contexto en el que aparecen, si yo reemplazo opcionalmente, etcétera.
+
+480
+00:33:19,880 --> 00:33:31,720
+La de soperadora de remplazo tiene una de un problema, o alguna complejidad y el
+
+481
+00:33:31,720 --> 00:33:55,600
+siguiente, si yo tengo, por ejemplo, esta regla, como leemos esta regla, ahí me dice
+
+482
+00:33:55,600 --> 00:34:20,200
+como leemos esta regla, como leo esta regla, cualquier ti, también, bien, yo le voy a
+
+483
+00:34:20,200 --> 00:34:28,360
+dar un punto más para el final, yo te voy a hablar con el nombre, es que hay cualquier
+
+484
+00:34:28,360 --> 00:34:35,400
+cantidad de vez, y lo mismo, no, no hay cualquier vez con la vez, es, ah, y cualquier cantidad
+
+485
+00:34:35,400 --> 00:34:46,320
+de vez, está, se replaza por si, la pregunta es, ¿cuál es la salida de esto? ¿Cuál es?
+
+486
+00:34:46,320 --> 00:35:05,760
+¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Se ve? ¿Por qué pasa esto? ¿Por qué tenemos tanta
+
+487
+00:35:05,760 --> 00:35:12,760
+opción? ¿Por qué tenemos tanta opción? Pensácticamente depende de lo que yo entiendo como
+
+488
+00:35:12,760 --> 00:35:19,720
+había hasta, en que se intensidad había hasta, y efectivamente no hay la definición de
+
+489
+00:35:19,720 --> 00:35:25,120
+transductoro de regla de remplazo para estas trices validas, porque no es determinista, pero
+
+490
+00:35:25,120 --> 00:35:28,720
+muchas veces nosotros queríamos decir algo, queríamos decir, bueno, no, no, realmente
+
+491
+00:35:28,720 --> 00:35:39,120
+es lo que quería decir acá era que hay toda la vez posible, entonces hay también operadores
+
+492
+00:35:39,120 --> 00:35:44,320
+que permiten decir si yo machío, la más tira malarba la más corta ya, bueno, entern con
+
+493
+00:35:44,320 --> 00:35:48,760
+la presión regular, si ustedes se acuerdan cuando uno busca tienes a posibilidad, decir machío
+
+494
+00:35:48,760 --> 00:35:55,080
+lo más largo, lo más corta, ya, entonces hay un operador especial que se llama, bueno,
+
+495
+00:35:55,080 --> 00:36:04,920
+el logas mach sería, sí, verdad, en lo malarbo que puedo macheres a y todas las veces, y el
+
+496
+00:36:04,920 --> 00:36:12,200
+sure is mach, es solo mapear la aire esta presión regular, a ver, a ustedes, a ustedes
+
+497
+00:36:12,200 --> 00:36:22,560
+se lo, hay operador que permiten escribir eso, justamente, lo más, también tengo
+
+498
+00:36:22,560 --> 00:36:27,600
+problemas similares, yo no voy a entrar en detrás acá, también puedo tener problemas
+
+499
+00:36:27,600 --> 00:36:42,160
+porque si yo, muchas veces es un lugar remplazo de que era la derecha, pero si yo tengo,
+
+500
+00:36:42,160 --> 00:36:53,720
+si yo por ejemplo, el niñeta tira remplazo, a ver, por ahí, entonces yo lo voy a hacer
+
+501
+00:36:53,720 --> 00:37:03,200
+es su tirita, por una, por una vez, por una nueva, y esta nueva funciona de contexto para
+
+502
+00:37:03,200 --> 00:37:10,640
+la siguiente presión, sí, y eso no, no, no, no, enta de detrás acá, lo puedo resolver
+
+503
+00:37:10,640 --> 00:37:14,080
+el diferente forma, porque yo podía resolver, yo estoy asumiendo como he disqué la derecha,
+
+504
+00:37:14,080 --> 00:37:17,120
+pero podría ir de derecha, es que era así ningún problema, porque nada me dice que yo
+
+505
+00:37:17,120 --> 00:37:22,920
+no le hice la tira y que era de derecha, entonces yo podría venir para atrás y encontrar, bueno,
+
+506
+00:37:22,920 --> 00:37:29,120
+no acá no me va a aplicar, porque la vino, acá me da lo mismo, porque la vez recién
+
+507
+00:37:29,120 --> 00:37:40,400
+encuentra acá, bueno, no, está bien, esto me va a devolver a bebé, acá, no, en
+
+508
+00:37:40,400 --> 00:37:43,760
+ese caso de lo mismo, porque no, no, no de ese amigo, pero es caso que de que la derecha
+
+509
+00:37:43,760 --> 00:37:51,200
+te hay diferente que de derecha, que era era, y lo mismo y con toda su combinación, no, no,
+
+510
+00:37:51,380 --> 00:37:55,320
+así es esta Georgia, la gente es bueno, entonces
+
+511
+00:37:57,040 --> 00:38:00,180
+bueno, todo esto que yo una pres Dip Sesera de la delgebra, es necesitamente lo que no permite
+
+512
+00:38:00,180 --> 00:38:06,200
+ese, como le decía es escribir transukciones y las juntos cómo hisamos esto para representar
+
+513
+00:38:07,200 --> 00:38:12,140
+la morphología o lengua, bueno, muchas gracias, nos agarramos lo siguiente.
+
+514
+00:38:12,480 --> 00:38:17,240
+Nó, la verdad, sí, claro, esto eso24, sería algo verdad que es lo que poi ha eso, no
+
+515
+00:38:17,240 --> 00:38:25,640
+No, exactamente, no, es todo, son todos operaciones, algunas muy complejas,
+
+516
+00:38:25,640 --> 00:38:29,840
+muy complejas, el reemplazo, por ejemplo, de muy complejo,
+
+517
+00:38:29,840 --> 00:38:34,640
+y se contuye en una sobre otras, digamos, pero en ningún,
+
+518
+00:38:34,640 --> 00:38:36,440
+pero son todas sin tácticos y jugar, digamos,
+
+519
+00:38:36,440 --> 00:38:40,640
+sin ninguna introducción nueva operadora, al final del día,
+
+520
+00:38:40,640 --> 00:38:42,840
+se lo siempre lo mismo operadora.
+
+521
+00:38:42,840 --> 00:38:47,880
+Hay algunos, en el al final del, al final de la presentación,
+
+522
+00:38:47,880 --> 00:38:50,680
+hay una bibliografía ahí, y hay algunos artículos,
+
+523
+00:38:50,680 --> 00:38:54,520
+hay un artículo que se llama de arripleo y soparator.
+
+524
+00:38:54,520 --> 00:38:57,960
+El artículo es muestra cómo definir el operador de arremplazo
+
+525
+00:38:57,960 --> 00:39:00,560
+a partir de las operaciones primitivas.
+
+526
+00:39:00,560 --> 00:39:05,320
+Y hay otros veces, el long es match y short match.
+
+527
+00:39:05,320 --> 00:39:07,680
+Y hay otros, y como es el arremplazo opcional,
+
+528
+00:39:07,680 --> 00:39:10,920
+eso fue toda una construcción de una desagra.
+
+529
+00:39:10,920 --> 00:39:21,720
+Está, bueno, entonces vamos a ver un ejemplo de cómo funciona esto.
+
+530
+00:39:21,720 --> 00:39:27,600
+Que está en el práctico que publicamos.
+
+531
+00:39:27,600 --> 00:39:31,600
+Y que dice, si, bueno, yo tengo el uno, lo va a buena.
+
+532
+00:39:31,600 --> 00:39:32,760
+Sí.
+
+533
+00:39:32,760 --> 00:39:38,200
+Eso es un lenguaje que se llama va a abonar.
+
+534
+00:39:38,200 --> 00:39:40,720
+Que tiene sustantivos.
+
+535
+00:39:40,720 --> 00:39:44,680
+Sí, vamos a hablar solo de lo sustantivo de bombona.
+
+536
+00:39:44,680 --> 00:39:48,760
+Y tiene la siguiente característica.
+
+537
+00:39:48,760 --> 00:39:52,880
+Hay siete vocales en bambona, que son esa que está en ahí.
+
+538
+00:39:52,880 --> 00:39:58,480
+La ahí, la ahí, la ahí, tilde, a u, o, y o.
+
+539
+00:39:58,480 --> 00:40:00,720
+Y no es la vocalia.
+
+540
+00:40:00,720 --> 00:40:04,240
+Sí, y lo sustantivo en bambona comienza siempre con una raíz,
+
+541
+00:40:04,240 --> 00:40:06,280
+que usualmente sigue el patrón consonante,
+
+542
+00:40:06,280 --> 00:40:10,080
+vocal consonante o consonante, vocal y dos consonante.
+
+543
+00:40:10,080 --> 00:40:13,600
+Por ejemplo, el mal quiere decir libro,
+
+544
+00:40:13,600 --> 00:40:18,600
+copo quiere decir reactornuclear y leer quiere decir chancho.
+
+545
+00:40:18,600 --> 00:40:21,880
+Por la hay uno de los hombres, ¿no?
+
+546
+00:40:21,880 --> 00:40:24,480
+Y todo ese anigüático lo que quieren decir en nuestro lenguaje.
+
+547
+00:40:24,480 --> 00:40:28,000
+Por ejemplo, lo que no importa es que las raíces son estas.
+
+548
+00:40:28,000 --> 00:40:29,840
+Es la raíz con con lo que comienza.
+
+549
+00:40:29,840 --> 00:40:32,680
+Pero siempre hay una tere mundo, siempre comienza con una raíz.
+
+550
+00:40:32,680 --> 00:40:34,640
+No se hay una tereprefijo.
+
+551
+00:40:34,640 --> 00:40:44,480
+También, después de eso, lo sustantivo tiene un sufijo opcional,
+
+552
+00:40:44,480 --> 00:40:47,320
+que puede ser ac, e o hilo.
+
+553
+00:40:47,320 --> 00:40:54,960
+O sea que es un gran circuito integrado.
+
+554
+00:40:54,960 --> 00:41:00,480
+Y leer red es un chanchito.
+
+555
+00:41:00,480 --> 00:41:04,320
+Un máximo de uno de estos tres suficos puede aparecer una palabra.
+
+556
+00:41:04,320 --> 00:41:09,040
+Y yo le voy a marcar como pej, madim o auto.
+
+557
+00:41:09,040 --> 00:41:12,040
+No le han hablado el xico.
+
+558
+00:41:12,040 --> 00:41:13,480
+Se tiende lo que estamos haciendo, ¿no?
+
+559
+00:41:13,480 --> 00:41:17,520
+Estamos a partir de la palabra, estamos generando su futuro.
+
+560
+00:41:17,520 --> 00:41:22,080
+Luego, sin emocionalmente, un sufijo único que indica la confianza del avlante.
+
+561
+00:41:22,080 --> 00:41:34,200
+Quizmos, o sea que yo ha sido subes, es un pequeño antista,
+
+562
+00:41:34,200 --> 00:41:41,440
+y lo estoy diciendo, estoy manifestando lo que es evidente de la realidad.
+
+563
+00:41:41,440 --> 00:41:44,680
+En cosas que no tenemos, no tenemos forma de presar en la lenguaje.
+
+564
+00:41:44,680 --> 00:41:46,720
+Lo presamos con gesto.
+
+565
+00:41:46,720 --> 00:41:50,320
+Luego, si un sufijo único que indica, no se lo dije.
+
+566
+00:41:50,320 --> 00:41:54,000
+Y lo voy a marcar como obvio, probable que su puesto.
+
+567
+00:41:54,000 --> 00:42:03,560
+Luego, si un sufijo de plural, que es el hilo, ejac, que es un poco.
+
+568
+00:42:03,560 --> 00:42:13,400
+Y todas estas cosas que yo no sé qué son, que marcar a otras características.
+
+569
+00:42:13,400 --> 00:42:22,160
+Pero cuestionan que pueden tener, a nosotros que somos este computadora,
+
+570
+00:42:22,160 --> 00:42:23,880
+no interés al mapeo y no que quilecer.
+
+571
+00:42:23,880 --> 00:42:30,800
+Entonces, bueno, y al final tenemos que el genitivo,
+
+572
+00:42:30,800 --> 00:42:33,600
+o puede terminar una palabra, o puede estar seguido de un sufijo,
+
+573
+00:42:33,600 --> 00:42:35,600
+aunque de nota posesión inalienable,
+
+574
+00:42:35,600 --> 00:42:37,600
+en mi hilo puede estar seguido por el sufijo,
+
+575
+00:42:37,600 --> 00:42:41,640
+que es un intensificador, hay gente que no está bien.
+
+576
+00:42:41,640 --> 00:42:44,280
+En la palabra, deba en buena, y entonces, interesante,
+
+577
+00:42:44,280 --> 00:42:48,200
+las consonantes p, t, y cada nunca son seguida de las vocales frontales,
+
+578
+00:42:48,200 --> 00:42:53,560
+y o con tile, sino por su corresponde de un o y o con tile y los pares,
+
+579
+00:42:53,560 --> 00:42:54,400
+sí, mologlada.
+
+580
+00:42:57,400 --> 00:42:59,560
+¿Qué ha sido con esta?
+
+581
+00:42:59,560 --> 00:43:03,200
+¿Cuál es la tarea que queremos resolver?
+
+582
+00:43:03,200 --> 00:43:04,400
+¿Cuál es la tarea que queremos resolver?
+
+583
+00:43:04,400 --> 00:43:06,240
+Si no me dice, ¿cuál es la tarea que queremos resolver?
+
+584
+00:43:06,240 --> 00:43:08,960
+No vamos a poder resolver nada.
+
+585
+00:43:08,960 --> 00:43:12,920
+Así que, por definición, ¿qué queremos hacer nosotros?
+
+586
+00:43:12,920 --> 00:43:18,520
+¿Cuál es nuestro problema resolver?
+
+587
+00:43:18,520 --> 00:43:21,280
+¿Cuál es nuestro problema resolver?
+
+588
+00:43:21,280 --> 00:43:27,520
+¿Qué quiere decir eso?
+
+589
+00:43:27,520 --> 00:43:28,280
+¿Qué quiere decir eso?
+
+590
+00:43:28,280 --> 00:43:29,320
+¿Cómo como modelo eso?
+
+591
+00:43:29,320 --> 00:43:34,560
+¿Qué quiere decir como del problema?
+
+592
+00:43:34,560 --> 00:43:35,920
+¿Cuál es el problema?
+
+593
+00:43:35,920 --> 00:43:37,880
+Alllegiano genera, es lo que empezamos diciendo de la clase.
+
+594
+00:43:37,880 --> 00:43:38,880
+¿Qué tiene una palabra?
+
+595
+00:43:38,880 --> 00:43:39,880
+¿Mambona?
+
+596
+00:43:39,880 --> 00:43:41,880
+Quiero que no se hace su estructura.
+
+597
+00:43:41,880 --> 00:43:45,880
+¿Oh, tiene una forma de la clase que quiero?
+
+598
+00:43:45,880 --> 00:43:55,120
+Pues ya que si yo te digo, si yo digo, como dije hoy,
+
+599
+00:43:55,120 --> 00:44:25,120
+nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada
+
+600
+00:44:25,120 --> 00:44:55,120
+nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada, nada nada, nada, nada, nada, nada nada, nada, nada nada nada
+
+601
+00:44:55,120 --> 00:45:02,120
+que se necesitaban para modelar la morphología. ¿Cuál es heran?
+
+602
+00:45:02,120 --> 00:45:12,120
+Sí, el lexicono. No hay idea, los mórfemas, los lema, malo sufijo, ¿no?
+
+603
+00:45:12,120 --> 00:45:19,120
+Toda la parte cinta de el Congol, ¿cuál es son los lema ahí? ¿Cuál es son los ufilos,
+
+604
+00:45:19,120 --> 00:45:30,120
+los... las raíces y los afíjos, los mórfemas. ¿Cuál es son los ufilos?
+
+605
+00:45:30,120 --> 00:45:34,120
+¿Cuál es son los ufilos? ¿Cuál es son los ufilos? ¿Cuál es son los ufilos?
+
+606
+00:45:34,120 --> 00:45:40,120
+¿Cuál es son los mórfemas? ¿Cómo forman la palabra genita en este cocheo?
+
+607
+00:45:40,120 --> 00:45:45,120
+Es más fácil, la pregunta, ¿cuál es son los mórfemas? ¿Qué son los mórfemas?
+
+608
+00:45:45,120 --> 00:45:51,120
+¿Cuál son los mórfemas? ¿La seguúno? ¿Son la parte ciquita con la que se compró en la palabra? ¿De qué tomó la zona?
+
+609
+00:45:51,120 --> 00:45:54,120
+¿Dignieron la que se pese?
+
+610
+00:45:54,120 --> 00:45:57,120
+¿Cuál es el cocheo? ¿Cuál es el cocheo?
+
+611
+00:45:57,120 --> 00:45:58,120
+¿Cuál es el cocheo?
+
+612
+00:45:58,120 --> 00:46:02,120
+Es un elto, ¿no? Rúto, ¿me el caso? No sé qué.
+
+613
+00:46:02,120 --> 00:46:04,120
+¿Tá?
+
+614
+00:46:04,120 --> 00:46:07,120
+Y todo el to, a... no sé quién es un cuanta.
+
+615
+00:46:07,120 --> 00:46:08,120
+¿Te guardo?
+
+616
+00:46:08,120 --> 00:46:13,120
+Y además tengo que saber para cada una de ellas.
+
+617
+00:46:13,120 --> 00:46:18,120
+¿Qué cuando aparece este acto?
+
+618
+00:46:18,120 --> 00:46:20,120
+¿Tengo el lado a fijo?
+
+619
+00:46:20,120 --> 00:46:21,120
+¿No? ¿De acuerdo?
+
+620
+00:46:21,120 --> 00:46:23,120
+Es en mí.
+
+621
+00:46:23,120 --> 00:46:26,120
+¿Y cómo vamos para...
+
+622
+00:46:26,120 --> 00:46:30,120
+Es pesar de eso con un trandultor?
+
+623
+00:46:30,120 --> 00:46:34,120
+¿Cómo hay un trandultor que guarde todas estas palabras?
+
+624
+00:46:38,120 --> 00:46:40,120
+¿Cómo lo hago?
+
+625
+00:46:44,120 --> 00:46:48,120
+¿Cómo lo hago? ¿Cómo un trandultor que guarde todas las palabras?
+
+626
+00:46:48,120 --> 00:46:51,120
+¿Quiés el tercer?
+
+627
+00:46:56,120 --> 00:47:01,120
+¿Qué es? ¿Qué es? ¿Cómo es el nute de ese?
+
+628
+00:47:01,120 --> 00:47:02,120
+¿Cómo es el nute de ese?
+
+629
+00:47:02,120 --> 00:47:03,120
+¿Cómo es el nute de ese?
+
+630
+00:47:03,120 --> 00:47:04,120
+¿Cómo es el nute de ese?
+
+631
+00:47:04,120 --> 00:47:06,120
+¿Cómo es el nute de ese?
+
+632
+00:47:06,120 --> 00:47:08,120
+¿Cómo es el nute de ese?
+
+633
+00:47:08,120 --> 00:47:11,120
+Bueno, ahora vienen por materectrónico, pero ¿cómo?
+
+634
+00:47:11,120 --> 00:47:16,420
+escribido cada una de la palabra que tengo, esto es lo mismo, yo para empezar a tener
+
+635
+00:47:16,420 --> 00:47:20,520
+mi lexico en de un horro de todas las palabras que tengo, un transductor que me permita
+
+636
+00:47:20,520 --> 00:47:27,420
+recorrer, cada palabra posible, si aún es, bueno, tengo que ponerle a todas las palabras,
+
+637
+00:47:27,420 --> 00:47:33,620
+y más yo lo que pueda hacer generando va a depender de acá, no va a ver más su fijo que
+
+638
+00:47:33,620 --> 00:47:37,920
+estos, si yo tengo alguno otro animal además de chancho mientras no tenga la raíz,
+
+639
+00:47:37,920 --> 00:47:44,400
+no voy a poder decir, agano de curimonar a toda la información de alesicones
+
+640
+00:47:44,400 --> 00:47:48,640
+está dentro de el transductor, lo que tiene es muy sencillo, es un transductor que lo
+
+641
+00:47:48,640 --> 00:48:04,080
+único que hace es recorrer, el morfema correspondiente, si, y qué de vuelve, qué de vuelve
+
+642
+00:48:04,080 --> 00:48:12,080
+lo mismo, no, no vamos a poner que esto es un símbolo de tres, yo puedo de hacer
+
+643
+00:48:12,080 --> 00:48:20,080
+empezar con el mismo, no, y con lo sufijo pasa lo mismo, qué operación de la algebra
+
+644
+00:48:20,080 --> 00:48:33,280
+me permite a expresar esto, qué operación de la algebra me permite a expresar esto,
+
+645
+00:48:33,280 --> 00:48:41,680
+qué operación de la que vimos, yo puedo crebir el transductor derecho, pero lo que yo
+
+646
+00:48:41,680 --> 00:48:47,480
+puedo hacer es un transductor que solo le llamar, porque además acá puede ver combinaciones,
+
+647
+00:48:47,480 --> 00:48:53,680
+porque si hay dos que empiezan con la misma letra no es deficiente, primero es, por ejemplo,
+
+648
+00:48:53,680 --> 00:49:00,680
+es un bar y consum la cáa debería ser como un, debería ser una cosa así, no?
+
+649
+00:49:15,680 --> 00:49:23,280
+el que el transductor que le elado, pero como yo para expresar todas las palabras, con una
+
+650
+00:49:23,280 --> 00:49:29,280
+de la operación es que vimos.
+
+651
+00:49:35,280 --> 00:49:40,680
+Unión, simplemente hago un transductor, por cada palabra, y hago la unión de ellos, y esa
+
+652
+00:49:40,680 --> 00:49:44,280
+lo que yo le decía, y lo vale, lo que es lo que siento que aplaní que hay, la gracia
+
+653
+00:49:44,280 --> 00:49:48,280
+que como yo tengo una operación de finida, dado de presión de regular y contribuir,
+
+654
+00:49:48,280 --> 00:49:52,280
+dado de un transductor y contribuir la unión, yo tengo un método constructivo pasarlo,
+
+655
+00:49:52,280 --> 00:49:58,080
+no tengo que hacer nada, y ya el método existe el universo de decir la computadora, así
+
+656
+00:49:58,080 --> 00:50:02,280
+lo he venido de todo, y hay alguna automata, contiene todo eso yo modelo de esa forma,
+
+657
+00:50:02,280 --> 00:50:10,280
+modelo con el presión de regular y utilizó los, las operaciones de transductores,
+
+658
+00:50:10,280 --> 00:50:17,480
+bien, eso es el xicón, eso es así voy a tener todas mis palabras, que otra parte del
+
+659
+00:50:17,480 --> 00:50:24,480
+señor transductor, digo que otra parte del señor nuestro analizador, se acuerda en esa palabra
+
+660
+00:50:24,480 --> 00:50:37,480
+no, morfotácticas, quiera en la morfotáctica, quiera en la morfotáctica, quiera en la morfotáctica,
+
+661
+00:50:37,480 --> 00:50:43,980
+exacto, como si combinan, cuáles son las versiones autorizadas de combinación, cómo
+
+662
+00:50:43,980 --> 00:50:56,980
+serían mis morfotácticas en este caso, y bueno, es lo que dice acá, yo digo bueno, primero
+
+663
+00:50:56,980 --> 00:51:07,180
+viene una raíz, sí, que puede ser una de estas, si yo sé que yo en la raíz la definió
+
+664
+00:51:07,180 --> 00:51:13,420
+como la unión de todas estas, después viene un sufijo opcional, o sea que tengo que definir
+
+665
+00:51:13,420 --> 00:51:19,900
+los sufijos, que es un horde de estos tres, que además de decir un horde van a devolver
+
+666
+00:51:19,900 --> 00:51:28,220
+en la salida estas marcas, va, van a sustituir esto por esta marca y así papá pasivo pegando
+
+667
+00:51:28,220 --> 00:51:38,900
+cosas, sí, y la pregunta es, ¿cómo yo digo viene tan raíz después después? ¿Qué operación
+
+668
+00:51:38,900 --> 00:51:55,140
+estoy usando a ir? ¿De las que vimos? No, yo te formando una palabra a partir de pelacitos,
+
+669
+00:51:55,140 --> 00:52:02,660
+de decir de primero viene la raíz, después en esto después en esto, pues en esto, con la tendencia,
+
+670
+00:52:02,660 --> 00:52:11,700
+fue él, yo lo que vamos a concatenar las partes para formar una palabra, vamos a ver
+
+671
+00:52:11,700 --> 00:52:22,700
+esto como se expresa en, vamos a ver esto, esto está hecho con una herramienta que se llama
+
+672
+00:52:22,700 --> 00:52:32,500
+que se fece que usted puede bajar, se le va a probarla en el analizador, acá lo que yo
+
+673
+00:52:32,500 --> 00:52:36,300
+y yo fue, acá lo que hago estoy haciendo es definir el precio de regular, lo que yo
+
+674
+00:52:36,300 --> 00:52:42,740
+regular exactamente con el álgio era que se alabino, que vimos, entonces yo digo bueno,
+
+675
+00:52:42,740 --> 00:52:51,060
+la raíz de un nombre en bambona, un su tanto en bambona es cualquiera de esta palabra,
+
+676
+00:52:51,140 --> 00:52:55,020
+está llave de lo que quiere decir que son tres símbolos, una ene una ene una ene una ene a una ene a un símbolo
+
+677
+00:52:55,020 --> 00:53:01,660
+sol, una ene a más que eso quiere decir, dado sea una raíz va a ser más una postplabla y va
+
+678
+00:53:01,660 --> 00:53:06,620
+a devolverlo mismo, se acuerdan que si no poníamos lo que devolvida devolvida lo mismo, o sea que
+
+679
+00:53:06,620 --> 00:53:11,780
+esto va a que el cula esto se compila en un transductor que lo único que hace es tomar la entrada
+
+680
+00:53:11,780 --> 00:53:20,940
+devolvida a la sanidad y que solo aceta esta palabra, luego empiezo a definir de la misma forma
+
+681
+00:53:20,940 --> 00:53:30,700
+el sufijo, hacerlo está adunctoré para el sufijo y digo bueno, el sufijo, acá me va
+
+682
+00:53:30,700 --> 00:53:36,220
+devolver como marca, pello el activo, acá en realidad estoy haciendo el orden de para el otro lado,
+
+683
+00:53:36,220 --> 00:53:41,380
+es decir, a partir de la análisis generó la marca, o sea que si tengo una marca de pello
+
+684
+00:53:41,380 --> 00:53:48,340
+activ, este porcentaje es el escape del más, si es pello activo, la griego acá, si no
+
+685
+00:53:48,340 --> 00:53:58,060
+activo este y etcétera, y así de fin o todo el sufijo, que fue un desquito en la letra,
+
+686
+00:53:58,060 --> 00:54:05,740
+si ustedes lo revisan van a ver que se corresponde con la especificación que se vio, ahí en un
+
+687
+00:54:05,740 --> 00:54:12,240
+paso particular que es, por ejemplo si no tienen número yo quiero marcarlo como que no tienen
+
+688
+00:54:12,240 --> 00:54:17,460
+número, pero no se corresponde nada en el del lado de superficie, no hay marca eléxica,
+
+689
+00:54:17,460 --> 00:54:24,780
+como nuestro masculino en el español no hay marca de masculino, no hay la o es que no tiene
+
+690
+00:54:24,780 --> 00:54:33,740
+no tiene una marca de superficie, no es marca el autográfica, entonces acá lo es simplemente
+
+691
+00:54:33,740 --> 00:54:43,580
+vuelvo a ser lo que sé si lo es, ahora que no hay nada va a devolver eso, y entonces
+
+692
+00:54:43,580 --> 00:54:50,820
+la pregunta es, bueno yo tengo esto, tengo la raíz y lo sufijo, como voy a definir el
+
+693
+00:54:50,820 --> 00:54:59,220
+sustantivo, como representa el sustantivo, a partir de esto, entonces el esicón, como
+
+694
+00:54:59,220 --> 00:55:12,260
+hay que definir el sustantivo, y exactamente esto que ya no, la raíz es el que es iloccional,
+
+695
+00:55:12,260 --> 00:55:18,660
+un sufijo un opcional, un sufijo a dos opccionales, vio a tres, un sufijo a cuatro, qué
+
+696
+00:55:18,660 --> 00:55:31,560
+contribuimos acá el lexicón, es decir, yo tengo para cualquier palabra, yo puedo, no solo
+
+697
+00:55:31,560 --> 00:55:39,700
+la riconosa, sino que de vuelvo de estructura lexica, ¿no? y eso quiere decir que
+
+698
+00:55:39,700 --> 00:55:55,300
+el control y nada más y nada más y nada más y nada más y nada más y nada más, no contran
+
+699
+00:55:55,300 --> 00:56:00,180
+doctor, que de una recibe de la palabra y de vuelve a analisis, y además de redalho viene la inversa,
+
+700
+00:56:00,180 --> 00:56:07,420
+como los transductores se acuerdan que eran cerrados bajo, reversos, que simplemente
+
+701
+00:56:07,420 --> 00:56:11,700
+ven vuelta a la transición, lo que tiene de bueno esto es que la analisis y la generación
+
+702
+00:56:11,700 --> 00:56:19,980
+y vuelva a la pregunta del principio de la clase, es exactamente igual, el costo computacional
+
+703
+00:56:19,980 --> 00:56:26,100
+es el mismo, porque es simplemente leer el tronctor de un lado del otro, y es una
+
+704
+00:56:26,100 --> 00:56:29,460
+la grande ventaja de los transductores tan bonito que el gel, después no pasa más en otras
+
+705
+00:56:29,460 --> 00:56:37,220
+cosas, de la analisis y la generación no lo mismo, pero qué le falta esto, qué le falta
+
+706
+00:56:37,300 --> 00:56:46,300
+esto, la reala autográfica, porque esto me va a generar cosas, yo le voy a darle
+
+707
+00:56:46,300 --> 00:56:53,420
+la analisis, me va a generar todo muy bien, pero va a tener problemas, porque las palabras
+
+708
+00:56:53,420 --> 00:56:59,620
+de vanbona, las consonantes nunca son seguidas, las vocalistas, el señor poblabla, y
+
+709
+00:56:59,620 --> 00:57:04,860
+¿cómo vamos a hacer las realas autográficas? ¿Qué hacemos con la reala autográfica?
+
+710
+00:57:04,860 --> 00:57:16,380
+¿Cómo hacemos la reala autográfica? ¿Cómo la representamos? La representamos con un tronctor
+
+711
+00:57:16,380 --> 00:57:21,860
+que haga la sustitución y correspondiente. Es de siempre el primer tronctor. ¿Cómo
+
+712
+00:57:21,860 --> 00:57:29,460
+prón? Es de siempre el primer tronctor que es el primer tronctor que es el primer tronctor que
+
+713
+00:57:29,460 --> 00:57:33,700
+hace la reala, que utilizándolo el operador de remblazo, simplemente dice la ila,
+
+714
+00:57:33,700 --> 00:57:38,100
+sustituimos por eso no siguen el operador de remblazo, porque dice, ya hay una ahí, sustituíme
+
+715
+00:57:38,100 --> 00:57:47,420
+la por una Augusta ante hay una P, una T o una C, o o o o o o o o o o o o o o y dice, puede
+
+716
+00:57:47,420 --> 00:57:53,180
+fíjate que hay una E, la cambio por una O, si hay una persona, y después fíjate que hay
+
+717
+00:57:53,180 --> 00:57:58,020
+una, y aplicados todos en cascada, o sea, empezar con este, publica este, publica este,
+
+718
+00:57:59,020 --> 00:58:06,220
+y, pero esto lo único que hace es dar una palabra a mi cambia de la cosa, yo tengo
+
+719
+00:58:06,220 --> 00:58:13,620
+esto que me da la, dar el análisis, me da la palabra y tengo esto que dar a la palabra
+
+720
+00:58:13,620 --> 00:58:21,060
+me corriga en la ortografía, como lo junto con cooperación, y ahí sigo como posición,
+
+721
+00:58:22,060 --> 00:58:30,020
+lo bueno, entonces van buena, que simplemente, ya casi tenimos el transportador, el
+
+722
+00:58:30,020 --> 00:58:36,620
+lexicon compuesto con la regla sortográfica, si yo hubiera definido las reglas al revés,
+
+723
+00:58:36,620 --> 00:58:45,660
+tendré que ser el principio, pero como yo la definí, del análisis para el otro lado,
+
+724
+00:58:45,660 --> 00:58:51,820
+esto que ha pegado, digamos, el primer transductor, daba el análisis de la palabra, con
+
+725
+00:58:51,820 --> 00:58:55,900
+los errores de la fico y el segundo transductor te corriga el orgullo de la rafía, y
+
+726
+00:58:55,900 --> 00:59:06,580
+devuelve la versión correcta, si, de acuerdo, entonces implementamos exactamente lo
+
+727
+00:59:06,580 --> 00:59:11,780
+de queríamos, es un solo transductor, porque la composición genera un transductor solo,
+
+728
+00:59:11,780 --> 00:59:17,980
+un transductor muy complejo, construido a partir de parte muy chiquita, hicimos una especie
+
+729
+00:59:17,980 --> 00:59:22,860
+un poco de ingeniería, no, fuimos construcción de parte, y construyendo, que lo que ha
+
+730
+00:59:22,860 --> 00:59:29,980
+sido, daba cualquier sustantivo, me devuelve la estructura, y la estructura me dice como
+
+731
+00:59:29,980 --> 00:59:37,580
+se pronuncia, si se fijan, es un método que es completamente específicable o que fue completamente
+
+732
+00:59:37,780 --> 00:59:46,980
+específicado por reglas, pues ya todas las palabras que están acá tengo la combinación
+
+733
+00:59:46,980 --> 00:59:53,980
+de su análisis, y solo es una palabra nueva, janumento, tengo que modificar el transductor,
+
+734
+00:59:54,380 --> 01:00:00,740
+try Travel , thdgx252, sigme un chico, se ha Programmado, pero si soy una herramienta que
+
+735
+01:00:00,740 --> 01:00:06,740
+se estámbieno, me voy a monitorear, ya adiós que no se仔, vado adiós como si SAM troubledas
+
+736
+01:00:06,740 --> 01:00:09,260
+los de af suppliedantes de飛 Louisiana, viernos de la ley en la pantalla,ellan la
+
+737
+01:00:09,260 --> 01:00:14,820
+empresa social, si, estén muy bien la pregunta, no sabéis, tenéis que tener lo impuente
+
+738
+01:00:14,820 --> 01:00:18,940
+durante tu análisis, que olmakísimo, como si, si si os tenemos que tener en cuenta que en la
+
+739
+01:00:18,940 --> 01:00:24,940
+cada importante orden, que si te pasa eso como decir marchaste es que
+
+740
+01:00:24,940 --> 01:00:29,940
+tienen que modificar donálisis, no hay una iteración de a mí.
+
+741
+01:00:29,940 --> 01:00:35,940
+Sí, totalmente. Exactamente, totalmente. Bueno, que así es,
+
+742
+01:00:35,940 --> 01:00:39,620
+las reglas de autodráficas son siempre te pasa lo mismo, cuando
+
+743
+01:00:39,620 --> 01:00:42,660
+doplicas reglas en cascada, tener que saber que estás haciendo
+
+744
+01:00:42,660 --> 01:00:46,260
+una cascada y que, en esa cascada, lo que vos llagas después
+
+745
+01:00:46,260 --> 01:00:50,260
+lo para atrás de ya, que si vos pusiste una marca de cambio, esa marca
+
+746
+01:00:50,260 --> 01:00:54,260
+te quiero decir el transductor de la cascada,
+
+747
+01:00:54,260 --> 01:00:57,260
+tiene que entender en qué posición de la cascada está,
+
+748
+01:00:57,260 --> 01:01:00,260
+porque, por ejemplo, vos puedes poner una marca intermedia,
+
+749
+01:01:00,260 --> 01:01:04,260
+porque va a pasar algo después, este tipo tiene que saber
+
+750
+01:01:04,260 --> 01:01:07,260
+que le puede venir una marca intermedia en su alfabeto.
+
+751
+01:01:11,260 --> 01:01:14,260
+De hecho, lo que yo te decía hoy, el paper dice que hace
+
+752
+01:01:14,260 --> 01:01:18,260
+que el operador de reemplazo ha sido a cantidad de operaciones
+
+753
+01:01:18,260 --> 01:01:21,260
+o de la tiga alemete símbolo, marquitas, cosa,
+
+754
+01:01:21,260 --> 01:01:25,260
+muy artesanal y las compones en una cascada para obtener
+
+755
+01:01:25,260 --> 01:01:28,260
+un solo de la notor que hace el reemplazo.
+
+756
+01:01:29,260 --> 01:01:33,260
+Bueno, hay otras herramientas para este tipo de hay que veras.
+
+757
+01:01:36,260 --> 01:01:39,260
+En esta, esta es muy potenta, en este suscribir a la tecia
+
+758
+01:01:39,260 --> 01:01:44,260
+con la defencia utilitista, este muy potente,
+
+759
+01:01:44,260 --> 01:01:47,260
+pero muy ineficiente, muy ineficiente.
+
+760
+01:01:47,260 --> 01:01:51,260
+Y ahora, lo más popular es OpenFCT.
+
+761
+01:01:51,260 --> 01:01:54,260
+Bueno, hay un poco de la oracía.
+
+762
+01:01:55,260 --> 01:01:58,260
+Este es un libro, pero este paper resume bastante,
+
+763
+01:01:58,260 --> 01:02:01,260
+de forma tan interesante, unas pocas páginas,
+
+764
+01:02:01,260 --> 01:02:04,260
+como ha sido la historia de la Asumpe de Stoffinito.
+
+765
+01:02:05,260 --> 01:02:07,260
+¿Alguna pregunta?
+
+766
+01:02:08,260 --> 01:02:10,260
+¿No?
+
+767
+01:02:18,260 --> 01:02:20,260
+Si ustedes quieren poder...
+
+768
+01:02:23,260 --> 01:02:25,260
+Intalarse que se precede y hacer pruebas,
+
+769
+01:02:25,260 --> 01:02:27,260
+y efectivamente van a ver que
+
+770
+01:02:28,260 --> 01:02:30,260
+al especificar estas cosas,
+
+771
+01:02:30,260 --> 01:02:33,260
+y les permite aplicarlo a la traducción.
+
+772
+01:02:33,260 --> 01:02:35,260
+Bueno, ¿qué pasa con esta palabra?
+
+773
+01:02:36,260 --> 01:02:39,260
+Y ni bien se pone uno a probar,
+
+774
+01:02:39,260 --> 01:02:41,260
+y pican a aparecer las cosas como el no de términismo,
+
+775
+01:02:41,260 --> 01:02:42,260
+así.
+
+776
+01:02:42,260 --> 01:02:44,260
+Además, esta herramienta permite
+
+777
+01:02:44,260 --> 01:02:46,260
+hacer una cantidad de análisis interno,
+
+778
+01:02:46,260 --> 01:02:48,260
+es decir, que están complicados entre el doctor,
+
+779
+01:02:48,260 --> 01:02:51,260
+uno de los grandes problemas que tienen las traducciones.
+
+780
+01:02:52,260 --> 01:02:55,260
+El gran problema es que son muy eficientes
+
+781
+01:02:56,260 --> 01:02:58,260
+para computar cosas,
+
+782
+01:02:58,260 --> 01:03:01,260
+y claro, toda la información que tenemos ahí
+
+783
+01:03:01,260 --> 01:03:03,260
+está contenida dentro del tradutor,
+
+784
+01:03:03,260 --> 01:03:05,260
+no tiene la noción de memoria,
+
+785
+01:03:05,260 --> 01:03:06,260
+esterna, el otro doctor,
+
+786
+01:03:06,260 --> 01:03:07,260
+todo tiene que estar ahí,
+
+787
+01:03:07,260 --> 01:03:09,260
+eso hace que crees que es tan muchísimo.
+
+788
+01:03:10,260 --> 01:03:14,260
+Y, generalmente, las análisis,
+
+789
+01:03:14,260 --> 01:03:15,260
+he hecho contra el doctor,
+
+790
+01:03:15,260 --> 01:03:16,260
+son muy eficientes,
+
+791
+01:03:16,260 --> 01:03:18,260
+pero han sido tradicionalmente
+
+792
+01:03:18,260 --> 01:03:19,260
+necesidad mucha memoria,
+
+793
+01:03:19,260 --> 01:03:20,260
+digamos, para ejecutarse,
+
+794
+01:03:20,260 --> 01:03:22,260
+porque crees en muy rápido de componerse,
+
+795
+01:03:22,260 --> 01:03:23,260
+porque dije que,
+
+796
+01:03:23,260 --> 01:03:26,260
+yo cuando los compongo a un especie de producto cartesiano,
+
+797
+01:03:26,260 --> 01:03:31,260
+yo creo que en un punto de vista,
+
+798
+01:03:31,260 --> 01:03:33,260
+me estoy, me estoy tal vez,
+
+799
+01:03:33,260 --> 01:03:36,260
+estoy arriesgando,
+
+800
+01:03:36,260 --> 01:03:37,260
+lo que estoy diciendo,
+
+801
+01:03:37,260 --> 01:03:38,260
+pero me parece que en un punto de vista
+
+802
+01:03:38,260 --> 01:03:40,260
+más industriarlo,
+
+803
+01:03:40,260 --> 01:03:42,260
+es como que han pasado un poco de moja.
+
+804
+01:03:42,260 --> 01:03:44,260
+Porque la computadora son tan potentes
+
+805
+01:03:44,260 --> 01:03:47,260
+que, de tengo modelos más tradicionales
+
+806
+01:03:47,260 --> 01:03:49,260
+con iguales de programación
+
+807
+01:03:49,260 --> 01:03:51,260
+y más presivo, digamos,
+
+808
+01:03:51,260 --> 01:03:53,260
+y no tengo todo su problema
+
+809
+01:03:53,260 --> 01:03:55,260
+de que me explote su tamaño,
+
+810
+01:03:56,260 --> 01:03:59,260
+pero debe haber algunas aplicaciones
+
+811
+01:03:59,260 --> 01:04:00,260
+que trabajan contra el doctor,
+
+812
+01:04:00,260 --> 01:04:03,260
+pero no en este marco tan genérico.
+
+813
+01:04:03,260 --> 01:04:06,260
+Bueno, fin de la parte 1,
+
+814
+01:04:06,260 --> 01:04:08,260
+vamos a pasar a la parte 2,
+
+815
+01:04:08,260 --> 01:04:10,260
+capaz que están un poco cansados,
+
+816
+01:04:10,260 --> 01:04:12,260
+pero tenemos que poner unos aldias.
+
+817
+01:04:13,260 --> 01:04:15,260
+La parte 2,
+
+818
+01:04:15,260 --> 01:04:17,260
+como les decía,
+
+819
+01:04:17,260 --> 01:04:18,260
+hay que cambiar un poco el chip,
+
+820
+01:04:18,260 --> 01:04:23,260
+porque seguimos dentro de las palabras,
+
+821
+01:04:24,260 --> 01:04:26,260
+pero
+
+822
+01:04:30,260 --> 01:04:32,260
+pero vamos a hablar de otra cosa
+
+823
+01:04:32,260 --> 01:04:35,260
+y vamos a usar un método también bastante diferente.
+
+824
+01:04:40,260 --> 01:04:43,260
+Y es la última de la detección
+
+825
+01:04:43,260 --> 01:04:46,260
+y la corregción de errores autográficos.
+
+826
+01:04:47,260 --> 01:04:53,260
+Esto me interesa por dos motivos.
+
+827
+01:04:56,260 --> 01:05:00,260
+Uno es porque el problema es un problema interesante
+
+828
+01:05:00,260 --> 01:05:03,260
+y otro es porque su modelo bastante claro
+
+829
+01:05:03,260 --> 01:05:07,260
+de utilización de un método que se utiliza en muchas cosas
+
+830
+01:05:07,260 --> 01:05:09,260
+no sólo el personal de nuevo de la naturaleza
+
+831
+01:05:09,260 --> 01:05:12,260
+que se llama modelo de canal ruidoso
+
+832
+01:05:12,260 --> 01:05:14,260
+que es el primer modelo
+
+833
+01:05:14,260 --> 01:05:16,260
+pero hay lista que vamos a ver.
+
+834
+01:05:18,260 --> 01:05:22,260
+Y van a ver que la aproximación
+
+835
+01:05:22,260 --> 01:05:24,260
+completamente diferente
+
+836
+01:05:24,260 --> 01:05:27,260
+y yo me etrevería decir que
+
+837
+01:05:27,260 --> 01:05:29,260
+si el Josepto más importante
+
+838
+01:05:29,260 --> 01:05:32,260
+digamos que podemos ver en este curso
+
+839
+01:05:32,260 --> 01:05:34,260
+como concepto general,
+
+840
+01:05:34,260 --> 01:05:36,260
+como concepto en el nuevo.
+
+841
+01:05:36,260 --> 01:05:40,260
+No digo que el tema va ayer sea nuevo,
+
+842
+01:05:40,260 --> 01:05:43,260
+pero desde el punto de vista de los métodos
+
+843
+01:05:43,260 --> 01:05:47,260
+que solemos utilizar los ingenieros
+
+844
+01:05:47,260 --> 01:05:49,260
+esto es bastante no.
+
+845
+01:05:49,260 --> 01:05:50,260
+¿Por qué?
+
+846
+01:05:50,260 --> 01:05:53,260
+porque utiliza métodos de inferencia
+
+847
+01:05:53,260 --> 01:05:55,260
+en lugar de métodos de motivo.
+
+848
+01:05:57,260 --> 01:05:58,260
+Esto es,
+
+849
+01:05:58,260 --> 01:06:01,260
+yo tradicionalmente hay dos,
+
+850
+01:06:01,260 --> 01:06:03,260
+yo tradicionalmente no.
+
+851
+01:06:03,260 --> 01:06:05,260
+Realmente hay dos escuelas
+
+852
+01:06:05,260 --> 01:06:06,260
+filosóficas,
+
+853
+01:06:06,260 --> 01:06:08,260
+yo te dieron que son los racionalistas
+
+854
+01:06:08,260 --> 01:06:10,260
+y los enpinizistas.
+
+855
+01:06:11,260 --> 01:06:12,260
+Los racionalistas dicen,
+
+856
+01:06:12,260 --> 01:06:14,260
+bueno, yo puedo construir un modelo
+
+857
+01:06:14,260 --> 01:06:15,260
+del mundo y sacar conclusiones
+
+858
+01:06:15,260 --> 01:06:17,260
+de ese modelo que construí.
+
+859
+01:06:17,260 --> 01:06:19,260
+En mi cabeza.
+
+860
+01:06:19,260 --> 01:06:20,260
+No?
+
+861
+01:06:20,260 --> 01:06:21,260
+Aristóteles.
+
+862
+01:06:21,260 --> 01:06:24,260
+Pero los enpinizistas
+
+863
+01:06:24,260 --> 01:06:26,260
+por allá,
+
+864
+01:06:26,260 --> 01:06:27,260
+digamos,
+
+865
+01:06:27,260 --> 01:06:29,260
+transible y con toda esa gente
+
+866
+01:06:29,260 --> 01:06:30,260
+diciendo,
+
+867
+01:06:30,260 --> 01:06:31,260
+en realidad,
+
+868
+01:06:31,260 --> 01:06:32,260
+el mundo es el que hay.
+
+869
+01:06:32,260 --> 01:06:34,260
+Yo tengo que inferir
+
+870
+01:06:34,260 --> 01:06:37,260
+los modelos a partir de los datos que existen.
+
+871
+01:06:37,260 --> 01:06:39,260
+En las oficas,
+
+872
+01:06:39,260 --> 01:06:41,260
+han recorrido la humanidad
+
+873
+01:06:41,260 --> 01:06:43,260
+con mis adovisiones.
+
+874
+01:06:43,260 --> 01:06:46,260
+Y ahora no es menos,
+
+875
+01:06:46,260 --> 01:06:48,260
+pero ahora como tengo muchos datos
+
+876
+01:06:48,260 --> 01:06:49,260
+ha tomado bastante lo importante
+
+877
+01:06:49,260 --> 01:06:50,260
+a todo el tema del impericimo.
+
+878
+01:06:50,260 --> 01:06:52,260
+Písimo esencialmente es el métodos científico,
+
+879
+01:06:52,260 --> 01:06:53,260
+¿no?
+
+880
+01:06:53,260 --> 01:06:55,260
+O sea, o sea, o sea,
+
+881
+01:06:55,260 --> 01:06:56,260
+generalidades,
+
+882
+01:06:56,260 --> 01:06:57,260
+en lugar de construir
+
+883
+01:06:57,260 --> 01:06:59,260
+me realidad es
+
+884
+01:06:59,260 --> 01:07:02,260
+teóricas puras.
+
+885
+01:07:03,260 --> 01:07:06,260
+El métodos,
+
+886
+01:07:06,260 --> 01:07:07,260
+este vamos a ver
+
+887
+01:07:07,260 --> 01:07:08,260
+del canal,
+
+888
+01:07:08,260 --> 01:07:09,260
+no yo soy bien,
+
+889
+01:07:09,260 --> 01:07:10,260
+es bien probabilítica.
+
+890
+01:07:10,260 --> 01:07:11,260
+Bueno, pero
+
+891
+01:07:11,260 --> 01:07:12,260
+¿cómo hacemos?
+
+892
+01:07:12,260 --> 01:07:13,260
+Y bueno,
+
+893
+01:07:13,260 --> 01:07:23,260
+es
+
+894
+01:07:23,260 --> 01:07:27,260
+supongo que yo
+
+895
+01:07:27,260 --> 01:07:29,260
+escucho una palabra.
+
+896
+01:07:29,260 --> 01:07:31,260
+¿Sí?
+
+897
+01:07:32,260 --> 01:07:34,260
+Yo le digo la palabra.
+
+898
+01:07:34,260 --> 01:07:37,260
+¿Qué digo?
+
+899
+01:07:37,260 --> 01:07:38,260
+¿Qué digo?
+
+900
+01:07:38,260 --> 01:07:40,260
+¿Báso?
+
+901
+01:07:40,260 --> 01:07:41,260
+¿Báso?
+
+902
+01:07:41,260 --> 01:07:42,260
+¿Báso?
+
+903
+01:07:42,260 --> 01:07:45,260
+¿Aguí en escucho otra cosa?
+
+904
+01:07:45,260 --> 01:07:47,260
+¿Capa que se en el fondo
+
+905
+01:07:47,260 --> 01:07:48,260
+escucharon?
+
+906
+01:07:48,260 --> 01:07:49,260
+¿Báso?
+
+907
+01:07:49,260 --> 01:07:50,260
+¿Báso?
+
+908
+01:07:50,260 --> 01:07:51,260
+¿Báso?
+
+909
+01:07:51,260 --> 01:07:52,260
+¿Cuáso?
+
+910
+01:07:52,260 --> 01:07:53,260
+¿Puedo ver dicho?
+
+911
+01:07:53,260 --> 01:07:54,260
+He
+
+912
+01:07:54,260 --> 01:07:56,260
+perro.
+
+913
+01:07:56,260 --> 01:07:58,260
+¿Puedo ver dicho?
+
+914
+01:07:58,260 --> 01:08:00,260
+¿Pero no puedo ver dicho?
+
+915
+01:08:01,260 --> 01:08:03,260
+¿Por qué no?
+
+916
+01:08:03,260 --> 01:08:04,260
+¿Por qué no?
+
+917
+01:08:04,260 --> 01:08:06,260
+¿Por qué probablemente no?
+
+918
+01:08:06,260 --> 01:08:07,260
+¿Por qué no?
+
+919
+01:08:07,260 --> 01:08:09,260
+¿Por qué no?
+
+920
+01:08:09,260 --> 01:08:12,260
+¿Y si hubiera sido por lo que escuchamos
+
+921
+01:08:12,260 --> 01:08:14,260
+pero escucharon?
+
+922
+01:08:14,260 --> 01:08:16,260
+Eso no como una esa
+
+923
+01:08:16,260 --> 01:08:18,260
+y no parece creación
+
+924
+01:08:18,260 --> 01:08:20,260
+pero no es probable que el sonido
+
+925
+01:08:20,260 --> 01:08:23,260
+haya llegado tan cambiado.
+
+926
+01:08:23,260 --> 01:08:25,260
+¿Puedo ver dicho?
+
+927
+01:08:25,260 --> 01:08:27,260
+¿Es de bits?
+
+928
+01:08:28,260 --> 01:08:30,260
+¿Puedo ver dicho eso?
+
+929
+01:08:30,260 --> 01:08:33,260
+¿Por qué no?
+
+930
+01:08:33,260 --> 01:08:35,260
+¿Por qué no es una palabra?
+
+931
+01:08:35,260 --> 01:08:36,260
+¿Entonces está?
+
+932
+01:08:36,260 --> 01:08:38,260
+¿Te puedo ver lo dicho?
+
+933
+01:08:38,260 --> 01:08:39,260
+¿No?
+
+934
+01:08:44,260 --> 01:08:46,260
+La idea es que
+
+935
+01:08:46,260 --> 01:08:48,260
+yo recibe la del modelo de canal
+
+936
+01:08:48,260 --> 01:08:49,260
+o lo que yo digo,
+
+937
+01:08:49,260 --> 01:08:50,260
+lo que sucede es que yo
+
+938
+01:08:50,260 --> 01:08:53,260
+recibe de alguna forma un asignal
+
+939
+01:08:54,260 --> 01:08:57,260
+y digo, bueno,
+
+940
+01:08:57,260 --> 01:08:59,260
+moderno el problema, digamos,
+
+941
+01:08:59,260 --> 01:09:00,260
+cuando yo modelo el problema con el medio de eso
+
+942
+01:09:00,260 --> 01:09:02,260
+es yo tengo una observación
+
+943
+01:09:02,260 --> 01:09:04,260
+ante mí
+
+944
+01:09:04,260 --> 01:09:06,260
+que es eso que escucharon ustedes
+
+945
+01:09:06,260 --> 01:09:08,260
+que además diferente para todo
+
+946
+01:09:08,260 --> 01:09:10,260
+pues es una distancia
+
+947
+01:09:10,260 --> 01:09:13,260
+y quiero tratar de determinar
+
+948
+01:09:13,260 --> 01:09:14,260
+de terminar
+
+949
+01:09:14,260 --> 01:09:16,260
+con fuila palabra origen
+
+950
+01:09:16,260 --> 01:09:18,260
+porque a mí lo que me interesa
+
+951
+01:09:18,260 --> 01:09:19,260
+saber es que dije yo, no,
+
+952
+01:09:19,260 --> 01:09:21,260
+de eso se trata de la comunicación
+
+953
+01:09:21,260 --> 01:09:22,260
+y lo que me interesa,
+
+954
+01:09:22,260 --> 01:09:25,260
+lo que le interesa saber que dije yo,
+
+955
+01:09:27,260 --> 01:09:30,260
+y que sí, en mi definición del problema,
+
+956
+01:09:30,260 --> 01:09:32,260
+yo asumo
+
+957
+01:09:32,260 --> 01:09:34,260
+ya que
+
+958
+01:09:34,260 --> 01:09:36,260
+señal paso
+
+959
+01:09:36,260 --> 01:09:38,260
+por un canal ruidoso
+
+960
+01:09:38,260 --> 01:09:40,260
+que la de la
+
+961
+01:09:40,260 --> 01:09:42,260
+tarjibersó
+
+962
+01:09:42,260 --> 01:09:43,260
+y que no es único
+
+963
+01:09:43,260 --> 01:09:44,260
+que yo puedo saber
+
+964
+01:09:44,260 --> 01:09:46,260
+es
+
+965
+01:09:46,260 --> 01:09:48,260
+no tener la certeza
+
+966
+01:09:48,260 --> 01:09:50,260
+de cuál fue la palabra
+
+967
+01:09:50,260 --> 01:09:51,260
+que yo mejor que puedo aspirar
+
+968
+01:09:51,260 --> 01:09:54,260
+es una distribución de probabilidad
+
+969
+01:09:54,260 --> 01:09:55,260
+¿Pap?
+
+970
+01:09:55,260 --> 01:09:56,260
+¿Qué es?
+
+971
+01:09:56,260 --> 01:09:57,260
+seguro de lo que es una distribución
+
+972
+01:09:57,260 --> 01:09:58,260
+de probabilidad
+
+973
+01:09:58,260 --> 01:09:59,260
+fíjemos la división
+
+974
+01:09:59,260 --> 01:10:00,260
+si tengo una serie de eventos
+
+975
+01:10:00,260 --> 01:10:02,260
+una distribución de probabilidades
+
+976
+01:10:02,260 --> 01:10:04,260
+un valor entre 0 y 1
+
+977
+01:10:04,260 --> 01:10:06,260
+que le doy a cada uno
+
+978
+01:10:06,260 --> 01:10:08,260
+y que entre todo tiene que sumar uno
+
+979
+01:10:08,260 --> 01:10:11,260
+es una distribución de probabilidad
+
+980
+01:10:11,260 --> 01:10:13,260
+yo puedo hacer una distribución de probabilidad
+
+981
+01:10:13,260 --> 01:10:15,260
+sobre toda la palabra posible
+
+982
+01:10:16,260 --> 01:10:18,260
+con lo cual del carto
+
+983
+01:10:18,260 --> 01:10:20,260
+ya la accesible
+
+984
+01:10:20,260 --> 01:10:23,260
+pero
+
+985
+01:10:23,260 --> 01:10:33,260
+digamos
+
+986
+01:10:33,260 --> 01:10:36,260
+si, supongo que se llama Luis
+
+987
+01:10:36,260 --> 01:10:40,260
+y yo le digo
+
+988
+01:10:41,260 --> 01:10:42,260
+que yo le hablo y le digo
+
+989
+01:10:42,260 --> 01:10:43,260
+fuís
+
+990
+01:10:43,260 --> 01:10:45,260
+¿no?
+
+991
+01:10:45,260 --> 01:10:46,260
+él sabe que yo le estoy hablando
+
+992
+01:10:46,260 --> 01:10:48,260
+a él
+
+993
+01:10:48,260 --> 01:10:49,260
+¿no?
+
+994
+01:10:49,260 --> 01:10:51,260
+entonces
+
+995
+01:10:51,260 --> 01:10:52,260
+él le sono
+
+996
+01:10:52,260 --> 01:10:53,260
+fuís
+
+997
+01:10:53,260 --> 01:10:54,260
+o sea que la palabra más cercana
+
+998
+01:10:54,260 --> 01:10:55,260
+es fuís
+
+999
+01:10:55,260 --> 01:10:56,260
+probablemente
+
+1000
+01:10:56,260 --> 01:10:58,260
+de punto de vista de
+
+1001
+01:10:58,260 --> 01:10:59,260
+bueno, pues
+
+1002
+01:10:59,260 --> 01:11:00,260
+pero él sabe que le estoy hablando
+
+1003
+01:11:00,260 --> 01:11:01,260
+a él
+
+1004
+01:11:01,260 --> 01:11:03,260
+entonces
+
+1005
+01:11:03,260 --> 01:11:04,260
+y lo hice más probable
+
+1006
+01:11:04,260 --> 01:11:05,260
+digamos
+
+1007
+01:11:05,260 --> 01:11:06,260
+en su interpretación
+
+1008
+01:11:06,260 --> 01:11:07,260
+sigue siendo posible
+
+1009
+01:11:07,260 --> 01:11:09,260
+que yo hubiera dicho fuís
+
+1010
+01:11:09,260 --> 01:11:11,260
+pero yo creo que
+
+1011
+01:11:11,260 --> 01:11:12,260
+me han hablado
+
+1012
+01:11:12,260 --> 01:11:13,260
+y me cortó porque
+
+1013
+01:11:13,260 --> 01:11:15,260
+me pasó algo
+
+1014
+01:11:15,260 --> 01:11:17,260
+pero es menos probable
+
+1015
+01:11:17,260 --> 01:11:18,260
+entonces
+
+1016
+01:11:18,260 --> 01:11:20,260
+es lo que arma
+
+1017
+01:11:20,260 --> 01:11:22,260
+cuando me escucho
+
+1018
+01:11:22,260 --> 01:11:23,260
+o lo que hacemos todo
+
+1019
+01:11:23,260 --> 01:11:24,260
+cuando escuchamos es
+
+1020
+01:11:24,260 --> 01:11:25,260
+bueno, podemos modular
+
+1021
+01:11:25,260 --> 01:11:27,260
+lo que hacemos, no quiere decir
+
+1022
+01:11:27,260 --> 01:11:28,260
+que lo vamos
+
+1023
+01:11:28,260 --> 01:11:30,260
+es genero una distribución de probabilidad
+
+1024
+01:11:30,260 --> 01:11:32,260
+sobre toda la palabra posible que me dice
+
+1025
+01:11:32,260 --> 01:11:34,260
+y quedarme con la que más probable
+
+1026
+01:11:34,260 --> 01:11:36,260
+según una regla
+
+1027
+01:11:37,260 --> 01:11:39,260
+si
+
+1028
+01:11:39,260 --> 01:11:40,260
+esto no tiene que ver
+
+1029
+01:11:40,260 --> 01:11:42,260
+porque el reñe de cuando
+
+1030
+01:11:42,260 --> 01:11:43,260
+estaba en el proceso de
+
+1031
+01:11:43,260 --> 01:11:44,260
+diminuir la edición
+
+1032
+01:11:44,260 --> 01:11:45,260
+y tengo entonces
+
+1033
+01:11:45,260 --> 01:11:47,260
+dado una palabra
+
+1034
+01:11:47,260 --> 01:11:48,260
+tengo las originales
+
+1035
+01:11:48,260 --> 01:11:49,260
+cuando tengo un error
+
+1036
+01:11:49,260 --> 01:11:50,260
+ortográfico
+
+1037
+01:11:50,260 --> 01:11:51,260
+tengo exactamente
+
+1038
+01:11:51,260 --> 01:11:53,260
+la misma configuración
+
+1039
+01:11:53,260 --> 01:11:54,260
+yo tengo una palabra
+
+1040
+01:11:54,260 --> 01:11:55,260
+que veo ahí
+
+1041
+01:11:55,260 --> 01:11:56,260
+que no sé lo que es
+
+1042
+01:11:56,260 --> 01:11:57,260
+y trata de saber cuál es
+
+1043
+01:11:57,260 --> 01:11:59,260
+la más
+
+1044
+01:11:59,260 --> 01:12:00,260
+la más
+
+1045
+01:12:00,260 --> 01:12:01,260
+razonable
+
+1046
+01:12:01,260 --> 01:12:02,260
+que sea la original
+
+1047
+01:12:06,260 --> 01:12:07,260
+¿Qué pasa?
+
+1048
+01:12:07,260 --> 01:12:08,260
+¿Cómo hacemos la detección de
+
+1049
+01:12:08,260 --> 01:12:09,260
+rori?
+
+1050
+01:12:09,260 --> 01:12:10,260
+Bueno, se me da parece
+
+1051
+01:12:10,260 --> 01:12:11,260
+en un texto
+
+1052
+01:12:11,260 --> 01:12:13,260
+maté
+
+1053
+01:12:13,260 --> 01:12:15,260
+¿Sí?
+
+1054
+01:12:15,260 --> 01:12:17,260
+yo puedo detectar
+
+1055
+01:12:17,260 --> 01:12:19,260
+que me equivocé
+
+1056
+01:12:19,260 --> 01:12:21,260
+porque
+
+1057
+01:12:21,260 --> 01:12:23,260
+porque esa palabra no existe
+
+1058
+01:12:23,260 --> 01:12:24,260
+la detección de
+
+1059
+01:12:24,260 --> 01:12:25,260
+palabras y mis sitentes
+
+1060
+01:12:25,260 --> 01:12:26,260
+muy fácil
+
+1061
+01:12:26,260 --> 01:12:27,260
+yo puedo condicionar
+
+1062
+01:12:27,260 --> 01:12:28,260
+y no está
+
+1063
+01:12:28,260 --> 01:12:29,260
+es lo que hacen todo
+
+1064
+01:12:29,260 --> 01:12:30,260
+lo correto a el
+
+1065
+01:12:30,260 --> 01:12:32,260
+ortográfico
+
+1066
+01:12:32,260 --> 01:12:34,260
+es una
+
+1067
+01:12:35,260 --> 01:12:37,260
+detección de palabras
+
+1068
+01:12:37,260 --> 01:12:38,260
+y mis sitentes
+
+1069
+01:12:38,260 --> 01:12:40,260
+nada más
+
+1070
+01:12:40,260 --> 01:12:41,260
+después lo que tengo
+
+1071
+01:12:41,260 --> 01:12:42,260
+es la corrección
+
+1072
+01:12:42,260 --> 01:12:44,260
+ahí nada
+
+1073
+01:12:44,260 --> 01:12:45,260
+¿Qué es?
+
+1074
+01:12:45,260 --> 01:12:46,260
+Bueno
+
+1075
+01:12:46,260 --> 01:12:48,260
+te mate
+
+1076
+01:12:48,260 --> 01:12:49,260
+la corrigo
+
+1077
+01:12:49,260 --> 01:12:51,260
+con tomate
+
+1078
+01:12:51,260 --> 01:12:55,260
+porque
+
+1079
+01:12:55,260 --> 01:12:57,260
+por la misma edición
+
+1080
+01:12:57,260 --> 01:12:58,260
+por la misma edición
+
+1081
+01:12:58,260 --> 01:12:59,260
+porque la más parecía
+
+1082
+01:12:59,260 --> 01:13:00,260
+aquí hay
+
+1083
+01:13:00,260 --> 01:13:01,260
+no un país
+
+1084
+01:13:01,260 --> 01:13:02,260
+a ver otra
+
+1085
+01:13:02,260 --> 01:13:04,260
+edición
+
+1086
+01:13:04,260 --> 01:13:06,260
+que no hay otro candidato
+
+1087
+01:13:06,260 --> 01:13:08,260
+y va a tomate
+
+1088
+01:13:08,260 --> 01:13:10,260
+¿Sí?
+
+1089
+01:13:10,260 --> 01:13:12,260
+¿Pas?
+
+1090
+01:13:12,260 --> 01:13:14,260
+¿Pas?
+
+1091
+01:13:14,260 --> 01:13:16,260
+¿Pas?
+
+1092
+01:13:16,260 --> 01:13:17,260
+metí una
+
+1093
+01:13:17,260 --> 01:13:20,260
+te
+
+1094
+01:13:20,260 --> 01:13:23,260
+y eso es la más difícil
+
+1095
+01:13:23,260 --> 01:13:25,260
+¿No?
+
+1096
+01:13:25,260 --> 01:13:26,260
+pues voy a poner calor
+
+1097
+01:13:26,260 --> 01:13:27,260
+pues el color
+
+1098
+01:13:27,260 --> 01:13:28,260
+está complicado
+
+1099
+01:13:28,260 --> 01:13:30,260
+porque tengo que conocer
+
+1100
+01:13:30,260 --> 01:13:31,260
+con la palabra sola
+
+1101
+01:13:31,260 --> 01:13:32,260
+no puedo
+
+1102
+01:13:32,260 --> 01:13:34,260
+te aclaro
+
+1103
+01:13:34,260 --> 01:13:35,260
+nada
+
+1104
+01:13:35,260 --> 01:13:36,260
+nunca vas a saber
+
+1105
+01:13:36,260 --> 01:13:37,260
+lo que le pasa
+
+1106
+01:13:37,260 --> 01:13:38,260
+lo corretole
+
+1107
+01:13:38,260 --> 01:13:39,260
+¿cuántas veces
+
+1108
+01:13:39,260 --> 01:13:40,260
+cuando dejamos
+
+1109
+01:13:40,260 --> 01:13:41,260
+una barbaridad
+
+1110
+01:13:41,260 --> 01:13:42,260
+nuestro texto
+
+1111
+01:13:42,260 --> 01:13:43,260
+porque también justo
+
+1112
+01:13:43,260 --> 01:13:44,260
+en una palabra
+
+1113
+01:13:44,260 --> 01:13:45,260
+yo que sea
+
+1114
+01:13:45,260 --> 01:13:46,260
+esto no hablar
+
+1115
+01:13:46,260 --> 01:13:48,260
+en esta clase de tu
+
+1116
+01:13:48,260 --> 01:13:49,260
+amor
+
+1117
+01:13:49,260 --> 01:13:50,260
+esto no se preocupe
+
+1118
+01:13:50,260 --> 01:13:52,260
+pero vamos a hablar
+
+1119
+01:13:52,260 --> 01:13:54,260
+de este tipo de parecía
+
+1120
+01:13:54,260 --> 01:13:56,260
+de cuál es la más probable
+
+1121
+01:13:56,260 --> 01:13:57,260
+porque tú no siempre están fácil
+
+1122
+01:13:57,260 --> 01:13:59,260
+tomando la palabra
+
+1123
+01:13:59,260 --> 01:14:01,260
+a mi que tengo dos candidatas
+
+1124
+01:14:01,260 --> 01:14:04,260
+entonces vamos a ver un poco de este caso
+
+1125
+01:14:04,260 --> 01:14:05,260
+y como es el halo
+
+1126
+01:14:05,260 --> 01:14:06,260
+con el modelo
+
+1127
+01:14:06,260 --> 01:14:08,260
+de los estudios
+
+1128
+01:14:08,260 --> 01:14:12,260
+esta clase está basada
+
+1129
+01:14:12,260 --> 01:14:13,260
+principalmente en un artículo
+
+1130
+01:14:13,260 --> 01:14:16,260
+que habla de un
+
+1131
+01:14:16,260 --> 01:14:19,260
+de una
+
+1132
+01:14:19,260 --> 01:14:20,260
+notilidad que hicieron
+
+1133
+01:14:20,260 --> 01:14:21,260
+para y uno que se llama
+
+1134
+01:14:21,260 --> 01:14:22,260
+creo que sea más pel
+
+1135
+01:14:22,260 --> 01:14:23,260
+o correcto
+
+1136
+01:14:23,260 --> 01:14:24,260
+no es pel
+
+1137
+01:14:24,260 --> 01:14:25,260
+la clasica que te dice
+
+1138
+01:14:25,260 --> 01:14:26,260
+si te habien un mala palabra
+
+1139
+01:14:26,260 --> 01:14:27,260
+correcto
+
+1140
+01:14:27,260 --> 01:14:28,260
+que te corrige
+
+1141
+01:14:28,260 --> 01:14:29,260
+a la palabra
+
+1142
+01:14:29,260 --> 01:14:31,260
+que hicieron una análisis
+
+1143
+01:14:31,260 --> 01:14:32,260
+que no bueno tomaron un cuerpo
+
+1144
+01:14:32,260 --> 01:14:34,260
+de errores
+
+1145
+01:14:34,260 --> 01:14:35,260
+cometidos
+
+1146
+01:14:35,260 --> 01:14:36,260
+de gallena y no todo esto
+
+1147
+01:14:36,260 --> 01:14:37,260
+se quedó cambió por esto
+
+1148
+01:14:37,260 --> 01:14:38,260
+se quedó por esto
+
+1149
+01:14:38,260 --> 01:14:39,260
+y yo cuenta
+
+1150
+01:14:39,260 --> 01:14:41,260
+que uno entre uno y el
+
+1151
+01:14:41,260 --> 01:14:42,260
+3% de las palabras
+
+1152
+01:14:42,260 --> 01:14:43,260
+según el cuerpo
+
+1153
+01:14:43,260 --> 01:14:45,260
+son errores
+
+1154
+01:14:45,260 --> 01:14:46,260
+en el cuerpo de transcripción
+
+1155
+01:14:46,260 --> 01:14:48,260
+y mal no recuerdo
+
+1156
+01:14:48,260 --> 01:14:51,260
+y que el 80% de esos errores
+
+1157
+01:14:51,260 --> 01:14:53,260
+eran
+
+1158
+01:14:53,260 --> 01:14:55,260
+por la inserción de una letra
+
+1159
+01:14:55,260 --> 01:14:57,260
+como mate
+
+1160
+01:14:57,260 --> 01:14:59,260
+por el borrado y una letra
+
+1161
+01:14:59,260 --> 01:15:01,260
+por la sustitución
+
+1162
+01:15:01,260 --> 01:15:03,260
+de una letra
+
+1163
+01:15:03,260 --> 01:15:05,260
+y por la
+
+1164
+01:15:05,260 --> 01:15:06,260
+transposición de 2 letra
+
+1165
+01:15:06,260 --> 01:15:07,260
+acá cambiaron
+
+1166
+01:15:07,260 --> 01:15:08,260
+la
+
+1167
+01:15:08,260 --> 01:15:11,260
+ente por lado
+
+1168
+01:15:11,260 --> 01:15:13,260
+si se llama raro
+
+1169
+01:15:13,260 --> 01:15:15,260
+eso te puede pasar
+
+1170
+01:15:15,260 --> 01:15:17,260
+más con una máquina escribiendo
+
+1171
+01:15:17,260 --> 01:15:20,260
+por qué les parece
+
+1172
+01:15:20,260 --> 01:15:22,260
+haber una pregunta
+
+1173
+01:15:22,260 --> 01:15:24,260
+y esta sustitución
+
+1174
+01:15:24,260 --> 01:15:26,260
+por una p
+
+1175
+01:15:26,260 --> 01:15:31,260
+ese
+
+1176
+01:15:31,260 --> 01:15:33,260
+le parece que es igual
+
+1177
+01:15:33,260 --> 01:15:34,260
+para cualquier letra
+
+1178
+01:15:34,260 --> 01:15:35,260
+de la sustitución
+
+1179
+01:15:35,260 --> 01:15:37,260
+acá
+
+1180
+01:15:37,260 --> 01:15:39,260
+como acerca
+
+1181
+01:15:39,260 --> 01:15:40,260
+es más fácil
+
+1182
+01:15:40,260 --> 01:15:41,260
+confundir una ogo
+
+1183
+01:15:41,260 --> 01:15:42,260
+una peguna
+
+1184
+01:15:42,260 --> 01:15:43,260
+en un teclado
+
+1185
+01:15:43,260 --> 01:15:45,260
+por la distribución de la letra
+
+1186
+01:15:47,260 --> 01:15:50,260
+eso no nos va una pista
+
+1187
+01:15:55,260 --> 01:15:57,260
+y yo voy a llegar a decir
+
+1188
+01:15:57,260 --> 01:15:58,260
+bueno
+
+1189
+01:15:58,260 --> 01:15:59,260
+entonces lo que voy a hacer
+
+1190
+01:15:59,260 --> 01:16:00,260
+es
+
+1191
+01:16:00,260 --> 01:16:01,260
+a la raro
+
+1192
+01:16:01,260 --> 01:16:03,260
+cualquier error
+
+1193
+01:16:03,260 --> 01:16:04,260
+a la raro
+
+1194
+01:16:04,260 --> 01:16:05,260
+cualquier palabra
+
+1195
+01:16:05,260 --> 01:16:06,260
+que es un error
+
+1196
+01:16:06,260 --> 01:16:07,260
+y busco la candidata
+
+1197
+01:16:07,260 --> 01:16:08,260
+más parecida
+
+1198
+01:16:08,260 --> 01:16:09,260
+cambiando
+
+1199
+01:16:09,260 --> 01:16:10,260
+una serie de reglas
+
+1200
+01:16:10,260 --> 01:16:11,260
+por
+
+1201
+01:16:11,260 --> 01:16:12,260
+las que están más cercan del teclado
+
+1202
+01:16:12,260 --> 01:16:13,260
+prevolado
+
+1203
+01:16:13,260 --> 01:16:14,260
+por una p
+
+1204
+01:16:14,260 --> 01:16:15,260
+no
+
+1205
+01:16:15,260 --> 01:16:16,260
+a otro
+
+1206
+01:16:16,260 --> 01:16:17,260
+un paquete de reglas
+
+1207
+01:16:17,260 --> 01:16:18,260
+la pico de la palabra
+
+1208
+01:16:18,260 --> 01:16:19,260
+hay algo parecido
+
+1209
+01:16:19,260 --> 01:16:21,260
+es lo que dice con la morphología
+
+1210
+01:16:21,260 --> 01:16:23,260
+bueno
+
+1211
+01:16:23,260 --> 01:16:24,260
+no vamos a hacer eso
+
+1212
+01:16:24,260 --> 01:16:25,260
+nuestra aproximación
+
+1213
+01:16:25,260 --> 01:16:26,260
+va a ser completamente diferente
+
+1214
+01:16:26,260 --> 01:16:27,260
+a esa
+
+1215
+01:16:27,260 --> 01:16:28,260
+en lugar de aprender
+
+1216
+01:16:28,260 --> 01:16:29,260
+de nuestro modelo
+
+1217
+01:16:29,260 --> 01:16:31,260
+de tomar esa visión
+
+1218
+01:16:31,260 --> 01:16:32,260
+racionalista
+
+1219
+01:16:32,260 --> 01:16:33,260
+en la cual
+
+1220
+01:16:33,260 --> 01:16:35,260
+yo supongo una cantidad hipótesis
+
+1221
+01:16:35,260 --> 01:16:37,260
+como son demasiado complicadas
+
+1222
+01:16:37,260 --> 01:16:38,260
+a hipótesis
+
+1223
+01:16:38,260 --> 01:16:39,260
+que sí
+
+1224
+01:16:39,260 --> 01:16:40,260
+no sé si es una o
+
+1225
+01:16:40,260 --> 01:16:41,260
+o la p
+
+1226
+01:16:41,260 --> 01:16:43,260
+o la
+
+1227
+01:16:43,260 --> 01:16:45,260
+un secretario
+
+1228
+01:16:45,260 --> 01:16:47,260
+es que
+
+1229
+01:16:47,260 --> 01:16:48,260
+no sé
+
+1230
+01:16:48,260 --> 01:16:49,260
+no le voy a dar
+
+1231
+01:16:49,260 --> 01:16:50,260
+o
+
+1232
+01:16:50,260 --> 01:16:52,260
+es
+
+1233
+01:16:52,260 --> 01:16:57,260
+el
+
+1234
+01:16:57,260 --> 01:16:59,260
+no meний
+
+1235
+01:17:03,260 --> 01:17:10,260
+es cruel
+
+1236
+01:17:10,260 --> 01:17:15,260
+no ni
+
+1237
+01:17:15,260 --> 01:17:21,260
+Entonces, lo que vamos a hacer es nada, vamos a aplicar el modelo del canal ruido,
+
+1238
+01:17:21,260 --> 01:17:29,260
+si vamos a decir, bueno, y acá viene el asunto de las provididades condicional y todo eso.
+
+1239
+01:17:29,260 --> 01:17:32,260
+Se acuerdan de la provididad condicional, ¿no?
+
+1240
+01:17:32,260 --> 01:17:36,260
+Pueden condicionales un número entre 0 y 1 blabla,
+
+1241
+01:17:36,260 --> 01:17:40,260
+y es una institución de provididad entre eventos posibles,
+
+1242
+01:17:40,260 --> 01:17:46,260
+pero que está condicionado a que haya pasado algo.
+
+1243
+01:17:46,260 --> 01:17:49,260
+Entonces, yo lo que digo es,
+
+1244
+01:17:49,260 --> 01:17:53,260
+yo voy a querer la palabra gobliver,
+
+1245
+01:17:53,260 --> 01:17:57,260
+doble ver, cozo, te chito un burrito,
+
+1246
+01:17:57,260 --> 01:18:05,260
+que maximiza la provididad de,
+
+1247
+01:18:05,260 --> 01:18:09,260
+ahora vamos a aplicar un poquito más.
+
+1248
+01:18:11,260 --> 01:18:14,260
+Se acuerdan el arrumax, lo que quiere decir es,
+
+1249
+01:18:14,260 --> 01:18:18,260
+caljule la problidad, y cuál es la doble vez que se le argumento para esa,
+
+1250
+01:18:18,260 --> 01:18:20,260
+para esa cuenta de ahora, ¿no?
+
+1251
+01:18:20,260 --> 01:18:23,260
+Esto es, yo tengo una observación no,
+
+1252
+01:18:23,260 --> 01:18:26,260
+que en mi palabra con el error,
+
+1253
+01:18:26,260 --> 01:18:31,260
+sí, y yo quiero saber exactamente lo que estuvimos conversando ahora,
+
+1254
+01:18:31,260 --> 01:18:36,260
+la doble de toda la doble de posibles del vocabulario,
+
+1255
+01:18:36,260 --> 01:18:43,260
+cuál es aquella para la cual la probabilidad,
+
+1256
+01:18:43,260 --> 01:18:47,260
+es maxima,
+
+1257
+01:18:47,260 --> 01:18:50,260
+lo cual solamente me mode la problema,
+
+1258
+01:18:50,260 --> 01:18:52,260
+no me lo resuelve, no tengo ni idea,
+
+1259
+01:18:52,260 --> 01:18:55,260
+hasta el momento como calcula la provididad,
+
+1260
+01:18:55,260 --> 01:18:57,260
+pero mi problema ahora es,
+
+1261
+01:18:57,260 --> 01:19:01,260
+cómo calcula la provididad,
+
+1262
+01:19:01,260 --> 01:19:05,260
+además de la tarea titánica de encontrar todas las posibles,
+
+1263
+01:19:05,260 --> 01:19:08,260
+y probar con cada uno,
+
+1264
+01:19:08,260 --> 01:19:09,260
+además tu que sabe,
+
+1265
+01:19:09,260 --> 01:19:11,260
+en esta doble vez donde saco el estimo,
+
+1266
+01:19:11,260 --> 01:19:12,260
+con como hago,
+
+1267
+01:19:12,260 --> 01:19:14,260
+ese es mi problema en los métodos probabilísticas,
+
+1268
+01:19:14,260 --> 01:19:17,260
+o como calcula la provididad,
+
+1269
+01:19:17,260 --> 01:19:20,260
+y la provididad le voy a calcular a partir de que,
+
+1270
+01:19:20,260 --> 01:19:23,260
+como podemos aprender esas probabilidades.
+
+1271
+01:19:28,260 --> 01:19:30,260
+Frequencia, frecuencia de errores,
+
+1272
+01:19:30,260 --> 01:19:34,260
+exactamente así funcionan todos los métodos aprendizac automáticos,
+
+1273
+01:19:34,260 --> 01:19:38,260
+aprenden de corpus,
+
+1274
+01:19:38,260 --> 01:19:40,260
+o de conjuntos,
+
+1275
+01:19:40,260 --> 01:19:42,260
+previamente han notado,
+
+1276
+01:19:42,260 --> 01:19:44,260
+porque yo para saber frecuencia de errores,
+
+1277
+01:19:44,260 --> 01:19:47,260
+hay una persona me estuvo que anuntar los errores,
+
+1278
+01:19:47,260 --> 01:19:51,260
+y si es el gran problema de los métodos aprendizaje,
+
+1279
+01:19:51,260 --> 01:19:53,260
+no me toa aprendizaje,
+
+1280
+01:19:53,260 --> 01:19:55,260
+tienen la gran ventaja de que,
+
+1281
+01:19:55,260 --> 01:19:58,260
+esencialmente no necesitan un esperto porque aprenden de los datos,
+
+1282
+01:19:58,260 --> 01:20:01,260
+pero necesitan un esperto para que le anote los datos,
+
+1283
+01:20:01,260 --> 01:20:02,260
+para que le diga,
+
+1284
+01:20:02,260 --> 01:20:03,260
+esto fue un error,
+
+1285
+01:20:03,260 --> 01:20:04,260
+esto fue un error,
+
+1286
+01:20:04,260 --> 01:20:05,260
+esto fue un error,
+
+1287
+01:20:05,260 --> 01:20:06,260
+esto fue un error,
+
+1288
+01:20:06,260 --> 01:20:07,260
+y ahí aprende,
+
+1289
+01:20:07,260 --> 01:20:08,260
+bueno eso,
+
+1290
+01:20:08,260 --> 01:20:10,260
+eso se trata el modo que analruido eso,
+
+1291
+01:20:10,260 --> 01:20:11,260
+y qué hace,
+
+1292
+01:20:11,260 --> 01:20:13,260
+bueno dice,
+
+1293
+01:20:13,260 --> 01:20:16,260
+va a aplicar la vieja y querida reala de vases,
+
+1294
+01:20:18,260 --> 01:20:20,260
+vases,
+
+1295
+01:20:20,260 --> 01:20:21,260
+no,
+
+1296
+01:20:21,260 --> 01:20:24,260
+por allá del movimiento,
+
+1297
+01:20:24,260 --> 01:20:26,260
+de cobrir esta reala que es muy muy,
+
+1298
+01:20:26,260 --> 01:20:27,260
+es decir,
+
+1299
+01:20:27,260 --> 01:20:29,260
+es muy muy difícil de aplicar,
+
+1300
+01:20:30,260 --> 01:20:31,260
+es decir,
+
+1301
+01:20:31,260 --> 01:20:32,260
+es que la probabilidad,
+
+1302
+01:20:32,260 --> 01:20:34,260
+de un número dado otro,
+
+1303
+01:20:37,260 --> 01:20:39,260
+es igual a la probabilidad,
+
+1304
+01:20:39,260 --> 01:20:40,260
+por lo menos,
+
+1305
+01:20:40,260 --> 01:20:42,260
+una prueba de un evento,
+
+1306
+01:20:42,260 --> 01:20:44,260
+dado otro evento,
+
+1307
+01:20:44,260 --> 01:20:45,260
+es la probabilidad,
+
+1308
+01:20:45,260 --> 01:20:46,260
+al revés,
+
+1309
+01:20:46,260 --> 01:20:47,260
+de la condicional revés,
+
+1310
+01:20:47,260 --> 01:20:49,260
+multiplicada por la probabilidad del X,
+
+1311
+01:20:49,260 --> 01:20:51,260
+dividida por la probabilidad del Y,
+
+1312
+01:20:53,260 --> 01:20:54,260
+es decir,
+
+1313
+01:20:54,260 --> 01:20:56,260
+esto es bastante obvio porque,
+
+1314
+01:20:56,260 --> 01:20:58,260
+la probabilidad,
+
+1315
+01:20:59,260 --> 01:21:01,260
+de que se ven dos eventos,
+
+1316
+01:21:01,260 --> 01:21:02,260
+X y X,
+
+1317
+01:21:02,260 --> 01:21:03,260
+al mismo tiempo,
+
+1318
+01:21:03,260 --> 01:21:05,260
+es la probabilidad,
+
+1319
+01:21:05,260 --> 01:21:07,260
+de que se de aquí,
+
+1320
+01:21:07,260 --> 01:21:09,260
+multiplicada por la probabilidad de que
+
+1321
+01:21:09,260 --> 01:21:11,260
+se de y dado que se dio X,
+
+1322
+01:21:11,260 --> 01:21:13,260
+sí,
+
+1323
+01:21:13,260 --> 01:21:15,260
+la probabilidad de que se ha llegado a ver
+
+1324
+01:21:15,260 --> 01:21:16,260
+si un dos,
+
+1325
+01:21:16,260 --> 01:21:17,260
+cuando tiene un dado,
+
+1326
+01:21:17,260 --> 01:21:20,260
+la probabilidad de que se ha llegado a
+
+1327
+01:21:20,260 --> 01:21:22,260
+multiplicado por la probabilidad de que se ha
+
+1328
+01:21:22,260 --> 01:21:24,260
+llegado a otro dos,
+
+1329
+01:21:24,260 --> 01:21:26,260
+de que el dado se empiore,
+
+1330
+01:21:26,260 --> 01:21:27,260
+por ejemplo,
+
+1331
+01:21:27,260 --> 01:21:30,260
+de que se van a haberlo mismo,
+
+1332
+01:21:30,260 --> 01:21:32,260
+pero la probabilidad de que sí,
+
+1333
+01:21:36,260 --> 01:21:37,260
+la probabilidad de,
+
+1334
+01:21:37,260 --> 01:21:40,260
+si la primera palabra de una de un texto
+
+1335
+01:21:40,260 --> 01:21:41,260
+es,
+
+1336
+01:21:41,260 --> 01:21:42,260
+la,
+
+1337
+01:21:42,260 --> 01:21:43,260
+es un artículo,
+
+1338
+01:21:43,260 --> 01:21:45,260
+la probabilidad de que se ha
+
+1339
+01:21:45,260 --> 01:21:47,260
+un sustantivo la siguiente seguramente
+
+1340
+01:21:47,260 --> 01:21:48,260
+más alta,
+
+1341
+01:21:48,260 --> 01:21:49,260
+le acuerdo,
+
+1342
+01:21:49,260 --> 01:21:50,260
+que sí,
+
+1343
+01:21:50,260 --> 01:21:53,260
+la primera es un vergo,
+
+1344
+01:21:53,260 --> 01:21:55,260
+¿no acuerdo?
+
+1345
+01:21:55,260 --> 01:21:56,260
+Entonces,
+
+1346
+01:21:56,260 --> 01:21:58,260
+pero lo mismo puedo decir,
+
+1347
+01:21:58,260 --> 01:21:59,260
+al revés,
+
+1348
+01:21:59,260 --> 01:22:01,260
+la probabilidad de que sí,
+
+1349
+01:22:01,260 --> 01:22:03,260
+es igual la probabilidad de,
+
+1350
+01:22:03,260 --> 01:22:04,260
+y,
+
+1351
+01:22:04,260 --> 01:22:07,260
+por la probabilidad de que he quedado ahí,
+
+1352
+01:22:07,260 --> 01:22:09,260
+le acuerdo,
+
+1353
+01:22:09,260 --> 01:22:10,260
+y bueno,
+
+1354
+01:22:10,260 --> 01:22:12,260
+estábamos cosas,
+
+1355
+01:22:12,260 --> 01:22:13,260
+y bueno,
+
+1356
+01:22:13,260 --> 01:22:14,260
+estábamos,
+
+1357
+01:22:14,260 --> 01:22:15,260
+y paso,
+
+1358
+01:22:15,260 --> 01:22:16,260
+y divido por peso,
+
+1359
+01:22:16,260 --> 01:22:17,260
+sí,
+
+1360
+01:22:17,260 --> 01:22:18,260
+y me da la realidad,
+
+1361
+01:22:18,260 --> 01:22:19,260
+se decisivamente,
+
+1362
+01:22:19,260 --> 01:22:21,260
+pero es muy interesante,
+
+1363
+01:22:21,260 --> 01:22:22,260
+lo que dice la realidad,
+
+1364
+01:22:22,260 --> 01:22:23,260
+porque dice,
+
+1365
+01:22:23,260 --> 01:22:25,260
+si yo condición en un evento,
+
+1366
+01:22:26,260 --> 01:22:27,260
+automáticamente,
+
+1367
+01:22:27,260 --> 01:22:30,260
+saber cómo se condiciona en el otro,
+
+1368
+01:22:30,260 --> 01:22:33,260
+si yo sé la probabilidad,
+
+1369
+01:22:33,260 --> 01:22:36,260
+de que,
+
+1370
+01:22:36,260 --> 01:22:38,260
+de que la segunda,
+
+1371
+01:22:38,260 --> 01:22:39,260
+sea un artículo,
+
+1372
+01:22:39,260 --> 01:22:40,260
+un sustantivo,
+
+1373
+01:22:40,260 --> 01:22:41,260
+a lo que la primera es un artículo,
+
+1374
+01:22:41,260 --> 01:22:43,260
+porque es una de el revés,
+
+1375
+01:22:43,260 --> 01:22:44,260
+porque es un artículo,
+
+1376
+01:22:44,260 --> 01:22:45,260
+porque es un artículo,
+
+1377
+01:22:45,260 --> 01:22:47,260
+y la primera es un,
+
+1378
+01:22:47,260 --> 01:22:48,260
+un sustantivo,
+
+1379
+01:22:48,260 --> 01:22:49,260
+a ser la derecha de,
+
+1380
+01:22:49,260 --> 01:22:52,260
+de la de patrática,
+
+1381
+01:22:52,260 --> 01:22:54,260
+y justamente lo que vamos a hacer
+
+1382
+01:22:54,260 --> 01:22:55,260
+con nosotros,
+
+1383
+01:22:55,260 --> 01:22:56,260
+es decir,
+
+1384
+01:22:56,260 --> 01:22:57,260
+bueno,
+
+1385
+01:22:57,260 --> 01:22:58,260
+nosotros queremos que el cular esto,
+
+1386
+01:22:58,260 --> 01:22:59,260
+la probabilidad,
+
+1387
+01:22:59,260 --> 01:23:00,260
+perdón,
+
+1388
+01:23:00,260 --> 01:23:02,260
+nosotros teníamos esta probabilidad
+
+1389
+01:23:02,260 --> 01:23:03,260
+que queremos que el cular,
+
+1390
+01:23:03,260 --> 01:23:04,260
+p,
+
+1391
+01:23:04,260 --> 01:23:05,260
+de doble vida,
+
+1392
+01:23:05,260 --> 01:23:06,260
+o,
+
+1393
+01:23:06,260 --> 01:23:07,260
+sí,
+
+1394
+01:23:07,260 --> 01:23:08,260
+entonces yo lo que digo,
+
+1395
+01:23:08,260 --> 01:23:09,260
+de esa plica baixa,
+
+1396
+01:23:09,260 --> 01:23:10,260
+y digo,
+
+1397
+01:23:10,260 --> 01:23:11,260
+la probabilidad de,
+
+1398
+01:23:11,260 --> 01:23:12,260
+de,
+
+1399
+01:23:12,260 --> 01:23:13,260
+ahora vamos a ver por qué hago esto,
+
+1400
+01:23:13,260 --> 01:23:14,260
+¿no?
+
+1401
+01:23:14,260 --> 01:23:16,260
+La probabilidad de,
+
+1402
+01:23:16,260 --> 01:23:17,260
+digo,
+
+1403
+01:23:17,260 --> 01:23:18,260
+dado de,
+
+1404
+01:23:18,260 --> 01:23:20,260
+por la probabilidad de,
+
+1405
+01:23:20,260 --> 01:23:21,260
+digo,
+
+1406
+01:23:21,260 --> 01:23:22,260
+la probabilidad de,
+
+1407
+01:23:22,260 --> 01:23:24,260
+filmar theatre,
+
+1408
+01:23:24,260 --> 01:23:25,260
+todo,
+
+1409
+01:23:25,260 --> 01:23:27,260
+exports.
+
+1410
+01:23:27,260 --> 01:23:29,260
+Por si.
+
+1411
+01:23:30,260 --> 01:23:32,260
+Ahora cuando dospar,
+
+1412
+01:23:32,260 --> 01:23:33,260
+la probabilidad de,
+
+1413
+01:23:33,260 --> 01:23:35,260
+rotational conocimiento
+
+1414
+01:23:35,260 --> 01:23:36,260
+con la breeze.
+
+1415
+01:23:36,260 --> 01:23:38,260
+Entonces,
+
+1416
+01:23:38,260 --> 01:23:45,260
+Yo sé la palabra original y veo la palabra que se transformó.
+
+1417
+01:23:45,260 --> 01:23:51,260
+Entonces yo lo que veo fácilmente contando es ahora vamos a ver porque veo fácilmente contando.
+
+1418
+01:23:51,260 --> 01:23:54,260
+La probabilidad de la observación de la palabra original.
+
+1419
+01:23:54,260 --> 01:23:57,260
+Si yo escribi tu mate,
+
+1420
+01:23:57,260 --> 01:24:06,260
+pero si yo tomate, ¿qué tan probable es que escribi tu mate?
+
+1421
+01:24:06,260 --> 01:24:09,260
+Tuve la cual se tiene y tú que cuando le revés.
+
+1422
+01:24:09,260 --> 01:24:14,260
+Te partiendo y la palabra y viendo cuál es la probabilidad equivocarme.
+
+1423
+01:24:14,260 --> 01:24:17,260
+Que vamos a ver ahora que eso es más fácil de calcular.
+
+1424
+01:24:17,260 --> 01:24:18,260
+Ahora lo vamos a ver.
+
+1425
+01:24:18,260 --> 01:24:24,260
+Pero la cuestión es que si yo quiero maximizar esta función,
+
+1426
+01:24:24,260 --> 01:24:29,260
+si se fija en esta función, depende o sea esto es para todas las palabras posible.
+
+1427
+01:24:29,260 --> 01:24:33,260
+La probabilidad de que yo diga tu mate dado que dije perro,
+
+1428
+01:24:33,260 --> 01:24:36,260
+que acabas ayudando a ver, ¿no?
+
+1429
+01:24:36,260 --> 01:24:41,260
+Cotomate o mate.
+
+1430
+01:24:41,260 --> 01:24:43,260
+Y si ustedes se fijan acá,
+
+1431
+01:24:43,260 --> 01:24:46,260
+esto es baría con la palabra, pero no haría con la solución.
+
+1432
+01:24:46,260 --> 01:24:51,260
+Entonces yo, maximizar esta función y lo mismo como si va a ser esta arriba.
+
+1433
+01:24:51,260 --> 01:24:53,260
+Como esto fijo.
+
+1434
+01:24:53,260 --> 01:24:58,260
+Entonces acá, se voy a esto.
+
+1435
+01:24:58,260 --> 01:25:02,260
+Maximizó la probabilidad de la observación,
+
+1436
+01:25:02,260 --> 01:25:06,260
+dado la palabra multiplicada por la probabilidad de la palabra.
+
+1437
+01:25:06,260 --> 01:25:11,260
+Y miren interesante, ¿no? Porque estoy dividiendo en dos partes.
+
+1438
+01:25:11,260 --> 01:25:17,260
+La realidad es lo que permite ser y vivir en dos partes.
+
+1439
+01:25:17,260 --> 01:25:22,260
+Bien claras ni estimación de la probabilidad.
+
+1440
+01:25:22,260 --> 01:25:27,260
+Y es la probabilidad a priori de la palabra.
+
+1441
+01:25:28,260 --> 01:25:34,260
+¿Qué es? ¿Qué tan probable es en el caso de nuestro?
+
+1442
+01:25:34,260 --> 01:25:37,260
+Es que yo ni te así quiera esa palabra.
+
+1443
+01:25:37,260 --> 01:25:42,260
+¿Qué tan probable es que yo he ya querido decir este...
+
+1444
+01:25:42,260 --> 01:25:46,260
+Yo que sé, no sé.
+
+1445
+01:25:46,260 --> 01:25:48,260
+No sé, cualquier palabra rara.
+
+1446
+01:25:48,260 --> 01:25:49,260
+No sé, no sé, no sé, no sé.
+
+1447
+01:25:49,260 --> 01:25:51,260
+No sé, no sé, no sé.
+
+1448
+01:25:51,260 --> 01:25:53,260
+No sé, no sé, no sé, no sé.
+
+1449
+01:25:53,260 --> 01:25:56,260
+No sé, no sé, no sé, no sé.
+
+1450
+01:25:56,260 --> 01:26:02,260
+Yo digo que tu mate y que se decir...
+
+1451
+01:26:02,260 --> 01:26:09,260
+Hay alguna palabra parecía tu mate, pero rara.
+
+1452
+01:26:09,260 --> 01:26:13,260
+Que se decir, mita.
+
+1453
+01:26:13,260 --> 01:26:15,260
+¿Qué sabemos que es algo?
+
+1454
+01:26:15,260 --> 01:26:18,260
+La probabilidad de que yo haya dicho mita.
+
+1455
+01:26:18,260 --> 01:26:20,260
+Es muy baja porque mita no es una palabra.
+
+1456
+01:26:20,260 --> 01:26:21,260
+Y no hay conozca.
+
+1457
+01:26:21,260 --> 01:26:24,260
+No sé, no sé, no sé, no sé, no sé, no sé.
+
+1458
+01:26:24,260 --> 01:26:27,260
+No sé, no sé, no sé, no sé, no sé.
+
+1459
+01:26:27,260 --> 01:26:30,260
+La probabilidad a priori que así se llama en muy baja.
+
+1460
+01:26:30,260 --> 01:26:31,260
+Es muy baja.
+
+1461
+01:26:31,260 --> 01:26:35,260
+Ahora, si yo hablo claro, digo mita.
+
+1462
+01:26:35,260 --> 01:26:38,260
+Por más bajan que sea usted me escucharon perfecto
+
+1463
+01:26:38,260 --> 01:26:41,260
+o sé que la probabilidad de la observación mita.
+
+1464
+01:26:41,260 --> 01:26:46,260
+No sé, no sé, no sé, no sé, no sé, no sé, no sé.
+
+1465
+01:26:46,260 --> 01:26:51,260
+No sé, no sé, ni más ni menos que la probabilidad de que yo estoy queriendo saber
+
+1466
+01:26:51,260 --> 01:26:54,260
+es la multiplicación de ambas.
+
+1467
+01:26:54,260 --> 01:26:57,260
+Yo puedo tener una palabra, que es muy probable que diga.
+
+1468
+01:26:57,260 --> 01:27:04,260
+Es muy probable que yo se ha querido decir el ola o...
+
+1469
+01:27:04,260 --> 01:27:08,260
+cualquier artículo que son las palabras más comunes.
+
+1470
+01:27:08,260 --> 01:27:12,260
+Pero es muy raro que yo haya dicho él y que me haya salido tu mate.
+
+1471
+01:27:12,260 --> 01:27:14,260
+¿Sentiendes?
+
+1472
+01:27:14,260 --> 01:27:17,260
+Entonces, esta probabilidad, ser muy alta, pero esta va a ser muy baja.
+
+1473
+01:27:17,260 --> 01:27:20,260
+De eso se trata ni más ni menos la realidad de la base.
+
+1474
+01:27:20,260 --> 01:27:21,260
+El canal redoso.
+
+1475
+01:27:21,260 --> 01:27:24,260
+Entonces, vamos a ver un ejemplo en este artículo,
+
+1476
+01:27:24,260 --> 01:27:28,260
+de cómo corregimos el raro y lo basándonos en este algoritmo va a ser siendo.
+
+1477
+01:27:28,260 --> 01:27:32,260
+La hipote si le trabajo y los tipos es.
+
+1478
+01:27:32,260 --> 01:27:36,260
+Los errores son todos por insertión borró su institución y transposición.
+
+1479
+01:27:36,260 --> 01:27:41,260
+O sea, eliminaron el 20% del corpo porque era el otro raro y que nos hayan como modelarlo.
+
+1480
+01:27:42,260 --> 01:27:44,260
+Yo dije, bueno, si yo soy un 4 en el error,
+
+1481
+01:27:44,260 --> 01:27:48,260
+mi única aproximación es que hayen metido un dero mal.
+
+1482
+01:27:48,260 --> 01:27:50,260
+Un sol y un mal.
+
+1483
+01:27:50,260 --> 01:27:52,260
+Lo bueno, se tiende.
+
+1484
+01:27:52,260 --> 01:27:55,260
+Entonces, dice, bueno,
+
+1485
+01:27:55,260 --> 01:28:00,260
+tengo la palabra observada que nuestro caso de esta acres.
+
+1486
+01:28:04,260 --> 01:28:08,260
+Sí, que no es una palabra.
+
+1487
+01:28:09,260 --> 01:28:11,260
+Y dice, bueno, ¿cuál es sol?
+
+1488
+01:28:11,260 --> 01:28:14,260
+Si yo le aplicó todas las transformaciones posible.
+
+1489
+01:28:15,260 --> 01:28:16,260
+Una.
+
+1490
+01:28:16,260 --> 01:28:19,260
+Recuerda en un tipo de decir que la único que hay es una instalación.
+
+1491
+01:28:19,260 --> 01:28:22,260
+O sea, ya reúge mi mi mi mi mi mi mi.
+
+1492
+01:28:22,260 --> 01:28:23,260
+Mi aspiraciones.
+
+1493
+01:28:23,260 --> 01:28:26,260
+O sea, que ya sí, que hay caso que no lo voy a detectar.
+
+1494
+01:28:26,260 --> 01:28:28,260
+Así de triste y la vida, digamos.
+
+1495
+01:28:28,260 --> 01:28:29,260
+Lo modelo probabilita, realmente.
+
+1496
+01:28:31,260 --> 01:28:33,260
+Bueno, todos los modelos, todos los modelos,
+
+1497
+01:28:33,260 --> 01:28:36,260
+la definición de modelo, simplifica la realidad.
+
+1498
+01:28:36,260 --> 01:28:38,260
+Para poder trabajar.
+
+1499
+01:28:39,260 --> 01:28:41,260
+Este, él dice, bueno,
+
+1500
+01:28:42,260 --> 01:28:45,260
+podría haber sido y busca toda la que están a distancia uno.
+
+1501
+01:28:47,260 --> 01:28:49,260
+A distancia uno con estas operaciones.
+
+1502
+01:28:49,260 --> 01:28:52,260
+Y, por ejemplo, dice, actriz.
+
+1503
+01:28:53,260 --> 01:28:55,260
+¿Qué es que se ha perdido la té?
+
+1504
+01:28:56,260 --> 01:29:02,260
+O crees que metimos su que insertamos una.
+
+1505
+01:29:02,260 --> 01:29:06,260
+Y la posición cero.
+
+1506
+01:29:07,260 --> 01:29:09,260
+Fíjense que además, bueno, así todo,
+
+1507
+01:29:09,260 --> 01:29:14,260
+pero hay coescuriosos porque acres con una de ese sola
+
+1508
+01:29:14,260 --> 01:29:16,260
+aparecía dos veces.
+
+1509
+01:29:16,260 --> 01:29:19,260
+Porque puede haberla insertado en la posición 4 en la posición 5.
+
+1510
+01:29:19,260 --> 01:29:22,260
+Tengo que modelar como las dos posible casos.
+
+1511
+01:29:22,260 --> 01:29:24,260
+Pues son las dos formas que tengo que llegar a la misma.
+
+1512
+01:29:25,260 --> 01:29:28,260
+Y te son todas las poscandidades posibles.
+
+1513
+01:29:28,260 --> 01:29:30,260
+Según nuestra redla.
+
+1514
+01:29:30,260 --> 01:29:32,260
+¿Por qué son la unidad de tal en lisionario?
+
+1515
+01:29:33,260 --> 01:29:35,260
+Entonces, ¿entiendes acá?
+
+1516
+01:29:36,260 --> 01:29:37,260
+Bien.
+
+1517
+01:29:41,260 --> 01:29:44,260
+Bueno, entonces yo lo voy a hacer es esto.
+
+1518
+01:29:45,260 --> 01:29:48,260
+Calcular la palabra,
+
+1519
+01:29:50,260 --> 01:29:52,260
+la palabra correcta como
+
+1520
+01:29:52,260 --> 01:29:55,260
+la función que maximiza la probabilidad.
+
+1521
+01:29:59,260 --> 01:30:02,260
+Del error, el tipo, el error.
+
+1522
+01:30:02,260 --> 01:30:04,260
+Dada la palabra por la palabra.
+
+1523
+01:30:04,260 --> 01:30:07,260
+¿Cómo que alguno en la probabilidad de la palabra?
+
+1524
+01:30:07,260 --> 01:30:09,260
+¿Cómo que alguno en la probabilidad
+
+1525
+01:30:09,260 --> 01:30:11,260
+a priori de la palabra?
+
+1526
+01:30:11,260 --> 01:30:15,260
+¿Cómo que alguno en la probabilidad a priori de la palabra?
+
+1527
+01:30:15,260 --> 01:30:16,260
+En el coro.
+
+1528
+01:30:16,260 --> 01:30:17,260
+¿No?
+
+1529
+01:30:19,260 --> 01:30:23,260
+Tengo todo lo acuerdo que la más razonable
+
+1530
+01:30:24,260 --> 01:30:26,260
+a aproximación.
+
+1531
+01:30:26,260 --> 01:30:29,260
+La que parece más seguido en el corpus.
+
+1532
+01:30:29,260 --> 01:30:32,260
+¿Vas a aparecer más seguido en el corpus?
+
+1533
+01:30:32,260 --> 01:30:34,260
+Esa es una razónable.
+
+1534
+01:30:34,260 --> 01:30:37,260
+Se llama principio de máxima de los similitudes.
+
+1535
+01:30:37,260 --> 01:30:40,260
+Yo, considero que lo que tengo en el corpus
+
+1536
+01:30:40,260 --> 01:30:43,260
+es mi mejor aproximación a la realidad.
+
+1537
+01:30:44,260 --> 01:30:50,260
+Lo que maximise la probabilidad en el corpus, maximiza en mi país.
+
+1538
+01:30:51,260 --> 01:30:56,260
+¿Qué pasa si la palabra nunca apareció en el corpus?
+
+1539
+01:30:56,260 --> 01:30:59,260
+Porque el corpus de hecho no hay infinito.
+
+1540
+01:30:59,260 --> 01:31:03,260
+¿Qué pasa si la palabra no apareció en el corpus?
+
+1541
+01:31:05,260 --> 01:31:09,260
+La probabilidad es y eso qué hace, qué suceda.
+
+1542
+01:31:09,260 --> 01:31:12,260
+Que sea imposible de eso le liga.
+
+1543
+01:31:12,260 --> 01:31:17,260
+Aunque estén ni vocabulario, aunque esterre contra parecida
+
+1544
+01:31:17,260 --> 01:31:20,260
+nunca le voy a elegir porque nunca apareció en el corpus.
+
+1545
+01:31:20,260 --> 01:31:23,260
+Es decir, el problema típico del contigo por frecuencias
+
+1546
+01:31:23,260 --> 01:31:26,260
+y la corresión típica que lo vamos en un poquito más de hace que viene.
+
+1547
+01:31:26,260 --> 01:31:29,260
+Yo le voy a hacer y sacarle un poco de más de probabilidad.
+
+1548
+01:31:29,260 --> 01:31:32,260
+Porque esto es lo que va a hacer de hacer una distribución de probabilidad
+
+1549
+01:31:32,260 --> 01:31:34,260
+sobre todo la palabra, ¿no?
+
+1550
+01:31:34,260 --> 01:31:37,260
+Normalizo sobre un hoy me da una distribución por la frecuencias.
+
+1551
+01:31:37,260 --> 01:31:39,260
+¿Qué es esto?
+
+1552
+01:31:40,260 --> 01:31:43,260
+1.343 actres y todas estas, ¿no?
+
+1553
+01:31:43,260 --> 01:31:48,260
+Y esta la probabilidad es simplemente contar la cantidad de palabra
+
+1554
+01:31:48,260 --> 01:31:51,260
+que aparece sobre el total de palabras que hay.
+
+1555
+01:31:53,260 --> 01:31:55,260
+Bueno, yo lo que hago es sacarle un poco más de probabilidad
+
+1556
+01:31:55,260 --> 01:31:58,260
+a estos y decir, en lugar de vivir,
+
+1557
+01:31:58,260 --> 01:32:00,260
+en la cuenta generalmente es de esta cantidad de veces que apareció
+
+1558
+01:32:00,260 --> 01:32:02,260
+la palabra sobre total de palabra.
+
+1559
+01:32:02,260 --> 01:32:05,260
+Lo que hago es agregarlo un poquito de masa de probabilidad
+
+1560
+01:32:05,260 --> 01:32:07,260
+sobre un 0.5 al contigo.
+
+1561
+01:32:09,260 --> 01:32:12,260
+Para que nunca me decero,
+
+1562
+01:32:12,260 --> 01:32:15,260
+es la solución más ingenieril que se les ocurre.
+
+1563
+01:32:15,260 --> 01:32:16,260
+Es decir, un poquito más...
+
+1564
+01:32:16,260 --> 01:32:18,260
+No, si quieres muy huevo de eso,
+
+1565
+01:32:18,260 --> 01:32:19,260
+pero funciona.
+
+1566
+01:32:19,260 --> 01:32:22,260
+Se llama el contigo de la clase.
+
+1567
+01:32:22,260 --> 01:32:24,260
+Vamos a ver lo poquito más de la clase.
+
+1568
+01:32:24,260 --> 01:32:25,260
+Pero tengo que para que...
+
+1569
+01:32:25,260 --> 01:32:27,260
+¿Por qué le alegó este 0.5 acá?
+
+1570
+01:32:29,260 --> 01:32:30,260
+¿Cómo?
+
+1571
+01:32:31,260 --> 01:32:32,260
+No, no es por eso.
+
+1572
+01:32:32,260 --> 01:32:34,260
+¿Por qué tengo variable este 0.5?
+
+1573
+01:32:35,260 --> 01:32:38,260
+No, no, no.
+
+1574
+01:32:38,260 --> 01:32:40,260
+No, no, no, no.
+
+1575
+01:32:42,260 --> 01:32:44,260
+Es una operación, una cuestión bien operativa.
+
+1576
+01:32:47,260 --> 01:32:48,260
+¿Dé?
+
+1577
+01:32:48,260 --> 01:32:49,260
+¿Dé?
+
+1578
+01:32:49,260 --> 01:32:50,260
+¿Dé?
+
+1579
+01:32:50,260 --> 01:32:51,260
+¿Dé?
+
+1580
+01:32:51,260 --> 01:32:53,260
+¿Dé?
+
+1581
+01:32:53,260 --> 01:32:54,260
+No.
+
+1582
+01:32:54,260 --> 01:32:56,260
+Para mantener la operación.
+
+1583
+01:32:56,260 --> 01:32:57,260
+Bueno, me digué a uno.
+
+1584
+01:32:57,260 --> 01:32:59,260
+¿Déy todo que es una iteración de probabilidad?
+
+1585
+01:32:59,260 --> 01:33:02,260
+Si yo, cuando yo cuento y he vivido sobre él ni,
+
+1586
+01:33:02,260 --> 01:33:04,260
+lo que me da es una iteración de probabilidad.
+
+1587
+01:33:04,260 --> 01:33:06,260
+Es decir, todo es un mauno.
+
+1588
+01:33:06,260 --> 01:33:09,260
+Si yo le agregó 0.5 acá, uno deja de sumar uno.
+
+1589
+01:33:09,260 --> 01:33:10,260
+Entonces, yo tengo que normalizarlo.
+
+1590
+01:33:10,260 --> 01:33:12,260
+Y le agregó de esto al total.
+
+1591
+01:33:14,260 --> 01:33:15,260
+¿Centiende?
+
+1592
+01:33:15,260 --> 01:33:17,260
+¿Es como acá o hubieron poquito más de palabras?
+
+1593
+01:33:17,260 --> 01:33:19,260
+Entonces, yo tengo que sumar las acá.
+
+1594
+01:33:19,260 --> 01:33:21,260
+¿Y como agregó 0.5?
+
+1595
+01:33:21,260 --> 01:33:22,260
+Por cada una palabra.
+
+1596
+01:33:22,260 --> 01:33:24,260
+Es como que yo agregara 0.5 palabras.
+
+1597
+01:33:24,260 --> 01:33:27,260
+Es decir, es 5 por la cantidad de palabras posible, ¿no?
+
+1598
+01:33:27,260 --> 01:33:29,260
+No, bueno.
+
+1599
+01:33:30,260 --> 01:33:32,260
+Es como, bueno, esto aparece un montón de veces.
+
+1600
+01:33:32,260 --> 01:33:34,260
+Muntón de veces se hace tipo cosas.
+
+1601
+01:33:34,260 --> 01:33:37,260
+Yo siempre que tengo una probabilidad tengo que buscar la forma normalizarla.
+
+1602
+01:33:37,260 --> 01:33:38,260
+Y cuando yo empido a hacer cuenta,
+
+1603
+01:33:38,260 --> 01:33:41,260
+la modificar lo sumando, puedo romper la probabilidad.
+
+1604
+01:33:41,260 --> 01:33:43,260
+Yo tengo que asegurarme que es un meguno.
+
+1605
+01:33:43,260 --> 01:33:47,260
+Porque, bueno, porque la base de todo mi teoría probabilística
+
+1606
+01:33:47,260 --> 01:33:49,260
+está basada en eso de que son eventos,
+
+1607
+01:33:49,260 --> 01:33:52,260
+que son todos menores que uno,
+
+1608
+01:33:52,260 --> 01:33:55,260
+es claro, es que yo lo me apé una función de lo que uno
+
+1609
+01:33:55,260 --> 01:33:57,260
+y que la sumada a uno.
+
+1610
+01:33:57,260 --> 01:34:00,260
+Y, pues, todo lo que hago es que más eso.
+
+1611
+01:34:00,260 --> 01:34:02,260
+Bueno, pero, pues, yo que con esta correctión,
+
+1612
+01:34:02,260 --> 01:34:04,260
+llegamos a una distribución de probabilidad
+
+1613
+01:34:04,260 --> 01:34:06,260
+de la probabilidad priori.
+
+1614
+01:34:06,260 --> 01:34:11,260
+O sea, lo más probable es que yo haya querido decir Axes.
+
+1615
+01:34:11,260 --> 01:34:14,260
+No, bueno, nada.
+
+1616
+01:34:14,260 --> 01:34:19,260
+Si yo no supiera más nada que lo que...
+
+1617
+01:34:19,260 --> 01:34:23,260
+Si yo no supiera más nada que las palabras posible,
+
+1618
+01:34:23,260 --> 01:34:25,260
+lo más probable que haya querido decir,
+
+1619
+01:34:25,260 --> 01:34:26,260
+perdón, ¿qué queréis decir?
+
+1620
+01:34:26,260 --> 01:34:29,260
+Acroso, que es la palabra más común en el corto.
+
+1621
+01:34:29,260 --> 01:34:31,260
+Quipo, con probabilidad, cero, cero, cero, cero,
+
+1622
+01:34:31,260 --> 01:34:33,260
+cero, cero, cero, cero, cero.
+
+1623
+01:34:33,260 --> 01:34:35,260
+Acroso.
+
+1624
+01:34:35,260 --> 01:34:37,260
+Eso quiere decir que es acorno,
+
+1625
+01:34:37,260 --> 01:34:40,260
+porque nos falta la segunda parte de la probabilidad.
+
+1626
+01:34:40,260 --> 01:34:44,260
+Nosotros calculamos esta, la probabilidad apriori.
+
+1627
+01:34:44,260 --> 01:34:51,260
+Es la probabilidad que en principio tiene la palabra.
+
+1628
+01:34:51,260 --> 01:34:55,260
+Sin haber visto los datos.
+
+1629
+01:34:55,260 --> 01:34:58,260
+Es como mi...
+
+1630
+01:34:58,260 --> 01:35:00,260
+Si yo lo veo desde un punto de la probabilidad,
+
+1631
+01:35:00,260 --> 01:35:03,260
+se pueden ver de 2.2 familias de razonamiento principal.
+
+1632
+01:35:03,260 --> 01:35:06,260
+Uno de frecuentista que es una probabilidad
+
+1633
+01:35:06,260 --> 01:35:08,260
+es la cantidad de veces que pasa algo.
+
+1634
+01:35:08,260 --> 01:35:09,260
+La proporción de veces que pasa algo,
+
+1635
+01:35:09,260 --> 01:35:11,260
+si yo lo repito suficientemente,
+
+1636
+01:35:11,260 --> 01:35:14,260
+estoy un dado millón de veces.
+
+1637
+01:35:14,260 --> 01:35:18,260
+En veces va a tender a la probabilidad,
+
+1638
+01:35:18,260 --> 01:35:20,260
+calcula que el definio de eso como la probabilidad.
+
+1639
+01:35:20,260 --> 01:35:23,260
+Hay otra visión alternativa,
+
+1640
+01:35:23,260 --> 01:35:27,260
+la certeza o la confianza que yo tengo en algo
+
+1641
+01:35:27,260 --> 01:35:29,260
+que no está definida por una frecuencia.
+
+1642
+01:35:29,260 --> 01:35:32,260
+Esa la visión bacesiana, la probabilidad es
+
+1643
+01:35:32,260 --> 01:35:34,260
+lo que yo pienso que...
+
+1644
+01:35:34,260 --> 01:35:37,260
+Si yo te ven un dado, yo tengo un dado,
+
+1645
+01:35:37,260 --> 01:35:39,260
+ustedes, apriori.
+
+1646
+01:35:39,260 --> 01:35:45,260
+¿Cuál es la probabilidad de que salga uno?
+
+1647
+01:35:45,260 --> 01:35:50,260
+¿Por qué?
+
+1648
+01:35:50,260 --> 01:35:52,260
+No tiraron el dado.
+
+1649
+01:35:52,260 --> 01:35:53,260
+No?
+
+1650
+01:35:53,260 --> 01:35:55,260
+No, no, no, no es una pregunta, no tirada.
+
+1651
+01:35:55,260 --> 01:35:57,260
+¿Tenés hay posibles?
+
+1652
+01:35:57,260 --> 01:35:59,260
+¿Y qué más?
+
+1653
+01:35:59,260 --> 01:36:03,260
+¿Y qué?
+
+1654
+01:36:03,260 --> 01:36:04,260
+Sí, pero ¿qué más?
+
+1655
+01:36:04,260 --> 01:36:07,260
+¿Qué más estás asuniendo?
+
+1656
+01:36:07,260 --> 01:36:09,260
+¿Qué el dado no está cargado?
+
+1657
+01:36:09,260 --> 01:36:12,260
+Ahora, si yo tiró el dado 100 veces
+
+1658
+01:36:12,260 --> 01:36:15,260
+y me cayó 80 a 16,
+
+1659
+01:36:15,260 --> 01:36:19,260
+pero mi confianza, apriori,
+
+1660
+01:36:19,260 --> 01:36:21,260
+antes de ver los datos,
+
+1661
+01:36:21,260 --> 01:36:25,260
+es sero como dijimos un sexto.
+
+1662
+01:36:25,260 --> 01:36:26,260
+¿Por qué?
+
+1663
+01:36:26,260 --> 01:36:29,260
+Porque asumo, por algún motivo asumo,
+
+1664
+01:36:29,260 --> 01:36:31,260
+por algún motivo,
+
+1665
+01:36:31,260 --> 01:36:33,260
+porque yo lo vi con cara de dado cargado
+
+1666
+01:36:33,260 --> 01:36:34,260
+y pensé que era sero ocho,
+
+1667
+01:36:34,260 --> 01:36:35,260
+es valido también.
+
+1668
+01:36:35,260 --> 01:36:37,260
+Es una probabilidad priorita.
+
+1669
+01:36:37,260 --> 01:36:38,260
+Después lo dado, me la cambie.
+
+1670
+01:36:38,260 --> 01:36:40,260
+De eso se trata la releva.
+
+1671
+01:36:40,260 --> 01:36:43,260
+Bueno, perdón, pues esto es un tema de menos.
+
+1672
+01:36:43,260 --> 01:36:44,260
+Está mucho inventosíamos.
+
+1673
+01:36:44,260 --> 01:36:48,260
+Bueno, pero tenemos que circular esta.
+
+1674
+01:36:48,260 --> 01:36:51,260
+¿Cómo vamos a hacer para calcular esta?
+
+1675
+01:36:51,260 --> 01:36:55,260
+La probabilidad de que se delerror dado la clase.
+
+1676
+01:36:55,260 --> 01:36:56,260
+¿Cómo podrían?
+
+1677
+01:36:56,260 --> 01:36:59,260
+¿Cómo si le ocurre que podríamos hacer algo así?
+
+1678
+01:37:06,260 --> 01:37:09,260
+Bueno, lo que hicieron es muy chachos.
+
+1679
+01:37:09,260 --> 01:37:11,260
+Fue...
+
+1680
+01:37:13,260 --> 01:37:15,260
+Fue ver qué pasaba.
+
+1681
+01:37:15,260 --> 01:37:18,260
+Hacerlo mismo, pero con las instituciones.
+
+1682
+01:37:18,260 --> 01:37:22,260
+¿Cuántas veces en un corpo de errores encontraron un cuerpo de errores?
+
+1683
+01:37:22,260 --> 01:37:23,260
+No es menor.
+
+1684
+01:37:23,260 --> 01:37:25,260
+¿Cuántas veces se sustituye?
+
+1685
+01:37:25,260 --> 01:37:28,260
+Pero no buscaron.
+
+1686
+01:37:28,260 --> 01:37:31,260
+¿Cuántas veces sustituye tomate por tomate?
+
+1687
+01:37:31,260 --> 01:37:34,260
+¿Por qué no hicieron ese contéo?
+
+1688
+01:37:34,260 --> 01:37:36,260
+¿Por qué no contaron?
+
+1689
+01:37:36,260 --> 01:37:39,260
+Yo puedo decir, ¿cuántas veces he cambiado a tres por acres?
+
+1690
+01:37:39,260 --> 01:37:40,260
+¿Crees?
+
+1691
+01:37:40,260 --> 01:37:42,260
+¿Por qué no hicieron ese contéo?
+
+1692
+01:37:42,260 --> 01:37:45,260
+¿Por qué no aplicaron más y más de los similitudes ya?
+
+1693
+01:37:45,260 --> 01:37:49,260
+¿Por qué la cantidad de veces que yo se casi seguramente es?
+
+1694
+01:37:49,260 --> 01:37:54,260
+Sí, lo.
+
+1695
+01:37:54,260 --> 01:37:57,260
+Me decir mi, mi potencia y muy general.
+
+1696
+01:37:57,260 --> 01:38:01,260
+Muy, muy general, tener un cuerpo de como un ali.
+
+1697
+01:38:01,260 --> 01:38:03,260
+Entonces lo que hicieron fue no.
+
+1698
+01:38:04,260 --> 01:38:07,260
+Y hicieron una matria de confusión.
+
+1699
+01:38:07,260 --> 01:38:09,260
+¿Dónde?
+
+1700
+01:38:09,260 --> 01:38:12,260
+Ah, perdón, no la tengo acá.
+
+1701
+01:38:12,260 --> 01:38:17,260
+¿Dónde contaron? ¿Cuántas veces?
+
+1702
+01:38:17,260 --> 01:38:23,260
+Al elante de una o se ponía una vez una C, una D, una D.
+
+1703
+01:38:23,260 --> 01:38:28,260
+¿Cuántas veces después de una o se borraba la letra siguiente?
+
+1704
+01:38:28,260 --> 01:38:32,260
+¿Cuántas veces la o se sustituía por una D por una C, una D?
+
+1705
+01:38:32,260 --> 01:38:36,260
+¿Cuántas veces la o se cambiaba por la siguiente?
+
+1706
+01:38:36,260 --> 01:38:39,260
+¿Con eso capturaron o caro un capturado?
+
+1707
+01:38:39,260 --> 01:38:41,260
+¿Y se intuición de que la o?
+
+1708
+01:38:41,260 --> 01:38:43,260
+¿Por qué puede suceder?
+
+1709
+01:38:43,260 --> 01:38:46,260
+Y bueno, más probable que la o yo en la sudituía por una P.
+
+1710
+01:38:46,260 --> 01:38:48,260
+¿Por qué están cerca?
+
+1711
+01:38:48,260 --> 01:38:50,260
+Pero no lo o razónando que están cerca,
+
+1712
+01:38:50,260 --> 01:38:52,260
+sino simplemente contando, capaz que no es así.
+
+1713
+01:38:52,260 --> 01:38:54,260
+Capa que los datos, ni si no otra cosa,
+
+1714
+01:38:54,260 --> 01:38:57,260
+capaz que me dice en que la o se sustituye por la letra etaca
+
+1715
+01:38:57,260 --> 01:38:59,260
+que no se cuál es.
+
+1716
+01:38:59,260 --> 01:39:02,260
+Por la O.B., simplemente porque me confundo y que sí.
+
+1717
+01:39:02,260 --> 01:39:05,260
+Porque me confundo y le arro de dedo, digamos.
+
+1718
+01:39:05,260 --> 01:39:08,260
+Y me he tomado de la mano que no hay.
+
+1719
+01:39:08,260 --> 01:39:11,260
+No importa, lo cuento a partir de los datos.
+
+1720
+01:39:11,260 --> 01:39:13,260
+¿Tá?
+
+1721
+01:39:13,260 --> 01:39:16,260
+Y lo que hicieron fue bueno, de que era
+
+1722
+01:39:16,260 --> 01:39:18,260
+Atriz,
+
+1723
+01:39:18,260 --> 01:39:22,260
+la probabilidad de exista,
+
+1724
+01:39:22,260 --> 01:39:25,260
+la probabilidad de que yo,
+
+1725
+01:39:25,260 --> 01:39:28,260
+la palabra se acuerdan que era Atriz,
+
+1726
+01:39:28,260 --> 01:39:30,260
+de que yo borre una T,
+
+1727
+01:39:30,260 --> 01:39:32,260
+antes de una R,
+
+1728
+01:39:32,260 --> 01:39:34,260
+es esta,
+
+1729
+01:39:36,260 --> 01:39:39,260
+y la probabilidad combinada de ambas es esta.
+
+1730
+01:39:41,260 --> 01:39:43,260
+O sea, el producto de las dos.
+
+1731
+01:39:43,260 --> 01:39:44,260
+Sí?
+
+1732
+01:39:44,260 --> 01:39:46,260
+Si se fijan,
+
+1733
+01:39:49,260 --> 01:39:51,260
+crees,
+
+1734
+01:39:51,260 --> 01:39:54,260
+arranca con muy pocas expectativas de ganar,
+
+1735
+01:39:54,260 --> 01:39:56,260
+porque a priori no pareció nunca,
+
+1736
+01:39:56,260 --> 01:39:58,260
+o sea, que le da la probabilidad de estar recibada,
+
+1737
+01:39:58,260 --> 01:40:00,260
+que le han meto para que no decero,
+
+1738
+01:40:00,260 --> 01:40:04,260
+tendré que ser muy alta de la probabilidad para que se igualara.
+
+1739
+01:40:04,260 --> 01:40:05,260
+O sea,
+
+1740
+01:40:05,260 --> 01:40:08,260
+que insertar una adelante en el seto en el que se le norma,
+
+1741
+01:40:08,260 --> 01:40:10,260
+la probabilidad para cambiar el ecuación en acá.
+
+1742
+01:40:10,260 --> 01:40:12,260
+Infortunadamente no cambian nada,
+
+1743
+01:40:12,260 --> 01:40:14,260
+pero hay mucho más chica.
+
+1744
+01:40:16,260 --> 01:40:18,260
+Al revés,
+
+1745
+01:40:19,260 --> 01:40:21,260
+la probabilidad más alta
+
+1746
+01:40:21,260 --> 01:40:24,260
+es haber insertado un haber borrado a la T.
+
+1747
+01:40:26,260 --> 01:40:28,260
+El acuerdo.
+
+1748
+01:40:30,260 --> 01:40:32,260
+Y efectivamente, pero,
+
+1749
+01:40:34,260 --> 01:40:35,260
+sí,
+
+1750
+01:40:35,260 --> 01:40:37,260
+si está bastante más probable,
+
+1751
+01:40:37,260 --> 01:40:38,260
+como palabra acres,
+
+1752
+01:40:38,260 --> 01:40:41,260
+es una palabra bastante más probable de que actriz.
+
+1753
+01:40:44,260 --> 01:40:45,260
+Por contigo,
+
+1754
+01:40:45,260 --> 01:40:47,260
+pues yo me habéis visto el cuerpo.
+
+1755
+01:40:49,260 --> 01:40:51,260
+Y luego lo que hicieron fue, bueno,
+
+1756
+01:40:51,260 --> 01:40:55,260
+que hicieron acá.
+
+1757
+01:40:57,260 --> 01:41:00,260
+Si quedaron con el porcentaje aparición de cada una,
+
+1758
+01:41:00,260 --> 01:41:03,260
+que hicieron volvieron a generar una distribución de probabilidad,
+
+1759
+01:41:03,260 --> 01:41:05,260
+porque todo el porcentaje lo mismo bonito,
+
+1760
+01:41:05,260 --> 01:41:06,260
+y por ejemplo,
+
+1761
+01:41:06,260 --> 01:41:07,260
+entonces el otro en ti siete,
+
+1762
+01:41:07,260 --> 01:41:09,260
+todo en cero,
+
+1763
+01:41:09,260 --> 01:41:11,260
+y cual ganan,
+
+1764
+01:41:12,260 --> 01:41:14,260
+cual ganan,
+
+1765
+01:41:14,260 --> 01:41:15,260
+no,
+
+1766
+01:41:15,260 --> 01:41:17,260
+no, en realidad no,
+
+1767
+01:41:17,260 --> 01:41:19,260
+porque puedo llegar de dos formas,
+
+1768
+01:41:19,260 --> 01:41:20,260
+pero sigue siendo la misma palabra.
+
+1769
+01:41:20,260 --> 01:41:21,260
+Entonces,
+
+1770
+01:41:21,260 --> 01:41:22,260
+y todo se suman.
+
+1771
+01:41:23,260 --> 01:41:24,260
+Entonces,
+
+1772
+01:41:24,260 --> 01:41:25,260
+que con un 40,
+
+1773
+01:41:25,260 --> 01:41:26,260
+cero,
+
+1774
+01:41:26,260 --> 01:41:27,260
+cuatro de probabilidad,
+
+1775
+01:41:27,260 --> 01:41:28,260
+la palabra era acres.
+
+1776
+01:41:28,260 --> 01:41:30,260
+La palabra más probable,
+
+1777
+01:41:30,260 --> 01:41:31,260
+la correctión más probable,
+
+1778
+01:41:31,260 --> 01:41:32,260
+era acres.
+
+1779
+01:41:32,260 --> 01:41:33,260
+Sí,
+
+1780
+01:41:33,260 --> 01:41:35,260
+curiosamente,
+
+1781
+01:41:35,260 --> 01:41:37,260
+seguido claro,
+
+1782
+01:41:37,260 --> 01:41:39,260
+porque en ese contexto era actriz.
+
+1783
+01:41:41,260 --> 01:41:42,260
+Pero bueno,
+
+1784
+01:41:42,260 --> 01:41:44,260
+yo no tenía contexto para analizar.
+
+1785
+01:41:45,260 --> 01:41:46,260
+Entonces,
+
+1786
+01:41:48,260 --> 01:41:49,260
+en,
+
+1787
+01:41:52,260 --> 01:41:54,260
+de la versión 3 del libro,
+
+1788
+01:41:57,260 --> 01:41:59,260
+me puse muy contento,
+
+1789
+01:41:59,260 --> 01:42:02,260
+porque hay un capítulo dedicado especialmente a este tema,
+
+1790
+01:42:02,260 --> 01:42:06,260
+lo que muestra que es muy importante.
+
+1791
+01:42:06,260 --> 01:42:08,260
+Me puse muy contento,
+
+1792
+01:42:08,260 --> 01:42:09,260
+porque piense igual que yo,
+
+1793
+01:42:09,260 --> 01:42:11,260
+que es que está sentimiento y se lo puse,
+
+1794
+01:42:12,260 --> 01:42:14,260
+y acá está el paper,
+
+1795
+01:42:14,260 --> 01:42:15,260
+si no quiero leer.
+
+1796
+01:42:15,260 --> 01:42:16,260
+Y sobre todo,
+
+1797
+01:42:16,260 --> 01:42:18,260
+me interesaba más que por la aplicación,
+
+1798
+01:42:18,260 --> 01:42:19,260
+por el método,
+
+1799
+01:42:19,260 --> 01:42:21,260
+porque van a ver que este tipo de método se repita.
+
+1800
+01:42:21,260 --> 01:42:22,260
+No me toba,
+
+1801
+01:42:22,260 --> 01:42:23,260
+se repita en un sualmente.
+
+1802
+01:42:23,260 --> 01:42:24,260
+Y además,
+
+1803
+01:42:24,260 --> 01:42:28,260
+porque tienen una cantidad de situaciones
+
+1804
+01:42:28,260 --> 01:42:30,260
+donde se puede utilizar este,
+
+1805
+01:42:30,260 --> 01:42:34,260
+este tipo de método de otro día,
+
+1806
+01:42:34,260 --> 01:42:36,260
+me le voy a contar una cosa,
+
+1807
+01:42:36,260 --> 01:42:37,260
+por ejemplo,
+
+1808
+01:42:37,260 --> 01:42:38,260
+otro día.
+
+1809
+01:42:39,260 --> 01:42:43,260
+Yo estaba tratando de argumentar
+
+1810
+01:42:43,260 --> 01:42:45,260
+porque a uno en una institución
+
+1811
+01:42:45,260 --> 01:42:47,260
+le conviene publicar sus datos.
+
+1812
+01:42:47,260 --> 01:42:50,260
+Y la rígla de baixa es una buena
+
+1813
+01:42:50,260 --> 01:42:52,260
+que forma de convencer a alguien de eso,
+
+1814
+01:42:52,260 --> 01:42:54,260
+porque la rígla de baixa es lo que dice,
+
+1815
+01:42:54,260 --> 01:42:58,260
+si yo no tengo datos,
+
+1816
+01:42:58,260 --> 01:43:00,260
+como con el lado de hoy,
+
+1817
+01:43:00,260 --> 01:43:02,260
+me quedo con mi probabilidad
+
+1818
+01:43:02,260 --> 01:43:04,260
+que fue otra usilla en una visión
+
+1819
+01:43:04,260 --> 01:43:06,260
+como mi confianza,
+
+1820
+01:43:06,260 --> 01:43:08,260
+si, en algo,
+
+1821
+01:43:08,260 --> 01:43:10,260
+a priori.
+
+1822
+01:43:10,260 --> 01:43:13,260
+Si a mí lo que me preocupa es
+
+1823
+01:43:13,260 --> 01:43:14,260
+como institución,
+
+1824
+01:43:14,260 --> 01:43:16,260
+que al publicar mi datos,
+
+1825
+01:43:16,260 --> 01:43:18,260
+mi imagen,
+
+1826
+01:43:18,260 --> 01:43:20,260
+en peores,
+
+1827
+01:43:20,260 --> 01:43:22,260
+porque me van a criticar las cosas que publicó,
+
+1828
+01:43:22,260 --> 01:43:24,260
+pensando primero cuál era
+
+1829
+01:43:24,260 --> 01:43:25,260
+la probabilidad prioris,
+
+1830
+01:43:25,260 --> 01:43:26,260
+o decir cuál era tu imagen,
+
+1831
+01:43:26,260 --> 01:43:27,260
+a priori,
+
+1832
+01:43:27,260 --> 01:43:29,260
+cuál era tu confianza priori,
+
+1833
+01:43:29,260 --> 01:43:31,260
+y no probablemente es algo que vos sea,
+
+1834
+01:43:31,260 --> 01:43:33,260
+como un desastre
+
+1835
+01:43:33,260 --> 01:43:36,260
+con publicar todas las cosas mejor.
+
+1836
+01:43:36,260 --> 01:43:37,260
+Entonces,
+
+1837
+01:43:37,260 --> 01:43:39,260
+sinceramente aplicar la rígla de baixa
+
+1838
+01:43:39,260 --> 01:43:42,260
+en una situación de todo lo diario.
+
+1839
+01:43:42,260 --> 01:43:43,260
+Bueno,
+
+1840
+01:43:43,260 --> 01:43:45,260
+nos vemos en el martes.
+
