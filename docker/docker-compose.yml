@@ -1,23 +1,23 @@
-version: "3.8"
-
 services:
   # Frontend
   frontend:
     build:
-      context: ./fronted/frontend
+      context: ../fronted/frontend
       dockerfile: Dockerfile
     ports:
       - "3000:80"
     networks:
       - app-network
     depends_on:
-      - backend
+      - generative
+      - transcriptions
+      - scrapping
       - database
 
   # Generative API
   generative:
     build:
-      context: ./backend/generative
+      context: ../backend/generative/docker/backend/
       dockerfile: Dockerfile
     ports:
       - "8001:8000"
@@ -31,7 +31,7 @@ services:
   # Transcriptions API
   transcriptions:
     build:
-      context: ./backend/transcriptions
+      context: ../backend/transcriptions
       dockerfile: Dockerfile
     ports:
       - "8002:8000"
@@ -45,7 +45,7 @@ services:
   # Scrapping API
   scrapping:
     build:
-      context: ./backend/scrapping
+      context: ../backend/scraping
       dockerfile: Dockerfile
     ports:
       - "8003:8000"
