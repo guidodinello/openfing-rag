@@ -1,19 +1,85 @@
 @import "tailwindcss";
 
+@layer utility {
 
+  html,
+  body {
+    overflow: hidden;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    @media screen {}
+  }
+}
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --c-main: #4F4F4F;
+  --c-light: #7A7A7A;
+  --c-secondary: #858585;
+  --c-highlight: #000000;
+  --c-background: #E9E9E9;
+  background: var(--c-background);
+  --fs-base: 160%;
+  --lh-base: 1.25;
+  --ff-body: "regular", Helvetica, Arial, sans-serif;
+  --ff-headers: "regular", Helvetica, Arial, sans-serif;
+  --fs-tiny: 0.75em;
+  --fs-l: 1.25em;
+  --fs-xl: 3.125em;
+  --fs-header-one: 5.625em;
+  --fs-xxl: 13.25em;
+  --gp-sides: 5rem;
+  --gp-top: 5rem;
+  --gp-btm: 5rem;
 }
 
+@layer utility {
+  .main-container {
+    @apply bg-[url("/bg-images/flow-bubble_smallJpg.jpg")] bg-center bg-cover bg-no-repeat bg-fixed;
+    height: calc(100vh - 50px);
+    width: 100%;
+
+    @media only screen and (min-width: 300px) {
+      background-image: url("/bg-images/flow-bubble_mediumJpg.jpg");
+    }
+
+    @media only screen and (min-width: 960px) {
+      background-image: url("/bg-images/flow-bubble_largeJpg.jpg");
+    }
+
+    @media only screen and (min-width: 1280px) {
+      background-image: url("/bg-images/flow-bubble_xlargeJpg.jpg");
+    }
+
+    @media only screen and (min-width: 1600px) {
+      background-image: url("/bg-images/flow-bubble_xxlargeJpg.jpg");
+    }
+  }
+
+  @supports (background-image: url("data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=")) {
+    .main-container {
+      background-image: url("/bg-images/flow-bubble_smallWebp.webp");
+      
+      @media only screen and (min-width: 300px) {
+        background-image: url("/bg-images/flow-bubble1868_mediumWebp.webp");
+      }
+  
+      @media only screen and (min-width: 960px) {
+        background-image: url("/bg-images/flow-bubble1868_largeWebp.webp");
+      }
+  
+      @media only screen and (min-width: 1280px) {
+        background-image: url("/bg-images/flow-bubble1868_xlargeWebp.webp");
+      }
+  
+      @media only screen and (min-width: 1600px) {
+        background-image: url("/bg-images/flow-bubble_xxlargeWebp.jpg");
+      }
+    }
+  }
+}
