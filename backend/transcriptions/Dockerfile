@@ -1,4 +1,4 @@
-FROM python:3.13-slim AS python-base
+FROM python:3.13-alpine AS python-base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -6,9 +6,10 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100
 
-RUN echo "TRANSCRIPTIONS: Installing dependencies"  && apt-get update && \
-    apt-get install -y curl build-essential && \
-    rm -rf /var/lib/apt/lists/* && \
+RUN echo "TRANSCRIPTIONS: Installing dependencies" && \
+    apk update && \
+    apk add --no-install-recommends --no-cache curl build-base && \
+    rm -rf /var/cache/apk/* && \
     curl -sSL https://install.python-poetry.org | python3 -
 
 ENV PATH="/root/.local/bin:$PATH"
@@ -20,7 +21,7 @@ COPY ./pyproject.toml ./poetry.lock ./
 RUN echo "TRANSCRIPTIONS: Installing Poetry"  && poetry config virtualenvs.create true && \
     poetry install --no-interaction --no-root
 
-    COPY . .
+COPY . .
+RUN ls -la
 
-# Run using poetry or directly if in system path
-CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["poetry", "run", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

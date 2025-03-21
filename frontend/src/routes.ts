@@ -1,12 +1,12 @@
 export type Params = Record<string, string | boolean | number | null>;
 
-export enum RouteName {
+enum RouteName {
     Home = "home",
     Summaries = "Summaries",
     About = "About",
     Error = "Error",
     NotFound = "notFound",
-    }
+}
 
 export type Route = {
     name: RouteName;
@@ -32,7 +32,6 @@ const PATH_PARAM_REGEX = /:[^/?]+/gi;
 const setPathParams = (route: Route): Route => {
     const newRoute = { ...route };
     const { path } = newRoute;
-    // Extract the names of the parameters
     const pathMatch = path.match(PATH_PARAM_REGEX) || [];
     const pathParams: Record<string, string> = {};
     pathMatch.forEach((param) => {

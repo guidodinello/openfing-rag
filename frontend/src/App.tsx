@@ -1,22 +1,21 @@
 import './App.css'
-import { Navbar } from './common/navbar'
-import { Route, Routes } from 'react-router-dom'
-import { About, Home, Summaries, NotFound } from './pages'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ConfigProvider } from './contexts'
+// import { routes } from './routes'
+import { Home } from './pages/home/Home';
 
-function App() {
+export function App() {
   return (
-    <>
-      <Navbar />
-      <div className='main-container'>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="summaries" element={<Summaries />} />
-          <Route path="/*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </>
+    // <ConfigProvider>
+      /* <BrowserRouter> */
+      <>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+      </>
+      // </BrowserRouter>
+    // </ConfigProvider>
   )
 }
-
-export default App
