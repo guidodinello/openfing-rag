@@ -1,6 +1,6 @@
 from .CourseListScraper import CourseListScraper
 from .CourseScraper import CourseScraper
-
+from Constants.Constants import COURSES_ACRONYMS_PATH
 class OpenFingScraper:
     
     def __init__(self):
@@ -9,9 +9,17 @@ class OpenFingScraper:
         
 
     def scrape_openfing(self):
-        course_acronyms = self.course_list_scraper.acronym_scraper()
+        course_acronyms = self.get_course_acronyms()
         for course_acronym in course_acronyms:
             self.course_scraper.scrape_course(course_acronym)
         
     def scrape_class(self):
         self.class_scraper.scrape_class()
+
+    def get_course_acronyms(self):
+        try:
+            with open(COURSES_ACRONYMS_PATH, 'r') as file:
+                acronyms = file.read().splitlines()
+        except FileNotFoundError:
+            acronyms = self.course_list_scraper.acronym_scraper()
+        return acronyms

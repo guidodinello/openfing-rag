@@ -15,7 +15,7 @@ RUN echo "GENERATIVE: Installing dependencies" && \
 
 ENV PATH="/root/.local/bin:$PATH"
 
-WORKDIR /app
+WORKDIR /generative
 
 COPY ./pyproject.toml ./poetry.lock ./
 
@@ -26,5 +26,5 @@ poetry install --no-interaction --no-root
 COPY . .
 RUN ls -la
 
-CMD ["poetry", "run", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["poetry", "run", "services.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ##RUNNING THE IMAGE##

@@ -1,34 +1,45 @@
-# from backend.Logic.Logger.Logger import Logger
-# from constants.constants import OPEN_FING_URL
+from Logger.Logger import Logger
+from Constants.Constants import OPEN_FING_URL, ACRONYMS_FOLDER
 import requests
 from bs4 import BeautifulSoup
+from pathlib import Path
 
 class CourseScraper:
     
     def __init__(self):
-        # # self.logger = Logger()
-        self.classes_numbers = []
+        self.logger = Logger()
 
-    def scrape_course(self, course_acronym):
+    def ensure_course_scraped(self,course_acronym:str):
         self.course_acronym = course_acronym
-         # TODO:
+        self.path = Path(ACRONYMS_FOLDER + '/' + course_acronym + '.txt')
+        if(not self.is_course_scraped()):
+            self.scrape_course()
+            
+    def is_course_scraped(self):
+        return self.path.exists()        
+
+    def scrape_course(self):
+        # TODO:
             # scrapear para sacar las clases no es la mejor idea, si cambian la interfaz de la pagina se rompe todo
             # lo mejor seria hablar con los de open fing. capaz tienen una api o generann los links con un metodo especifico.
-        url = f"{OPEN_FING_URL}/{self.course_acronym}/"
-        response = requests.get(url)
+        self.logger.log_message(f"Scraping course {self.course_acronym}")
+        class_items = self.get_classes_urls(self.course_acronym)
+        classes_numbers = []
+        for class_item in class_items:
+            class_number = class_item.text
+            classes_numbers.append(class_number)
+        self.logger.log_message(f"Writing classes numbers to {self.path}")
+        self.logger.write_on_file(self.path, classes_numbers)
 
+    def get_classes_urls(self, course_acronym):
+        url = f"{OPEN_FING_URL}/courses/{course_acronym}/"
+        response = requests.get(url)
         if response.status_code == 200:
-           
             soup = BeautifulSoup(response.content, "html.parser")
-            class_urls = soup.find_all("a", class_="class-list__item")
-            for class_item in class_urls:
-                href = class_item.get("href")
-                if href:
-                    class_number = href.split("/")[-1]
-                    self.classes_numbers.append(class_number)
-                    print(self.course_acronym + ":"+ class_number)
+            class_items = soup.find_all("span", class_="class-list__item-number")
+            return class_items
         else:
-            pass
-            # self.logger.log_message(
-                # f"Failed to retrieve the page for {self.course_acronym}. Status code: {response.status_code}"
-            # )
+            self.logger.log_message(
+                f"Failed to retrieve the page for {url}. Status code: {response.status_code}"
+            )
+            return []
