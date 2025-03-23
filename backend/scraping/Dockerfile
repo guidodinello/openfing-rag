@@ -15,7 +15,7 @@ RUN echo "SCRAPING: Installing dependencies" && \
 
 ENV PATH="/root/.local/bin:$PATH"
 
-WORKDIR /app
+WORKDIR /scraping
 
 COPY ./pyproject.toml ./poetry.lock ./
 

@@ -4,13 +4,11 @@ from pathlib import Path
 import cv2
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from constants import BYTES_TO_GB
+from Logic.constants.constants import BYTES_TO_GB
 
 class VideoDownloader:
-    def __init__(self, logger, transcriber, base_url="https://open.fing.edu.uy/media/{course}/{course}_{nn}.mp4",
-                 db_path="../DB/Opens/", total_max_size=15 * BYTES_TO_GB):
-        self.logger = logger
-        self.transcriber = transcriber
+    def __init__(self, base_url="https://open.fing.edu.uy/media/{course}/{course}_{nn}.mp4",
+                 db_path="", total_max_size=15 * BYTES_TO_GB):
         self.base_url = base_url
         self.db_path = db_path
         self.total_max_size = total_max_size

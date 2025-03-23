@@ -1,13 +1,12 @@
 import logging
-from datetime import datetime, timedelta
-from pathlib import Path
-
 import requests
 from bs4 import BeautifulSoup
+from pathlib import Path
+from datetime import datetime, timedelta
 
 
 class ClassScraper:
-    def __init__(self, db_path="../DB/Opens/"):
+    def __init__(self, course_acronym="", class_number=0):
         self.db_path = Path(db_path)
         self.timestamp_path = Path(db_path) / "last_run_timestamp.txt"
 
@@ -36,26 +35,6 @@ class ClassScraper:
             )
 
         return class_numbers
-
-    def save_classes_to_file(self, course_acronym):
-        if self.should_run():
-            classes = self.get_classes_for_course(course_acronym)
-            output_dir = Path(self.db_path) / course_acronym
-            output_dir.mkdir(parents=True, exist_ok=True)
-            output_file = output_dir / "classes.txt"
-
-            with open(output_file, "w", encoding="utf-8") as class_file:
-                for class_number in classes:
-                    class_file.write(f"{class_number}\n")
-
-            logging.info(
-                f"Class numbers for course {course_acronym} have been written to {output_file}"
-            )
-            self.update_timestamp()
-        else:
-            logging.info(
-                "ClassScraper skipped as it was already run within the last week."
-            )
 
     def should_run(self):
         if self.timestamp_path.exists():

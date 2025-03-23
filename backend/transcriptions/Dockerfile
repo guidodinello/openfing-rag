@@ -4,7 +4,9 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100
+    PIP_DEFAULT_TIMEOUT=100 \
+    PYTHONPATH=/app
+
 
 RUN echo "TRANSCRIPTIONS: Installing dependencies" && \
     apk update && \
@@ -18,10 +20,9 @@ WORKDIR /app
 
 COPY ./pyproject.toml ./poetry.lock ./
 
-RUN echo "TRANSCRIPTIONS: Installing Poetry"  && poetry config virtualenvs.create true && \
+RUN echo "TRANSCRIPTIONS: Installing Poetry"  && poetry config virtualenvs.create false && \
     poetry install --no-interaction --no-root
 
 COPY . .
-RUN ls -la
 
-CMD ["poetry", "run", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["poetry", "run", "services.main:app", "--host", "0.0.0.0", "--port", "8000"]

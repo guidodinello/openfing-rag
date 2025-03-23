@@ -4,13 +4,13 @@ from pathlib import Path
 
 import requests
 from ClassDownloader import ClassDownloader
-from constants import BYTES_TO_GB
+from Logic.constants.constants import URL_OPEN_FING, BYTES_TO_GB
 
 
 class CourseDownloader:
-    def __init__(self, transcriber, base_url="https://open.fing.edu.uy/media/{course}/{course}_{nn}.mp4", db_path="../DB/Opens/", total_max_size=15 * BYTES_TO_GB):
+    def __init__(self, course_acronym, base_url=URL_OPEN_FING, db_path="../DB/Opens/", total_max_size=15 * BYTES_TO_GB):
         self.base_url = base_url
-        self.transcriber = transcriber
+        self.course_acronym = course_acronym
         self.db_path = db_path
         self.total_max_size = total_max_size
         self.class_downloader = ClassDownloader(transcriber)

@@ -1,0 +1,1 @@
+LOGGING_FOLDER = "../../logs"
