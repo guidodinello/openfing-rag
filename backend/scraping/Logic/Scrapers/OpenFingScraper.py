@@ -11,7 +11,12 @@ class OpenFingScraper:
     def scrape_openfing(self):
         course_acronyms = self.get_course_acronyms()
         for course_acronym in course_acronyms:
-            self.course_scraper.scrape_course(course_acronym)
+            self.course_scraper.ensure_course_scraped(course_acronym)
+    
+    def do_scrape_openfing(self):
+        course_acronyms = self.course_list_scraper.get_course_acronyms()
+        for course_acronym in course_acronyms:
+            self.course_scraper.ensure_course_scraped(course_acronym)
         
     def scrape_class(self):
         self.class_scraper.scrape_class()

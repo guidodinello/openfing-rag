@@ -1,8 +1,8 @@
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { ConfigProvider } from './contexts'
+import { /*BrowserRouter,*/ Route, Routes } from 'react-router-dom'
+// import { ConfigProvider } from './contexts'
 // import { routes } from './routes'
-import { Home } from './pages/home/Home';
+import { Home,Summaries } from './pages';
 
 export function App() {
   return (
@@ -11,7 +11,8 @@ export function App() {
       <>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/summaries" element={<Summaries />} />
+            <Route path="/summaries/:id" element={<Summaries />} />
             <Route path="*" element={<Home />} />
           </Routes>
       </>

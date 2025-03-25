@@ -21,6 +21,9 @@ async def scrapeCourse(course_acronym: str):
 @app.get("/openfing-scraper/")
 async def scrapeCourse():
     return {"status": openfing_scraper.scrape_openfing()}
+@app.get("/openfing-scraper/do-scrape")
+async def scrapeCourse():
+    return {"status": openfing_scraper.do_scrape_openfing()}
 
 @app.get("/download-videos/{course_acronym}/{class_number}")
 async def downloadVideos(course_acronym: str, class_number: int):

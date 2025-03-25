@@ -21,9 +21,10 @@ class Logger:
         except IOError as e:
             print(f"Error writing to log file: {e}")
             raise
+        
     def write_on_file(self, file_path, message):
         file_path.parent.mkdir(parents=True, exist_ok=True)
         file_path.touch(exist_ok=True)
-        with open(file_path, 'a', encoding='utf-8') as log_file:
+        with open(file_path, 'w', encoding='utf-8') as log_file:
             log_file.write(str(message) + "\n")
             

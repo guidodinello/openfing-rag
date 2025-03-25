@@ -32,6 +32,6 @@ export const Home = (): ReactElement => {
         }
     };
     return (
-        <InputForm onSubmit={handleSendMessage} />
+        <InputForm handleKeyPress={handleKeyPress} onSubmit={handleSendMessage} />
     );
 };

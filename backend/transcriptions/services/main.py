@@ -6,7 +6,7 @@ app = FastAPI()
 
 @app.get("/transcribe/{course_acronym}/{class_number}")
 async def root():
-    OpenFingScraper().main()
+    #OpenFingScraper().main()
     return {"message": "Started scraping"}
 
 @app.get("/items/{item_id}")

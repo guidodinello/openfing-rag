@@ -26,5 +26,5 @@ poetry install --no-interaction --no-root
 COPY . .
 RUN ls -la
 
-CMD ["poetry", "run", "services.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["poetry", "run","uvicorn", "services.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ##RUNNING THE IMAGE##

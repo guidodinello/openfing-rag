@@ -40,8 +40,10 @@ class CourseListScraper:
         html_page = requests.get(course_url)
         soup = BeautifulSoup(html_page.text, 'html.parser')
         html_a_elements = soup.find_all('a', class_='related-links__item')
+        if(len(html_a_elements) <= 1):
+            return []
         referenced_course_list = [course['href'] for course in html_a_elements]
-        referenced_course_list = referenced_course_list.remove(course_url)
+        referenced_course_list.remove(course_url)
         referenced_acronyms = [self.URL_to_acronym(course) for course in referenced_course_list]    
         return referenced_acronyms
 

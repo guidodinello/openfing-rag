@@ -26,4 +26,4 @@ RUN echo "SCRAPING: Installing Poetry" && \
 COPY . .
 
 # Now you can run uvicorn directly without "poetry run"
-CMD ["poetry", "run", "uvicorn", "Services.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["poetry", "run", "uvicorn", "services.main:app", "--host", "0.0.0.0", "--port", "8000"]

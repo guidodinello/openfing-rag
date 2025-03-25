@@ -3,9 +3,10 @@ import './inputForm.css';
 
 interface InputFormProps {
     onSubmit: (value: string) => void;
+    handleKeyPress: (e: React.KeyboardEvent) => void;
 }
 
-export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
+export const InputForm: React.FC<InputFormProps> = ({ onSubmit, handleKeyPress }) => {
     const [value, setValue] = useState('');
 
     return (
@@ -16,6 +17,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
                     placeholder="Ask anything"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
+                    onKeyDown={handleKeyPress}
                 />
             </div>
             <div className="button-container">
