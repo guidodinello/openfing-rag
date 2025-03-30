@@ -1,76 +1,71 @@
 services:
-  # Frontend
-  frontend:
-    build:
-      context: ../frontend/
-      dockerfile: Dockerfile
-    ports:
-      - "3000:80"
-    networks:
-      - app-network
-    depends_on:
-      - generative
-      - transcriptions
-      - scrapping
-      - database
+    frontend:
+        build:
+            context: ../frontend/
+            dockerfile: Dockerfile
+        ports:
+            - "3000:80"
+        networks:
+            - app-network
+        depends_on:
+            - generative
+            - transcriptions
+            - scrapping
+            - database
 
-  # Generative API
-  generative:
-    build:
-      context: ../backend/generative/
-      dockerfile: Dockerfile
-    ports:
-      - "8001:8000"
-    networks:
-      - app-network
-    environment:
-      - DATABASE_URL=postgres://user:password@database:5432/mydb
-    depends_on:
-      - database
+    generative:
+        build:
+            context: ../backend/generative/
+            dockerfile: Dockerfile
+        ports:
+            - "8001:8000"
+        networks:
+            - app-network
+        environment:
+            - DATABASE_URL=postgres://user:password@database:5432/mydb
+        depends_on:
+            - database
 
-  # Transcriptions API
-  transcriptions:
-    build:
-      context: ../backend/transcriptions
-      dockerfile: Dockerfile
-    ports:
-      - "8002:8000"
-    networks:
-      - app-network
-    environment:
-      - DATABASE_URL=postgres://user:password@database:5432/mydb
-    depends_on:
-      - database
+    transcriptions:
+        build:
+            context: ../backend/transcriptions
+            dockerfile: Dockerfile
+        ports:
+            - "8002:8000"
+        networks:
+            - app-network
+        environment:
+            - DATABASE_URL=postgres://user:password@database:5432/mydb
+        depends_on:
+            - database
 
-  # Scrapping API
-  scrapping:
-    build:
-      context: ../backend/scraping
-      dockerfile: Dockerfile
-    ports:
-      - "8003:8000"
-    networks:
-      - app-network
-    environment:
-      - DATABASE_URL=postgres://user:password@database:5432/mydb
-    depends_on:
-      - database
+    scrapping:
+        build:
+            context: ../backend/scraping
+            dockerfile: Dockerfile
+        ports:
+            - "8003:8000"
+        networks:
+            - app-network
+        environment:
+            - DATABASE_URL=postgres://user:password@database:5432/mydb
+        depends_on:
+            - database
 
-  # PostgreSQL database
-  database:
-    image: postgres:alpine
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mydb
-    volumes:
-      - ./database/data:/var/lib/postgresql/data
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - app-network
+    database:
+        image: postgres:alpine
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=user
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_DB=mydb
+        volumes:
+            - ./database/data:/var/lib/postgresql/data
+            - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+        networks:
+            - app-network
 
 networks:
-  app-network:
-    driver: bridge
+    app-network:
+        driver: bridge
