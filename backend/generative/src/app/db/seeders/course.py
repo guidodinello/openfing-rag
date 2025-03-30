@@ -1,7 +1,7 @@
 # app/database/seeders/course.py
+from app.db.factories import CourseFactory
+from app.db.seeders import BaseSeeder
 from app.models import Course
-from tests.factories import CourseFactory
-from tests.seeders import BaseSeeder
 
 
 class CourseSeeder(BaseSeeder):

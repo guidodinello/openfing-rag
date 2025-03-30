@@ -1,7 +1,7 @@
 # app/database/seeder.py
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from tests.seeders import CourseSeeder, LessonSeeder
+from app.db.seeders import CourseSeeder, LessonSeeder
 
 
 class DatabaseSeeder:

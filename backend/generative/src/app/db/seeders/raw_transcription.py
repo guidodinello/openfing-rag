@@ -1,7 +1,6 @@
+from app.db.factories import RawTranscriptionFactory
+from app.db.seeders import BaseSeeder
 from app.models import Lesson
-
-from tests.factories import RawTranscriptionFactory
-from tests.seeders import BaseSeeder
 
 
 class RawTranscriptionSeeder(BaseSeeder):

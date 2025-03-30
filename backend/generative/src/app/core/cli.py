@@ -9,9 +9,9 @@ from sqlalchemy.orm import sessionmaker
 
 from app.core.config import get_settings
 from app.core.database import async_session
+from app.db.seeders.seeder import DatabaseSeeder
 from app.utils.decorators.decorators import handle_async_cli_errors, handle_cli_errors
 from app.utils.logger import get_logger
-from tests.seeders.seeder import DatabaseSeeder
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -22,20 +22,18 @@ app = typer.Typer()
 @handle_async_cli_errors(operation_name="database recreation")
 async def recreate_database():
     """Drop and recreate the database."""
-    # Create URL for postgres database by replacing your DB name with 'postgres'
     postgres_url = settings.DATABASE.URL.replace(settings.DATABASE.DB, "postgres")
 
-    # Create temporary engine connected to 'postgres' database
-    temp_engine = create_async_engine(postgres_url, isolation_level="AUTOCOMMIT")
+    engine = create_async_engine(postgres_url, isolation_level="AUTOCOMMIT")
 
-    # Create session factory
-    temp_session = sessionmaker(
-        temp_engine, class_=AsyncSession, expire_on_commit=False
+    session = sessionmaker(
+        engine,
+        class_=AsyncSession,
+        expire_on_commit=False,
     )
 
     try:
-        async with temp_session() as session:
-            # Kill all connections to your database
+        async with session() as session:
             await session.execute(
                 text(
                     f"""
@@ -47,7 +45,6 @@ async def recreate_database():
                 )
             )
 
-            # Drop and recreate
             await session.execute(
                 text(f"DROP DATABASE IF EXISTS {settings.DATABASE.DB}")
             )
@@ -60,12 +57,12 @@ async def recreate_database():
                 )
             )
     finally:
-        await temp_engine.dispose()
+        await engine.dispose()
 
 
 @handle_cli_errors(operation_name="database migrations")
 def run_migrations():
-    """Run all migrations using alembic."""
+    """Run all migrations"""
     subprocess.run(
         ["poetry", "run", "alembic", "upgrade", "head"],
         check=True,
