@@ -148,7 +148,7 @@ class Settings(BaseSettings):
     @model_validator(mode="before")
     @classmethod
     def validate_env_file(cls, values: dict[str, Any]) -> dict[str, Any]:
-        env_file = Path("app/core/.env")
+        env_file = Path(".env")
         if not env_file.is_file():
             msg = f"{env_file.absolute()} file not found! Please create one based on '.env.example'"
             logger.error(msg)
@@ -176,6 +176,4 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
-    return Settings(
-        _env_file="app/core/.env",
-    )
+    return Settings(_env_file=".env")

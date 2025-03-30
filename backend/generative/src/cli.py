@@ -15,6 +15,7 @@ app.add_typer(ingest_app, name="ingest", help="Data ingestion commands")
 app.add_typer(transcribe_app, name="transcribe", help="Audio transcription commands")
 
 
+@app.command(name="start")
 @handle_cli_errors(operation_name="Production server")
 def start_server(
     app_path: str = "app.main:app",
@@ -44,6 +45,7 @@ def start_server(
     )
 
 
+@app.command(name="dev")
 @handle_cli_errors(operation_name="Development server")
 def start_dev_server(
     app_path: str = "app.main:app",
@@ -67,18 +69,6 @@ def start_dev_server(
         reload=True,
         log_level=log_level,
     )
-
-
-@app.command(name="start")
-def start():
-    """Production server entry point for Poetry."""
-    start_server()
-
-
-@app.command(name="dev")
-def dev():
-    """Development server entry point for Poetry."""
-    start_dev_server()
 
 
 if __name__ == "__main__":
