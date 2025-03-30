@@ -1,7 +1,7 @@
-from app.models import Lesson
 from sqlalchemy import func, select
 
-from tests.factories.base import BaseFactory
+from app.db.factories.base import BaseFactory
+from app.models import Lesson
 
 
 class LessonFactory(BaseFactory[Lesson]):
@@ -25,7 +25,7 @@ class LessonFactory(BaseFactory[Lesson]):
         """
         if not hasattr(self, "_course_id"):
             # If no course is set, create one using CourseFactory
-            from tests.factories.course import CourseFactory
+            from app.db.factories.course import CourseFactory
 
             course_factory = CourseFactory(self.db)
             course = await course_factory.create()

@@ -1,7 +1,6 @@
 # tests/factories/course.py
+from app.db.factories.base import BaseFactory
 from app.models import Course
-
-from tests.factories.base import BaseFactory
 
 
 class CourseFactory(BaseFactory[Course]):

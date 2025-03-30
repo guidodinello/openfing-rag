@@ -1,9 +1,9 @@
 # app/database/seeders/course.py
 from sqlalchemy import select
 
+from app.db.factories import LessonFactory
+from app.db.seeders import BaseSeeder
 from app.models import Course, Lesson
-from tests.factories import LessonFactory
-from tests.seeders import BaseSeeder
 
 
 class LessonSeeder(BaseSeeder):

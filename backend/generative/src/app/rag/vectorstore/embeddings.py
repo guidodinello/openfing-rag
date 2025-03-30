@@ -2,17 +2,16 @@ from functools import lru_cache
 from pathlib import Path
 
 import torch
+from sentence_transformers import SentenceTransformer
+
 from app.core.config import get_settings
 from app.utils.logger import get_logger
-from sentence_transformers import SentenceTransformer
 
 logger = get_logger(__name__)
 settings = get_settings()
 
 
 class EmbeddingsService:
-    """Service for managing embeddings generation with optimized performance."""
-
     def __init__(
         self,
         model_name: str,

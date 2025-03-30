@@ -1,8 +1,7 @@
 # app/database/seeders/chunk_seeder.py
+from app.db.factories import ChunkFactory
+from app.db.seeders import BaseSeeder
 from app.models import RawTranscription
-
-from tests.factories import ChunkFactory
-from tests.seeders import BaseSeeder
 
 
 class ChunkSeeder(BaseSeeder):
