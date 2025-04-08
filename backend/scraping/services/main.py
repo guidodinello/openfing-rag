@@ -10,46 +10,35 @@ app = FastAPI()
 openfing_scraper = OpenFingScraper()
 videoDownloader = VideoDownloader();   
 
-class CourseAcronymRequest(BaseModel):
-    # Define fields if needed
-    pass
-
-class OpenFingScraperRequest(BaseModel):
-    # Define fields if needed
-    pass
-
 class DownloadVideosRequest(BaseModel):
     course_acronym: str
     class_number: int
 
 @app.get("/courses-acronyms")
-def scrapePage():
-    openfing_scraper.course_list_scraper.acronym_scraper()
-    return {"message": "Scraping started"}
+async def get_acronyms():
+    c= openfing_scraper.get_acronyms()
+    return {"message": c}
 
-@app.get("/status")
-async def getStatus():
-    return {"status": openfing_scraper.get_status()}
+@app.put("/courses-acronyms")
+async def get():
+    return {"status": openfing_scraper.update_acronyms()}
 
-@app.get("/{course_acronym}")
-async def scrapeCourse(course_acronym: str):
-    return {"status": openfing_scraper.scrape_course(course_acronym)}
+@app.get("/courses/{course_acronym}")
+async def get_classes(course_acronym: str):
+    return {"status": openfing_scraper.get_classes(course_acronym)}
 
-@app.post("/courses-acronyms")
-async def scrapePage(request: CourseAcronymRequest):
-    openfing_scraper.course_list_scraper.acronym_scraper()
-    return {"message": "Scraping started"}
+@app.put("/courses/{course_acronym}")
+async def update_course(course_acronym: str):
+    c=openfing_scraper.update_course(course_acronym)
+    return {"status": c}
 
-@app.post("/openfing-scraper/")
-async def scrapeCourse(request: OpenFingScraperRequest):
-    return {"status": openfing_scraper.scrape_openfing()}
-
-@app.get("/openfing-scraper/do-scrape")
-async def scrapeCourse():
-    return {"status": openfing_scraper.do_scrape_openfing()}
+@app.put("/courses/")
+async def update():
+    p=openfing_scraper.update_courses_classes()
+    return {"status": p}
 
 @app.post("/download-videos/")
 async def downloadVideos(request: DownloadVideosRequest):
-    videoDownloader.procces_video(request.course_acronym, request.class_number)
-    return {"status": "Download Finished"}
+    p= videoDownloader.process_video(request.course_acronym,request.class_number)
+    return p
 

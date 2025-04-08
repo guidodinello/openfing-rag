@@ -17,7 +17,8 @@ class Logger:
             timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
             with open(self.log_file_path, 'a', encoding='utf-8') as log_file:
                 log_message = f"[{timestamp}] {file_name}:{line_number} - {message}"
-                log_file.write(log_message + "\n") 
+                log_file.write(log_message + "\n")
+                
         except IOError as e:
             print(f"Error writing to log file: {e}")
             raise
@@ -27,4 +28,5 @@ class Logger:
         file_path.touch(exist_ok=True)
         with open(file_path, 'w', encoding='utf-8') as log_file:
             log_file.write(str(message) + "\n")
+            log_file.flush()
             
