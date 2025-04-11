@@ -1,4 +1,3 @@
-from app.models import Base, Chunk
 from sqlalchemy import (
     Column,
     DateTime,
@@ -12,6 +11,8 @@ from sqlalchemy import (
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+
+from app.models import Base, Chunk
 
 
 class Lesson(Base):

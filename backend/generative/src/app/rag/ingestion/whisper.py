@@ -3,13 +3,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Protocol
 
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.core.config import get_settings
 from app.models import Chunk, RawTranscription
 from app.rag.ingestion.chunker import WhisperChunkMerger
 from app.rag.ingestion.processor import WhisperBatchProcessor
 from app.rag.vectorstore.embeddings import get_embeddings_service
 from app.utils.logger import get_logger
-from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -21,7 +22,8 @@ class TranscriptionIngestor(Protocol):
 
     async def process_transcription(
         self, data: Any, lesson_id: int
-    ) -> tuple[RawTranscription, list[Chunk]]: ...
+    ) -> tuple[RawTranscription, list[Chunk]]:
+        ...
 
 
 # TODO: pensar si esta clase deberia manejar la db o deberia simplemente devolver los resultados

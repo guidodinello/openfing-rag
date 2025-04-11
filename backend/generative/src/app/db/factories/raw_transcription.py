@@ -1,4 +1,3 @@
-# app/database/factories/raw_transcription.py
 from app.db.factories.base import BaseFactory
 from app.models import RawTranscription
 

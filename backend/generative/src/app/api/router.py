@@ -1,5 +1,6 @@
-from app.api.v1.endpoint import chat, health
 from fastapi import APIRouter
+
+from app.api.v1.endpoint import chat, health
 
 api_router = APIRouter()
 

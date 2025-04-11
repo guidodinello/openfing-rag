@@ -1,9 +1,10 @@
 import time
 import uuid
 
-from app.utils.logger import get_logger
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+
+from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
