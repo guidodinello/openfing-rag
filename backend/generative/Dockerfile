@@ -1,11 +1,10 @@
-##BUILDING THE IMAGE##
 FROM python:3.13-alpine AS python-base
 
 ENV PYTHONUNBUFFERED=1 \
-PYTHONDONTWRITEBYTECODE=1 \
-PIP_NO_CACHE_DIR=off \
-PIP_DISABLE_PIP_VERSION_CHECK=on \
-PIP_DEFAULT_TIMEOUT=100
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100
 
 RUN echo "GENERATIVE: Installing dependencies" && \
     apk update && \
@@ -20,11 +19,9 @@ WORKDIR /generative
 COPY ./pyproject.toml ./poetry.lock ./
 
 RUN echo "GENERATIVE: Installing Poetry" && \
-poetry config virtualenvs.create true && \
-poetry install --no-interaction --no-root
+    poetry config virtualenvs.create true && \
+    poetry install --no-interaction --no-root
 
 COPY . .
-RUN ls -la
 
 CMD ["poetry", "run","uvicorn", "services.main:app", "--host", "0.0.0.0", "--port", "8000"]
-##RUNNING THE IMAGE##
