@@ -1,13 +1,14 @@
 from datetime import datetime
 from typing import Any
 
-from app.core.config import Settings
-from app.models.rag.chunk import Chunk
-from app.utils.logger import get_logger
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_postgres import PGVector
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.core.config import Settings
+from app.models.rag.chunk import Chunk
+from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -105,12 +106,12 @@ class VectorStore:
             logger.info(
                 f"Running similarity search for {query=} with {filter_conditions=}"
             )
-            results: list[tuple[Any, float]] = (
-                self._vector_store.similarity_search_with_score(
-                    query,
-                    k=k,
-                    filter=filter_conditions if filter_conditions else None,
-                )
+            results: list[
+                tuple[Any, float]
+            ] = self._vector_store.similarity_search_with_score(
+                query,
+                k=k,
+                filter=filter_conditions if filter_conditions else None,
             )
 
             # TODO: use a retriever

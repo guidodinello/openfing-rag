@@ -10,6 +10,8 @@ from app.utils.logger import get_logger
 logger = get_logger(__name__)
 settings = get_settings()
 
+base_path = Path("./../../../../")  # Path.home()
+
 
 class EmbeddingsService:
     def __init__(
@@ -20,12 +22,13 @@ class EmbeddingsService:
     ):
         self.model_name = model_name
         self.cache_dir = (
-            cache_dir or Path.home() / ".cache" / "torch" / "sentence_transformers"
+            cache_dir or base_path / ".cache" / "torch" / "sentence_transformers"
         )
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
         # Ensure cache directory exists
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+        ## TODO: permission error, create cache dir inside project folder?
 
         # Initialize model with optimizations
         self.model = self._initialize_model()
@@ -35,7 +38,6 @@ class EmbeddingsService:
         )
 
     def _initialize_model(self) -> SentenceTransformer:
-        """Initialize the model with optimized settings."""
         model = SentenceTransformer(
             self.model_name,
             cache_folder=str(self.cache_dir),
@@ -45,7 +47,6 @@ class EmbeddingsService:
             },
         )
 
-        # If using GPU, enable additional optimizations
         if self.device == "cuda":
             model.half()  # Convert to FP16 for faster inference
             # Enable CUDA optimizations if available
@@ -84,10 +85,11 @@ class EmbeddingsService:
 
 @lru_cache(maxsize=1)
 def get_embeddings_service() -> EmbeddingsService:
-    """Get or create a singleton instance of EmbeddingsService."""
     return EmbeddingsService(
         model_name=settings.EMBEDDINGS.MODEL,
-        cache_dir=Path(settings.EMBEDDINGS.CACHE_DIR)
-        if settings.EMBEDDINGS.CACHE_DIR
-        else None,
+        cache_dir=(
+            Path(settings.EMBEDDINGS.CACHE_DIR)
+            if settings.EMBEDDINGS.CACHE_DIR
+            else None
+        ),
     )

@@ -1,8 +1,9 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.api.middleware.logging import RequestLoggingMiddleware
 from app.api.middleware.timing import TimingMiddleware
 from app.core.config import get_settings
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 settings = get_settings()
 

@@ -1,8 +1,9 @@
-from app.models import Base, Chunk
 from sqlalchemy import Column, DateTime, ForeignKey, Identity, Index, Integer, Text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+
+from app.models import Base, Chunk
 
 
 class RawTranscription(Base):

@@ -1,8 +1,9 @@
-from app.models import Base
 from sqlalchemy import Column, DateTime, Identity, Index, Integer, String
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+
+from app.models import Base
 
 
 class Course(Base):

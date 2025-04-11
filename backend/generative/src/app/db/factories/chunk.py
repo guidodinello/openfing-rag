@@ -1,4 +1,3 @@
-# app/database/factories/chunk.py
 from app.core.config import get_settings
 from app.db.factories.base import BaseFactory
 from app.models import Chunk

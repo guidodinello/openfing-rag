@@ -1,8 +1,9 @@
 import httpx
+from pydantic import BaseModel, Field
+
 from app.core.config import Settings
 from app.models import Chunk
 from app.utils.logger import get_logger
-from pydantic import BaseModel, Field
 
 logger = get_logger(__name__)
 

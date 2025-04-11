@@ -9,9 +9,10 @@ from collections.abc import Sequence
 
 import sqlalchemy as sa
 from alembic import op
-from app.core.config import get_settings
 from pgvector.sqlalchemy import Vector
 from sqlalchemy.dialects import postgresql
+
+from app.core.config import get_settings
 
 settings = get_settings()
 

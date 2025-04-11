@@ -1,6 +1,7 @@
+from fastapi import APIRouter, Depends
+
 from app.schemas.chat import ChatMessage, ChatResponse
 from app.services.chat import ChatService
-from fastapi import APIRouter, Depends
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 

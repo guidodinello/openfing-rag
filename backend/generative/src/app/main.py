@@ -1,7 +1,8 @@
+from fastapi import FastAPI
+
 from app.api.middleware import setup_middlewares
 from app.api.router import api_router
 from app.core.config import get_settings
-from fastapi import FastAPI
 
 settings = get_settings()
 

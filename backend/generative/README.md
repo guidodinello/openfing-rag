@@ -172,3 +172,18 @@ poetry run typecheck  # Run type checker
 > debug a container `docker compose run --entrypoint bash backend`     
 > use your terminal instead of the containers one `docker compose exec backend bash`, really helps because of autocompletion and stuff
 > 
+
+❯ poetry install --all-extras   
+
+> installs dev dependencies!!!!
+
+https://claude.ai/chat/ff0fd68b-43d0-4ff9-b8f6-558708e3b41b
+
+poetry run black .  
+poetry run ruff check .
+poetry run ruff check --fix .
+poetry run mypy .
+
+poetry run format
+poetry run lint
+poetry run typecheck
