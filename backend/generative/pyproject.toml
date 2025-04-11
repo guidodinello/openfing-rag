@@ -25,7 +25,7 @@ dependencies = [
 ]
 
 [project.urls]
-repository = "https://github.com/#TODO:"
+repository = "https://gitlab.fing.edu.uy/diego.amorena/tesis"
 
 [project.scripts]
 cli = "cli:app"
@@ -56,6 +56,8 @@ include = '\.pyi?$'
 [tool.ruff]
 line-length = 88
 target-version = "py312"
+
+[tool.ruff.lint]
 select = [
     "E",  # pycodestyle errors
     "W",  # pycodestyle warnings
@@ -66,8 +68,11 @@ select = [
 ]
 ignore = []
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["app"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.params.Depends",]
 
 [tool.mypy]
 python_version = "3.12"
@@ -81,3 +86,4 @@ warn_unused_ignores = true
 warn_return_any = true
 strict_optional = true
 strict_equality = true
+ignore_missing_imports = true

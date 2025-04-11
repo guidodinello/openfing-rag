@@ -47,7 +47,8 @@ class BatchTranscriber:
             for audio_path in files:
                 try:
                     output_path = self.file_handler.get_output_path(
-                        audio_path, self.transcriber.config.model_size
+                        audio_path,
+                        self.transcriber.config.model_size,
                     )
 
                     # Skip if already processed
@@ -57,7 +58,7 @@ class BatchTranscriber:
                                 audio_path=audio_path,
                                 output_path=output_path,
                                 success=True,
-                            )
+                            ),
                         )
                         continue
 
@@ -75,7 +76,7 @@ class BatchTranscriber:
                             output_path=output_path,
                             success=True,
                             result=result,
-                        )
+                        ),
                     )
 
                 except Exception as e:
@@ -86,7 +87,7 @@ class BatchTranscriber:
                             output_path=output_path,
                             success=False,
                             error=e,
-                        )
+                        ),
                     )
                 finally:
                     pbar.update(1)

@@ -1,189 +1,96 @@
-# Onboard
+## Quick Setup
 
-# TODO: update this project structure
-Take a look at the [project structure](./docs/project-structure.txt)
+### 1. Install Poetry
 
-
-# Set up environment
-
-# TODO: llevar lo del backend al README del backend y viceversa
-# TODO: update this readme instructions to use docker
-## Backend
-
-Para comenzar a trabajar con esta estructura:
-
-0. Recomendado usar la version de python del proyecto 3.12.0
-
-Si te interesa manejar diferentes versiones de Python de forma simple, checkea (https://github.com/pyenv/pyenv)
-
-1. Primero, crea un nuevo ambiente virtual:
-
-**Linux**
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install poetry==1.8.4
-poetry install --sync
-cd backend
-```
-**Windows**
-```bash
-python -m venv .venv
-.venv\Script\activate
-pip install poetry==1.8.4
-cd backend
-poetry install --sync
-```
-
-2. Instala las dependencias:
+If you don't have Poetry installed:
 
 ```bash
+curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-3. Copia el archivo .env.example a .env y configura tus variables de entorno:
+### 2. Install Dependencies
 
 ```bash
-cp .env.example .env
+# Install all extras (including development dependencies)
+poetry sync --all-extras
 ```
 
-4. Corre el backend
-```bash
-poetry run dev
-```
-# TODO: esta repetido, tambien  se puede usar poetry run cli dev. capaz es mejor dejar la ultima para estandarizar
-
-
-> See all Commands
-```bash
-poetry run cli ingest --help
-```
-
-> add a transcription (in the format outputted by whisper) to the database
-# Single file
-poetry run cli ingest whisper --file prog1_12.json
-
-# Process all files in directory
-poetry run cli ingest whisper --dir /app/transcripts
-
-
-
-## Frontend
-
-1. Instala las dependencias:
+### 3. Setup the Database
 
 ```bash
-npm install
+# Apply migrations
+poetry run alembic upgrade head
 ```
-2. Corre el frontend
+
+### 6. Start the Development Server
 
 ```bash
-npm run dev
+poetry run cli dev
 ```
 
-## Recommended VS Code plugins to work in the project
+The API should now be available at http://127.0.0.1:8000/api/v1/, for instance, check its [documentation](http://127.0.0.1:8000/api/v1/openapi.json)
 
+## Development Commands
 
-La de ordenar las clases de tailwind
-Ruff, black, pylint, isort, mypy?
-
-# Workflow
-
-## Backend
-Adding new dependencies
-poetry add [--group=dev] package_name
-
-## Frontend
-
-# Resources
-
-## Working with Poetry
-https://www.twilio.com/en-us/blog/introduction-python-dependency-management-poetry-package
-
-- Activar el entorno virtual
-poetry shell
-
-- Ejecutar el servidor en modo desarrollo
-poetry run dev
-
-- O ejecutar el servidor en modo producción
-poetry run start
-
-- Agregar una nueva dependencia
-poetry add nombre-paquete
-
-- Agregar una dependencia de desarrollo
-poetry add --group dev nombre-paquete
-
-- Actualizar dependencias
-poetry update
-
-- Ver el árbol de dependencias
-poetry show --tree
-
-- Ejecutar tests
-poetry run pytest
-
-- Verificar la configuración
-poetry check
-
-- Exportar requirements.txt (si necesitas)
-poetry export -f requirements.txt --output requirements.txt
-
-
-
-## Development Setup
-
-### Code Quality Tools
-
-We use several tools to maintain code quality:
-- Black for code formatting
-- Ruff for linting
-- MyPy for type checking
-- Pre-commit for automated checks
-
-After cloning the repository and setting up your development environment:
-
-1. Install pre-commit hooks:
 ```bash
-# From the project root
-backend/.venv/bin/pre-commit install
+# Show all available CLI commands
+poetry run cli --help
 ```
 
+## Setting Up Pre-commit Hooks
 
-This will ensure all commits are checked for:
-- Code formatting (Black)
-- Linting issues (Ruff)
-- Type hints (MyPy)
-- Common issues (trailing whitespace, large files, etc.)
+This project uses pre-commit hooks to ensure code quality before commits.
 
-# TODO: implement this commands
-You can also run checks manually:
+### 1. Install the Git Hooks
+
 ```bash
-# From the backend directory
-poetry run format  # Format code
-poetry run lint    # Run linter
-poetry run typecheck  # Run type checker
+poetry run pre-commit install
 ```
 
-# TODO: document frontend hooks
+## Code Quality Tools
 
+This project uses several tools to maintain code quality:
 
-#### TODO
-> debug a container `docker compose run --entrypoint bash backend`     
-> use your terminal instead of the containers one `docker compose exec backend bash`, really helps because of autocompletion and stuff
-> 
+- **Black**: Code formatter
+- **Ruff**: Fast Python linter
+- **MyPy**: Static type checker
+- **Pre-commit**: Git hooks to run checks before committing
 
-❯ poetry install --all-extras   
+Run checks manually:
 
-> installs dev dependencies!!!!
+```bash
+# Format code with Black
+poetry run black .
 
-https://claude.ai/chat/ff0fd68b-43d0-4ff9-b8f6-558708e3b41b
-
-poetry run black .  
+# Lint with Ruff
 poetry run ruff check .
-poetry run ruff check --fix .
-poetry run mypy .
 
-poetry run format
-poetry run lint
-poetry run typecheck
+# Run static type checking
+poetry run mypy src
+```
+
+## Project Structure
+
+```
+.
+├── src/                        # Main source code
+│   ├── app/                    # Core application
+│   │   ├── api/                # API endpoints
+│   │   ├── core/               # Core functionality
+│   │   ├── db/                 # Database models and seeders
+│   │   ├── models/             # SQLAlchemy models
+│   │   ├── rag/                # RAG implementation
+│   │   │   ├── audio/          # Audio processing
+│   │   │   ├── ingestion/      # Content ingestion
+│   │   │   ├── llm/            # LLM interaction
+│   │   │   ├── retrieval/      # Context retrieval
+│   │   │   └── vectorstore/    # Vector database
+│   │   ├── schemas/            # Pydantic schemas
+│   │   ├── services/           # Business logic
+│   │   └── utils/              # Utilities
+│   └─── cli.py                 # CLI entrypoint
+├── tests/                      # Test files
+├── migrations/                 # Database migrations
+├── pyproject.toml              # Project configuration
+└── .env                        # Environment variables
+```

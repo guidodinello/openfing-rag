@@ -1,5 +1,5 @@
 import functools
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 from typing import Concatenate, ParamSpec, TypeVar
 
 import typer
@@ -11,10 +11,11 @@ logger = get_logger(__name__)
 
 P = ParamSpec("P")
 R = TypeVar("R")
+T = TypeVar("T")
 
 
 def handle_cli_errors(
-    operation_name: str = None,
+    operation_name: str | None = None,
     exit_on_error: bool = True,
     log_error: bool = True,
 ):
@@ -62,7 +63,7 @@ def handle_cli_errors(
 
 
 def handle_async_cli_errors(
-    operation_name: str = None,
+    operation_name: str | None = None,
     exit_on_error: bool = True,
     log_error: bool = True,
 ):
@@ -75,9 +76,9 @@ def handle_async_cli_errors(
         log_error: Whether to log the error
     """
 
-    def decorator(func: Callable[Concatenate[P], R]) -> Callable[Concatenate[P], R]:
+    def decorator(func: Callable[P, Awaitable[T]]) -> Callable[P, Awaitable[T]]:
         @functools.wraps(func)
-        async def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+        async def wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
             cmd_name = operation_name or func.__name__.replace("_", " ")
 
             try:

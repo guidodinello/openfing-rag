@@ -21,7 +21,8 @@ class SourceInfo(BaseModel):
     formatted_start: str
     formatted_end: str
 
-    def format_time(self, seconds: int) -> str:
+    @staticmethod
+    def format_time(seconds: int) -> str:
         """Convert seconds to human-readable time format."""
         time = timedelta(seconds=seconds)
         hours = time.seconds // 3600
@@ -47,7 +48,8 @@ class ChunkSourceFormatter:
 
     @staticmethod
     async def get_chunks_with_lessons(
-        db: AsyncSession, chunks: list[Chunk]
+        db: AsyncSession,
+        chunks: list[Chunk],
     ) -> list[Chunk]:
         """
         Fetch chunks with their associated lesson information.

@@ -13,7 +13,8 @@ from app.utils.logger import get_logger
 logger = get_logger(__name__)
 
 # TODO: update type hints
-# TODO: clean vector store instantiation. i think im creating one for pgvector and one for whisper ingest
+# TODO: clean vector store instantiation. i think im creating one for pgvector
+# and one for whisper ingest
 # TODO: clean embeddings instantiation
 # TODO: clean async session and engines instantiation
 # TODO; see differences between async version and sync of pgvector.
@@ -104,14 +105,14 @@ class VectorStore:
             # Perform the search
             # TODO: shouldnt access _vector_store probably
             logger.info(
-                f"Running similarity search for {query=} with {filter_conditions=}"
+                f"Running similarity search for {query=} with {filter_conditions=}",
             )
-            results: list[
-                tuple[Any, float]
-            ] = self._vector_store.similarity_search_with_score(
-                query,
-                k=k,
-                filter=filter_conditions if filter_conditions else None,
+            results: list[tuple[Any, float]] = (
+                self._vector_store.similarity_search_with_score(
+                    query,
+                    k=k,
+                    filter=filter_conditions if filter_conditions else None,
+                )
             )
 
             # TODO: use a retriever
@@ -119,7 +120,7 @@ class VectorStore:
             chunks = [result[0] for result in results if result[1] >= score_threshold]
 
             logger.info(
-                f"Found {len(chunks)} relevant chunks with threshold {score_threshold}"
+                f"Found {len(chunks)} relevant chunks with threshold {score_threshold}",
             )
             return chunks
 

@@ -16,7 +16,10 @@ class WhisperBatchProcessor:
         self.merger = merger
 
     def prepare_merged_chunks(
-        self, data: dict[str, Any], raw_transcription_id: int, lesson_id: int
+        self,
+        data: dict[str, Any],
+        raw_transcription_id: int,
+        lesson_id: int,
     ) -> tuple[list[str], list[ChunkMetadata]]:
         """Prepare chunks for batch processing."""
         whisper_segments = [WhisperSegment(**segment) for segment in data["segments"]]
@@ -42,7 +45,9 @@ class WhisperBatchProcessor:
         return texts_for_embedding, chunk_metadata
 
     def create_chunks(
-        self, chunk_metadata: list[ChunkMetadata], embeddings: list[list[float]]
+        self,
+        chunk_metadata: list[ChunkMetadata],
+        embeddings: list[list[float]],
     ) -> list[Chunk]:
         """Create database Chunk objects."""
         return [
@@ -69,10 +74,10 @@ class WhisperBatchProcessor:
         """Create metadata for a chunk."""
         avg_logprob = sum(s.avg_logprob for s in chunk.segments) / len(chunk.segments)
         compression_ratio = sum(s.compression_ratio for s in chunk.segments) / len(
-            chunk.segments
+            chunk.segments,
         )
         no_speech_prob = sum(s.no_speech_prob for s in chunk.segments) / len(
-            chunk.segments
+            chunk.segments,
         )
 
         return ChunkMetadata(

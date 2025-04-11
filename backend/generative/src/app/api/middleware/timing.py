@@ -21,7 +21,7 @@ class TimingMiddleware(BaseHTTPMiddleware):
 
             # Calculate processing time
             process_time = (time.time() - start_time) * 1000
-            formatted_process_time = "{0:.2f}".format(process_time)
+            formatted_process_time = f"{process_time:.2f}"
 
             # Add timing header to response
             response.headers["X-Process-Time"] = formatted_process_time
@@ -29,7 +29,7 @@ class TimingMiddleware(BaseHTTPMiddleware):
             # Log timing information
             logger.debug(
                 f"Request processed: {request.method} {request.url.path}"
-                f" - Took: {formatted_process_time}ms"
+                f" - Took: {formatted_process_time}ms",
             )
 
             return response
@@ -37,11 +37,11 @@ class TimingMiddleware(BaseHTTPMiddleware):
         except Exception as e:
             # Log error and processing time even if request fails
             process_time = (time.time() - start_time) * 1000
-            formatted_process_time = "{0:.2f}".format(process_time)
+            formatted_process_time = f"{process_time:.2f}"
 
             logger.error(
                 f"Request failed: {request.method} {request.url.path}"
                 f" - Took: {formatted_process_time}ms"
-                f" - Error: {str(e)}"
+                f" - Error: {str(e)}",
             )
             raise

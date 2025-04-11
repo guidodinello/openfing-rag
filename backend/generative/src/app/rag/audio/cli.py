@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Literal
 
 import torch
 import typer
-from typing_extensions import Literal
 
 from app.rag.audio.audio_file_handler import AudioFileHandler
 from app.rag.audio.batch_processor import BatchTranscriber
@@ -16,7 +15,8 @@ from app.utils.logger import get_logger
 logger = get_logger(__name__)
 
 
-# TODO: i dont like this. defining the enum, the config, the results, etc. could be simplified
+# TODO: i dont like this. defining the enum, the config, the results, etc.
+# could be simplified
 class WhisperModel(str, Enum):
     """Available Whisper model sizes"""
 
@@ -104,14 +104,18 @@ def transcribe(
     """
     # Create configuration
     config = TranscriberConfig(
-        model_size=model, language=language, output_dir=output_dir
+        model_size=model,
+        language=language,
+        output_dir=output_dir,
     )
 
     # Initialize components
     transcriber = WhisperTranscriber(config)
     file_handler = AudioFileHandler(output_dir)
     batch_processor = BatchTranscriber(
-        transcriber=transcriber, file_handler=file_handler, skip_existing=skip_existing
+        transcriber=transcriber,
+        file_handler=file_handler,
+        skip_existing=skip_existing,
     )
 
     # Find and process files
@@ -122,7 +126,8 @@ def transcribe(
 
     # Show initial summary
     typer.secho(
-        f"\nFound {len(audio_files)} audio files to process:", fg=typer.colors.BLUE
+        f"\nFound {len(audio_files)} audio files to process:",
+        fg=typer.colors.BLUE,
     )
     for file in audio_files[:5]:
         typer.echo(f"  - {file.name}")
@@ -145,12 +150,12 @@ def transcribe(
     typer.secho(f"✓ Successfully processed: {successful}", fg=typer.colors.GREEN)
     if failed > 0:
         typer.secho(f"✗ Failed to process: {failed}", fg=typer.colors.RED)
-        # Show failed files
         typer.echo("\nFailed files:")
         for result in results:
             if not result.success:
                 typer.secho(
-                    f"  - {result.audio_path.name}: {result.error}", fg=typer.colors.RED
+                    f"  - {result.audio_path.name}: {result.error}",
+                    fg=typer.colors.RED,
                 )
 
 

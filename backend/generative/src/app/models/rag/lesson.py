@@ -37,7 +37,8 @@ class Lesson(Base):
         {
             "schema": "rag",
             "extend_existing": True,
-            "comment": "Educational lessons containing video content and transcriptions",
+            "comment": """Educational lessons containing video content and
+                transcriptions""",
         },
     )
 
@@ -57,7 +58,9 @@ class Lesson(Base):
     # Core fields
     title: str = Column(String(255), nullable=False, comment="Title of the lesson")
     video_url: str = Column(
-        String(255), nullable=True, comment="URL to the video content (optional)"
+        String(255),
+        nullable=True,
+        comment="URL to the video content (optional)",
     )
     lesson_metadata: dict = Column(
         JSONB,
@@ -99,7 +102,8 @@ class Lesson(Base):
 
     def __repr__(self) -> str:
         """Provide a useful string representation of the lesson."""
-        return f"Lesson(id={self.id}, number={self.number}, title='{self.title}', course_id={self.course_id})"
+        return f"""Lesson(id={self.id}, number={self.number},
+            title='{self.title}', course_id={self.course_id})"""
 
     def __str__(self) -> str:
         """Return a human-readable string representation."""
