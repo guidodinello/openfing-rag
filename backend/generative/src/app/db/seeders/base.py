@@ -1,9 +1,13 @@
-# app/database/seeders/base.py
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any, TypeVar
 
 from sqlalchemy import Select, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import InstrumentedAttribute
+
+from app.models.base import Base
+
+ModelType = TypeVar("ModelType", bound="Base")
 
 
 class BaseSeeder:
@@ -18,9 +22,10 @@ class BaseSeeder:
 
     async def get_random_records(
         self,
-        model: type,
-        columns: None
-        | (InstrumentedAttribute | Sequence[InstrumentedAttribute]) = None,
+        model: type[ModelType],
+        columns: None | (
+            InstrumentedAttribute | Sequence[InstrumentedAttribute]
+        ) = None,
         limit: None | int = None,
         filters: None | list = None,
         raise_if_empty: bool = True,
@@ -30,7 +35,7 @@ class BaseSeeder:
 
         Args:
             model: SQLAlchemy model class
-            columns: Single column or sequence of columns to select (defaults to id if None)
+            columns: Single column or sequence of columns to select
             limit: Optional number of records to return
             filters: Optional list of filter conditions
             raise_if_empty: Whether to raise an error if no records found
@@ -69,14 +74,14 @@ class BaseSeeder:
         # Handle empty results
         if not results and raise_if_empty:
             raise ValueError(
-                f"No records found for {model.__name__}. Please seed it first."
+                f"No records found for {model.__name__}. Please seed it first.",
             )
 
         return results
 
     async def get_related_records(
         self,
-        model: type,
+        model: type[ModelType],
         relations: InstrumentedAttribute | list[InstrumentedAttribute],
         limit: None | int = None,
         filters: None | list = None,

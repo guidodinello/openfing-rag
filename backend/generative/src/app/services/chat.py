@@ -121,7 +121,8 @@ logger = get_logger(__name__)
 
 #             if not docs:
 #                 return ChatResponse(
-#                     response="I couldn't find any relevant information for your query.",
+#                     response="""I couldn't find any relevant information
+# for your query.""",
 #                     sources=[],
 #                 )
 
@@ -134,12 +135,16 @@ logger = get_logger(__name__)
 #             )
 
 #             # Format sources with video timestamps
-#             sources = await self.source_formatter.format_sources(self.db, chunks=chunks)
+#             sources = await self.source_formatter.format_sources(
+#               self.db,
+#               chunks=chunks
+#             )
 
 #             logger.info(sources)
 
 #             logger.info(
-#                 f"Generated response with {len(chunks)} chunks for query: {chat_message.message[:50]}..."
+#                 f"""Generated response with {len(chunks)} chunks for query:
+# {chat_message.message[:50]}..."""
 #             )
 
 #             return ChatResponse(
@@ -164,7 +169,8 @@ class ChatService:
     ):
         self.db = db
         self.settings = settings
-        # TODO: pass settings.DATABASE not full settings. depends on fix emebddings dependecy injection
+        # TODO: pass settings.DATABASE not full settings.
+        # depends on fix emebddings dependecy injection
         self.vector_store = VectorStore(self.db, settings)
         self.llm_service = LLMService(settings)
 
@@ -187,7 +193,8 @@ class ChatService:
                 start_time=metadata.get("start_time", 0),
                 end_time=metadata.get("end_time", 0),
                 embedding=metadata.get(
-                    "embedding", [0.0] * self.settings.EMBEDDINGS.DIMENSION
+                    "embedding",
+                    [0.0] * self.settings.EMBEDDINGS.DIMENSION,
                 ),
                 chunk_metadata={
                     "score": metadata.get("score", 0.0),
@@ -232,13 +239,15 @@ class ChatService:
             chunks = self._convert_docs_to_chunks(docs)
 
             llm_response = await self.llm_service.generate_response(
-                chunks=chunks, query=chat_message.message
+                chunks=chunks,
+                query=chat_message.message,
             )
 
             sources = self._format_sources(chunks)
 
             logger.info(
-                f"Generated response with {len(chunks)} chunks for query: {chat_message.message[:50]}..."
+                f"""Generated response with {len(chunks)} chunks for query:
+                {chat_message.message[:50]}...""",
             )
             return ChatResponse(
                 response=llm_response.generated_text,
@@ -259,7 +268,8 @@ class ChatService:
 
     @staticmethod
     def _format_sources(chunks: list[Chunk]) -> list[str]:
-        # TODO: probably make a chunk formatter class instead. Or define how Chunk should be serialized
+        # TODO: probably make a chunk formatter class instead.
+        # Or define how Chunk should be serialized
         """Format source information for each chunk."""
 
         return [

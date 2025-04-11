@@ -8,16 +8,16 @@ class WhisperChunkMerger:
 
     def __init__(
         self,
+        end_of_sentence_markers: list[str],
         max_chunk_duration: float = 30.0,
         min_chunk_duration: float = 10.0,
         max_chunk_words: int = 100,
-        end_of_sentence_markers: list[str] = [".", "?", "!"],
         merge_incomplete_sentences: bool = True,
     ):
         self.max_chunk_duration = max_chunk_duration
         self.min_chunk_duration = min_chunk_duration
         self.max_chunk_words = max_chunk_words
-        self.end_of_sentence_markers = end_of_sentence_markers
+        self.end_of_sentence_markers = end_of_sentence_markers or [".", "?", "!"]
         self.merge_incomplete_sentences = merge_incomplete_sentences
 
     def merge_segments(self, segments: list[WhisperSegment]) -> list[MergedChunk]:
@@ -74,7 +74,9 @@ class WhisperChunkMerger:
         return duration >= self.min_chunk_duration
 
     def _merge_segment_into_chunk(
-        self, chunk: MergedChunk, segment: WhisperSegment
+        self,
+        chunk: MergedChunk,
+        segment: WhisperSegment,
     ) -> None:
         """Merge a segment into an existing chunk."""
         chunk.end = segment.end

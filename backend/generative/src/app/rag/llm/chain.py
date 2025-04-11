@@ -9,7 +9,8 @@ class RAGChain:
     def __init__(self, vector_store):
         self.vector_store = vector_store
         self.memory = ConversationBufferMemory(
-            memory_key="chat_history", return_messages=True
+            memory_key="chat_history",
+            return_messages=True,
         )
         self.chain = self._create_chain()
 

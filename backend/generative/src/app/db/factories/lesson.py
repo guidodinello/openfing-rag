@@ -12,7 +12,7 @@ class LessonFactory(BaseFactory[Lesson]):
     async def get_next_number(self, course_id: int) -> int:
         """Get the next available lesson number for a course."""
         query = select(func.coalesce(func.max(Lesson.number), 0)).where(
-            Lesson.course_id == course_id
+            Lesson.course_id == course_id,
         )
         result = await self.db.execute(query)
         max_number = result.scalar()

@@ -57,13 +57,17 @@ class Chunk(Base):
         nullable=False,
     )
     created_at: DateTime = Column(
-        DateTime(timezone=True), server_default=func.current_timestamp(), nullable=False
+        DateTime(timezone=True),
+        server_default=func.current_timestamp(),
+        nullable=False,
     )
 
     # Foreign Keys
     lesson_id: int = Column(Integer, ForeignKey("rag.lessons.id"), nullable=False)
     transcription_id: int = Column(
-        Integer, ForeignKey("rag.raw_transcriptions.id"), nullable=False
+        Integer,
+        ForeignKey("rag.raw_transcriptions.id"),
+        nullable=False,
     )
 
     # Relationships

@@ -33,13 +33,16 @@ class LLMService:
         context = "\n\n".join(
             f"Fragmentos {i+1}:\n{chunk.content}" for i, chunk in enumerate(chunks)
         )
-        return f"""<s>[INST] Eres un chatbot educativo, y debes responder utilizando los siguientes fragmentos de informacion del contexto. Contesta la siguiente pregunta. Responde en espanol.
+        return f"""
+<s>[INST] Eres un chatbot educativo, y debes responder utilizando los siguientes
+fragmentos de informacion del contexto. Contesta la siguiente pregunta. Responde
+en espanol.
 
-        Pregunta: {query}
+Pregunta: {query}
 
-        Contexto:
-        {context}
-        [/INST]"""
+Contexto:
+{context}
+[/INST]"""
 
     async def _generate_prompt(self, chunks: list[Chunk], query: str) -> str:
         # Combine chunk contents with proper formatting
@@ -47,14 +50,16 @@ class LLMService:
             f"Excerpt {i+1}:\n{chunk.content}" for i, chunk in enumerate(chunks)
         )
 
-        return f"""<s>[INST] You are a helpful educational assistant. Using only the information provided in the excerpts below, 
-        answer the following question. If you cannot answer using only the provided excerpts, say so.
+        return f"""
+<s>[INST] You are a helpful educational assistant. Using only the information
+provided in the excerpts below, answer the following question.
+If you cannot answer using only the provided excerpts, say so.
 
-        Question: {query}
+Question: {query}
 
-        Context:
-        {context}
-        [/INST]"""
+Context:
+{context}
+[/INST]"""
 
     async def generate_response(self, chunks: list[Chunk], query: str) -> LLMResponse:
         """Generate a coherent response from chunks using the LLM"""
@@ -82,17 +87,18 @@ class LLMService:
                 if isinstance(data, list) and len(data) > 0:
                     generated_text = data[0].get("generated_text", "")
                     return LLMResponse(
-                        generated_text=generated_text, model_used=self.model_name
+                        generated_text=generated_text,
+                        model_used=self.model_name,
                     )
 
                 raise ValueError("Unexpected response format from HuggingFace API")
 
-        except httpx.TimeoutException:
+        except httpx.TimeoutException as e:
             logger.error("LLM request timed out")
-            raise RuntimeError("LLM request timed out")
+            raise RuntimeError("LLM request timed out") from e
         except httpx.HTTPError as e:
             logger.error(f"HTTP error occurred: {str(e)}")
-            raise RuntimeError(f"Error calling LLM API: {str(e)}")
+            raise RuntimeError(f"Error calling LLM API: {str(e)}") from e
         except Exception as e:
             logger.error(f"Error generating LLM response: {str(e)}")
-            raise RuntimeError(f"Failed to generate response: {str(e)}")
+            raise RuntimeError(f"Failed to generate response: {str(e)}") from e

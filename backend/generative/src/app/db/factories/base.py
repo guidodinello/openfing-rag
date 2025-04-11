@@ -1,5 +1,5 @@
 # app/database/factories/base.py
-from typing import Any, Generic, Type, TypeVar
+from typing import Any, Generic, TypeVar
 
 from faker import Faker
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -11,7 +11,7 @@ class BaseFactory(Generic[ModelType]):
     """Base factory class for generating test data."""
 
     # TODO: update type
-    def __init__(self, model: Type[ModelType], db: AsyncSession):
+    def __init__(self, model: type[ModelType], db: AsyncSession):
         self.model = model
         self.db = db
         self.faker = Faker()

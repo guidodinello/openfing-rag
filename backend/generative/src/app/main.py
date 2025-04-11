@@ -25,7 +25,8 @@ def create_app() -> FastAPI:
     setup_middlewares(app)
 
     # # Database initialization if needed
-    # # TODO: maybe create here and pass dependency. maybe not needed as we have singleton modules
+    # # TODO: maybe create here and pass dependency. maybe not needed as we have
+    # singleton modules
     # @app.on_event("startup")
     # async def init_db():
     #     # Add your database initialization here if needed

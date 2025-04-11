@@ -1,7 +1,7 @@
 import logging
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Literal, Self
+from typing import Any, Literal
 
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 
 class LoggingSettings(BaseSettings):
     LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
-        default="INFO", description="Logging level"
+        default="INFO",
+        description="Logging level",
     )
     FORMAT: str = Field(
         default="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -23,7 +24,8 @@ class LoggingSettings(BaseSettings):
         description="Maximum size of log file before rotation (in bytes)",
     )
     FILE_BACKUP_COUNT: int = Field(
-        default=5, description="Number of backup files to keep"
+        default=5,
+        description="Number of backup files to keep",
     )
     model_config = SettingsConfigDict(env_prefix="LOG_", extra="ignore")
 
@@ -46,7 +48,6 @@ class DatabaseSettings(BaseSettings):
     @property
     def URL(self) -> str:
         """Construct Datbase Connection String."""
-
         return f"postgresql+psycopg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DB}"
 
     @property
@@ -70,7 +71,8 @@ class EmbeddingsSettings(BaseSettings):
     CACHE_DIR: None | str = Field(default=None, description="Model cache directory")
     BATCH_SIZE: int = Field(
         default=32,
-        description="Number of texts to process in parallel. Increase if you have more GPU memory.",
+        description="""Number of texts to process in parallel.
+        Increase if you have more GPU memory.""",
         ge=1,
     )
 
@@ -92,16 +94,14 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
 
     # Environment settings
-    ENVIRONMENT: Literal["development", "production", "test"] = Field(
-        default="development", description="Runtime environment"
-    )
     DEBUG: bool = Field(default=False, description="Debug mode")
 
     # Server settings
     HOST: str = Field(default="0.0.0.0", description="Server host")
     PORT: int = Field(default=8000, description="Server port")
     WORKERS_COUNT: int = Field(
-        default=1, description="Number of worker processes for production"
+        default=1,
+        description="Number of worker processes for production",
     )
 
     # Security settings
@@ -110,15 +110,18 @@ class Settings(BaseSettings):
         description="Secret key for cryptographic signing",
     )
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(
-        default=30, description="Minutes before JWT tokens expire"
+        default=30,
+        description="Minutes before JWT tokens expire",
     )
 
     # CORS settings
     FRONTEND_URL: str = Field(
-        default="http://localhost:3000", description="Frontend URL for CORS"
+        default="http://localhost:3000",
+        description="Frontend URL for CORS",
     )
     ALLOWED_HOSTS: list[str] = Field(
-        default=["localhost", "127.0.0.1"], description="List of allowed hosts"
+        default=["localhost", "127.0.0.1"],
+        description="List of allowed hosts",
     )
 
     # Vector store settings
@@ -130,7 +133,8 @@ class Settings(BaseSettings):
 
     # Prefect settings
     PREFECT_API_URL: str = Field(
-        default="http://127.0.0.1:4200/api", description="Prefect API URL"
+        default="http://127.0.0.1:4200/api",
+        description="Prefect API URL",
     )
 
     # Configuration for environment variables
@@ -150,22 +154,12 @@ class Settings(BaseSettings):
     def validate_env_file(cls, values: dict[str, Any]) -> dict[str, Any]:
         env_file = Path(".env")
         if not env_file.is_file():
-            msg = f"{env_file.absolute()} file not found! Please create one based on '.env.example'"
+            msg = f"""{env_file.absolute()} file not found!
+            Please create one based on '.env.example'"""
             logger.error(msg)
             raise ValueError(msg)
         logger.info(f"Using environment file: {env_file.absolute()}")
         return values
-
-    # TODO: remove
-    @model_validator(mode="after")
-    def after(self) -> Self:
-        # print("AFTER VALIDATION", self.model_dump_json(indent=2))
-        return self
-
-    @field_validator("ENVIRONMENT")
-    def set_debug_based_on_env(cls, v: str, info) -> str:
-        info.data["DEBUG"] = v == "development"
-        return v
 
     @field_validator("WORKERS_COUNT")
     def validate_workers_count(cls, v: int) -> int:
@@ -174,6 +168,6 @@ class Settings(BaseSettings):
         return v
 
 
-@lru_cache()
+@lru_cache
 def get_settings() -> Settings:
     return Settings(_env_file=".env")

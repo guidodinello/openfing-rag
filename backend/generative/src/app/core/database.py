@@ -1,5 +1,5 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
@@ -10,7 +10,7 @@ settings = get_settings()
 # Create async engine
 engine = create_async_engine(
     settings.DATABASE.URL,
-    echo=settings.DATABASE.ECHO,  # Set to True to log SQL queries (useful for debugging)
+    echo=settings.DATABASE.ECHO,
     pool_size=settings.DATABASE.POOL_SIZE,
     max_overflow=settings.DATABASE.MAX_OVERFLOW,
     pool_timeout=settings.DATABASE.POOL_TIMEOUT,

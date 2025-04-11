@@ -37,24 +37,24 @@ async def recreate_database():
             await session.execute(
                 text(
                     f"""
-                    SELECT pg_terminate_backend(pid) 
-                    FROM pg_stat_activity 
+                    SELECT pg_terminate_backend(pid)
+                    FROM pg_stat_activity
                     WHERE datname = '{settings.DATABASE.DB}'
                     AND pid <> pg_backend_pid()
-                    """
-                )
+                    """,
+                ),
             )
 
             await session.execute(
-                text(f"DROP DATABASE IF EXISTS {settings.DATABASE.DB}")
+                text(f"DROP DATABASE IF EXISTS {settings.DATABASE.DB}"),
             )
             await session.execute(
                 text(
                     f"""
                     CREATE DATABASE {settings.DATABASE.DB}
                     WITH OWNER = {settings.DATABASE.USER}
-                    """
-                )
+                    """,
+                ),
             )
     finally:
         await engine.dispose()
@@ -96,7 +96,8 @@ def refresh(
         ),
     ] = True,
 ):
-    """Completely refresh the database by recreating it and optionally running migrations and seeding."""
+    """Completely refresh the database by recreating it and
+    optionally running migrations and seeding."""
     asyncio.run(recreate_database())
 
     if migrations:

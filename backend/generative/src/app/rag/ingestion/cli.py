@@ -1,7 +1,8 @@
 import asyncio
+from collections.abc import AsyncGenerator
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Annotated, AsyncGenerator
+from typing import Annotated
 
 import typer
 from langchain_core.documents import Document
@@ -53,7 +54,9 @@ async def create_course_if_not_exists(db: AsyncSession, course_code: str) -> Cou
 
 
 async def create_lesson_if_not_exists(
-    db: AsyncSession, course: Course, lesson_number: int
+    db: AsyncSession,
+    course: Course,
+    lesson_number: int,
 ) -> Lesson:
     """
     Get or create a lesson with the given number for the course.
@@ -67,7 +70,8 @@ async def create_lesson_if_not_exists(
         Lesson: The existing or newly created lesson
     """
     query = select(Lesson).where(
-        Lesson.course_id == course.id, Lesson.number == lesson_number
+        Lesson.course_id == course.id,
+        Lesson.number == lesson_number,
     )
     result = await db.execute(query)
     lesson = result.scalar_one_or_none()
@@ -116,7 +120,7 @@ async def get_lesson_id(db: AsyncSession, course_code: str, lesson_number: int) 
 
     logger.info(
         f"Using lesson {lesson.id} for {course_code} "
-        f"lesson {lesson_number}: {lesson.title}"
+        f"lesson {lesson_number}: {lesson.title}",
     )
     return lesson.id
 
@@ -154,16 +158,19 @@ def parse_filename(filename: str) -> tuple[str, int]:
     except ValueError as err:
         raise ValueError(
             f"Invalid filename format: {filename}. "
-            f"Expected format: '{{course_code}}_{{lesson_number}}.json'"
+            f"Expected format: '{{course_code}}_{{lesson_number}}.json'",
         ) from err
 
 
 @handle_async_cli_errors(operation_name="transcription ingestion")
 async def ingest_lesson_transcription(
-    db: AsyncSession, lesson_id: int, file_path: Path
+    db: AsyncSession,
+    lesson_id: int,
+    file_path: Path,
 ) -> tuple:
     """
-    Ingest a lesson transcription file and store it in both the database and vector store.
+    Ingest a lesson transcription file and store it in both
+    the database and vector store.
 
     Args:
         db: Database session
@@ -179,7 +186,10 @@ async def ingest_lesson_transcription(
 
     # Process transcription and store in database
     raw_trans, chunks = await WhisperIngestor.from_file(
-        db, file_path, lesson_id, metadata
+        db,
+        file_path,
+        lesson_id,
+        metadata,
     )
 
     # Store in vector database for similarity search
@@ -218,7 +228,8 @@ async def process_json_file(session, file_path: Path) -> tuple[bool, str]:
         Tuple of (success: bool, message: str)
     """
     try:
-        # TODO: would be better to create those lessons, course following the folder convention filename = prog1_12
+        # TODO: would be better to create those lessons, course following the
+        # folder convention filename = prog1_12
         course_code, lesson_number = parse_filename(file_path.stem)
         lesson_id = await get_lesson_id(session, course_code, lesson_number)
 
@@ -227,7 +238,7 @@ async def process_json_file(session, file_path: Path) -> tuple[bool, str]:
 
         logger.info(
             f"Processing file {file_path.name} for {course_code=}, "
-            f"{lesson_number=} {lesson_id=}"
+            f"{lesson_number=} {lesson_id=}",
         )
         await ingest_lesson_transcription(session, lesson_id, file_path)
         return True, f"Successfully processed {file_path.name}"
@@ -264,12 +275,12 @@ async def process_whisper_directory(directory: Path) -> None:
 
     if not files_found:
         raise typer.BadParameter(
-            f"No JSON files found in {directory} or its subdirectories"
+            f"No JSON files found in {directory} or its subdirectories",
         )
 
     logger.info(
         f"Processing complete. Successfully processed {processed_count} files, "
-        f"failed to process {failed_count} files"
+        f"failed to process {failed_count} files",
     )
 
 

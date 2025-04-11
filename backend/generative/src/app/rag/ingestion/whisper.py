@@ -21,13 +21,14 @@ class TranscriptionIngestor(Protocol):
     """Protocol for transcription ingestion."""
 
     async def process_transcription(
-        self, data: Any, lesson_id: int
-    ) -> tuple[RawTranscription, list[Chunk]]:
-        ...
+        self,
+        data: Any,
+        lesson_id: int,
+    ) -> tuple[RawTranscription, list[Chunk]]: ...
 
 
-# TODO: pensar si esta clase deberia manejar la db o deberia simplemente devolver los resultados
-# y que el cli command haga el db add
+# TODO: pensar si esta clase deberia manejar la db o deberia simplemente
+# devolver los resultados y que el cli command haga el db add
 
 
 class WhisperIngestor:
@@ -38,8 +39,10 @@ class WhisperIngestor:
         self.db: AsyncSession = db
         self.processor: WhisperBatchProcessor = WhisperBatchProcessor(
             WhisperChunkMerger(
-                max_chunk_duration=30.0, min_chunk_duration=10.0, max_chunk_words=100
-            )
+                max_chunk_duration=30.0,
+                min_chunk_duration=10.0,
+                max_chunk_words=100,
+            ),
         )
 
     async def process_transcription(
@@ -53,11 +56,15 @@ class WhisperIngestor:
             self._validate_whisper_data(data)
 
             raw_transcription = await self._create_raw_transcription(
-                data, lesson_id, metadata
+                data,
+                lesson_id,
+                metadata,
             )
 
             texts_for_embedding, chunk_metadata = self.processor.prepare_merged_chunks(
-                data, raw_transcription.id, lesson_id
+                data,
+                raw_transcription.id,
+                lesson_id,
             )
 
             logger.info("Generating embeddings for merged chunks")
@@ -89,7 +96,7 @@ class WhisperIngestor:
         """Process Whisper transcription from file."""
         ingestor = cls(db)
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 data = json.load(f)
             return await ingestor.process_transcription(data, lesson_id, metadata)
         except Exception as e:

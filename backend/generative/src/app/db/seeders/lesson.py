@@ -14,10 +14,12 @@ class LessonSeeder(BaseSeeder):
         result = await self.db.execute(stmt)
         course = result.scalar_one_or_none()
 
-        # TODO: clean this up, this could be extracted to a method get_related or something like that in the base seeder, or even better in the models?
+        # TODO: clean this up, this could be extracted to a method get_related
+        # or something like that in the base seeder, or even better in the models?
         if not course:
             raise ValueError(
-                "Course with code 'metn-2023' not found. Please ensure it exists before running this seeder."
+                """Course with code 'metn-2023' not found.
+                Please ensure it exists before running this seeder.""",
             )
 
         lessons = [
@@ -27,7 +29,8 @@ class LessonSeeder(BaseSeeder):
                 "video_url": "https://open.fing.edu.uy/courses/metn-2023/1/",
                 "number": 1,
                 "lesson_metadata": {
-                    # TODO: this raw video url probably should be a column and not part of the metadata
+                    # TODO: this raw video url probably should be a column and
+                    # not part of the metadata
                     "raw_video_url": "https://open.fing.edu.uy/media/metn-2023/metn-2023_01.mp4",
                     "recorded_date": "2023-07-31",
                     "duration_seconds": 4930,

@@ -10,8 +10,6 @@ from app.utils.logger import get_logger
 logger = get_logger(__name__)
 settings = get_settings()
 
-base_path = Path("./../../../../")  # Path.home()
-
 
 class EmbeddingsService:
     def __init__(
@@ -21,8 +19,8 @@ class EmbeddingsService:
         device: None | str = None,
     ):
         self.model_name = model_name
-        self.cache_dir = (
-            cache_dir or base_path / ".cache" / "torch" / "sentence_transformers"
+        self.cache_dir = cache_dir or (
+            Path.cwd() / ".cache" / "torch" / "sentence_transformers"
         )
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -34,7 +32,7 @@ class EmbeddingsService:
         self.model = self._initialize_model()
         logger.info(
             f"Initialized {model_name} on {self.device} "
-            f"(torch dtype: {self.model.device.type})"
+            f"(torch dtype: {self.model.device.type})",
         )
 
     def _initialize_model(self) -> SentenceTransformer:
@@ -43,7 +41,9 @@ class EmbeddingsService:
             cache_folder=str(self.cache_dir),
             device=self.device,
             model_kwargs={
-                "torch_dtype": torch.float16 if self.device == "cuda" else torch.float32
+                "torch_dtype": (
+                    torch.float16 if self.device == "cuda" else torch.float32
+                ),
             },
         )
 

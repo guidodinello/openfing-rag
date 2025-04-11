@@ -46,7 +46,9 @@ class RawTranscription(Base):
 
     # Core fields
     content: str = Column(
-        Text, nullable=False, comment="Raw transcription text content"
+        Text,
+        nullable=False,
+        comment="Raw transcription text content",
     )
     raw_transcription_metadata: dict = Column(
         JSONB,
