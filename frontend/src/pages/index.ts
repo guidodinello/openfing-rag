@@ -1,6 +1,22 @@
-export { About } from "./about/about";
-export { ErrorOcurred } from "./errorOccured/errorOcurred";
-export { Home } from "./home/Home";
-export { NotFound } from "./notFound/notFound";
-export { ReportError } from "./reportError/reportError";
-export { Summaries } from "./summaries/summaries";
+import { LayoutType, withLayout } from "../hocs/with-layout";
+import { About } from "./about/about";
+import { ErrorOcurred } from "./errorOccured/errorOcurred";
+import { Home } from "./home/home";
+import { NotFound } from "./notFound/notFound";
+import { ReportError } from "./reportError/reportError";
+import { Summaries } from "./summaries/summaries";
+
+const WrappedAbout = withLayout(LayoutType .NavAndSidebar,About);
+const WrappedErrorOcurred = withLayout(LayoutType.NavAndSidebar,ErrorOcurred);
+const WrappedHome = withLayout(LayoutType.NavAndSidebar,Home);
+const WrappedNotFound = withLayout(LayoutType.NavAndSidebar,NotFound);
+const WrappedReportError = withLayout(LayoutType.NavAndSidebar,ReportError);
+const WrappedSummaries = withLayout(LayoutType.NavAndSidebar,Summaries);
+
+
+export { WrappedAbout as About }
+export { WrappedErrorOcurred as ErrorOcurred }
+export { WrappedHome as Home }
+export { WrappedNotFound as NotFound }
+export { WrappedReportError as ReportError }
+export { WrappedSummaries as Summaries }
