@@ -1,32 +1,44 @@
 # main.py
 from fastapi import FastAPI
+
+from Logic.Scrapers.VideoDownloader import VideoDownloader
 from Logic.Scrapers.OpenFingScraper import OpenFingScraper
 import asyncio 
+from pydantic import BaseModel
 
 app = FastAPI()
 openfing_scraper = OpenFingScraper()
-   
+videoDownloader = VideoDownloader();   
+
+class DownloadVideosRequest(BaseModel):
+    course_acronym: str
+    class_number: int
+
 @app.get("/courses-acronyms")
-def scrapePage():
-    openfing_scraper.course_list_scraper.acronym_scraper()
-    return {"message": "Scraping started"}
-@app.get("/status")
-async def getStatus():
-    return {"status": openfing_scraper.get_status()}
+async def get_acronyms():
+    c= openfing_scraper.get_acronyms()
+    return {"message": c}
 
-@app.get("/{course_acronym}")
-async def scrapeCourse(course_acronym: str):
-    return {"status": openfing_scraper.scrape_course(course_acronym)}
+@app.put("/courses-acronyms")
+async def get():
+    return {"status": openfing_scraper.update_acronyms()}
 
-@app.get("/openfing-scraper/")
-async def scrapeCourse():
-    return {"status": openfing_scraper.scrape_openfing()}
-@app.get("/openfing-scraper/do-scrape")
-async def scrapeCourse():
-    return {"status": openfing_scraper.do_scrape_openfing()}
+@app.get("/courses/{course_acronym}")
+async def get_classes(course_acronym: str):
+    return {"status": openfing_scraper.get_classes(course_acronym)}
 
-@app.get("/download-videos/{course_acronym}/{class_number}")
-async def downloadVideos(course_acronym: str, class_number: int):
-    # asyncio.run(openfing_scraper.download_videos(course_acronym, class_number))
-    return {"message": "Downloading started"}
+@app.put("/courses/{course_acronym}")
+async def update_course(course_acronym: str):
+    c=openfing_scraper.update_course(course_acronym)
+    return {"status": c}
+
+@app.put("/courses/")
+async def update():
+    p=openfing_scraper.update_courses_classes()
+    return {"status": p}
+
+@app.post("/download-videos/")
+async def downloadVideos(request: DownloadVideosRequest):
+    p= videoDownloader.process_video(request.course_acronym,request.class_number)
+    return p
 

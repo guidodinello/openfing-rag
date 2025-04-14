@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 
 class ClassScraper:
-    def __init__(self, course_acronym="", class_number=0):
+    def __init__(self, course_acronym, class_number):
         self.db_path = Path(db_path)
         self.timestamp_path = Path(db_path) / "last_run_timestamp.txt"
 
