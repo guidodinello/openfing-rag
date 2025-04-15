@@ -1,4 +1,5 @@
-# main.py
+from services.middlewares.TimingMiddleware import TimingMiddleware
+from services.middlewares.RequestLogginMiddleware import RequestLogginMiddleware
 from fastapi import FastAPI
 
 from Logic.Scrapers.VideoDownloader import VideoDownloader
@@ -7,8 +8,10 @@ import asyncio
 from pydantic import BaseModel
 
 app = FastAPI()
+app.add_middleware(TimingMiddleware)
+app.add_middleware(RequestLogginMiddleware)
 openfing_scraper = OpenFingScraper()
-videoDownloader = VideoDownloader();   
+videoDownloader = VideoDownloader()
 
 class DownloadVideosRequest(BaseModel):
     course_acronym: str
@@ -23,19 +26,14 @@ async def get_acronyms():
 async def get():
     return {"status": openfing_scraper.update_acronyms()}
 
-@app.get("/courses/{course_acronym}")
+@app.get("/courses-acronyms/{course_acronym}")
 async def get_classes(course_acronym: str):
     return {"status": openfing_scraper.get_classes(course_acronym)}
 
-@app.put("/courses/{course_acronym}")
+@app.put("/courses-acronyms/{course_acronym}")
 async def update_course(course_acronym: str):
     c=openfing_scraper.update_course(course_acronym)
     return {"status": c}
-
-@app.put("/courses/")
-async def update():
-    p=openfing_scraper.update_courses_classes()
-    return {"status": p}
 
 @app.post("/download-videos/")
 async def downloadVideos(request: DownloadVideosRequest):

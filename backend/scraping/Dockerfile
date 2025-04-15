@@ -8,7 +8,6 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DEFAULT_TIMEOUT=100 \
     PYTHONPATH=/app
 
-RUN echo "SCRAPING: Installing dependencies" 
 RUN apk update 
 RUN apk add --no-install-recommends --no-cache curl build-base python3 
 RUN rm -rf /var/cache/apk/* 
@@ -19,8 +18,8 @@ ENV PATH="/root/.local/bin:$PATH"
 WORKDIR /scraping
 
 COPY ./pyproject.toml ./poetry.lock ./
-
-RUN echo "SCRAPING: Installing Poetry" 
+COPY .env .env
+ 
 RUN poetry config virtualenvs.create false 
 RUN poetry install --no-interaction --no-root
 

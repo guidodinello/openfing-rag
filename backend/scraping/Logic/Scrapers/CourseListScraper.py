@@ -18,7 +18,7 @@ class CourseListScraper:
         if self.__acronym_path.exists():
             return self.__acronyms_scraped_previously()
         else:
-            return self.acronym_scraper(self)
+            return self.acronym_scraper()
 
     def __acronyms_scraped_previously(self):
        with open(self.__acronym_path, 'r') as file:
