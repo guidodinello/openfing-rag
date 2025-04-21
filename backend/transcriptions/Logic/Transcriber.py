@@ -4,15 +4,16 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from Logic.WhisperTranscriber import WhisperTranscriber
 from pathlib import Path
 import Logic.WhisperTranscriber as WhisperTranscriber
-import torch
-import whisper 
+# import torch
+# import whisper 
 
 initial_config= TranscriberConfig.TranscriberConfig(
         model_size=TranscriberConfig.WhisperModel.BASE,
         language="es",
         task="transcribe",
         output_dir="transcriptions",
-        device="cuda" if torch.cuda.is_available() else "cpu"
+        # device="cuda" if torch.cuda.is_available() else "cpu"
+        device="cpu"
     )
 
 class Transcriber:
@@ -22,7 +23,8 @@ class Transcriber:
             chunk_overlap=200,
             length_function=len,
         )
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        # self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.device = "cpu"
         self.task= "transcribe"
         self.audio_path = audio_path
         self.output_dir = output_dir

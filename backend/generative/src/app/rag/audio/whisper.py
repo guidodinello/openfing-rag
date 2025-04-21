@@ -4,7 +4,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Literal
 
-import torch
+# import torch
 
 
 class WhisperModel(str, Enum):
@@ -21,7 +21,8 @@ class TranscriberConfig:
     language: str = "es"
     task: Literal["transcribe", "translate"] = "transcribe"
     output_dir: Path = Path("transcriptions")
-    device: str = "cuda" if torch.cuda.is_available() else "cpu"
+    # device: str = "cuda" if torch.cuda.is_available() else "cpu"
+    device: str = "cpu"
 
 
 class BaseTranscriber(ABC):

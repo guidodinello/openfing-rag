@@ -2,7 +2,6 @@ from pathlib import Path
 from typing import Literal
 from dataclasses import dataclass
 from enum import Enum
-import torch
 
 class WhisperModel(str, Enum):
     TINY = "tiny"
