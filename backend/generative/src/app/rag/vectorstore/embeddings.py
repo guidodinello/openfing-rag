@@ -1,7 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-import torch
+# import torch
 from sentence_transformers import SentenceTransformer
 
 from app.core.config import get_settings

@@ -3,7 +3,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Annotated, Literal
 
-import torch
+# import torch
 import typer
 
 from app.rag.audio.audio_file_handler import AudioFileHandler
