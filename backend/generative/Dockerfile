@@ -1,27 +1,47 @@
-FROM python:3.13-alpine AS python-base
+FROM python:3.12-slim AS python-base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100
+    PIP_DEFAULT_TIMEOUT=100 \
+    POETRY_VERSION=2.1.2 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
 
-RUN echo "GENERATIVE: Installing dependencies" && \
-    apk update && \
-    apk add --no-install-recommends --no-cache curl build-base && \
-    rm -rf /var/cache/apk/* && \
-    curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
-ENV PATH="/root/.local/bin:$PATH"
+FROM python-base AS builder
 
-WORKDIR /generative
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -sSL https://install.python-poetry.org | python3 -
 
+# Copy project requirement files
+WORKDIR $PYSETUP_PATH
 COPY ./pyproject.toml ./poetry.lock ./
 
-RUN echo "GENERATIVE: Installing Poetry" && \
-    poetry config virtualenvs.create true && \
-    poetry install --no-interaction --no-root
+# Install runtime dependencies
+RUN poetry config virtualenvs.create true \
+    && poetry config virtualenvs.in-project true \
+    && poetry install --only main --no-root
 
+FROM python-base AS final
+
+# Copy Poetry installation and dependencies from builder
+COPY --from=builder $POETRY_HOME $POETRY_HOME
+COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
+
+# Set working directory
+WORKDIR /app
+
+# Copy application code
 COPY . .
 
 CMD ["poetry", "run","uvicorn", "services.main:app", "--host", "0.0.0.0", "--port", "8002"]

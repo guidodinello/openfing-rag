@@ -29,7 +29,7 @@ class Procesor:
         a= self.transcriber.transcribe()
         return True, "Transcription Completed"
     
-    def get_transcription(self,course_acronym,class_number,model_size="base"):
+    def get_transcription(self,course_acronym:str,class_number:int,model_size:str="base"):
         #Check Database
         ##
         pass
