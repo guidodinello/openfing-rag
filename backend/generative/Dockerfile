@@ -48,4 +48,4 @@ RUN useradd --create-home appuser \
     && chown -R appuser:appuser /app
 USER appuser
 
-CMD ["poetry", "run", "uvicorn", "services.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["poetry", "run", "prod"]
