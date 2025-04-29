@@ -43,5 +43,5 @@ class Procesor:
     def __get_output_path(self, course_acronym:str, class_number:int,model_size:str)->Path:
         """Generate the path where the transcription will be saved as a Path object."""
         class_number_string = f"{class_number:02d}"
-        filename = f"{course_acronym}_{class_number_string}.json"
+        filename = f"{course_acronym}_{class_number_string}_{model_size}.json"
         return Path("../tmp") / course_acronym / filename
