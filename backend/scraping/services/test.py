@@ -12,7 +12,7 @@ pendrive = "/media/diego/16_GB_NEGRO",
 with open(acronyms_path, "r") as f:
     acronyms = json.load(f)
 
-for acronym_key in acronyms.keys():
+for acronym_key in acronyms.keys().reverse():
     class_numbers_path = os.path.join(scrapinfo_dir, f"{acronym_key}.json")
     if not os.path.exists(class_numbers_path):
         print(f"File not found: {class_numbers_path}")

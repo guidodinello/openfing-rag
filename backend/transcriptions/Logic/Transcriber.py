@@ -7,9 +7,6 @@ class Transcriber:
         self.output_dir = output_dir
         self.model_size = model_size
         self.language = language
-        print(self.audio_path)
-        print("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-        print(self.model_size)
 
     def transcribe(self):
         """

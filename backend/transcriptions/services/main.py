@@ -20,8 +20,8 @@ async def get_transcription(
 async def update_transcription(
     course_acronym: str,
     class_number: int,
-    model_size: Optional[str] = "base",
-    language: Optional[str] = "es"
+    model_size: str,
+    language: str
 ):
     isSuccesful, message = procesor.update_transcription(course_acronym, class_number, model_size, language)
     if not isSuccesful:
