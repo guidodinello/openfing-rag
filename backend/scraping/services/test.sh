@@ -34,7 +34,6 @@ transcribe_video() {
   echo "Running Whisper transcription for $video_path..."
   whisper "$video_path" --language Spanish --model medium --output_dir $video_path
 }
-transcribe_video "hola" "01"
 
 # Check for jq
 if ! command -v jq &>/dev/null; then
