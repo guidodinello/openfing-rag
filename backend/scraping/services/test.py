@@ -9,7 +9,7 @@ scrapinfo_dir = "../ScrapInfo"
 openfing_url = "https://open.fing.edu.uy/media"
 
 def download_video(acronym, class_number):
-    padded_class = f"{int(class_number):02d}"
+    padded_class = "{:02d}".format(int(class_number))
     output_dir = os.path.join(TMP_DOWNLOAD_FOLDER, acronym)
     os.makedirs(output_dir, exist_ok=True)
     output_file = os.path.join(output_dir, f"{acronym}_{padded_class}.mp4")
@@ -25,7 +25,7 @@ def download_video(acronym, class_number):
     return output_file
 
 def transcribe_video(acronym, class_number):
-    padded_class = f"{int(class_number):02d}"
+    padded_class = "{:02d}".format(int(class_number))
     video_path = os.path.join(TMP_DOWNLOAD_FOLDER, acronym, f"{acronym}_{padded_class}.mp4")
     output_path = os.path.join(TMP_DOWNLOAD_FOLDER, acronym, f"{acronym}_{padded_class}_small.mp4")
     if not os.path.isfile(video_path):
@@ -39,7 +39,7 @@ def transcribe_video(acronym, class_number):
         print(f"Whisper transcription failed for {video_path}")
 
 def delete_video(acronym, class_number):
-    padded_class = f"{int(class_number):02d}"
+    padded_class = "{:02d}".format(int(class_number))
     video_path = os.path.join(TMP_DOWNLOAD_FOLDER, acronym, f"{acronym}_{padded_class}.mp4")
     if os.path.isfile(video_path):
         os.remove(video_path)
