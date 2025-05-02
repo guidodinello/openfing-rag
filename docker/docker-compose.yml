@@ -21,8 +21,8 @@ services:
             - "8001:8000"
         networks:
             - app-network
-        environment:
-            - DATABASE_URL=postgres://user:password@database:5432/mydb
+        volumes:
+            - ../backend/generative/.env:/app/.env:ro
         depends_on:
             database:
                 condition: service_healthy
