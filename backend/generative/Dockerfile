@@ -1,4 +1,4 @@
-FROM python:3.12-slim AS python-base
+FROM python:3.12-slim AS base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -7,41 +7,50 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DEFAULT_TIMEOUT=100 \
     POETRY_VERSION=2.1.2 \
     POETRY_HOME="/opt/poetry" \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    POETRY_NO_INTERACTION=1 \
-    PYSETUP_PATH="/opt/pysetup" \
-    VENV_PATH="/opt/pysetup/.venv"
+    POETRY_NO_INTERACTION=1
 
-ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+ENV PATH="$POETRY_HOME/bin:$PATH"
 
-FROM python-base AS builder
+FROM base AS builder
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-    curl \
     build-essential \
+    curl \
+    libpq-dev \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && curl -sSL https://install.python-poetry.org | python3 -
 
-# Copy project requirement files
-WORKDIR $PYSETUP_PATH
-COPY ./pyproject.toml ./poetry.lock ./
-
-# Install runtime dependencies
-RUN poetry config virtualenvs.create true \
-    && poetry config virtualenvs.in-project true \
-    && poetry install --only main --no-root
-
-FROM python-base AS final
-
-# Copy Poetry installation and dependencies from builder
-COPY --from=builder $POETRY_HOME $POETRY_HOME
-COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
-
-# Set working directory
 WORKDIR /app
 
-# Copy application code
+COPY pyproject.toml poetry.lock* ./
+
+RUN poetry config virtualenvs.create false \
+    && poetry install --only main --no-root --no-interaction --no-ansi
+
+FROM base AS final
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    libpq-dev \
+    postgresql-client \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder $POETRY_HOME $POETRY_HOME
+
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+WORKDIR /app
+
 COPY . .
 
-CMD ["poetry", "run","uvicorn", "services.main:app", "--host", "0.0.0.0", "--port", "8002"]
+RUN ln -s /app/src/app /app/app
+
+RUN useradd --create-home appuser \
+    && chown -R appuser:appuser /app
+USER appuser
+
+CMD ["python", "-m", "src.cli", "start"]
