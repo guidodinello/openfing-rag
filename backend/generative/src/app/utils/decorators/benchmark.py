@@ -3,9 +3,9 @@ import datetime
 import functools
 import json
 import time
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 from pathlib import Path
-from typing import Any, Concatenate, ParamSpec, TypeVar
+from typing import Any, Concatenate, ParamSpec, TypeVar, cast
 
 from app.utils.logger import get_logger
 
@@ -17,8 +17,8 @@ R = TypeVar("R")
 
 # TODO: create a decorator that times the function and outputs a benchmarks .json
 # esta bueno para comandos de la cli que toman tiempo como el transcribe con whisper
-# deberia guardar en el log los parametros asi sabemos cosas como el modelo usado cuando se llamo
-# a la funcion
+# deberia guardar en el log los parametros asi sabemos cosas como el modelo
+# usado cuando se llama a la funcion
 # TODO: is not working, breaks the container startup
 def benchmark_cli(
     output_dir: str | Path = "benchmarks",
@@ -37,7 +37,7 @@ def benchmark_cli(
     def decorator(func: Callable[Concatenate[P], R]) -> Callable[Concatenate[P], R]:
         @functools.wraps(func)
         def sync_wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-            start_time = datetime.time.perf_counter()
+            start_time = time.perf_counter()
             start_process_time = time.process_time()
 
             try:
@@ -70,7 +70,9 @@ def benchmark_cli(
             start_process_time = time.process_time()
 
             try:
-                result = await func(*args, **kwargs)
+                result = func(*args, **kwargs)
+                if isinstance(result, Awaitable):
+                    result = await result
                 success = True
             except Exception:
                 success = False
@@ -93,7 +95,8 @@ def benchmark_cli(
 
             return result
 
-        return async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
+        wrapper = async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
+        return cast(Callable[Concatenate[P], R], wrapper)
 
     return decorator
 
@@ -108,7 +111,7 @@ def _create_benchmark_data(
 ) -> dict[str, Any]:
     """Create benchmark data dictionary."""
     benchmark_data = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.datetime.now(datetime.UTC).isoformat(),
         "function": func_name,
         "wall_time_seconds": round(wall_time, 3),
         "cpu_time_seconds": round(cpu_time, 3),
@@ -127,7 +130,8 @@ def _create_benchmark_data(
 
 def _save_benchmark(metrics: dict[str, Any], output_dir: Path) -> None:
     """Save benchmark data to JSON file."""
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = (datetime.datetime.now(datetime.UTC).strftime("%Y%m%d_%H%M%S"),)
+
     filename = f"benchmark_{metrics['function']}_{timestamp}.json"
     output_path = output_dir / filename
 

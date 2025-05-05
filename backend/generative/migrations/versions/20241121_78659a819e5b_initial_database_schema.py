@@ -214,10 +214,10 @@ def upgrade() -> None:
     # Create vector index for embeddings
     op.execute(
         """
-        CREATE INDEX idx_chunks_embedding ON rag.chunks 
-        USING ivfflat (embedding vector_cosine_ops) 
+        CREATE INDEX idx_chunks_embedding ON rag.chunks
+        USING ivfflat (embedding vector_cosine_ops)
         WITH (lists = 100)
-        """
+        """,
     )
 
     # Create GIN indexes for JSONB columns

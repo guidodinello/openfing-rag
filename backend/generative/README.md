@@ -69,7 +69,7 @@ poetry run ruff check .
 poetry run mypy src
 ```
 
-## Project Structure
+## Project Structure (TODO update)
 
 ```
 .
@@ -93,4 +93,16 @@ poetry run mypy src
 ├── migrations/                 # Database migrations
 ├── pyproject.toml              # Project configuration
 └── .env                        # Environment variables
+```
+
+## Docker
+
+If you just want to run this module and dont bother spining up all the services, you can just run
+
+```bash
+docker compose --env-file ../backend/generative/.env up -d generative
+```
+if you need to rebuild the image
+```bash
+docker compose --env-file ../backend/generative/.env up -d --build generative
 ```
