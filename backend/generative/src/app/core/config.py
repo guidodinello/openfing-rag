@@ -3,7 +3,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
 
-from pydantic import Field, field_validator, model_validator
+from pydantic import Field, HttpUrl, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 logger = logging.getLogger(__name__)
@@ -27,6 +27,7 @@ class LoggingSettings(BaseSettings):
         default=5,
         description="Number of backup files to keep",
     )
+
     model_config = SettingsConfigDict(env_prefix="LOG_", extra="ignore")
 
 
@@ -102,6 +103,7 @@ class Settings(BaseSettings):
     WORKERS_COUNT: int = Field(
         default=1,
         description="Number of worker processes for production",
+        ge=1,
     )
 
     # Security settings
@@ -115,7 +117,7 @@ class Settings(BaseSettings):
     )
 
     # CORS settings
-    FRONTEND_URL: str = Field(
+    FRONTEND_URL: HttpUrl = Field(
         default="http://localhost:3000",
         description="Frontend URL for CORS",
     )
@@ -132,21 +134,30 @@ class Settings(BaseSettings):
     HUGGINGFACE_API_KEY: str = Field(default="", description="Huggingface API key")
 
     # Prefect settings
-    PREFECT_API_URL: str = Field(
+    PREFECT_API_URL: HttpUrl = Field(
         default="http://127.0.0.1:4200/api",
         description="Prefect API URL",
     )
 
+    LANGSMITH_TRACING: bool = Field(
+        default=False,
+        description="Enable LangSmith tracing",
+        env="langsmith_tracing",
+    )
+    LANGSMITH_API_KEY: str = Field(description="LangSmith API key")
+
     # Configuration for environment variables
     model_config = SettingsConfigDict(
         env_file_encoding="utf-8",
+        frozen=True,
     )
 
     def __init__(self, *args, **kwargs):
-        kwargs["DATABASE"] = DatabaseSettings(_env_file=kwargs["_env_file"])
-        kwargs["LOG"] = LoggingSettings(_env_file=kwargs["_env_file"])
-        kwargs["WHISPER"] = WhisperSettings(_env_file=kwargs["_env_file"])
-        kwargs["EMBEDDINGS"] = EmbeddingsSettings(_env_file=kwargs["_env_file"])
+        _env_file = kwargs.get("_env_file")
+        kwargs["DATABASE"] = DatabaseSettings(_env_file=_env_file)
+        kwargs["LOG"] = LoggingSettings(_env_file=_env_file)
+        kwargs["WHISPER"] = WhisperSettings(_env_file=_env_file)
+        kwargs["EMBEDDINGS"] = EmbeddingsSettings(_env_file=_env_file)
         super().__init__(*args, **kwargs)
 
     @model_validator(mode="before")
@@ -160,12 +171,6 @@ class Settings(BaseSettings):
             raise ValueError(msg)
         logger.info(f"Using environment file: {env_file.absolute()}")
         return values
-
-    @field_validator("WORKERS_COUNT")
-    def validate_workers_count(cls, v: int) -> int:
-        if v < 1:
-            raise ValueError("WORKERS_COUNT must be at least 1")
-        return v
 
 
 @lru_cache

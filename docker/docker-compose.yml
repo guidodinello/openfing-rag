@@ -54,24 +54,46 @@ services:
             - database
 
     database:
-        image: postgres:alpine
+        image: pgvector/pgvector:pg17
         ports:
             - "5432:5432"
         environment:
-            - POSTGRES_USER=user
-            - POSTGRES_PASSWORD=password
-            - POSTGRES_DB=mydb
+            POSTGRES_USER: ${DATABASE_USER}
+            POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+            POSTGRES_DB: ${DATABASE_DB}
+
+            # Optimizations for pgvector
+            POSTGRES_MAX_CONNECTIONS: 100
+            PGDATA: /var/lib/postgresql/data/pgdata
+            # Important pgvector configurations
+            POSTGRES_SHARED_PRELOAD_LIBRARIES: vector
+            # Vector dimension should match your embedding model
+            # - All-MiniLM-L6-v2: 384
+            # - text-embedding-3-small: 1536
+            PG_VECTOR_DIMENSION: ${EMBEDDINGS_DIMENSION}
+
         volumes:
-            - ./database/data:/var/lib/postgresql/data
-            - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+            - postgres_data:/var/lib/postgresql/data
+            - ../database/postgresql-custom.conf:/etc/postgresql/postgresql-custom.conf
+            - ../database/postgresql.conf:/etc/postgresql/postgresql.conf
+            - ../database/init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
             - app-network
         healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U user -d mydb"]
+            test:
+                [
+                    "CMD-SHELL",
+                    "pg_isready -U ${DATABASE_USER} -d ${DATABASE_DB}",
+                ]
             interval: 5s
             timeout: 5s
             retries: 5
+        command:
+            ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
 
 networks:
     app-network:
         driver: bridge
+volumes:
+    postgres_data:
+        driver: local
