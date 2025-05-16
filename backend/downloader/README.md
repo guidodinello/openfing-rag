@@ -29,15 +29,6 @@ python -m downloader.cli --help
 - `--end`: Ending class number (default: 30)
 - `--output`: Directory to save audio files (default: `./audios`)
 - `--workers`: Number of concurrent downloads (default: 3)
-- `--codec`: Audio codec to use (default: "mp3")
+- `--codec`: Audio codec to use (default: "best")
 - `--quality`: Audio quality (0-10, 0=best) (default: "0")
 - `--verbose`: Enable verbose logging
-
-## Requirements
-
-- Python 3.9+
-- FFmpeg (for audio extraction)
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
