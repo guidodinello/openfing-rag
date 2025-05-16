@@ -2,11 +2,7 @@
 
 ### 1. Install Poetry
 
-If you don't have Poetry installed:
-
-```bash
-curl -sSL https://install.python-poetry.org | python3 -
-```
+Read [Poetry.org | Installacion](https://python-poetry.org/docs/#installation)
 
 ### 2. Install Dependencies
 
