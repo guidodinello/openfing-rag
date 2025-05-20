@@ -65,7 +65,6 @@ services:
             # Optimizations for pgvector
             POSTGRES_MAX_CONNECTIONS: 100
             PGDATA: /var/lib/postgresql/data/pgdata
-            # Important pgvector configurations
             POSTGRES_SHARED_PRELOAD_LIBRARIES: vector
             # Vector dimension should match your embedding model
             # - All-MiniLM-L6-v2: 384
@@ -74,9 +73,6 @@ services:
 
         volumes:
             - postgres_data:/var/lib/postgresql/data
-            - ../database/postgresql-custom.conf:/etc/postgresql/postgresql-custom.conf
-            - ../database/postgresql.conf:/etc/postgresql/postgresql.conf
-            - ../database/init.sql:/docker-entrypoint-initdb.d/init.sql
         networks:
             - app-network
         healthcheck:
@@ -88,8 +84,6 @@ services:
             interval: 5s
             timeout: 5s
             retries: 5
-        command:
-            ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
 
 networks:
     app-network:
