@@ -27,10 +27,10 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
     fi
 
     DEST_DIR="$OUTPUT_BASE_DIR/$COURSE"
-    FILENAME="${COURSE}_${CLS}_${small}"
+    FILENAME="${COURSE}_${CLS}"
     VIDEO_PATH="$DEST_DIR/$FILENAME.mp4"
     WAV_PATH="$DEST_DIR/$FILENAME.wav"
-
+    OUTPUT="${FILENAME}_small"
     mkdir -p "$DEST_DIR"
 
     if [ ! -f "$VIDEO_PATH" ]; then
@@ -57,7 +57,7 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
         -t "$THREADS" \
         --language Spanish \
         --output-json \
-        -of "$DEST_DIR/$FILENAME"
+        -of "$DEST_DIR/$OUTPUT"
 
     # Eliminar archivos temporales después de la transcripción
     echo "Limpiando archivos temporales..."
