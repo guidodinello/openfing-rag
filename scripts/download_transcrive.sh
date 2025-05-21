@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-COURSES_JSON="CoursesAcronyms.json"
+COURSES_JSON="firstPart.json"
 BASE_URL="https://open.fing.edu.uy/media"
 OUTPUT_BASE_DIR="videos"
 WHISPER_MODEL="$(pwd)/whisper.cpp/models/ggml-small.bin"
@@ -30,7 +30,7 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
     FILENAME="${COURSE}_${CLS}"
     VIDEO_PATH="$DEST_DIR/$FILENAME.mp4"
     WAV_PATH="$DEST_DIR/$FILENAME.wav"
-
+    OUTPUT="${FILENAME}_small"
     mkdir -p "$DEST_DIR"
 
     if [ ! -f "$VIDEO_PATH" ]; then
@@ -57,7 +57,7 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
         -t "$THREADS" \
         --language Spanish \
         --output-json \
-        -of "$DEST_DIR/$FILENAME"
+        -of "$DEST_DIR/$OUTPUT"
 
     # Eliminar archivos temporales después de la transcripción
     echo "Limpiando archivos temporales..."
