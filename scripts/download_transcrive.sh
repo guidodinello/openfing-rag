@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-COURSES_JSON="CoursesAcronyms.json"
+COURSES_JSON="firstPart.json"
 BASE_URL="https://open.fing.edu.uy/media"
 OUTPUT_BASE_DIR="videos"
 WHISPER_MODEL="$(pwd)/whisper.cpp/models/ggml-small.bin"
