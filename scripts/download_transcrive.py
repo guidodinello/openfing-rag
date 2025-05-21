@@ -5,7 +5,7 @@ import subprocess
 COURSES_JSON = "courses.json"
 BASE_URL = "https://open.fing.edu.uy/media"
 OUTPUT_BASE_DIR = "videos"
-WHISPER_MODEL = "models/ggml-base.en.bin"
+WHISPER_MODEL = "models/ggml-small.en.bin"
 WHISPER_EXEC = "./main"
 THREADS = 4
 
