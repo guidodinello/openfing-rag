@@ -1,57 +1,63 @@
-import json
-import os
-import subprocess
+#!/bin/bash
+set -e
 
-COURSES_JSON = "courses.json"
-BASE_URL = "https://open.fing.edu.uy/media"
-OUTPUT_BASE_DIR = "videos"
-WHISPER_MODEL = "models/ggml-base.en.bin"
-WHISPER_EXEC = "./main"
-THREADS = 4
+COURSES_JSON="CoursesAcronyms.json"
+BASE_URL="https://open.fing.edu.uy/media"
+OUTPUT_BASE_DIR="videos"
+WHISPER_MODEL="$(pwd)/whisper.cpp/models/ggml-base.bin"
+WHISPER_EXEC="whisper.cpp/build/bin/whisper-cli"
+THREADS=4
 
-def download_video(course, cls, dest_path):
-    url = f"{BASE_URL}/{course}/{course}_{cls}.mp4"
-    output_file = os.path.join(dest_path, f"{course}_{cls}.mp4")
-    if not os.path.exists(output_file):
-        print(f"Downloading {url}")
-        os.makedirs(dest_path, exist_ok=True)
-        subprocess.run(["wget", "-q", "-O", output_file, url])
-    else:
-        print(f"Already downloaded: {output_file}")
-    return output_file
+# Verificar dependencias
+for cmd in jq ffmpeg wget; do
+    if ! command -v "$cmd" &> /dev/null; then
+        echo "Error: $cmd no está instalado"
+        exit 1
+    fi
+done
 
-def transcribe_video(video_path, output_dir):
-    basename = os.path.splitext(os.path.basename(video_path))[0]
-    wav_path = os.path.join(output_dir, f"{basename}.wav")
-    json_path = os.path.join(output_dir, f"{basename}.json")
+if [ ! -x "$WHISPER_EXEC" ]; then
+    echo "Error: $WHISPER_EXEC no es ejecutable"
+    exit 1
+fi
 
-    # Convert to wav
-    subprocess.run([
-        "ffmpeg", "-y", "-i", video_path, "-ar", "16000", "-ac", "1",
-        "-c:a", "pcm_s16le", wav_path
-    ])
+jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while read -r COURSE CLS; do
+    if [ "$CLS" -lt 10 ]; then
+        CLS="0$CLS"
+    fi
 
-    # Run whisper.cpp
-    subprocess.run([
-        WHISPER_EXEC,
-        "-m", WHISPER_MODEL,
-        "-f", wav_path,
-        "-t", str(THREADS),
-        "--output-json",
-        "-of", os.path.join(output_dir, basename)
-    ])
+    DEST_DIR="$OUTPUT_BASE_DIR/$COURSE"
+    FILENAME="${COURSE}_${CLS}"
+    VIDEO_PATH="$DEST_DIR/$FILENAME.mp4"
+    WAV_PATH="$DEST_DIR/$FILENAME.wav"
 
-    os.remove(wav_path)
+    mkdir -p "$DEST_DIR"
 
-def main():
-    with open(COURSES_JSON, "r") as f:
-        data = json.load(f)
+    if [ ! -f "$VIDEO_PATH" ]; then
+        echo "Descargando $VIDEO_PATH"
+        wget -q -O "$VIDEO_PATH" "$BASE_URL/$COURSE/$FILENAME.mp4"
 
-    for course, info in data.items():
-        for cls in info["classes"]:
-            dest_dir = os.path.join(OUTPUT_BASE_DIR, course)
-            video_file = download_video(course, cls, dest_dir)
-            transcribe_video(video_file, dest_dir)
+        # Verificar si el archivo es realmente un video
+        if ! file "$VIDEO_PATH" | grep -qE 'ISO Media|MP4'; then
+            echo "Error: $VIDEO_PATH no es un archivo de video válido. Eliminando..."
+            rm "$VIDEO_PATH"
+            continue
+        fi
+    else
+        echo "Ya descargado: $VIDEO_PATH"
+    fi
 
-if __name__ == "__main__":
-    main()
+    echo "Convirtiendo $VIDEO_PATH a WAV..."
+    ffmpeg -nostdin -y -i "$VIDEO_PATH" -ar 16000 -ac 1 -c:a pcm_s16le "$WAV_PATH"
+
+    echo "Transcribiendo $WAV_PATH..."
+    "$WHISPER_EXEC" \
+        -m "$WHISPER_MODEL" \
+        -f "$WAV_PATH" \
+        -t "$THREADS" \
+        --language Spanish \
+        --output-json \
+        -of "$DEST_DIR/$FILENAME"
+
+    rm "$WAV_PATH"
+done

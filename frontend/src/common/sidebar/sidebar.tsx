@@ -28,7 +28,7 @@ export const Sidebar = () => {
   const { isOpen } = config;
   return (
     <div
-      className={`h-screen transition-all duration-300 ease-in-out ${
+      className={`h-screen background transition-all duration-300 ease-in-out ${
         isOpen ? "w-64" : "w-12"
       } bg-gray-800 text-white`}
     >

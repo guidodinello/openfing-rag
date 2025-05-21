@@ -1,5 +1,6 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, SetStateAction, useState } from "react";
 import { InputForm } from "../../common/inputForm/inputForm";
+import ChatForm from "../../common/chatbox/chatBox";
 
 interface Message {
   id: number;
@@ -32,6 +33,13 @@ export const Home = (): ReactElement => {
     }
   };
   return (
-    <InputForm handleKeyPress={handleKeyPress} onSubmit={handleSendMessage} />
+    <>
+      <InputForm onSubmit={handleSendMessage} handleKeyPress={handleKeyPress} />
+      <ChatForm
+        setChatHistory={() => {}}
+        generateBotResponse={() => {}}
+        chatHistory={[]}
+      />
+    </>
   );
 };

@@ -12,7 +12,8 @@ export const InputForm: React.FC<InputFormProps> = ({
   const [value, setValue] = useState("");
 
   return (
-    <div>
+    <div className="bg-[color:#212121]">
+      <h1 className="p-4">¿Como te puedo ayudar?</h1>
       <div>
         <textarea
           placeholder="Ask anything"
