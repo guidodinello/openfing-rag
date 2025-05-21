@@ -31,6 +31,14 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
     VIDEO_PATH="$DEST_DIR/$FILENAME.mp4"
     WAV_PATH="$DEST_DIR/$FILENAME.wav"
     OUTPUT="${FILENAME}_small"
+    JSON_OUTPUT="$DEST_DIR/$OUTPUT.json"
+
+    # Si ya existe el JSON, saltar este archivo
+    if [ -f "$JSON_OUTPUT" ]; then
+        echo "Ya existe transcripción para $FILENAME. Saltando..."
+        continue
+    fi
+
     mkdir -p "$DEST_DIR"
 
     if [ ! -f "$VIDEO_PATH" ]; then
@@ -59,15 +67,13 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
         --output-json \
         -of "$DEST_DIR/$OUTPUT"
 
-    # Eliminar archivos temporales después de la transcripción
     echo "Limpiando archivos temporales..."
     rm "$WAV_PATH"
     rm "$VIDEO_PATH"
-    # Commit y push de las transcripciones
 
     echo "Committing transcriptions to git..."
-    git add .
-    git commit -m "Add transcriptions for $(date +'%Y-%m-%d')"
+    git add "$JSON_OUTPUT"
+    git commit -m "Add transcription for $OUTPUT" || echo "Nada nuevo para commitear"
     git push
 
 done
