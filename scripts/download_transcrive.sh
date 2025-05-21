@@ -4,7 +4,7 @@ set -e
 COURSES_JSON="CoursesAcronyms.json"
 BASE_URL="https://open.fing.edu.uy/media"
 OUTPUT_BASE_DIR="videos"
-WHISPER_MODEL="$(pwd)/whisper.cpp/models/ggml-base.bin"
+WHISPER_MODEL="$(pwd)/whisper.cpp/models/ggml-small.bin"
 WHISPER_EXEC="whisper.cpp/build/bin/whisper-cli"
 THREADS=4
 
@@ -59,5 +59,15 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
         --output-json \
         -of "$DEST_DIR/$FILENAME"
 
+    # Eliminar archivos temporales después de la transcripción
+    echo "Limpiando archivos temporales..."
     rm "$WAV_PATH"
+    rm "$VIDEO_PATH"
+    # Commit y push de las transcripciones
+
+    echo "Committing transcriptions to git..."
+    git add .
+    git commit -m "Add transcriptions for $(date +'%Y-%m-%d')"
+    git push
+
 done
