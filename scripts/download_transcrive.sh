@@ -27,7 +27,7 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
     fi
 
     DEST_DIR="$OUTPUT_BASE_DIR/$COURSE"
-    FILENAME="${COURSE}_${CLS}"
+    FILENAME="${COURSE}_${CLS}_${small}"
     VIDEO_PATH="$DEST_DIR/$FILENAME.mp4"
     WAV_PATH="$DEST_DIR/$FILENAME.wav"
 
