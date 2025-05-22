@@ -1,0 +1,1858 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | OPENMP = 1 | AARCH64_REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/home/diego/_Modulos/Facu/tesis/scripts/whisper.cpp/models/ggml-small.bin",
+		"language": "spanish",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:20,000"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 20000
+			},
+			"text": " Bueno, estamos grabando, esta es la clase 16 de 2021 y la idea es comenzar hoy con el capítulo 4 del libro."
+		},
+		{
+			"timestamps": {
+				"from": "00:00:20,000",
+				"to": "00:00:28,000"
+			},
+			"offsets": {
+				"from": 20000,
+				"to": 28000
+			},
+			"text": " El capítulo 4 es una aplicación que conocemos bien, que es la aplicación de Rauchen, un enrutamiento."
+		},
+		{
+			"timestamps": {
+				"from": "00:00:28,000",
+				"to": "00:00:44,000"
+			},
+			"offsets": {
+				"from": 28000,
+				"to": 44000
+			},
+			"text": " Yo voy a ir comentando un poco las transparencias, pero si se aburren o les parece que con lo que ya sabemos de redes alcanza, los pasamos medio rápido."
+		},
+		{
+			"timestamps": {
+				"from": "00:00:44,000",
+				"to": "00:01:07,000"
+			},
+			"offsets": {
+				"from": 44000,
+				"to": 67000
+			},
+			"text": " En realidad el capítulo se pone interesante cuando intenta resolver distra distribuido y después con los casos de enrutamiento, no de camino más corto y de reacción ante fallos."
+		},
+		{
+			"timestamps": {
+				"from": "00:01:07,000",
+				"to": "00:01:21,000"
+			},
+			"offsets": {
+				"from": 67000,
+				"to": 81000
+			},
+			"text": " Esos son como los casos más interesantes del capítulo. Lo anterior son cosas conocidas, que bueno, las vamos mirando y si nos aburrimos avanzamos más rápido."
+		},
+		{
+			"timestamps": {
+				"from": "00:01:21,000",
+				"to": "00:01:36,000"
+			},
+			"offsets": {
+				"from": 81000,
+				"to": 96000
+			},
+			"text": " Así que voy a mostrar un poco las transparencias, así tengo una guía para no hablar de cualquier cosa en cualquier momento."
+		},
+		{
+			"timestamps": {
+				"from": "00:01:36,000",
+				"to": "00:02:01,000"
+			},
+			"offsets": {
+				"from": 96000,
+				"to": 121000
+			},
+			"text": " Así que bueno, el capítulo 4 es básicamente una aplicación, este es el enrutamiento y contiene los temas que están ahí."
+		},
+		{
+			"timestamps": {
+				"from": "00:02:01,000",
+				"to": "00:02:08,000"
+			},
+			"offsets": {
+				"from": 121000,
+				"to": 128000
+			},
+			"text": " O sea, enrutamiento del camino más corto, que es lo que estamos acostumbrados."
+		},
+		{
+			"timestamps": {
+				"from": "00:02:08,000",
+				"to": "00:02:23,000"
+			},
+			"offsets": {
+				"from": 128000,
+				"to": 143000
+			},
+			"text": " Y después, cosas un poquito más interesantes como qué pasa cuando hay fallos y cuando eventualmente no podemos usar el camino más corto o no conocemos el camino más corto."
+		},
+		{
+			"timestamps": {
+				"from": "00:02:23,000",
+				"to": "00:02:35,000"
+			},
+			"offsets": {
+				"from": 143000,
+				"to": 155000
+			},
+			"text": " Y una aplicación interesante que es el routing compacto, que lo vamos a ver al final y es bastante interesante."
+		},
+		{
+			"timestamps": {
+				"from": "00:02:35,000",
+				"to": "00:02:53,000"
+			},
+			"offsets": {
+				"from": 155000,
+				"to": 173000
+			},
+			"text": " Bueno, el libro de Santoro no hace una definición muy explícita entre routing y forwarding, que es lo que solemos hacer en el curso de redes."
+		},
+		{
+			"timestamps": {
+				"from": "00:02:53,000",
+				"to": "00:03:06,000"
+			},
+			"offsets": {
+				"from": 173000,
+				"to": 186000
+			},
+			"text": " Pero bueno, básicamente los conceptos son los mismos. El routing es un proceso global que define las tablas de forwarding de cada nodo."
+		},
+		{
+			"timestamps": {
+				"from": "00:03:06,000",
+				"to": "00:03:25,000"
+			},
+			"offsets": {
+				"from": 186000,
+				"to": 205000
+			},
+			"text": " En el libro le llaman tabla de routing y en realidad está un poco sobrecargado ahí el término, pero bueno, asumamos que cuando el libro dice tabla de routing está haciendo referencia a lo que tradicionalmente en el curso de redes básicos llamamos tabla de forwarding."
+		},
+		{
+			"timestamps": {
+				"from": "00:03:25,000",
+				"to": "00:03:35,000"
+			},
+			"offsets": {
+				"from": 205000,
+				"to": 215000
+			},
+			"text": " Es decir, las reglas de forwarding es cuando tengo un paquete entrando por una interfaz, porque interfaz lo tengo que sacar."
+		},
+		{
+			"timestamps": {
+				"from": "00:03:35,000",
+				"to": "00:03:52,000"
+			},
+			"offsets": {
+				"from": 215000,
+				"to": 232000
+			},
+			"text": " Que bueno, básicamente el enrutamiento está basado en la dirección de destino y implica esa decisión."
+		},
+		{
+			"timestamps": {
+				"from": "00:03:52,000",
+				"to": "00:04:00,000"
+			},
+			"offsets": {
+				"from": 232000,
+				"to": 240000
+			},
+			"text": " Da una entrada por donde la manto. O sea que las cosas son más o menos así."
+		},
+		{
+			"timestamps": {
+				"from": "00:04:00,000",
+				"to": "00:04:15,000"
+			},
+			"offsets": {
+				"from": 240000,
+				"to": 255000
+			},
+			"text": " Vamos a asumir identificadores únicos y globales y además los links están etiquetados y hay orientación local."
+		},
+		{
+			"timestamps": {
+				"from": "00:04:15,000",
+				"to": "00:04:29,000"
+			},
+			"offsets": {
+				"from": 255000,
+				"to": 269000
+			},
+			"text": " Y bueno, esa función de routing o de forwarding es esa función \"f\" tal que para un destino \"i\" me devuelve un link de salida."
+		},
+		{
+			"timestamps": {
+				"from": "00:04:29,000",
+				"to": "00:04:50,000"
+			},
+			"offsets": {
+				"from": 269000,
+				"to": 290000
+			},
+			"text": " Eso es lo que ya conocemos y entonces nos va a interesar como siempre entender los recursos que se usan, en particular la cantidad de memoria necesaria para almacenar esa función de routing o de forwarding."
+		},
+		{
+			"timestamps": {
+				"from": "00:04:50,000",
+				"to": "00:04:59,000"
+			},
+			"offsets": {
+				"from": 290000,
+				"to": 299000
+			},
+			"text": " Y la complejidad en tiempo de búsqueda en esa tabla."
+		},
+		{
+			"timestamps": {
+				"from": "00:04:59,000",
+				"to": "00:05:12,000"
+			},
+			"offsets": {
+				"from": 299000,
+				"to": 312000
+			},
+			"text": " Entonces como tenemos una tabla en entradas, \"n\" son los posibles destinos, las cantidades no de la red."
+		},
+		{
+			"timestamps": {
+				"from": "00:05:12,000",
+				"to": "00:05:28,000"
+			},
+			"offsets": {
+				"from": 312000,
+				"to": 328000
+			},
+			"text": " Y para representar esas \"n\" en entradas usamos \"logn\" por lo tanto el tamaño de esta tabla en memoria va a ser del orden de \"nlogn\"."
+		},
+		{
+			"timestamps": {
+				"from": "00:05:28,000",
+				"to": "00:05:43,000"
+			},
+			"offsets": {
+				"from": 328000,
+				"to": 343000
+			},
+			"text": " Eso se ve ¿no? Y aplicando búsqueda binaria en esta tabla vamos a tener un orden de búsqueda del logaritmo de \"n\"."
+		},
+		{
+			"timestamps": {
+				"from": "00:05:43,000",
+				"to": "00:05:57,000"
+			},
+			"offsets": {
+				"from": 343000,
+				"to": 357000
+			},
+			"text": " Eso es más o menos genérico, no tiene ninguna relación con la implementación concreta del routing sino con la estructura de memoria de la tabla de forwarding."
+		},
+		{
+			"timestamps": {
+				"from": "00:05:57,000",
+				"to": "00:06:12,000"
+			},
+			"offsets": {
+				"from": 357000,
+				"to": 372000
+			},
+			"text": " Entonces nuestra misión es dado una red encontrar desde una cierta origen, por ejemplo \"s\" en este caso."
+		},
+		{
+			"timestamps": {
+				"from": "00:06:12,000",
+				"to": "00:06:27,000"
+			},
+			"offsets": {
+				"from": 372000,
+				"to": 387000
+			},
+			"text": " Cuales son todas las, ¿cuál es el link de salida para todos los destinos posibles? Esa es la función \"f\" que vimos recién, es lo que resuelvo este problema."
+		},
+		{
+			"timestamps": {
+				"from": "00:06:27,000",
+				"to": "00:06:46,000"
+			},
+			"offsets": {
+				"from": 387000,
+				"to": 406000
+			},
+			"text": " Entonces una versión suficiente o una solución suficiente del problema es esta de lo que llamamos a cada routing table, que es simplemente para cada destino me dice qué link tengo que usar."
+		},
+		{
+			"timestamps": {
+				"from": "00:06:46,000",
+				"to": "00:06:58,000"
+			},
+			"offsets": {
+				"from": 406000,
+				"to": 418000
+			},
+			"text": " O sea para ir de \"ah\" tengo que usar el link \"sh\" para ir acá, tengo que usar también el link \"sh\"."
+		},
+		{
+			"timestamps": {
+				"from": "00:06:58,000",
+				"to": "00:07:06,000"
+			},
+			"offsets": {
+				"from": 418000,
+				"to": 426000
+			},
+			"text": " Esto es intercambiable con cuál es el \"ness hop\", o sea es la misma información."
+		},
+		{
+			"timestamps": {
+				"from": "00:07:06,000",
+				"to": "00:07:14,000"
+			},
+			"offsets": {
+				"from": 426000,
+				"to": 434000
+			},
+			"text": " Estamos en redes más acostumbrados a cuál es el \"ness hop\", pero es equivalente."
+		},
+		{
+			"timestamps": {
+				"from": "00:07:14,000",
+				"to": "00:07:38,000"
+			},
+			"offsets": {
+				"from": 434000,
+				"to": 458000
+			},
+			"text": " Otra posibilidad es que cada nudo se arme un mapa completo de la red y por lo tanto sea capaz de armar lo que se llama la routing table completa donde lo que tenemos no es solo cuál es el próximo link sino todo el camino y el costo de ese camino."
+		},
+		{
+			"timestamps": {
+				"from": "00:07:38,000",
+				"to": "00:07:53,000"
+			},
+			"offsets": {
+				"from": 458000,
+				"to": 473000
+			},
+			"text": " Si se acuerdan de los dos tipos de algoritmos que bebíamos en redes, esto se corresponde con los algoritmos del link state."
+		},
+		{
+			"timestamps": {
+				"from": "00:07:53,000",
+				"to": "00:08:07,000"
+			},
+			"offsets": {
+				"from": 473000,
+				"to": 487000
+			},
+			"text": " Conocemos la etopología y por lo tanto somos capaces de conocer todo el camino entre un origen y los destinos y además el costo de esos caminos."
+		},
+		{
+			"timestamps": {
+				"from": "00:08:07,000",
+				"to": "00:08:18,000"
+			},
+			"offsets": {
+				"from": 487000,
+				"to": 498000
+			},
+			"text": " Que es el clásico problema que resuelve distra que lo vamos a ver en un rato o va a comentar en un rato."
+		},
+		{
+			"timestamps": {
+				"from": "00:08:18,000",
+				"to": "00:08:29,000"
+			},
+			"offsets": {
+				"from": 498000,
+				"to": 509000
+			},
+			"text": " Entonces el libro lo que plantea es una primera solución para construir las tablas de routing de todos los nudos."
+		},
+		{
+			"timestamps": {
+				"from": "00:08:29,000",
+				"to": "00:08:50,000"
+			},
+			"offsets": {
+				"from": 509000,
+				"to": 530000
+			},
+			"text": " Es lo que se llama, es lo que el libro se llama este map gossip, o sea este map construido en base al chumerío, a que todos nos pasemos la información de todos."
+		},
+		{
+			"timestamps": {
+				"from": "00:08:50,000",
+				"to": "00:09:02,000"
+			},
+			"offsets": {
+				"from": 530000,
+				"to": 542000
+			},
+			"text": " Y bueno, como la solución está basada en broadcast, sabemos que un algoritmo eficiente para resolver en broadcast se construye en un sparring tree."
+		},
+		{
+			"timestamps": {
+				"from": "00:09:02,000",
+				"to": "00:09:18,000"
+			},
+			"offsets": {
+				"from": 542000,
+				"to": 558000
+			},
+			"text": " Y entonces los pasos para el algoritmo este map gossip van a ser los que están ahí, crear un sparring tree con algunos de los métodos que conocemos,"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:18,000",
+				"to": "00:09:27,000"
+			},
+			"offsets": {
+				"from": 558000,
+				"to": 567000
+			},
+			"text": " adquirir la información de los vecinos y hacer un broadcast de la información en el árbol."
+		},
+		{
+			"timestamps": {
+				"from": "00:09:27,000",
+				"to": "00:09:36,000"
+			},
+			"offsets": {
+				"from": 567000,
+				"to": 576000
+			},
+			"text": " Y con eso nos aseguramos que todo el mundo recibe la información topológica de todo el mundo."
+		},
+		{
+			"timestamps": {
+				"from": "00:09:36,000",
+				"to": "00:09:51,000"
+			},
+			"offsets": {
+				"from": 576000,
+				"to": 591000
+			},
+			"text": " Si lo miramos en complejidad, la creación del sparring tree por ejemplo, usando algunos de los algoritmos conocidos, en particular el mega mercer por ejemplo, nos va a dar ese orden."
+		},
+		{
+			"timestamps": {
+				"from": "00:09:51,000",
+				"to": "00:10:02,000"
+			},
+			"offsets": {
+				"from": 591000,
+				"to": 602000
+			},
+			"text": " Después la información, el intercambio de información con los vecinos, ya es un problema conocido y tiene un costo de 2M."
+		},
+		{
+			"timestamps": {
+				"from": "00:10:02,000",
+				"to": "00:10:20,000"
+			},
+			"offsets": {
+				"from": 602000,
+				"to": 620000
+			},
+			"text": " Y después el broadcast de toda la información en el árbol es también otro problema conocido, que es la sumatoria para todos los nudos del grado cada nudo por N-1, que es lo que está ahí."
+		},
+		{
+			"timestamps": {
+				"from": "00:10:20,000",
+				"to": "00:10:23,000"
+			},
+			"offsets": {
+				"from": 620000,
+				"to": 623000
+			},
+			"text": " O sea 12M por N-1."
+		},
+		{
+			"timestamps": {
+				"from": "00:10:23,000",
+				"to": "00:10:45,000"
+			},
+			"offsets": {
+				"from": 623000,
+				"to": 645000
+			},
+			"text": " Entonces la resolución del problema es construir todas las tablas de routing en un orden de M por N, que M puede ser muy grande o muy chico dependiendo del tipo de topología que estemos usando."
+		},
+		{
+			"timestamps": {
+				"from": "00:10:45,000",
+				"to": "00:10:54,000"
+			},
+			"offsets": {
+				"from": 645000,
+				"to": 654000
+			},
+			"text": " Por ejemplo, si tenemos una topología esparza del tipo 1 anillo, M es N."
+		},
+		{
+			"timestamps": {
+				"from": "00:10:54,000",
+				"to": "00:10:57,000"
+			},
+			"offsets": {
+				"from": 654000,
+				"to": 657000
+			},
+			"text": " Entonces ahí tenemos un orden N cuadrado."
+		},
+		{
+			"timestamps": {
+				"from": "00:10:57,000",
+				"to": "00:11:08,000"
+			},
+			"offsets": {
+				"from": 657000,
+				"to": 668000
+			},
+			"text": " Pero si tenemos topologías con más conectividad, SM empieza a ser más grande."
+		},
+		{
+			"timestamps": {
+				"from": "00:11:08,000",
+				"to": "00:11:18,000"
+			},
+			"offsets": {
+				"from": 668000,
+				"to": 678000
+			},
+			"text": " Y además, como aclara la transparencia, esto es un orden de mensajes M por N, pero con mensajes muy grandes."
+		},
+		{
+			"timestamps": {
+				"from": "00:11:18,000",
+				"to": "00:11:28,000"
+			},
+			"offsets": {
+				"from": 678000,
+				"to": 688000
+			},
+			"text": " Nosotros lo que estamos pasando en ese mensaje es toda la información que conocemos de la red potencialmente muy grande."
+		},
+		{
+			"timestamps": {
+				"from": "00:11:28,000",
+				"to": "00:11:34,000"
+			},
+			"offsets": {
+				"from": 688000,
+				"to": 694000
+			},
+			"text": " Si hay vecinos con un grado muy grande, van a tener mucha información para enviar."
+		},
+		{
+			"timestamps": {
+				"from": "00:11:34,000",
+				"to": "00:11:48,000"
+			},
+			"offsets": {
+				"from": 694000,
+				"to": 708000
+			},
+			"text": " Y naturalmente que cada entidad va a tener espacio necesario para almacenar el mapa completo de la red."
+		},
+		{
+			"timestamps": {
+				"from": "00:11:48,000",
+				"to": "00:11:57,000"
+			},
+			"offsets": {
+				"from": 708000,
+				"to": 717000
+			},
+			"text": " Eso es el método este map gossip."
+		},
+		{
+			"timestamps": {
+				"from": "00:11:57,000",
+				"to": "00:12:11,000"
+			},
+			"offsets": {
+				"from": 717000,
+				"to": 731000
+			},
+			"text": " Entonces el libro se plantea, bueno, capaz que tenemos algo más barato y propone la construcción iterativa, perdón."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:11,000",
+				"to": "00:12:20,000"
+			},
+			"offsets": {
+				"from": 731000,
+				"to": 740000
+			},
+			"text": " La construcción iterativa no es ni más ni menos que un algoritmo de distant vector."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:20,000",
+				"to": "00:12:31,000"
+			},
+			"offsets": {
+				"from": 740000,
+				"to": 751000
+			},
+			"text": " Nosotros sabemos que los algoritmos de distant vector lo que terminan armando es una tabla de routing que se parece a esto."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:31,000",
+				"to": "00:12:34,000"
+			},
+			"offsets": {
+				"from": 751000,
+				"to": 754000
+			},
+			"text": " Es para cada nodo."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:34,000",
+				"to": "00:12:41,000"
+			},
+			"offsets": {
+				"from": 754000,
+				"to": 761000
+			},
+			"text": " Sé localmente dónde mandar el mensaje, pero no sé qué pasa más allá."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:41,000",
+				"to": "00:12:45,000"
+			},
+			"offsets": {
+				"from": 761000,
+				"to": 765000
+			},
+			"text": " Y bueno, la construcción por distant vector sabemos que es iterativa."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:45,000",
+				"to": "00:13:01,000"
+			},
+			"offsets": {
+				"from": 765000,
+				"to": 781000
+			},
+			"text": " No la voy a repasar mucho, pero simplemente en cada iteración cada entidad manda su vector de distancia actual a los vecinos."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:01,000",
+				"to": "00:13:07,000"
+			},
+			"offsets": {
+				"from": 781000,
+				"to": 787000
+			},
+			"text": " Y en base a la información que recibo hago un update de mi propio vector de distancia."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:07,000",
+				"to": "00:13:11,000"
+			},
+			"offsets": {
+				"from": 787000,
+				"to": 791000
+			},
+			"text": " Si tengo un update en la próxima iteración lo vuelvo a actualizar."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:11,000",
+				"to": "00:13:20,000"
+			},
+			"offsets": {
+				"from": 791000,
+				"to": 800000
+			},
+			"text": " Y sabemos que cuántos pasos como máximo vamos a tener en esa iteración."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:20,000",
+				"to": "00:13:26,000"
+			},
+			"offsets": {
+				"from": 800000,
+				"to": 806000
+			},
+			"text": " ¿Se acuerdan?"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:26,000",
+				"to": "00:13:30,000"
+			},
+			"offsets": {
+				"from": 806000,
+				"to": 810000
+			},
+			"text": " Bueno, vamos a tener como máximo n-1 pasos."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:30,000",
+				"to": "00:13:39,000"
+			},
+			"offsets": {
+				"from": 810000,
+				"to": 819000
+			},
+			"text": " En n-1 pasos conocemos la topología completa."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:39,000",
+				"to": "00:13:48,000"
+			},
+			"offsets": {
+				"from": 819000,
+				"to": 828000
+			},
+			"text": " La topología completa no, pero construimos la tabla completa para uno."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:48,000",
+				"to": "00:13:58,000"
+			},
+			"offsets": {
+				"from": 828000,
+				"to": 838000
+			},
+			"text": " Si hacemos la corrida, vamos a tener los vectores de distancia, les voy a ahorrar todo esto porque ya lo conocemos."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:58,000",
+				"to": "00:14:08,000"
+			},
+			"offsets": {
+				"from": 838000,
+				"to": 848000
+			},
+			"text": " Y lo que les decía, como máximo n-1 iteraciones los nodos tienen la información correcta."
+		},
+		{
+			"timestamps": {
+				"from": "00:14:08,000",
+				"to": "00:14:10,000"
+			},
+			"offsets": {
+				"from": 848000,
+				"to": 850000
+			},
+			"text": " ¿Cuál es el costo de esto?"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:10,000",
+				"to": "00:14:25,000"
+			},
+			"offsets": {
+				"from": 850000,
+				"to": 865000
+			},
+			"text": " Bueno, en cada iteración cada entidad tiene que mandar el vector digo bien a sus vecinos."
+		},
+		{
+			"timestamps": {
+				"from": "00:14:25,000",
+				"to": "00:14:32,000"
+			},
+			"offsets": {
+				"from": 865000,
+				"to": 872000
+			},
+			"text": " Y donde ese vector en principio tiene n elementos de información."
+		},
+		{
+			"timestamps": {
+				"from": "00:14:32,000",
+				"to": "00:14:48,000"
+			},
+			"offsets": {
+				"from": 872000,
+				"to": 888000
+			},
+			"text": " O sea que por cada iteración tengo que sumar todo esto, me da n por la suma de los grados o sea me da 2n por m."
+		},
+		{
+			"timestamps": {
+				"from": "00:14:48,000",
+				"to": "00:15:01,000"
+			},
+			"offsets": {
+				"from": 888000,
+				"to": 901000
+			},
+			"text": " Y por lo tanto como cada n-1 iteraciones como máximo el total van a ser este número que está acá."
+		},
+		{
+			"timestamps": {
+				"from": "00:15:01,000",
+				"to": "00:15:11,000"
+			},
+			"offsets": {
+				"from": 901000,
+				"to": 911000
+			},
+			"text": " 2 por n-1 por n por m."
+		},
+		{
+			"timestamps": {
+				"from": "00:15:11,000",
+				"to": "00:15:20,000"
+			},
+			"offsets": {
+				"from": 911000,
+				"to": 920000
+			},
+			"text": " Entonces, la comparación con gossip nos da que son más mensajes pero más chicos."
+		},
+		{
+			"timestamps": {
+				"from": "00:15:20,000",
+				"to": "00:15:32,000"
+			},
+			"offsets": {
+				"from": 920000,
+				"to": 932000
+			},
+			"text": " Y lo que nos preguntábamos o lo que se pregunta Santoro es bueno, hay algo en el medio digamos."
+		},
+		{
+			"timestamps": {
+				"from": "00:15:32,000",
+				"to": "00:15:49,000"
+			},
+			"offsets": {
+				"from": 932000,
+				"to": 949000
+			},
+			"text": " Entonces la observación que hay que hacer para caer finalmente en distra es que la tabla de forewarding"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:49,000",
+				"to": "00:16:00,000"
+			},
+			"offsets": {
+				"from": 949000,
+				"to": 960000
+			},
+			"text": " en definitiva, la tabla de forewarding completa es un spanning tree de los caminos más cortos."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:00,000",
+				"to": "00:16:09,000"
+			},
+			"offsets": {
+				"from": 960000,
+				"to": 969000
+			},
+			"text": " Si nosotros miramos a ese, la forma que adquiere la tabla de forewarding, lo que está marcado en rojo,"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:09,000",
+				"to": "00:16:12,000"
+			},
+			"offsets": {
+				"from": 969000,
+				"to": 972000
+			},
+			"text": " es el spanning tree de los caminos más cortos."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:12,000",
+				"to": "00:16:20,000"
+			},
+			"offsets": {
+				"from": 972000,
+				"to": 980000
+			},
+			"text": " Entonces en realidad el problema que tenemos que resolver es para cada nodo,"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:20,000",
+				"to": "00:16:26,000"
+			},
+			"offsets": {
+				"from": 980000,
+				"to": 986000
+			},
+			"text": " lo que tenemos que hacer es construir el spanning tree de los caminos más cortos."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:26,000",
+				"to": "00:16:38,000"
+			},
+			"offsets": {
+				"from": 986000,
+				"to": 998000
+			},
+			"text": " Y un algoritmo conocido que resolve ese problema es el algoritmo distro."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:38,000",
+				"to": "00:16:40,000"
+			},
+			"offsets": {
+				"from": 998000,
+				"to": 1000000
+			},
+			"text": " ¿Se entendió?"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:40,000",
+				"to": "00:16:48,000"
+			},
+			"offsets": {
+				"from": 1000000,
+				"to": 1008000
+			},
+			"text": " O sea, todo parte de esta observación."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:48,000",
+				"to": "00:17:02,000"
+			},
+			"offsets": {
+				"from": 1008000,
+				"to": 1022000
+			},
+			"text": " Y bueno, no sé si quieren hacer alguna comentario hasta ahora o seguimos o quieren que repase algo."
+		},
+		{
+			"timestamps": {
+				"from": "00:17:02,000",
+				"to": "00:17:07,000"
+			},
+			"offsets": {
+				"from": 1022000,
+				"to": 1027000
+			},
+			"text": " Esto es bien conocido."
+		},
+		{
+			"timestamps": {
+				"from": "00:17:07,000",
+				"to": "00:17:18,000"
+			},
+			"offsets": {
+				"from": 1027000,
+				"to": 1038000
+			},
+			"text": " Bueno distra, lo conocemos, lo único que asumimos es que tenemos un grafo con exo,"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:18,000",
+				"to": "00:17:31,000"
+			},
+			"offsets": {
+				"from": 1038000,
+				"to": 1051000
+			},
+			"text": " que son los links bidireccionales y que los costos son no negativos,"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:31,000",
+				"to": "00:17:39,000"
+			},
+			"offsets": {
+				"from": 1051000,
+				"to": 1059000
+			},
+			"text": " esos son las hipótesis habituales para resolver distra."
+		},
+		{
+			"timestamps": {
+				"from": "00:17:39,000",
+				"to": "00:17:46,000"
+			},
+			"offsets": {
+				"from": 1059000,
+				"to": 1066000
+			},
+			"text": " Y bueno, ¿cómo funciona? Es bastante conocido."
+		},
+		{
+			"timestamps": {
+				"from": "00:17:46,000",
+				"to": "00:18:01,000"
+			},
+			"offsets": {
+				"from": 1066000,
+				"to": 1081000
+			},
+			"text": " Lo único que quiero comentar es que si miran el libro, y de hecho es la manera de resolver distra,"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:01,000",
+				"to": "00:18:11,000"
+			},
+			"offsets": {
+				"from": 1081000,
+				"to": 1091000
+			},
+			"text": " cuando distra tiene que quedarse con el camino más corto,"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:11,000",
+				"to": "00:18:16,000"
+			},
+			"offsets": {
+				"from": 1091000,
+				"to": 1096000
+			},
+			"text": " si hay dos opciones, ¿qué es lo que hace? ¿Se acuerdan?"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:16,000",
+				"to": "00:18:27,000"
+			},
+			"offsets": {
+				"from": 1096000,
+				"to": 1107000
+			},
+			"text": " Dos o más."
+		},
+		{
+			"timestamps": {
+				"from": "00:18:27,000",
+				"to": "00:18:37,000"
+			},
+			"offsets": {
+				"from": 1107000,
+				"to": 1117000
+			},
+			"text": " Porque lo que encontramos es un camino, ¿no?"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:37,000",
+				"to": "00:18:44,000"
+			},
+			"offsets": {
+				"from": 1117000,
+				"to": 1124000
+			},
+			"text": " No me acuerdo, pero me da la impresión que si hay más un camino debe elegir"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:44,000",
+				"to": "00:18:48,000"
+			},
+			"offsets": {
+				"from": 1124000,
+				"to": 1128000
+			},
+			"text": " o el que tenga más routers en el camino o el que tenga menos, una de dos."
+		},
+		{
+			"timestamps": {
+				"from": "00:18:48,000",
+				"to": "00:18:53,000"
+			},
+			"offsets": {
+				"from": 1128000,
+				"to": 1133000
+			},
+			"text": " Esa es una forma que se me ocurre de separar."
+		},
+		{
+			"timestamps": {
+				"from": "00:18:53,000",
+				"to": "00:18:57,000"
+			},
+			"offsets": {
+				"from": 1133000,
+				"to": 1137000
+			},
+			"text": " Sí, pero si hay dos caminos, de igual costo, digo yo."
+		},
+		{
+			"timestamps": {
+				"from": "00:18:57,000",
+				"to": "00:19:01,000"
+			},
+			"offsets": {
+				"from": 1137000,
+				"to": 1141000
+			},
+			"text": " Sí, de igual costo, pero puede ser que un camino tenga costo 8, pero pasa a través de cuatro nudos"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:01,000",
+				"to": "00:19:05,000"
+			},
+			"offsets": {
+				"from": 1141000,
+				"to": 1145000
+			},
+			"text": " y otro camino tenga costo 8 y pasa a través de dos nudos."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:05,000",
+				"to": "00:19:14,000"
+			},
+			"offsets": {
+				"from": 1145000,
+				"to": 1154000
+			},
+			"text": " Está bien, pero eso lo sabes, en un paso de iteración, cualquiera en la mitad del algoritmo?"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:14,000",
+				"to": "00:19:17,000"
+			},
+			"offsets": {
+				"from": 1154000,
+				"to": 1157000
+			},
+			"text": " No, en la mitad grove, no."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:17,000",
+				"to": "00:19:20,000"
+			},
+			"offsets": {
+				"from": 1157000,
+				"to": 1160000
+			},
+			"text": " Claro, hasta el final no sabes eso."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:20,000",
+				"to": "00:19:23,000"
+			},
+			"offsets": {
+				"from": 1160000,
+				"to": 1163000
+			},
+			"text": " Pero antes tenés que tomar una lección, decir yo tengo estas dos."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:23,000",
+				"to": "00:19:25,000"
+			},
+			"offsets": {
+				"from": 1163000,
+				"to": 1165000
+			},
+			"text": " Viste cómo funciona distra, ¿no?"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:25,000",
+				"to": "00:19:31,000"
+			},
+			"offsets": {
+				"from": 1165000,
+				"to": 1171000
+			},
+			"text": " O llegás a avanzar hacia el siguiente nudo."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:31,000",
+				"to": "00:19:37,000"
+			},
+			"offsets": {
+				"from": 1171000,
+				"to": 1177000
+			},
+			"text": " Y ahí decís, bueno, ahora estoy queriendo llegar a tal otro nudo."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:37,000",
+				"to": "00:19:39,000"
+			},
+			"offsets": {
+				"from": 1177000,
+				"to": 1179000
+			},
+			"text": " ¿Cuál es el camino más corto?"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:39,000",
+				"to": "00:19:45,000"
+			},
+			"offsets": {
+				"from": 1179000,
+				"to": 1185000
+			},
+			"text": " El que ya tenía calculado o desde este nudo que llegué hasta ahí, ¿qué costo tengo?"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:45,000",
+				"to": "00:19:50,000"
+			},
+			"offsets": {
+				"from": 1185000,
+				"to": 1190000
+			},
+			"text": " Ahí me quedó con el mínimo, pero puede pasar que tengas más de una opción"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:50,000",
+				"to": "00:19:57,000"
+			},
+			"offsets": {
+				"from": 1190000,
+				"to": 1197000
+			},
+			"text": " y ahí tenés que elegir sin conocer que hay aguas adelante, digamos."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:57,000",
+				"to": "00:20:04,000"
+			},
+			"offsets": {
+				"from": 1197000,
+				"to": 1204000
+			},
+			"text": " La solución que toma Santoro es quedarse"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:04,000",
+				"to": "00:20:08,000"
+			},
+			"offsets": {
+				"from": 1204000,
+				"to": 1208000
+			},
+			"text": " con el que tiene orden lexicográfico menor."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:08,000",
+				"to": "00:20:13,000"
+			},
+			"offsets": {
+				"from": 1208000,
+				"to": 1213000
+			},
+			"text": " O sea, de alguna forma le asignan hombres a los caminos y se queda con él."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:13,000",
+				"to": "00:20:16,000"
+			},
+			"offsets": {
+				"from": 1213000,
+				"to": 1216000
+			},
+			"text": " ¿Qué tiene orden lexicográfico menor?"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:16,000",
+				"to": "00:20:20,000"
+			},
+			"offsets": {
+				"from": 1216000,
+				"to": 1220000
+			},
+			"text": " Y en general, lo que hacemos es tirar una moneda."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:20,000",
+				"to": "00:20:22,000"
+			},
+			"offsets": {
+				"from": 1220000,
+				"to": 1222000
+			},
+			"text": " Si tenemos más de una opción,"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:22,000",
+				"to": "00:20:26,000"
+			},
+			"offsets": {
+				"from": 1222000,
+				"to": 1226000
+			},
+			"text": " tiramos unos monedos y nos quedamos con alguno."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:26,000",
+				"to": "00:20:30,000"
+			},
+			"offsets": {
+				"from": 1226000,
+				"to": 1230000
+			},
+			"text": " Comento esto porque"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:30,000",
+				"to": "00:20:33,000"
+			},
+			"offsets": {
+				"from": 1230000,
+				"to": 1233000
+			},
+			"text": " existen aplicaciones en las cuales"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:33,000",
+				"to": "00:20:38,000"
+			},
+			"offsets": {
+				"from": 1233000,
+				"to": 1238000
+			},
+			"text": " me interesa quedarme con más de un camino."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:38,000",
+				"to": "00:20:44,000"
+			},
+			"offsets": {
+				"from": 1238000,
+				"to": 1244000
+			},
+			"text": " En particular, algunos de los algoritmos de routing que se usan"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:44,000",
+				"to": "00:20:50,000"
+			},
+			"offsets": {
+				"from": 1244000,
+				"to": 1250000
+			},
+			"text": " de verdad implementan lo que se llama equal cost multi-pass."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:50,000",
+				"to": "00:20:55,000"
+			},
+			"offsets": {
+				"from": 1250000,
+				"to": 1255000
+			},
+			"text": " O sea, si existen varios caminos"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:55,000",
+				"to": "00:21:01,000"
+			},
+			"offsets": {
+				"from": 1255000,
+				"to": 1261000
+			},
+			"text": " del mismo costo entre un origen y un destino, los uso a todos."
+		},
+		{
+			"timestamps": {
+				"from": "00:21:01,000",
+				"to": "00:21:08,000"
+			},
+			"offsets": {
+				"from": 1261000,
+				"to": 1268000
+			},
+			"text": " Y igual hay garantía de que no haya ciclos."
+		},
+		{
+			"timestamps": {
+				"from": "00:21:08,000",
+				"to": "00:21:11,000"
+			},
+			"offsets": {
+				"from": 1268000,
+				"to": 1271000
+			},
+			"text": " Porque son todos el mismo costo."
+		},
+		{
+			"timestamps": {
+				"from": "00:21:11,000",
+				"to": "00:21:14,000"
+			},
+			"offsets": {
+				"from": 1271000,
+				"to": 1274000
+			},
+			"text": " Eso me permite hacer aplicaciones un poco más avanzadas"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:14,000",
+				"to": "00:21:18,000"
+			},
+			"offsets": {
+				"from": 1274000,
+				"to": 1278000
+			},
+			"text": " como balanceo, cara y cosas prolesticas."
+		},
+		{
+			"timestamps": {
+				"from": "00:21:18,000",
+				"to": "00:21:22,000"
+			},
+			"offsets": {
+				"from": 1278000,
+				"to": 1282000
+			},
+			"text": " Simplemente hago esa notación porque el libro lo menciona"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:22,000",
+				"to": "00:21:38,000"
+			},
+			"offsets": {
+				"from": 1282000,
+				"to": 1298000
+			},
+			"text": " y es una decisión que tomamos en el momento de implementar."
+		},
+		{
+			"timestamps": {
+				"from": "00:21:38,000",
+				"to": "00:21:57,000"
+			},
+			"offsets": {
+				"from": 1298000,
+				"to": 1317000
+			},
+			"text": " Estaba tratando de acordarme de dónde está esto para hacer celular."
+		},
+		{
+			"timestamps": {
+				"from": "00:21:57,000",
+				"to": "00:22:17,000"
+			},
+			"offsets": {
+				"from": 1317000,
+				"to": 1337000
+			},
+			"text": " Lo perdí."
+		},
+		{
+			"timestamps": {
+				"from": "00:22:17,000",
+				"to": "00:22:33,000"
+			},
+			"offsets": {
+				"from": 1337000,
+				"to": 1353000
+			},
+			"text": " Ahora o me pongo a describir distra, que creo que no vale la pena."
+		},
+		{
+			"timestamps": {
+				"from": "00:22:33,000",
+				"to": "00:22:42,000"
+			},
+			"offsets": {
+				"from": 1353000,
+				"to": 1362000
+			},
+			"text": " Porque lo que estamos haciendo es simplemente la descripción secuencial."
+		},
+		{
+			"timestamps": {
+				"from": "00:22:42,000",
+				"to": "00:22:49,000"
+			},
+			"offsets": {
+				"from": 1362000,
+				"to": 1369000
+			},
+			"text": " Capaz que para eso lo tengo que mirar más en detalle para contárselos."
+		},
+		{
+			"timestamps": {
+				"from": "00:22:49,000",
+				"to": "00:22:57,000"
+			},
+			"offsets": {
+				"from": 1369000,
+				"to": 1377000
+			},
+			"text": " Podemos ver la construcción del All Pairs Spanning Tree,"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:57,000",
+				"to": "00:23:05,000"
+			},
+			"offsets": {
+				"from": 1377000,
+				"to": 1385000
+			},
+			"text": " que es la versión que es la versión distribuida."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:05,000",
+				"to": "00:23:14,000"
+			},
+			"offsets": {
+				"from": 1385000,
+				"to": 1394000
+			},
+			"text": " Y eso lo puedo mirar un poco para la próxima, porque no lo tenía en el menú."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:14,000",
+				"to": "00:23:19,000"
+			},
+			"offsets": {
+				"from": 1394000,
+				"to": 1399000
+			},
+			"text": " Fui más rápido, así que como quieran."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:19,000",
+				"to": "00:23:25,000"
+			},
+			"offsets": {
+				"from": 1399000,
+				"to": 1405000
+			},
+			"text": " O miramos esto o lo vamos dejando y seguimos con esto de la próxima."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:25,000",
+				"to": "00:23:35,000"
+			},
+			"offsets": {
+				"from": 1405000,
+				"to": 1415000
+			},
+			"text": " El otro tema que es interesante también y que vamos a bichar es el routing de main hop."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:35,000",
+				"to": "00:23:39,000"
+			},
+			"offsets": {
+				"from": 1415000,
+				"to": 1419000
+			},
+			"text": " O sea, el routing cuando los costos son dos iguales."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:39,000",
+				"to": "00:23:42,000"
+			},
+			"offsets": {
+				"from": 1419000,
+				"to": 1422000
+			},
+			"text": " Y son iguales a uno con él."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:42,000",
+				"to": "00:23:46,000"
+			},
+			"offsets": {
+				"from": 1422000,
+				"to": 1426000
+			},
+			"text": " Iguales y no negativos."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:46,000",
+				"to": "00:23:52,000"
+			},
+			"offsets": {
+				"from": 1426000,
+				"to": 1432000
+			},
+			"text": " Entonces el costo es la cantidad de hops."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:52,000",
+				"to": "00:23:58,000"
+			},
+			"offsets": {
+				"from": 1432000,
+				"to": 1438000
+			},
+			"text": " Y cantidad mínima de hops es lo mismo."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:58,000",
+				"to": "00:24:01,000"
+			},
+			"offsets": {
+				"from": 1438000,
+				"to": 1441000
+			},
+			"text": " Eso es algo que se usa bastante."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:01,000",
+				"to": "00:24:06,000"
+			},
+			"offsets": {
+				"from": 1441000,
+				"to": 1446000
+			},
+			"text": " Bueno, así que no sé."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:06,000",
+				"to": "00:24:12,000"
+			},
+			"offsets": {
+				"from": 1446000,
+				"to": 1452000
+			},
+			"text": " Llegué medio rápido a donde quería llegar."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:12,000",
+				"to": "00:24:19,000"
+			},
+			"offsets": {
+				"from": 1452000,
+				"to": 1459000
+			},
+			"text": " Así que si no hay muchos comentarios o dudas."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:19,000",
+				"to": "00:24:26,000"
+			},
+			"offsets": {
+				"from": 1459000,
+				"to": 1466000
+			},
+			"text": " Este tema es bastante conocido en realidad."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:26,000",
+				"to": "00:24:32,000"
+			},
+			"offsets": {
+				"from": 1466000,
+				"to": 1472000
+			},
+			"text": " Bueno, entonces lo que hacemos es lo siguiente."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:32,000",
+				"to": "00:24:39,000"
+			},
+			"offsets": {
+				"from": 1472000,
+				"to": 1479000
+			},
+			"text": " Voy a ir republicando los ejercicios de este capítulo."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:39,000",
+				"to": "00:24:45,000"
+			},
+			"offsets": {
+				"from": 1479000,
+				"to": 1485000
+			},
+			"text": " Y la vez que viene hablamos un poco más del teórico."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:45,000",
+				"to": "00:24:49,000"
+			},
+			"offsets": {
+				"from": 1485000,
+				"to": 1489000
+			},
+			"text": " Trato de comentarlo del distra distribuido."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:49,000",
+				"to": "00:24:56,000"
+			},
+			"offsets": {
+				"from": 1489000,
+				"to": 1496000
+			},
+			"text": " Y de avanzar un poco con la parte de fallos."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:56,000",
+				"to": "00:25:06,000"
+			},
+			"offsets": {
+				"from": 1496000,
+				"to": 1506000
+			},
+			"text": " Y yo supongo que ya la semana que viene ya podemos ir liquidando la parte de teórico."
+		},
+		{
+			"timestamps": {
+				"from": "00:25:06,000",
+				"to": "00:25:09,000"
+			},
+			"offsets": {
+				"from": 1506000,
+				"to": 1509000
+			},
+			"text": " De este tema hay que ser el último en realidad."
+		},
+		{
+			"timestamps": {
+				"from": "00:25:09,000",
+				"to": "00:25:15,000"
+			},
+			"offsets": {
+				"from": 1509000,
+				"to": 1515000
+			},
+			"text": " Así que vamos a cumplir bastante bien."
+		},
+		{
+			"timestamps": {
+				"from": "00:25:15,000",
+				"to": "00:25:22,000"
+			},
+			"offsets": {
+				"from": 1515000,
+				"to": 1522000
+			},
+			"text": " Con la promesa de que alrededor del 15 ponele."
+		},
+		{
+			"timestamps": {
+				"from": "00:25:22,000",
+				"to": "00:25:29,000"
+			},
+			"offsets": {
+				"from": 1522000,
+				"to": 1529000
+			},
+			"text": " Se puede ya ir presentando el obligatorio."
+		},
+		{
+			"timestamps": {
+				"from": "00:25:29,000",
+				"to": "00:25:38,000"
+			},
+			"offsets": {
+				"from": 1529000,
+				"to": 1538000
+			},
+			"text": " Bueno, así que no le saco más tiempo y nos vemos el martes."
+		}
+	]
+}
