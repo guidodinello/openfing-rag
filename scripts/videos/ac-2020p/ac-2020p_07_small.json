@@ -1,0 +1,1374 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | OPENMP = 1 | AARCH64_REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/home/diego/_Modulos/Facu/tesis/scripts/whisper.cpp/models/ggml-small.bin",
+		"language": "spanish",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:10,860"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 10860
+			},
+			"text": " Práctico 5, ejercicio 6. Bueno, lo que vamos a ver ahora es la resolución de este ejercicio que"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:10,860",
+				"to": "00:00:17,520"
+			},
+			"offsets": {
+				"from": 10860,
+				"to": 17520
+			},
+			"text": " lo que nos pide es construir un registro contador que cuenta solamente los números primos que están"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:17,520",
+				"to": "00:00:25,700"
+			},
+			"offsets": {
+				"from": 17520,
+				"to": 25700
+			},
+			"text": " entre 0 y 15 y nos pide que lo haga en cada pulso de reloj, o sea que tiene que ser un circuito"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:25,700",
+				"to": "00:00:32,480"
+			},
+			"offsets": {
+				"from": 25700,
+				"to": 32480
+			},
+			"text": " sincrónico y después nos dice los números primos, tenemos que pasar por el 2, el 3, el 5, el 7,"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:32,480",
+				"to": "00:00:44,320"
+			},
+			"offsets": {
+				"from": 32480,
+				"to": 44320
+			},
+			"text": " el 11 y el 13. Bien, existen varias maneras de resolver este ejercicio, voy a mostrar una de ellas."
+		},
+		{
+			"timestamps": {
+				"from": "00:00:44,320",
+				"to": "00:00:53,320"
+			},
+			"offsets": {
+				"from": 44320,
+				"to": 53320
+			},
+			"text": " Lo primero que tenemos que hacer es construir la máquina de estados asociada al comportamiento que"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:53,320",
+				"to": "00:01:11,460"
+			},
+			"offsets": {
+				"from": 53320,
+				"to": 71460
+			},
+			"text": " se pide. Entonces vamos a ir del estado 1 al 2, perdón, del 2 al 3, un estado 5,"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:13,960",
+				"to": "00:01:30,400"
+			},
+			"offsets": {
+				"from": 73960,
+				"to": 90400
+			},
+			"text": " vamos a tener un estado 7, un estado 11, un estado 13 y luego volver al 2."
+		},
+		{
+			"timestamps": {
+				"from": "00:01:30,400",
+				"to": "00:01:42,120"
+			},
+			"offsets": {
+				"from": 90400,
+				"to": 102120
+			},
+			"text": " Entonces si nosotros vemos hay 6 estados, esto lo podríamos modelar con Treffliflop, ¿sí?"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:43,960",
+				"to": "00:01:51,600"
+			},
+			"offsets": {
+				"from": 103960,
+				"to": 111600
+			},
+			"text": " Y podríamos hacer la tabla con los tres estados, los estados siguientes y las salidas."
+		},
+		{
+			"timestamps": {
+				"from": "00:01:51,600",
+				"to": "00:02:03,440"
+			},
+			"offsets": {
+				"from": 111600,
+				"to": 123440
+			},
+			"text": " Eso sí, las salidas serían cuatro valores dado que el conjunto de número va entre el 2 y el 13."
+		},
+		{
+			"timestamps": {
+				"from": "00:02:03,440",
+				"to": "00:02:10,200"
+			},
+			"offsets": {
+				"from": 123440,
+				"to": 130200
+			},
+			"text": " Y se puede hacer y eso funciona, pero existe un pequeño truco que es darse cuenta de que"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:11,200",
+				"to": "00:02:21,120"
+			},
+			"offsets": {
+				"from": 131200,
+				"to": 141120
+			},
+			"text": " la salida coincide, la podemos hacer coincidir con el número del estado, es decir, generar"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:21,120",
+				"to": "00:02:31,800"
+			},
+			"offsets": {
+				"from": 141120,
+				"to": 151800
+			},
+			"text": " estados del 0 al 15 y que la salida esperada sea la que coincida con el número del estado."
+		},
+		{
+			"timestamps": {
+				"from": "00:02:31,800",
+				"to": "00:02:41,120"
+			},
+			"offsets": {
+				"from": 151800,
+				"to": 161120
+			},
+			"text": " Eso nos agrega un Treffliflop más, pero nos elimina mucha circuitería que sería utilizada"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:41,120",
+				"to": "00:02:51,080"
+			},
+			"offsets": {
+				"from": 161120,
+				"to": 171080
+			},
+			"text": " para la salida, ¿sí? Entonces, vamos a llenar la tabla con el comportamiento que se espera."
+		},
+		{
+			"timestamps": {
+				"from": "00:02:51,080",
+				"to": "00:03:08,320"
+			},
+			"offsets": {
+				"from": 171080,
+				"to": 188320
+			},
+			"text": " Los estados importantes, digamos acá, bueno, el estado 00, 0001, bien, el 0000 y el 1 son estados"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:08,320",
+				"to": "00:03:23,920"
+			},
+			"offsets": {
+				"from": 188320,
+				"to": 203920
+			},
+			"text": " por lo que nunca va a pasar este sistema, ¿verdad? El 0000, el 05 también, el 07 también, el 11 también,"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:31,400",
+				"to": "00:03:45,920"
+			},
+			"offsets": {
+				"from": 211400,
+				"to": 225920
+			},
+			"text": " el 12 no y el 13 sí. Bien, entonces, hay estados por los cuales no va a pasar, que no los escribí"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:45,920",
+				"to": "00:03:50,800"
+			},
+			"offsets": {
+				"from": 225920,
+				"to": 230800
+			},
+			"text": " para ahorrar un poco de tiempo, pero la ideal sería hacer la tabla completa."
+		},
+		{
+			"timestamps": {
+				"from": "00:03:53,040",
+				"to": "00:04:06,080"
+			},
+			"offsets": {
+				"from": 233040,
+				"to": 246080
+			},
+			"text": " Con el 01 voy a agregar alguno más, el 6, el 10 y así, ¿sí? Pero los estados por los cuales,"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:06,080",
+				"to": "00:04:19,000"
+			},
+			"offsets": {
+				"from": 246080,
+				"to": 259000
+			},
+			"text": " de nuevo, voy a pasar son el 2, del 2 me quiero ir al 3, del 3 al 5, del 5 al 7, del 7 al 11,"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:19,000",
+				"to": "00:04:33,360"
+			},
+			"offsets": {
+				"from": 259000,
+				"to": 273360
+			},
+			"text": " del 11 al 13 y del 13 volver al 2. Entonces, ¿cuál es el estado siguiente? Si yo estoy en el 2 y me"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:33,360",
+				"to": "00:04:40,600"
+			},
+			"offsets": {
+				"from": 273360,
+				"to": 280600
+			},
+			"text": " viene un flanco de reloj, mi estado siguiente va a ser el 3, ¿sí? Entonces, me voy a ir al 0011,"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:40,600",
+				"to": "00:04:48,960"
+			},
+			"offsets": {
+				"from": 280600,
+				"to": 288960
+			},
+			"text": " si estoy en el 3 y me viene el flanco, me voy a ir al 5, 01, 01. Si estoy en el 5 y me viene el"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:48,960",
+				"to": "00:05:03,840"
+			},
+			"offsets": {
+				"from": 288960,
+				"to": 303840
+			},
+			"text": " flanco, me voy al 7, 01, 01. Si estoy en el 7 y me viene el flanco, me voy al 11, que es el 1011,"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:04,840",
+				"to": "00:05:15,720"
+			},
+			"offsets": {
+				"from": 304840,
+				"to": 315720
+			},
+			"text": " si estoy en el 11 y me viene el flanco, me voy al 13. Entonces, acá lo que vamos a poner es el 1110,"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:15,720",
+				"to": "00:05:28,720"
+			},
+			"offsets": {
+				"from": 315720,
+				"to": 328720
+			},
+			"text": " perdón, este no es el 13, este es el número correcto para el 13, acá lo escribí mal,"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:31,840",
+				"to": "00:05:43,520"
+			},
+			"offsets": {
+				"from": 331840,
+				"to": 343520
+			},
+			"text": " esto es el 01, porque después viene el 14, que es decir, es 01, 0 y el 15 que es todo 1."
+		},
+		{
+			"timestamps": {
+				"from": "00:05:43,520",
+				"to": "00:05:55,160"
+			},
+			"offsets": {
+				"from": 343520,
+				"to": 355160
+			},
+			"text": " Entonces, del 11 me voy al 13 y del 13 me voy a ir al 2, 0010, ¿sí? Bien, entonces,"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:56,800",
+				"to": "00:06:05,400"
+			},
+			"offsets": {
+				"from": 356800,
+				"to": 365400
+			},
+			"text": " yo con eso tengo marcado el funcionamiento de mi máquina de estados. ¿Qué pasa con los otros"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:05,400",
+				"to": "00:06:12,920"
+			},
+			"offsets": {
+				"from": 365400,
+				"to": 372920
+			},
+			"text": " estados que no van a ser alcanzables? Bueno, si yo estoy en el 00, no me importa qué pasa,"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:12,920",
+				"to": "00:06:22,400"
+			},
+			"offsets": {
+				"from": 372920,
+				"to": 382400
+			},
+			"text": " si viene el flanco, lo mismo, si estoy en el 1, lo mismo en el 4. Entonces, lo voy a indicar con"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:22,400",
+				"to": "00:06:29,640"
+			},
+			"offsets": {
+				"from": 382400,
+				"to": 389640
+			},
+			"text": " las x que significa don't care, que pueden ser un 0, un 1, me da lo mismo y eso me ayuda que cuando"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:29,640",
+				"to": "00:06:42,280"
+			},
+			"offsets": {
+				"from": 389640,
+				"to": 402280
+			},
+			"text": " yo construya el diagrama de Carnot se maximice la simplificación de la ecuación de salida,"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:42,280",
+				"to": "00:06:52,720"
+			},
+			"offsets": {
+				"from": 402280,
+				"to": 412720
+			},
+			"text": " la ecuación resultado. Entonces, en todos los estados que no me interesan o que por los cuales no"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:52,720",
+				"to": "00:07:18,640"
+			},
+			"offsets": {
+				"from": 412720,
+				"to": 438640
+			},
+			"text": " voy a pasar, los marco con una x y me queda el 14 y el 15. Bien, ¿sí? Bueno, ya que estamos, voy a"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:18,640",
+				"to": "00:07:36,520"
+			},
+			"offsets": {
+				"from": 438640,
+				"to": 456520
+			},
+			"text": " completar esta tabla, el 8, el 9 y el 10 y el 12. Bien, entonces ahora lo que tenemos que hacer son"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:36,520",
+				"to": "00:07:45,480"
+			},
+			"offsets": {
+				"from": 456520,
+				"to": 465480
+			},
+			"text": " los diagramas de Carnot asociados a cada uno, a cada uno de los flip flops que voy a tener en la"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:45,480",
+				"to": "00:08:04,000"
+			},
+			"offsets": {
+				"from": 465480,
+				"to": 484000
+			},
+			"text": " salida. 00, 01, 11 y 10. 00, 01, 11 y 10. Recuerden que solo puede haber un cambio entre valores"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:04,000",
+				"to": "00:08:21,460"
+			},
+			"offsets": {
+				"from": 484000,
+				"to": 501460
+			},
+			"text": " adjacentes en el Carnot y ahora vamos a poner Q3, Q2, Q1 y Q0, ¿sí? Y yo acá me gusta poner una"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:21,460",
+				"to": "00:08:40,340"
+			},
+			"offsets": {
+				"from": 501460,
+				"to": 520340
+			},
+			"text": " indicación de dónde estoy para completar lo más rápido. 2, 3, 0, 1, 2, 3, 4, 5, 6, 7. Esto"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:40,340",
+				"to": "00:08:50,740"
+			},
+			"offsets": {
+				"from": 520340,
+				"to": 530740
+			},
+			"text": " nomás me estoy poniendo una indicación de a qué número corresponde. El 10000 es el 8, 9, 10 y 11,"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:50,740",
+				"to": "00:09:00,500"
+			},
+			"offsets": {
+				"from": 530740,
+				"to": 540500
+			},
+			"text": " tenemos el 12, el 13, el 14 y el 15. Eso no es importante, lo que es importante es que en cada"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:00,500",
+				"to": "00:09:09,860"
+			},
+			"offsets": {
+				"from": 540500,
+				"to": 549860
+			},
+			"text": " posición se ponga el valor que corresponde. Entonces, en nuestro caso vamos a poner para Q,"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:09,860",
+				"to": "00:09:28,540"
+			},
+			"offsets": {
+				"from": 549860,
+				"to": 568540
+			},
+			"text": " estamos evaluando la variable Q3, ¿sí? Entonces, cuando voy a ver los casos específicos y después"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:28,540",
+				"to": "00:09:40,460"
+			},
+			"offsets": {
+				"from": 568540,
+				"to": 580460
+			},
+			"text": " veo el resto. Cuando Q3, perdón, cuando estoy en el estado 0010, es decir 0010, que se esté acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:40,460",
+				"to": "00:09:55,580"
+			},
+			"offsets": {
+				"from": 580460,
+				"to": 595580
+			},
+			"text": " abajo, que es el 2, Q3 vale 0. Cuando estoy en el estado 0011, Q3 vale 0 también, 0011, Q3 vale 0."
+		},
+		{
+			"timestamps": {
+				"from": "00:09:56,580",
+				"to": "00:10:08,620"
+			},
+			"offsets": {
+				"from": 596580,
+				"to": 608620
+			},
+			"text": " Cuando estoy en el estado 01, 01, 01, 01, que es el 5, Q3 vale 0. Cuando estoy en el"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:08,620",
+				"to": "00:10:30,180"
+			},
+			"offsets": {
+				"from": 608620,
+				"to": 630180
+			},
+			"text": " 01, 01, 01, 01, Q3 vale 1. Cuando estoy en el 01, 01, 01, Q3 vale 1. Y cuando estoy en el 01, 01,"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:30,180",
+				"to": "00:10:41,980"
+			},
+			"offsets": {
+				"from": 630180,
+				"to": 641980
+			},
+			"text": " que es este, el 13, Q3 vale 0. Bien, ahora, en el resto de los casos, cuando estoy en el"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:41,980",
+				"to": "00:10:50,860"
+			},
+			"offsets": {
+				"from": 641980,
+				"to": 650860
+			},
+			"text": " 0000, vale X. Cuando estoy en el 0001, vale X. Y en todos los que no completé, vale X. Entonces,"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:50,860",
+				"to": "00:11:04,700"
+			},
+			"offsets": {
+				"from": 650860,
+				"to": 664700
+			},
+			"text": " voy a completar con las X. Bueno, y ahora lo que tengo que pasar es hacer la agrupación"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:04,700",
+				"to": "00:11:14,180"
+			},
+			"offsets": {
+				"from": 664700,
+				"to": 674180
+			},
+			"text": " de cada uno. Entonces, recuerden que tengo que agrupar lo más grande posible, manteniendo"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:14,180",
+				"to": "00:11:22,420"
+			},
+			"offsets": {
+				"from": 674180,
+				"to": 682420
+			},
+			"text": " las potencias de 2. Y puedo agrupar con las X. Yo tengo que agrupar los 1. Entonces, en el caso"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:22,420",
+				"to": "00:11:28,940"
+			},
+			"offsets": {
+				"from": 682420,
+				"to": 688940
+			},
+			"text": " de acá, de este 1, no puedo hacer un grupo con el 1 que está más a la derecha, porque me quedaría"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:28,940",
+				"to": "00:11:37,340"
+			},
+			"offsets": {
+				"from": 688940,
+				"to": 697340
+			},
+			"text": " un grupo de 6. Entonces, hago esta agrupación de 4. Y después, el otro 1 y la otra, esta agrupación"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:38,340",
+				"to": "00:12:07,180"
+			},
+			"offsets": {
+				"from": 698340,
+				"to": 727180
+			},
+			"text": " también con esas 4. Entonces, Q3, la ecuación de Q3 va a ser Q2 por Q1 más, porque acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:07,180",
+				"to": "00:12:13,340"
+			},
+			"offsets": {
+				"from": 727180,
+				"to": 733340
+			},
+			"text": " hay que ver cuál es el que no cambia, la variable que cambia desaparece y la que no cambia la que"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:13,340",
+				"to": "00:12:22,380"
+			},
+			"offsets": {
+				"from": 733340,
+				"to": 742380
+			},
+			"text": " se mantiene. Entonces, Q2 se mantiene, aparece en este término. Y luego Q1 se mantiene, aparece en"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:22,380",
+				"to": "00:12:39,660"
+			},
+			"offsets": {
+				"from": 742380,
+				"to": 759660
+			},
+			"text": " este término. En este caso, Q3 aparece porque se mantiene. Por Q2 negado, los dos aparecen,"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:39,660",
+				"to": "00:12:47,300"
+			},
+			"offsets": {
+				"from": 759660,
+				"to": 767300
+			},
+			"text": " pero de los términos que están en Q1 y Q0 no aparecen ninguno, dado que todos cambian."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:53,380",
+				"to": "00:13:09,140"
+			},
+			"offsets": {
+				"from": 773380,
+				"to": 789140
+			},
+			"text": " Entonces, esta es la ecuación que corresponde a Q3. Y ahora vamos a hacer lo mismo con cada"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:09,140",
+				"to": "00:13:14,980"
+			},
+			"offsets": {
+				"from": 789140,
+				"to": 794980
+			},
+			"text": " uno de los otros. Lo siguiente, no lo voy a explicar tanto, porque es repetir el mismo proceso."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:16,740",
+				"to": "00:13:23,300"
+			},
+			"offsets": {
+				"from": 796740,
+				"to": 803300
+			},
+			"text": " Bueno, entonces ahora, ya escribimos las ecuaciones de, escribimos los diagramas de Carnot,"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:23,300",
+				"to": "00:13:33,140"
+			},
+			"offsets": {
+				"from": 803300,
+				"to": 813140
+			},
+			"text": " que son los otros tres próximos estados. Veamos esto, así me hicimos. El diagrama de Carnot"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:33,140",
+				"to": "00:13:39,620"
+			},
+			"offsets": {
+				"from": 813140,
+				"to": 819620
+			},
+			"text": " para el próximo estado de Q3, y ahora hicimos lo mismo del pudo de pudo de Q0. Y lo que voy a hacer"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:39,620",
+				"to": "00:13:47,620"
+			},
+			"offsets": {
+				"from": 819620,
+				"to": 827620
+			},
+			"text": " es empezar a agrupar. Entonces, para agrupar en pudo, acuerdan que en el diagrama de Carnot podemos"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:47,620",
+				"to": "00:14:00,940"
+			},
+			"offsets": {
+				"from": 827620,
+				"to": 840940
+			},
+			"text": " agrupar los hallacentes, así que esto es uno que harían juntos. Después nos queda uno sin agrupar,"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:02,260",
+				"to": "00:14:10,900"
+			},
+			"offsets": {
+				"from": 842260,
+				"to": 850900
+			},
+			"text": " pero podemos agrupar en estos cuatro. Y, entonces, la ecuación del estado siguiente,"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:22,100",
+				"to": "00:14:30,340"
+			},
+			"offsets": {
+				"from": 862100,
+				"to": 870340
+			},
+			"text": " y ahora en este final término, el pudo es negado porque no cambia y el término negado se enoja."
+		},
+		{
+			"timestamps": {
+				"from": "00:14:36,300",
+				"to": "00:14:55,340"
+			},
+			"offsets": {
+				"from": 876300,
+				"to": 895340
+			},
+			"text": " Más, en el otro término, que es el pudo es negado con un cero. Bueno, ahora vamos a agrupar"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:55,340",
+				"to": "00:15:04,140"
+			},
+			"offsets": {
+				"from": 895340,
+				"to": 904140
+			},
+			"text": " un uno, hay dos unos acá y nos podemos agrupar y a ocho."
+		},
+		{
+			"timestamps": {
+				"from": "00:15:06,380",
+				"to": "00:15:13,020"
+			},
+			"offsets": {
+				"from": 906380,
+				"to": 913020
+			},
+			"text": " Y también podemos agrupar este uno que quedó, formando otro grupo de ocho,"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:13,020",
+				"to": "00:15:19,060"
+			},
+			"offsets": {
+				"from": 913020,
+				"to": 919060
+			},
+			"text": " y este uno que está acá también lo podemos agrupar con otro grupo de ocho."
+		},
+		{
+			"timestamps": {
+				"from": "00:15:35,540",
+				"to": "00:15:42,020"
+			},
+			"offsets": {
+				"from": 935540,
+				"to": 942020
+			},
+			"text": " En realidad, este grupo de ocho que está acá, ese no es necesario,"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:42,020",
+				"to": "00:15:47,540"
+			},
+			"offsets": {
+				"from": 942020,
+				"to": 947540
+			},
+			"text": " lo voy a eliminar,"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:47,540",
+				"to": "00:15:58,140"
+			},
+			"offsets": {
+				"from": 947540,
+				"to": 958140
+			},
+			"text": " voy a volver a marcar los que quedan. Queda este, porque en realidad este agarra a los tres unos"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:58,140",
+				"to": "00:16:13,500"
+			},
+			"offsets": {
+				"from": 958140,
+				"to": 973500
+			},
+			"text": " y este otro que agarra al uno que faltaba. Entonces, en definitiva la ecuación de Q1 es Q2,"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:18,420",
+				"to": "00:16:28,380"
+			},
+			"offsets": {
+				"from": 978420,
+				"to": 988380
+			},
+			"text": " Q2 solo porque acá es el único, el que no cambia y acá cambian todos, más el otro término,"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:28,380",
+				"to": "00:16:41,500"
+			},
+			"offsets": {
+				"from": 988380,
+				"to": 1001500
+			},
+			"text": " que es el de este grupo de acá que va a ser Q0 negado."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:46,620",
+				"to": "00:16:55,060"
+			},
+			"offsets": {
+				"from": 1006620,
+				"to": 1015060
+			},
+			"text": " Y en este Q2 no es negado, perdón, porque está en uno, el valor, ¿sí? Vieron que cuanto más"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:55,060",
+				"to": "00:17:04,660"
+			},
+			"offsets": {
+				"from": 1015060,
+				"to": 1024660
+			},
+			"text": " grande es el grupo que yo formo, menos términos aparecen en la ecuación. Y después vamos a"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:04,660",
+				"to": "00:17:14,140"
+			},
+			"offsets": {
+				"from": 1024660,
+				"to": 1034140
+			},
+			"text": " agrupar Q0, acá tenemos, hay varios unos que están todos juntos, hay uno que está un"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:14,140",
+				"to": "00:17:23,820"
+			},
+			"offsets": {
+				"from": 1034140,
+				"to": 1043820
+			},
+			"text": " poquito más lejos del otro lado, entonces podemos agrupar a este que está lejos con estos cuatro"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:23,820",
+				"to": "00:17:34,660"
+			},
+			"offsets": {
+				"from": 1043820,
+				"to": 1054660
+			},
+			"text": " y estos dos los voy a agrupar en el grupo, en lo más grande que pueda que serías de esa manera."
+		},
+		{
+			"timestamps": {
+				"from": "00:17:34,660",
+				"to": "00:17:50,220"
+			},
+			"offsets": {
+				"from": 1054660,
+				"to": 1070220
+			},
+			"text": " Entonces, uno de los términos sería Q3 negado por nada porque los otros se van y el otro término"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:50,220",
+				"to": "00:17:58,900"
+			},
+			"offsets": {
+				"from": 1070220,
+				"to": 1078900
+			},
+			"text": " sería Q2 negado, que es el que se mantiene entre esta columna y esta columna."
+		},
+		{
+			"timestamps": {
+				"from": "00:18:03,300",
+				"to": "00:18:12,140"
+			},
+			"offsets": {
+				"from": 1083300,
+				"to": 1092140
+			},
+			"text": " Bueno, entonces nosotros ahora tenemos las cuatro ecuaciones de entrada de cada uno de nuestros"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:12,140",
+				"to": "00:18:20,740"
+			},
+			"offsets": {
+				"from": 1092140,
+				"to": 1100740
+			},
+			"text": " flip flops y lo que nos queda entonces es armar el circuito, ¿sí? A partir de las ecuaciones que"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:20,740",
+				"to": "00:18:27,140"
+			},
+			"offsets": {
+				"from": 1100740,
+				"to": 1107140
+			},
+			"text": " obtuvimos, para eso voy a borrar la tabla y voy a empezar a hacer el dibujo del circuito. Bueno,"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:27,140",
+				"to": "00:18:36,820"
+			},
+			"offsets": {
+				"from": 1107140,
+				"to": 1116820
+			},
+			"text": " el circuito va a contar con cuatro flip flops, uno va a ser Q3, Q2, Q1 y Q0,"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:36,820",
+				"to": "00:18:44,020"
+			},
+			"offsets": {
+				"from": 1116820,
+				"to": 1124020
+			},
+			"text": " los flip flops son tipo de, que es lo que nos dice la letra,"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:46,340",
+				"to": "00:18:59,460"
+			},
+			"offsets": {
+				"from": 1126340,
+				"to": 1139460
+			},
+			"text": " vamos a tener de tres, de dos, de uno. Bueno, en realidad le vamos a poner ese nombre a las"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:59,460",
+				"to": "00:19:18,020"
+			},
+			"offsets": {
+				"from": 1139460,
+				"to": 1158020
+			},
+			"text": " salidas Q3, Q2, Q1 y Q0, cada uno va a tener su entrada de reloj y la entrada sí va a ser de tres,"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:19,540",
+				"to": "00:19:28,900"
+			},
+			"offsets": {
+				"from": 1159540,
+				"to": 1168900
+			},
+			"text": " de dos, de uno y de cero. La entrada de reloj,"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:28,900",
+				"to": "00:19:43,460"
+			},
+			"offsets": {
+				"from": 1168900,
+				"to": 1183460
+			},
+			"text": " va a haber una señal de clock y entonces ahora lo que tenemos que empezar a hacer es utilizar"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:43,460",
+				"to": "00:19:53,420"
+			},
+			"offsets": {
+				"from": 1183460,
+				"to": 1193420
+			},
+			"text": " las ecuaciones para poner los valores de los, para poner los valores que espera la"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:53,420",
+				"to": "00:20:04,220"
+			},
+			"offsets": {
+				"from": 1193420,
+				"to": 1204220
+			},
+			"text": " entrada de cada flip flop para el funcionamiento esperado. Entonces Q3 es un or de dos and,"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:13,460",
+				"to": "00:20:28,860"
+			},
+			"offsets": {
+				"from": 1213460,
+				"to": 1228860
+			},
+			"text": " uno que es Q2 y otro que es Q1 y después tenemos el propio Q3 con Q2 negado por eso le ponemos"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:28,860",
+				"to": "00:20:41,620"
+			},
+			"offsets": {
+				"from": 1228860,
+				"to": 1241620
+			},
+			"text": " la negación adelante, después Q2, la ecuación de Q2 es nuevamente un or de dos expresiones and,"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:48,700",
+				"to": "00:21:02,980"
+			},
+			"offsets": {
+				"from": 1248700,
+				"to": 1262980
+			},
+			"text": " que es Q3 negado, es decir que acá lleva la pelotita por Q1 negado, Q3, Q1 y después tenemos Q2 negado"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:02,980",
+				"to": "00:21:17,020"
+			},
+			"offsets": {
+				"from": 1262980,
+				"to": 1277020
+			},
+			"text": " también y Q0 directo, esa es la entrada de Q2, ahora vamos a ver cómo es la entrada de Q1 que"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:17,020",
+				"to": "00:21:36,620"
+			},
+			"offsets": {
+				"from": 1277020,
+				"to": 1296620
+			},
+			"text": " solamente un or entre Q2 y Q0 negado, le ponemos una vez más el símbolo para invertir Q0 y"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:36,620",
+				"to": "00:22:01,260"
+			},
+			"offsets": {
+				"from": 1296620,
+				"to": 1321260
+			},
+			"text": " finalmente Q0 que también es un or de Q3 negado con Q2 negado, bien entonces con esto completamos el"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:01,260",
+				"to": "00:22:09,380"
+			},
+			"offsets": {
+				"from": 1321260,
+				"to": 1329380
+			},
+			"text": " circuito, nos falta solo poner una señal de recet para darle un valor inicial, recuerden que entonces"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:09,380",
+				"to": "00:22:16,980"
+			},
+			"offsets": {
+				"from": 1329380,
+				"to": 1336980
+			},
+			"text": " este valor de Q3 es el mismo que aparece acá, este valor de Q2 es el que aparece en las distintas"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:16,980",
+				"to": "00:22:25,980"
+			},
+			"offsets": {
+				"from": 1336980,
+				"to": 1345980
+			},
+			"text": " señales, o sea si el cable tiene el mismo nombre es como si fuera el mismo cable, entonces por dar"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:25,980",
+				"to": "00:22:32,980"
+			},
+			"offsets": {
+				"from": 1345980,
+				"to": 1352980
+			},
+			"text": " un ejemplo de funcionamiento, en la entrada Q3 se van a presentar estos valores, pero estos valores"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:32,980",
+				"to": "00:22:40,100"
+			},
+			"offsets": {
+				"from": 1352980,
+				"to": 1360100
+			},
+			"text": " solo se van a transmitir a la salida cuando venga el flanco de subida en la señal de reloj,"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:40,100",
+				"to": "00:22:49,580"
+			},
+			"offsets": {
+				"from": 1360100,
+				"to": 1369580
+			},
+			"text": " en ese momento estos valores se van a transmitir a la salida llevando a Q3 al nuevo valor que"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:49,580",
+				"to": "00:22:56,460"
+			},
+			"offsets": {
+				"from": 1369580,
+				"to": 1376460
+			},
+			"text": " nosotros queríamos en nuestra tabla y lo mismo va a pasar con los otros, lo único que faltaría es"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:56,460",
+				"to": "00:23:06,380"
+			},
+			"offsets": {
+				"from": 1376460,
+				"to": 1386380
+			},
+			"text": " incorporarle una señal de recet que lo lleve por ejemplo al valor inicial 2, entonces los flipflops"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:06,380",
+				"to": "00:23:13,340"
+			},
+			"offsets": {
+				"from": 1386380,
+				"to": 1393340
+			},
+			"text": " tienen dos entradas una de preset y una de recet de clear, perdón clear lo lleva 0, preset lo lleva"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:13,340",
+				"to": "00:23:25,940"
+			},
+			"offsets": {
+				"from": 1393340,
+				"to": 1405940
+			},
+			"text": " 1, entonces en nuestro caso vamos a hacer un \"and\" con una señal de recet, en realidad vamos a poner"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:25,940",
+				"to": "00:23:36,620"
+			},
+			"offsets": {
+				"from": 1405940,
+				"to": 1416620
+			},
+			"text": " la señal de recet directo que es un poco más práctico, entonces queremos que la señal de recet me"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:36,620",
+				"to": "00:23:47,940"
+			},
+			"offsets": {
+				"from": 1416620,
+				"to": 1427940
+			},
+			"text": " presente en la salida 0010, que eso va a poner al flipflop en el estado 2 que equivale al valor 2,"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:47,940",
+				"to": "00:24:02,140"
+			},
+			"offsets": {
+				"from": 1427940,
+				"to": 1442140
+			},
+			"text": " entonces el recet en este caso tendría que ir al 0, o sea al clear, el flipflop acaba el recet"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:04,220",
+				"to": "00:24:13,860"
+			},
+			"offsets": {
+				"from": 1444220,
+				"to": 1453860
+			},
+			"text": " en este caso también tiene que ir al recet, en este caso el clear también va al recet"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:13,860",
+				"to": "00:24:25,780"
+			},
+			"offsets": {
+				"from": 1453860,
+				"to": 1465780
+			},
+			"text": " al recet y en este caso lo vamos a poner en la señal de preset que suele estar arriba en el"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:25,780",
+				"to": "00:24:39,420"
+			},
+			"offsets": {
+				"from": 1465780,
+				"to": 1479420
+			},
+			"text": " dibujo, este sería el preset y acá ponemos nuestra señal recet, bueno y con esto sí completamos"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:39,420",
+				"to": "00:24:50,220"
+			},
+			"offsets": {
+				"from": 1479420,
+				"to": 1490220
+			},
+			"text": " el circuito del contador que pasa por los números primos, sí, bueno esto es todo."
+		}
+	]
+}
