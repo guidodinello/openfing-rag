@@ -1,0 +1,802 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | OPENMP = 1 | AARCH64_REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/home/diego/_Modulos/Facu/tesis/scripts/whisper.cpp/models/ggml-small.bin",
+		"language": "spanish",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:09,640"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 9640
+			},
+			"text": " Ahora vamos a pasar a resolver el ejercicio 2 del práctico 4. Este ejercicio lo que pide es utilizar"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:09,640",
+				"to": "00:00:16,440"
+			},
+			"offsets": {
+				"from": 9640,
+				"to": 16440
+			},
+			"text": " un arrón para transformar caracteres ASCII de mayúsculas a minúsculas y de minúsculas a"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:16,440",
+				"to": "00:00:22,720"
+			},
+			"offsets": {
+				"from": 16440,
+				"to": 22720
+			},
+			"text": " mayúsculas y el resto de los caracteres deben permanecer incambiados. Entonces si vemos acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:22,720",
+				"to": "00:00:30,720"
+			},
+			"offsets": {
+				"from": 22720,
+				"to": 30720
+			},
+			"text": " un esquema de la tabla ASCII que tiene la representación de los caracteres vemos que cada carácter tiene"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:30,720",
+				"to": "00:00:38,800"
+			},
+			"offsets": {
+				"from": 30720,
+				"to": 38800
+			},
+			"text": " asociado un valor en binario o en este caso en hexadecimal. Por ejemplo la mayúscula tiene"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:38,800",
+				"to": "00:00:47,160"
+			},
+			"offsets": {
+				"from": 38800,
+				"to": 47160
+			},
+			"text": " asociado en hexadecimal el valor 41 mientras que la z minúscula tiene asociado el valor 7a y por"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:47,160",
+				"to": "00:00:57,000"
+			},
+			"offsets": {
+				"from": 47160,
+				"to": 57000
+			},
+			"text": " ejemplo el carácter suprimir tiene asociado el 7f. Son 128 caracteres que están representados en esta"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:57,000",
+				"to": "00:01:03,200"
+			},
+			"offsets": {
+				"from": 57000,
+				"to": 63200
+			},
+			"text": " tabla y el ejercicio lo que nos piden su parte A es determinar el tamaño de la organización"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:03,200",
+				"to": "00:01:10,520"
+			},
+			"offsets": {
+				"from": 63200,
+				"to": 70520
+			},
+			"text": " del arrón y especificar el significado de sus entradas y sus salidas. Entonces dado que vamos"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:10,520",
+				"to": "00:01:27,720"
+			},
+			"offsets": {
+				"from": 70520,
+				"to": 87720
+			},
+			"text": " a almacenar 128 datos 128 palabras nuestra rom va a ser de 128 por el tamaño de palabra y cada"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:27,720",
+				"to": "00:01:38,880"
+			},
+			"offsets": {
+				"from": 87720,
+				"to": 98880
+			},
+			"text": " palabra es de 7 bits entonces es de 128 por 7 el arrón que vamos a utilizar o que necesitamos para"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:38,880",
+				"to": "00:01:48,000"
+			},
+			"offsets": {
+				"from": 98880,
+				"to": 108000
+			},
+			"text": " resolver esta tarea y ahora tenemos que especificar las salidas de esta rom y las entradas entonces"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:48,000",
+				"to": "00:02:05,000"
+			},
+			"offsets": {
+				"from": 108000,
+				"to": 125000
+			},
+			"text": " vamos a hacer un pequeño dibujo del arrón, lo voy a correr un poquito más a la derecha, donde las"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:05,000",
+				"to": "00:02:23,720"
+			},
+			"offsets": {
+				"from": 125000,
+				"to": 143720
+			},
+			"text": " salidas la vamos a marcar como s0, s1 y van a hasta s6, si tenemos 7 bits de salida"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:33,040",
+				"to": "00:02:44,560"
+			},
+			"offsets": {
+				"from": 153040,
+				"to": 164560
+			},
+			"text": " por otro lado las entradas como dijimos necesitamos direccionar 128 palabras para direccionar 128"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:44,560",
+				"to": "00:02:55,200"
+			},
+			"offsets": {
+				"from": 164560,
+				"to": 175200
+			},
+			"text": " palabras necesitamos 7 bits dado que 2 a las 7 es 128 entonces nuestra entrada va a tener"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:56,120",
+				"to": "00:03:06,800"
+			},
+			"offsets": {
+				"from": 176120,
+				"to": 186800
+			},
+			"text": " aire de la dirección a0 hasta la dirección a6 también tenemos 7 bits de direcciones"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:06,800",
+				"to": "00:03:11,080"
+			},
+			"offsets": {
+				"from": 186800,
+				"to": 191080
+			},
+			"text": " o de direccionamiento"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:11,080",
+				"to": "00:03:15,880"
+			},
+			"offsets": {
+				"from": 191080,
+				"to": 195880
+			},
+			"text": " y además nuestra rom va a tener"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:18,320",
+				"to": "00:03:28,800"
+			},
+			"offsets": {
+				"from": 198320,
+				"to": 208800
+			},
+			"text": " las dos entradas a0 y chip select, entonces con esto resuelta la parte a del ejercicio"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:28,800",
+				"to": "00:03:37,320"
+			},
+			"offsets": {
+				"from": 208800,
+				"to": 217320
+			},
+			"text": " la parte b y se escribe en un lenguaje de alto nivel la rutina que genera el contenido de esta rom"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:45,600",
+				"to": "00:03:51,240"
+			},
+			"offsets": {
+				"from": 225600,
+				"to": 231240
+			},
+			"text": " para eso lo que tenemos que hacer es barrer todas las direcciones del arrón, podemos tomar"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:51,240",
+				"to": "00:03:57,240"
+			},
+			"offsets": {
+				"from": 231240,
+				"to": 237240
+			},
+			"text": " al arrón como un arreglo de caracteres y barrer todas estas direcciones y en cada una de las"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:57,240",
+				"to": "00:04:03,480"
+			},
+			"offsets": {
+				"from": 237240,
+				"to": 243480
+			},
+			"text": " direcciones asignar el valor correspondiente, el valor que la rom va a tener que presentar en"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:03,480",
+				"to": "00:04:11,120"
+			},
+			"offsets": {
+				"from": 243480,
+				"to": 251120
+			},
+			"text": " la salida cuando se le presente en el bus direcciones el valor determinado, entonces"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:14,520",
+				"to": "00:04:16,400"
+			},
+			"offsets": {
+				"from": 254520,
+				"to": 256400
+			},
+			"text": " vamos a escribir nuestra rutina"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:16,400",
+				"to": "00:04:30,000"
+			},
+			"offsets": {
+				"from": 256400,
+				"to": 270000
+			},
+			"text": " generar contenido rom, vamos a recibir como parámetro de entrada un puntero, un arreglo"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:30,000",
+				"to": "00:04:35,600"
+			},
+			"offsets": {
+				"from": 270000,
+				"to": 275600
+			},
+			"text": " de caracteres y entonces como le decía primero vamos a utilizar un for para barrer todas las"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:35,600",
+				"to": "00:04:42,400"
+			},
+			"offsets": {
+				"from": 275600,
+				"to": 282400
+			},
+			"text": " direcciones y luego en cada una de las direcciones vamos a ver qué es lo que tenemos que grabar"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:43,760",
+				"to": "00:04:50,200"
+			},
+			"offsets": {
+				"from": 283760,
+				"to": 290200
+			},
+			"text": " bueno entonces con este for como dije recorro las 128 direcciones"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:50,200",
+				"to": "00:05:00,040"
+			},
+			"offsets": {
+				"from": 290200,
+				"to": 300040
+			},
+			"text": " recuerden que lo que hay que hacer es que si el carácter es una letra mayúscula hay que"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:00,040",
+				"to": "00:05:04,760"
+			},
+			"offsets": {
+				"from": 300040,
+				"to": 304760
+			},
+			"text": " pasarlo a minúscula si el carácter es una letra minúscula hay que pasarlo a mayúscula y si el"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:04,760",
+				"to": "00:05:12,600"
+			},
+			"offsets": {
+				"from": 304760,
+				"to": 312600
+			},
+			"text": " carácter es algún otro que no sea esos que mencione se tiene que mantener con el mismo valor"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:13,760",
+				"to": "00:05:22,280"
+			},
+			"offsets": {
+				"from": 313760,
+				"to": 322280
+			},
+			"text": " y lo que podemos ver si si volvemos a la tabla ASCII es que las minúsculas están en una"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:22,280",
+				"to": "00:05:26,960"
+			},
+			"offsets": {
+				"from": 322280,
+				"to": 326960
+			},
+			"text": " posición más alta que las mayúsculas voy a notar acá al costado"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:30,480",
+				"to": "00:05:44,400"
+			},
+			"offsets": {
+				"from": 330480,
+				"to": 344400
+			},
+			"text": " por ejemplo la la dirección es de la mayúscula es 0x41 la dirección de la z mayúscula es"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:47,400",
+				"to": "00:06:00,600"
+			},
+			"offsets": {
+				"from": 347400,
+				"to": 360600
+			},
+			"text": " 0x5a recuerden que el 0x lo ponemos para especificar que estamos escribiendo en hexadecimal la a"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:00,600",
+				"to": "00:06:13,520"
+			},
+			"offsets": {
+				"from": 360600,
+				"to": 373520
+			},
+			"text": " minúscula está en la posición 6 1 y la z minúscula está en la posición 7a"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:17,720",
+				"to": "00:06:28,360"
+			},
+			"offsets": {
+				"from": 377720,
+				"to": 388360
+			},
+			"text": " bueno entonces tenemos las posiciones de cada uno de los caracteres"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:28,360",
+				"to": "00:06:41,160"
+			},
+			"offsets": {
+				"from": 388360,
+				"to": 401160
+			},
+			"text": " si una forma que tenemos de pasar la por ejemplo mayúscula a minúscula es sumarle"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:41,160",
+				"to": "00:06:48,480"
+			},
+			"offsets": {
+				"from": 401160,
+				"to": 408480
+			},
+			"text": " la diferencia que hay entre la mayúscula y la a minúscula si yo al 41 le sumo esa diferencia me"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:48,480",
+				"to": "00:06:55,040"
+			},
+			"offsets": {
+				"from": 408480,
+				"to": 415040
+			},
+			"text": " va a dar el 61 y lo mismo al revés si a las minúsculas yo le arresto la diferencia entre la"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:55,040",
+				"to": "00:07:03,960"
+			},
+			"offsets": {
+				"from": 415040,
+				"to": 423960
+			},
+			"text": " mayúscula y la minúscula me va a dar una mayúscula entonces justamente en el if lo que voy a hacer"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:03,960",
+				"to": "00:07:13,960"
+			},
+			"offsets": {
+				"from": 423960,
+				"to": 433960
+			},
+			"text": " es decir que si la y es menor o igual que"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:13,960",
+				"to": "00:07:18,760"
+			},
+			"offsets": {
+				"from": 433960,
+				"to": 438760
+			},
+			"text": " 5a"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:18,760",
+				"to": "00:07:27,600"
+			},
+			"offsets": {
+				"from": 438760,
+				"to": 447600
+			},
+			"text": " y la y es mayor o igual"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:32,440",
+				"to": "00:07:42,600"
+			},
+			"offsets": {
+				"from": 452440,
+				"to": 462600
+			},
+			"text": " que 41 es decir si es menor o igual se está en una posición menor o igual a la posición de"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:42,600",
+				"to": "00:07:45,160"
+			},
+			"offsets": {
+				"from": 462600,
+				"to": 465160
+			},
+			"text": " z y mayor o igual a la posición de a"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:45,160",
+				"to": "00:07:57,880"
+			},
+			"offsets": {
+				"from": 465160,
+				"to": 477880
+			},
+			"text": " entonces lo que quiero hacer lo que sé es que estoy en el rango de las mayúsculas lo que tengo"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:57,880",
+				"to": "00:08:06,720"
+			},
+			"offsets": {
+				"from": 477880,
+				"to": 486720
+			},
+			"text": " que hacer es sumarle la diferencia que hay entre a mayúscula y a minúscula para llevarla al"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:06,720",
+				"to": "00:08:27,240"
+			},
+			"offsets": {
+				"from": 486720,
+				"to": 507240
+			},
+			"text": " otra posición entonces voy a grabar en ron de y el valor de y más la diferencia esto entre la"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:28,840",
+				"to": "00:08:35,160"
+			},
+			"offsets": {
+				"from": 508840,
+				"to": 515160
+			},
+			"text": " minúscula y lo puedo escribir así menos la mayúscula"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:35,160",
+				"to": "00:08:46,160"
+			},
+			"offsets": {
+				"from": 515160,
+				"to": 526160
+			},
+			"text": " puedo hacer la resta directamente de los caracteres que sería exactamente lo mismo que"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:46,160",
+				"to": "00:08:54,720"
+			},
+			"offsets": {
+				"from": 526160,
+				"to": 534720
+			},
+			"text": " hacer la resta de los valores 061 hexadecimal menos 41 hexadecimal o también lo puedo escribir en"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:54,720",
+				"to": "00:09:07,400"
+			},
+			"offsets": {
+				"from": 534720,
+				"to": 547400
+			},
+			"text": " decimal eso es por es según la comodidad de cada uno bien entonces esta es una"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:07,400",
+				"to": "00:09:12,960"
+			},
+			"offsets": {
+				"from": 547400,
+				"to": 552960
+			},
+			"text": " posibilidad entonces al valor de y le sumo la diferencia eso quiere decir que en la en la"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:12,960",
+				"to": "00:09:26,520"
+			},
+			"offsets": {
+				"from": 552960,
+				"to": 566520
+			},
+			"text": " ron en la posición y se va a grabar el valor de la minúscula si no si la y está entre las"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:26,520",
+				"to": "00:09:46,040"
+			},
+			"offsets": {
+				"from": 566520,
+				"to": 586040
+			},
+			"text": " minúsculas es decir que la y es menor igual que 0 7 a y además es mayor o igual que la minúscula"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:46,040",
+				"to": "00:09:55,000"
+			},
+			"offsets": {
+				"from": 586040,
+				"to": 595000
+			},
+			"text": " que es 0 x 61 si se cumple esta condición lo que quiero hacer es al revés al valor aquí"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:55,000",
+				"to": "00:09:58,880"
+			},
+			"offsets": {
+				"from": 595000,
+				"to": 598880
+			},
+			"text": " restarle la diferencia entonces en ron de y"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:58,880",
+				"to": "00:10:16,040"
+			},
+			"offsets": {
+				"from": 598880,
+				"to": 616040
+			},
+			"text": " voy a grabar el valor de y menos la diferencia entre la minúscula y la mayúscula"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:22,000",
+				"to": "00:10:29,160"
+			},
+			"offsets": {
+				"from": 622000,
+				"to": 629160
+			},
+			"text": " una vez más los valores que presentamos acá son los que vimos que tenían"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:29,160",
+				"to": "00:10:37,880"
+			},
+			"offsets": {
+				"from": 629160,
+				"to": 637880
+			},
+			"text": " los extremos del rango de las minúsculas y si no si no se cumple ninguna de estas condiciones"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:37,880",
+				"to": "00:10:45,120"
+			},
+			"offsets": {
+				"from": 637880,
+				"to": 645120
+			},
+			"text": " lo que dijimos que queremos es mantener el mismo valor que tenían entonces hayas de morrón de y igual"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:52,520",
+				"to": "00:10:58,240"
+			},
+			"offsets": {
+				"from": 652520,
+				"to": 658240
+			},
+			"text": " bueno con esto cerramos el for"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:58,240",
+				"to": "00:11:03,520"
+			},
+			"offsets": {
+				"from": 658240,
+				"to": 663520
+			},
+			"text": " y terminamos la carga de la ron"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:03,520",
+				"to": "00:11:18,920"
+			},
+			"offsets": {
+				"from": 663520,
+				"to": 678920
+			},
+			"text": " bien los invito a que pueden a que prueben programar un código como este cargando un arreglo de"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:18,920",
+				"to": "00:11:24,040"
+			},
+			"offsets": {
+				"from": 678920,
+				"to": 684040
+			},
+			"text": " caracteres con con valores o puede ser un arreglo de enteros para y después imprimen"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:24,040",
+				"to": "00:11:31,880"
+			},
+			"offsets": {
+				"from": 684040,
+				"to": 691880
+			},
+			"text": " el resultado y pueden probar alguna de estas cosas si bueno entonces con esto termina el"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:31,880",
+				"to": "00:11:33,960"
+			},
+			"offsets": {
+				"from": 691880,
+				"to": 693960
+			},
+			"text": " ejercicio 2 el práctico 4"
+		}
+	]
+}
