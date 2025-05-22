@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-COURSES_JSON="thierdPart.json"
+COURSES_JSON="firstPart.json"
 BASE_URL="https://open.fing.edu.uy/media"
 OUTPUT_BASE_DIR="videos"
 WHISPER_MODEL="$(pwd)/whisper.cpp/models/ggml-small.bin"
@@ -33,30 +33,34 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
     OUTPUT="${FILENAME}_small"
     JSON_OUTPUT="$DEST_DIR/$OUTPUT.json"
 
-    # Si ya existe el JSON, saltar este archivo
+    # Si ya existe el JSON, saltar todo
     if [ -f "$JSON_OUTPUT" ]; then
-        echo "Ya existe transcripción para $FILENAME. Saltando..."
+        echo "Ya existe transcripción para $FILENAME. Saltando todo..."
         continue
     fi
 
-    mkdir -p "$DEST_DIR"
-
-    if [ ! -f "$VIDEO_PATH" ]; then
-        echo "Descargando $VIDEO_PATH"
-        wget -q -O "$VIDEO_PATH" "$BASE_URL/$COURSE/$FILENAME.mp4"
-
-        # Verificar si el archivo es realmente un video
-        if ! file "$VIDEO_PATH" | grep -qE 'ISO Media|MP4'; then
-            echo "Error: $VIDEO_PATH no es un archivo de video válido. Eliminando..."
-            rm "$VIDEO_PATH"
-            continue
-        fi
+    # Si ya existe el WAV, saltar descarga y conversión
+    if [ -f "$WAV_PATH" ]; then
+        echo "Ya procesado: $WAV_PATH, omitiendo descarga y conversión"
     else
-        echo "Ya descargado: $VIDEO_PATH"
+        mkdir -p "$DEST_DIR"
+        # Si ya existe el MP4, saltar descarga
+        if [ -f "$VIDEO_PATH" ]; then
+            echo "Ya descargado: $VIDEO_PATH"
+        else
+            echo "Descargando $VIDEO_PATH"
+            wget -q -O "$VIDEO_PATH" "$BASE_URL/$COURSE/$FILENAME.mp4"
+            # Verificar si el archivo es realmente un video
+            if ! file "$VIDEO_PATH" | grep -qE 'ISO Media|MP4'; then
+                echo "Error: $VIDEO_PATH no es un archivo de video válido. Eliminando..."
+                rm "$VIDEO_PATH"
+                continue
+            fi
+        fi
+        echo "Convirtiendo $VIDEO_PATH a WAV..."
+        ffmpeg -nostdin -y -i "$VIDEO_PATH" -ar 16000 -ac 1 -c:a pcm_s16le "$WAV_PATH"
+        rm "$VIDEO_PATH"
     fi
-
-    echo "Convirtiendo $VIDEO_PATH a WAV..."
-    ffmpeg -nostdin -y -i "$VIDEO_PATH" -ar 16000 -ac 1 -c:a pcm_s16le "$WAV_PATH"
 
     echo "Transcribiendo $WAV_PATH..."
     "$WHISPER_EXEC" \
@@ -69,7 +73,6 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
 
     echo "Limpiando archivos temporales..."
     rm "$WAV_PATH"
-    rm "$VIDEO_PATH"
 
     echo "Committing transcriptions to git..."
     git pull
