@@ -1,0 +1,6049 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | OPENMP = 1 | AARCH64_REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/home/diego/_Modulos/Facu/tesis/scripts/whisper.cpp/models/ggml-small.bin",
+		"language": "spanish",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:09,400"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 9400
+			},
+			"text": " Buenos días, ahora vamos a hacer el ejercicio 8 del práctico 8 que dice lo"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:09,400",
+				"to": "00:00:14,080"
+			},
+			"offsets": {
+				"from": 9400,
+				"to": 14080
+			},
+			"text": " siguiente. Consiguiere la tarea de determinar si un string es parte de un"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:14,080",
+				"to": "00:00:19,160"
+			},
+			"offsets": {
+				"from": 14080,
+				"to": 19160
+			},
+			"text": " texto, retornando la posición de comienzo de la primera ocurrencia o el"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:19,160",
+				"to": "00:00:25,080"
+			},
+			"offsets": {
+				"from": 19160,
+				"to": 25080
+			},
+			"text": " valor -1 si el string no se encuentra. El largo de ambos es variable, siendo el"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:25,080",
+				"to": "00:00:31,360"
+			},
+			"offsets": {
+				"from": 25080,
+				"to": 31360
+			},
+			"text": " del string buscado menor o igual que el del texto. El carácter especial nul marca"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:31,360",
+				"to": "00:00:36,960"
+			},
+			"offsets": {
+				"from": 31360,
+				"to": 36960
+			},
+			"text": " el fin del string buscado y el final del texto, o sea que son textos asquisetas,"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:36,960",
+				"to": "00:00:44,680"
+			},
+			"offsets": {
+				"from": 36960,
+				"to": 44680
+			},
+			"text": " terminan en un barracero. Entonces la parte A nos pide implementar en un"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:44,680",
+				"to": "00:00:53,040"
+			},
+			"offsets": {
+				"from": 44680,
+				"to": 53040
+			},
+			"text": " lenguaje de alto nivel la función short-substdr que recibe un puntero a"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:53,040",
+				"to": "00:00:56,920"
+			},
+			"offsets": {
+				"from": 53040,
+				"to": 56920
+			},
+			"text": " texto y un puntero a buscado, o sea un puntero al comienzo del texto y un"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:56,920",
+				"to": "00:01:03,320"
+			},
+			"offsets": {
+				"from": 56920,
+				"to": 63320
+			},
+			"text": " puntero al comienzo del sub-string a buscar, que realice la tarea"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:03,320",
+				"to": "00:01:07,960"
+			},
+			"offsets": {
+				"from": 63320,
+				"to": 67960
+			},
+			"text": " descripta previamente. Entonces vamos a resolver primero esta parte y después"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:07,960",
+				"to": "00:01:14,160"
+			},
+			"offsets": {
+				"from": 67960,
+				"to": 74160
+			},
+			"text": " seguimos leyendo las otras partes. Lo que tenemos que hacer es, tenemos en la"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:14,160",
+				"to": "00:01:24,060"
+			},
+			"offsets": {
+				"from": 74160,
+				"to": 84060
+			},
+			"text": " memoria un string que arranca a partir de el puntero a texto y un sub-string que"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:24,060",
+				"to": "00:01:29,160"
+			},
+			"offsets": {
+				"from": 84060,
+				"to": 89160
+			},
+			"text": " queremos buscar. Entonces el algoritmo, hay varias maneras de implementar"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:29,160",
+				"to": "00:01:35,760"
+			},
+			"offsets": {
+				"from": 89160,
+				"to": 95760
+			},
+			"text": " esto, pero un algoritmo podría ser ir llevando dos punteros,"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:36,560",
+				"to": "00:01:46,860"
+			},
+			"offsets": {
+				"from": 96560,
+				"to": 106860
+			},
+			"text": " uno que arranca por aquí y otro puntero en rojo que voy a utilizar para ir"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:46,860",
+				"to": "00:01:53,000"
+			},
+			"offsets": {
+				"from": 106860,
+				"to": 113000
+			},
+			"text": " comparando. Entonces arranco en el primer carácter del texto y en el primer"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:53,000",
+				"to": "00:02:01,160"
+			},
+			"offsets": {
+				"from": 113000,
+				"to": 121160
+			},
+			"text": " carácter del texto buscado. Si el elemento del texto es barracero, es"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:01,160",
+				"to": "00:02:08,120"
+			},
+			"offsets": {
+				"from": 121160,
+				"to": 128120
+			},
+			"text": " porque terminé y no encontré el sub-string. Si no es el fin de string,"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:08,120",
+				"to": "00:02:14,640"
+			},
+			"offsets": {
+				"from": 128120,
+				"to": 134640
+			},
+			"text": " entonces arranco a comparar con el texto buscado. Si estos caracteres son"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:14,640",
+				"to": "00:02:21,520"
+			},
+			"offsets": {
+				"from": 134640,
+				"to": 141520
+			},
+			"text": " distintos, es porque no arranca el sub-string acá. Entonces pasaría al"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:21,520",
+				"to": "00:02:27,840"
+			},
+			"offsets": {
+				"from": 141520,
+				"to": 147840
+			},
+			"text": " siguiente posición, arranco con la \"s\". La \"s\" no es barracero, la \"s\" no"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:27,840",
+				"to": "00:02:35,800"
+			},
+			"offsets": {
+				"from": 147840,
+				"to": 155800
+			},
+			"text": " es \"t\", así que tampoco me sirve. Paso al siguiente. La \"t\" no es barracero, así que"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:35,800",
+				"to": "00:02:41,320"
+			},
+			"offsets": {
+				"from": 155800,
+				"to": 161320
+			},
+			"text": " sigo buscando y la \"t\" es igual a la \"t\". Entonces ahora empiezo a mover"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:41,320",
+				"to": "00:02:46,160"
+			},
+			"offsets": {
+				"from": 161320,
+				"to": 166160
+			},
+			"text": " momentáneamente este puntero"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:46,160",
+				"to": "00:02:55,920"
+			},
+			"offsets": {
+				"from": 166160,
+				"to": 175920
+			},
+			"text": " para ver si el siguiente carácter coincide. La \"e\" es igual a la \"e\", así que coincide."
+		},
+		{
+			"timestamps": {
+				"from": "00:02:55,920",
+				"to": "00:03:01,320"
+			},
+			"offsets": {
+				"from": 175920,
+				"to": 181320
+			},
+			"text": " Por ahora sigo bien, muevo un lugar más este puntero"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:01,320",
+				"to": "00:03:07,200"
+			},
+			"offsets": {
+				"from": 181320,
+				"to": 187200
+			},
+			"text": " y ahí otra \"e\". Faltaría un espacio tal vez, pero bueno suponga que el texto está"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:07,200",
+				"to": "00:03:14,480"
+			},
+			"offsets": {
+				"from": 187200,
+				"to": 194480
+			},
+			"text": " así sin espacios. Hay otra \"e\" que la comparo con la \"x\" y son distintos, por lo"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:14,480",
+				"to": "00:03:22,360"
+			},
+			"offsets": {
+				"from": 194480,
+				"to": 202360
+			},
+			"text": " tanto no es un sub-string que arranca aquí. Entonces tengo que ir para atrás y"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:22,360",
+				"to": "00:03:29,560"
+			},
+			"offsets": {
+				"from": 202360,
+				"to": 209560
+			},
+			"text": " volver a empezar. No era este, así que empiezo a buscar ahora acá por esta \"e\"."
+		},
+		{
+			"timestamps": {
+				"from": "00:03:29,560",
+				"to": "00:03:35,760"
+			},
+			"offsets": {
+				"from": 209560,
+				"to": 215760
+			},
+			"text": " Esta \"e\" no es igual a esta \"t\", así que me muevo y me voy moviendo así"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:35,760",
+				"to": "00:03:38,960"
+			},
+			"offsets": {
+				"from": 215760,
+				"to": 218960
+			},
+			"text": " hasta que"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:38,960",
+				"to": "00:03:48,440"
+			},
+			"offsets": {
+				"from": 218960,
+				"to": 228440
+			},
+			"text": " llego a esta posición, comparo esta \"t\" con esta \"t\" son iguales, entonces empiezo"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:48,440",
+				"to": "00:03:53,560"
+			},
+			"offsets": {
+				"from": 228440,
+				"to": 233560
+			},
+			"text": " a moverme para ir viendo si realmente es el sub-string, comparo la \"e\" con la \"e\" y"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:53,560",
+				"to": "00:03:59,880"
+			},
+			"offsets": {
+				"from": 233560,
+				"to": 239880
+			},
+			"text": " son iguales, comparo la \"x\" con la \"x\" y son iguales. Cuando vengo acá este es"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:59,880",
+				"to": "00:04:04,680"
+			},
+			"offsets": {
+				"from": 239880,
+				"to": 244680
+			},
+			"text": " barra cero y por lo tanto terminó la comparación, así que encontré el texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:04,680",
+				"to": "00:04:11,440"
+			},
+			"offsets": {
+				"from": 244680,
+				"to": 251440
+			},
+			"text": " a partir de esta posición. Si el texto no estuviera, en vez de hacer text fuera otra"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:11,440",
+				"to": "00:04:18,920"
+			},
+			"offsets": {
+				"from": 251440,
+				"to": 258920
+			},
+			"text": " cosa y que no ocurre acá, seguiría moviéndome por aquí"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:18,920",
+				"to": "00:04:24,320"
+			},
+			"offsets": {
+				"from": 258920,
+				"to": 264320
+			},
+			"text": " hasta que llego al barra cero y ahí determino que no fue encontrado y por lo"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:24,320",
+				"to": "00:04:31,640"
+			},
+			"offsets": {
+				"from": 264320,
+				"to": 271640
+			},
+			"text": " tanto en ese caso la letra me dice que tengo que retornar menos uno."
+		},
+		{
+			"timestamps": {
+				"from": "00:04:31,640",
+				"to": "00:04:37,640"
+			},
+			"offsets": {
+				"from": 271640,
+				"to": 277640
+			},
+			"text": " Bien, entonces vamos a implementar esa idea del algoritmo."
+		},
+		{
+			"timestamps": {
+				"from": "00:04:42,440",
+				"to": "00:04:49,440"
+			},
+			"offsets": {
+				"from": 282440,
+				"to": 289440
+			},
+			"text": " Entonces para eso hago un bucle"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:49,440",
+				"to": "00:04:57,440"
+			},
+			"offsets": {
+				"from": 289440,
+				"to": 297440
+			},
+			"text": " \"for short post\" es igual a cero"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:57,440",
+				"to": "00:05:03,440"
+			},
+			"offsets": {
+				"from": 297440,
+				"to": 303440
+			},
+			"text": " mientras que"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:03,440",
+				"to": "00:05:08,440"
+			},
+			"offsets": {
+				"from": 303440,
+				"to": 308440
+			},
+			"text": " texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:09,440",
+				"to": "00:05:16,440"
+			},
+			"offsets": {
+				"from": 309440,
+				"to": 316440
+			},
+			"text": " de \"post\" sea distinto de nulo"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:16,440",
+				"to": "00:05:29,440"
+			},
+			"offsets": {
+				"from": 316440,
+				"to": 329440
+			},
+			"text": " y cuando no lo voy encontrando tengo que ir moviendo la posición \"post\" más más."
+		},
+		{
+			"timestamps": {
+				"from": "00:05:29,440",
+				"to": "00:05:36,440"
+			},
+			"offsets": {
+				"from": 329440,
+				"to": 336440
+			},
+			"text": " Entonces ahora implementaría el segundo bucle que"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:36,440",
+				"to": "00:05:43,440"
+			},
+			"offsets": {
+				"from": 336440,
+				"to": 343440
+			},
+			"text": " empieza a comparar \"buscado\" contra el texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:43,440",
+				"to": "00:05:48,440"
+			},
+			"offsets": {
+				"from": 343440,
+				"to": 348440
+			},
+			"text": " y recuerden esto que comenté de que yo voy a ir moviendo"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:48,440",
+				"to": "00:05:52,440"
+			},
+			"offsets": {
+				"from": 348440,
+				"to": 352440
+			},
+			"text": " la posición, le voy a ir moviendo"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:52,440",
+				"to": "00:05:56,440"
+			},
+			"offsets": {
+				"from": 352440,
+				"to": 356440
+			},
+			"text": " comparando con cada uno de los \"items\". Entonces para eso"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:56,440",
+				"to": "00:06:03,440"
+			},
+			"offsets": {
+				"from": 356440,
+				"to": 363440
+			},
+			"text": " probablemente me convenga tener una variable temporal donde copio el valor"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:03,440",
+				"to": "00:06:09,440"
+			},
+			"offsets": {
+				"from": 363440,
+				"to": 369440
+			},
+			"text": " con el que estoy en \"post\" en este momento. A veces le podemos llamar."
+		},
+		{
+			"timestamps": {
+				"from": "00:06:09,440",
+				"to": "00:06:19,440"
+			},
+			"offsets": {
+				"from": 369440,
+				"to": 379440
+			},
+			"text": " Esta es una posición, ahora que vea posición 3"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:19,440",
+				"to": "00:06:26,440"
+			},
+			"offsets": {
+				"from": 379440,
+				"to": 386440
+			},
+			"text": " es igual a \"post\" esto es para no perder \"post\" cuando lo vaya moviendo uno a uno"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:26,440",
+				"to": "00:06:32,440"
+			},
+			"offsets": {
+				"from": 386440,
+				"to": 392440
+			},
+			"text": " y ahora voy a ir comparando"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:33,440",
+				"to": "00:06:41,440"
+			},
+			"offsets": {
+				"from": 393440,
+				"to": 401440
+			},
+			"text": " con otro bucle interno \"for short post 2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:06:41,440",
+				"to": "00:06:44,440"
+			},
+			"offsets": {
+				"from": 401440,
+				"to": 404440
+			},
+			"text": " es igual a cero"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:44,440",
+				"to": "00:06:47,440"
+			},
+			"offsets": {
+				"from": 404440,
+				"to": 407440
+			},
+			"text": " mientras que"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:47,440",
+				"to": "00:06:52,440"
+			},
+			"offsets": {
+				"from": 407440,
+				"to": 412440
+			},
+			"text": " \"buscado\""
+		},
+		{
+			"timestamps": {
+				"from": "00:06:52,440",
+				"to": "00:07:02,440"
+			},
+			"offsets": {
+				"from": 412440,
+				"to": 422440
+			},
+			"text": " de \"post 2\" no sea nulo"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:04,440",
+				"to": "00:07:05,440"
+			},
+			"offsets": {
+				"from": 424440,
+				"to": 425440
+			},
+			"text": " y ahí"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:05,440",
+				"to": "00:07:10,440"
+			},
+			"offsets": {
+				"from": 425440,
+				"to": 430440
+			},
+			"text": " \"post 2\" más más"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:10,440",
+				"to": "00:07:17,440"
+			},
+			"offsets": {
+				"from": 430440,
+				"to": 437440
+			},
+			"text": " y a medida que me voy a ir moviendo voy a querer ir actualizando esta posición también"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:17,440",
+				"to": "00:07:21,440"
+			},
+			"offsets": {
+				"from": 437440,
+				"to": 441440
+			},
+			"text": " que es la que voy comparando así que también movemos"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:21,440",
+				"to": "00:07:26,440"
+			},
+			"offsets": {
+				"from": 441440,
+				"to": 446440
+			},
+			"text": " \"post 3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:07:26,440",
+				"to": "00:07:32,440"
+			},
+			"offsets": {
+				"from": 446440,
+				"to": 452440
+			},
+			"text": " más más. Ahora lo que tengo que hacer es comparar"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:33,440",
+				"to": "00:07:39,440"
+			},
+			"offsets": {
+				"from": 453440,
+				"to": 459440
+			},
+			"text": " \"texto\" en la posición \"post 3\" que arranca en \"post\""
+		},
+		{
+			"timestamps": {
+				"from": "00:07:39,440",
+				"to": "00:07:44,440"
+			},
+			"offsets": {
+				"from": 459440,
+				"to": 464440
+			},
+			"text": " con \"buscado\" en la posición \"post 2\" que arranca en cero"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:44,440",
+				"to": "00:07:52,440"
+			},
+			"offsets": {
+				"from": 464440,
+				"to": 472440
+			},
+			"text": " si son distintos es porque no lo encontré"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:52,440",
+				"to": "00:07:54,440"
+			},
+			"offsets": {
+				"from": 472440,
+				"to": 474440
+			},
+			"text": " y tengo que salir del bucle"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:54,440",
+				"to": "00:08:00,440"
+			},
+			"offsets": {
+				"from": 474440,
+				"to": 480440
+			},
+			"text": " y si son iguales es porque termine"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:00,440",
+				"to": "00:08:06,440"
+			},
+			"offsets": {
+				"from": 480440,
+				"to": 486440
+			},
+			"text": " porque tengo que seguir comparando, o sea que están siendo iguales"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:06,440",
+				"to": "00:08:08,440"
+			},
+			"offsets": {
+				"from": 486440,
+				"to": 488440
+			},
+			"text": " así que ahí"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:08,440",
+				"to": "00:08:14,440"
+			},
+			"offsets": {
+				"from": 488440,
+				"to": 494440
+			},
+			"text": " digo \"sí\""
+		},
+		{
+			"timestamps": {
+				"from": "00:08:14,440",
+				"to": "00:08:17,440"
+			},
+			"offsets": {
+				"from": 494440,
+				"to": 497440
+			},
+			"text": " \"buscado\""
+		},
+		{
+			"timestamps": {
+				"from": "00:08:17,440",
+				"to": "00:08:21,440"
+			},
+			"offsets": {
+				"from": 497440,
+				"to": 501440
+			},
+			"text": " \"texto\""
+		},
+		{
+			"timestamps": {
+				"from": "00:08:21,440",
+				"to": "00:08:27,440"
+			},
+			"offsets": {
+				"from": 501440,
+				"to": 507440
+			},
+			"text": " de \"post 3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:08:27,440",
+				"to": "00:08:32,440"
+			},
+			"offsets": {
+				"from": 507440,
+				"to": 512440
+			},
+			"text": " no es igual a \"buscado\" de \"post 2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:08:32,440",
+				"to": "00:08:47,440"
+			},
+			"offsets": {
+				"from": 512440,
+				"to": 527440
+			},
+			"text": " en este caso salvo este bucle porque no lo encontré"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:54,440",
+				"to": "00:09:00,440"
+			},
+			"offsets": {
+				"from": 534440,
+				"to": 540440
+			},
+			"text": " y acá en realidad ya puedo poner la condición de fin"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:00,440",
+				"to": "00:09:05,440"
+			},
+			"offsets": {
+				"from": 540440,
+				"to": 545440
+			},
+			"text": " no necesito ponerla acá, la puedo poner directamente acá y ya retornar"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:05,440",
+				"to": "00:09:10,440"
+			},
+			"offsets": {
+				"from": 545440,
+				"to": 550440
+			},
+			"text": " así me ahorro, ya puedo preguntar acá mismo"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:10,440",
+				"to": "00:09:12,440"
+			},
+			"offsets": {
+				"from": 550440,
+				"to": 552440
+			},
+			"text": " \"sí\""
+		},
+		{
+			"timestamps": {
+				"from": "00:09:12,440",
+				"to": "00:09:16,440"
+			},
+			"offsets": {
+				"from": 552440,
+				"to": 556440
+			},
+			"text": " \"buscado\""
+		},
+		{
+			"timestamps": {
+				"from": "00:09:16,440",
+				"to": "00:09:19,440"
+			},
+			"offsets": {
+				"from": 556440,
+				"to": 559440
+			},
+			"text": " de \"post 2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:09:19,440",
+				"to": "00:09:22,440"
+			},
+			"offsets": {
+				"from": 559440,
+				"to": 562440
+			},
+			"text": " si es igual, igual a \"nul\""
+		},
+		{
+			"timestamps": {
+				"from": "00:09:22,440",
+				"to": "00:09:26,440"
+			},
+			"offsets": {
+				"from": 562440,
+				"to": 566440
+			},
+			"text": " ahí ya puedo retornar"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:26,440",
+				"to": "00:09:30,440"
+			},
+			"offsets": {
+				"from": 566440,
+				"to": 570440
+			},
+			"text": " vamos a correr por esto, ya lo puedo retornar"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:30,440",
+				"to": "00:09:37,440"
+			},
+			"offsets": {
+				"from": 570440,
+				"to": 577440
+			},
+			"text": " tengo que retornar la posición donde arranco a hacer \"compatible\""
+		},
+		{
+			"timestamps": {
+				"from": "00:09:37,440",
+				"to": "00:09:40,440"
+			},
+			"offsets": {
+				"from": 577440,
+				"to": 580440
+			},
+			"text": " así que \"post\""
+		},
+		{
+			"timestamps": {
+				"from": "00:09:40,440",
+				"to": "00:09:42,440"
+			},
+			"offsets": {
+				"from": 580440,
+				"to": 582440
+			},
+			"text": " entonces como voy a hacer eso"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:42,440",
+				"to": "00:09:45,440"
+			},
+			"offsets": {
+				"from": 582440,
+				"to": 585440
+			},
+			"text": " ni siquiera necesito poner esta condición acá porque la puse para aquí"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:45,440",
+				"to": "00:09:47,440"
+			},
+			"offsets": {
+				"from": 585440,
+				"to": 587440
+			},
+			"text": " y ya retorno \"post\""
+		},
+		{
+			"timestamps": {
+				"from": "00:09:47,440",
+				"to": "00:09:51,440"
+			},
+			"offsets": {
+				"from": 587440,
+				"to": 591440
+			},
+			"text": " y ahora si acá puedo preguntar \"if\""
+		},
+		{
+			"timestamps": {
+				"from": "00:09:51,440",
+				"to": "00:09:56,440"
+			},
+			"offsets": {
+				"from": 591440,
+				"to": 596440
+			},
+			"text": " \"buscado\""
+		},
+		{
+			"timestamps": {
+				"from": "00:09:56,440",
+				"to": "00:10:01,440"
+			},
+			"offsets": {
+				"from": 596440,
+				"to": 601440
+			},
+			"text": " de \"post 2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:10:01,440",
+				"to": "00:10:05,440"
+			},
+			"offsets": {
+				"from": 601440,
+				"to": 605440
+			},
+			"text": " es distinto de \"texto\""
+		},
+		{
+			"timestamps": {
+				"from": "00:10:05,440",
+				"to": "00:10:08,440"
+			},
+			"offsets": {
+				"from": 605440,
+				"to": 608440
+			},
+			"text": " de \"post 3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:10:08,440",
+				"to": "00:10:14,440"
+			},
+			"offsets": {
+				"from": 608440,
+				"to": 614440
+			},
+			"text": " ahí hacemos el break"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:17,440",
+				"to": "00:10:29,440"
+			},
+			"offsets": {
+				"from": 617440,
+				"to": 629440
+			},
+			"text": " si llegué al final de texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:29,440",
+				"to": "00:10:34,440"
+			},
+			"offsets": {
+				"from": 629440,
+				"to": 634440
+			},
+			"text": " y no encontré el substring"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:34,440",
+				"to": "00:10:37,440"
+			},
+			"offsets": {
+				"from": 634440,
+				"to": 637440
+			},
+			"text": " entonces tengo que retornar -1"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:37,440",
+				"to": "00:10:41,440"
+			},
+			"offsets": {
+				"from": 637440,
+				"to": 641440
+			},
+			"text": " así que acá ponemos \"return -1\""
+		},
+		{
+			"timestamps": {
+				"from": "00:10:41,440",
+				"to": "00:10:43,440"
+			},
+			"offsets": {
+				"from": 641440,
+				"to": 643440
+			},
+			"text": " ahí está"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:46,440",
+				"to": "00:10:50,440"
+			},
+			"offsets": {
+				"from": 646440,
+				"to": 650440
+			},
+			"text": " así que esto lo dejamos un poquito más prolijo"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:50,440",
+				"to": "00:10:55,440"
+			},
+			"offsets": {
+				"from": 650440,
+				"to": 655440
+			},
+			"text": " y acá pongo \"post 2\" más más"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:55,440",
+				"to": "00:10:58,440"
+			},
+			"offsets": {
+				"from": 655440,
+				"to": 658440
+			},
+			"text": " y \"post 3\" más más"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:58,440",
+				"to": "00:11:00,440"
+			},
+			"offsets": {
+				"from": 658440,
+				"to": 660440
+			},
+			"text": " ahí está"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:00,440",
+				"to": "00:11:02,440"
+			},
+			"offsets": {
+				"from": 660440,
+				"to": 662440
+			},
+			"text": " bien"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:02,440",
+				"to": "00:11:06,440"
+			},
+			"offsets": {
+				"from": 662440,
+				"to": 666440
+			},
+			"text": " entonces ahora pasamos a la parte B"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:06,440",
+				"to": "00:11:08,440"
+			},
+			"offsets": {
+				"from": 666440,
+				"to": 668440
+			},
+			"text": " que dice lo siguiente"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:08,440",
+				"to": "00:11:14,440"
+			},
+			"offsets": {
+				"from": 668440,
+				"to": 674440
+			},
+			"text": " \"compilar la rutina de la parte A en assembler de 8086\""
+		},
+		{
+			"timestamps": {
+				"from": "00:11:14,440",
+				"to": "00:11:22,440"
+			},
+			"offsets": {
+				"from": 674440,
+				"to": 682440
+			},
+			"text": " \"considerando que DSDI apunta a la base del texto\""
+		},
+		{
+			"timestamps": {
+				"from": "00:11:22,440",
+				"to": "00:11:26,440"
+			},
+			"offsets": {
+				"from": 682440,
+				"to": 686440
+			},
+			"text": " o sea, a donde comienza texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:26,440",
+				"to": "00:11:30,440"
+			},
+			"offsets": {
+				"from": 686440,
+				"to": 690440
+			},
+			"text": " y \"DSDI a la base de texto\""
+		},
+		{
+			"timestamps": {
+				"from": "00:11:30,440",
+				"to": "00:11:34,440"
+			},
+			"offsets": {
+				"from": 690440,
+				"to": 694440
+			},
+			"text": " y \"DSDI a la base de buscado\""
+		},
+		{
+			"timestamps": {
+				"from": "00:11:34,440",
+				"to": "00:11:36,440"
+			},
+			"offsets": {
+				"from": 694440,
+				"to": 696440
+			},
+			"text": " el substring a buscar"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:36,440",
+				"to": "00:11:40,440"
+			},
+			"offsets": {
+				"from": 696440,
+				"to": 700440
+			},
+			"text": " y que el resultado se tiene que retornar"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:45,440",
+				"to": "00:11:49,440"
+			},
+			"offsets": {
+				"from": 705440,
+				"to": 709440
+			},
+			"text": " en \"ax\""
+		},
+		{
+			"timestamps": {
+				"from": "00:11:49,440",
+				"to": "00:11:51,440"
+			},
+			"offsets": {
+				"from": 709440,
+				"to": 711440
+			},
+			"text": " eso es lo que nos dice"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:51,440",
+				"to": "00:11:54,440"
+			},
+			"offsets": {
+				"from": 711440,
+				"to": 714440
+			},
+			"text": " así que"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:54,440",
+				"to": "00:11:56,440"
+			},
+			"offsets": {
+				"from": 714440,
+				"to": 716440
+			},
+			"text": " empezamos a compilar esto"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:56,440",
+				"to": "00:12:00,440"
+			},
+			"offsets": {
+				"from": 716440,
+				"to": 720440
+			},
+			"text": " creamos una subroutine"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:00,440",
+				"to": "00:12:05,440"
+			},
+			"offsets": {
+				"from": 720440,
+				"to": 725440
+			},
+			"text": " \"substr proc\""
+		},
+		{
+			"timestamps": {
+				"from": "00:12:05,440",
+				"to": "00:12:12,440"
+			},
+			"offsets": {
+				"from": 725440,
+				"to": 732440
+			},
+			"text": " y"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:12,440",
+				"to": "00:12:15,440"
+			},
+			"offsets": {
+				"from": 732440,
+				"to": 735440
+			},
+			"text": " tengo un bucle"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:15,440",
+				"to": "00:12:17,440"
+			},
+			"offsets": {
+				"from": 735440,
+				"to": 737440
+			},
+			"text": " que se compila"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:17,440",
+				"to": "00:12:19,440"
+			},
+			"offsets": {
+				"from": 737440,
+				"to": 739440
+			},
+			"text": " colocando la inicialización"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:19,440",
+				"to": "00:12:23,440"
+			},
+			"offsets": {
+				"from": 739440,
+				"to": 743440
+			},
+			"text": " luego la condición del bucle"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:23,440",
+				"to": "00:12:25,440"
+			},
+			"offsets": {
+				"from": 743440,
+				"to": 745440
+			},
+			"text": " el código del bucle"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:25,440",
+				"to": "00:12:27,440"
+			},
+			"offsets": {
+				"from": 745440,
+				"to": 747440
+			},
+			"text": " y antes de retornar"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:27,440",
+				"to": "00:12:30,440"
+			},
+			"offsets": {
+				"from": 747440,
+				"to": 750440
+			},
+			"text": " se compila la postcondición"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:30,440",
+				"to": "00:12:32,440"
+			},
+			"offsets": {
+				"from": 750440,
+				"to": 752440
+			},
+			"text": " que es más más en este caso"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:32,440",
+				"to": "00:12:36,440"
+			},
+			"offsets": {
+				"from": 752440,
+				"to": 756440
+			},
+			"text": " así que voy a tener que asignarle alguna variable"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:36,440",
+				"to": "00:12:38,440"
+			},
+			"offsets": {
+				"from": 756440,
+				"to": 758440
+			},
+			"text": " a \"post\""
+		},
+		{
+			"timestamps": {
+				"from": "00:12:38,440",
+				"to": "00:12:41,440"
+			},
+			"offsets": {
+				"from": 758440,
+				"to": 761440
+			},
+			"text": " me conviene utilizar algún registro"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:41,440",
+				"to": "00:12:44,440"
+			},
+			"offsets": {
+				"from": 761440,
+				"to": 764440
+			},
+			"text": " que pueda direccionar memoria"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:44,440",
+				"to": "00:12:47,440"
+			},
+			"offsets": {
+				"from": 764440,
+				"to": 767440
+			},
+			"text": " porque yo voy a estar leyendo"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:47,440",
+				"to": "00:12:49,440"
+			},
+			"offsets": {
+				"from": 767440,
+				"to": 769440
+			},
+			"text": " en la memoria"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:49,440",
+				"to": "00:12:53,440"
+			},
+			"offsets": {
+				"from": 769440,
+				"to": 773440
+			},
+			"text": " a partir de \"DSDI\""
+		},
+		{
+			"timestamps": {
+				"from": "00:12:53,440",
+				"to": "00:12:55,440"
+			},
+			"offsets": {
+				"from": 773440,
+				"to": 775440
+			},
+			"text": " esa es la base del texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:55,440",
+				"to": "00:12:58,440"
+			},
+			"offsets": {
+				"from": 775440,
+				"to": 778440
+			},
+			"text": " y le tengo que ir sumando"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:58,440",
+				"to": "00:13:01,440"
+			},
+			"offsets": {
+				"from": 778440,
+				"to": 781440
+			},
+			"text": " la posición donde estoy"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:01,440",
+				"to": "00:13:05,440"
+			},
+			"offsets": {
+				"from": 781440,
+				"to": 785440
+			},
+			"text": " cada elemento de texto es un carácter que ocupa un byte"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:05,440",
+				"to": "00:13:08,440"
+			},
+			"offsets": {
+				"from": 785440,
+				"to": 788440
+			},
+			"text": " y puedo usar, por ejemplo, BX"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:08,440",
+				"to": "00:13:11,440"
+			},
+			"offsets": {
+				"from": 788440,
+				"to": 791440
+			},
+			"text": " para adiccionar el desplazamiento"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:11,440",
+				"to": "00:13:13,440"
+			},
+			"offsets": {
+				"from": 791440,
+				"to": 793440
+			},
+			"text": " si bien, usualmente BX"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:13,440",
+				"to": "00:13:15,440"
+			},
+			"offsets": {
+				"from": 793440,
+				"to": 795440
+			},
+			"text": " es el que se usa como base"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:15,440",
+				"to": "00:13:17,440"
+			},
+			"offsets": {
+				"from": 795440,
+				"to": 797440
+			},
+			"text": " y ese \"i\" o \"di\" como desplazamiento"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:17,440",
+				"to": "00:13:19,440"
+			},
+			"offsets": {
+				"from": 797440,
+				"to": 799440
+			},
+			"text": " como índice"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:19,440",
+				"to": "00:13:21,440"
+			},
+			"offsets": {
+				"from": 799440,
+				"to": 801440
+			},
+			"text": " en este caso, la base ya me están diciendo"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:21,440",
+				"to": "00:13:23,440"
+			},
+			"offsets": {
+				"from": 801440,
+				"to": 803440
+			},
+			"text": " que es \"DSDI\""
+		},
+		{
+			"timestamps": {
+				"from": "00:13:23,440",
+				"to": "00:13:25,440"
+			},
+			"offsets": {
+				"from": 803440,
+				"to": 805440
+			},
+			"text": " así que voy a usar \"BX\" como índice"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:25,440",
+				"to": "00:13:27,440"
+			},
+			"offsets": {
+				"from": 805440,
+				"to": 807440
+			},
+			"text": " así que voy a poner"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:27,440",
+				"to": "00:13:31,440"
+			},
+			"offsets": {
+				"from": 807440,
+				"to": 811440
+			},
+			"text": " \"xor\""
+		},
+		{
+			"timestamps": {
+				"from": "00:13:31,440",
+				"to": "00:13:33,440"
+			},
+			"offsets": {
+				"from": 811440,
+				"to": 813440
+			},
+			"text": " \"BX\""
+		},
+		{
+			"timestamps": {
+				"from": "00:13:33,440",
+				"to": "00:13:35,440"
+			},
+			"offsets": {
+				"from": 813440,
+				"to": 815440
+			},
+			"text": " como \"BX\""
+		},
+		{
+			"timestamps": {
+				"from": "00:13:35,440",
+				"to": "00:13:37,440"
+			},
+			"offsets": {
+				"from": 815440,
+				"to": 817440
+			},
+			"text": " y esto es"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:37,440",
+				"to": "00:13:40,440"
+			},
+			"offsets": {
+				"from": 817440,
+				"to": 820440
+			},
+			"text": " \"post = 0\""
+		},
+		{
+			"timestamps": {
+				"from": "00:13:40,440",
+				"to": "00:13:45,440"
+			},
+			"offsets": {
+				"from": 820440,
+				"to": 825440
+			},
+			"text": " ahora"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:45,440",
+				"to": "00:13:48,440"
+			},
+			"offsets": {
+				"from": 825440,
+				"to": 828440
+			},
+			"text": " tendríamos que"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:48,440",
+				"to": "00:13:50,440"
+			},
+			"offsets": {
+				"from": 828440,
+				"to": 830440
+			},
+			"text": " preguntar si texto de \"post\""
+		},
+		{
+			"timestamps": {
+				"from": "00:13:50,440",
+				"to": "00:13:53,440"
+			},
+			"offsets": {
+				"from": 830440,
+				"to": 833440
+			},
+			"text": " es distinto de nulo"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:53,440",
+				"to": "00:13:56,440"
+			},
+			"offsets": {
+				"from": 833440,
+				"to": 836440
+			},
+			"text": " así que"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:56,440",
+				"to": "00:13:58,440"
+			},
+			"offsets": {
+				"from": 836440,
+				"to": 838440
+			},
+			"text": " acá vamos a ponerle \"for1\""
+		},
+		{
+			"timestamps": {
+				"from": "00:13:58,440",
+				"to": "00:14:00,440"
+			},
+			"offsets": {
+				"from": 838440,
+				"to": 840440
+			},
+			"text": " porque tenemos dos bucles"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:00,440",
+				"to": "00:14:02,440"
+			},
+			"offsets": {
+				"from": 840440,
+				"to": 842440
+			},
+			"text": " le vamos a poner distinto nombre de etiqueta"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:02,440",
+				"to": "00:14:04,440"
+			},
+			"offsets": {
+				"from": 842440,
+				"to": 844440
+			},
+			"text": " acá uno de los bucles"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:04,440",
+				"to": "00:14:06,440"
+			},
+			"offsets": {
+				"from": 844440,
+				"to": 846440
+			},
+			"text": " este vamos a poner \"for1\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:06,440",
+				"to": "00:14:08,440"
+			},
+			"offsets": {
+				"from": 846440,
+				"to": 848440
+			},
+			"text": " y aquí lo que tenemos que comparar"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:08,440",
+				"to": "00:14:10,440"
+			},
+			"offsets": {
+				"from": 848440,
+				"to": 850440
+			},
+			"text": " es si el contenido"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:10,440",
+				"to": "00:14:12,440"
+			},
+			"offsets": {
+				"from": 850440,
+				"to": 852440
+			},
+			"text": " de el byte"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:12,440",
+				"to": "00:14:14,440"
+			},
+			"offsets": {
+				"from": 852440,
+				"to": 854440
+			},
+			"text": " apuntado por"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:14,440",
+				"to": "00:14:15,440"
+			},
+			"offsets": {
+				"from": 854440,
+				"to": 855440
+			},
+			"text": " texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:15,440",
+				"to": "00:14:17,440"
+			},
+			"offsets": {
+				"from": 855440,
+				"to": 857440
+			},
+			"text": " que es \"DSDI\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:17,440",
+				"to": "00:14:19,440"
+			},
+			"offsets": {
+				"from": 857440,
+				"to": 859440
+			},
+			"text": " indizado por \"post\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:19,440",
+				"to": "00:14:21,440"
+			},
+			"offsets": {
+				"from": 859440,
+				"to": 861440
+			},
+			"text": " si eso es distinto de nulo"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:21,440",
+				"to": "00:14:23,440"
+			},
+			"offsets": {
+				"from": 861440,
+				"to": 863440
+			},
+			"text": " así que comparamos"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:23,440",
+				"to": "00:14:27,440"
+			},
+			"offsets": {
+				"from": 863440,
+				"to": 867440
+			},
+			"text": " y acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:27,440",
+				"to": "00:14:29,440"
+			},
+			"offsets": {
+				"from": 867440,
+				"to": 869440
+			},
+			"text": " es importante"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:29,440",
+				"to": "00:14:31,440"
+			},
+			"offsets": {
+				"from": 869440,
+				"to": 871440
+			},
+			"text": " no olvidarse"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:31,440",
+				"to": "00:14:33,440"
+			},
+			"offsets": {
+				"from": 871440,
+				"to": 873440
+			},
+			"text": " de indicar el tamaño de la comparación"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:36,440",
+				"to": "00:14:38,440"
+			},
+			"offsets": {
+				"from": 876440,
+				"to": 878440
+			},
+			"text": " esto es"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:38,440",
+				"to": "00:14:40,440"
+			},
+			"offsets": {
+				"from": 878440,
+				"to": 880440
+			},
+			"text": " \"SIBX\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:40,440",
+				"to": "00:14:42,440"
+			},
+			"offsets": {
+				"from": 880440,
+				"to": 882440
+			},
+			"text": " \"SI\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:42,440",
+				"to": "00:14:44,440"
+			},
+			"offsets": {
+				"from": 882440,
+				"to": 884440
+			},
+			"text": " \"SIBX\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:44,440",
+				"to": "00:14:46,440"
+			},
+			"offsets": {
+				"from": 884440,
+				"to": 886440
+			},
+			"text": " \"SIBX\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:46,440",
+				"to": "00:14:48,440"
+			},
+			"offsets": {
+				"from": 886440,
+				"to": 888440
+			},
+			"text": " \"SIBX\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:48,440",
+				"to": "00:14:50,440"
+			},
+			"offsets": {
+				"from": 888440,
+				"to": 890440
+			},
+			"text": " \"SIBX\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:50,440",
+				"to": "00:14:52,440"
+			},
+			"offsets": {
+				"from": 890440,
+				"to": 892440
+			},
+			"text": " \"SIBX\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:52,440",
+				"to": "00:14:54,440"
+			},
+			"offsets": {
+				"from": 892440,
+				"to": 894440
+			},
+			"text": " por qué tengo que indicar"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:54,440",
+				"to": "00:14:56,440"
+			},
+			"offsets": {
+				"from": 894440,
+				"to": 896440
+			},
+			"text": " que es \"byte_ptr\""
+		},
+		{
+			"timestamps": {
+				"from": "00:14:56,440",
+				"to": "00:14:58,440"
+			},
+			"offsets": {
+				"from": 896440,
+				"to": 898440
+			},
+			"text": " porque estoy comparando con una constante"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:58,440",
+				"to": "00:15:00,440"
+			},
+			"offsets": {
+				"from": 898440,
+				"to": 900440
+			},
+			"text": " con un inmediato"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:00,440",
+				"to": "00:15:02,440"
+			},
+			"offsets": {
+				"from": 900440,
+				"to": 902440
+			},
+			"text": " y hay dos variantes de la instrucción que compara"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:02,440",
+				"to": "00:15:04,440"
+			},
+			"offsets": {
+				"from": 902440,
+				"to": 904440
+			},
+			"text": " una que compara byte"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:04,440",
+				"to": "00:15:06,440"
+			},
+			"offsets": {
+				"from": 904440,
+				"to": 906440
+			},
+			"text": " entonces"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:06,440",
+				"to": "00:15:08,440"
+			},
+			"offsets": {
+				"from": 906440,
+				"to": 908440
+			},
+			"text": " le digo en el code assembler"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:08,440",
+				"to": "00:15:10,440"
+			},
+			"offsets": {
+				"from": 908440,
+				"to": 910440
+			},
+			"text": " que la variante que quiero usar"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:10,440",
+				"to": "00:15:12,440"
+			},
+			"offsets": {
+				"from": 910440,
+				"to": 912440
+			},
+			"text": " es la que compara el byte"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:12,440",
+				"to": "00:15:14,440"
+			},
+			"offsets": {
+				"from": 912440,
+				"to": 914440
+			},
+			"text": " porque los caracteres ocupan"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:14,440",
+				"to": "00:15:16,440"
+			},
+			"offsets": {
+				"from": 914440,
+				"to": 916440
+			},
+			"text": " un byte cada uno"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:16,440",
+				"to": "00:15:18,440"
+			},
+			"offsets": {
+				"from": 916440,
+				"to": 918440
+			},
+			"text": " entonces nulo que es 0"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:18,440",
+				"to": "00:15:20,440"
+			},
+			"offsets": {
+				"from": 918440,
+				"to": 920440
+			},
+			"text": " comparo byte_ptr"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:20,440",
+				"to": "00:15:22,440"
+			},
+			"offsets": {
+				"from": 920440,
+				"to": 922440
+			},
+			"text": " con 0"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:22,440",
+				"to": "00:15:24,440"
+			},
+			"offsets": {
+				"from": 922440,
+				"to": 924440
+			},
+			"text": " si"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:24,440",
+				"to": "00:15:26,440"
+			},
+			"offsets": {
+				"from": 924440,
+				"to": 926440
+			},
+			"text": " si son"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:26,440",
+				"to": "00:15:32,440"
+			},
+			"offsets": {
+				"from": 926440,
+				"to": 932440
+			},
+			"text": " si no es 0"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:34,440",
+				"to": "00:15:36,440"
+			},
+			"offsets": {
+				"from": 934440,
+				"to": 936440
+			},
+			"text": " \"jump_not_zero\""
+		},
+		{
+			"timestamps": {
+				"from": "00:15:36,440",
+				"to": "00:15:38,440"
+			},
+			"offsets": {
+				"from": 936440,
+				"to": 938440
+			},
+			"text": " voy a"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:38,440",
+				"to": "00:15:40,440"
+			},
+			"offsets": {
+				"from": 938440,
+				"to": 940440
+			},
+			"text": " una etiqueta que voy a inventar ahora"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:40,440",
+				"to": "00:15:42,440"
+			},
+			"offsets": {
+				"from": 940440,
+				"to": 942440
+			},
+			"text": " que se llama \"sigo\""
+		},
+		{
+			"timestamps": {
+				"from": "00:15:42,440",
+				"to": "00:15:44,440"
+			},
+			"offsets": {
+				"from": 942440,
+				"to": 944440
+			},
+			"text": " que quiere decir que no salgo"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:44,440",
+				"to": "00:15:46,440"
+			},
+			"offsets": {
+				"from": 944440,
+				"to": 946440
+			},
+			"text": " del bucle"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:46,440",
+				"to": "00:15:50,440"
+			},
+			"offsets": {
+				"from": 946440,
+				"to": 950440
+			},
+			"text": " y si si es 0"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:50,440",
+				"to": "00:15:52,440"
+			},
+			"offsets": {
+				"from": 950440,
+				"to": 952440
+			},
+			"text": " es porque termine"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:52,440",
+				"to": "00:15:54,440"
+			},
+			"offsets": {
+				"from": 952440,
+				"to": 954440
+			},
+			"text": " y por lo tanto tengo que retornar -1"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:54,440",
+				"to": "00:15:56,440"
+			},
+			"offsets": {
+				"from": 954440,
+				"to": 956440
+			},
+			"text": " y lo tengo que retornar en \"ax\""
+		},
+		{
+			"timestamps": {
+				"from": "00:15:56,440",
+				"to": "00:15:58,440"
+			},
+			"offsets": {
+				"from": 956440,
+				"to": 958440
+			},
+			"text": " así que en ese caso"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:58,440",
+				"to": "00:16:00,440"
+			},
+			"offsets": {
+				"from": 958440,
+				"to": 960440
+			},
+			"text": " puedo poner"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:02,440",
+				"to": "00:16:04,440"
+			},
+			"offsets": {
+				"from": 962440,
+				"to": 964440
+			},
+			"text": " \"ax -1\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:04,440",
+				"to": "00:16:06,440"
+			},
+			"offsets": {
+				"from": 964440,
+				"to": 966440
+			},
+			"text": " y \"red\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:06,440",
+				"to": "00:16:10,440"
+			},
+			"offsets": {
+				"from": 966440,
+				"to": 970440
+			},
+			"text": " así que cuando \"texto de pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:10,440",
+				"to": "00:16:12,440"
+			},
+			"offsets": {
+				"from": 970440,
+				"to": 972440
+			},
+			"text": " sea nulo"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:12,440",
+				"to": "00:16:14,440"
+			},
+			"offsets": {
+				"from": 972440,
+				"to": 974440
+			},
+			"text": " no va a saltar acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:14,440",
+				"to": "00:16:16,440"
+			},
+			"offsets": {
+				"from": 974440,
+				"to": 976440
+			},
+			"text": " porque va a ser el cinto de 0 esta comparación"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:16,440",
+				"to": "00:16:18,440"
+			},
+			"offsets": {
+				"from": 976440,
+				"to": 978440
+			},
+			"text": " va a cargar \"ax -1\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:18,440",
+				"to": "00:16:20,440"
+			},
+			"offsets": {
+				"from": 978440,
+				"to": 980440
+			},
+			"text": " y va a retornar"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:20,440",
+				"to": "00:16:22,440"
+			},
+			"offsets": {
+				"from": 980440,
+				"to": 982440
+			},
+			"text": " de la rutina"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:22,440",
+				"to": "00:16:24,440"
+			},
+			"offsets": {
+				"from": 982440,
+				"to": 984440
+			},
+			"text": " si no es porque estoy en \"sigo\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:24,440",
+				"to": "00:16:30,440"
+			},
+			"offsets": {
+				"from": 984440,
+				"to": 990440
+			},
+			"text": " y quiere decir que entré acá dentro"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:32,440",
+				"to": "00:16:34,440"
+			},
+			"offsets": {
+				"from": 992440,
+				"to": 994440
+			},
+			"text": " entonces acá tengo esta variable temporal"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:34,440",
+				"to": "00:16:36,440"
+			},
+			"offsets": {
+				"from": 994440,
+				"to": 996440
+			},
+			"text": " que le llame \"pos3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:36,440",
+				"to": "00:16:38,440"
+			},
+			"offsets": {
+				"from": 996440,
+				"to": 998440
+			},
+			"text": " que se tiene que cargar con \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:38,440",
+				"to": "00:16:40,440"
+			},
+			"offsets": {
+				"from": 998440,
+				"to": 1000440
+			},
+			"text": " que es \"bx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:40,440",
+				"to": "00:16:42,440"
+			},
+			"offsets": {
+				"from": 1000440,
+				"to": 1002440
+			},
+			"text": " y acá tengo dos maneras para guardar la posición"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:42,440",
+				"to": "00:16:44,440"
+			},
+			"offsets": {
+				"from": 1002440,
+				"to": 1004440
+			},
+			"text": " podría usar"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:44,440",
+				"to": "00:16:46,440"
+			},
+			"offsets": {
+				"from": 1004440,
+				"to": 1006440
+			},
+			"text": " el stack, hacer \"push\" y guardar \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:46,440",
+				"to": "00:16:48,440"
+			},
+			"offsets": {
+				"from": 1006440,
+				"to": 1008440
+			},
+			"text": " porque acá dentro"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:48,440",
+				"to": "00:16:50,440"
+			},
+			"offsets": {
+				"from": 1008440,
+				"to": 1010440
+			},
+			"text": " no se usa \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:50,440",
+				"to": "00:16:52,440"
+			},
+			"offsets": {
+				"from": 1010440,
+				"to": 1012440
+			},
+			"text": " solo se usa"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:52,440",
+				"to": "00:16:56,440"
+			},
+			"offsets": {
+				"from": 1012440,
+				"to": 1016440
+			},
+			"text": " \"pos2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:16:56,440",
+				"to": "00:17:00,440"
+			},
+			"offsets": {
+				"from": 1016440,
+				"to": 1020440
+			},
+			"text": " no se usa"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:00,440",
+				"to": "00:17:02,440"
+			},
+			"offsets": {
+				"from": 1020440,
+				"to": 1022440
+			},
+			"text": " \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:17:02,440",
+				"to": "00:17:06,440"
+			},
+			"offsets": {
+				"from": 1022440,
+				"to": 1026440
+			},
+			"text": " o puedo cargarlo"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:06,440",
+				"to": "00:17:08,440"
+			},
+			"offsets": {
+				"from": 1026440,
+				"to": 1028440
+			},
+			"text": " en un registro"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:08,440",
+				"to": "00:17:10,440"
+			},
+			"offsets": {
+				"from": 1028440,
+				"to": 1030440
+			},
+			"text": " que no estoy usando y después recuperarlo ahí"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:10,440",
+				"to": "00:17:12,440"
+			},
+			"offsets": {
+				"from": 1030440,
+				"to": 1032440
+			},
+			"text": " si"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:12,440",
+				"to": "00:17:16,440"
+			},
+			"offsets": {
+				"from": 1032440,
+				"to": 1036440
+			},
+			"text": " por ejemplo"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:16,440",
+				"to": "00:17:18,440"
+			},
+			"offsets": {
+				"from": 1036440,
+				"to": 1038440
+			},
+			"text": " lo puedo usar copiar a \"cx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:17:18,440",
+				"to": "00:17:20,440"
+			},
+			"offsets": {
+				"from": 1038440,
+				"to": 1040440
+			},
+			"text": " así que acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:20,440",
+				"to": "00:17:22,440"
+			},
+			"offsets": {
+				"from": 1040440,
+				"to": 1042440
+			},
+			"text": " \"move\""
+		},
+		{
+			"timestamps": {
+				"from": "00:17:22,440",
+				"to": "00:17:24,440"
+			},
+			"offsets": {
+				"from": 1042440,
+				"to": 1044440
+			},
+			"text": " \"cx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:17:24,440",
+				"to": "00:17:26,440"
+			},
+			"offsets": {
+				"from": 1044440,
+				"to": 1046440
+			},
+			"text": " \"bx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:17:28,440",
+				"to": "00:17:30,440"
+			},
+			"offsets": {
+				"from": 1048440,
+				"to": 1050440
+			},
+			"text": " acá respaldo"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:30,440",
+				"to": "00:17:34,440"
+			},
+			"offsets": {
+				"from": 1050440,
+				"to": 1054440
+			},
+			"text": " \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:17:34,440",
+				"to": "00:17:38,440"
+			},
+			"offsets": {
+				"from": 1054440,
+				"to": 1058440
+			},
+			"text": " porque hago esto? porque cuando"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:38,440",
+				"to": "00:17:40,440"
+			},
+			"offsets": {
+				"from": 1058440,
+				"to": 1060440
+			},
+			"text": " quiera ahora"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:40,440",
+				"to": "00:17:42,440"
+			},
+			"offsets": {
+				"from": 1060440,
+				"to": 1062440
+			},
+			"text": " es como que voy a hacer un renombre"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:42,440",
+				"to": "00:17:44,440"
+			},
+			"offsets": {
+				"from": 1062440,
+				"to": 1064440
+			},
+			"text": " de los registros, o sea ahora \"cx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:17:44,440",
+				"to": "00:17:46,440"
+			},
+			"offsets": {
+				"from": 1064440,
+				"to": 1066440
+			},
+			"text": " en realidad tiene \"pos\" y ahora \"bx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:17:46,440",
+				"to": "00:17:48,440"
+			},
+			"offsets": {
+				"from": 1066440,
+				"to": 1068440
+			},
+			"text": " lo voy a resignificar"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:48,440",
+				"to": "00:17:50,440"
+			},
+			"offsets": {
+				"from": 1068440,
+				"to": 1070440
+			},
+			"text": " porque ahora \"bx\" lo voy a usar como \"pos3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:17:50,440",
+				"to": "00:17:52,440"
+			},
+			"offsets": {
+				"from": 1070440,
+				"to": 1072440
+			},
+			"text": " que es el que voy a usar"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:52,440",
+				"to": "00:17:54,440"
+			},
+			"offsets": {
+				"from": 1072440,
+				"to": 1074440
+			},
+			"text": " para acceder a memoria"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:54,440",
+				"to": "00:17:56,440"
+			},
+			"offsets": {
+				"from": 1074440,
+				"to": 1076440
+			},
+			"text": " recuerden que yo no puedo"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:56,440",
+				"to": "00:17:58,440"
+			},
+			"offsets": {
+				"from": 1076440,
+				"to": 1078440
+			},
+			"text": " si digo que \"cx\" por ejemplo"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:58,440",
+				"to": "00:18:00,440"
+			},
+			"offsets": {
+				"from": 1078440,
+				"to": 1080440
+			},
+			"text": " o sea \"pos3\" después no puedo acceder a memoria"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:00,440",
+				"to": "00:18:02,440"
+			},
+			"offsets": {
+				"from": 1080440,
+				"to": 1082440
+			},
+			"text": " a través de él"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:02,440",
+				"to": "00:18:06,440"
+			},
+			"offsets": {
+				"from": 1082440,
+				"to": 1086440
+			},
+			"text": " así que ahora empiezo a compilar"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:06,440",
+				"to": "00:18:08,440"
+			},
+			"offsets": {
+				"from": 1086440,
+				"to": 1088440
+			},
+			"text": " el \"for2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:18:08,440",
+				"to": "00:18:10,440"
+			},
+			"offsets": {
+				"from": 1088440,
+				"to": 1090440
+			},
+			"text": " que lo que hace es"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:10,440",
+				"to": "00:18:12,440"
+			},
+			"offsets": {
+				"from": 1090440,
+				"to": 1092440
+			},
+			"text": " poner"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:12,440",
+				"to": "00:18:14,440"
+			},
+			"offsets": {
+				"from": 1092440,
+				"to": 1094440
+			},
+			"text": " inicializar esta variable con \"0\""
+		},
+		{
+			"timestamps": {
+				"from": "00:18:14,440",
+				"to": "00:18:16,440"
+			},
+			"offsets": {
+				"from": 1094440,
+				"to": 1096440
+			},
+			"text": " el segundo \"for\""
+		},
+		{
+			"timestamps": {
+				"from": "00:18:16,440",
+				"to": "00:18:18,440"
+			},
+			"offsets": {
+				"from": 1096440,
+				"to": 1098440
+			},
+			"text": " y que registro me va a servir"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:18,440",
+				"to": "00:18:20,440"
+			},
+			"offsets": {
+				"from": 1098440,
+				"to": 1100440
+			},
+			"text": " unos similares"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:20,440",
+				"to": "00:18:22,440"
+			},
+			"offsets": {
+				"from": 1100440,
+				"to": 1102440
+			},
+			"text": " caracteristicas al que usamos"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:22,440",
+				"to": "00:18:24,440"
+			},
+			"offsets": {
+				"from": 1102440,
+				"to": 1104440
+			},
+			"text": " para direccionar texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:24,440",
+				"to": "00:18:26,440"
+			},
+			"offsets": {
+				"from": 1104440,
+				"to": 1106440
+			},
+			"text": " que viene a ser \"bp\""
+		},
+		{
+			"timestamps": {
+				"from": "00:18:26,440",
+				"to": "00:18:30,440"
+			},
+			"offsets": {
+				"from": 1106440,
+				"to": 1110440
+			},
+			"text": " recuerden otra vez"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:30,440",
+				"to": "00:18:32,440"
+			},
+			"offsets": {
+				"from": 1110440,
+				"to": 1112440
+			},
+			"text": " mirando la cartilla"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:32,440",
+				"to": "00:18:34,440"
+			},
+			"offsets": {
+				"from": 1112440,
+				"to": 1114440
+			},
+			"text": " miran la cartilla que acá se explica"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:34,440",
+				"to": "00:18:36,440"
+			},
+			"offsets": {
+				"from": 1114440,
+				"to": 1116440
+			},
+			"text": " cómo se puede direccionar memoria"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:36,440",
+				"to": "00:18:38,440"
+			},
+			"offsets": {
+				"from": 1116440,
+				"to": 1118440
+			},
+			"text": " hasta abajo en la cartilla"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:38,440",
+				"to": "00:18:40,440"
+			},
+			"offsets": {
+				"from": 1118440,
+				"to": 1120440
+			},
+			"text": " ustedes pueden usar \"bx\" o \"bp\""
+		},
+		{
+			"timestamps": {
+				"from": "00:18:40,440",
+				"to": "00:18:42,440"
+			},
+			"offsets": {
+				"from": 1120440,
+				"to": 1122440
+			},
+			"text": " más \"si\" o \"di\""
+		},
+		{
+			"timestamps": {
+				"from": "00:18:42,440",
+				"to": "00:18:44,440"
+			},
+			"offsets": {
+				"from": 1122440,
+				"to": 1124440
+			},
+			"text": " más un inmediato"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:44,440",
+				"to": "00:18:46,440"
+			},
+			"offsets": {
+				"from": 1124440,
+				"to": 1126440
+			},
+			"text": " entonces yo uso \"bx\" y \"si\""
+		},
+		{
+			"timestamps": {
+				"from": "00:18:46,440",
+				"to": "00:18:48,440"
+			},
+			"offsets": {
+				"from": 1126440,
+				"to": 1128440
+			},
+			"text": " para direccionar"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:48,440",
+				"to": "00:18:50,440"
+			},
+			"offsets": {
+				"from": 1128440,
+				"to": 1130440
+			},
+			"text": " texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:50,440",
+				"to": "00:18:52,440"
+			},
+			"offsets": {
+				"from": 1130440,
+				"to": 1132440
+			},
+			"text": " y voy a usar \"bp\" más \"di\""
+		},
+		{
+			"timestamps": {
+				"from": "00:18:52,440",
+				"to": "00:18:54,440"
+			},
+			"offsets": {
+				"from": 1132440,
+				"to": 1134440
+			},
+			"text": " para direccionar buscado"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:54,440",
+				"to": "00:18:56,440"
+			},
+			"offsets": {
+				"from": 1134440,
+				"to": 1136440
+			},
+			"text": " así que"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:56,440",
+				"to": "00:18:58,440"
+			},
+			"offsets": {
+				"from": 1136440,
+				"to": 1138440
+			},
+			"text": " \"bp\""
+		},
+		{
+			"timestamps": {
+				"from": "00:18:58,440",
+				"to": "00:19:04,440"
+			},
+			"offsets": {
+				"from": 1138440,
+				"to": 1144440
+			},
+			"text": " va a ser \"pos2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:04,440",
+				"to": "00:19:16,440"
+			},
+			"offsets": {
+				"from": 1144440,
+				"to": 1156440
+			},
+			"text": " acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:16,440",
+				"to": "00:19:18,440"
+			},
+			"offsets": {
+				"from": 1156440,
+				"to": 1158440
+			},
+			"text": " no puse ninguna condición en el \"for\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:18,440",
+				"to": "00:19:20,440"
+			},
+			"offsets": {
+				"from": 1158440,
+				"to": 1160440
+			},
+			"text": " así que simplemente voy a ponerla"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:20,440",
+				"to": "00:19:22,440"
+			},
+			"offsets": {
+				"from": 1160440,
+				"to": 1162440
+			},
+			"text": " \"for2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:22,440",
+				"to": "00:19:24,440"
+			},
+			"offsets": {
+				"from": 1162440,
+				"to": 1164440
+			},
+			"text": " \"for2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:24,440",
+				"to": "00:19:26,440"
+			},
+			"offsets": {
+				"from": 1164440,
+				"to": 1166440
+			},
+			"text": " y empiezo a compilar este \"if\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:26,440",
+				"to": "00:19:28,440"
+			},
+			"offsets": {
+				"from": 1166440,
+				"to": 1168440
+			},
+			"text": " \"si\" buscado de \"pos2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:28,440",
+				"to": "00:19:30,440"
+			},
+			"offsets": {
+				"from": 1168440,
+				"to": 1170440
+			},
+			"text": " es igual a \"nulo\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:30,440",
+				"to": "00:19:32,440"
+			},
+			"offsets": {
+				"from": 1170440,
+				"to": 1172440
+			},
+			"text": " eso es parecido a"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:32,440",
+				"to": "00:19:34,440"
+			},
+			"offsets": {
+				"from": 1172440,
+				"to": 1174440
+			},
+			"text": " esta condición, pero en vez de contexto de \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:34,440",
+				"to": "00:19:36,440"
+			},
+			"offsets": {
+				"from": 1174440,
+				"to": 1176440
+			},
+			"text": " es con buscado de \"pos2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:36,440",
+				"to": "00:19:38,440"
+			},
+			"offsets": {
+				"from": 1176440,
+				"to": 1178440
+			},
+			"text": " así que nuevamente"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:38,440",
+				"to": "00:19:40,440"
+			},
+			"offsets": {
+				"from": 1178440,
+				"to": 1180440
+			},
+			"text": " tengo que hacer una comparación"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:40,440",
+				"to": "00:19:44,440"
+			},
+			"offsets": {
+				"from": 1180440,
+				"to": 1184440
+			},
+			"text": " usando \"byte_ptr\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:44,440",
+				"to": "00:19:48,440"
+			},
+			"offsets": {
+				"from": 1184440,
+				"to": 1188440
+			},
+			"text": " porque quiero comparar un \"byte\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:48,440",
+				"to": "00:19:50,440"
+			},
+			"offsets": {
+				"from": 1188440,
+				"to": 1190440
+			},
+			"text": " y no una palabra"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:50,440",
+				"to": "00:19:54,440"
+			},
+			"offsets": {
+				"from": 1190440,
+				"to": 1194440
+			},
+			"text": " y ahora uso"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:54,440",
+				"to": "00:19:56,440"
+			},
+			"offsets": {
+				"from": 1194440,
+				"to": 1196440
+			},
+			"text": " \"bp\""
+		},
+		{
+			"timestamps": {
+				"from": "00:19:56,440",
+				"to": "00:19:58,440"
+			},
+			"offsets": {
+				"from": 1196440,
+				"to": 1198440
+			},
+			"text": " que es \"pos2\" y es el índice"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:58,440",
+				"to": "00:20:00,440"
+			},
+			"offsets": {
+				"from": 1198440,
+				"to": 1200440
+			},
+			"text": " más \"di\""
+		},
+		{
+			"timestamps": {
+				"from": "00:20:00,440",
+				"to": "00:20:02,440"
+			},
+			"offsets": {
+				"from": 1200440,
+				"to": 1202440
+			},
+			"text": " que es la base"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:02,440",
+				"to": "00:20:04,440"
+			},
+			"offsets": {
+				"from": 1202440,
+				"to": 1204440
+			},
+			"text": " de buscado"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:04,440",
+				"to": "00:20:06,440"
+			},
+			"offsets": {
+				"from": 1204440,
+				"to": 1206440
+			},
+			"text": " y eso lo comparo con \"nulo\""
+		},
+		{
+			"timestamps": {
+				"from": "00:20:06,440",
+				"to": "00:20:08,440"
+			},
+			"offsets": {
+				"from": 1206440,
+				"to": 1208440
+			},
+			"text": " que es \"0\""
+		},
+		{
+			"timestamps": {
+				"from": "00:20:08,440",
+				"to": "00:20:16,440"
+			},
+			"offsets": {
+				"from": 1208440,
+				"to": 1216440
+			},
+			"text": " si"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:16,440",
+				"to": "00:20:18,440"
+			},
+			"offsets": {
+				"from": 1216440,
+				"to": 1218440
+			},
+			"text": " si esto da \"0\""
+		},
+		{
+			"timestamps": {
+				"from": "00:20:18,440",
+				"to": "00:20:20,440"
+			},
+			"offsets": {
+				"from": 1218440,
+				"to": 1220440
+			},
+			"text": " es porque"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:20,440",
+				"to": "00:20:22,440"
+			},
+			"offsets": {
+				"from": 1220440,
+				"to": 1222440
+			},
+			"text": " termine"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:22,440",
+				"to": "00:20:26,440"
+			},
+			"offsets": {
+				"from": 1222440,
+				"to": 1226440
+			},
+			"text": " y tengo que retornar"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:26,440",
+				"to": "00:20:28,440"
+			},
+			"offsets": {
+				"from": 1226440,
+				"to": 1228440
+			},
+			"text": " \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:20:28,440",
+				"to": "00:20:30,440"
+			},
+			"offsets": {
+				"from": 1228440,
+				"to": 1230440
+			},
+			"text": " así que"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:30,440",
+				"to": "00:20:32,440"
+			},
+			"offsets": {
+				"from": 1230440,
+				"to": 1232440
+			},
+			"text": " acá puedo hacer"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:32,440",
+				"to": "00:20:34,440"
+			},
+			"offsets": {
+				"from": 1232440,
+				"to": 1234440
+			},
+			"text": " un \"jz\""
+		},
+		{
+			"timestamps": {
+				"from": "00:20:34,440",
+				"to": "00:20:36,440"
+			},
+			"offsets": {
+				"from": 1234440,
+				"to": 1236440
+			},
+			"text": " si es \"0\""
+		},
+		{
+			"timestamps": {
+				"from": "00:20:36,440",
+				"to": "00:20:38,440"
+			},
+			"offsets": {
+				"from": 1236440,
+				"to": 1238440
+			},
+			"text": " a salir del bucle"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:38,440",
+				"to": "00:20:40,440"
+			},
+			"offsets": {
+				"from": 1238440,
+				"to": 1240440
+			},
+			"text": " irse por acá y retornar"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:40,440",
+				"to": "00:20:42,440"
+			},
+			"offsets": {
+				"from": 1240440,
+				"to": 1242440
+			},
+			"text": " salir fuera del bucle"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:42,440",
+				"to": "00:20:44,440"
+			},
+			"offsets": {
+				"from": 1242440,
+				"to": 1244440
+			},
+			"text": " como llamar una etiqueta fin"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:44,440",
+				"to": "00:20:46,440"
+			},
+			"offsets": {
+				"from": 1244440,
+				"to": 1246440
+			},
+			"text": " bien"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:46,440",
+				"to": "00:20:50,440"
+			},
+			"offsets": {
+				"from": 1246440,
+				"to": 1250440
+			},
+			"text": " en esa etiqueta fin"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:50,440",
+				"to": "00:20:52,440"
+			},
+			"offsets": {
+				"from": 1250440,
+				"to": 1252440
+			},
+			"text": " voy a tener que"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:52,440",
+				"to": "00:20:54,440"
+			},
+			"offsets": {
+				"from": 1252440,
+				"to": 1254440
+			},
+			"text": " retornar el valor que tenía guardado"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:54,440",
+				"to": "00:20:56,440"
+			},
+			"offsets": {
+				"from": 1254440,
+				"to": 1256440
+			},
+			"text": " en \"cx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:20:56,440",
+				"to": "00:21:00,440"
+			},
+			"offsets": {
+				"from": 1256440,
+				"to": 1260440
+			},
+			"text": " si no"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:00,440",
+				"to": "00:21:02,440"
+			},
+			"offsets": {
+				"from": 1260440,
+				"to": 1262440
+			},
+			"text": " tengo que preguntar"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:02,440",
+				"to": "00:21:04,440"
+			},
+			"offsets": {
+				"from": 1262440,
+				"to": 1264440
+			},
+			"text": " si buscado de \"pos2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:21:04,440",
+				"to": "00:21:06,440"
+			},
+			"offsets": {
+				"from": 1264440,
+				"to": 1266440
+			},
+			"text": " es distinto de \"pos3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:21:06,440",
+				"to": "00:21:08,440"
+			},
+			"offsets": {
+				"from": 1266440,
+				"to": 1268440
+			},
+			"text": " para que en ese caso hacer el \"break\""
+		},
+		{
+			"timestamps": {
+				"from": "00:21:08,440",
+				"to": "00:21:10,440"
+			},
+			"offsets": {
+				"from": 1268440,
+				"to": 1270440
+			},
+			"text": " pero no puedo comparar"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:10,440",
+				"to": "00:21:12,440"
+			},
+			"offsets": {
+				"from": 1270440,
+				"to": 1272440
+			},
+			"text": " memoria a memoria"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:12,440",
+				"to": "00:21:14,440"
+			},
+			"offsets": {
+				"from": 1272440,
+				"to": 1274440
+			},
+			"text": " de una de las restricciones de 8086"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:14,440",
+				"to": "00:21:16,440"
+			},
+			"offsets": {
+				"from": 1274440,
+				"to": 1276440
+			},
+			"text": " así que"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:16,440",
+				"to": "00:21:18,440"
+			},
+			"offsets": {
+				"from": 1276440,
+				"to": 1278440
+			},
+			"text": " tengo que cargarlo en algún registro"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:18,440",
+				"to": "00:21:20,440"
+			},
+			"offsets": {
+				"from": 1278440,
+				"to": 1280440
+			},
+			"text": " auxiliar primero"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:20,440",
+				"to": "00:21:22,440"
+			},
+			"offsets": {
+				"from": 1280440,
+				"to": 1282440
+			},
+			"text": " voy a hacer un \"mode\""
+		},
+		{
+			"timestamps": {
+				"from": "00:21:22,440",
+				"to": "00:21:24,440"
+			},
+			"offsets": {
+				"from": 1282440,
+				"to": 1284440
+			},
+			"text": " registro que estoy usando"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:24,440",
+				"to": "00:21:26,440"
+			},
+			"offsets": {
+				"from": 1284440,
+				"to": 1286440
+			},
+			"text": " por ejemplo \"dl\""
+		},
+		{
+			"timestamps": {
+				"from": "00:21:26,440",
+				"to": "00:21:28,440"
+			},
+			"offsets": {
+				"from": 1286440,
+				"to": 1288440
+			},
+			"text": " con"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:28,440",
+				"to": "00:21:30,440"
+			},
+			"offsets": {
+				"from": 1288440,
+				"to": 1290440
+			},
+			"text": " \"vp\""
+		},
+		{
+			"timestamps": {
+				"from": "00:21:30,440",
+				"to": "00:21:34,440"
+			},
+			"offsets": {
+				"from": 1290440,
+				"to": 1294440
+			},
+			"text": " más"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:34,440",
+				"to": "00:21:36,440"
+			},
+			"offsets": {
+				"from": 1294440,
+				"to": 1296440
+			},
+			"text": " \"di\""
+		},
+		{
+			"timestamps": {
+				"from": "00:21:36,440",
+				"to": "00:21:38,440"
+			},
+			"offsets": {
+				"from": 1296440,
+				"to": 1298440
+			},
+			"text": " y acá no tengo que indicarle"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:38,440",
+				"to": "00:21:40,440"
+			},
+			"offsets": {
+				"from": 1298440,
+				"to": 1300440
+			},
+			"text": " el \"white_ptr\" porque \"dl\""
+		},
+		{
+			"timestamps": {
+				"from": "00:21:40,440",
+				"to": "00:21:42,440"
+			},
+			"offsets": {
+				"from": 1300440,
+				"to": 1302440
+			},
+			"text": " ya es un registro de 8 bits"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:42,440",
+				"to": "00:21:44,440"
+			},
+			"offsets": {
+				"from": 1302440,
+				"to": 1304440
+			},
+			"text": " así que no hay ninguna ambigüeda"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:44,440",
+				"to": "00:21:46,440"
+			},
+			"offsets": {
+				"from": 1304440,
+				"to": 1306440
+			},
+			"text": " y el ensamblador"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:46,440",
+				"to": "00:21:48,440"
+			},
+			"offsets": {
+				"from": 1306440,
+				"to": 1308440
+			},
+			"text": " ya sabe que tiene que"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:48,440",
+				"to": "00:21:50,440"
+			},
+			"offsets": {
+				"from": 1308440,
+				"to": 1310440
+			},
+			"text": " usar la variante de la instrucción"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:50,440",
+				"to": "00:21:52,440"
+			},
+			"offsets": {
+				"from": 1310440,
+				"to": 1312440
+			},
+			"text": " que accede a \"byte\" y no a memoria"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:52,440",
+				"to": "00:21:54,440"
+			},
+			"offsets": {
+				"from": 1312440,
+				"to": 1314440
+			},
+			"text": " y no a palabra"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:54,440",
+				"to": "00:21:56,440"
+			},
+			"offsets": {
+				"from": 1314440,
+				"to": 1316440
+			},
+			"text": " así que"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:56,440",
+				"to": "00:21:58,440"
+			},
+			"offsets": {
+				"from": 1316440,
+				"to": 1318440
+			},
+			"text": " cargo en \"dl\""
+		},
+		{
+			"timestamps": {
+				"from": "00:21:58,440",
+				"to": "00:22:02,440"
+			},
+			"offsets": {
+				"from": 1318440,
+				"to": 1322440
+			},
+			"text": " buscado de \"pos2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:22:02,440",
+				"to": "00:22:04,440"
+			},
+			"offsets": {
+				"from": 1322440,
+				"to": 1324440
+			},
+			"text": " y lo puedo comparar"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:08,440",
+				"to": "00:22:10,440"
+			},
+			"offsets": {
+				"from": 1328440,
+				"to": 1330440
+			},
+			"text": " con"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:10,440",
+				"to": "00:22:16,440"
+			},
+			"offsets": {
+				"from": 1330440,
+				"to": 1336440
+			},
+			"text": " texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:16,440",
+				"to": "00:22:18,440"
+			},
+			"offsets": {
+				"from": 1336440,
+				"to": 1338440
+			},
+			"text": " de \"pos3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:22:18,440",
+				"to": "00:22:22,440"
+			},
+			"offsets": {
+				"from": 1338440,
+				"to": 1342440
+			},
+			"text": " esto"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:22,440",
+				"to": "00:22:24,440"
+			},
+			"offsets": {
+				"from": 1342440,
+				"to": 1344440
+			},
+			"text": " lo está comparando"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:24,440",
+				"to": "00:22:26,440"
+			},
+			"offsets": {
+				"from": 1344440,
+				"to": 1346440
+			},
+			"text": " con texto de"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:26,440",
+				"to": "00:22:28,440"
+			},
+			"offsets": {
+				"from": 1346440,
+				"to": 1348440
+			},
+			"text": " la parte que hice \"if\""
+		},
+		{
+			"timestamps": {
+				"from": "00:22:28,440",
+				"to": "00:22:30,440"
+			},
+			"offsets": {
+				"from": 1348440,
+				"to": 1350440
+			},
+			"text": " buscado"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:30,440",
+				"to": "00:22:34,440"
+			},
+			"offsets": {
+				"from": 1350440,
+				"to": 1354440
+			},
+			"text": " de \"pos2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:22:34,440",
+				"to": "00:22:36,440"
+			},
+			"offsets": {
+				"from": 1354440,
+				"to": 1356440
+			},
+			"text": " es distinto"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:36,440",
+				"to": "00:22:38,440"
+			},
+			"offsets": {
+				"from": 1356440,
+				"to": 1358440
+			},
+			"text": " de texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:38,440",
+				"to": "00:22:40,440"
+			},
+			"offsets": {
+				"from": 1358440,
+				"to": 1360440
+			},
+			"text": " de \"pos3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:22:40,440",
+				"to": "00:22:46,440"
+			},
+			"offsets": {
+				"from": 1360440,
+				"to": 1366440
+			},
+			"text": " acá de vuelta no le pongo el \"bype\""
+		},
+		{
+			"timestamps": {
+				"from": "00:22:46,440",
+				"to": "00:22:48,440"
+			},
+			"offsets": {
+				"from": 1366440,
+				"to": 1368440
+			},
+			"text": " de \"r\" porque estoy comparando"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:48,440",
+				"to": "00:22:50,440"
+			},
+			"offsets": {
+				"from": 1368440,
+				"to": 1370440
+			},
+			"text": " con \"dl\""
+		},
+		{
+			"timestamps": {
+				"from": "00:22:50,440",
+				"to": "00:22:52,440"
+			},
+			"offsets": {
+				"from": 1370440,
+				"to": 1372440
+			},
+			"text": " si son iguales tengo que"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:52,440",
+				"to": "00:22:54,440"
+			},
+			"offsets": {
+				"from": 1372440,
+				"to": 1374440
+			},
+			"text": " hacer un \"break\""
+		},
+		{
+			"timestamps": {
+				"from": "00:22:54,440",
+				"to": "00:23:00,440"
+			},
+			"offsets": {
+				"from": 1374440,
+				"to": 1380440
+			},
+			"text": " que el \"break\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:04,440",
+				"to": "00:23:06,440"
+			},
+			"offsets": {
+				"from": 1384440,
+				"to": 1386440
+			},
+			"text": " lo que va a tener que hacer es"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:06,440",
+				"to": "00:23:08,440"
+			},
+			"offsets": {
+				"from": 1386440,
+				"to": 1388440
+			},
+			"text": " salir de este \"for\" y volver"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:08,440",
+				"to": "00:23:10,440"
+			},
+			"offsets": {
+				"from": 1388440,
+				"to": 1390440
+			},
+			"text": " para aquí"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:10,440",
+				"to": "00:23:14,440"
+			},
+			"offsets": {
+				"from": 1390440,
+				"to": 1394440
+			},
+			"text": " así que si no son iguales"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:14,440",
+				"to": "00:23:16,440"
+			},
+			"offsets": {
+				"from": 1394440,
+				"to": 1396440
+			},
+			"text": " \"shump not equal\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:16,440",
+				"to": "00:23:18,440"
+			},
+			"offsets": {
+				"from": 1396440,
+				"to": 1398440
+			},
+			"text": " puedo poner una etiqueta que se llame \"break\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:18,440",
+				"to": "00:23:26,440"
+			},
+			"offsets": {
+				"from": 1398440,
+				"to": 1406440
+			},
+			"text": " si son iguales"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:26,440",
+				"to": "00:23:28,440"
+			},
+			"offsets": {
+				"from": 1406440,
+				"to": 1408440
+			},
+			"text": " entonces"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:28,440",
+				"to": "00:23:30,440"
+			},
+			"offsets": {
+				"from": 1408440,
+				"to": 1410440
+			},
+			"text": " vuelve para acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:30,440",
+				"to": "00:23:32,440"
+			},
+			"offsets": {
+				"from": 1410440,
+				"to": 1412440
+			},
+			"text": " que lo que tiene que hacer es"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:32,440",
+				"to": "00:23:34,440"
+			},
+			"offsets": {
+				"from": 1412440,
+				"to": 1414440
+			},
+			"text": " \"pos2\" e incrementar \"pos3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:34,440",
+				"to": "00:23:36,440"
+			},
+			"offsets": {
+				"from": 1414440,
+				"to": 1416440
+			},
+			"text": " para incrementar \"pos2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:36,440",
+				"to": "00:23:38,440"
+			},
+			"offsets": {
+				"from": 1416440,
+				"to": 1418440
+			},
+			"text": " estoy usando \"bp\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:38,440",
+				"to": "00:23:40,440"
+			},
+			"offsets": {
+				"from": 1418440,
+				"to": 1420440
+			},
+			"text": " así que sería \"inkbp\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:40,440",
+				"to": "00:23:44,440"
+			},
+			"offsets": {
+				"from": 1420440,
+				"to": 1424440
+			},
+			"text": " para incrementar"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:44,440",
+				"to": "00:23:48,440"
+			},
+			"offsets": {
+				"from": 1424440,
+				"to": 1428440
+			},
+			"text": " \"pos3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:48,440",
+				"to": "00:23:50,440"
+			},
+			"offsets": {
+				"from": 1428440,
+				"to": 1430440
+			},
+			"text": " estoy usando \"bx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:50,440",
+				"to": "00:23:52,440"
+			},
+			"offsets": {
+				"from": 1430440,
+				"to": 1432440
+			},
+			"text": " así que sería \"inkbx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:23:52,440",
+				"to": "00:23:58,440"
+			},
+			"offsets": {
+				"from": 1432440,
+				"to": 1438440
+			},
+			"text": " una vez que estoy ahí tengo que saltar"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:58,440",
+				"to": "00:24:00,440"
+			},
+			"offsets": {
+				"from": 1438440,
+				"to": 1440440
+			},
+			"text": " al comienzo"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:00,440",
+				"to": "00:24:02,440"
+			},
+			"offsets": {
+				"from": 1440440,
+				"to": 1442440
+			},
+			"text": " este bucle que vuelve a comparar"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:02,440",
+				"to": "00:24:04,440"
+			},
+			"offsets": {
+				"from": 1442440,
+				"to": 1444440
+			},
+			"text": " ahora con la nueva posición"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:04,440",
+				"to": "00:24:08,440"
+			},
+			"offsets": {
+				"from": 1444440,
+				"to": 1448440
+			},
+			"text": " así que hago un salto"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:08,440",
+				"to": "00:24:10,440"
+			},
+			"offsets": {
+				"from": 1448440,
+				"to": 1450440
+			},
+			"text": " a \"for2\""
+		},
+		{
+			"timestamps": {
+				"from": "00:24:10,440",
+				"to": "00:24:20,440"
+			},
+			"offsets": {
+				"from": 1450440,
+				"to": 1460440
+			},
+			"text": " ahora sigo acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:20,440",
+				"to": "00:24:22,440"
+			},
+			"offsets": {
+				"from": 1460440,
+				"to": 1462440
+			},
+			"text": " porque se me quedó chico el pizarrón"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:22,440",
+				"to": "00:24:24,440"
+			},
+			"offsets": {
+				"from": 1462440,
+				"to": 1464440
+			},
+			"text": " pero ahora acá lo que viene"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:24,440",
+				"to": "00:24:26,440"
+			},
+			"offsets": {
+				"from": 1464440,
+				"to": 1466440
+			},
+			"text": " es el \"break\""
+		},
+		{
+			"timestamps": {
+				"from": "00:24:26,440",
+				"to": "00:24:28,440"
+			},
+			"offsets": {
+				"from": 1466440,
+				"to": 1468440
+			},
+			"text": " que hago cuando"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:30,440",
+				"to": "00:24:32,440"
+			},
+			"offsets": {
+				"from": 1470440,
+				"to": 1472440
+			},
+			"text": " no son iguales"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:32,440",
+				"to": "00:24:36,440"
+			},
+			"offsets": {
+				"from": 1472440,
+				"to": 1476440
+			},
+			"text": " cuando no son iguales"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:36,440",
+				"to": "00:24:38,440"
+			},
+			"offsets": {
+				"from": 1476440,
+				"to": 1478440
+			},
+			"text": " tengo que"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:38,440",
+				"to": "00:24:42,440"
+			},
+			"offsets": {
+				"from": 1478440,
+				"to": 1482440
+			},
+			"text": " recuperar"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:42,440",
+				"to": "00:24:44,440"
+			},
+			"offsets": {
+				"from": 1482440,
+				"to": 1484440
+			},
+			"text": " \"bx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:24:44,440",
+				"to": "00:24:46,440"
+			},
+			"offsets": {
+				"from": 1484440,
+				"to": 1486440
+			},
+			"text": " porque yo acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:46,440",
+				"to": "00:24:48,440"
+			},
+			"offsets": {
+				"from": 1486440,
+				"to": 1488440
+			},
+			"text": " empecé a usar"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:48,440",
+				"to": "00:24:50,440"
+			},
+			"offsets": {
+				"from": 1488440,
+				"to": 1490440
+			},
+			"text": " \"bx\" como \"pos3\""
+		},
+		{
+			"timestamps": {
+				"from": "00:24:50,440",
+				"to": "00:24:52,440"
+			},
+			"offsets": {
+				"from": 1490440,
+				"to": 1492440
+			},
+			"text": " y dejense \"x\""
+		},
+		{
+			"timestamps": {
+				"from": "00:24:52,440",
+				"to": "00:24:54,440"
+			},
+			"offsets": {
+				"from": 1492440,
+				"to": 1494440
+			},
+			"text": " el valor que tenía \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:24:54,440",
+				"to": "00:24:56,440"
+			},
+			"offsets": {
+				"from": 1494440,
+				"to": 1496440
+			},
+			"text": " y lo tengo que volver a su lugar"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:56,440",
+				"to": "00:24:58,440"
+			},
+			"offsets": {
+				"from": 1496440,
+				"to": 1498440
+			},
+			"text": " así que"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:58,440",
+				"to": "00:25:00,440"
+			},
+			"offsets": {
+				"from": 1498440,
+				"to": 1500440
+			},
+			"text": " tenemos \"move\""
+		},
+		{
+			"timestamps": {
+				"from": "00:25:00,440",
+				"to": "00:25:02,440"
+			},
+			"offsets": {
+				"from": 1500440,
+				"to": 1502440
+			},
+			"text": " el opuesto"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:02,440",
+				"to": "00:25:04,440"
+			},
+			"offsets": {
+				"from": 1502440,
+				"to": 1504440
+			},
+			"text": " \"bx\" como hace \"x\""
+		},
+		{
+			"timestamps": {
+				"from": "00:25:04,440",
+				"to": "00:25:08,440"
+			},
+			"offsets": {
+				"from": 1504440,
+				"to": 1508440
+			},
+			"text": " esto es \"recupero\""
+		},
+		{
+			"timestamps": {
+				"from": "00:25:08,440",
+				"to": "00:25:18,440"
+			},
+			"offsets": {
+				"from": 1508440,
+				"to": 1518440
+			},
+			"text": " ahora coloco la poscondición"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:18,440",
+				"to": "00:25:20,440"
+			},
+			"offsets": {
+				"from": 1518440,
+				"to": 1520440
+			},
+			"text": " que es \"ink\""
+		},
+		{
+			"timestamps": {
+				"from": "00:25:20,440",
+				"to": "00:25:24,440"
+			},
+			"offsets": {
+				"from": 1520440,
+				"to": 1524440
+			},
+			"text": " \"bx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:25:24,440",
+				"to": "00:25:26,440"
+			},
+			"offsets": {
+				"from": 1524440,
+				"to": 1526440
+			},
+			"text": " y salto"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:28,440",
+				"to": "00:25:30,440"
+			},
+			"offsets": {
+				"from": 1528440,
+				"to": 1530440
+			},
+			"text": " a"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:30,440",
+				"to": "00:25:32,440"
+			},
+			"offsets": {
+				"from": 1530440,
+				"to": 1532440
+			},
+			"text": " \"for1\""
+		},
+		{
+			"timestamps": {
+				"from": "00:25:32,440",
+				"to": "00:25:40,440"
+			},
+			"offsets": {
+				"from": 1532440,
+				"to": 1540440
+			},
+			"text": " bien"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:40,440",
+				"to": "00:25:46,440"
+			},
+			"offsets": {
+				"from": 1540440,
+				"to": 1546440
+			},
+			"text": " lo que queda"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:46,440",
+				"to": "00:25:48,440"
+			},
+			"offsets": {
+				"from": 1546440,
+				"to": 1548440
+			},
+			"text": " para terminar es"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:48,440",
+				"to": "00:25:52,440"
+			},
+			"offsets": {
+				"from": 1548440,
+				"to": 1552440
+			},
+			"text": " cuando"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:52,440",
+				"to": "00:25:54,440"
+			},
+			"offsets": {
+				"from": 1552440,
+				"to": 1554440
+			},
+			"text": " termino o sea cuando estoy"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:54,440",
+				"to": "00:25:56,440"
+			},
+			"offsets": {
+				"from": 1554440,
+				"to": 1556440
+			},
+			"text": " adentro de este bucle"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:56,440",
+				"to": "00:25:58,440"
+			},
+			"offsets": {
+				"from": 1556440,
+				"to": 1558440
+			},
+			"text": " interno"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:58,440",
+				"to": "00:26:00,440"
+			},
+			"offsets": {
+				"from": 1558440,
+				"to": 1560440
+			},
+			"text": " y llevo a que buscado de \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:00,440",
+				"to": "00:26:02,440"
+			},
+			"offsets": {
+				"from": 1560440,
+				"to": 1562440
+			},
+			"text": " era \"nulo\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:02,440",
+				"to": "00:26:04,440"
+			},
+			"offsets": {
+				"from": 1562440,
+				"to": 1564440
+			},
+			"text": " que eso lo estaba compilando acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:04,440",
+				"to": "00:26:06,440"
+			},
+			"offsets": {
+				"from": 1564440,
+				"to": 1566440
+			},
+			"text": " compare \"byptr\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:06,440",
+				"to": "00:26:08,440"
+			},
+			"offsets": {
+				"from": 1566440,
+				"to": 1568440
+			},
+			"text": " \"bp+di\" con \"0\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:08,440",
+				"to": "00:26:10,440"
+			},
+			"offsets": {
+				"from": 1568440,
+				"to": 1570440
+			},
+			"text": " eso comparaba \"buscado\" de \"pos2\" con \"nulo\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:10,440",
+				"to": "00:26:12,440"
+			},
+			"offsets": {
+				"from": 1570440,
+				"to": 1572440
+			},
+			"text": " y si son iguales"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:12,440",
+				"to": "00:26:14,440"
+			},
+			"offsets": {
+				"from": 1572440,
+				"to": 1574440
+			},
+			"text": " lo mande a saltar a una etiqueta"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:14,440",
+				"to": "00:26:16,440"
+			},
+			"offsets": {
+				"from": 1574440,
+				"to": 1576440
+			},
+			"text": " que se llama \"fin\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:16,440",
+				"to": "00:26:18,440"
+			},
+			"offsets": {
+				"from": 1576440,
+				"to": 1578440
+			},
+			"text": " y en ese caso"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:18,440",
+				"to": "00:26:20,440"
+			},
+			"offsets": {
+				"from": 1578440,
+				"to": 1580440
+			},
+			"text": " tengo que retornar \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:20,440",
+				"to": "00:26:22,440"
+			},
+			"offsets": {
+				"from": 1580440,
+				"to": 1582440
+			},
+			"text": " pero en este punto"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:22,440",
+				"to": "00:26:24,440"
+			},
+			"offsets": {
+				"from": 1582440,
+				"to": 1584440
+			},
+			"text": " \"pos\" está en \"cx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:24,440",
+				"to": "00:26:26,440"
+			},
+			"offsets": {
+				"from": 1584440,
+				"to": 1586440
+			},
+			"text": " que está espaldado acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:26,440",
+				"to": "00:26:28,440"
+			},
+			"offsets": {
+				"from": 1586440,
+				"to": 1588440
+			},
+			"text": " así que tengo que poner \"mob\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:28,440",
+				"to": "00:26:30,440"
+			},
+			"offsets": {
+				"from": 1588440,
+				"to": 1590440
+			},
+			"text": " \"bx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:30,440",
+				"to": "00:26:34,440"
+			},
+			"offsets": {
+				"from": 1590440,
+				"to": 1594440
+			},
+			"text": " bueno está en"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:34,440",
+				"to": "00:26:36,440"
+			},
+			"offsets": {
+				"from": 1594440,
+				"to": 1596440
+			},
+			"text": " \"cx\" pero de hecho"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:36,440",
+				"to": "00:26:38,440"
+			},
+			"offsets": {
+				"from": 1596440,
+				"to": 1598440
+			},
+			"text": " tengo que retornarlo en \"ax\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:38,440",
+				"to": "00:26:40,440"
+			},
+			"offsets": {
+				"from": 1598440,
+				"to": 1600440
+			},
+			"text": " porque la letra me pide que lo retornen a \"x\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:40,440",
+				"to": "00:26:42,440"
+			},
+			"offsets": {
+				"from": 1600440,
+				"to": 1602440
+			},
+			"text": " así que puedo hacer \"mob\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:42,440",
+				"to": "00:26:44,440"
+			},
+			"offsets": {
+				"from": 1602440,
+				"to": 1604440
+			},
+			"text": " a \"x\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:44,440",
+				"to": "00:26:46,440"
+			},
+			"offsets": {
+				"from": 1604440,
+				"to": 1606440
+			},
+			"text": " como hace \"x\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:46,440",
+				"to": "00:26:52,440"
+			},
+			"offsets": {
+				"from": 1606440,
+				"to": 1612440
+			},
+			"text": " y ahora hago \"sub\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:54,440",
+				"to": "00:26:56,440"
+			},
+			"offsets": {
+				"from": 1614440,
+				"to": 1616440
+			},
+			"text": " \"strnp\""
+		},
+		{
+			"timestamps": {
+				"from": "00:26:56,440",
+				"to": "00:27:01,440"
+			},
+			"offsets": {
+				"from": 1616440,
+				"to": 1621440
+			},
+			"text": " bien"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:01,440",
+				"to": "00:27:03,440"
+			},
+			"offsets": {
+				"from": 1621440,
+				"to": 1623440
+			},
+			"text": " una vez que hice esto"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:03,440",
+				"to": "00:27:05,440"
+			},
+			"offsets": {
+				"from": 1623440,
+				"to": 1625440
+			},
+			"text": " yo acá hice una compilación bastante directa"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:05,440",
+				"to": "00:27:07,440"
+			},
+			"offsets": {
+				"from": 1625440,
+				"to": 1627440
+			},
+			"text": " después pueden ver algún detallecito"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:07,440",
+				"to": "00:27:09,440"
+			},
+			"offsets": {
+				"from": 1627440,
+				"to": 1629440
+			},
+			"text": " y mejorarlo un poco"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:09,440",
+				"to": "00:27:10,440"
+			},
+			"offsets": {
+				"from": 1629440,
+				"to": 1630440
+			},
+			"text": " por ejemplo"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:10,440",
+				"to": "00:27:12,440"
+			},
+			"offsets": {
+				"from": 1630440,
+				"to": 1632440
+			},
+			"text": " yo usé"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:12,440",
+				"to": "00:27:14,440"
+			},
+			"offsets": {
+				"from": 1632440,
+				"to": 1634440
+			},
+			"text": " acá \"cx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:27:14,440",
+				"to": "00:27:16,440"
+			},
+			"offsets": {
+				"from": 1634440,
+				"to": 1636440
+			},
+			"text": " para respaldar \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:27:16,440",
+				"to": "00:27:20,440"
+			},
+			"offsets": {
+				"from": 1636440,
+				"to": 1640440
+			},
+			"text": " y"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:20,440",
+				"to": "00:27:22,440"
+			},
+			"offsets": {
+				"from": 1640440,
+				"to": 1642440
+			},
+			"text": " en realidad el resultado lo tengo que retornar en \"ax\""
+		},
+		{
+			"timestamps": {
+				"from": "00:27:22,440",
+				"to": "00:27:24,440"
+			},
+			"offsets": {
+				"from": 1642440,
+				"to": 1644440
+			},
+			"text": " así que si me doy cuenta de eso"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:24,440",
+				"to": "00:27:26,440"
+			},
+			"offsets": {
+				"from": 1644440,
+				"to": 1646440
+			},
+			"text": " que es lo que hice acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:26,440",
+				"to": "00:27:28,440"
+			},
+			"offsets": {
+				"from": 1646440,
+				"to": 1648440
+			},
+			"text": " tuve que cargar"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:28,440",
+				"to": "00:27:30,440"
+			},
+			"offsets": {
+				"from": 1648440,
+				"to": 1650440
+			},
+			"text": " el valor que tenía respaldado en \"ax\""
+		},
+		{
+			"timestamps": {
+				"from": "00:27:30,440",
+				"to": "00:27:32,440"
+			},
+			"offsets": {
+				"from": 1650440,
+				"to": 1652440
+			},
+			"text": " para poder retornar porque la letra"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:32,440",
+				"to": "00:27:34,440"
+			},
+			"offsets": {
+				"from": 1652440,
+				"to": 1654440
+			},
+			"text": " me dice que lo retornen a \"x\""
+		},
+		{
+			"timestamps": {
+				"from": "00:27:34,440",
+				"to": "00:27:36,440"
+			},
+			"offsets": {
+				"from": 1654440,
+				"to": 1656440
+			},
+			"text": " y en realidad yo a \"x\" no lo usé en ningún otro lado"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:36,440",
+				"to": "00:27:38,440"
+			},
+			"offsets": {
+				"from": 1656440,
+				"to": 1658440
+			},
+			"text": " así que acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:38,440",
+				"to": "00:27:40,440"
+			},
+			"offsets": {
+				"from": 1658440,
+				"to": 1660440
+			},
+			"text": " yo puedo agarrar y en vez de"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:40,440",
+				"to": "00:27:42,440"
+			},
+			"offsets": {
+				"from": 1660440,
+				"to": 1662440
+			},
+			"text": " respaldar a \"pos\" en \"cx\""
+		},
+		{
+			"timestamps": {
+				"from": "00:27:42,440",
+				"to": "00:27:44,440"
+			},
+			"offsets": {
+				"from": 1662440,
+				"to": 1664440
+			},
+			"text": " lo respaldo en \"ax\" directo"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:44,440",
+				"to": "00:27:46,440"
+			},
+			"offsets": {
+				"from": 1664440,
+				"to": 1666440
+			},
+			"text": " y entonces acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:46,440",
+				"to": "00:27:48,440"
+			},
+			"offsets": {
+				"from": 1666440,
+				"to": 1668440
+			},
+			"text": " sí tengo que poner"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:48,440",
+				"to": "00:27:50,440"
+			},
+			"offsets": {
+				"from": 1668440,
+				"to": 1670440
+			},
+			"text": " \"ax\""
+		},
+		{
+			"timestamps": {
+				"from": "00:27:50,440",
+				"to": "00:27:52,440"
+			},
+			"offsets": {
+				"from": 1670440,
+				"to": 1672440
+			},
+			"text": " pero acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:52,440",
+				"to": "00:27:54,440"
+			},
+			"offsets": {
+				"from": 1672440,
+				"to": 1674440
+			},
+			"text": " esta instrucción me la puedo evitar"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:54,440",
+				"to": "00:27:56,440"
+			},
+			"offsets": {
+				"from": 1674440,
+				"to": 1676440
+			},
+			"text": " porque ya está"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:56,440",
+				"to": "00:27:58,440"
+			},
+			"offsets": {
+				"from": 1676440,
+				"to": 1678440
+			},
+			"text": " en \"ax\""
+		},
+		{
+			"timestamps": {
+				"from": "00:27:58,440",
+				"to": "00:28:00,440"
+			},
+			"offsets": {
+				"from": 1678440,
+				"to": 1680440
+			},
+			"text": " el valor de \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:28:00,440",
+				"to": "00:28:02,440"
+			},
+			"offsets": {
+				"from": 1680440,
+				"to": 1682440
+			},
+			"text": " porque era donde lo había respaldado"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:02,440",
+				"to": "00:28:04,440"
+			},
+			"offsets": {
+				"from": 1682440,
+				"to": 1684440
+			},
+			"text": " y ahí me ahorré esa instrucción"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:04,440",
+				"to": "00:28:06,440"
+			},
+			"offsets": {
+				"from": 1684440,
+				"to": 1686440
+			},
+			"text": " bien"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:06,440",
+				"to": "00:28:10,440"
+			},
+			"offsets": {
+				"from": 1686440,
+				"to": 1690440
+			},
+			"text": " bueno entonces"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:10,440",
+				"to": "00:28:12,440"
+			},
+			"offsets": {
+				"from": 1690440,
+				"to": 1692440
+			},
+			"text": " nos queda la parte \"c\""
+		},
+		{
+			"timestamps": {
+				"from": "00:28:12,440",
+				"to": "00:28:14,440"
+			},
+			"offsets": {
+				"from": 1692440,
+				"to": 1694440
+			},
+			"text": " que"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:14,440",
+				"to": "00:28:16,440"
+			},
+			"offsets": {
+				"from": 1694440,
+				"to": 1696440
+			},
+			"text": " nos dice discutir"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:16,440",
+				"to": "00:28:18,440"
+			},
+			"offsets": {
+				"from": 1696440,
+				"to": 1698440
+			},
+			"text": " si podría aumentarse la velocidad"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:18,440",
+				"to": "00:28:20,440"
+			},
+			"offsets": {
+				"from": 1698440,
+				"to": 1700440
+			},
+			"text": " del algoritmo en \"assembler\""
+		},
+		{
+			"timestamps": {
+				"from": "00:28:20,440",
+				"to": "00:28:22,440"
+			},
+			"offsets": {
+				"from": 1700440,
+				"to": 1702440
+			},
+			"text": " en caso de que se conocieran los largos"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:22,440",
+				"to": "00:28:24,440"
+			},
+			"offsets": {
+				"from": 1702440,
+				"to": 1704440
+			},
+			"text": " de ambos \"strings\""
+		},
+		{
+			"timestamps": {
+				"from": "00:28:24,440",
+				"to": "00:28:26,440"
+			},
+			"offsets": {
+				"from": 1704440,
+				"to": 1706440
+			},
+			"text": " esta pregunta"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:26,440",
+				"to": "00:28:28,440"
+			},
+			"offsets": {
+				"from": 1706440,
+				"to": 1708440
+			},
+			"text": " depende mucho de cuál es el algoritmo"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:28,440",
+				"to": "00:28:30,440"
+			},
+			"offsets": {
+				"from": 1708440,
+				"to": 1710440
+			},
+			"text": " que yo haya usado"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:30,440",
+				"to": "00:28:32,440"
+			},
+			"offsets": {
+				"from": 1710440,
+				"to": 1712440
+			},
+			"text": " para este algoritmo que yo usé"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:32,440",
+				"to": "00:28:34,440"
+			},
+			"offsets": {
+				"from": 1712440,
+				"to": 1714440
+			},
+			"text": " se me ocurre"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:34,440",
+				"to": "00:28:36,440"
+			},
+			"offsets": {
+				"from": 1714440,
+				"to": 1716440
+			},
+			"text": " que podemos mejorar un poquito"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:36,440",
+				"to": "00:28:40,440"
+			},
+			"offsets": {
+				"from": 1716440,
+				"to": 1720440
+			},
+			"text": " el algoritmo"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:40,440",
+				"to": "00:28:42,440"
+			},
+			"offsets": {
+				"from": 1720440,
+				"to": 1722440
+			},
+			"text": " en vez de buscar"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:42,440",
+				"to": "00:28:46,440"
+			},
+			"offsets": {
+				"from": 1722440,
+				"to": 1726440
+			},
+			"text": " desde acá hasta que"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:46,440",
+				"to": "00:28:48,440"
+			},
+			"offsets": {
+				"from": 1726440,
+				"to": 1728440
+			},
+			"text": " al \"nulo\" en realidad"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:48,440",
+				"to": "00:28:50,440"
+			},
+			"offsets": {
+				"from": 1728440,
+				"to": 1730440
+			},
+			"text": " basta con que corte la búsqueda"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:50,440",
+				"to": "00:28:52,440"
+			},
+			"offsets": {
+				"from": 1730440,
+				"to": 1732440
+			},
+			"text": " cuando el índice"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:52,440",
+				"to": "00:28:56,440"
+			},
+			"offsets": {
+				"from": 1732440,
+				"to": 1736440
+			},
+			"text": " queda menos caracteres"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:56,440",
+				"to": "00:28:58,440"
+			},
+			"offsets": {
+				"from": 1736440,
+				"to": 1738440
+			},
+			"text": " digamos para recorrer acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:58,440",
+				"to": "00:29:00,440"
+			},
+			"offsets": {
+				"from": 1738440,
+				"to": 1740440
+			},
+			"text": " del largo buscado porque eso quiere decir"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:00,440",
+				"to": "00:29:02,440"
+			},
+			"offsets": {
+				"from": 1740440,
+				"to": 1742440
+			},
+			"text": " de que no lo voy a encontrar"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:02,440",
+				"to": "00:29:04,440"
+			},
+			"offsets": {
+				"from": 1742440,
+				"to": 1744440
+			},
+			"text": " o sea que podría optimizarlo un poquito"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:04,440",
+				"to": "00:29:06,440"
+			},
+			"offsets": {
+				"from": 1744440,
+				"to": 1746440
+			},
+			"text": " si yo conociera"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:06,440",
+				"to": "00:29:08,440"
+			},
+			"offsets": {
+				"from": 1746440,
+				"to": 1748440
+			},
+			"text": " el largo del"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:08,440",
+				"to": "00:29:10,440"
+			},
+			"offsets": {
+				"from": 1748440,
+				"to": 1750440
+			},
+			"text": " del texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:10,440",
+				"to": "00:29:12,440"
+			},
+			"offsets": {
+				"from": 1750440,
+				"to": 1752440
+			},
+			"text": " y el largo de buscado para"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:12,440",
+				"to": "00:29:14,440"
+			},
+			"offsets": {
+				"from": 1752440,
+				"to": 1754440
+			},
+			"text": " cambiar esta condición"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:14,440",
+				"to": "00:29:16,440"
+			},
+			"offsets": {
+				"from": 1754440,
+				"to": 1756440
+			},
+			"text": " para que este \"pos\""
+		},
+		{
+			"timestamps": {
+				"from": "00:29:16,440",
+				"to": "00:29:18,440"
+			},
+			"offsets": {
+				"from": 1756440,
+				"to": 1758440
+			},
+			"text": " tiene que ser menor que"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:18,440",
+				"to": "00:29:20,440"
+			},
+			"offsets": {
+				"from": 1758440,
+				"to": 1760440
+			},
+			"text": " el largo del texto"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:20,440",
+				"to": "00:29:22,440"
+			},
+			"offsets": {
+				"from": 1760440,
+				"to": 1762440
+			},
+			"text": " menos el largo buscado"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:22,440",
+				"to": "00:29:24,440"
+			},
+			"offsets": {
+				"from": 1762440,
+				"to": 1764440
+			},
+			"text": " o sea que podría tomar esa pequeña"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:24,440",
+				"to": "00:29:26,440"
+			},
+			"offsets": {
+				"from": 1764440,
+				"to": 1766440
+			},
+			"text": " optimización"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:26,440",
+				"to": "00:29:28,440"
+			},
+			"offsets": {
+				"from": 1766440,
+				"to": 1768440
+			},
+			"text": " que funcionaría para acá en el que"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:28,440",
+				"to": "00:29:30,440"
+			},
+			"offsets": {
+				"from": 1768440,
+				"to": 1770440
+			},
+			"text": " el texto buscado no está"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:30,440",
+				"to": "00:29:32,440"
+			},
+			"offsets": {
+				"from": 1770440,
+				"to": 1772440
+			},
+			"text": " corto antes la búsqueda"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:32,440",
+				"to": "00:29:34,440"
+			},
+			"offsets": {
+				"from": 1772440,
+				"to": 1774440
+			},
+			"text": " bien?"
+		}
+	]
+}
