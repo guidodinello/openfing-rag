@@ -72,6 +72,7 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
     rm "$VIDEO_PATH"
 
     echo "Committing transcriptions to git..."
+    git pull
     git add "$JSON_OUTPUT"
     git commit -m "Add transcription for $OUTPUT" || echo "Nada nuevo para commitear"
     git push
