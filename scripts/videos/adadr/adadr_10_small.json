@@ -1,0 +1,2936 @@
+{
+	"systeminfo": "WHISPER : COREML = 0 | OPENVINO = 0 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | OPENMP = 1 | AARCH64_REPACK = 1 | ",
+	"model": {
+		"type": "small",
+		"multilingual": true,
+		"vocab": 51865,
+		"audio": {
+			"ctx": 1500,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"text": {
+			"ctx": 448,
+			"state": 768,
+			"head": 12,
+			"layer": 12
+		},
+		"mels": 80,
+		"ftype": 1
+	},
+	"params": {
+		"model": "/home/diego/_Modulos/Facu/tesis/scripts/whisper.cpp/models/ggml-small.bin",
+		"language": "spanish",
+		"translate": false
+	},
+	"result": {
+		"language": "es"
+	},
+	"transcription": [
+		{
+			"timestamps": {
+				"from": "00:00:00,000",
+				"to": "00:00:11,720"
+			},
+			"offsets": {
+				"from": 0,
+				"to": 11720
+			},
+			"text": " Bueno, estamos en la clase 10 de 2021. Vamos a comentar la solución al problema de ranking."
+		},
+		{
+			"timestamps": {
+				"from": "00:00:11,720",
+				"to": "00:00:19,200"
+			},
+			"offsets": {
+				"from": 11720,
+				"to": 19200
+			},
+			"text": " En particular, vamos a comentar una solución propuesta por Paula Flockini, que es la autora"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:19,200",
+				"to": "00:00:26,780"
+			},
+			"offsets": {
+				"from": 19200,
+				"to": 26780
+			},
+			"text": " de las transparencias que usamos en el curso. Que bueno que en algún momento fue estudiante"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:26,780",
+				"to": "00:00:39,280"
+			},
+			"offsets": {
+				"from": 26780,
+				"to": 39280
+			},
+			"text": " doctorado de Santoro, y coautora de artículos con Santoro. Así que suponemos que su sugerencia"
+		},
+		{
+			"timestamps": {
+				"from": "00:00:39,280",
+				"to": "00:00:52,000"
+			},
+			"offsets": {
+				"from": 39280,
+				"to": 52000
+			},
+			"text": " de solución debe estar más o menos bien. Así que la vamos a comentar. Le voy a mostrar esto."
+		},
+		{
+			"timestamps": {
+				"from": "00:00:54,000",
+				"to": "00:01:03,360"
+			},
+			"offsets": {
+				"from": 54000,
+				"to": 63360
+			},
+			"text": " Bueno. Ven ahí la PPTSI. Bueno, ese es el problema que queremos resolver."
+		},
+		{
+			"timestamps": {
+				"from": "00:01:03,360",
+				"to": "00:01:11,040"
+			},
+			"offsets": {
+				"from": 63360,
+				"to": 71040
+			},
+			"text": " Ya resuelto, ¿no?"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:11,040",
+				"to": "00:01:22,640"
+			},
+			"offsets": {
+				"from": 71040,
+				"to": 82640
+			},
+			"text": " O sea, el nodo con valor 1 es el primero. O sea, los números en negro son los valores de los nodos."
+		},
+		{
+			"timestamps": {
+				"from": "00:01:24,000",
+				"to": "00:01:35,060"
+			},
+			"offsets": {
+				"from": 84000,
+				"to": 95060
+			},
+			"text": " Y los números en rojo son el ranking. El 1 es el primero, el 2 es el segundo, el 4 es el tercero y así"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:35,060",
+				"to": "00:01:44,480"
+			},
+			"offsets": {
+				"from": 95060,
+				"to": 104480
+			},
+			"text": " sucesivamente. Bien. Entonces, para aplicar el capítulo 2, perdón que era el que estábamos"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:44,480",
+				"to": "00:01:54,520"
+			},
+			"offsets": {
+				"from": 104480,
+				"to": 114520
+			},
+			"text": " viendo cuando propusimos este problema y que se trataba de computation increase. La primera idea que se"
+		},
+		{
+			"timestamps": {
+				"from": "00:01:54,520",
+				"to": "00:02:04,960"
+			},
+			"offsets": {
+				"from": 114520,
+				"to": 124960
+			},
+			"text": " nos ocurre es, bueno, vamos primero a encontrar un árbol y a partir de ahí vamos a usar las"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:04,960",
+				"to": "00:02:14,440"
+			},
+			"offsets": {
+				"from": 124960,
+				"to": 134440
+			},
+			"text": " técnicas que ya conocemos, en particular saturación y por ejemplo mínimo que ya lo vimos. Y con"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:14,440",
+				"to": "00:02:23,220"
+			},
+			"offsets": {
+				"from": 134440,
+				"to": 143220
+			},
+			"text": " eso nos va a dar un nodo de arranque. Como siempre, en estos problemas precisamos distinguir alguna"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:23,220",
+				"to": "00:02:34,040"
+			},
+			"offsets": {
+				"from": 143220,
+				"to": 154040
+			},
+			"text": " entidad y en este caso la propuesta es arrancar con el mínimo. Y el tercer paso es el problema en sí"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:34,040",
+				"to": "00:02:43,160"
+			},
+			"offsets": {
+				"from": 154040,
+				"to": 163160
+			},
+			"text": " que es ejecutar el ranking. Para ejecutar el ranking podemos tener una versión centralizada, o sea,"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:43,160",
+				"to": "00:02:56,440"
+			},
+			"offsets": {
+				"from": 163160,
+				"to": 176440
+			},
+			"text": " completamente guiada por el nodo central o una resolución descentralizada. Vamos a tratar de"
+		},
+		{
+			"timestamps": {
+				"from": "00:02:56,440",
+				"to": "00:03:04,520"
+			},
+			"offsets": {
+				"from": 176440,
+				"to": 184520
+			},
+			"text": " comentar las dos y nos da el tiempo. Hasta ahora, está claro, más o menos fue lo que hicieron."
+		},
+		{
+			"timestamps": {
+				"from": "00:03:06,040",
+				"to": "00:03:21,120"
+			},
+			"offsets": {
+				"from": 186040,
+				"to": 201120
+			},
+			"text": " Yo lo hice medio distinto. En realidad, básicamente hice una copia del multishout del libro y ahí yo"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:21,120",
+				"to": "00:03:29,200"
+			},
+			"offsets": {
+				"from": 201120,
+				"to": 209200
+			},
+			"text": " iba por cada su árbol y iba juntando los valores de los subárboles, en lo que sería el check en"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:29,200",
+				"to": "00:03:35,600"
+			},
+			"offsets": {
+				"from": 209200,
+				"to": 215600
+			},
+			"text": " las hojas enviadas hacia arriba de los valores, y así yo llegué hasta allá a la raíz. La raíz"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:35,600",
+				"to": "00:03:41,080"
+			},
+			"offsets": {
+				"from": 215600,
+				"to": 221080
+			},
+			"text": " calculaba el ranking y una vez tenía el ranking se la enviaba todo el árbol y cada uno podía"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:41,080",
+				"to": "00:03:52,840"
+			},
+			"offsets": {
+				"from": 221080,
+				"to": 232840
+			},
+			"text": " agarrar su ranking. O sea que existe una versión centralizada usando más o menos las"
+		},
+		{
+			"timestamps": {
+				"from": "00:03:52,840",
+				"to": "00:04:01,840"
+			},
+			"offsets": {
+				"from": 232840,
+				"to": 241840
+			},
+			"text": " características de multishout. Y ahí tuviste que hacer las hipótesis ahí, las restricciones,"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:01,840",
+				"to": "00:04:16,480"
+			},
+			"offsets": {
+				"from": 241840,
+				"to": 256480
+			},
+			"text": " como se llama, que cada uno tenía idea único. Perfecto. Multishout de hecho construye un árbol,"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:16,480",
+				"to": "00:04:27,480"
+			},
+			"offsets": {
+				"from": 256480,
+				"to": 267480
+			},
+			"text": " o sea que por ese lado estamos bien y probablemente esté bien la solución, hay que revisarla,"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:27,480",
+				"to": "00:04:38,960"
+			},
+			"offsets": {
+				"from": 267480,
+				"to": 278960
+			},
+			"text": " pero es una buena idea. Bueno, muy bien. Entonces, asumamos que ya llegamos a la parte de construir"
+		},
+		{
+			"timestamps": {
+				"from": "00:04:38,960",
+				"to": "00:04:53,880"
+			},
+			"offsets": {
+				"from": 278960,
+				"to": 293880
+			},
+			"text": " el árbol. El líder conoce el mínimo porque por el problema de minimum finding ya lo conocíamos."
+		},
+		{
+			"timestamps": {
+				"from": "00:04:53,880",
+				"to": "00:05:07,760"
+			},
+			"offsets": {
+				"from": 293880,
+				"to": 307760
+			},
+			"text": " Y entonces en la dirección del mínimo se manda un mensaje de ranking. Cada nodo"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:09,640",
+				"to": "00:05:22,320"
+			},
+			"offsets": {
+				"from": 309640,
+				"to": 322320
+			},
+			"text": " conoce el mínimo en su subárbol y entonces cada nodo es capaz de reenviar el mensaje de ranking"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:22,320",
+				"to": "00:05:30,000"
+			},
+			"offsets": {
+				"from": 322320,
+				"to": 330000
+			},
+			"text": " en la dirección correcta. Entonces cuando el nodo hace ranqueado, recibe el mensaje,"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:30,000",
+				"to": "00:05:38,120"
+			},
+			"offsets": {
+				"from": 330000,
+				"to": 338120
+			},
+			"text": " manda una notificación hacia arriba que va a llegar hasta el líder, que en este caso es el nodo"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:38,120",
+				"to": "00:05:49,960"
+			},
+			"offsets": {
+				"from": 338120,
+				"to": 349960
+			},
+			"text": " con el valor 2. Creo que esto en medio que se parece al paper ese que dijeron la otra vez y del"
+		},
+		{
+			"timestamps": {
+				"from": "00:05:49,960",
+				"to": "00:05:56,080"
+			},
+			"offsets": {
+				"from": 349960,
+				"to": 356080
+			},
+			"text": " nombre raro, como que hacía lo mismo, tipo le mando al mínimo y el mínimo le contestaba."
+		},
+		{
+			"timestamps": {
+				"from": "00:05:56,080",
+				"to": "00:06:06,600"
+			},
+			"offsets": {
+				"from": 356080,
+				"to": 366600
+			},
+			"text": " Probablemente yo no me acuerdo si lo miré ese paper, pero sí, probablemente sea una idea"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:06,600",
+				"to": "00:06:17,000"
+			},
+			"offsets": {
+				"from": 366600,
+				"to": 377000
+			},
+			"text": " muy parecida a esto, o esta misma. Pero está claro, no? O sea, cada uno sabe lo que tiene abajo,"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:17,000",
+				"to": "00:06:22,280"
+			},
+			"offsets": {
+				"from": 377000,
+				"to": 382280
+			},
+			"text": " digamos, y en base a eso y al mensaje que le llega de arriba sabe para dónde reenviar el"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:22,280",
+				"to": "00:06:30,480"
+			},
+			"offsets": {
+				"from": 382280,
+				"to": 390480
+			},
+			"text": " mensaje, de forma tal que le llegue al mínimo y él se pueda auto reconocer y avisarle al líder,"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:30,480",
+				"to": "00:06:40,240"
+			},
+			"offsets": {
+				"from": 390480,
+				"to": 400240
+			},
+			"text": " al padre de que ya conoce su lugar, conoce su ranking. Entonces la notificación, por ejemplo,"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:40,240",
+				"to": "00:06:57,040"
+			},
+			"offsets": {
+				"from": 400240,
+				"to": 417040
+			},
+			"text": " para la ejecución de ese algoritmo es como se ve acá. El nodo con el valor 2 sabe que tiene el"
+		},
+		{
+			"timestamps": {
+				"from": "00:06:57,040",
+				"to": "00:07:06,480"
+			},
+			"offsets": {
+				"from": 417040,
+				"to": 426480
+			},
+			"text": " mínimo 1 del lado derecho y el mínimo 9 del lado izquierdo manda el par ordenado 1-1,"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:06,480",
+				"to": "00:07:18,520"
+			},
+			"offsets": {
+				"from": 426480,
+				"to": 438520
+			},
+			"text": " es decir, el valor 1 es el ranking 1, el nodo 22 que tiene directamente colgando a 1 hace"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:18,520",
+				"to": "00:07:29,800"
+			},
+			"offsets": {
+				"from": 438520,
+				"to": 449800
+			},
+			"text": " foreguarding de ese mensaje a 1 solamente, quien ahí viene la parte de notificar este hacia arriba"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:29,800",
+				"to": "00:07:41,920"
+			},
+			"offsets": {
+				"from": 449800,
+				"to": 461920
+			},
+			"text": " y hacer un update del proceso de ranking. ¿Qué quiere decir esto? Que si first conociera"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:41,920",
+				"to": "00:07:48,600"
+			},
+			"offsets": {
+				"from": 461920,
+				"to": 468600
+			},
+			"text": " hacia abajo, aguas abajo, algún candidato a segundo en el ranking lo tendría que avisar,"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:48,600",
+				"to": "00:07:59,280"
+			},
+			"offsets": {
+				"from": 468600,
+				"to": 479280
+			},
+			"text": " como no lo sabe, avisa infinito y es 22, digamos, el padre de 1, el que dice \"ah,"
+		},
+		{
+			"timestamps": {
+				"from": "00:07:59,280",
+				"to": "00:08:09,120"
+			},
+			"offsets": {
+				"from": 479280,
+				"to": 489120
+			},
+			"text": " yo conozco 1\", un nodo que podría ser un candidato a segundo que es el número 4S y lo manda hacia"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:09,120",
+				"to": "00:08:16,200"
+			},
+			"offsets": {
+				"from": 489120,
+				"to": 496200
+			},
+			"text": " arriba. Entonces ahora el padre sabe que el primero ya se notificó y que tiene un candidato"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:16,200",
+				"to": "00:08:27,040"
+			},
+			"offsets": {
+				"from": 496200,
+				"to": 507040
+			},
+			"text": " a segundo, que es el nodo con el valor 4. ¿Se entiende? Sí, pero no entendí cómo, o sea, yo"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:27,040",
+				"to": "00:08:34,520"
+			},
+			"offsets": {
+				"from": 507040,
+				"to": 514520
+			},
+			"text": " entiendo que a los nodos les va llegando cuál es el mínimo del subárbol por saturación,"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:34,520",
+				"to": "00:08:39,880"
+			},
+			"offsets": {
+				"from": 514520,
+				"to": 519880
+			},
+			"text": " pero para que después sepas de qué lado está lo tendría que guardar en algún lugar, ¿no?"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:39,880",
+				"to": "00:08:54,520"
+			},
+			"offsets": {
+				"from": 519880,
+				"to": 534520
+			},
+			"text": " Porque vos dijiste \"yo soy el 2\", yo soy tipo que para la izquierda tengo el 9 y para la derecha"
+		},
+		{
+			"timestamps": {
+				"from": "00:08:54,520",
+				"to": "00:09:00,160"
+			},
+			"offsets": {
+				"from": 534520,
+				"to": 540160
+			},
+			"text": " tengo el 1, o sea, ¿cómo sabe eso cada uno? ¿Dónde te llegó ese por el puerto? Yo creo que"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:00,160",
+				"to": "00:09:06,760"
+			},
+			"offsets": {
+				"from": 540160,
+				"to": 546760
+			},
+			"text": " deberías de guardarlo, ¿no? Claro, pero me llevaste, claro, me llevaste 3 años. Ah, bueno,"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:06,760",
+				"to": "00:09:11,320"
+			},
+			"offsets": {
+				"from": 546760,
+				"to": 551320
+			},
+			"text": " sí, ¿te acuerdas? Guardamos, calculamos mínimo, llevábamos una variable ahí que era mínimo."
+		},
+		{
+			"timestamps": {
+				"from": "00:09:11,320",
+				"to": "00:09:21,160"
+			},
+			"offsets": {
+				"from": 551320,
+				"to": 561160
+			},
+			"text": " Y sabes que esa variable te vino de abajo, no te vino de arriba. ¿Por el proceso de saturación?"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:21,160",
+				"to": "00:09:27,720"
+			},
+			"offsets": {
+				"from": 561160,
+				"to": 567720
+			},
+			"text": " Sí, claro, pero a mí me preguntaba cómo sé tipo cuál, o sea, entiendo si viene de abajo,"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:27,720",
+				"to": "00:09:32,360"
+			},
+			"offsets": {
+				"from": 567720,
+				"to": 572360
+			},
+			"text": " pero de quién viene específicamente, pensé que lo tendría que guardar."
+		},
+		{
+			"timestamps": {
+				"from": "00:09:32,360",
+				"to": "00:09:40,760"
+			},
+			"offsets": {
+				"from": 572360,
+				"to": 580760
+			},
+			"text": " Pero de quién lo sabes? El nodo 22, cuando le avisa que 4. Ah, no, está bien,"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:40,760",
+				"to": "00:09:47,760"
+			},
+			"offsets": {
+				"from": 580760,
+				"to": 587760
+			},
+			"text": " asumimos que sí, que me llegó, está bien. Sí, para poder avisarle en el puerto concreto,"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:47,760",
+				"to": "00:09:52,980"
+			},
+			"offsets": {
+				"from": 587760,
+				"to": 592980
+			},
+			"text": " tenés que guardar sí. El valor que te llegó por el puerto tal, sí, está bien,"
+		},
+		{
+			"timestamps": {
+				"from": "00:09:52,980",
+				"to": "00:10:00,540"
+			},
+			"offsets": {
+				"from": 592980,
+				"to": 600540
+			},
+			"text": " tenés razón. No estamos escribiendo el algoritmo, así que, este, eso es bien un tema que lo"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:00,540",
+				"to": "00:10:06,340"
+			},
+			"offsets": {
+				"from": 600540,
+				"to": 606340
+			},
+			"text": " tenemos que, lo tendríamos que escribir cuando escribamos el algoritmo. Está bien, ¿de acuerdo?"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:06,340",
+				"to": "00:10:14,060"
+			},
+			"offsets": {
+				"from": 606340,
+				"to": 614060
+			},
+			"text": " Entonces, pero bueno, está bien, es lícito, está en el modelo, digamos, podemos tener variables,"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:16,060",
+				"to": "00:10:27,940"
+			},
+			"offsets": {
+				"from": 616060,
+				"to": 627940
+			},
+			"text": " locales almacenadas, eso en principio no viola el modelo, digamos. Este, no nos hacemos trampa,"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:27,940",
+				"to": "00:10:38,900"
+			},
+			"offsets": {
+				"from": 627940,
+				"to": 638900
+			},
+			"text": " estaba. Entonces, le llega a dos, el líder, que tiene un candidato a segundo, que es 4,"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:40,900",
+				"to": "00:10:51,140"
+			},
+			"offsets": {
+				"from": 640900,
+				"to": 651140
+			},
+			"text": " acto seguido, él ve que él es menor, por lo tanto, dice no, yo soy el segundo,"
+		},
+		{
+			"timestamps": {
+				"from": "00:10:51,140",
+				"to": "00:11:02,660"
+			},
+			"offsets": {
+				"from": 651140,
+				"to": 662660
+			},
+			"text": " y arranca un proceso de ubicación del tercero, dice, tengo un candidato a tercero que es 4."
+		},
+		{
+			"timestamps": {
+				"from": "00:11:05,380",
+				"to": "00:11:14,460"
+			},
+			"offsets": {
+				"from": 665380,
+				"to": 674460
+			},
+			"text": " Sí, esa parte se entendió. De la misma forma, transita por el árbol hasta llegar a 4,"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:14,460",
+				"to": "00:11:25,700"
+			},
+			"offsets": {
+				"from": 674460,
+				"to": 685700
+			},
+			"text": " 4 hace lo mismo, bla, bla, bla, 20, avisa que conoce a 7, que es un candidato a cuarto, digamos,"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:26,780",
+				"to": "00:11:33,780"
+			},
+			"offsets": {
+				"from": 686780,
+				"to": 693780
+			},
+			"text": " esto llega al líder y así sucesivamente. ¿Está? ¿Se entiende?"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:33,780",
+				"to": "00:11:39,740"
+			},
+			"offsets": {
+				"from": 693780,
+				"to": 699740
+			},
+			"text": " ¿Y está la solución centralizada?"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:39,740",
+				"to": "00:11:53,180"
+			},
+			"offsets": {
+				"from": 699740,
+				"to": 713180
+			},
+			"text": " Sí, sí, porque el 1 ahí le mandó infinito, porque tipo, le dijo, te estoy buscando algo su uno y yo"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:53,180",
+				"to": "00:11:58,820"
+			},
+			"offsets": {
+				"from": 713180,
+				"to": 718820
+			},
+			"text": " no tengo hijos, entonces no conozco nada más, pero si en el caso ponenle ahora que estamos en el 20,"
+		},
+		{
+			"timestamps": {
+				"from": "00:11:58,820",
+				"to": "00:12:04,060"
+			},
+			"offsets": {
+				"from": 718820,
+				"to": 724060
+			},
+			"text": " él fuera al mínimo, se mandaría a sí mismo, ¿no? Sí, claro, sí."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:04,060",
+				"to": "00:12:17,100"
+			},
+			"offsets": {
+				"from": 724060,
+				"to": 737100
+			},
+			"text": " Sí, de hecho eso va a pasar. ¿Cuándo va a pasar? En algunas de las ejecuciones seguro que va a pasar."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:17,100",
+				"to": "00:12:20,620"
+			},
+			"offsets": {
+				"from": 737100,
+				"to": 740620
+			},
+			"text": " Habría que hacer toda la recorrida, pero sí."
+		},
+		{
+			"timestamps": {
+				"from": "00:12:24,180",
+				"to": "00:12:35,420"
+			},
+			"offsets": {
+				"from": 744180,
+				"to": 755420
+			},
+			"text": " Bueno, entonces, ¿cuál es el peor caso de complejidad acá?"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:35,420",
+				"to": "00:12:45,580"
+			},
+			"offsets": {
+				"from": 755420,
+				"to": 765580
+			},
+			"text": " El caso en el cual degeneramos en esta lista ordenada, digamos, porque hay que transitar"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:45,580",
+				"to": "00:12:53,100"
+			},
+			"offsets": {
+				"from": 765580,
+				"to": 773100
+			},
+			"text": " hasta el fondo para encontrar el mínimo, el primero, después transitan todos los mensajes"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:53,100",
+				"to": "00:12:58,420"
+			},
+			"offsets": {
+				"from": 773100,
+				"to": 778420
+			},
+			"text": " hasta arriba para la notificación, después hay que transitar hasta el fondo de vuelta,"
+		},
+		{
+			"timestamps": {
+				"from": "00:12:58,420",
+				"to": "00:13:08,380"
+			},
+			"offsets": {
+				"from": 778420,
+				"to": 788380
+			},
+			"text": " o sea, cada uno de estos viajes de mensajes son de diámetro de N-1, digamos, ¿no?"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:10,060",
+				"to": "00:13:29,660"
+			},
+			"offsets": {
+				"from": 790060,
+				"to": 809660
+			},
+			"text": " Y entonces tenemos N veces por 2 la suma de 1 a N de N-i, digamos, esa sería la fórmulita, ¿no?"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:29,660",
+				"to": "00:13:36,420"
+			},
+			"offsets": {
+				"from": 809660,
+				"to": 816420
+			},
+			"text": " Que eso debe ser alguna serie conocida, pero yo lo desconozco, capaz que en el paper está."
+		},
+		{
+			"timestamps": {
+				"from": "00:13:40,300",
+				"to": "00:13:40,980"
+			},
+			"offsets": {
+				"from": 820300,
+				"to": 820980
+			},
+			"text": " ¿Se entiende?"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:40,980",
+				"to": "00:13:54,300"
+			},
+			"offsets": {
+				"from": 820980,
+				"to": 834300
+			},
+			"text": " Bien. Esa es la versión centralizada. La versión descentralizada"
+		},
+		{
+			"timestamps": {
+				"from": "00:13:54,300",
+				"to": "00:14:07,980"
+			},
+			"offsets": {
+				"from": 834300,
+				"to": 847980
+			},
+			"text": " es una versión que se parece a una recorrida"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:10,380",
+				"to": "00:14:20,300"
+			},
+			"offsets": {
+				"from": 850380,
+				"to": 860300
+			},
+			"text": " en profundidad, digamos. Vamos a ver cómo funciona. No sé si hay comentarios de la"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:20,300",
+				"to": "00:14:25,180"
+			},
+			"offsets": {
+				"from": 860300,
+				"to": 865180
+			},
+			"text": " solución que comentamos hasta ahora. ¿Alguien se le ha ocurrido algo parecido?"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:25,180",
+				"to": "00:14:37,500"
+			},
+			"offsets": {
+				"from": 865180,
+				"to": 877500
+			},
+			"text": " Es lo que plantea Schmuel se unió para trazar el árbol antes, o sea, construir el árbol y después"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:37,500",
+				"to": "00:14:43,820"
+			},
+			"offsets": {
+				"from": 877500,
+				"to": 883820
+			},
+			"text": " encontrar el centro del árbol para no caer en ese escenario de tener la lista en el"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:43,820",
+				"to": "00:14:49,820"
+			},
+			"offsets": {
+				"from": 883820,
+				"to": 889820
+			},
+			"text": " personal posible, digamos, parte del centro y ese es el que centraliza el range, digamos."
+		},
+		{
+			"timestamps": {
+				"from": "00:14:49,820",
+				"to": "00:14:55,900"
+			},
+			"offsets": {
+				"from": 889820,
+				"to": 895900
+			},
+			"text": " Ahí va. Es óptimo en ese sentido, está bien. Pero tiene la búsqueda del centro, ¿qué está?"
+		},
+		{
+			"timestamps": {
+				"from": "00:14:55,900",
+				"to": "00:15:04,860"
+			},
+			"offsets": {
+				"from": 895900,
+				"to": 904860
+			},
+			"text": " Que le agrega otro cacho de complejidad, está bien. O sea que la búsqueda del centro y la búsqueda"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:04,860",
+				"to": "00:15:18,820"
+			},
+			"offsets": {
+				"from": 904860,
+				"to": 918820
+			},
+			"text": " del mínimo deben ser de orden parecido. Bueno, la versión distribuida. Arrancamos de vuelta en"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:18,820",
+				"to": "00:15:32,500"
+			},
+			"offsets": {
+				"from": 918820,
+				"to": 932500
+			},
+			"text": " el nodo central, el nodo leader. Pero ahora lo que hacemos es mandar pares ordenados."
+		},
+		{
+			"timestamps": {
+				"from": "00:15:34,940",
+				"to": "00:15:45,020"
+			},
+			"offsets": {
+				"from": 934940,
+				"to": 945020
+			},
+			"text": " Es decir, tenemos el primero y el segundo y el ranking asociado. Entonces,"
+		},
+		{
+			"timestamps": {
+				"from": "00:15:45,020",
+				"to": "00:15:57,460"
+			},
+			"offsets": {
+				"from": 945020,
+				"to": 957460
+			},
+			"text": " dos sabe que uno es el mínimo del lado derecho, bueno, el mínimo de todas las ramas que tiene."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:00,500",
+				"to": "00:16:05,780"
+			},
+			"offsets": {
+				"from": 960500,
+				"to": 965780
+			},
+			"text": " Y sabe que él vale dos. Por lo tanto, ya se puede ranquear como segundo."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:05,780",
+				"to": "00:16:17,900"
+			},
+			"offsets": {
+				"from": 965780,
+				"to": 977900
+			},
+			"text": " Y entonces, avisa, tengo el uno, el segundo es dos y uno es el primero, digamos."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:17,900",
+				"to": "00:16:23,900"
+			},
+			"offsets": {
+				"from": 977900,
+				"to": 983900
+			},
+			"text": " Eso va a llegar a uno igual que antes."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:31,500",
+				"to": "00:16:37,740"
+			},
+			"offsets": {
+				"from": 991500,
+				"to": 997740
+			},
+			"text": " Ese segundo es, por lo menos, lo que él conoce, digamos. En este caso están pegados y no hay"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:37,740",
+				"to": "00:16:43,380"
+			},
+			"offsets": {
+				"from": 997740,
+				"to": 1003380
+			},
+			"text": " otra posibilidad, pero podría valer cuatro, el segundo y no conoce ninguno más chico atrás."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:43,380",
+				"to": "00:16:50,140"
+			},
+			"offsets": {
+				"from": 1003380,
+				"to": 1010140
+			},
+			"text": " Podría valer tres ponel también podría ser. Y de repente había un dos por allá abajo que"
+		},
+		{
+			"timestamps": {
+				"from": "00:16:50,140",
+				"to": "00:16:57,180"
+			},
+			"offsets": {
+				"from": 1010140,
+				"to": 1017180
+			},
+			"text": " no lo sabíamos. Es un segundo o un siguiente so far, digamos. Hasta ahora es lo que conocemos."
+		},
+		{
+			"timestamps": {
+				"from": "00:16:58,940",
+				"to": "00:17:06,580"
+			},
+			"offsets": {
+				"from": 1018940,
+				"to": 1026580
+			},
+			"text": " O sea, es un igual. O sea, si vos elegiste como nodo líder, el mínimo, como que al principio"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:06,580",
+				"to": "00:17:15,020"
+			},
+			"offsets": {
+				"from": 1026580,
+				"to": 1035020
+			},
+			"text": " siempre vas a ser vos, ¿no? Si elegiste el mínimo, al principio vas a ser, vas a ser vos."
+		},
+		{
+			"timestamps": {
+				"from": "00:17:15,020",
+				"to": "00:17:21,420"
+			},
+			"offsets": {
+				"from": 1035020,
+				"to": 1041420
+			},
+			"text": " Sí. No, acá lo que pasa es que el nodo líder este, en realidad lo elegimos."
+		},
+		{
+			"timestamps": {
+				"from": "00:17:29,260",
+				"to": "00:17:44,620"
+			},
+			"offsets": {
+				"from": 1049260,
+				"to": 1064620
+			},
+			"text": " O sea, la BBT decía el mínimo. No, corrimos el, corrimos el mínimo en el sentido de que sabemos"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:44,620",
+				"to": "00:17:55,980"
+			},
+			"offsets": {
+				"from": 1064620,
+				"to": 1075980
+			},
+			"text": " dónde está el mínimo, digamos. A realidad corrimos saturación, dos nodos quedaron saturados y"
+		},
+		{
+			"timestamps": {
+				"from": "00:17:55,980",
+				"to": "00:18:02,460"
+			},
+			"offsets": {
+				"from": 1075980,
+				"to": 1082460
+			},
+			"text": " tuvimos que tomar una decisión. Ponerle que hubieran sido el 2 y el 13. Y entre ellos decidieron,"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:02,460",
+				"to": "00:18:10,580"
+			},
+			"offsets": {
+				"from": 1082460,
+				"to": 1090580
+			},
+			"text": " no sé, el 12 más chico se queda como líder o algo así. Y 2 sabe lo que tiene hacia la izquierda y"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:10,580",
+				"to": "00:18:19,580"
+			},
+			"offsets": {
+				"from": 1090580,
+				"to": 1099580
+			},
+			"text": " a la derecha. No es que es el mínimo porque no lo es, digamos. Hay uno."
+		},
+		{
+			"timestamps": {
+				"from": "00:18:23,300",
+				"to": "00:18:32,180"
+			},
+			"offsets": {
+				"from": 1103300,
+				"to": 1112180
+			},
+			"text": " Bien. Entonces, cuando llegan los mensajes, ahora lo que nos preocupa es 22, ¿no? Que es el"
+		},
+		{
+			"timestamps": {
+				"from": "00:18:32,180",
+				"to": "00:18:39,620"
+			},
+			"offsets": {
+				"from": 1112180,
+				"to": 1119620
+			},
+			"text": " que, el que recibe el mensaje de su vida de uno de aviso de, tá, me enteré, soy el primero."
+		},
+		{
+			"timestamps": {
+				"from": "00:18:39,620",
+				"to": "00:18:48,060"
+			},
+			"offsets": {
+				"from": 1119620,
+				"to": 1128060
+			},
+			"text": " Entonces, 22 ¿qué panorama tiene? Tiene."
+		},
+		{
+			"timestamps": {
+				"from": "00:18:54,020",
+				"to": "00:19:08,660"
+			},
+			"offsets": {
+				"from": 1134020,
+				"to": 1148660
+			},
+			"text": " Algo para arriba, 11, 4. No, perdón. Sí, está bien. Algo para arriba, 1, 4 y 11."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:08,660",
+				"to": "00:19:20,380"
+			},
+			"offsets": {
+				"from": 1148660,
+				"to": 1160380
+			},
+			"text": " Bueno, hay nada más chico acá. Y el 2 ese, ah, hacia arriba, está bien, hacia arriba es 2."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:20,380",
+				"to": "00:19:35,220"
+			},
+			"offsets": {
+				"from": 1160380,
+				"to": 1175220
+			},
+			"text": " 1, 11 y infinito porque es lo que le mandó"
+		},
+		{
+			"timestamps": {
+				"from": "00:19:39,660",
+				"to": "00:19:49,900"
+			},
+			"offsets": {
+				"from": 1179660,
+				"to": 1189900
+			},
+			"text": " lo que le mandó, pero este 4 lo conoce. Está mal, creo. Está mal, ¿no? El 1 ese no sé dónde sale."
+		},
+		{
+			"timestamps": {
+				"from": "00:19:49,900",
+				"to": "00:20:00,700"
+			},
+			"offsets": {
+				"from": 1189900,
+				"to": 1200700
+			},
+			"text": " No, este 1, esto es 4, ¿no? El que manda infinito es uno que dice no tengo a nadie atrás y esto acá"
+		},
+		{
+			"timestamps": {
+				"from": "00:20:00,700",
+				"to": "00:20:08,980"
+			},
+			"offsets": {
+				"from": 1200700,
+				"to": 1208980
+			},
+			"text": " es un 4. No lo estoy editando."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:20,260",
+				"to": "00:20:31,540"
+			},
+			"offsets": {
+				"from": 1220260,
+				"to": 1231540
+			},
+			"text": " Dice, dice de arriba estás en solo eso. Pasa que justo tengo el share y me está complicando la vida."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:31,540",
+				"to": "00:20:42,180"
+			},
+			"offsets": {
+				"from": 1231540,
+				"to": 1242180
+			},
+			"text": " Hay un botón ahí de edit documento. En el World War, ¿no? En la barra azul."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:43,740",
+				"to": "00:20:54,420"
+			},
+			"offsets": {
+				"from": 1243740,
+				"to": 1254420
+			},
+			"text": " Ah, acá mismo, bien. Muchos ojos ven más que 2. Está, perfecto. Ese es el 4, estamos de acuerdo."
+		},
+		{
+			"timestamps": {
+				"from": "00:20:54,420",
+				"to": "00:21:07,420"
+			},
+			"offsets": {
+				"from": 1254420,
+				"to": 1267420
+			},
+			"text": " Entonces, esto es lo que conoce 22, entonces 22."
+		},
+		{
+			"timestamps": {
+				"from": "00:21:13,740",
+				"to": "00:21:25,580"
+			},
+			"offsets": {
+				"from": 1273740,
+				"to": 1285580
+			},
+			"text": " En realidad teníamos la información incompleta. El infinito este, no, no, en realidad el formato es"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:25,580",
+				"to": "00:21:36,900"
+			},
+			"offsets": {
+				"from": 1285580,
+				"to": 1296900
+			},
+			"text": " el siguiente es 2 porque ya venía en el mensaje original. El siguiente de 2 no sé cuál es y 2"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:36,900",
+				"to": "00:21:51,300"
+			},
+			"offsets": {
+				"from": 1296900,
+				"to": 1311300
+			},
+			"text": " ocupa la segunda posición. Entonces este valor de infinito va a ser actualizado mientras viaja"
+		},
+		{
+			"timestamps": {
+				"from": "00:21:51,300",
+				"to": "00:22:00,700"
+			},
+			"offsets": {
+				"from": 1311300,
+				"to": 1320700
+			},
+			"text": " por el árbol. En particular 22 va a decir, ah, yo tengo algo mejor que infinito. Tengo 4."
+		},
+		{
+			"timestamps": {
+				"from": "00:22:00,700",
+				"to": "00:22:18,700"
+			},
+			"offsets": {
+				"from": 1320700,
+				"to": 1338700
+			},
+			"text": " Y entonces cuando llega arriba 4 va a decir, ah, 2 perdón va a decir, perfecto. Yo soy el"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:18,700",
+				"to": "00:22:27,780"
+			},
+			"offsets": {
+				"from": 1338700,
+				"to": 1347780
+			},
+			"text": " segundo, me marco como segundo. El siguiente que conozco es 4, o sea el tercero es 4 y el"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:27,780",
+				"to": "00:22:33,300"
+			},
+			"offsets": {
+				"from": 1347780,
+				"to": 1353300
+			},
+			"text": " siguiente que conozco es 9 porque hasta ahora es lo que yo sabía, que tenía a uno de este"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:33,300",
+				"to": "00:22:38,700"
+			},
+			"offsets": {
+				"from": 1353300,
+				"to": 1358700
+			},
+			"text": " lado, ahora sé que tengo 4 y el siguiente que conozco es 9, que era lo que tenía de antes."
+		},
+		{
+			"timestamps": {
+				"from": "00:22:40,140",
+				"to": "00:22:55,180"
+			},
+			"offsets": {
+				"from": 1360140,
+				"to": 1375180
+			},
+			"text": " Entonces aviso, el tercero es 4 y el quinto por ahora es 9. Cuando llega acá 22 sabe que tiene"
+		},
+		{
+			"timestamps": {
+				"from": "00:22:55,180",
+				"to": "00:23:04,100"
+			},
+			"offsets": {
+				"from": 1375180,
+				"to": 1384100
+			},
+			"text": " un 7 abajo. Pero 22 sabe que tiene un mini uno más chico que 9 que este es este 7. Sí, decime."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:04,100",
+				"to": "00:23:15,620"
+			},
+			"offsets": {
+				"from": 1384100,
+				"to": 1395620
+			},
+			"text": " ¿Por qué se lo mandas a 22? Porque tiene que llegarle a 4 que se tiene que notificar que es el"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:15,620",
+				"to": "00:23:29,620"
+			},
+			"offsets": {
+				"from": 1395620,
+				"to": 1409620
+			},
+			"text": " tercero. Ok. ¿Está bien? Lo manda para el lado del primero en la tupla esta, digamos."
+		},
+		{
+			"timestamps": {
+				"from": "00:23:37,740",
+				"to": "00:23:54,900"
+			},
+			"offsets": {
+				"from": 1417740,
+				"to": 1434900
+			},
+			"text": " Vale, vamos sacando la duda. La gracia es que cada uno se vaya notificando convenciendo"
+		},
+		{
+			"timestamps": {
+				"from": "00:23:54,900",
+				"to": "00:24:02,740"
+			},
+			"offsets": {
+				"from": 1434900,
+				"to": 1442740
+			},
+			"text": " de que su lugar en el ranking es el correcto y avise, está bien. Yo me marco como tercero,"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:02,740",
+				"to": "00:24:11,260"
+			},
+			"offsets": {
+				"from": 1442740,
+				"to": 1451260
+			},
+			"text": " como cuarto, lo que sea. Entonces acá tenemos a 4 que viene de este lado del mundo, o sea,"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:11,260",
+				"to": "00:24:16,940"
+			},
+			"offsets": {
+				"from": 1451260,
+				"to": 1456940
+			},
+			"text": " de este lado del mundo y para que 4 se notifiquen los mensajeros tenemos que mandar para este lado."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:16,940",
+				"to": "00:24:23,420"
+			},
+			"offsets": {
+				"from": 1456940,
+				"to": 1463420
+			},
+			"text": " Y de paso le avisamos, mira que el siguiente es 9, por si tenés alguno mejor."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:30,060",
+				"to": "00:24:41,300"
+			},
+			"offsets": {
+				"from": 1470060,
+				"to": 1481300
+			},
+			"text": " ¿Está bien? Entonces 22, ahora compara 9 con su mejor valor y dice no, es 7 el siguiente."
+		},
+		{
+			"timestamps": {
+				"from": "00:24:41,300",
+				"to": "00:24:58,180"
+			},
+			"offsets": {
+				"from": 1481300,
+				"to": 1498180
+			},
+			"text": " Todo esto llega hasta 4, 4 va para arriba, entonces 20 va para atrás y le dice a 2 le"
+		},
+		{
+			"timestamps": {
+				"from": "00:24:58,180",
+				"to": "00:25:16,180"
+			},
+			"offsets": {
+				"from": 1498180,
+				"to": 1516180
+			},
+			"text": " llega que el siguiente es 7, 7, 9, 4 sería la tupla siguiente que larga a 2 hacia esta rama."
+		},
+		{
+			"timestamps": {
+				"from": "00:25:16,180",
+				"to": "00:25:23,180"
+			},
+			"offsets": {
+				"from": 1516180,
+				"to": 1523180
+			},
+			"text": " El hecho de que sea descentralizado, 20 no tendría que reenviarlo ya directo."
+		},
+		{
+			"timestamps": {
+				"from": "00:25:23,180",
+				"to": "00:25:32,260"
+			},
+			"offsets": {
+				"from": 1523180,
+				"to": 1532260
+			},
+			"text": " Si, eso estaría bueno, que fueran armando el subranking acá. Me parece que. Probablemente sea"
+		},
+		{
+			"timestamps": {
+				"from": "00:25:32,260",
+				"to": "00:25:48,940"
+			},
+			"offsets": {
+				"from": 1532260,
+				"to": 1548940
+			},
+			"text": " lo que pase, a ver. A ver, esto viene para acá. 4, 7, 3, 4, 7, 3."
+		},
+		{
+			"timestamps": {
+				"from": "00:25:55,020",
+				"to": "00:26:02,780"
+			},
+			"offsets": {
+				"from": 1555020,
+				"to": 1562780
+			},
+			"text": " Está bien, tenés razón. 7, está bien. Él ya tenía el 9, el 7 ya lo obtuvo de acá, está bien,"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:02,780",
+				"to": "00:26:09,660"
+			},
+			"offsets": {
+				"from": 1562780,
+				"to": 1569660
+			},
+			"text": " de acuerdo. Si no, estábamos haciendo todo el recorrido para arriba. 7 ya lo tiene,"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:09,660",
+				"to": "00:26:18,500"
+			},
+			"offsets": {
+				"from": 1569660,
+				"to": 1578500
+			},
+			"text": " perdón, 9 ya lo tenía y ahora cambia el mensaje y dice bueno, 4 dice, está bien,"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:18,500",
+				"to": "00:26:26,980"
+			},
+			"offsets": {
+				"from": 1578500,
+				"to": 1586980
+			},
+			"text": " ahora volvamos a la ejecución correcta, 4 se marca como tercero, dice el candidato a cuarto es 7,"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:26,980",
+				"to": "00:26:36,540"
+			},
+			"offsets": {
+				"from": 1586980,
+				"to": 1596540
+			},
+			"text": " perdón. El 7, de dónde salió este 7?"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:36,540",
+				"to": "00:26:45,660"
+			},
+			"offsets": {
+				"from": 1596540,
+				"to": 1605660
+			},
+			"text": " Ah, está bien, él le llegó, está bien, él le llegó el 7 que ya le había marcado 20 porque lo"
+		},
+		{
+			"timestamps": {
+				"from": "00:26:45,660",
+				"to": "00:26:50,740"
+			},
+			"offsets": {
+				"from": 1605660,
+				"to": 1610740
+			},
+			"text": " conocía, de acuerdo. Es el candidato a cuarto es 7 y el candidato a quinto no tengo ni idea."
+		},
+		{
+			"timestamps": {
+				"from": "00:26:50,740",
+				"to": "00:27:01,980"
+			},
+			"offsets": {
+				"from": 1610740,
+				"to": 1621980
+			},
+			"text": " 20 sabe que tenía 9 ahí esperando y dice ah, el candidato a cuarto es 7 y el candidato a"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:01,980",
+				"to": "00:27:17,700"
+			},
+			"offsets": {
+				"from": 1621980,
+				"to": 1637700
+			},
+			"text": " quinto es 9. Esto va a llegar eventualmente a 7 y 7 va a decir, está perfecto, pues ahora 7 se"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:17,700",
+				"to": "00:27:30,420"
+			},
+			"offsets": {
+				"from": 1637700,
+				"to": 1650420
+			},
+			"text": " va a marcar y va a decir el próximo es 9, el siguiente que yo conozco es 12 y 9 es el quinto,"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:30,420",
+				"to": "00:27:37,420"
+			},
+			"offsets": {
+				"from": 1650420,
+				"to": 1657420
+			},
+			"text": " digamos. Esto va a tener que viajar hacia arriba ahora sí porque 9 no lo vamos a encontrar por"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:37,420",
+				"to": "00:27:51,700"
+			},
+			"offsets": {
+				"from": 1657420,
+				"to": 1671700
+			},
+			"text": " ningún lado acá y va a llegar hasta acá y ahí 9 va a devolver el siguiente es 12 porque él no"
+		},
+		{
+			"timestamps": {
+				"from": "00:27:51,700",
+				"to": "00:28:12,420"
+			},
+			"offsets": {
+				"from": 1671700,
+				"to": 1692420
+			},
+			"text": " conoce a nadie menor, infinito y 6 y así sucesivamente. Sí, tiene sentido. A 11, recogimos a 11 por el"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:12,420",
+				"to": "00:28:20,140"
+			},
+			"offsets": {
+				"from": 1692420,
+				"to": 1700140
+			},
+			"text": " camino. A ver, ah, teníamos 11 por el camino acá. Tuvimos en actualización de mensaje de 11"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:20,140",
+				"to": "00:28:31,300"
+			},
+			"offsets": {
+				"from": 1700140,
+				"to": 1711300
+			},
+			"text": " cuando llegó a 22. Veníamos bien con 9, 12, 5. 9, 12, 5, pero 22 dice, ojo que yo conozco a 11."
+		},
+		{
+			"timestamps": {
+				"from": "00:28:31,300",
+				"to": "00:28:46,460"
+			},
+			"offsets": {
+				"from": 1711300,
+				"to": 1726460
+			},
+			"text": " Llega hasta acá, papá, papá, papá. Se marca como quinto y manda el mensaje, está 11. No sé"
+		},
+		{
+			"timestamps": {
+				"from": "00:28:46,460",
+				"to": "00:29:04,060"
+			},
+			"offsets": {
+				"from": 1726460,
+				"to": 1744060
+			},
+			"text": " quién es el siguiente de 11 y 11 es un candidato a 6. ¿Se entendió? El orden en este caso o el"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:04,060",
+				"to": "00:29:27,860"
+			},
+			"offsets": {
+				"from": 1744060,
+				"to": 1767860
+			},
+			"text": " peor caso en este caso es ir yendo de punta a punta cada vez. O sea, ir de 1 a 2 de 3 a 2, bueno,"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:27,860",
+				"to": "00:29:32,660"
+			},
+			"offsets": {
+				"from": 1767860,
+				"to": 1772660
+			},
+			"text": " lo que está indicado acá, ¿no? Que cada vez los tenga alternados. Entonces, cada vez tengo que"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:32,660",
+				"to": "00:29:42,620"
+			},
+			"offsets": {
+				"from": 1772660,
+				"to": 1782620
+			},
+			"text": " hacer el viaje todo para adelante y todo para atrás. Esto también seguro que tiene una expresión de"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:42,620",
+				"to": "00:29:52,300"
+			},
+			"offsets": {
+				"from": 1782620,
+				"to": 1792300
+			},
+			"text": " una sumatoria que podemos buscarla. Y por ahí queda la cosa. Es el mismo orden que el centralizado,"
+		},
+		{
+			"timestamps": {
+				"from": "00:29:52,300",
+				"to": "00:30:02,860"
+			},
+			"offsets": {
+				"from": 1792300,
+				"to": 1802860
+			},
+			"text": " ¿no? Voy a decir que es todo lo mismo. O sea, ¿correctará? ¿Qué es esto? Probablemente,"
+		},
+		{
+			"timestamps": {
+				"from": "00:30:02,860",
+				"to": "00:30:14,020"
+			},
+			"offsets": {
+				"from": 1802860,
+				"to": 1814020
+			},
+			"text": " a ver si medimos distancias. A ojo. Este tiene menos viajes. No, este es de menor orden porque"
+		},
+		{
+			"timestamps": {
+				"from": "00:30:14,020",
+				"to": "00:30:19,860"
+			},
+			"offsets": {
+				"from": 1814020,
+				"to": 1819860
+			},
+			"text": " no tiene todo el viaje y de vuelta. Está bien, enterras el visita del centralizado. Exacto."
+		},
+		{
+			"timestamps": {
+				"from": "00:30:19,860",
+				"to": "00:30:27,100"
+			},
+			"offsets": {
+				"from": 1819860,
+				"to": 1827100
+			},
+			"text": " Este tiene más viajes. Dicho con toda la desprolegidad del mundo."
+		},
+		{
+			"timestamps": {
+				"from": "00:30:27,100",
+				"to": "00:30:34,460"
+			},
+			"offsets": {
+				"from": 1827100,
+				"to": 1834460
+			},
+			"text": " Y bueno, y ahí está el problema de ranking."
+		},
+		{
+			"timestamps": {
+				"from": "00:30:41,380",
+				"to": "00:30:49,580"
+			},
+			"offsets": {
+				"from": 1841380,
+				"to": 1849580
+			},
+			"text": " Sí, la pizza interesante creo es la de hallar el mínimo. Saber el mínimo de cada su árbol tuyo"
+		},
+		{
+			"timestamps": {
+				"from": "00:30:49,580",
+				"to": "00:30:53,820"
+			},
+			"offsets": {
+				"from": 1849580,
+				"to": 1853820
+			},
+			"text": " para después, tipo, que se te ocurran en estos escenarios. Porque si no se pasa, es como que"
+		},
+		{
+			"timestamps": {
+				"from": "00:30:53,820",
+				"to": "00:30:59,300"
+			},
+			"offsets": {
+				"from": 1853820,
+				"to": 1859300
+			},
+			"text": " estás medio. Sí, elegir adecuadamente el líder, digamos."
+		},
+		{
+			"timestamps": {
+				"from": "00:30:59,300",
+				"to": "00:31:08,300"
+			},
+			"offsets": {
+				"from": 1859300,
+				"to": 1868300
+			},
+			"text": " Sí, más allá de eso, el correr el algoritmo que te dice para este costado, el mínimo que conozco es"
+		},
+		{
+			"timestamps": {
+				"from": "00:31:08,300",
+				"to": "00:31:13,620"
+			},
+			"offsets": {
+				"from": 1868300,
+				"to": 1873620
+			},
+			"text": " 4 y para este costado el mínimo que conozco es 1. Ese paso es clave, me parece, en las dos,"
+		},
+		{
+			"timestamps": {
+				"from": "00:31:13,620",
+				"to": "00:31:18,740"
+			},
+			"offsets": {
+				"from": 1873620,
+				"to": 1878740
+			},
+			"text": " en todas sus escenarios. Sí, sí, sí. A mí no se me ha ocurrido por lo menos."
+		},
+		{
+			"timestamps": {
+				"from": "00:31:18,740",
+				"to": "00:31:29,260"
+			},
+			"offsets": {
+				"from": 1878740,
+				"to": 1889260
+			},
+			"text": " Igual hay que pensarlo porque acá estamos haciendo tres cosas antes de arrancar el ranking,"
+		},
+		{
+			"timestamps": {
+				"from": "00:31:29,260",
+				"to": "00:31:34,820"
+			},
+			"offsets": {
+				"from": 1889260,
+				"to": 1894820
+			},
+			"text": " ¿no? Estamos haciendo el spawning tree, saturación y encontrar el mínimo."
+		},
+		{
+			"timestamps": {
+				"from": "00:31:38,620",
+				"to": "00:31:45,180"
+			},
+			"offsets": {
+				"from": 1898620,
+				"to": 1905180
+			},
+			"text": " Y además hay algo que está enbebido acá que no lo cuentan, que es ponerse de acuerdo de"
+		},
+		{
+			"timestamps": {
+				"from": "00:31:45,180",
+				"to": "00:31:48,500"
+			},
+			"offsets": {
+				"from": 1905180,
+				"to": 1908500
+			},
+			"text": " entre los dos náus saturados, quién es el que arranca, digamos."
+		},
+		{
+			"timestamps": {
+				"from": "00:31:48,500",
+				"to": "00:31:57,180"
+			},
+			"offsets": {
+				"from": 1908500,
+				"to": 1917180
+			},
+			"text": " Que está implícito, el más chico y ya está, pero sí, dale, Belén."
+		},
+		{
+			"timestamps": {
+				"from": "00:31:57,180",
+				"to": "00:32:05,340"
+			},
+			"offsets": {
+				"from": 1917180,
+				"to": 1925340
+			},
+			"text": " Viste que cuando hablamos de, por ejemplo, yo lo que hice, como no se me ocurre todo esto,"
+		},
+		{
+			"timestamps": {
+				"from": "00:32:05,340",
+				"to": "00:32:12,660"
+			},
+			"offsets": {
+				"from": 1925340,
+				"to": 1932660
+			},
+			"text": " fue hacer el spawning tree y en la saturación timpocano mandaba su valor y le iban guardando"
+		},
+		{
+			"timestamps": {
+				"from": "00:32:12,660",
+				"to": "00:32:17,300"
+			},
+			"offsets": {
+				"from": 1932660,
+				"to": 1937300
+			},
+			"text": " en arreglos y iba subiendo, subiendo, subiendo y los náus saturados ordenaban el ranking."
+		},
+		{
+			"timestamps": {
+				"from": "00:32:17,300",
+				"to": "00:32:26,060"
+			},
+			"offsets": {
+				"from": 1937300,
+				"to": 1946060
+			},
+			"text": " Y está, o sea, en ese sentido yo hago menos cosas que eso ponele pero mando más mensajes y no sé,"
+		},
+		{
+			"timestamps": {
+				"from": "00:32:26,060",
+				"to": "00:32:30,700"
+			},
+			"offsets": {
+				"from": 1946060,
+				"to": 1950700
+			},
+			"text": " o sea, ¿cómo evaluas que es peor o que es mejor?"
+		},
+		{
+			"timestamps": {
+				"from": "00:32:32,420",
+				"to": "00:32:39,820"
+			},
+			"offsets": {
+				"from": 1952420,
+				"to": 1959820
+			},
+			"text": " Y bueno, hay que ver el cálculo de complejidad de mensajería y de tiempo."
+		},
+		{
+			"timestamps": {
+				"from": "00:32:39,820",
+				"to": "00:32:49,100"
+			},
+			"offsets": {
+				"from": 1959820,
+				"to": 1969100
+			},
+			"text": " En tu caso, seguramente haya que hacerlo en bits porque tus mensajes son de tamaño variable,"
+		},
+		{
+			"timestamps": {
+				"from": "00:32:49,100",
+				"to": "00:32:57,140"
+			},
+			"offsets": {
+				"from": 1969100,
+				"to": 1977140
+			},
+			"text": " y en tiempo probablemente éste es mejor que acá,"
+		},
+		{
+			"timestamps": {
+				"from": "00:32:58,660",
+				"to": "00:33:01,780"
+			},
+			"offsets": {
+				"from": 1978660,
+				"to": 1981780
+			},
+			"text": " porque estás mandando menos mensajes."
+		},
+		{
+			"timestamps": {
+				"from": "00:33:01,780",
+				"to": "00:33:10,580"
+			},
+			"offsets": {
+				"from": 1981780,
+				"to": 1990580
+			},
+			"text": " No sé, tendría que ver tu algoritmo y ver si tu cálculo de complejidad está bien"
+		},
+		{
+			"timestamps": {
+				"from": "00:33:10,580",
+				"to": "00:33:15,780"
+			},
+			"offsets": {
+				"from": 1990580,
+				"to": 1995780
+			},
+			"text": " y agarrar y hacer el cálculo complejidad de esto, que en realidad no escribimos el algoritmo,"
+		},
+		{
+			"timestamps": {
+				"from": "00:33:15,780",
+				"to": "00:33:19,180"
+			},
+			"offsets": {
+				"from": 1995780,
+				"to": 1999180
+			},
+			"text": " lo charlamos, digamos, ¿no?"
+		},
+		{
+			"timestamps": {
+				"from": "00:33:21,460",
+				"to": "00:33:31,460"
+			},
+			"offsets": {
+				"from": 2001460,
+				"to": 2011460
+			},
+			"text": " Y ver si está bien. Una manera de, no sé si probaron con el simulador de que el resultado del"
+		},
+		{
+			"timestamps": {
+				"from": "00:33:31,460",
+				"to": "00:33:35,060"
+			},
+			"offsets": {
+				"from": 2011460,
+				"to": 2015060
+			},
+			"text": " simulador les diera más o menos del orden de lo que habían calculado teóricamente."
+		},
+		{
+			"timestamps": {
+				"from": "00:33:35,060",
+				"to": "00:33:37,380"
+			},
+			"offsets": {
+				"from": 2015060,
+				"to": 2017380
+			},
+			"text": " No, no soy el que se pudiera."
+		},
+		{
+			"timestamps": {
+				"from": "00:33:37,380",
+				"to": "00:33:43,820"
+			},
+			"offsets": {
+				"from": 2017380,
+				"to": 2023820
+			},
+			"text": " Pues contar mensajes y contar pasos de tiempo, ¿no?"
+		},
+		{
+			"timestamps": {
+				"from": "00:33:46,140",
+				"to": "00:33:53,220"
+			},
+			"offsets": {
+				"from": 2026140,
+				"to": 2033220
+			},
+			"text": " Yo hice lo mismo que hiciste vos, Belén, y para mí a mí se me da que es una solución"
+		},
+		{
+			"timestamps": {
+				"from": "00:33:53,220",
+				"to": "00:33:58,380"
+			},
+			"offsets": {
+				"from": 2033220,
+				"to": 2038380
+			},
+			"text": " peor porque como el largo de tu mensaje depende del largo de la red, tipo, en estas dos"
+		},
+		{
+			"timestamps": {
+				"from": "00:33:58,380",
+				"to": "00:34:04,180"
+			},
+			"offsets": {
+				"from": 2038380,
+				"to": 2044180
+			},
+			"text": " soluciones el máximo mensaje era en el descentralizado eran tres números y descentralizados son dos."
+		},
+		{
+			"timestamps": {
+				"from": "00:34:04,180",
+				"to": "00:34:10,220"
+			},
+			"offsets": {
+				"from": 2044180,
+				"to": 2050220
+			},
+			"text": " O sea, mandas toda la estructura de toda la red, si tenés una red enorme, ahí tenés que"
+		},
+		{
+			"timestamps": {
+				"from": "00:34:10,220",
+				"to": "00:34:16,660"
+			},
+			"offsets": {
+				"from": 2050220,
+				"to": 2056660
+			},
+			"text": " agregar como manejo de mensajes grandes y fragmentación o cosas que te pueden terminar haciendo muchos"
+		},
+		{
+			"timestamps": {
+				"from": "00:34:16,660",
+				"to": "00:34:22,500"
+			},
+			"offsets": {
+				"from": 2056660,
+				"to": 2062500
+			},
+			"text": " problemas, ver como que lo que buscan estas soluciones es tipo, mensajes cortitos que no"
+		},
+		{
+			"timestamps": {
+				"from": "00:34:22,500",
+				"to": "00:34:28,780"
+			},
+			"offsets": {
+				"from": 2062500,
+				"to": 2068780
+			},
+			"text": " dependan de la cantidad de nos, eso es como si depende y tenés una red gigante ya se te complicó."
+		},
+		{
+			"timestamps": {
+				"from": "00:34:32,860",
+				"to": "00:34:41,420"
+			},
+			"offsets": {
+				"from": 2072860,
+				"to": 2081420
+			},
+			"text": " Si igual no es tan disparatado, cuando veamos el capítulo 4, alguna de las soluciones del"
+		},
+		{
+			"timestamps": {
+				"from": "00:34:41,420",
+				"to": "00:34:48,340"
+			},
+			"offsets": {
+				"from": 2081420,
+				"to": 2088340
+			},
+			"text": " problema de routing, digamos, usa mensajes largos, está, es una solución viable."
+		},
+		{
+			"timestamps": {
+				"from": "00:34:48,340",
+				"to": "00:34:53,380"
+			},
+			"offsets": {
+				"from": 2088340,
+				"to": 2093380
+			},
+			"text": " Sí, para que no se deprima mucho."
+		},
+		{
+			"timestamps": {
+				"from": "00:34:53,380",
+				"to": "00:34:57,580"
+			},
+			"offsets": {
+				"from": 2093380,
+				"to": 2097580
+			},
+			"text": " Está bien, yo decía porque el libro plantea estas como las soluciones más óptimas y me"
+		},
+		{
+			"timestamps": {
+				"from": "00:34:57,580",
+				"to": "00:35:03,780"
+			},
+			"offsets": {
+				"from": 2097580,
+				"to": 2103780
+			},
+			"text": " parece que va por ahí, si podés ahorrar, tener que mandar toda la red, después te manda mucho"
+		},
+		{
+			"timestamps": {
+				"from": "00:35:03,780",
+				"to": "00:35:10,340"
+			},
+			"offsets": {
+				"from": 2103780,
+				"to": 2110340
+			},
+			"text": " más mensajes, el más acercado que va y va en el centro, pero sí, te ahorrases el problema, digamos."
+		},
+		{
+			"timestamps": {
+				"from": "00:35:10,340",
+				"to": "00:35:17,500"
+			},
+			"offsets": {
+				"from": 2110340,
+				"to": 2117500
+			},
+			"text": " Sí, está claro que no escala bien, digamos, en bits."
+		},
+		{
+			"timestamps": {
+				"from": "00:35:17,500",
+				"to": "00:35:26,740"
+			},
+			"offsets": {
+				"from": 2117500,
+				"to": 2126740
+			},
+			"text": " Pero para instancias particulares capaz que te anda mejor el tuyo que el otro,"
+		},
+		{
+			"timestamps": {
+				"from": "00:35:26,740",
+				"to": "00:35:30,060"
+			},
+			"offsets": {
+				"from": 2126740,
+				"to": 2130060
+			},
+			"text": " más ingenioso si querés."
+		},
+		{
+			"timestamps": {
+				"from": "00:35:30,060",
+				"to": "00:35:39,580"
+			},
+			"offsets": {
+				"from": 2130060,
+				"to": 2139580
+			},
+			"text": " Y en la parte de encontrar el fan-entry, yo usé el multi-shot que todos lo usaron porque"
+		},
+		{
+			"timestamps": {
+				"from": "00:35:39,580",
+				"to": "00:35:46,380"
+			},
+			"offsets": {
+				"from": 2139580,
+				"to": 2146380
+			},
+			"text": " lo único estaba en el libro, pero en el menos el libro decía que podía llegar a ser tipo"
+		},
+		{
+			"timestamps": {
+				"from": "00:35:46,380",
+				"to": "00:35:55,260"
+			},
+			"offsets": {
+				"from": 2146380,
+				"to": 2155260
+			},
+			"text": " N a la 3, es medio feo, pero que se podía mejorar eligiendo tipo otros algoritmos,"
+		},
+		{
+			"timestamps": {
+				"from": "00:35:55,260",
+				"to": "00:36:01,900"
+			},
+			"offsets": {
+				"from": 2155260,
+				"to": 2161900
+			},
+			"text": " tipo el algoritmo individual que elige, tipo el árbol, tipo el shout en vez de elegir el shout"
+		},
+		{
+			"timestamps": {
+				"from": "00:36:01,900",
+				"to": "00:36:10,500"
+			},
+			"offsets": {
+				"from": 2161900,
+				"to": 2170500
+			},
+			"text": " elegir otro, eso lo vamos a dar o nos quedamos como bueno el algoritmo que conocemos de encontrar"
+		},
+		{
+			"timestamps": {
+				"from": "00:36:10,500",
+				"to": "00:36:13,500"
+			},
+			"offsets": {
+				"from": 2170500,
+				"to": 2173500
+			},
+			"text": " un fan-entry con múltiples iniciadores."
+		},
+		{
+			"timestamps": {
+				"from": "00:36:13,500",
+				"to": "00:36:20,300"
+			},
+			"offsets": {
+				"from": 2173500,
+				"to": 2180300
+			},
+			"text": " Y por lo menos el que plantea el libro con es el multi-shot."
+		},
+		{
+			"timestamps": {
+				"from": "00:36:20,300",
+				"to": "00:36:26,460"
+			},
+			"offsets": {
+				"from": 2180300,
+				"to": 2186460
+			},
+			"text": " La habría que ver si hay algo mejor que eso, cuando veamos…"
+		},
+		{
+			"timestamps": {
+				"from": "00:36:26,460",
+				"to": "00:36:32,460"
+			},
+			"offsets": {
+				"from": 2186460,
+				"to": 2192460
+			},
+			"text": " Si cambias el algoritmo base, podés mejorarlo, pero no te dice, bueno, prueba con esto."
+		},
+		{
+			"timestamps": {
+				"from": "00:36:32,460",
+				"to": "00:36:41,860"
+			},
+			"offsets": {
+				"from": 2192460,
+				"to": 2201860
+			},
+			"text": " Cuando veamos routing, que es el capítulo 4, vamos a ver que resolvé el dictra,"
+		},
+		{
+			"timestamps": {
+				"from": "00:36:41,860",
+				"to": "00:36:52,660"
+			},
+			"offsets": {
+				"from": 2201860,
+				"to": 2212660
+			},
+			"text": " equivale a usar el fan-entry, y hay varias propuestas de resolución de dictra y creo"
+		},
+		{
+			"timestamps": {
+				"from": "00:36:52,660",
+				"to": "00:36:57,540"
+			},
+			"offsets": {
+				"from": 2212660,
+				"to": 2217540
+			},
+			"text": " que hay algunas más chicas que en EQ, o sea que de repente se podría usar algo de eso."
+		},
+		{
+			"timestamps": {
+				"from": "00:36:57,540",
+				"to": "00:37:11,460"
+			},
+			"offsets": {
+				"from": 2217540,
+				"to": 2231460
+			},
+			"text": " Pero lo voy a repasar lo del multi-shot, a ver si encuentro algo mejor."
+		},
+		{
+			"timestamps": {
+				"from": "00:37:11,860",
+				"to": "00:37:26,460"
+			},
+			"offsets": {
+				"from": 2231860,
+				"to": 2246460
+			},
+			"text": " Bueno, algún otro comentario."
+		},
+		{
+			"timestamps": {
+				"from": "00:37:37,460",
+				"to": "00:37:48,060"
+			},
+			"offsets": {
+				"from": 2257460,
+				"to": 2268060
+			},
+			"text": " Ahora que más o menos tienen una idea de qué va el curso, que opinión tienen sobre el tema en sí,"
+		},
+		{
+			"timestamps": {
+				"from": "00:37:48,060",
+				"to": "00:37:56,860"
+			},
+			"offsets": {
+				"from": 2268060,
+				"to": 2276860
+			},
+			"text": " que tiene alguna reflexión de que esto les puede ayudar en algo para encontrar soluciones"
+		},
+		{
+			"timestamps": {
+				"from": "00:37:56,860",
+				"to": "00:38:01,660"
+			},
+			"offsets": {
+				"from": 2276860,
+				"to": 2281660
+			},
+			"text": " más o menos distribuidas a cosas o les parece una curiosidad y nada más."
+		},
+		{
+			"timestamps": {
+				"from": "00:38:06,660",
+				"to": "00:38:08,460"
+			},
+			"offsets": {
+				"from": 2286660,
+				"to": 2288460
+			},
+			"text": " No están obligados a contestar."
+		},
+		{
+			"timestamps": {
+				"from": "00:38:08,460",
+				"to": "00:38:22,660"
+			},
+			"offsets": {
+				"from": 2288460,
+				"to": 2302660
+			},
+			"text": " Pasa que no estamos usando aplicaciones que se vea muy claro, pero en la base de muchas"
+		},
+		{
+			"timestamps": {
+				"from": "00:38:22,660",
+				"to": "00:38:28,460"
+			},
+			"offsets": {
+				"from": 2302660,
+				"to": 2308460
+			},
+			"text": " de las cosas que hace el sistema operativo, sobre todo, o sistemas distribuidos de base"
+		},
+		{
+			"timestamps": {
+				"from": "00:38:28,460",
+				"to": "00:38:35,860"
+			},
+			"offsets": {
+				"from": 2308460,
+				"to": 2315860
+			},
+			"text": " de datos no relacionales o cosas por el estilo, alguna de estas cosas se usan."
+		},
+		{
+			"timestamps": {
+				"from": "00:38:37,660",
+				"to": "00:38:45,860"
+			},
+			"offsets": {
+				"from": 2317660,
+				"to": 2325860
+			},
+			"text": " El libro hace un esfuercito ahí mínimamente de motivar, siendo bueno, procesos de decisión,"
+		},
+		{
+			"timestamps": {
+				"from": "00:38:45,860",
+				"to": "00:38:53,660"
+			},
+			"offsets": {
+				"from": 2325860,
+				"to": 2333660
+			},
+			"text": " de no sé qué, o de mutu exclusión, ese tipo de cosas, capaz que tendríamos que buscar,"
+		},
+		{
+			"timestamps": {
+				"from": "00:38:53,660",
+				"to": "00:39:01,260"
+			},
+			"offsets": {
+				"from": 2333660,
+				"to": 2341260
+			},
+			"text": " ya sería como la segunda parte del curso, buscar más aplicaciones donde se vea un poco"
+		},
+		{
+			"timestamps": {
+				"from": "00:39:01,260",
+				"to": "00:39:05,060"
+			},
+			"offsets": {
+				"from": 2341260,
+				"to": 2345060
+			},
+			"text": " más claro que estas cosas pueden llegar a servir para algo."
+		},
+		{
+			"timestamps": {
+				"from": "00:39:07,660",
+				"to": "00:39:12,660"
+			},
+			"offsets": {
+				"from": 2347660,
+				"to": 2352660
+			},
+			"text": " Bueno, no sé, algún otro comentario."
+		},
+		{
+			"timestamps": {
+				"from": "00:39:12,660",
+				"to": "00:39:21,660"
+			},
+			"offsets": {
+				"from": 2352660,
+				"to": 2361660
+			},
+			"text": " Comentario sobre lo que vimos la vez pasada del elección en anillo o lo que sigue."
+		},
+		{
+			"timestamps": {
+				"from": "00:39:21,660",
+				"to": "00:39:25,660"
+			},
+			"offsets": {
+				"from": 2361660,
+				"to": 2365660
+			},
+			"text": " Les pareció demasiado complicado."
+		},
+		{
+			"timestamps": {
+				"from": "00:39:25,660",
+				"to": "00:39:32,660"
+			},
+			"offsets": {
+				"from": 2365660,
+				"to": 2372660
+			},
+			"text": " Yo no lo puedo leer todavía, así que no tengo que leer."
+		},
+		{
+			"timestamps": {
+				"from": "00:39:32,660",
+				"to": "00:39:34,660"
+			},
+			"offsets": {
+				"from": 2372660,
+				"to": 2374660
+			},
+			"text": " Muy bien."
+		},
+		{
+			"timestamps": {
+				"from": "00:39:34,660",
+				"to": "00:39:38,660"
+			},
+			"offsets": {
+				"from": 2374660,
+				"to": 2378660
+			},
+			"text": " El martes terminamos de ver anillo y vemos hipercubo."
+		},
+		{
+			"timestamps": {
+				"from": "00:39:38,660",
+				"to": "00:39:47,660"
+			},
+			"offsets": {
+				"from": 2378660,
+				"to": 2387660
+			},
+			"text": " Supongo que sí, yo no voy a estar el martes, va a estar Javier, pero supongo que sí, que hoy iremos por ahí."
+		},
+		{
+			"timestamps": {
+				"from": "00:39:47,660",
+				"to": "00:39:53,660"
+			},
+			"offsets": {
+				"from": 2387660,
+				"to": 2393660
+			},
+			"text": " Así que sí pueden irse tratando de leer un poco para adelante en el libro."
+		},
+		{
+			"timestamps": {
+				"from": "00:39:53,660",
+				"to": "00:39:57,660"
+			},
+			"offsets": {
+				"from": 2393660,
+				"to": 2397660
+			},
+			"text": " Obviamente que se pueden apoyar en las transparencias."
+		},
+		{
+			"timestamps": {
+				"from": "00:40:00,660",
+				"to": "00:40:11,660"
+			},
+			"offsets": {
+				"from": 2400660,
+				"to": 2411660
+			},
+			"text": " Así se hace un poco más a menos, porque me consta que esto es medio raro, medio difícil de seguir."
+		},
+		{
+			"timestamps": {
+				"from": "00:40:11,660",
+				"to": "00:40:14,660"
+			},
+			"offsets": {
+				"from": 2411660,
+				"to": 2414660
+			},
+			"text": " Si uno no lo miró un poco antes."
+		},
+		{
+			"timestamps": {
+				"from": "00:40:14,660",
+				"to": "00:40:19,660"
+			},
+			"offsets": {
+				"from": 2414660,
+				"to": 2419660
+			},
+			"text": " ¿Puedes subir estas también?"
+		},
+		{
+			"timestamps": {
+				"from": "00:40:19,660",
+				"to": "00:40:28,660"
+			},
+			"offsets": {
+				"from": 2419660,
+				"to": 2428660
+			},
+			"text": " Esta sí, ahora que ya lo resolvimos, les puedo subirse y hago el mismo procedimiento que con este vídeo."
+		},
+		{
+			"timestamps": {
+				"from": "00:40:28,660",
+				"to": "00:40:31,660"
+			},
+			"offsets": {
+				"from": 2428660,
+				"to": 2431660
+			},
+			"text": " Lo borramos a tiempo para el próximo año."
+		},
+		{
+			"timestamps": {
+				"from": "00:40:31,660",
+				"to": "00:40:41,660"
+			},
+			"offsets": {
+				"from": 2431660,
+				"to": 2441660
+			},
+			"text": " Después pueden hacer mercado negro de vídeos para los estudiantes de la generación que viven."
+		},
+		{
+			"timestamps": {
+				"from": "00:40:41,660",
+				"to": "00:40:44,660"
+			},
+			"offsets": {
+				"from": 2441660,
+				"to": 2444660
+			},
+			"text": " Ya está todo gestionado."
+		},
+		{
+			"timestamps": {
+				"from": "00:40:47,660",
+				"to": "00:40:51,660"
+			},
+			"offsets": {
+				"from": 2447660,
+				"to": 2451660
+			},
+			"text": " Bueno, tenemos que poner los creativos."
+		},
+		{
+			"timestamps": {
+				"from": "00:40:51,660",
+				"to": "00:41:02,660"
+			},
+			"offsets": {
+				"from": 2451660,
+				"to": 2462660
+			},
+			"text": " Bueno, Urisas, quedamos por acá, entonces nos vemos el martes que viene."
+		},
+		{
+			"timestamps": {
+				"from": "00:41:02,660",
+				"to": "00:41:05,660"
+			},
+			"offsets": {
+				"from": 2462660,
+				"to": 2465660
+			},
+			"text": " No, profe, va a ser bien."
+		},
+		{
+			"timestamps": {
+				"from": "00:41:05,660",
+				"to": "00:41:07,660"
+			},
+			"offsets": {
+				"from": 2465660,
+				"to": 2467660
+			},
+			"text": " Vale, que anden bien."
+		},
+		{
+			"timestamps": {
+				"from": "00:41:07,660",
+				"to": "00:41:09,660"
+			},
+			"offsets": {
+				"from": 2467660,
+				"to": 2469660
+			},
+			"text": " Chau."
+		}
+	]
+}
