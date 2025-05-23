@@ -1,7 +1,7 @@
+cat << 'EOF' > download_transcrive.sh
 #!/bin/bash
-set -e
 
-COURSES_JSON="firstPart.json"
+COURSES_JSON="secondPart.json"
 BASE_URL="https://open.fing.edu.uy/media"
 OUTPUT_BASE_DIR="videos"
 WHISPER_MODEL="$(pwd)/whisper.cpp/models/ggml-small.bin"
@@ -49,17 +49,17 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
             echo "Ya descargado: $VIDEO_PATH"
         else
             echo "Descargando $VIDEO_PATH"
-            wget -q -O "$VIDEO_PATH" "$BASE_URL/$COURSE/$FILENAME.mp4"
-            # Verificar si el archivo es realmente un video
-            if ! file "$VIDEO_PATH" | grep -qE 'ISO Media|MP4'; then
-                echo "Error: $VIDEO_PATH no es un archivo de video válido. Eliminando..."
-                rm "$VIDEO_PATH"
-                continue
-            fi
+            wget -q -O "$VIDEO_PATH" "$BASE_URL/$COURSE/$FILENAME.mp4" || { echo "Error descargando $VIDEO_PATH"; rm -f "$VIDEO_PATH"; continue; }
+        fi
+        # Verificar si el archivo es realmente un video válido
+        if ! ffprobe -v error "$VIDEO_PATH" > /dev/null 2>&1; then
+            echo "Error: $VIDEO_PATH no es un archivo de video válido. Eliminando..."
+            echo "Error: $VIDEO_PATH no es un archivo de video válido. Eliminando..." >> "$DEST_DIR/error.log"
+            rm -f "$VIDEO_PATH"
+            continue
         fi
         echo "Convirtiendo $VIDEO_PATH a WAV..."
-        ffmpeg -nostdin -y -i "$VIDEO_PATH" -ar 16000 -ac 1 -c:a pcm_s16le "$WAV_PATH"
-        rm "$VIDEO_PATH"
+        ffmpeg -nostdin -y -i "$VIDEO_PATH" -ar 16000 -ac 1 -c:a pcm_s16le "$WAV_PATH" || { echo "Error convirtiendo $VIDEO_PATH a WAV"; rm -f "$WAV_PATH"; continue; }
     fi
 
     echo "Transcribiendo $WAV_PATH..."
@@ -69,15 +69,11 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
         -t "$THREADS" \
         --language Spanish \
         --output-json \
-        -of "$DEST_DIR/$OUTPUT"
+        -of "$DEST_DIR/$OUTPUT" || { echo "Error transcribiendo $WAV_PATH"; continue; }
 
     echo "Limpiando archivos temporales..."
-    rm "$WAV_PATH"
-
-    echo "Committing transcriptions to git..."
-    git pull
-    git add "$JSON_OUTPUT"
-    git commit -m "Add transcription for $OUTPUT" || echo "Nada nuevo para commitear"
-    git push
+    rm -f "$VIDEO_PATH"
+    rm -f "$WAV_PATH"
 
 done
+EOF
