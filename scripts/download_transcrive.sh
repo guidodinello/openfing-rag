@@ -1,4 +1,3 @@
-cat << 'EOF' > download_transcrive.sh
 #!/bin/bash
 
 COURSES_JSON="secondPart.json"
@@ -6,7 +5,7 @@ BASE_URL="https://open.fing.edu.uy/media"
 OUTPUT_BASE_DIR="videos"
 WHISPER_MODEL="$(pwd)/whisper.cpp/models/ggml-small.bin"
 WHISPER_EXEC="whisper.cpp/build/bin/whisper-cli"
-THREADS=4
+THREADS=8
 
 # Verificar dependencias
 for cmd in jq ffmpeg wget; do
@@ -76,4 +75,3 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
     rm -f "$WAV_PATH"
 
 done
-EOF
