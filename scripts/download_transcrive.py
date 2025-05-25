@@ -6,7 +6,7 @@ from multiprocessing import Pool, cpu_count
 from faster_whisper import WhisperModel
 from tqdm import tqdm
 
-COURSES_JSON = "firstPart.json"
+COURSES_JSON=""
 BASE_URL = "https://open.fing.edu.uy/media"
 OUTPUT_BASE_DIR = "videos"
 WHISPER_MODEL_SIZE = "small"

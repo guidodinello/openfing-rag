@@ -1,6 +1,7 @@
 #!/bin/bash
 
 COURSES_JSON="secondPart.json"
+COURSES_JSON="thierdPart.json"
 BASE_URL="https://open.fing.edu.uy/media"
 OUTPUT_BASE_DIR="videos"
 WHISPER_MODEL="$(pwd)/whisper.cpp/models/ggml-small.bin"
@@ -73,5 +74,4 @@ jq -r 'to_entries[] | "\(.key) \(.value.classes[])"' "$COURSES_JSON" | while rea
     echo "Limpiando archivos temporales..."
     rm -f "$VIDEO_PATH"
     rm -f "$WAV_PATH"
-
 done
