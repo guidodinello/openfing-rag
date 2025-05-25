@@ -1,0 +1,4502 @@
+[
+  {
+    "start": 0.0,
+    "end": 13.02,
+    "text": "Bueno, ¿qué tal? Muy buenas tardes. Vamos a continuar con lo que empezamos a mirar en la"
+  },
+  {
+    "start": 13.02,
+    "end": 17.72,
+    "text": "última parte de la clase anterior, que era el método de multiplicadores de Lagrange."
+  },
+  {
+    "start": 17.72,
+    "end": 27.400000000000002,
+    "text": "Es un método que permite detectar puntos en donde un campo escalar bajo ciertas condiciones"
+  },
+  {
+    "start": 27.400000000000002,
+    "end": 37.400000000000006,
+    "text": "alcanza extremos máximo mínimo dentro de una determinada restricción de su dominio."
+  },
+  {
+    "start": 37.400000000000006,
+    "end": 41.92,
+    "text": "Entonces, bueno, yo voy a hacer una recapitulación un poco más extensa de lo habitual, de lo"
+  },
+  {
+    "start": 41.92,
+    "end": 47.72,
+    "text": "que estuvimos viendo en vista de la situación de la clase anterior por todo el tema que ocurrió"
+  },
+  {
+    "start": 47.72,
+    "end": 56.480000000000004,
+    "text": "con la emergencia en la universidad. Entonces, bueno, recuerden que en las primeras semanas"
+  },
+  {
+    "start": 56.480000000000004,
+    "end": 68.36,
+    "text": "del curso aprendimos a trabajar en el siguiente problema. Teníamos un campo escalar de varias"
+  },
+  {
+    "start": 68.36,
+    "end": 88.68,
+    "text": "variables con un dominio U dentro de Rn. Y nos preguntaban en qué puntos de su dominio esa"
+  },
+  {
+    "start": 88.68,
+    "end": 96.36,
+    "text": "función alcanzaba extremos relativos, ¿sí? Entonces, la manera de proceder a que tomamos"
+  },
+  {
+    "start": 96.36,
+    "end": 103.36,
+    "text": "ese campo escalar, asumíamos que era de clase C2, ¿sí? para poder trabajar bien. Calculábamos"
+  },
+  {
+    "start": 103.36,
+    "end": 108.12,
+    "text": "su gradiente, su gradiente luego hablábamos a cero. Resolvíamos las ecuaciones resultantes"
+  },
+  {
+    "start": 108.12,
+    "end": 115.28,
+    "text": "de esa igualdad. Y las soluciones me determinaban el conjunto de puntos estacionarios de dicho"
+  },
+  {
+    "start": 115.28,
+    "end": 120.32,
+    "text": "campo escalar. Dentro de ese conjunto de puntos se encontraban aquellos en donde la función"
+  },
+  {
+    "start": 120.32000000000001,
+    "end": 126.88000000000001,
+    "text": "iba a presentar un extremo relativo, ¿sí? Después había que pasar a la tarea de intentar"
+  },
+  {
+    "start": 126.88000000000001,
+    "end": 132.32,
+    "text": "clasificar dichos extremos. Una herramienta que tenemos a la mano es el criterio de la"
+  },
+  {
+    "start": 132.32,
+    "end": 139.44,
+    "text": "gesiana y, bueno, en el caso en el cual el criterio no concluye nada, entonces, bueno, había"
+  },
+  {
+    "start": 139.44,
+    "end": 145.20000000000002,
+    "text": "que tratar de darle la vuelta al problema analizando cómo se comportaba localmente la función"
+  },
+  {
+    "start": 145.20000000000002,
+    "end": 150.08,
+    "text": "en ese punto problema, ¿sí? Eso dependía muy específicamente de la función que nos"
+  },
+  {
+    "start": 150.08,
+    "end": 160.08,
+    "text": "diezen. Ahora bien, ese método nos permite detectar extremos dentro del interior del dominio"
+  },
+  {
+    "start": 160.08,
+    "end": 169.00000000000003,
+    "text": "de una función. Cuando consideramos la frontera, ya este método de encontrar puntos críticos"
+  },
+  {
+    "start": 169.0,
+    "end": 176.0,
+    "text": "vía igualando el gradiente ser y posteriormente aplicar el criterio de la gesiana falla, ¿sí?"
+  },
+  {
+    "start": 176.0,
+    "end": 181.4,
+    "text": "Repito, criterio de la gesiana no puede aplicarse en la frontera del dominio en caso escalar."
+  },
+  {
+    "start": 181.4,
+    "end": 186.76,
+    "text": "Veimos un ejemplo en el cual si procedamos de esa manera llegamos a una conclusión"
+  },
+  {
+    "start": 186.76,
+    "end": 196.64,
+    "text": "incorrecta, ¿ok? Entonces, surge como propuesta para este problema de extremos en la frontera"
+  },
+  {
+    "start": 196.64000000000001,
+    "end": 204.68,
+    "text": "de un dominio, el método de multiplicadores de Lagrange, ¿ok? Y tiene que ver con el hecho"
+  },
+  {
+    "start": 204.68,
+    "end": 210.04000000000002,
+    "text": "de que en las situaciones que vamos a estar analizando la frontera del dominio de la función"
+  },
+  {
+    "start": 210.04000000000002,
+    "end": 219.28000000000003,
+    "text": "se puede representar como la curva de nivel de algún campo escalar, ¿ok? Eso que les"
+  },
+  {
+    "start": 219.28000000000003,
+    "end": 225.32000000000002,
+    "text": "estoy contando viene de un problema más general que consiste en hallar los extremos"
+  },
+  {
+    "start": 225.32,
+    "end": 233.16,
+    "text": "de un campo escalar restringido a algún subconjunto del dominio, ¿sí? Normalmente, bueno, mejor"
+  },
+  {
+    "start": 233.16,
+    "end": 237.12,
+    "text": "dicho, en todas las situaciones que vamos a ver acá en el curso, esas restricciones se"
+  },
+  {
+    "start": 237.12,
+    "end": 247.4,
+    "text": "hacen en algún conjunto de nivel, ¿sí? Si, cuando n es igual a 2 se va a ser una curva"
+  },
+  {
+    "start": 247.4,
+    "end": 256.8,
+    "text": "y cuando n es igual a 3, la restricción va a ser una superficie de nivel, ¿ok? Entonces,"
+  },
+  {
+    "start": 256.8,
+    "end": 266.28000000000003,
+    "text": "¿se va a ser quién? Va a ser la imagen inversa del valor 0 para un determinado campo escalar"
+  },
+  {
+    "start": 266.28000000000003,
+    "end": 279.08000000000004,
+    "text": "f, ¿sí? Estos son los x en el dominio, tal es que g de x es igual a 0, ¿bien? Y acá"
+  },
+  {
+    "start": 279.08,
+    "end": 301.24,
+    "text": "g es un campo escalar, ¿sí? Ok, entonces, bueno, el problema central ahora va a ser hallar"
+  },
+  {
+    "start": 301.24,
+    "end": 319.40000000000003,
+    "text": "los extremos de f pero restringida a algún subconjunto de nivel del dominio, ¿ok? Bien,"
+  },
+  {
+    "start": 319.40000000000003,
+    "end": 328.52,
+    "text": "los extremos que se hallan en esa restricción se conocen como, o mejor dicho, sí, perdón,"
+  },
+  {
+    "start": 328.52,
+    "end": 335.35999999999996,
+    "text": "se conocen como extremos condicionados, ¿ok? Entonces, si recordamos un poquito la definición,"
+  },
+  {
+    "start": 335.35999999999996,
+    "end": 352.15999999999997,
+    "text": "teníamos un punto acá x0 y se ocurría que f de x0 era mayor o igual a f de x para todo"
+  },
+  {
+    "start": 352.16,
+    "end": 365.76000000000005,
+    "text": "x en esa restricción o condición c, entonces, bueno, y uno tenía que el valor f de x0 es"
+  },
+  {
+    "start": 365.76,
+    "end": 386.8,
+    "text": "un máximo condicionado a quien a la restricción c, ¿sí? Y bueno, se ocurría la desigualdad"
+  },
+  {
+    "start": 386.8,
+    "end": 392.32,
+    "text": "contraria, uno tenía el concepto de mínimo condicionado, ¿por qué condicionado? Bueno,"
+  },
+  {
+    "start": 392.32,
+    "end": 396.71999999999997,
+    "text": "esto que está acá, esta desigualdad únicamente la estamos pidiendo que se cumpla cuando restringimos"
+  },
+  {
+    "start": 396.71999999999997,
+    "end": 406.96,
+    "text": "el campo a esa curva o superficie de nivel, ¿bien? Y este concepto tenía una versión local que era"
+  },
+  {
+    "start": 406.96,
+    "end": 419.36,
+    "text": "la siguiente, si la igualdad, perdón, si la desigualdad quise decir se cumple en determinado"
+  },
+  {
+    "start": 419.36,
+    "end": 425.2,
+    "text": "entorno de x0, interceptado con la restricción, es decir, esto."
+  },
+  {
+    "start": 441.8,
+    "end": 447.84000000000003,
+    "text": "Si esto se cumple lo suficientemente cerca de x0, que es lo que me determina tomar esta"
+  },
+  {
+    "start": 447.84000000000003,
+    "end": 457.12,
+    "text": "bola que se entra en x0, bueno, en ese caso uno tiene que ese valor f de x0 es un máximo"
+  },
+  {
+    "start": 457.12,
+    "end": 480.12,
+    "text": "relativo condicionado. ¿Bien? Habíamos llegado también a anunciar el método en multiplicadores"
+  },
+  {
+    "start": 480.12,
+    "end": 485.32,
+    "text": "de la Grunge, pero antes de recordar qué era lo que decía y entender lo que dice, vamos"
+  },
+  {
+    "start": 485.32,
+    "end": 492.59999999999997,
+    "text": "a ver algunos ejemplos de estos dos conceptos, ¿sí? Entonces, vamos a empezar con esto,"
+  },
+  {
+    "start": 492.59999999999997,
+    "end": 506.92,
+    "text": "un ejemplo muy sencillo, la función distancia. Entonces supongamos que les doy esta función"
+  },
+  {
+    "start": 506.92,
+    "end": 533.5600000000001,
+    "text": "sobre R3, la cual mide la distancia de cualquier punto de R3 al origen. ¿Sí? ¿Es la función"
+  },
+  {
+    "start": 533.5600000000001,
+    "end": 540.8000000000001,
+    "text": "norma o distancia al origen, como también se le conoce? Si yo les pregunto a ustedes cuál"
+  },
+  {
+    "start": 540.8000000000001,
+    "end": 547.6400000000001,
+    "text": "es el mínimo absoluto de esa función en todo R3 que me dicen así rápidamente, ¿tiene un"
+  },
+  {
+    "start": 547.6400000000001,
+    "end": 553.0000000000001,
+    "text": "valor mínimo esa función y si es así cuál es? Cero, ¿sí? Lo mínimo que puede valer"
+  },
+  {
+    "start": 553.0000000000001,
+    "end": 556.6,
+    "text": "esta función es cero y si alcanzas justamente en el origen, la distancia del origen al"
+  },
+  {
+    "start": 556.6,
+    "end": 566.9200000000001,
+    "text": "mismo es cero, por supuesto. Ahora, ¿qué pasa si yo les pregunto cuál es el valor mínimo"
+  },
+  {
+    "start": 566.9200000000001,
+    "end": 579.32,
+    "text": "de esa función si la restringo al siguiente conjunto? Voy a notar acá X y Z en R3 tal"
+  },
+  {
+    "start": 579.32,
+    "end": 597.6800000000001,
+    "text": "que X cuadrado más X cuadrado más Z menos 1 al cuadrado es igual a 1. Ahí la respuesta"
+  },
+  {
+    "start": 597.6800000000001,
+    "end": 603.96,
+    "text": "puede cambiar, ¿ok? Ahora quiero que me digan cuál valor mínimo toma esta función si es"
+  },
+  {
+    "start": 603.96,
+    "end": 609.0,
+    "text": "que lo toma cuando la restringo a esto. Bueno, lo primero que hay que hacer es identificar"
+  },
+  {
+    "start": 609.0,
+    "end": 617.32,
+    "text": "qué tipo de conjunto tenemos acá. Esta ecuación que está acá, visualmente cómo lo identifica"
+  },
+  {
+    "start": 617.32,
+    "end": 626.76,
+    "text": "a ustedes. Si les pregunto geométricamente qué conjunto es ese centro de R3, ¿qué me dirían?"
+  },
+  {
+    "start": 626.76,
+    "end": 642.28,
+    "text": "Una esfera, si me dice una esfera me tienen que decir cuál es su centro y cuál es su radio."
+  },
+  {
+    "start": 642.28,
+    "end": 650.28,
+    "text": "Correcto, correctísimo, ¿sí? Esta es una esfera de centro 0, 0, 2 y radio 1. Recuerden"
+  },
+  {
+    "start": 650.28,
+    "end": 655.48,
+    "text": "que la ecuación general de la esfera es X menos X 0 al cuadrado más Y menos Y 0 al cuadrado"
+  },
+  {
+    "start": 655.48,
+    "end": 661.84,
+    "text": "más Z menos Z 0 al cuadrado igual a R cuadrado, donde X 0 y 0 Z 0 son las coordenadas del centro"
+  },
+  {
+    "start": 661.84,
+    "end": 673.4,
+    "text": "y R el radio, ¿bien? Ok, entonces vamos a hacer un pequeño dibujo de esto ya que sabemos"
+  },
+  {
+    "start": 673.4,
+    "end": 687.16,
+    "text": "lo que es. Identificamos el centro, que como bien dijeron por ahí es el punto 0, 0, 2 y como"
+  },
+  {
+    "start": 687.16,
+    "end": 698.16,
+    "text": "el radio es 1, bueno, podemos hacer un dibujo bastante aproximado de esa superficie. Bueno,"
+  },
+  {
+    "start": 698.16,
+    "end": 710.4,
+    "text": "me quedó más o menos así, ¿ok? Recuerden que yo no soy muy, muy buen dibujante. Ahora,"
+  },
+  {
+    "start": 710.4,
+    "end": 715.28,
+    "text": "si yo les pregunto, tómenme esta función distancia, evalúenla únicamente en los puntos que están"
+  },
+  {
+    "start": 715.28,
+    "end": 723.52,
+    "text": "en esta superficie esférica y díganme cuál es la menor distancia posible de algún punto"
+  },
+  {
+    "start": 723.52,
+    "end": 730.4399999999999,
+    "text": "de la esfera hasta el origen. O dicho de otra manera, ¿qué es lo más cerca que la esfera"
+  },
+  {
+    "start": 730.4399999999999,
+    "end": 740.96,
+    "text": "está del origen de R3? ¿Alguien ya lo vio? Hay un punto dentro de toda la esfera que es"
+  },
+  {
+    "start": 740.96,
+    "end": 747.72,
+    "text": "el que está más cerca a 0, 0, 0, ¿sí? El 0, 0, 1. El polo sur de esta esfera, el"
+  },
+  {
+    "start": 747.72,
+    "end": 764.6,
+    "text": "punto 0, 0, 1, es justamente el que se encuentra más cerca de en origen de R3 y es acá donde"
+  },
+  {
+    "start": 764.6,
+    "end": 777.72,
+    "text": "esta función alcanza el mínimo velo, ¿sí? Entonces, 1 igual a f de 0, 0, 1 es el mínimo"
+  },
+  {
+    "start": 777.72,
+    "end": 792.08,
+    "text": "condicionado de f a la esfera C. ¿Bien? Fíjense que ya no es 0, ¿ok? ¿Por qué? Porque ahora"
+  },
+  {
+    "start": 792.2,
+    "end": 796.32,
+    "text": "ya no estoy considerando todos los puntos de R3 únicamente estoy hablando de la función"
+  },
+  {
+    "start": 796.32,
+    "end": 802.32,
+    "text": "en esa esfera que está ahí pintada en azul, ¿ok? Entonces, cuando uno restringe un campo"
+  },
+  {
+    "start": 802.32,
+    "end": 810.44,
+    "text": "escalar a determinada parte del dominio, la pregunta de cuál es el, cuáles son los extremos"
+  },
+  {
+    "start": 810.44,
+    "end": 814.6800000000001,
+    "text": "alcanzados dentro de esta restricción puede cambiar en comparación a si uno hace el"
+  },
+  {
+    "start": 814.6800000000001,
+    "end": 822.6,
+    "text": "análisis global de todo el campo escalar en todo su dominio, ¿ok? Bien. Entonces, eso que"
+  },
+  {
+    "start": 822.6,
+    "end": 830.72,
+    "text": "está ahí, ese primer ejemplo me da, valga la redundancia, una ejemplificación de este"
+  },
+  {
+    "start": 830.72,
+    "end": 835.6,
+    "text": "primer concepto, bueno, en este caso mínimo condicionado, ¿sí? El máximo condicionado"
+  },
+  {
+    "start": 835.6,
+    "end": 844.2,
+    "text": "sería igual a 3 y se alcanza acá en el polo norte, ¿ok? Y vamos a ver otro en donde"
+  },
+  {
+    "start": 844.24,
+    "end": 854.44,
+    "text": "se obtiene un extremo relativo, condicionado o relativo. Entonces, por ejemplo,"
+  },
+  {
+    "start": 858.44,
+    "end": 865.08,
+    "text": "vamos a analizar ahora la siguiente función, de nuevo una función sencilla para que la"
+  },
+  {
+    "start": 865.08,
+    "end": 870.5600000000001,
+    "text": "cosa se vea bien al principio, vamos a tomar ahora un campo escalar de dos variables,"
+  },
+  {
+    "start": 871.5600000000001,
+    "end": 887.8800000000001,
+    "text": "definido de la siguiente manera. Bien. Y voy a tomar como restricción la parábola y"
+  },
+  {
+    "start": 887.88,
+    "end": 900.6,
+    "text": "igual a x al cuadrado menos 1, ¿ok? Entonces, si dibujamos eso,"
+  },
+  {
+    "start": 908.6,
+    "end": 915.92,
+    "text": "dibujamos esta parte del dominio, que es una curva que sabemos. Bueno, es tomar la"
+  },
+  {
+    "start": 915.96,
+    "end": 923.1200000000001,
+    "text": "parábola canónica y la bajamos una unidad hacia abajo, ¿sí? Valga la redundancia."
+  },
+  {
+    "start": 928.48,
+    "end": 934.5600000000001,
+    "text": "Esto que está acá es la curva igual a x cuadrado menos 1, ¿ok?"
+  },
+  {
+    "start": 938.2800000000001,
+    "end": 942.72,
+    "text": "Y esta función que está acá la pueden pensar como la distancia al cuadrado de"
+  },
+  {
+    "start": 942.72,
+    "end": 947.1600000000001,
+    "text": "cualquier punto de redos en el origen. Y bueno, ahora vamos a ver qué pasa con esa"
+  },
+  {
+    "start": 947.1600000000001,
+    "end": 962.76,
+    "text": "función cuando nos restringimos a esa curva, ¿sí? En este punto que corresponde a 0 menos 1,"
+  },
+  {
+    "start": 962.76,
+    "end": 972.96,
+    "text": "la función va a alcanzar un máximo condicionado relativo."
+  },
+  {
+    "start": 992.76,
+    "end": 1002.92,
+    "text": "Esto no es tan inmediato de ver cómo lo que vimos allá, ¿ok? Necesito un poquito más de"
+  },
+  {
+    "start": 1002.92,
+    "end": 1012.8,
+    "text": "análisis. Vamos a ver por qué eso es así, ¿bien? Supongamos por un momento que se nos olvidó"
+  },
+  {
+    "start": 1012.8,
+    "end": 1019.36,
+    "text": "el método de multiplicadores de la branch que enunciamos la clase anterior. Entonces,"
+  },
+  {
+    "start": 1019.44,
+    "end": 1026.32,
+    "text": "bueno, ¿qué herramientas tendríamos a la mano para poder analizar el comportamiento de esta"
+  },
+  {
+    "start": 1026.32,
+    "end": 1033.88,
+    "text": "función restringida a esta curva? Bueno, en este caso tengo una curva en donde la variable i me"
+  },
+  {
+    "start": 1033.88,
+    "end": 1040.8,
+    "text": "aparece en función de x en cualquier punto de la curva, ¿sí? No solo localmente como"
+  },
+  {
+    "start": 1040.8,
+    "end": 1047.56,
+    "text": "solía ocurrir cuando aplicábamos el teorema en la función implícida. ¿A dónde voy con esto?"
+  },
+  {
+    "start": 1047.56,
+    "end": 1053.2,
+    "text": "Que bueno, si a mí me interesa saber cómo se comporta la función fxc restringida a esta curva"
+  },
+  {
+    "start": 1053.2,
+    "end": 1059.1599999999999,
+    "text": "solamente, lo que tengo que hacer es, bueno, si sobre la curva i es igual a esto, entonces sustituyo"
+  },
+  {
+    "start": 1059.1599999999999,
+    "end": 1065.28,
+    "text": "esta expresión acá, me queda una función de una sola variable y yo puedo determinar extremos de"
+  },
+  {
+    "start": 1065.28,
+    "end": 1071.6799999999998,
+    "text": "una función de una variable con las herramientas que me dieron en el curso de cálculo en una"
+  },
+  {
+    "start": 1071.68,
+    "end": 1084.0,
+    "text": "variable, ¿sí? Entonces, tenemos esto por un lado y por otro lado tenemos que i vale x cuadrado"
+  },
+  {
+    "start": 1084.0,
+    "end": 1095.2,
+    "text": "menos uno. Entonces, podemos definir una función nueva, yo la voy a llamar h, hdx va a ser f de"
+  },
+  {
+    "start": 1095.2,
+    "end": 1105.96,
+    "text": "x, x cuadrado menos uno, acá sustituí lo que vale i y bueno, reemplazando en la expresión"
+  },
+  {
+    "start": 1105.96,
+    "end": 1114.56,
+    "text": "analítica de f tenemos que esto sería x al cuadrado más x al cuadrado menos uno elevado al cuadrado,"
+  },
+  {
+    "start": 1116.0,
+    "end": 1123.4,
+    "text": "hacemos una operación ahí sencillita y al final esto queda x a la cuatro,"
+  },
+  {
+    "start": 1124.4,
+    "end": 1130.1200000000001,
+    "text": "menos x al cuadrado, acá me va a quedar menos 2x al cuadrado, con este x al cuadrado me queda"
+  },
+  {
+    "start": 1130.1200000000001,
+    "end": 1139.0800000000002,
+    "text": "x al cuadrado más uno, ¿bien? Entonces, bueno, ahora tengo todo en función de una variable"
+  },
+  {
+    "start": 1139.0800000000002,
+    "end": 1145.3200000000002,
+    "text": "nada más, puedo ver cuáles son los extremos de dicha función, ¿sí? Calculamos su derivada"
+  },
+  {
+    "start": 1145.3200000000002,
+    "end": 1150.96,
+    "text": "primera, igualamos a cero y luego clasificamos mediante la derivada segunda. Si calculamos"
+  },
+  {
+    "start": 1150.96,
+    "end": 1161.6000000000001,
+    "text": "la derivada primera, rápidamente obtenemos que esto es 4x a la tres menos 2x y esta cosa"
+  },
+  {
+    "start": 1161.6000000000001,
+    "end": 1175.88,
+    "text": "es igual a cero, si, solo si, vamos a factorizar un poco, 2x, 2x al cuadrado menos uno es igual"
+  },
+  {
+    "start": 1175.88,
+    "end": 1188.2,
+    "text": "a cero y eso último ocurre si, solo si, x es igual a cero o si x es igual a más menos uno sobre la"
+  },
+  {
+    "start": 1188.2,
+    "end": 1201.5200000000002,
+    "text": "raíz de 2, ¿ok? Bien, ahora, ¿qué pasa cuando intentamos clasificar usando la derivada segunda?"
+  },
+  {
+    "start": 1201.52,
+    "end": 1207.8,
+    "text": "Bueno, calculamos primero quién es la derivada segunda, sería 12x al cuadrado menos 2, vamos a"
+  },
+  {
+    "start": 1207.8,
+    "end": 1214.96,
+    "text": "tomar el cero, por ejemplo, x igual cero es el valor que corresponde a este punto que está acá,"
+  },
+  {
+    "start": 1214.96,
+    "end": 1219.76,
+    "text": "si hago x igual cero acá, obtengo la coordenada igual a menos uno, entonces estoy ubicado acá,"
+  },
+  {
+    "start": 1219.76,
+    "end": 1227.16,
+    "text": "que es el punto que estamos pensando en este ejemplo, ¿sí? Entonces, bueno, ¿qué pasa cuando"
+  },
+  {
+    "start": 1227.16,
+    "end": 1234.4,
+    "text": "valoramos la derivada segunda en cero? Bueno, eso me da menos 2, menos 2, por supuesto que es negativo,"
+  },
+  {
+    "start": 1234.4,
+    "end": 1251.0800000000002,
+    "text": "por lo tanto, tenemos que en x igual cero, h de x, perdón, h, alcanza un máximo relativo, ¿sí?"
+  },
+  {
+    "start": 1251.24,
+    "end": 1267.8799999999999,
+    "text": "Segunda derivada en el punto negativo implica máximo relativo, h alcanza máximo relativo, ¿bien?"
+  },
+  {
+    "start": 1267.8799999999999,
+    "end": 1277.72,
+    "text": "Pero ese máximo relativo que corresponde, corresponde a la función f restringida a lo largo de esta"
+  },
+  {
+    "start": 1277.72,
+    "end": 1296.68,
+    "text": "curva, ¿bien? Entonces, si h tiene un máximo relativo en x igual cero, vamos a tener que f tiene o"
+  },
+  {
+    "start": 1296.68,
+    "end": 1314.3600000000001,
+    "text": "alcanza, mejor dicho, en el punto cero menos uno, un máximo relativo condicionado,"
+  },
+  {
+    "start": 1314.3600000000001,
+    "end": 1325.96,
+    "text": "condicionado aquí en bueno, a la parábola igual a x al cuadrado menos uno, ¿bien?"
+  },
+  {
+    "start": 1328.0000000000002,
+    "end": 1334.2,
+    "text": "Voy a comentar un poco qué significa esto gráficamente, me están diciendo que si esta"
+  },
+  {
+    "start": 1334.2,
+    "end": 1344.24,
+    "text": "función la restringimos acá, esta distancia al cuadrado es localmente un máximo siempre y"
+  },
+  {
+    "start": 1344.24,
+    "end": 1351.96,
+    "text": "cuando me mueva a lo largo de esta curva, ¿ok? Yo no lo hice acá, pero si ustedes analizan este"
+  },
+  {
+    "start": 1351.96,
+    "end": 1364.04,
+    "text": "otro par de valores, van a obtener un punto por acá y el punto simetrizado por acá y de"
+  },
+  {
+    "start": 1364.04,
+    "end": 1370.28,
+    "text": "vuelta aplican el criterio de la derivada segunda en esos valores y allí van a obtener mínimos,"
+  },
+  {
+    "start": 1370.28,
+    "end": 1378.8799999999999,
+    "text": "¿ok? Entonces, ¿qué está pasando con la función? Me voy moviendo por acá,"
+  },
+  {
+    "start": 1378.8799999999999,
+    "end": 1386.8,
+    "text": "mido la distancia a cero elevado al cuadrado, en este punto es donde estoy más cerca, al origen,"
+  },
+  {
+    "start": 1386.8,
+    "end": 1394.12,
+    "text": "luego esa distancia aumenta ligeramente en este arco, llega a un máximo local acá y a medida"
+  },
+  {
+    "start": 1394.12,
+    "end": 1398.96,
+    "text": "que me empiezo a alejar del punto cero menos uno, esa distancia se vuelve a chicar llegando al"
+  },
+  {
+    "start": 1398.96,
+    "end": 1404.88,
+    "text": "mismo mínimo que conseguí acá, pero de este otro lado y luego si me voy apartando de este punto en"
+  },
+  {
+    "start": 1404.88,
+    "end": 1411.3600000000001,
+    "text": "esta otra dirección, la distancia vuelve a crecer, entonces por acá tengo, la distancia al cuadrado"
+  },
+  {
+    "start": 1411.3600000000001,
+    "end": 1415.28,
+    "text": "va de creciendo, de creciendo, de creciendo, llega un mínimo, crece ligeramente, llega acá un máximo"
+  },
+  {
+    "start": 1415.28,
+    "end": 1420.92,
+    "text": "local, decrece, decrece, llega un mínimo y después empieza a crecer otra vez, ¿sí? Eso es lo que está"
+  },
+  {
+    "start": 1420.92,
+    "end": 1429.64,
+    "text": "pasando a la función f cuando repito la restringen sobre una curva, ¿bien? Entonces ahí tenemos un"
+  },
+  {
+    "start": 1429.64,
+    "end": 1439.88,
+    "text": "ejemplo de máximo relativo condicionado. ¿Me siguen hasta acá? ¿sí? ¿Se entiende todo de momento?"
+  },
+  {
+    "start": 1441.1200000000001,
+    "end": 1445.48,
+    "text": "Una pregunta muy natural que alguien pueda hacerse en este momento es lo siguiente. Bueno,"
+  },
+  {
+    "start": 1445.48,
+    "end": 1452.3600000000001,
+    "text": "a ver, si acá tengo una variable en función de la otra y puedo convertir esta función en una función"
+  },
+  {
+    "start": 1452.3600000000001,
+    "end": 1456.72,
+    "text": "de una variable y hacer el análisis así en el curso previo, entonces para qué necesito el método de"
+  },
+  {
+    "start": 1456.72,
+    "end": 1463.16,
+    "text": "multiplicadores de la granche, ¿sí? Es una pregunta perfectamente válida. Lo van a necesitar porque"
+  },
+  {
+    "start": 1463.16,
+    "end": 1468.8,
+    "text": "no siempre vamos a tener la suerte de que las curvas sean así, en donde tenga una variable"
+  },
+  {
+    "start": 1468.8,
+    "end": 1475.32,
+    "text": "determinada totalmente en función de la otra, ¿sí? Entonces te acuerdan una curva que yo escribí"
+  },
+  {
+    "start": 1475.32,
+    "end": 1482.24,
+    "text": "una vez que era logaritmo de x a la 3 más el seno de no sé qué, ¿sí? Ahí se hacía complicada a"
+  },
+  {
+    "start": 1482.24,
+    "end": 1491.52,
+    "text": "propósito. Y bueno, el método que vamos a estudiar hoy sirve sobre todo para ese tipo de curvas"
+  },
+  {
+    "start": 1491.52,
+    "end": 1503.72,
+    "text": "planas o superficies también, en donde no es fácil determinar si una variable se puede representar en"
+  },
+  {
+    "start": 1503.72,
+    "end": 1523.84,
+    "text": "la función de la otra o de las otras, ¿bien? Ok, entonces, lo que sí sabemos es que para este tipo"
+  },
+  {
+    "start": 1523.84,
+    "end": 1529.84,
+    "text": "de curvas más problemáticas, llamémosle así, tenemos una herramienta que es el teorema de la"
+  },
+  {
+    "start": 1529.8400000000001,
+    "end": 1537.44,
+    "text": "función implícita que me permite saber si cerca de un determinado punto yo puedo escribir una variable"
+  },
+  {
+    "start": 1537.44,
+    "end": 1544.68,
+    "text": "en función de la otra. Bueno, ahí vienen que el método de multiplicadores de la granche consiste"
+  },
+  {
+    "start": 1544.68,
+    "end": 1550.8400000000001,
+    "text": "justamente en aplicar el teorema de la función implícita para hacer una construcción de este"
+  },
+  {
+    "start": 1550.8400000000001,
+    "end": 1559.64,
+    "text": "estilo, analizar esa función nueva o una variable y a partir de allí llegar a la conclusión de dicho"
+  },
+  {
+    "start": 1559.64,
+    "end": 1568.7600000000002,
+    "text": "método. Ok, entonces, bueno, vamos a recordar qué era lo que decía el método de multiplicadores de la granche."
+  },
+  {
+    "start": 1570.92,
+    "end": 1577.1200000000001,
+    "text": "Vamos a analizar el enunciado, es decir, entender por qué el método dice lo que dice,"
+  },
+  {
+    "start": 1577.88,
+    "end": 1584.64,
+    "text": "luego retomamos, ya decir que retomamos el ejemplo que les dejé la clase anterior, pero no, ese lo pueden"
+  },
+  {
+    "start": 1584.64,
+    "end": 1589.3600000000001,
+    "text": "terminar perfectamente. Hacemos un ejemplo nuevo y después hacemos una demostración y después un"
+  },
+  {
+    "start": 1589.3600000000001,
+    "end": 1596.68,
+    "text": "ejemplo general para tres variables, para campos escalares de tres variables. Vamos a trabajar"
+  },
+  {
+    "start": 1596.68,
+    "end": 1602.0800000000002,
+    "text": "solamente con hallar extremos condicionados de campos escalares de dos y tres variables, ¿sí? De cuatro"
+  },
+  {
+    "start": 1602.08,
+    "end": 1607.72,
+    "text": "en adelante no lo vamos a tratar, hay una observación que tengo que hacer respecto a eso, pero llegado"
+  },
+  {
+    "start": 1607.72,
+    "end": 1613.08,
+    "text": "su momento lo haré. Entonces, ¿qué decía el método de multiplicadores de la granche?"
+  },
+  {
+    "start": 1632.48,
+    "end": 1636.76,
+    "text": "Bueno, en lugar de enunciar todo de nuevo, el enunciado formal ya lo tiene,"
+  },
+  {
+    "start": 1636.76,
+    "end": 1642.1599999999999,
+    "text": "yo voy a hacer una especie de enunciado más gráfico, el tema era el siguiente, ¿no? Teníamos"
+  },
+  {
+    "start": 1643.84,
+    "end": 1653.32,
+    "text": "una función, campo escalar, con dominio U, consideramos allí, dentro del C dominio,"
+  },
+  {
+    "start": 1653.48,
+    "end": 1663.3999999999999,
+    "text": "un subconjunto que en el contexto de esta parte del curso va a corresponder a una curva o superficie"
+  },
+  {
+    "start": 1663.3999999999999,
+    "end": 1674.3999999999999,
+    "text": "de nivel, a eso lo vamos a llamar condición o restricción, esa C es la curva de nivel cero"
+  },
+  {
+    "start": 1674.3999999999999,
+    "end": 1682.3999999999999,
+    "text": "de determinado campo escalar G, en este caso AF le vamos a pedir que sea un campo C1,"
+  },
+  {
+    "start": 1683.4,
+    "end": 1694.92,
+    "text": "G por otro lado va a compartir el mismo dominio de F y también le vamos a pedir que se hace uno,"
+  },
+  {
+    "start": 1696.44,
+    "end": 1701.8000000000002,
+    "text": "la razón por la cual comparte el mismo dominio es para que al calcular este conjunto todo me quede"
+  },
+  {
+    "start": 1701.8000000000002,
+    "end": 1710.0,
+    "text": "dentro de U, ¿ok? Bien. Entonces, ¿qué decía el método de multiplicadores de la granche? Bueno,"
+  },
+  {
+    "start": 1711.0,
+    "end": 1721.96,
+    "text": "decía que si yo tengo un punto dentro de la condición al que vamos a llamar X0, ¿sí? Es decir,"
+  },
+  {
+    "start": 1721.96,
+    "end": 1729.12,
+    "text": "un punto sobre la curva de nivel o la superficie de nivel según sea en caso, y además si tenemos que"
+  },
+  {
+    "start": 1729.1200000000001,
+    "end": 1750.92,
+    "text": "F alcanza en X0 un extremo condicionado, ¿a quién hace? Entonces, lo que va a ocurrir es que los"
+  },
+  {
+    "start": 1750.92,
+    "end": 1771.72,
+    "text": "vectores gradientes de F en X0 y el gradiente de G en X0 son colineales, ¿sí? Decir colineales"
+  },
+  {
+    "start": 1771.72,
+    "end": 1777.92,
+    "text": "es equivalente a decir linealmente dependientes, es equivalente a decir paralelos, ¿sí? Tiene"
+  },
+  {
+    "start": 1777.92,
+    "end": 1787.4,
+    "text": "varios sinónimos. Algebraicamente, ¿qué significa la colinealidad? Bueno, lo recordamos acá rapidito,"
+  },
+  {
+    "start": 1788.6000000000001,
+    "end": 1795.6000000000001,
+    "text": "no tanto porque lo vayamos a usar, sino para entender de dónde viene el nombre de este resultado."
+  },
+  {
+    "start": 1799.24,
+    "end": 1805.1200000000001,
+    "text": "¿Qué significa esto? Bueno, muy sencillo."
+  },
+  {
+    "start": 1808.1200000000001,
+    "end": 1815.2,
+    "text": "Si revisan lo que vieron en Gal 1, colinealidad significa que existe un escalar,"
+  },
+  {
+    "start": 1817.3200000000002,
+    "end": 1830.04,
+    "text": "vamos a llamarlo lambda tal que, o bien el gradiente de F en X0 es lambda por el gradiente de G en X0,"
+  },
+  {
+    "start": 1831.04,
+    "end": 1847.2,
+    "text": "o el gradiente de G en X0 es lambda por el gradiente de F en X0, ¿sí? Si alguna de esas situaciones se da,"
+  },
+  {
+    "start": 1849.12,
+    "end": 1857.04,
+    "text": "pueden darse las dos, ¿sí? Pero si al menos una se da, bueno, no tiene que esos vectores son"
+  },
+  {
+    "start": 1857.04,
+    "end": 1867.52,
+    "text": "colineales. A este numerito, a este escalar, se le conoce como multiplicador de Lagrange."
+  },
+  {
+    "start": 1880.52,
+    "end": 1886.6399999999999,
+    "text": "Puede ser 0, por ejemplo, si alguno de estos gradientes es 0, 0 es colineal con cualquier"
+  },
+  {
+    "start": 1886.64,
+    "end": 1892.24,
+    "text": "vector, ¿sí? Porque 0 yo lo puedo escribir como 0 por el otro vector, ¿sí? Puede ser 0"
+  },
+  {
+    "start": 1892.24,
+    "end": 1898.3200000000002,
+    "text": "el multiplicador de Lagrange. Ahora, esto acá yo se los menciono simplemente para explicar"
+  },
+  {
+    "start": 1898.3200000000002,
+    "end": 1906.3200000000002,
+    "text": "de dónde viene el nombre. En la práctica, por lo menos para campos escalares de dos y tres"
+  },
+  {
+    "start": 1906.3200000000002,
+    "end": 1911.76,
+    "text": "variables, usar estos escalares, usar los multiplicadores de Lagrange es más inútil"
+  },
+  {
+    "start": 1911.76,
+    "end": 1920.52,
+    "text": "que es un marino descapotable, ¿ok? Entonces, ¿por qué digo esto? Porque cuando tenga un campo"
+  },
+  {
+    "start": 1920.52,
+    "end": 1930.48,
+    "text": "de dos o tres variables, existen maneras geométricas para saber que estos dos vectores son colineales."
+  },
+  {
+    "start": 1930.48,
+    "end": 1935.92,
+    "text": "Por ejemplo, si estamos con un campo de dos variables, uno puede terminar. Si estos dos"
+  },
+  {
+    "start": 1935.92,
+    "end": 1940.52,
+    "text": "vectores son linealmente dependientes o colineales, simplemente armando el determinante, calculándolo"
+  },
+  {
+    "start": 1940.52,
+    "end": 1946.68,
+    "text": "si el determinante me da 0, entonces ahí ya tengo que los dos vectores son colineales y"
+  },
+  {
+    "start": 1946.68,
+    "end": 1951.92,
+    "text": "no tengo la necesidad de plantear ninguna de estas dos situaciones y analizarla, ¿sí?"
+  },
+  {
+    "start": 1951.92,
+    "end": 1957.48,
+    "text": "Lo tengo más directo en el caso de dos variables. En el caso de tres variables, bueno, dos vectores"
+  },
+  {
+    "start": 1957.48,
+    "end": 1965.12,
+    "text": "van a ser colineales cuando su producto vectorial me da 0. En ese caso tampoco hace falta"
+  },
+  {
+    "start": 1965.1200000000001,
+    "end": 1971.24,
+    "text": "hacer alguno de estos dos planteos que está acá, ¿ok? De cuatro variables en adelante, ahí"
+  },
+  {
+    "start": 1971.24,
+    "end": 1977.2,
+    "text": "sí, porque ya para R4 pierdo la geometría que había aprendido en el curso de Galuno,"
+  },
+  {
+    "start": 1977.2,
+    "end": 1982.3400000000001,
+    "text": "entonces el planteo se tiene que hacer de manera un poco más general que esto que está acá."
+  },
+  {
+    "start": 1982.3400000000001,
+    "end": 1985.8000000000002,
+    "text": "Esas situaciones no la vamos a trabajar, ¿ok? Vamos a trabajar con campos de dos o tres"
+  },
+  {
+    "start": 1985.8000000000002,
+    "end": 1993.6000000000001,
+    "text": "variables. Lo comento nada más como una observación, ¿bien? Entonces, las cosas se pueden hacer"
+  },
+  {
+    "start": 1993.68,
+    "end": 2000.5600000000002,
+    "text": "así también. Yo en una época las trabajaba así para comparar las dos maneras de trabajar,"
+  },
+  {
+    "start": 2000.5600000000002,
+    "end": 2004.88,
+    "text": "pero bueno, este semestre lo voy a hacer todo de manera geométrica porque es mucho más"
+  },
+  {
+    "start": 2004.88,
+    "end": 2016.16,
+    "text": "rápido el análisis. ¿Bien? Ok, entonces, vamos ahora a tratar de entender por qué este"
+  },
+  {
+    "start": 2016.16,
+    "end": 2026.16,
+    "text": "resultado dice lo que dice. Después hacemos un ejemplo de cálculo de extremos condicionados"
+  },
+  {
+    "start": 2026.16,
+    "end": 2033.0400000000002,
+    "text": "con un campo de dos variables. Después hacemos la demostración, la demostración es de esto."
+  },
+  {
+    "start": 2033.0400000000002,
+    "end": 2044.4,
+    "text": "Es relativamente sencilla, es un corolario del teorema de la función implícita y después"
+  },
+  {
+    "start": 2044.4,
+    "end": 2052.08,
+    "text": "un ejemplo con campo de tres variables. Yo creo que el tiempo me... Siempre digo esto y termino"
+  },
+  {
+    "start": 2052.08,
+    "end": 2061.1600000000003,
+    "text": "que no me corto el final. Ok, bien. Para entender por qué en un punto donde se alcanza un extremo"
+  },
+  {
+    "start": 2061.1600000000003,
+    "end": 2070.32,
+    "text": "condicionado se da una relación de paralelismo entre estos dos gradientes, vamos a pensar"
+  },
+  {
+    "start": 2070.32,
+    "end": 2076.32,
+    "text": "efectos de explicación en el caso particular en el cual f es una función de distancia, distancia"
+  },
+  {
+    "start": 2076.32,
+    "end": 2083.44,
+    "text": "de cualquier punto al origen. Vamos a pensarlo así de manera sencilla y bueno, vamos a dibujar"
+  },
+  {
+    "start": 2083.44,
+    "end": 2098.4,
+    "text": "como c, la condición c, una curva arbitraria. Sí, cualquier curva que se me ocurra. Por"
+  },
+  {
+    "start": 2098.4,
+    "end": 2112.6800000000003,
+    "text": "ejemplo, esto que está acá, digo yo. Ok, acá tenemos el origen. Repito, va a trabajar"
+  },
+  {
+    "start": 2112.6800000000003,
+    "end": 2122.36,
+    "text": "el caso particular en el cual f de xy es la distancia de xy al origen. Que es esa función"
+  },
+  {
+    "start": 2122.36,
+    "end": 2133.36,
+    "text": "que está ahí. Si yo les pregunto si hay algún punto sobre la curva en la cual se alcance una"
+  },
+  {
+    "start": 2133.36,
+    "end": 2139.56,
+    "text": "distancia mínima al origen, que me irían, que sí o que no. Supongan que la curva es"
+  },
+  {
+    "start": 2139.56,
+    "end": 2146.36,
+    "text": "cetramonama, no es una curva infinita que hace cosas raras en otros sectores del plan."
+  },
+  {
+    "start": 2146.36,
+    "end": 2150.76,
+    "text": "No quiero que me diga exactamente dónde, sino quiero una respuesta intuitiva. Pueden"
+  },
+  {
+    "start": 2150.76,
+    "end": 2155.6800000000003,
+    "text": "detectar algún punto en donde la distancia que yo pueda medir desde ese punto de la curva"
+  },
+  {
+    "start": 2155.6800000000003,
+    "end": 2166.2000000000003,
+    "text": "al cero cero, sea mínima. ¿Cómo? Sí, ¿verdad? Teóricamente podemos asegurar eso porque esta"
+  },
+  {
+    "start": 2166.2000000000003,
+    "end": 2172.5600000000004,
+    "text": "curva, si termina acá y empieza acá o al revés no importa el sentido, es un subconjunto"
+  },
+  {
+    "start": 2172.5600000000004,
+    "end": 2178.0400000000004,
+    "text": "de redos que es cerrado y acotado, entonces es compacto. Sobre cualquier compacto, una función"
+  },
+  {
+    "start": 2178.04,
+    "end": 2182.2799999999997,
+    "text": "continua, alcanza máximo y mínimo. Entonces sí, va a haber un punto, no importa cuál,"
+  },
+  {
+    "start": 2182.2799999999997,
+    "end": 2189.12,
+    "text": "va a haber un punto, el cual lo calculamos después. Va a haber un punto en donde la distancia al"
+  },
+  {
+    "start": 2189.12,
+    "end": 2196.4,
+    "text": "origen va a ser la menor distancia posible. Y bueno, no sé, a ojo por ciento digamos que"
+  },
+  {
+    "start": 2196.4,
+    "end": 2201.44,
+    "text": "ese punto está por acá. A lo mejor no es ahí, sino un poquito más al ladito pero"
+  },
+  {
+    "start": 2201.44,
+    "end": 2209.12,
+    "text": "no importa. Vamos a decir que es ahí y que se alcanza una distancia mínima a la cual"
+  },
+  {
+    "start": 2209.12,
+    "end": 2221.48,
+    "text": "yo voy a llamar R0, sí, por ponerle un nombre nomás. Bien. Por otro lado, ¿qué pasa si"
+  },
+  {
+    "start": 2221.48,
+    "end": 2228.08,
+    "text": "ahora yo les pregunto, olvídense por un momento de esta curva y esa distancia y les pido"
+  },
+  {
+    "start": 2228.08,
+    "end": 2237.7999999999997,
+    "text": "que me identifiquen quién es el conjunto de puntos X y para los cuales f de X y es igual a R,"
+  },
+  {
+    "start": 2237.7999999999997,
+    "end": 2245.0,
+    "text": "con R mayor que 0, ¿sí? O dicho de otra manera, raíz cuadrada de X cuadrado más Y cuadrado"
+  },
+  {
+    "start": 2245.0,
+    "end": 2253.64,
+    "text": "igual a R, o dicho de otra manera, X cuadrado más Y cuadrado igual a R al cuadrado. El"
+  },
+  {
+    "start": 2253.64,
+    "end": 2259.3199999999997,
+    "text": "conjunto de puntos de pares X y que cumplen con esto, que sería geométricamente hablando,"
+  },
+  {
+    "start": 2261.6,
+    "end": 2276.3599999999997,
+    "text": "la circunferencia del centro 0 y radio R, ¿sí? Ok. Entonces, ¿qué pasa si yo ahora tomo R igual"
+  },
+  {
+    "start": 2276.3599999999997,
+    "end": 2282.8799999999997,
+    "text": "a este R0 que está acá? Bueno, eso me va a dar una circunferencia de radio R0, ¿sí?"
+  },
+  {
+    "start": 2283.64,
+    "end": 2308.72,
+    "text": "Si acá tenemos todos los puntos X y, tal es que f de X y es igual a R sub 0. Ok. Bien."
+  },
+  {
+    "start": 2308.7200000000003,
+    "end": 2318.6800000000003,
+    "text": "¿Qué ocurre acá? Que esta circunferencia y la curva C están teniendo un punto en donde se"
+  },
+  {
+    "start": 2318.6800000000003,
+    "end": 2323.6400000000003,
+    "text": "tocan tangencialmente, ¿sí? Que es este punto acá, en donde se alcanza la distancia mínima."
+  },
+  {
+    "start": 2325.0800000000004,
+    "end": 2331.7200000000003,
+    "text": "¿Me siguen hasta ahí? O sea, yo puedo ir, esta circunferencia la puedo ir ensanchando,"
+  },
+  {
+    "start": 2331.7200000000003,
+    "end": 2337.6800000000003,
+    "text": "haciendo crecer R hasta llegar a R igual 0 y en R igual 0 va a dar un punto de contacto"
+  },
+  {
+    "start": 2337.68,
+    "end": 2345.2,
+    "text": "entre la circunferencia determinada por f y la curva determinada por g. Ok. Si dos curvas"
+  },
+  {
+    "start": 2345.2,
+    "end": 2353.96,
+    "text": "tienen un punto, un punto común de tangencia, la recta tangente que traemos ahí va a ser"
+  },
+  {
+    "start": 2353.96,
+    "end": 2361.2799999999997,
+    "text": "común a ambas curvas, ¿sí? Porque es el mismo punto de tangencia. Entonces, si trazamos"
+  },
+  {
+    "start": 2361.28,
+    "end": 2368.6800000000003,
+    "text": "la recta tangente acá, ¿me va a quedar algo así? Bueno, hasta un poquito torcida esa recta,"
+  },
+  {
+    "start": 2368.6800000000003,
+    "end": 2380.1200000000003,
+    "text": "¿no? Ahí trate de arreglarlo un poquito. Entonces, bueno, esta es la recta tangente."
+  },
+  {
+    "start": 2380.12,
+    "end": 2399.56,
+    "text": "Y acá es donde aparecen estos dos señores. ¿Bien? ¿Qué ocurre acá? Bueno, en el curso anterior"
+  },
+  {
+    "start": 2399.56,
+    "end": 2407.7599999999998,
+    "text": "del cálculo diferencial integral en varias variables tuvieron que haber visto que cuando"
+  },
+  {
+    "start": 2407.76,
+    "end": 2415.36,
+    "text": "uno tiene una curva de nivel y un punto en esa curva de nivel, el vector o un vector normal"
+  },
+  {
+    "start": 2415.36,
+    "end": 2420.0400000000004,
+    "text": "a esa curva en ese punto viene dado por el gradiente de la función que determina la curva"
+  },
+  {
+    "start": 2420.0400000000004,
+    "end": 2429.6800000000003,
+    "text": "de nivel evaluado en el punto, ¿sí? Es decir, que si yo acá calculo, por ejemplo, el"
+  },
+  {
+    "start": 2429.68,
+    "end": 2443.2799999999997,
+    "text": "gradiente de g en x0 y 0, voy a obtener un vector que es normal a esa recta tangente,"
+  },
+  {
+    "start": 2443.2799999999997,
+    "end": 2455.16,
+    "text": "que pasa por ese mismo punto, ¿sí? Por otro lado, si ahora calculo un vector normal"
+  },
+  {
+    "start": 2455.16,
+    "end": 2463.8799999999997,
+    "text": "a esta curva de nivel, a la curva azul, en el punto x0 y 0 obtengo, me volvió a quedar"
+  },
+  {
+    "start": 2463.8799999999997,
+    "end": 2472.16,
+    "text": "torcido, va a tener que mejorar un poco el pulso, me queda otro vector, lo voy a pintar más"
+  },
+  {
+    "start": 2472.16,
+    "end": 2482.52,
+    "text": "grande, que es normal a la recta tangente al punto x0 y 0 y tangente a esta curva,"
+  },
+  {
+    "start": 2482.52,
+    "end": 2488.36,
+    "text": "esta circunferencia azul, ¿sí? Ahora, como esta recta tangente es común a ambas curvas,"
+  },
+  {
+    "start": 2488.36,
+    "end": 2497.8,
+    "text": "los gradientes tienen que ser colineales, ¿se entiende? ¿sí? La curva azul y la curva"
+  },
+  {
+    "start": 2497.8,
+    "end": 2502.16,
+    "text": "roja comparten un punto de tangencia común, en ese punto pasa una tangente que es común"
+  },
+  {
+    "start": 2502.16,
+    "end": 2511.08,
+    "text": "a ambas curvas, entonces si yo calculo el vector normal mediante esto o esto, voy"
+  },
+  {
+    "start": 2511.12,
+    "end": 2517.52,
+    "text": "a obtener vectores colineales, porque la recta tangente es coincidente para ambas curvas,"
+  },
+  {
+    "start": 2517.52,
+    "end": 2525.48,
+    "text": "¿ok? Entonces, bueno, es por eso que la conclusión del teorema de multiplicadores de La Grange"
+  },
+  {
+    "start": 2525.48,
+    "end": 2528.64,
+    "text": "me dice esto que está acá, claro, nosotros lo hicimos para una función particular,"
+  },
+  {
+    "start": 2528.64,
+    "end": 2533.44,
+    "text": "que es la función distancia, ¿sí? Que lo hicimos así para que se pudiera visualizar"
+  },
+  {
+    "start": 2533.44,
+    "end": 2538.96,
+    "text": "el problema, pero bueno, resulta que esto vale para cualquier f, siempre y cuando"
+  },
+  {
+    "start": 2539.96,
+    "end": 2546.08,
+    "text": "sea una función de clase S1, ¿ok? Vamos a hacer un ejemplo, ¿sí?"
+  },
+  {
+    "start": 2553.68,
+    "end": 2558.88,
+    "text": "Ya tienen uno que fue el que vimos al final de la clase anterior, pero vamos a hacer otro,"
+  },
+  {
+    "start": 2558.88,
+    "end": 2562.36,
+    "text": "sí, para complementar un poco. Bueno,"
+  },
+  {
+    "start": 2572.32,
+    "end": 2573.4,
+    "text": "vamos a calcular"
+  },
+  {
+    "start": 2577.56,
+    "end": 2578.7200000000003,
+    "text": "la distancia"
+  },
+  {
+    "start": 2581.4,
+    "end": 2582.1600000000003,
+    "text": "mínima"
+  },
+  {
+    "start": 2587.1600000000003,
+    "end": 2588.32,
+    "text": "entre el punto"
+  },
+  {
+    "start": 2588.88,
+    "end": 2614.2400000000002,
+    "text": "1, 0, y la parábola, y al cuadrado igual a 4x, ¿sí? Ok, bien."
+  },
+  {
+    "start": 2618.88,
+    "end": 2624.6,
+    "text": "Acá la situación es bastante clara, ¿no?"
+  },
+  {
+    "start": 2632.36,
+    "end": 2637.2000000000003,
+    "text": "Tengo una función a la cual quiero determinarles sus extremos, en este caso me están hablando"
+  },
+  {
+    "start": 2637.2000000000003,
+    "end": 2643.12,
+    "text": "de una distancia mínima, entonces la función a minimizar es la función distancia, ¿sí?"
+  },
+  {
+    "start": 2643.12,
+    "end": 2651.8399999999997,
+    "text": "Vamos a llamarla de dx, ¿sí? Es la distancia"
+  },
+  {
+    "start": 2654.12,
+    "end": 2661.88,
+    "text": "al punto 1, 0, entonces eso se define como la norma de dx menos 1, 0."
+  },
+  {
+    "start": 2661.88,
+    "end": 2676.2000000000003,
+    "text": "Y esto se puede reescribir como la raíz cuadrada de x menos 1 al cuadrado más y al cuadrado, ¿sí?"
+  },
+  {
+    "start": 2676.2000000000003,
+    "end": 2688.8,
+    "text": "Entonces, esta es la función a minimizar y me dicen que la restricción sobre el cual se va a considerar"
+  },
+  {
+    "start": 2692.7200000000003,
+    "end": 2698.1600000000003,
+    "text": "ese proceso de minimizar esta función corresponde a la curva y cuadrado igual a 4x, ¿sí?"
+  },
+  {
+    "start": 2698.1600000000003,
+    "end": 2704.76,
+    "text": "Eso es una parábola, solo que como quien aparece ahora elevar cuadrado es y y no x, es una parábola que abre"
+  },
+  {
+    "start": 2705.6,
+    "end": 2710.7200000000003,
+    "text": "a la derecha o a la izquierda según el signo que tenga acá, como 4 tiene signo positivo,"
+  },
+  {
+    "start": 2710.7200000000003,
+    "end": 2714.76,
+    "text": "entonces esta parábola abre hacia la derecha del plano r2."
+  },
+  {
+    "start": 2714.76,
+    "end": 2722.5200000000004,
+    "text": "Otra manera de verlo es, bueno, tomar algunos valores para x,"
+  },
+  {
+    "start": 2722.5200000000004,
+    "end": 2726.88,
+    "text": "calcular el correspondiente y y ver más o menos por donde pasa la curva, ¿sí?"
+  },
+  {
+    "start": 2726.88,
+    "end": 2733.84,
+    "text": "Ok, entonces, bueno, esto que está acá va a ser la la condición c."
+  },
+  {
+    "start": 2738.2000000000003,
+    "end": 2742.5200000000004,
+    "text": "Y recuerden que esta parábola es la curva de nivel 0 de algún campo escalar."
+  },
+  {
+    "start": 2742.64,
+    "end": 2749.24,
+    "text": "Yo tengo que identificar dicho campo escalar para aplicar el método de multiplicadores de la grancha."
+  },
+  {
+    "start": 2749.24,
+    "end": 2754.52,
+    "text": "Bueno, en ese caso el campo escalar, ¿quién sería?"
+  },
+  {
+    "start": 2754.52,
+    "end": 2765.12,
+    "text": "Bueno, sería g de x, y igual a y cuadrado menos 4x."
+  },
+  {
+    "start": 2765.12,
+    "end": 2767.52,
+    "text": "¿Por qué es este campo escalar?"
+  },
+  {
+    "start": 2767.56,
+    "end": 2774.52,
+    "text": "Bueno, porque si yo esto lo igualo a cero obtengo justamente la ecuación de la parábola, ¿ok?"
+  },
+  {
+    "start": 2776.52,
+    "end": 2784.52,
+    "text": "Tiene que buscar un campo tal que al igualarlo a cero me dé la ecuación algebraica de la curva o la superficie según sea el caso."
+  },
+  {
+    "start": 2785.52,
+    "end": 2794.52,
+    "text": "Bien, entonces, bueno, ya tengo la función para la cual quiero determinar sus extremos condicionados y tengo de más la condición acá."
+  },
+  {
+    "start": 2794.52,
+    "end": 2797.52,
+    "text": "Claramente son funciones de clase c1."
+  },
+  {
+    "start": 2797.52,
+    "end": 2805.52,
+    "text": "Entonces, bueno, puedo tratar de aplicar lo que me dice acá, ¿sí?"
+  },
+  {
+    "start": 2805.52,
+    "end": 2813.52,
+    "text": "Hay que entender, más allá de la descripción geométrica que hicimos acá del enunciado, entender cómo se aplica esto."
+  },
+  {
+    "start": 2815.52,
+    "end": 2819.52,
+    "text": "Acá me están diciendo que si en un punto se alcanza un extremo condicionado,"
+  },
+  {
+    "start": 2819.52,
+    "end": 2826.52,
+    "text": "entonces los gradientes evaluados en dicho punto son colineales, ¿ok?"
+  },
+  {
+    "start": 2826.52,
+    "end": 2833.52,
+    "text": "Entonces, la manera de aplicar esto en la práctica es la siguiente."
+  },
+  {
+    "start": 2833.52,
+    "end": 2848.52,
+    "text": "Tengo que encontrar todos los valores, en este caso de R2, los valores x, y para los cuales estos dos vectores son colineales, ¿ok?"
+  },
+  {
+    "start": 2848.52,
+    "end": 2852.52,
+    "text": "Una vez encuentre todos esos puntos en donde estos vectores son colineales,"
+  },
+  {
+    "start": 2852.52,
+    "end": 2861.52,
+    "text": "yo después tengo que ver en cuáles de ellos se alcanza un extremo condicionado, ¿ok?"
+  },
+  {
+    "start": 2861.52,
+    "end": 2872.52,
+    "text": "Lo digo de otra manera, esto que está acá, se puede leer de la siguiente manera, ¿sí?"
+  },
+  {
+    "start": 2872.52,
+    "end": 2879.52,
+    "text": "O sea, si bien, al tener un extremo condicionado de x0, tengo que estos vectores son colineales,"
+  },
+  {
+    "start": 2879.52,
+    "end": 2889.52,
+    "text": "pueden ser que hayan otros puntos en el cual estos vectores sean colineales y en donde la función no alcance un extremo condicionado."
+  },
+  {
+    "start": 2889.52,
+    "end": 2896.52,
+    "text": "Es decir, el conjunto de todos los puntos del dominio, o mejor dicho, de la condición,"
+  },
+  {
+    "start": 2896.52,
+    "end": 2902.52,
+    "text": "porque estamos tomando aquí 0k, el conjunto de todos los puntos en la condición en el cual estos dos vectores son colineales,"
+  },
+  {
+    "start": 2902.52,
+    "end": 2909.52,
+    "text": "contiene aquellos puntos en donde la función alcanza un extremo condicionado."
+  },
+  {
+    "start": 2909.52,
+    "end": 2918.52,
+    "text": "Es como cuando calculábamos el gradient de una función y luego hablábamos a 0 para hallar los puntos críticos"
+  },
+  {
+    "start": 2918.52,
+    "end": 2921.52,
+    "text": "y después clasificar esos puntos críticos."
+  },
+  {
+    "start": 2921.52,
+    "end": 2928.52,
+    "text": "Si usted toma el gradient de una función y luego alganza a 0, el conjunto de puntos críticos obtenidos"
+  },
+  {
+    "start": 2928.52,
+    "end": 2934.52,
+    "text": "puede contener aquellos puntos en donde la función alcanza un máximo mínimo relativo,"
+  },
+  {
+    "start": 2934.52,
+    "end": 2938.52,
+    "text": "pero también pueden haber puntos de silla allí, ¿ok?"
+  },
+  {
+    "start": 2939.52,
+    "end": 2948.52,
+    "text": "Algo parecido pasa acá, el conjunto de puntos en donde estos vectores son colineales contiene dentro de él"
+  },
+  {
+    "start": 2948.52,
+    "end": 2952.52,
+    "text": "aquellos puntos en donde la función alcanza un extremo condicionado."
+  },
+  {
+    "start": 2952.52,
+    "end": 2957.52,
+    "text": "En caso de que existan, pueden haberlo, ¿ok? Generalmente los hay."
+  },
+  {
+    "start": 2957.52,
+    "end": 2964.52,
+    "text": "Entonces, lo primero que vamos a hacer es ver cómo determinar cuando estas dos cosas son colineales"
+  },
+  {
+    "start": 2964.52,
+    "end": 2972.52,
+    "text": "y después nos vamos a preocupar en cómo clasificar qué es lo que ocurre en dichos puntos, ¿bien?"
+  },
+  {
+    "start": 2972.52,
+    "end": 2991.52,
+    "text": "Entonces, vamos a hallar todos los puntos pertenecientes a la parábola, tales que estos dos señores"
+  },
+  {
+    "start": 2992.52,
+    "end": 2995.52,
+    "text": "vamos a usarlo con Xci, ¿sí?"
+  },
+  {
+    "start": 2996.52,
+    "end": 3007.52,
+    "text": "Gradiente de f, evaluado en Xci, y gradiente de g, evaluado en Xci, son colineales."
+  },
+  {
+    "start": 3012.52,
+    "end": 3018.52,
+    "text": "Colineales, recuerden que es sinónimo de linealmente dependiente, ¿bien?"
+  },
+  {
+    "start": 3021.52,
+    "end": 3039.52,
+    "text": "Ahora bien, como tengo dos vectores en R2, decir esto es equivalente a determinar cuáles son los puntos Xci"
+  },
+  {
+    "start": 3039.52,
+    "end": 3047.52,
+    "text": "para los cuales es el determinante formado por el gradiente de f en Xci"
+  },
+  {
+    "start": 3047.52,
+    "end": 3055.52,
+    "text": "y el gradiente de g en Xci son iguales a 0, ¿sí?"
+  },
+  {
+    "start": 3055.52,
+    "end": 3058.52,
+    "text": "Entonces, esto es lo que vamos a calcular."
+  },
+  {
+    "start": 3058.52,
+    "end": 3062.52,
+    "text": "Vamos a calcular un gradiente, ese gradiente va a depender por supuesto de Xci"
+  },
+  {
+    "start": 3062.52,
+    "end": 3068.52,
+    "text": "y al igualarlo a 0 vamos a determinar cuánto tiene que ser Xci cuánto tiene que ser y"
+  },
+  {
+    "start": 3068.52,
+    "end": 3077.52,
+    "text": "para finalmente hallar los puntos candidatos en donde la función f puede alcanzar, en este caso d, perdón,"
+  },
+  {
+    "start": 3077.52,
+    "end": 3084.52,
+    "text": "puede alcanzar un extremo condicionado, la función distancia la llamé d, sí, acá debería ser d."
+  },
+  {
+    "start": 3093.52,
+    "end": 3102.52,
+    "text": "Una observación que hago para cuando trabajen con funciones de distancia que aparecen mucho en los problemas, ¿sí?"
+  },
+  {
+    "start": 3102.52,
+    "end": 3108.52,
+    "text": "Fíjense acá, esta es una función que tiene acá metido en una raíz cuadrada, ¿qué quiere decir eso?"
+  },
+  {
+    "start": 3108.52,
+    "end": 3113.52,
+    "text": "Cuando calculemos las derivadas parciales de esta cosa, vamos a tener que herir una raíz cuadrada,"
+  },
+  {
+    "start": 3113.52,
+    "end": 3119.52,
+    "text": "va a aparecer uno sobre la raíz de esta cosa por la derivada interna, la derivada parcial interna,"
+  },
+  {
+    "start": 3120.52,
+    "end": 3126.52,
+    "text": "¿a dónde voy con esto? Que este simbolito me genera cálculos más largos, ¿sí?"
+  },
+  {
+    "start": 3126.52,
+    "end": 3144.52,
+    "text": "Entonces, quiero que noten lo siguiente, esa función d alcanza un extremo condicionado en X0,"
+  },
+  {
+    "start": 3145.52,
+    "end": 3151.52,
+    "text": "sí, solo sí, la función d al cuadrado que la voy a llamar f,"
+  },
+  {
+    "start": 3151.52,
+    "end": 3165.52,
+    "text": "que alcanza un extremo condicionado en X0."
+  },
+  {
+    "start": 3167.52,
+    "end": 3180.52,
+    "text": "¿Qué quiero decir? Que trabajar en problemas de optimización con la función distancia o el cuadrado de ésta es equivalente,"
+  },
+  {
+    "start": 3180.52,
+    "end": 3188.52,
+    "text": "¿sí? ¿Por qué nos conviene más trabajar con la función distancia al cuadrado?"
+  },
+  {
+    "start": 3188.52,
+    "end": 3196.52,
+    "text": "¿Por qué? Nos deshacemos de la raíz, ¿ok?"
+  },
+  {
+    "start": 3198.52,
+    "end": 3201.52,
+    "text": "¿Se entiende por qué estas dos cosas son equivalentes?"
+  },
+  {
+    "start": 3201.52,
+    "end": 3208.52,
+    "text": "Supongan que en X0 tengo un mínimo condicionado, bueno, entonces en todos los puntos de la curva"
+  },
+  {
+    "start": 3208.52,
+    "end": 3217.52,
+    "text": "de algún punto allí va a ser mayor o igual a dx0, pero si elevo eso al cuadrado como esta función de la función distancia"
+  },
+  {
+    "start": 3217.52,
+    "end": 3223.52,
+    "text": "siempre es mayor o igual a 0, el sentido de la desigualdad va a ser el mismo, ¿ok?"
+  },
+  {
+    "start": 3224.52,
+    "end": 3232.52,
+    "text": "Lo voy a poner acá, sea dx es mayor o igual a dx0,"
+  },
+  {
+    "start": 3232.52,
+    "end": 3237.52,
+    "text": "lo estoy haciendo para mínimo pero para máximo es análogo, sí, solo sí,"
+  },
+  {
+    "start": 3241.52,
+    "end": 3251.52,
+    "text": "dx al cuadrado es mayor o igual a dx0 al cuadrado."
+  },
+  {
+    "start": 3253.52,
+    "end": 3261.52,
+    "text": "En general, cuando uno tiene una desigualdad y la eleva al cuadrado el sentido no necesariamente se mantiene, ¿ok?"
+  },
+  {
+    "start": 3261.52,
+    "end": 3269.52,
+    "text": "En este caso sí, porque estas funciones, esta función mejor dicho d es mayor o igual a 0."
+  },
+  {
+    "start": 3273.52,
+    "end": 3274.52,
+    "text": "¿Bien?"
+  },
+  {
+    "start": 3276.52,
+    "end": 3282.52,
+    "text": "Entonces, bueno, vamos a trabajar con la función distancia al cuadrado que es más sencilla."
+  },
+  {
+    "start": 3283.52,
+    "end": 3306.52,
+    "text": "Vamos a llamar la f, f de xy, distancia de xy al cuadrado y nos olvidamos de la raíz,"
+  },
+  {
+    "start": 3307.52,
+    "end": 3311.52,
+    "text": "x menos 1 al cuadrado más y al cuadrado, ¿bien?"
+  },
+  {
+    "start": 3312.52,
+    "end": 3318.52,
+    "text": "Derivar esto parcialmente es mucho más rápido, mucho más sencillo que derivar esto parcialmente, ¿ok?"
+  },
+  {
+    "start": 3319.52,
+    "end": 3320.52,
+    "text": "Muy bien."
+  },
+  {
+    "start": 3326.52,
+    "end": 3328.52,
+    "text": "Bueno, esto creo que ya se puede borrar."
+  },
+  {
+    "start": 3337.52,
+    "end": 3346.52,
+    "text": "Y entonces, ¿qué estábamos diciendo?"
+  },
+  {
+    "start": 3346.52,
+    "end": 3362.52,
+    "text": "Queríamos ver cuando 0 era igual al determinante del gradiente de f xy con gradiente de g xy, ¿sí?"
+  },
+  {
+    "start": 3363.52,
+    "end": 3365.52,
+    "text": "Bueno, este determinante, ¿quién es?"
+  },
+  {
+    "start": 3365.52,
+    "end": 3370.52,
+    "text": "En cada fila coloco el gradiente correspondiente, el gradiente de esto, ¿quién sería?"
+  },
+  {
+    "start": 3370.52,
+    "end": 3376.52,
+    "text": "Sería 2x menos 2 acá y 2y."
+  },
+  {
+    "start": 3378.52,
+    "end": 3384.52,
+    "text": "Sí, la primera fila, ojo, es el gradiente de esta función y en la fila 2 coloco el gradiente de g,"
+  },
+  {
+    "start": 3384.52,
+    "end": 3386.52,
+    "text": "g la tengo acá, ¿sí?"
+  },
+  {
+    "start": 3386.52,
+    "end": 3388.52,
+    "text": "El gradiente sería menos 4, 2y."
+  },
+  {
+    "start": 3393.52,
+    "end": 3399.52,
+    "text": "Bien, ¿piren qué suerte acá?"
+  },
+  {
+    "start": 3399.52,
+    "end": 3401.52,
+    "text": "Este y este se me repiten."
+  },
+  {
+    "start": 3401.52,
+    "end": 3418.52,
+    "text": "Entonces, puedo tomar, por ejemplo, la fila 2 restarla a la fila 1 y me queda que 0 es igual al determinante de 2x más 2,"
+  },
+  {
+    "start": 3419.52,
+    "end": 3425.52,
+    "text": "0 menos 4, 2y."
+  },
+  {
+    "start": 3426.52,
+    "end": 3431.52,
+    "text": "Acá puedo sacar el escalar 2 de la primera y de la segunda fila"
+  },
+  {
+    "start": 3431.52,
+    "end": 3436.52,
+    "text": "y como tengo un 0 acá, lo puedo hacer dividiendo y me queda algo más simple."
+  },
+  {
+    "start": 3436.52,
+    "end": 3449.52,
+    "text": "Y bueno, acá tengo el determinante de una matriz triangular,"
+  },
+  {
+    "start": 3449.52,
+    "end": 3454.52,
+    "text": "entonces su determinante es el producto de las componentes de la diagonal."
+  },
+  {
+    "start": 3454.52,
+    "end": 3460.52,
+    "text": "Entonces, esto queda y por x más 1."
+  },
+  {
+    "start": 3461.52,
+    "end": 3471.52,
+    "text": "Entonces, vamos a tener que y es igual a 0 o que x es igual a menos 1."
+  },
+  {
+    "start": 3474.52,
+    "end": 3483.52,
+    "text": "Estos son los valores de x o de y que anulan a ese determinante."
+  },
+  {
+    "start": 3483.52,
+    "end": 3486.52,
+    "text": "Ahora hay que tener algo muy importante en cuenta."
+  },
+  {
+    "start": 3491.52,
+    "end": 3495.52,
+    "text": "Esos dos valores no son cualesquiera, ¿sí?"
+  },
+  {
+    "start": 3495.52,
+    "end": 3506.52,
+    "text": "Recuerden que x y lo estamos tomando dentro de la condición, ¿ok?"
+  },
+  {
+    "start": 3506.52,
+    "end": 3508.52,
+    "text": "¿Qué quiere decir eso?"
+  },
+  {
+    "start": 3508.52,
+    "end": 3513.52,
+    "text": "Bueno, que lo tenía por acá y luego re y cuadrado a 4x, ¿no?"
+  },
+  {
+    "start": 3514.52,
+    "end": 3519.52,
+    "text": "Es decir, y cuadrado es 4x."
+  },
+  {
+    "start": 3530.52,
+    "end": 3538.52,
+    "text": "Por un lado, vamos a analizar este primero, ¿sí?"
+  },
+  {
+    "start": 3538.52,
+    "end": 3543.52,
+    "text": "x igual a menos 1."
+  },
+  {
+    "start": 3543.52,
+    "end": 3550.52,
+    "text": "Tenemos que en x igual a menos 1 el determinante se anula, ¿sí?"
+  },
+  {
+    "start": 3550.52,
+    "end": 3558.52,
+    "text": "Pero además, como estamos trabajando con puntos sobre la parábola,"
+  },
+  {
+    "start": 3558.52,
+    "end": 3561.52,
+    "text": "esto se tiene que cumplir."
+  },
+  {
+    "start": 3561.52,
+    "end": 3567.52,
+    "text": "Si tengo que por un lado x tiene que ser menos 1"
+  },
+  {
+    "start": 3567.52,
+    "end": 3570.52,
+    "text": "por otro lado, acá debería decir, ¿eh?"
+  },
+  {
+    "start": 3570.52,
+    "end": 3573.52,
+    "text": "y cuadrado tiene que ser igual a 4x."
+  },
+  {
+    "start": 3573.52,
+    "end": 3579.52,
+    "text": "Entonces, vamos a tener que y cuadrado tiene que ser igual a menos 4."
+  },
+  {
+    "start": 3581.52,
+    "end": 3586.52,
+    "text": "Eso es posible, no dentro de r, ¿ok?"
+  },
+  {
+    "start": 3586.52,
+    "end": 3588.52,
+    "text": "Estamos trabajando en r."
+  },
+  {
+    "start": 3588.52,
+    "end": 3598.52,
+    "text": "Entonces, el caso en el cual x vale menos 1 arroja una contradicción."
+  },
+  {
+    "start": 3598.52,
+    "end": 3600.52,
+    "text": "¿Bien?"
+  },
+  {
+    "start": 3600.52,
+    "end": 3606.52,
+    "text": "Bueno, por suerte, tenemos otro caso todavía para trabajar,"
+  },
+  {
+    "start": 3606.52,
+    "end": 3611.52,
+    "text": "que es este otro, igual 0."
+  },
+  {
+    "start": 3611.52,
+    "end": 3614.52,
+    "text": "¿Qué pasa cuando y es igual a 0?"
+  },
+  {
+    "start": 3614.52,
+    "end": 3620.52,
+    "text": "Y además y al cuadrado tiene que ser igual a 4x."
+  },
+  {
+    "start": 3620.52,
+    "end": 3622.52,
+    "text": "Bueno, este caso es más 40, ¿sí?"
+  },
+  {
+    "start": 3622.52,
+    "end": 3626.52,
+    "text": "Acá tenemos que 0 tiene que ser igual combinando ambas igualdades,"
+  },
+  {
+    "start": 3626.52,
+    "end": 3628.52,
+    "text": "0 tiene que ser 4x."
+  },
+  {
+    "start": 3628.52,
+    "end": 3631.52,
+    "text": "O lo que es lo mismo, x es igual a 0."
+  },
+  {
+    "start": 3636.52,
+    "end": 3642.52,
+    "text": "Entonces, tengo que el punto 00 en el punto 00x igual 0 igual 0,"
+  },
+  {
+    "start": 3642.52,
+    "end": 3645.52,
+    "text": "el cual pertenece a la condición, a la restricción."
+  },
+  {
+    "start": 3645.52,
+    "end": 3649.52,
+    "text": "Allí está ocurriendo que este determinante se anula."
+  },
+  {
+    "start": 3649.52,
+    "end": 3654.52,
+    "text": "Es decir, que estos vectores son colineales en ese punto."
+  },
+  {
+    "start": 3654.52,
+    "end": 3657.52,
+    "text": "¿Bien?"
+  },
+  {
+    "start": 3657.52,
+    "end": 3659.52,
+    "text": "Vamos a anotar eso acá."
+  },
+  {
+    "start": 3659.52,
+    "end": 3678.52,
+    "text": "Tenemos que en p de coordenada 00 perteneciente a c,"
+  },
+  {
+    "start": 3678.52,
+    "end": 3686.52,
+    "text": "el gradiente de f en 00 y el gradiente de g en 00"
+  },
+  {
+    "start": 3686.52,
+    "end": 3690.52,
+    "text": "son linealmente dependientes."
+  },
+  {
+    "start": 3690.52,
+    "end": 3692.52,
+    "text": "Es decir, ¿qué está pasando?"
+  },
+  {
+    "start": 3692.52,
+    "end": 3698.52,
+    "text": "Se está cumpliendo la tesis del teorema de multiplicadores de Lagrange."
+  },
+  {
+    "start": 3698.52,
+    "end": 3702.52,
+    "text": "El teorema no es un sí solo sí, ojo."
+  },
+  {
+    "start": 3702.52,
+    "end": 3704.52,
+    "text": "¿Sí?"
+  },
+  {
+    "start": 3704.52,
+    "end": 3711.52,
+    "text": "El teorema dice que si en 00 se alcanza un extremo condicionado,"
+  },
+  {
+    "start": 3711.52,
+    "end": 3715.52,
+    "text": "entonces estas dos cosas, estos dos vectores, mejor dicho, van a ser LV."
+  },
+  {
+    "start": 3715.52,
+    "end": 3718.52,
+    "text": "Lo que estoy teniendo es la tesis."
+  },
+  {
+    "start": 3718.52,
+    "end": 3722.52,
+    "text": "Es decir, que el punto 00 es un punto dentro de la parábola"
+  },
+  {
+    "start": 3722.52,
+    "end": 3728.52,
+    "text": "que es un candidato a que en él se alcanza un extremo condicionado."
+  },
+  {
+    "start": 3728.52,
+    "end": 3731.52,
+    "text": "Ahora faltaría ver qué ocurre en ese punto."
+  },
+  {
+    "start": 3731.52,
+    "end": 3736.52,
+    "text": "Si al evaluar en ese punto el valor obtenido es menor o igual"
+  },
+  {
+    "start": 3736.52,
+    "end": 3742.52,
+    "text": "que la evaluación de la función en cualquier punto de la condición o mayor o igual."
+  },
+  {
+    "start": 3742.52,
+    "end": 3746.52,
+    "text": "¿Sí? Es lo que habría que hacer a continuación."
+  },
+  {
+    "start": 3754.52,
+    "end": 3763.52,
+    "text": "Entonces vamos a ver si f de xy es mayor o igual a f de p"
+  },
+  {
+    "start": 3763.52,
+    "end": 3776.52,
+    "text": "o si f de xy es menor o igual a f de p para todo xy en c."
+  },
+  {
+    "start": 3776.52,
+    "end": 3782.52,
+    "text": "Por suerte no tengo que analizar esto en todo el dominio de f sino solamente en c."
+  },
+  {
+    "start": 3782.52,
+    "end": 3785.52,
+    "text": "Bien."
+  },
+  {
+    "start": 3785.52,
+    "end": 3788.52,
+    "text": "Voy a probar con algunas de las desigualdades."
+  },
+  {
+    "start": 3788.52,
+    "end": 3795.52,
+    "text": "Si la cosa me resulta bien, adiviné y después verifique que todo se cumplía."
+  },
+  {
+    "start": 3795.52,
+    "end": 3797.52,
+    "text": "Si no, pruebo con la otra."
+  },
+  {
+    "start": 3797.52,
+    "end": 3800.52,
+    "text": "Lo peor que puede pasar es que ninguna funcione."
+  },
+  {
+    "start": 3800.52,
+    "end": 3804.52,
+    "text": "En ese caso, no se tendría un extremo condicionado."
+  },
+  {
+    "start": 3807.52,
+    "end": 3812.52,
+    "text": "Para el tiempo voy a probar con esta de acá que sé que es la que va a funcionar."
+  },
+  {
+    "start": 3812.52,
+    "end": 3818.52,
+    "text": "Hice previamente el ejemplo, es por eso que lo sé."
+  },
+  {
+    "start": 3818.52,
+    "end": 3820.52,
+    "text": "Y bueno, vamos a ver."
+  },
+  {
+    "start": 3820.52,
+    "end": 3826.52,
+    "text": "¿Qué pasa si tratamos de verificar si la primera desigualdad se cumple?"
+  },
+  {
+    "start": 3828.52,
+    "end": 3831.52,
+    "text": "Repito, si no tienen suerte, prueban con la otra."
+  },
+  {
+    "start": 3831.52,
+    "end": 3833.52,
+    "text": "Bueno, a ver."
+  },
+  {
+    "start": 3835.52,
+    "end": 3845.52,
+    "text": "Queremos ver si, salud, si esto se cumple para todo xy en c."
+  },
+  {
+    "start": 3845.52,
+    "end": 3850.52,
+    "text": "Recuerden que esto significa que y cuadrado es 4x."
+  },
+  {
+    "start": 3850.52,
+    "end": 3865.52,
+    "text": "Bueno, esto es cierto, si solo si sustituimos x menos 1 al cuadrado más y al cuadrado es mayor o igual a fdp, p es 0, 0."
+  },
+  {
+    "start": 3865.52,
+    "end": 3868.52,
+    "text": "f de 0, 0 es 1, ¿sí?"
+  },
+  {
+    "start": 3871.52,
+    "end": 3875.52,
+    "text": "Si esta función que es f de xy le valúe 0, 0, me da 1."
+  },
+  {
+    "start": 3876.52,
+    "end": 3888.52,
+    "text": "Bien, y además, recuerden que además de la desigualdad estamos trabajando con la condición de que y al cuadrado es igual a 4x."
+  },
+  {
+    "start": 3890.52,
+    "end": 3893.52,
+    "text": "Bueno, combinamos las dos cosas, ¿no?"
+  },
+  {
+    "start": 3894.52,
+    "end": 3905.52,
+    "text": "En ese caso la desigualdad se convertiría en x menos 1 al cuadrado más 4x mayor o igual a 1."
+  },
+  {
+    "start": 3905.52,
+    "end": 3908.52,
+    "text": "Desarrollo esto capaz que me sirve."
+  },
+  {
+    "start": 3909.52,
+    "end": 3920.52,
+    "text": "Me queda aquí al cuadrado menos 2x más 1 más 4x mayor o igual a 1."
+  },
+  {
+    "start": 3921.52,
+    "end": 3940.52,
+    "text": "Acá puedo simplificar algo, ¿sí? Me queda x al cuadrado más 2x más 1, mayor o igual que 1."
+  },
+  {
+    "start": 3941.52,
+    "end": 3950.52,
+    "text": "Y fíjense que tengo x cuadrado más 2x más 1, eso es x más 1 al cuadrado."
+  },
+  {
+    "start": 3961.52,
+    "end": 3967.52,
+    "text": "Acá no lo sé porque, por ejemplo, cuando x vale... vale menos 1."
+  },
+  {
+    "start": 3971.52,
+    "end": 3974.52,
+    "text": "Ah, no dije nada."
+  },
+  {
+    "start": 3976.52,
+    "end": 3977.52,
+    "text": "Fíjense."
+  },
+  {
+    "start": 3987.52,
+    "end": 3991.52,
+    "text": "Fíjense acá, vamos a comparar esto con esta relación que está acá."
+  },
+  {
+    "start": 3991.52,
+    "end": 4002.52,
+    "text": "Para que un punto esté en la curva, x tiene que ser mayor o igual a 0, ¿sí?"
+  },
+  {
+    "start": 4002.52,
+    "end": 4009.52,
+    "text": "Cuando x es negativo, no puedo encontrar un valor de y correspondiente a dicho valor negativo de x."
+  },
+  {
+    "start": 4009.52,
+    "end": 4014.52,
+    "text": "Ok, entonces acá puedo tomar solamente x mayor o igual a 0, ¿sí?"
+  },
+  {
+    "start": 4015.52,
+    "end": 4023.52,
+    "text": "Entonces la pregunta ahora es, ¿esta desigualdad se cumple o es cierta para todo x mayor o igual a 0?"
+  },
+  {
+    "start": 4025.52,
+    "end": 4027.52,
+    "text": "Sí, sí verifica, ¿sí?"
+  },
+  {
+    "start": 4029.52,
+    "end": 4033.52,
+    "text": "Si aquí es mayor o igual a 0, x más 1 es mayor o igual a 1, su cuadrado va a ser mayor o igual a 1."
+  },
+  {
+    "start": 4033.52,
+    "end": 4037.52,
+    "text": "Ok, entonces esto verifica como esto es equivalente a esto."
+  },
+  {
+    "start": 4037.52,
+    "end": 4050.52,
+    "text": "Esto verifica y, por lo tanto, se tiene que f o de, también es equivalente a la función que teníamos al inicio,"
+  },
+  {
+    "start": 4050.52,
+    "end": 4070.52,
+    "text": "alcanza en 0, 0 un mínimo condicionado a la curva y cuadrado igual a 4x."
+  },
+  {
+    "start": 4074.52,
+    "end": 4077.52,
+    "text": "Este ejemplo lo había hecho distinto en las notas."
+  },
+  {
+    "start": 4077.52,
+    "end": 4083.52,
+    "text": "Yo en las notas trabajo con y en lugar de x y con y es más directo, sale más inmediato,"
+  },
+  {
+    "start": 4083.52,
+    "end": 4087.52,
+    "text": "no hay que hacer este pasito más de análisis, no sé por qué lo hice con x,"
+  },
+  {
+    "start": 4087.52,
+    "end": 4090.52,
+    "text": "pero bueno, ahora hay dos maneras de ver la cosa, ¿no?"
+  },
+  {
+    "start": 4091.52,
+    "end": 4098.52,
+    "text": "Bien, entonces al probar con la primera desigualdad, tuve suerte porque resulta que al verificarla,"
+  },
+  {
+    "start": 4098.52,
+    "end": 4103.52,
+    "text": "lo convertí en un problema equivalente que resulta ser siempre cierto para cualquier x mayor o igual a 0,"
+  },
+  {
+    "start": 4103.52,
+    "end": 4113.52,
+    "text": "entonces bueno, la conclusión es que en 0, 0 la función distancia al punto 0, 1 creo que era,"
+  },
+  {
+    "start": 4113.52,
+    "end": 4118.52,
+    "text": "no perdón, 1, 0 alcanza un mínimo condicionado a esta parábola."
+  },
+  {
+    "start": 4120.52,
+    "end": 4123.52,
+    "text": "Si acá hubiésemos obtenido algo que no se cumple,"
+  },
+  {
+    "start": 4123.52,
+    "end": 4126.52,
+    "text": "entonces bueno, lo que haces es probar con la otra desigualdad, ok?"
+  },
+  {
+    "start": 4126.52,
+    "end": 4130.52,
+    "text": "Lo que te puede pasar es que ninguna desigualdad verifica,"
+  },
+  {
+    "start": 4131.52,
+    "end": 4133.52,
+    "text": "pero eso es bastante raro."
+  },
+  {
+    "start": 4138.52,
+    "end": 4145.52,
+    "text": "Hay casos en donde la curva o la superficie de nivel con la cual se trabaja es un conjunto compacto."
+  },
+  {
+    "start": 4147.52,
+    "end": 4151.52,
+    "text": "En ese tipo de ejemplos, es más fácil llegar a la conclusión que lo que está acá."
+  },
+  {
+    "start": 4151.52,
+    "end": 4155.52,
+    "text": "Acá la parábola no es compacto, entonces hay que analizar cuál desigualdad se cumple,"
+  },
+  {
+    "start": 4155.52,
+    "end": 4157.52,
+    "text": "si es que se cumple alguna, ¿sí?"
+  },
+  {
+    "start": 4157.52,
+    "end": 4162.52,
+    "text": "Repito, cuando en la curva o la superficie de nivel en el caso de tres variables es compacto,"
+  },
+  {
+    "start": 4162.52,
+    "end": 4168.52,
+    "text": "el problema de llegar a la conclusión de que ocurre en ese punto candidato se simplifica muchísimo."
+  },
+  {
+    "start": 4168.52,
+    "end": 4172.52,
+    "text": "Vamos a hacer un ejemplo ahora para un campo escalar de tres variables,"
+  },
+  {
+    "start": 4172.52,
+    "end": 4178.52,
+    "text": "en eso voy a dedicar el resto de la clase, la demostración la hacemos arrancando el miércoles"
+  },
+  {
+    "start": 4178.52,
+    "end": 4185.52,
+    "text": "y después vemos el método multiplicador de Lagrange, versión general, ok?"
+  },
+  {
+    "start": 4185.52,
+    "end": 4190.52,
+    "text": "Que es cuando en el dominio estoy restringiendo a varias condiciones."
+  },
+  {
+    "start": 4190.52,
+    "end": 4197.52,
+    "text": "Por ejemplo, si quiero determinar el extremo que alcanza un campo escalar en una curva"
+  },
+  {
+    "start": 4197.52,
+    "end": 4202.52,
+    "text": "que resulta ser la intersección de dos superficies, ese tipo de situaciones,"
+  },
+  {
+    "start": 4202.52,
+    "end": 4205.52,
+    "text": "se analizan con el método generalizado."
+  },
+  {
+    "start": 4206.52,
+    "end": 4207.52,
+    "text": "Bien?"
+  },
+  {
+    "start": 4209.52,
+    "end": 4213.52,
+    "text": "Preguntas hasta ahora, antes de arrancar el ejemplo de tres variables?"
+  },
+  {
+    "start": 4216.52,
+    "end": 4220.52,
+    "text": "No? En tres variables el análisis va a cambiar un poquito, ok?"
+  },
+  {
+    "start": 4220.52,
+    "end": 4224.52,
+    "text": "Entonces, vamos a ver cómo."
+  },
+  {
+    "start": 4225.52,
+    "end": 4232.52,
+    "text": "Voy a priorizar el ejemplo antes que la demostración porque así pueden avanzar mejor en el práctico, ¿sí?"
+  },
+  {
+    "start": 4232.52,
+    "end": 4235.52,
+    "text": "Entonces, bien, ejemplo."
+  },
+  {
+    "start": 4240.52,
+    "end": 4243.52,
+    "text": "Vamos a trabajar ahora con tres variables."
+  },
+  {
+    "start": 4245.52,
+    "end": 4260.52,
+    "text": "Mira este ejemplo tiene un enunciado un poquito largo."
+  },
+  {
+    "start": 4260.52,
+    "end": 4265.52,
+    "text": "Yo lo voy a leer, igual lo van a tener en las notas cuando se suban, ¿sí?"
+  },
+  {
+    "start": 4265.52,
+    "end": 4270.52,
+    "text": "Yo lo voy a leer y nada más voy a notar los datos relevantes, ok?"
+  },
+  {
+    "start": 4270.52,
+    "end": 4272.52,
+    "text": "Porque es como una especie de problema físico,"
+  },
+  {
+    "start": 4272.52,
+    "end": 4278.52,
+    "text": "entonces, bueno, tiene un enunciado un poquito más verboso, por así decirlo,"
+  },
+  {
+    "start": 4278.52,
+    "end": 4279.52,
+    "text": "está mal dicho seguramente."
+  },
+  {
+    "start": 4279.52,
+    "end": 4281.52,
+    "text": "A ver, el problema dice lo siguiente."
+  },
+  {
+    "start": 4281.52,
+    "end": 4286.52,
+    "text": "Una sonda espacial con la forma de un elipsoide,"
+  },
+  {
+    "start": 4286.52,
+    "end": 4289.52,
+    "text": "ahí está la ecuación del elipsoide, ahora la noto,"
+  },
+  {
+    "start": 4289.52,
+    "end": 4294.52,
+    "text": "entra en la atmósfera de la Tierra y su superficie comienza a calentarse."
+  },
+  {
+    "start": 4295.52,
+    "end": 4300.52,
+    "text": "Después de una hora, la temperatura, perdón, el punto X y Z,"
+  },
+  {
+    "start": 4300.52,
+    "end": 4304.52,
+    "text": "sobre la superficie de la sonda es T de X y Z igual a,"
+  },
+  {
+    "start": 4304.52,
+    "end": 4308.52,
+    "text": "me da un valor ahí en función de las variables, que ya noto cuál es,"
+  },
+  {
+    "start": 4308.52,
+    "end": 4313.52,
+    "text": "y me pregunta, ¿encuentra el punto más caliente sobre la superficie de la sonda?"
+  },
+  {
+    "start": 4313.52,
+    "end": 4316.52,
+    "text": "Ok, entonces."
+  },
+  {
+    "start": 4321.52,
+    "end": 4323.52,
+    "text": "Sonda espacial."
+  },
+  {
+    "start": 4326.52,
+    "end": 4328.52,
+    "text": "Es un elipsoide."
+  },
+  {
+    "start": 4331.52,
+    "end": 4337.52,
+    "text": "La ecuación de ese elipsoide es 4x al cuadrado más i al cuadrado"
+  },
+  {
+    "start": 4337.52,
+    "end": 4342.52,
+    "text": "más 4z al cuadrado igual a 16."
+  },
+  {
+    "start": 4345.52,
+    "end": 4348.52,
+    "text": "Sí, es parecido a una esfera,"
+  },
+  {
+    "start": 4348.52,
+    "end": 4354.52,
+    "text": "solo que acá los coeficientes pueden ser diferentes y positivos, ¿sí?"
+  },
+  {
+    "start": 4354.52,
+    "end": 4358.52,
+    "text": "Esto es un elipsoide centrado en el origen."
+  },
+  {
+    "start": 4359.52,
+    "end": 4363.52,
+    "text": "Es algo más o menos así."
+  },
+  {
+    "start": 4375.52,
+    "end": 4378.52,
+    "text": "Ustedes lo dibujan mejor, pero..."
+  },
+  {
+    "start": 4378.52,
+    "end": 4380.52,
+    "text": "Una superficie así es como..."
+  },
+  {
+    "start": 4380.52,
+    "end": 4383.52,
+    "text": "O sea, ¿se han visto los balones de fútbol americano?"
+  },
+  {
+    "start": 4383.52,
+    "end": 4387.52,
+    "text": "Es que son así a largaditos, bueno, parecido, ¿bien?"
+  },
+  {
+    "start": 4387.52,
+    "end": 4388.52,
+    "text": "Ok."
+  },
+  {
+    "start": 4388.52,
+    "end": 4394.52,
+    "text": "Entonces me dicen que la sonda espacial tiene una superficie"
+  },
+  {
+    "start": 4394.52,
+    "end": 4396.52,
+    "text": "que viene dada por esta ecuación, ¿ok?"
+  },
+  {
+    "start": 4396.52,
+    "end": 4401.52,
+    "text": "Y por otro lado me dicen que la función de temperatura..."
+  },
+  {
+    "start": 4405.52,
+    "end": 4411.52,
+    "text": "Agua a poner acá el origen porque ese elipsoide está centrado en el origen."
+  },
+  {
+    "start": 4412.52,
+    "end": 4416.52,
+    "text": "Si tienen dudas cómo graficar el elipsoide después de clase,"
+  },
+  {
+    "start": 4416.52,
+    "end": 4418.52,
+    "text": "lo puedo aclarar, ¿sí?"
+  },
+  {
+    "start": 4418.52,
+    "end": 4424.52,
+    "text": "Y la temperatura me dicen que es igual a 8x al cuadrado"
+  },
+  {
+    "start": 4424.52,
+    "end": 4430.52,
+    "text": "más 4izeta menos 16z más 600."
+  },
+  {
+    "start": 4431.52,
+    "end": 4435.52,
+    "text": "¿En qué está la temperatura en Celsius, Fahrenheit, Kelvin?"
+  },
+  {
+    "start": 4435.52,
+    "end": 4438.52,
+    "text": "No importa, los físicos van a decir que se importa"
+  },
+  {
+    "start": 4438.52,
+    "end": 4440.52,
+    "text": "para efectos del problema que vamos a analizar."
+  },
+  {
+    "start": 4440.52,
+    "end": 4442.52,
+    "text": "No es importante, ¿ok?"
+  },
+  {
+    "start": 4442.52,
+    "end": 4445.52,
+    "text": "Eh, bien, entonces..."
+  },
+  {
+    "start": 4445.52,
+    "end": 4448.52,
+    "text": "Me preguntan, ¿cuál es la temperatura máxima"
+  },
+  {
+    "start": 4448.52,
+    "end": 4451.52,
+    "text": "alcanzada en la superficie de esta sonda espacial?"
+  },
+  {
+    "start": 4451.52,
+    "end": 4456.52,
+    "text": "Sabiendo cómo viene escrita la función de temperatura"
+  },
+  {
+    "start": 4456.52,
+    "end": 4458.52,
+    "text": "en determinado instante, ¿ok?"
+  },
+  {
+    "start": 4458.52,
+    "end": 4462.52,
+    "text": "X y z representa un punto de la superficie"
+  },
+  {
+    "start": 4462.52,
+    "end": 4465.52,
+    "text": "y esto me indica la temperatura en dicho punto, ¿ok?"
+  },
+  {
+    "start": 4465.52,
+    "end": 4468.52,
+    "text": "Después de que de una hora la sonda se calentó,"
+  },
+  {
+    "start": 4468.52,
+    "end": 4471.52,
+    "text": "vamos a detectar la temperatura en determinado instante,"
+  },
+  {
+    "start": 4471.52,
+    "end": 4472.52,
+    "text": "¿ok?"
+  },
+  {
+    "start": 4472.52,
+    "end": 4475.52,
+    "text": "Y esto me indica la temperatura en dicho punto, ¿ok?"
+  },
+  {
+    "start": 4475.52,
+    "end": 4478.52,
+    "text": "Después de que de una hora la sonda se calentó,"
+  },
+  {
+    "start": 4478.52,
+    "end": 4481.52,
+    "text": "vamos a determinar en qué punto es donde se alcanza"
+  },
+  {
+    "start": 4481.52,
+    "end": 4484.52,
+    "text": "la temperatura máxima, ¿sí?"
+  },
+  {
+    "start": 4484.52,
+    "end": 4488.52,
+    "text": "Es importante saberlo porque un punto que se calienta"
+  },
+  {
+    "start": 4488.52,
+    "end": 4490.52,
+    "text": "más por allí, esa parte de la superficie,"
+  },
+  {
+    "start": 4490.52,
+    "end": 4494.52,
+    "text": "es más propensada dañarse."
+  },
+  {
+    "start": 4497.52,
+    "end": 4499.52,
+    "text": "Bien."
+  },
+  {
+    "start": 4499.52,
+    "end": 4505.52,
+    "text": "Entonces, función optimizar T,"
+  },
+  {
+    "start": 4505.52,
+    "end": 4510.52,
+    "text": "función optimizar T, condición esta superficie."
+  },
+  {
+    "start": 4510.52,
+    "end": 4513.52,
+    "text": "Ahora no tengo una curva, tengo una superficie, ¿sí?"
+  },
+  {
+    "start": 4513.52,
+    "end": 4516.52,
+    "text": "El problema ahora es de tres variables."
+  },
+  {
+    "start": 4516.52,
+    "end": 4519.52,
+    "text": "El procedimiento es al principio el mismo,"
+  },
+  {
+    "start": 4519.52,
+    "end": 4523.52,
+    "text": "determinar en qué puntos de la superficie"
+  },
+  {
+    "start": 4527.52,
+    "end": 4534.52,
+    "text": "ciertos dos vectores son linealmente dependientes, ¿sí?"
+  },
+  {
+    "start": 4534.52,
+    "end": 4537.52,
+    "text": "Esto vamos a llamarlo C."
+  },
+  {
+    "start": 4537.52,
+    "end": 4543.52,
+    "text": "C corresponde a la imagen inversa a través de G"
+  },
+  {
+    "start": 4543.52,
+    "end": 4549.52,
+    "text": "del valor cero, donde G va a ser el campo escalar"
+  },
+  {
+    "start": 4549.52,
+    "end": 4552.52,
+    "text": "que me modela el elipsoide,"
+  },
+  {
+    "start": 4552.52,
+    "end": 4555.52,
+    "text": "y acá fácilmente podemos ver que ese campo es"
+  },
+  {
+    "start": 4555.52,
+    "end": 4563.52,
+    "text": "4x al cuadrado más i al cuadrado más 4z al cuadrado"
+  },
+  {
+    "start": 4563.52,
+    "end": 4566.52,
+    "text": "menos 16."
+  },
+  {
+    "start": 4566.52,
+    "end": 4568.52,
+    "text": "Bien."
+  },
+  {
+    "start": 4568.52,
+    "end": 4571.52,
+    "text": "Entonces, esto es ahí."
+  },
+  {
+    "start": 4571.52,
+    "end": 4575.52,
+    "text": "Tengo T por otro lado, calculo los gradientes"
+  },
+  {
+    "start": 4575.52,
+    "end": 4578.52,
+    "text": "porque tengo que ver cuándo van a ser Ld."
+  },
+  {
+    "start": 4578.52,
+    "end": 4583.52,
+    "text": "Entonces, por un lado, tenemos que el gradiente de T"
+  },
+  {
+    "start": 4586.52,
+    "end": 4588.52,
+    "text": "tenemos acá la función, derivamos parcialmente"
+  },
+  {
+    "start": 4588.52,
+    "end": 4594.52,
+    "text": "con el primero respecto de x, 16x,"
+  },
+  {
+    "start": 4594.52,
+    "end": 4606.52,
+    "text": "luego respecto de i, respecto de i es 4z y ya,"
+  },
+  {
+    "start": 4606.52,
+    "end": 4614.52,
+    "text": "y respecto de z sería 4i menos 16."
+  },
+  {
+    "start": 4614.52,
+    "end": 4617.52,
+    "text": "Déjame revisar porque yo este problema"
+  },
+  {
+    "start": 4617.52,
+    "end": 4620.52,
+    "text": "es que lo hice cuando lo estaba preparando,"
+  },
+  {
+    "start": 4620.52,
+    "end": 4629.52,
+    "text": "cometí un error de cálculo y después la cosa no me daba."
+  },
+  {
+    "start": 4629.52,
+    "end": 4632.52,
+    "text": "Que ya me perdí."
+  },
+  {
+    "start": 4632.52,
+    "end": 4634.52,
+    "text": "Ah, no, no, lo tengo acá."
+  },
+  {
+    "start": 4634.52,
+    "end": 4645.52,
+    "text": "Lo tengo acá."
+  },
+  {
+    "start": 4645.52,
+    "end": 4647.52,
+    "text": "Sí, está todo bien."
+  },
+  {
+    "start": 4647.52,
+    "end": 4649.52,
+    "text": "Ok."
+  },
+  {
+    "start": 4649.52,
+    "end": 4652.52,
+    "text": "Luego el gradiente de G."
+  },
+  {
+    "start": 4652.52,
+    "end": 4657.52,
+    "text": "Recuerden, G es la función que determina la superficie"
+  },
+  {
+    "start": 4657.52,
+    "end": 4659.52,
+    "text": "sobre la cual vamos a evaluar la función temperatura,"
+  },
+  {
+    "start": 4659.52,
+    "end": 4662.52,
+    "text": "en este caso el gradiente es fácil de calcular,"
+  },
+  {
+    "start": 4662.52,
+    "end": 4672.52,
+    "text": "es 8x, 2xi, 8xz y ya está."
+  },
+  {
+    "start": 4673.52,
+    "end": 4675.52,
+    "text": "Ahora, tengo el problema de determinar"
+  },
+  {
+    "start": 4675.52,
+    "end": 4682.52,
+    "text": "cuándo esos dos vectores en R3 son Ld."
+  },
+  {
+    "start": 4682.52,
+    "end": 4685.52,
+    "text": "Acá ya no puedo hacer el criterio del determinante igual a 0"
+  },
+  {
+    "start": 4685.52,
+    "end": 4689.52,
+    "text": "porque si yo armo una matriz con estos dos gradientes,"
+  },
+  {
+    "start": 4689.52,
+    "end": 4691.52,
+    "text": "no me queda cuadrada."
+  },
+  {
+    "start": 4691.52,
+    "end": 4694.52,
+    "text": "Entonces, no puedo calcular un determinante para empezar."
+  },
+  {
+    "start": 4694.52,
+    "end": 4696.52,
+    "text": "Bien."
+  },
+  {
+    "start": 4696.52,
+    "end": 4699.52,
+    "text": "Hay otra manera"
+  },
+  {
+    "start": 4700.52,
+    "end": 4703.52,
+    "text": "que tuvieron que haber visto en Gal 1 seguramente."
+  },
+  {
+    "start": 4703.52,
+    "end": 4707.52,
+    "text": "En Gal 1 le han enseñado que dos vectores en R3"
+  },
+  {
+    "start": 4707.52,
+    "end": 4710.52,
+    "text": "son colineales o linealmente dependientes"
+  },
+  {
+    "start": 4710.52,
+    "end": 4713.52,
+    "text": "y solamente si su producto vectorial o el producto cruz,"
+  },
+  {
+    "start": 4713.52,
+    "end": 4717.52,
+    "text": "como también se le llama, es 0."
+  },
+  {
+    "start": 4717.52,
+    "end": 4726.52,
+    "text": "Entonces, vamos a anotar eso."
+  },
+  {
+    "start": 4726.52,
+    "end": 4731.52,
+    "text": "Estos dos gradientes son Ld,"
+  },
+  {
+    "start": 4731.52,
+    "end": 4743.52,
+    "text": "si solo si su producto vectorial es igual al vector 0."
+  },
+  {
+    "start": 4743.52,
+    "end": 4746.52,
+    "text": "Este método para estudiar dependencia lineal"
+  },
+  {
+    "start": 4746.52,
+    "end": 4750.52,
+    "text": "lo sugirió un compañero en la clase pasada para el caso R2."
+  },
+  {
+    "start": 4750.52,
+    "end": 4753.52,
+    "text": "¿Se puede aplicar esto también para el caso R2?"
+  },
+  {
+    "start": 4753.52,
+    "end": 4758.52,
+    "text": "Solo que en el caso R2 como tengo vectores con dos componentes"
+  },
+  {
+    "start": 4758.52,
+    "end": 4761.52,
+    "text": "para poder aplicar el producto vectorial"
+  },
+  {
+    "start": 4761.52,
+    "end": 4763.52,
+    "text": "necesito una componente adicional"
+  },
+  {
+    "start": 4763.52,
+    "end": 4765.52,
+    "text": "lo que hacemos es agregar 0 al final"
+  },
+  {
+    "start": 4765.52,
+    "end": 4768.52,
+    "text": "y nos quedan vectores en R3."
+  },
+  {
+    "start": 4768.52,
+    "end": 4771.52,
+    "text": "Se puede hacer también para R2 de esa manera."
+  },
+  {
+    "start": 4771.52,
+    "end": 4773.52,
+    "text": "Pero en el caso R2 es más rápido"
+  },
+  {
+    "start": 4773.52,
+    "end": 4775.52,
+    "text": "trabajar con el determinante que con esto."
+  },
+  {
+    "start": 4775.52,
+    "end": 4778.52,
+    "text": "Esto conlleva a unas cuentas un poquito más largas"
+  },
+  {
+    "start": 4778.52,
+    "end": 4780.52,
+    "text": "que lo que vimos recientemente."
+  },
+  {
+    "start": 4780.52,
+    "end": 4784.52,
+    "text": "No son difíciles pero hay que trabajar un poquito más."
+  },
+  {
+    "start": 4784.52,
+    "end": 4786.52,
+    "text": "Y es normal si la dimensión geométrica del problema"
+  },
+  {
+    "start": 4786.52,
+    "end": 4789.52,
+    "text": "aumentó en 1."
+  },
+  {
+    "start": 4789.52,
+    "end": 4792.52,
+    "text": "Bien."
+  },
+  {
+    "start": 4792.52,
+    "end": 4800.52,
+    "text": "Entonces, tenemos 10 minutos para terminar de hacer esa cuenta."
+  },
+  {
+    "start": 4800.52,
+    "end": 4802.52,
+    "text": "Ya los gradientes están"
+  },
+  {
+    "start": 4802.52,
+    "end": 4807.52,
+    "text": "entonces simplemente hay que calcular el producto vectorial"
+  },
+  {
+    "start": 4807.52,
+    "end": 4809.52,
+    "text": "e igualarlo a 0."
+  },
+  {
+    "start": 4809.52,
+    "end": 4812.52,
+    "text": "¿Bien? Ok."
+  },
+  {
+    "start": 4812.52,
+    "end": 4815.52,
+    "text": "Entonces..."
+  },
+  {
+    "start": 4824.52,
+    "end": 4827.52,
+    "text": "Recordemos la definición de producto vectorial."
+  },
+  {
+    "start": 4827.52,
+    "end": 4830.52,
+    "text": "Era una especie de determinante, ¿sí?"
+  },
+  {
+    "start": 4830.52,
+    "end": 4833.52,
+    "text": "No exactamente un determinante"
+  },
+  {
+    "start": 4833.52,
+    "end": 4835.52,
+    "text": "no formalmente hablando"
+  },
+  {
+    "start": 4835.52,
+    "end": 4837.52,
+    "text": "de un formal determinante"
+  },
+  {
+    "start": 4837.52,
+    "end": 4839.52,
+    "text": "donde la primera columna"
+  },
+  {
+    "start": 4839.52,
+    "end": 4841.52,
+    "text": "aparecía unos símbolos"
+  },
+  {
+    "start": 4841.52,
+    "end": 4844.52,
+    "text": "IJK"
+  },
+  {
+    "start": 4844.52,
+    "end": 4846.52,
+    "text": "que bueno, esto simplemente corresponden"
+  },
+  {
+    "start": 4846.52,
+    "end": 4849.52,
+    "text": "a la base canónica de R3."
+  },
+  {
+    "start": 4849.52,
+    "end": 4851.52,
+    "text": "Estos símbolos lo que dicen es"
+  },
+  {
+    "start": 4851.52,
+    "end": 4853.52,
+    "text": "en dónde van a aparecer"
+  },
+  {
+    "start": 4853.52,
+    "end": 4855.52,
+    "text": "los componentes resultantes"
+  },
+  {
+    "start": 4855.52,
+    "end": 4858.52,
+    "text": "del cálculo del producto vectorial."
+  },
+  {
+    "start": 4858.52,
+    "end": 4861.52,
+    "text": "Luego en la segunda fila"
+  },
+  {
+    "start": 4861.52,
+    "end": 4863.52,
+    "text": "colocamos el primer vector"
+  },
+  {
+    "start": 4863.52,
+    "end": 4866.52,
+    "text": "en este caso el gradiente de T"
+  },
+  {
+    "start": 4866.52,
+    "end": 4868.52,
+    "text": "16X"
+  },
+  {
+    "start": 4868.52,
+    "end": 4871.52,
+    "text": "4Z"
+  },
+  {
+    "start": 4871.52,
+    "end": 4873.52,
+    "text": "4I menos 16"
+  },
+  {
+    "start": 4873.52,
+    "end": 4875.52,
+    "text": "y en la última fila"
+  },
+  {
+    "start": 4875.52,
+    "end": 4877.52,
+    "text": "colocamos el gradiente de G"
+  },
+  {
+    "start": 4877.52,
+    "end": 4882.52,
+    "text": "que nos había dado 8X"
+  },
+  {
+    "start": 4882.52,
+    "end": 4885.52,
+    "text": "2I"
+  },
+  {
+    "start": 4886.52,
+    "end": 4889.52,
+    "text": "y 8Z"
+  },
+  {
+    "start": 4893.52,
+    "end": 4896.52,
+    "text": "y eso lo igualamos al vector nulo"
+  },
+  {
+    "start": 4896.52,
+    "end": 4898.52,
+    "text": "y tenemos que determinar"
+  },
+  {
+    "start": 4898.52,
+    "end": 4900.52,
+    "text": "cuáles son los X y Z"
+  },
+  {
+    "start": 4900.52,
+    "end": 4902.52,
+    "text": "que anulan eso, ¿ok?"
+  },
+  {
+    "start": 4902.52,
+    "end": 4904.52,
+    "text": "Esto lo podemos operar"
+  },
+  {
+    "start": 4904.52,
+    "end": 4906.52,
+    "text": "como si fuera un determinante"
+  },
+  {
+    "start": 4906.52,
+    "end": 4908.52,
+    "text": "entonces puedo sacar constantes"
+  },
+  {
+    "start": 4908.52,
+    "end": 4911.52,
+    "text": "puedo tomar una fila"
+  },
+  {
+    "start": 4911.52,
+    "end": 4913.52,
+    "text": "multiplicarla por algo"
+  },
+  {
+    "start": 4913.52,
+    "end": 4915.52,
+    "text": "y sumársela a la otra, etc."
+  },
+  {
+    "start": 4915.52,
+    "end": 4917.52,
+    "text": "¿Bien? En este caso"
+  },
+  {
+    "start": 4917.52,
+    "end": 4919.52,
+    "text": "yo voy a sacar de la fila 1"
+  },
+  {
+    "start": 4919.52,
+    "end": 4921.52,
+    "text": "y de la fila..."
+  },
+  {
+    "start": 4921.52,
+    "end": 4923.52,
+    "text": "de la fila 3"
+  },
+  {
+    "start": 4923.52,
+    "end": 4925.52,
+    "text": "voy a sacar acá 4 y acá 2"
+  },
+  {
+    "start": 4925.52,
+    "end": 4927.52,
+    "text": "entonces me va a quedar"
+  },
+  {
+    "start": 4927.52,
+    "end": 4929.52,
+    "text": "determinante"
+  },
+  {
+    "start": 4929.52,
+    "end": 4932.52,
+    "text": "IJK"
+  },
+  {
+    "start": 4932.52,
+    "end": 4934.52,
+    "text": "4X"
+  },
+  {
+    "start": 4934.52,
+    "end": 4936.52,
+    "text": "Z"
+  },
+  {
+    "start": 4936.52,
+    "end": 4938.52,
+    "text": "I menos 4"
+  },
+  {
+    "start": 4938.52,
+    "end": 4940.52,
+    "text": "y acá 4X"
+  },
+  {
+    "start": 4940.52,
+    "end": 4942.52,
+    "text": "I"
+  },
+  {
+    "start": 4942.52,
+    "end": 4944.52,
+    "text": "4Z"
+  },
+  {
+    "start": 4945.52,
+    "end": 4947.52,
+    "text": "y eso iguala"
+  },
+  {
+    "start": 4948.52,
+    "end": 4951.52,
+    "text": "0, 0, 0"
+  },
+  {
+    "start": 4953.52,
+    "end": 4955.52,
+    "text": "Bien, a ver"
+  },
+  {
+    "start": 4957.52,
+    "end": 4959.52,
+    "text": "yo podría simplificar un poco más acá"
+  },
+  {
+    "start": 4959.52,
+    "end": 4961.52,
+    "text": "pero lo voy a dejar así"
+  },
+  {
+    "start": 4961.52,
+    "end": 4963.52,
+    "text": "voy a pasar a operar directamente"
+  },
+  {
+    "start": 4963.52,
+    "end": 4965.52,
+    "text": "según la definición de"
+  },
+  {
+    "start": 4965.52,
+    "end": 4967.52,
+    "text": "producto vectorial"
+  },
+  {
+    "start": 4973.52,
+    "end": 4976.52,
+    "text": "Entonces, ¿esto que está acá?"
+  },
+  {
+    "start": 4978.52,
+    "end": 4980.52,
+    "text": "me va a dar"
+  },
+  {
+    "start": 4981.52,
+    "end": 4983.52,
+    "text": "4"
+  },
+  {
+    "start": 4983.52,
+    "end": 4985.52,
+    "text": "Z al cuadrado"
+  },
+  {
+    "start": 4985.52,
+    "end": 4987.52,
+    "text": "menos I por"
+  },
+  {
+    "start": 4987.52,
+    "end": 4989.52,
+    "text": "I menos 4"
+  },
+  {
+    "start": 4989.52,
+    "end": 4991.52,
+    "text": "esa es la primera componente"
+  },
+  {
+    "start": 4991.52,
+    "end": 4993.52,
+    "text": "sí, este por este"
+  },
+  {
+    "start": 4993.52,
+    "end": 4995.52,
+    "text": "menos este por este"
+  },
+  {
+    "start": 4995.52,
+    "end": 4997.52,
+    "text": "en la segunda va este por este"
+  },
+  {
+    "start": 4997.52,
+    "end": 4999.52,
+    "text": "menos este por este"
+  },
+  {
+    "start": 5002.52,
+    "end": 5004.52,
+    "text": "es decir"
+  },
+  {
+    "start": 5004.52,
+    "end": 5006.52,
+    "text": "16"
+  },
+  {
+    "start": 5007.52,
+    "end": 5009.52,
+    "text": "XZ"
+  },
+  {
+    "start": 5009.52,
+    "end": 5011.52,
+    "text": "menos 4X"
+  },
+  {
+    "start": 5011.52,
+    "end": 5013.52,
+    "text": "por I menos 4"
+  },
+  {
+    "start": 5015.52,
+    "end": 5017.52,
+    "text": "¿Está bien eso? No, el signo ha cambiado"
+  },
+  {
+    "start": 5017.52,
+    "end": 5019.52,
+    "text": "perdón, así"
+  },
+  {
+    "start": 5019.52,
+    "end": 5021.52,
+    "text": "Igual el signo no importa tanto"
+  },
+  {
+    "start": 5021.52,
+    "end": 5023.52,
+    "text": "porque va a estar igualado a 0 al final"
+  },
+  {
+    "start": 5023.52,
+    "end": 5025.52,
+    "text": "y en la última componente"
+  },
+  {
+    "start": 5025.52,
+    "end": 5027.52,
+    "text": "va este por este"
+  },
+  {
+    "start": 5027.52,
+    "end": 5029.52,
+    "text": "menos este por este"
+  },
+  {
+    "start": 5029.52,
+    "end": 5031.52,
+    "text": "Entonces"
+  },
+  {
+    "start": 5031.52,
+    "end": 5033.52,
+    "text": "4XI"
+  },
+  {
+    "start": 5033.52,
+    "end": 5035.52,
+    "text": "menos 4XZ"
+  },
+  {
+    "start": 5035.52,
+    "end": 5037.52,
+    "text": "y ese vector"
+  },
+  {
+    "start": 5037.52,
+    "end": 5039.52,
+    "text": "tiene que ser igual"
+  },
+  {
+    "start": 5039.52,
+    "end": 5041.52,
+    "text": "al vector 0"
+  },
+  {
+    "start": 5041.52,
+    "end": 5043.52,
+    "text": "entonces acá se desprenden tres igualdades"
+  },
+  {
+    "start": 5047.52,
+    "end": 5049.52,
+    "text": "la primera es"
+  },
+  {
+    "start": 5049.52,
+    "end": 5051.52,
+    "text": "4Z al cuadrado"
+  },
+  {
+    "start": 5051.52,
+    "end": 5053.52,
+    "text": "para que esto sea 0, esto tiene que ser igual"
+  },
+  {
+    "start": 5053.52,
+    "end": 5055.52,
+    "text": "a"
+  },
+  {
+    "start": 5055.52,
+    "end": 5057.52,
+    "text": "I por I menos 4"
+  },
+  {
+    "start": 5059.52,
+    "end": 5061.52,
+    "text": "en la segunda"
+  },
+  {
+    "start": 5061.52,
+    "end": 5063.52,
+    "text": "para que sea 0"
+  },
+  {
+    "start": 5063.52,
+    "end": 5065.52,
+    "text": "16"
+  },
+  {
+    "start": 5065.52,
+    "end": 5067.52,
+    "text": "XZ"
+  },
+  {
+    "start": 5067.52,
+    "end": 5069.52,
+    "text": "tiene que ser igual a"
+  },
+  {
+    "start": 5069.52,
+    "end": 5071.52,
+    "text": "4X por I menos 4"
+  },
+  {
+    "start": 5071.52,
+    "end": 5073.52,
+    "text": "bueno pues simplificar acá"
+  },
+  {
+    "start": 5073.52,
+    "end": 5075.52,
+    "text": "4XZ"
+  },
+  {
+    "start": 5077.52,
+    "end": 5079.52,
+    "text": "tiene que ser igual a"
+  },
+  {
+    "start": 5079.52,
+    "end": 5081.52,
+    "text": "X por I menos 4"
+  },
+  {
+    "start": 5081.52,
+    "end": 5083.52,
+    "text": "y en la última"
+  },
+  {
+    "start": 5083.52,
+    "end": 5085.52,
+    "text": "XI"
+  },
+  {
+    "start": 5085.52,
+    "end": 5087.52,
+    "text": "tiene que ser igual a"
+  },
+  {
+    "start": 5087.52,
+    "end": 5089.52,
+    "text": "XZ"
+  },
+  {
+    "start": 5089.52,
+    "end": 5091.52,
+    "text": "y que no se nos olvide"
+  },
+  {
+    "start": 5091.52,
+    "end": 5093.52,
+    "text": "que el punto X y Z"
+  },
+  {
+    "start": 5093.52,
+    "end": 5095.52,
+    "text": "pertenece a"
+  },
+  {
+    "start": 5097.52,
+    "end": 5099.52,
+    "text": "el elipsoide"
+  },
+  {
+    "start": 5099.52,
+    "end": 5101.52,
+    "text": "entonces tiene que ocurrir además"
+  },
+  {
+    "start": 5101.52,
+    "end": 5103.52,
+    "text": "de estas tres relaciones"
+  },
+  {
+    "start": 5103.52,
+    "end": 5105.52,
+    "text": "también se cumple que"
+  },
+  {
+    "start": 5105.52,
+    "end": 5107.52,
+    "text": "X al cuadrado"
+  },
+  {
+    "start": 5107.52,
+    "end": 5109.52,
+    "text": "más I al cuadrado"
+  },
+  {
+    "start": 5109.52,
+    "end": 5111.52,
+    "text": "más 4Z al cuadrado"
+  },
+  {
+    "start": 5111.52,
+    "end": 5113.52,
+    "text": "es igual a"
+  },
+  {
+    "start": 5113.52,
+    "end": 5115.52,
+    "text": "16, entonces hay que resolver"
+  },
+  {
+    "start": 5115.52,
+    "end": 5117.52,
+    "text": "este sistema de cuatro"
+  },
+  {
+    "start": 5117.52,
+    "end": 5119.52,
+    "text": "ecuaciones, ¿sí?"
+  },
+  {
+    "start": 5119.52,
+    "end": 5121.52,
+    "text": "es un poco largo para trabajar"
+  },
+  {
+    "start": 5121.52,
+    "end": 5123.52,
+    "text": "porque no son ecuaciones lineales"
+  },
+  {
+    "start": 5123.52,
+    "end": 5125.52,
+    "text": "y bueno yo lo que recomiendo"
+  },
+  {
+    "start": 5125.52,
+    "end": 5127.52,
+    "text": "es"
+  },
+  {
+    "start": 5127.52,
+    "end": 5129.52,
+    "text": "empezar con la ecuación más sencilla"
+  },
+  {
+    "start": 5129.52,
+    "end": 5131.52,
+    "text": "con esta de acá"
+  },
+  {
+    "start": 5131.52,
+    "end": 5133.52,
+    "text": "la tercera sería, ¿sí?"
+  },
+  {
+    "start": 5133.52,
+    "end": 5135.52,
+    "text": "la tercera la podemos"
+  },
+  {
+    "start": 5135.52,
+    "end": 5137.52,
+    "text": "reescribir como"
+  },
+  {
+    "start": 5137.52,
+    "end": 5139.52,
+    "text": "X"
+  },
+  {
+    "start": 5139.52,
+    "end": 5141.52,
+    "text": "por I menos Z"
+  },
+  {
+    "start": 5141.52,
+    "end": 5143.52,
+    "text": "igual a 0"
+  },
+  {
+    "start": 5143.52,
+    "end": 5145.52,
+    "text": "¿sí?"
+  },
+  {
+    "start": 5145.52,
+    "end": 5147.52,
+    "text": "tengo el producto de dos números"
+  },
+  {
+    "start": 5147.52,
+    "end": 5149.52,
+    "text": "entonces X"
+  },
+  {
+    "start": 5149.52,
+    "end": 5151.52,
+    "text": "es igual a 0 o"
+  },
+  {
+    "start": 5151.52,
+    "end": 5153.52,
+    "text": "I es igual a Z"
+  },
+  {
+    "start": 5153.52,
+    "end": 5155.52,
+    "text": "y a partir de ahora"
+  },
+  {
+    "start": 5155.52,
+    "end": 5157.52,
+    "text": "hacemos un análisis"
+  },
+  {
+    "start": 5157.52,
+    "end": 5159.52,
+    "text": "por casos"
+  },
+  {
+    "start": 5159.52,
+    "end": 5161.52,
+    "text": "vamos a analizar primero"
+  },
+  {
+    "start": 5161.52,
+    "end": 5163.52,
+    "text": "el caso X igual 0"
+  },
+  {
+    "start": 5163.52,
+    "end": 5165.52,
+    "text": "¿sí?"
+  },
+  {
+    "start": 5173.52,
+    "end": 5175.52,
+    "text": "¿que pasa entonces si"
+  },
+  {
+    "start": 5175.52,
+    "end": 5177.52,
+    "text": "X igual a 0?"
+  },
+  {
+    "start": 5179.52,
+    "end": 5181.52,
+    "text": "bueno en ese caso"
+  },
+  {
+    "start": 5183.52,
+    "end": 5185.52,
+    "text": "la segunda ecuación desaparece porque"
+  },
+  {
+    "start": 5185.52,
+    "end": 5187.52,
+    "text": "me queda Z igual a 0"
+  },
+  {
+    "start": 5187.52,
+    "end": 5189.52,
+    "text": "y a esta no le ocurre nada, esta me queda"
+  },
+  {
+    "start": 5189.52,
+    "end": 5191.52,
+    "text": "tal como está"
+  },
+  {
+    "start": 5191.52,
+    "end": 5193.52,
+    "text": "entonces tendríamos por un lado"
+  },
+  {
+    "start": 5193.52,
+    "end": 5195.52,
+    "text": "que 4Z al cuadrado"
+  },
+  {
+    "start": 5197.52,
+    "end": 5199.52,
+    "text": "es igual a I"
+  },
+  {
+    "start": 5199.52,
+    "end": 5201.52,
+    "text": "por I menos 4"
+  },
+  {
+    "start": 5201.52,
+    "end": 5203.52,
+    "text": "y acá"
+  },
+  {
+    "start": 5203.52,
+    "end": 5205.52,
+    "text": "X es igual a 0"
+  },
+  {
+    "start": 5207.52,
+    "end": 5209.52,
+    "text": "y obtenemos"
+  },
+  {
+    "start": 5209.52,
+    "end": 5211.52,
+    "text": "I al cuadrado más"
+  },
+  {
+    "start": 5211.52,
+    "end": 5213.52,
+    "text": "4Z al cuadrado"
+  },
+  {
+    "start": 5213.52,
+    "end": 5215.52,
+    "text": "igual a 16"
+  },
+  {
+    "start": 5215.52,
+    "end": 5217.52,
+    "text": "¿bien?"
+  },
+  {
+    "start": 5217.52,
+    "end": 5219.52,
+    "text": "ah miren acá"
+  },
+  {
+    "start": 5219.52,
+    "end": 5221.52,
+    "text": "4Z al cuadrado y 4Z al cuadrado lo tengo acá"
+  },
+  {
+    "start": 5223.52,
+    "end": 5225.52,
+    "text": "entonces puedo sustituir 4Z al cuadrado"
+  },
+  {
+    "start": 5225.52,
+    "end": 5227.52,
+    "text": "en función de I"
+  },
+  {
+    "start": 5227.52,
+    "end": 5229.52,
+    "text": "en esta otra ecuación"
+  },
+  {
+    "start": 5229.52,
+    "end": 5231.52,
+    "text": "y me queda I"
+  },
+  {
+    "start": 5231.52,
+    "end": 5233.52,
+    "text": "más"
+  },
+  {
+    "start": 5233.52,
+    "end": 5235.52,
+    "text": "I por I menos 4"
+  },
+  {
+    "start": 5235.52,
+    "end": 5237.52,
+    "text": "igual a 16"
+  },
+  {
+    "start": 5239.52,
+    "end": 5241.52,
+    "text": "y bueno, operó esto"
+  },
+  {
+    "start": 5241.52,
+    "end": 5243.52,
+    "text": "I al cuadrado"
+  },
+  {
+    "start": 5243.52,
+    "end": 5245.52,
+    "text": "más I al cuadrado"
+  },
+  {
+    "start": 5245.52,
+    "end": 5247.52,
+    "text": "menos 4I"
+  },
+  {
+    "start": 5247.52,
+    "end": 5249.52,
+    "text": "igual a 16"
+  },
+  {
+    "start": 5253.52,
+    "end": 5255.52,
+    "text": "me queda dos veces"
+  },
+  {
+    "start": 5255.52,
+    "end": 5257.52,
+    "text": "I al cuadrado"
+  },
+  {
+    "start": 5257.52,
+    "end": 5259.52,
+    "text": "menos 4I"
+  },
+  {
+    "start": 5259.52,
+    "end": 5261.52,
+    "text": "16"
+  },
+  {
+    "start": 5261.52,
+    "end": 5263.52,
+    "text": "I al cuadrado menos 2I"
+  },
+  {
+    "start": 5267.52,
+    "end": 5269.52,
+    "text": "menos 8"
+  },
+  {
+    "start": 5269.52,
+    "end": 5271.52,
+    "text": "igual a 0"
+  },
+  {
+    "start": 5273.52,
+    "end": 5275.52,
+    "text": "y bueno, si"
+  },
+  {
+    "start": 5275.52,
+    "end": 5277.52,
+    "text": "si resuelven eso usando"
+  },
+  {
+    "start": 5277.52,
+    "end": 5279.52,
+    "text": "completando cuadrados"
+  },
+  {
+    "start": 5279.52,
+    "end": 5281.52,
+    "text": "o usando el método de váscara"
+  },
+  {
+    "start": 5283.52,
+    "end": 5285.52,
+    "text": "van a obtener que"
+  },
+  {
+    "start": 5285.52,
+    "end": 5287.52,
+    "text": "o bien"
+  },
+  {
+    "start": 5287.52,
+    "end": 5289.52,
+    "text": "I es igual a 4"
+  },
+  {
+    "start": 5289.52,
+    "end": 5291.52,
+    "text": "o I es igual a"
+  },
+  {
+    "start": 5291.52,
+    "end": 5293.52,
+    "text": "menos 2"
+  },
+  {
+    "start": 5293.52,
+    "end": 5295.52,
+    "text": "si, se obtienen"
+  },
+  {
+    "start": 5295.52,
+    "end": 5297.52,
+    "text": "dos soluciones allí"
+  },
+  {
+    "start": 5297.52,
+    "end": 5299.52,
+    "text": "¿qué pasa con esas soluciones?"
+  },
+  {
+    "start": 5299.52,
+    "end": 5301.52,
+    "text": "bueno"
+  },
+  {
+    "start": 5301.52,
+    "end": 5303.52,
+    "text": "ya sabemos que X es 0"
+  },
+  {
+    "start": 5303.52,
+    "end": 5305.52,
+    "text": "I tiene que ser este"
+  },
+  {
+    "start": 5305.52,
+    "end": 5307.52,
+    "text": "o este"
+  },
+  {
+    "start": 5307.52,
+    "end": 5309.52,
+    "text": "y para cada valor de I calculamos el correspondiente"
+  },
+  {
+    "start": 5309.52,
+    "end": 5311.52,
+    "text": "Z"
+  },
+  {
+    "start": 5313.52,
+    "end": 5315.52,
+    "text": "y bueno, entonces"
+  },
+  {
+    "start": 5315.52,
+    "end": 5317.52,
+    "text": "cuando I es igual a 4"
+  },
+  {
+    "start": 5317.52,
+    "end": 5319.52,
+    "text": "vamos a tener que"
+  },
+  {
+    "start": 5323.52,
+    "end": 5325.52,
+    "text": "16"
+  },
+  {
+    "start": 5325.52,
+    "end": 5327.52,
+    "text": "más 4"
+  },
+  {
+    "start": 5327.52,
+    "end": 5329.52,
+    "text": "Z al cuadrado es igual a 16"
+  },
+  {
+    "start": 5329.52,
+    "end": 5331.52,
+    "text": "4Z al cuadrado es igual a 0"
+  },
+  {
+    "start": 5331.52,
+    "end": 5333.52,
+    "text": "Z es igual a 0"
+  },
+  {
+    "start": 5333.52,
+    "end": 5335.52,
+    "text": "y cuando I"
+  },
+  {
+    "start": 5335.52,
+    "end": 5337.52,
+    "text": "es igual a menos 2"
+  },
+  {
+    "start": 5339.52,
+    "end": 5341.52,
+    "text": "entonces vamos a tener que"
+  },
+  {
+    "start": 5341.52,
+    "end": 5343.52,
+    "text": "4"
+  },
+  {
+    "start": 5343.52,
+    "end": 5345.52,
+    "text": "más"
+  },
+  {
+    "start": 5345.52,
+    "end": 5347.52,
+    "text": "4Z al cuadrado es igual a"
+  },
+  {
+    "start": 5347.52,
+    "end": 5349.52,
+    "text": "16"
+  },
+  {
+    "start": 5349.52,
+    "end": 5351.52,
+    "text": "entonces 4Z al cuadrado"
+  },
+  {
+    "start": 5351.52,
+    "end": 5353.52,
+    "text": "es igual a 12"
+  },
+  {
+    "start": 5353.52,
+    "end": 5355.52,
+    "text": "queda que Z al cuadrado es igual a"
+  },
+  {
+    "start": 5355.52,
+    "end": 5357.52,
+    "text": "3, eso quiere decir que"
+  },
+  {
+    "start": 5357.52,
+    "end": 5359.52,
+    "text": "Z es igual a más o menos"
+  },
+  {
+    "start": 5359.52,
+    "end": 5361.52,
+    "text": "la raíz de 3"
+  },
+  {
+    "start": 5361.52,
+    "end": 5363.52,
+    "text": "entonces este primer caso"
+  },
+  {
+    "start": 5363.52,
+    "end": 5365.52,
+    "text": "da lugar"
+  },
+  {
+    "start": 5367.52,
+    "end": 5369.52,
+    "text": "a dos puntos"
+  },
+  {
+    "start": 5369.52,
+    "end": 5371.52,
+    "text": "candidatos"
+  },
+  {
+    "start": 5373.52,
+    "end": 5375.52,
+    "text": "si, el primero"
+  },
+  {
+    "start": 5375.52,
+    "end": 5377.52,
+    "text": "va a llamarlo PSUB 1"
+  },
+  {
+    "start": 5377.52,
+    "end": 5379.52,
+    "text": "que ese sería 0"
+  },
+  {
+    "start": 5379.52,
+    "end": 5381.52,
+    "text": "4"
+  },
+  {
+    "start": 5381.52,
+    "end": 5383.52,
+    "text": "0"
+  },
+  {
+    "start": 5383.52,
+    "end": 5385.52,
+    "text": "y el otro"
+  },
+  {
+    "start": 5385.52,
+    "end": 5387.52,
+    "text": "PSUB 2"
+  },
+  {
+    "start": 5387.52,
+    "end": 5389.52,
+    "text": "0"
+  },
+  {
+    "start": 5389.52,
+    "end": 5391.52,
+    "text": "menos 2"
+  },
+  {
+    "start": 5391.52,
+    "end": 5393.52,
+    "text": "no"
+  },
+  {
+    "start": 5393.52,
+    "end": 5395.52,
+    "text": "perdón, son 3 puntos"
+  },
+  {
+    "start": 5395.52,
+    "end": 5397.52,
+    "text": "candidatos"
+  },
+  {
+    "start": 5397.52,
+    "end": 5399.52,
+    "text": "0 menos 2"
+  },
+  {
+    "start": 5399.52,
+    "end": 5401.52,
+    "text": "raíz de 3"
+  },
+  {
+    "start": 5401.52,
+    "end": 5403.52,
+    "text": "y PSUB 3"
+  },
+  {
+    "start": 5403.52,
+    "end": 5405.52,
+    "text": "0"
+  },
+  {
+    "start": 5405.52,
+    "end": 5407.52,
+    "text": "menos 2"
+  },
+  {
+    "start": 5407.52,
+    "end": 5409.52,
+    "text": "menos raíz de 3"
+  },
+  {
+    "start": 5409.52,
+    "end": 5411.52,
+    "text": "ok"
+  },
+  {
+    "start": 5411.52,
+    "end": 5413.52,
+    "text": "el análisis de este primer"
+  },
+  {
+    "start": 5413.52,
+    "end": 5415.52,
+    "text": "caso arrojó"
+  },
+  {
+    "start": 5415.52,
+    "end": 5417.52,
+    "text": "3 puntos candidatos en donde la"
+  },
+  {
+    "start": 5417.52,
+    "end": 5419.52,
+    "text": "función puede"
+  },
+  {
+    "start": 5419.52,
+    "end": 5421.52,
+    "text": "alcanzar algún extremo"
+  },
+  {
+    "start": 5421.52,
+    "end": 5423.52,
+    "text": "condicionado, después vamos a ver como"
+  },
+  {
+    "start": 5423.52,
+    "end": 5425.52,
+    "text": "clasificarlos ok"
+  },
+  {
+    "start": 5425.52,
+    "end": 5427.52,
+    "text": "falta analizar este otro caso"
+  },
+  {
+    "start": 5427.52,
+    "end": 5429.52,
+    "text": "no lo voy a hacer hoy, retomamos"
+  },
+  {
+    "start": 5429.52,
+    "end": 5431.52,
+    "text": "ok, perdón que me pase por"
+  },
+  {
+    "start": 5431.52,
+    "end": 5433.52,
+    "text": "2 minutos"
+  }
+]
