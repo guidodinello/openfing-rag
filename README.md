@@ -41,3 +41,16 @@ yarn start
 
 This will launch the app on `http://localhost:3000/`. 🚀
 
+
+
+## Correr database con nuestro docker compose
+
+```
+cd docker/
+docker compose --env-file ../backend/.env up -d database
+```
+
+```
+cd backend/database
+python main.py
+```

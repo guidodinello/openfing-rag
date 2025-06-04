@@ -1,0 +1,129 @@
+[project]
+name = "openfing-chat-backend"
+version = "0.1.0"
+description = "RAG system backend with video transcription and processing"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    {name = "Guido Dinello", email = "guido.dinello@gmail.com"},
+    {name = "Diego Amorena", email = "diegoamorenag@gmail.com"}
+]
+
+dependencies = [
+    # Core dependencies
+    "pydantic>=2.11.4",
+    "pydantic-settings>=2.8.1",
+    "requests>=2.32.3",
+    # CLI and UI
+    "typer>=0.13.1",
+    "rich>=14.0.0",
+    # Database dependencies
+    "sqlalchemy>=2.0.40",
+    "sqlalchemy-utils>=0.41.2",
+    "psycopg>=3.1.18",
+    "asyncpg>=0.30.0",
+    "alembic>=1.14.0",
+    "langchain-postgres>=0.0.14",
+    # AI/ML dependencies
+    "langchain-huggingface>=0.2.0",
+    "sentence-transformers>=3.3.1",
+    "huggingface-hub[hf-xet]>=0.31.4",
+    "faker>=37.1.0",
+    # Video/Audio processing
+    "yt-dlp>=2024.3.10",
+    "openai-whisper>=20240930",
+    # Web framework
+    "fastapi>=0.115.11",
+    "uvicorn>=0.34.0",
+    # Web scraping
+    "beautifulsoup4>=4.13.3",
+    "aiohttp>=3.11.16",
+    # Workflow orchestration
+    "prefect>=3.4.1",
+    "bcrypt>=4.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.3",
+    "black>=24.10.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "pre-commit>=4.0.1",
+]
+
+[project.scripts]
+openfing = "cli:app"
+
+openfing-downloader = "services.downloader.cli:app"
+openfing-generator = "services.generator.cli:app"
+openfing-scraper = "services.scraper.cli:app"
+openfing-transcriber = "services.transcriber.cli:app"
+
+openfing-generator-serve = "services.generator.api:app"
+openfing-scraper-serve = "services.scraper.api:app"
+openfing-transcriber-serve = "services.transcriber.api:app"
+
+# Database management
+openfing-db = "shared.database.cli:app"
+
+
+[tool.black]
+line-length = 120
+target-version = ['py312']
+include = '\.pyi?$'
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["generator", "scraper", "transcriber", "downloader", "shared"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.params.Depends", "typer.Argument", "typer.Option"]
+
+[tool.mypy]
+python_version = "3.12"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+strict_optional = true
+strict_equality = true
+ignore_missing_imports = true
+explicit_package_bases = true
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.16.0",
+    "types-requests>=2.32.0.20250602",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "shared",
+    "services/downloader",
+    "services/generator",
+    "services/scraper",
+    "services/transcriber"
+]
