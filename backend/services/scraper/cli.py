@@ -11,7 +11,7 @@ settings = get_settings()
 
 console = Console()
 app = typer.Typer(
-    help="",
+    help="Scrap OpenFing website stores Courses, Lessons and Videos data",
     no_args_is_help=True,
 )
 

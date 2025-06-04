@@ -103,6 +103,7 @@ class Database:
 
     ## ORM operations, maybe we should move these to a separate repository class
 
+    # Course
     def get_course_by_code(self, code: str) -> Course | None:
         with self.session_scope() as session:
             return session.execute(select(Course).where(Course.code == code)).scalar_one_or_none()
@@ -133,7 +134,7 @@ class Database:
                 .all()
             )
 
-    # Lesson operations using ORM
+    # Lesson
     def get_lesson_by_course_number(
         self,
         course_id: int,
@@ -173,7 +174,7 @@ class Database:
             session.refresh(lesson)
             return lesson
 
-    # Transcription operations using ORM
+    # Transcription
     def get_transcription_by_lesson(self, lesson_id: int) -> Transcription | None:
         with self.session_scope() as session:
             return session.execute(
