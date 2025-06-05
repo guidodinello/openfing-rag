@@ -1,6 +1,11 @@
+from datetime import datetime, timezone
+
 from fastapi import APIRouter
+from pydantic import BaseModel
 
 from shared.config.config import get_settings
+
+settings = get_settings()
 
 router = APIRouter(
     prefix="/health",
@@ -8,21 +13,27 @@ router = APIRouter(
     responses={
         404: {"description": "Not found"},
         500: {"description": "Internal server error"},
+        503: {"description": "Service unavailable"},
     },
 )
 
-settings = get_settings()
+
+class HealthStatus(BaseModel):
+    service: str
+    version: str
+    environment: str
+    timestamp: str
 
 
 @router.get(
     "",
     summary="Health Check",
     description="Returns the health status of the API and its environment",
-    response_description="Health status information",
 )
 async def health_check():
-    return {
-        "status": "healthy",
-        "version": "1.0.0",
-        "environment": "development" if settings.DEBUG else "production",
-    }
+    return HealthStatus(
+        service="transcriber",
+        version="1.0.0",
+        environment="development" if settings.DEBUG else "production",
+        timestamp=datetime.now(timezone.utc).isoformat(),
+    )
