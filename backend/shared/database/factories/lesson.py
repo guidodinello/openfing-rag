@@ -2,44 +2,48 @@ from sqlalchemy import func, select
 
 from shared.database.factories.base import BaseFactory
 from shared.database.factories.course import CourseFactory
-from shared.database.models import Lesson
+from shared.database.models.rag.lesson import Lesson
 
 
 class LessonFactory(BaseFactory[Lesson]):
     def __init__(self, db):
         super().__init__(model=Lesson, db=db)
-        self._course = None
+        self._course_id = None
 
-    async def get_next_number(self, course_id: int) -> int:
+    def get_next_number(self, course_id: int) -> int:
         """Get the next available lesson number for a course."""
         query = select(func.coalesce(func.max(Lesson.number), 0)).where(
             Lesson.course_id == course_id,
         )
-        result = await self.db.execute(query)
+        result = self.db.execute(query)
         max_number = result.scalar()
         return max_number + 1
 
-    async def get_default_attributes(self) -> dict:
+    def get_default_attributes(self) -> dict:
         """
         Generate default attributes for a new lesson.
         Ensures unique number within course.
         """
-        if not hasattr(self, "_course_id"):
+        if not self._course_id:
             course_factory = CourseFactory(self.db)
-            course = await course_factory.create()
+            course = course_factory.create()
             self._course_id = course.id
 
-        number = await self.get_next_number(self._course_id)
+        number = self.get_next_number(self._course_id)
 
         return {
-            "title": self.faker.sentence(nb_words=6),
+            "title": self.faker.sentence(nb_words=6).rstrip("."),
             "number": number,
             "course_id": self._course_id,
-            "video_url": self.faker.url() + "/video.mp4",
-            "lesson_metadata": {},
+            "video_url": f"https://example.com/courses/{self.faker.word()}/{number}/",
+            "lesson_metadata": {
+                "duration_seconds": self.faker.random_int(min=1800, max=7200),  # 30min to 2h
+                "topics": [self.faker.word() for _ in range(self.faker.random_int(min=2, max=5))],
+                "created_by": "factory",
+            },
         }
 
-    async def create(self, **kwargs) -> Lesson:
+    def create(self, **kwargs) -> Lesson:
         """
         Create a lesson with the given attributes.
         Allows specifying a course_id while maintaining number uniqueness.
@@ -47,13 +51,13 @@ class LessonFactory(BaseFactory[Lesson]):
         if "course_id" in kwargs:
             self._course_id = kwargs["course_id"]
 
-        if "number" not in kwargs:
+        if "number" not in kwargs and self._course_id:
             # Only auto-generate number if not provided
-            kwargs["number"] = await self.get_next_number(self._course_id)
+            kwargs["number"] = self.get_next_number(self._course_id)
 
-        return await super().create(**kwargs)
+        return super().create(**kwargs)
 
-    async def create_batch(self, count: int, **kwargs) -> list[Lesson]:
+    def create_batch(self, count: int, **kwargs) -> list[Lesson]:
         """
         Create multiple lessons with sequential numbers.
         All lessons will belong to the same course if course_id is specified.
@@ -63,7 +67,7 @@ class LessonFactory(BaseFactory[Lesson]):
 
         lessons = []
         for _ in range(count):
-            lesson = await self.create(**kwargs)
+            lesson = self.create(**kwargs)
             lessons.append(lesson)
 
         return lessons

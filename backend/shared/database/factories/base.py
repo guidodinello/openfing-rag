@@ -1,33 +1,33 @@
 from typing import Any, Generic, TypeVar
 
 from faker import Faker
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 
 ModelType = TypeVar("ModelType")
 
 
 class BaseFactory(Generic[ModelType]):
-    """Base factory class for generating test data."""
+    """Base factory class for generating test data using sync pattern."""
 
-    # TODO: update type
-    def __init__(self, model: type[ModelType], db: AsyncSession):
+    def __init__(self, model: type[ModelType], db: Session):
         self.model = model
         self.db = db
         self.faker = Faker()
 
-    async def create(self, **kwargs: dict[str, Any]) -> ModelType:
+    def create(self, **kwargs: dict[str, Any]) -> ModelType:
         """Create a single instance with override values."""
         attrs = {**self.get_default_attributes(), **kwargs}
         instance = self.model(**attrs)
         self.db.add(instance)
-        await self.db.flush()
+        self.db.flush()  # Sync version
+        self.db.refresh(instance)
         return instance
 
-    async def create_batch(self, count: int, **kwargs) -> list[ModelType]:
+    def create_batch(self, count: int, **kwargs) -> list[ModelType]:
         """Create multiple instances with override values."""
         instances = []
         for _ in range(count):
-            instance = await self.create(**kwargs)
+            instance = self.create(**kwargs)
             instances.append(instance)
         return instances
 
