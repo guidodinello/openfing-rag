@@ -1,4 +1,3 @@
-# backend/app/rag/ingestion/models.py
 from dataclasses import dataclass
 from typing import Any
 
