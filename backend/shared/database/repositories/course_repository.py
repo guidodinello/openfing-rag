@@ -5,8 +5,6 @@ from shared.database.repositories.base_repository import BaseRepository
 
 
 class CourseRepository(BaseRepository[Course]):
-    """Repository for Course operations."""
-
     def __init__(self, db: Session):
         super().__init__(Course, db)
 
