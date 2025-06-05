@@ -1,12 +1,13 @@
-import asyncio
 import subprocess
 
 import typer
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
+from sqlalchemy import text
 
 from shared.config.config import get_settings
+from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
 
 console = Console()
@@ -130,19 +131,15 @@ def reset_database(confirm: bool = typer.Option(False, "--yes", "-y", help="Skip
 def seed_database() -> None:
     console.print("🌱 Seeding database with sample data...", style="blue")
 
-    async def run_seeder():
-        from shared.database.database import Database
-        from shared.database.seeders.seeder import DatabaseSeeder
-
-        db = Database(connection_string=settings.DATABASE.URL)
-
-        async with db.async_session_scope() as session:
-            seeder = DatabaseSeeder(session)
-            await seeder.run()
-
     try:
-        asyncio.run(run_seeder())
+        with get_db_session() as db:
+            from shared.database.seeders.seeder import DatabaseSeeder
+
+            seeder = DatabaseSeeder(db)
+            seeder.run()
+
         console.print("✅ Database seeded successfully!", style="green")
+
     except ImportError as e:
         console.print(f"❌ Seeder import failed: {e}", style="red")
         raise typer.Exit(1) from e
@@ -175,31 +172,13 @@ def check_connection() -> None:
     console.print("🔌 Testing database connection...", style="blue")
 
     try:
-        from sqlalchemy import text
-
-        from shared.database.database import Database
-
-        db = Database(connection_string=settings.DATABASE.URL)
-
-        with db.connection_scope() as conn:
-            result = conn.execute(text("SELECT 1 as test")).fetchone()
+        with get_db_session() as db:
+            result = db.execute(text("SELECT 1 as test")).fetchone()
             if not result or result[0] != 1:
-                console.print("❌ Basic database connection test failed!", style="red")
+                console.print("❌ Database connection test failed!", style="red")
                 raise typer.Exit(1)
             else:
-                console.print("✅ Sync database connection successful!", style="green")
-
-        async def test_async():
-            async with db.async_session_scope() as session:
-                result = await session.execute(text("SELECT 1 as async_test"))
-                first_result = result.first()
-                return first_result and first_result[0] == 1
-
-        async_result = asyncio.run(test_async())
-        if async_result:
-            console.print("✅ Async database connection successful!", style="green")
-        else:
-            console.print("❌ Async database connection failed!", style="red")
+                console.print("✅ Database connection successful!", style="green")
 
     except Exception as e:
         console.print(f"❌ Database connection failed: {e}", style="red")
