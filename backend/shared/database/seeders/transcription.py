@@ -1,15 +1,17 @@
 from shared.database.factories import TranscriptionFactory
-from shared.database.models import Lesson
-from shared.database.seeders import BaseSeeder
+from shared.database.models.rag.lesson import Lesson
+from shared.database.repositories.lesson_repository import LessonRepository
+from shared.database.seeders.base import BaseSeeder
 
 
 class TranscriptionSeeder(BaseSeeder):
-    async def run(self):
+    def __init__(self, db, lesson_repo: LessonRepository):
+        super().__init__(db)
+        self.lesson_repo = lesson_repo
+
+    def run(self, count_per_lesson: int = 3) -> None:
+        lesson_ids = self.get_random_records(Lesson, columns=Lesson.id, limit=5)
         factory = TranscriptionFactory(db=self.db)
 
-        lesson_ids = await self.get_random_records(Lesson, columns=Lesson.id, limit=5)
         for lesson_id in lesson_ids:
-            await factory.create_batch(
-                3,
-                lesson_id=lesson_id,
-            )
+            _ = factory.create_batch(count=count_per_lesson, lesson_id=lesson_id)

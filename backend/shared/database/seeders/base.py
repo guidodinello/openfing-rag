@@ -1,26 +1,27 @@
+from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from typing import Any, TypeVar
 
 from sqlalchemy import Select, func, select
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import InstrumentedAttribute
+from sqlalchemy.orm import InstrumentedAttribute, Session
 
 from shared.database.models.base import Base
 
 ModelType = TypeVar("ModelType", bound="Base")
 
 
-class BaseSeeder:
-    """Base seeder class for populating test data."""
+class BaseSeeder(ABC):
+    """Base seeder class for populating test data using repository pattern."""
 
-    def __init__(self, db: AsyncSession):
+    def __init__(self, db: Session):
         self.db = db
 
-    async def run(self):
+    @abstractmethod
+    def run(self) -> None:
         """Override this method to implement seeding logic."""
         raise NotImplementedError
 
-    async def get_random_records(
+    def get_random_records(
         self,
         model: type[ModelType],
         columns: None | (InstrumentedAttribute | Sequence[InstrumentedAttribute]) = None,
@@ -41,35 +42,29 @@ class BaseSeeder:
         Returns:
             List of values if single column selected, List of tuples if multiple columns
         """
-        # Default to id column if none specified
         if columns is None:
             columns = [model.id]
         elif not isinstance(columns, (list, tuple)):
             columns = [columns]
 
-        # Create base query
         query: Select = select(*columns) if len(columns) > 1 else select(columns[0])
+        query = query.select_from(model)
 
-        # Add filters if any
         if filters:
             for filter_condition in filters:
                 query = query.filter(filter_condition)
 
-        # Add random ordering and limit
         query = query.order_by(func.random())
         if limit:
             query = query.limit(limit)
 
-        # Execute query
-        result = await self.db.execute(query)
+        result = self.db.execute(query)
 
-        # Handle results based on whether single or multiple columns
         if len(columns) == 1:
             results = result.scalars().all()
         else:
             results = result.all()
 
-        # Handle empty results
         if not results and raise_if_empty:
             raise ValueError(
                 f"No records found for {model.__name__}. Please seed it first.",
@@ -77,7 +72,7 @@ class BaseSeeder:
 
         return results
 
-    async def get_related_records(
+    def get_related_records(
         self,
         model: type[ModelType],
         relations: InstrumentedAttribute | list[InstrumentedAttribute],
@@ -98,12 +93,10 @@ class BaseSeeder:
         Returns:
             List of tuples containing (id, relation1, relation2, ...)
         """
-        # Convert single relation to list for consistent handling
         relation_columns = [relations] if not isinstance(relations, list) else relations
 
-        # Create query with all requested columns
         columns = [model.id] + relation_columns
-        return await self.get_random_records(
+        return self.get_random_records(
             model,
             columns=columns,
             limit=limit,
