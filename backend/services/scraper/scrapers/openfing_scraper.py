@@ -1,34 +1,33 @@
-from .course_list_scraper import CourseListScraper
-from .course_scraper import CourseScraper
+from dataclasses import dataclass
+
+from services.scraper.scrapers.course_scraper import Course, CourseScraper
+from services.scraper.scrapers.lesson_scraper import Lesson, LessonScraper
+from shared.logging.logger import get_logger
+
+logger = get_logger(__name__)
+
+
+@dataclass(frozen=True, slots=True)
+class ScrapingResult:
+    courses: list[Course]
+    lessons: list[Lesson]
 
 
 class OpenFingScraper:
     def __init__(self):
-        self.__course_list_scraper = CourseListScraper()
+        self.__logger = logger
         self.__course_scraper = CourseScraper()
-        # self.class_scraper = ClassScraper();
+        self.__lesson_scraper = LessonScraper()
 
-    def get_acronyms(self):
-        return self.__course_list_scraper.ensure_acronyms()
+    def scrape(self) -> ScrapingResult:
+        """Scrape all courses and their lessons from OpenFing."""
+        courses = self.__course_scraper.get_courses()
+        lessons = []
 
-    def get_classes(self, acronym):
-        classes = self.__course_scraper.ensure_course_scraped(acronym)
-        if classes and len(classes) == 0:
-            return f"{acronym} not found in classes"
-        return classes
+        for course in courses:
+            course_lessons = self.__lesson_scraper.get_lessons(course.acronym)
+            lessons.extend(course_lessons)
 
-    def update_openfing(self):
-        course_acronyms = self.__course_list_scraper.acronym_scraper()
-        for acronym in course_acronyms:
-            self.__course_scraper.update_course_classes(acronym)
+        self.__logger.debug(f"Scraped {len(courses)} courses and {len(lessons)} lessons from OpenFing")
 
-    def update_acronyms(self):
-        self.__course_list_scraper.acronym_scraper()
-
-    def update_course(self, acronym):
-        self.__course_scraper.update_course_classes(acronym)
-
-    def update_courses_classes(self):
-        course_acronyms = self.__course_list_scraper.ensure_acronyms()
-        for acronym in course_acronyms:
-            self.__course_scraper.update_course_classes(acronym)
+        return ScrapingResult(courses=courses, lessons=lessons)
