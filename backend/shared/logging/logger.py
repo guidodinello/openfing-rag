@@ -6,9 +6,6 @@ from pathlib import Path
 
 from shared.config.config import get_settings
 
-LOG_DIR = Path("logs")
-LOG_DIR.mkdir(exist_ok=True)
-
 CONSOLE_FORMAT = "%(levelname)s | %(name)s | %(message)s"
 FILE_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(funcName)s:%(lineno)d | %(message)s"
 
@@ -49,8 +46,9 @@ def get_logger(name: str) -> logging.Logger:
         logging.Logger: Configured logger instance
     """
     settings = get_settings()
-    # Create logger
+
     logger = logging.getLogger(name)
+
     logger.setLevel(settings.LOG.LEVEL)
 
     # Avoid adding handlers multiple times
@@ -59,16 +57,20 @@ def get_logger(name: str) -> logging.Logger:
 
     # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(settings.LOG.LEVEL)
     console_handler.setFormatter(CustomFormatter())
     logger.addHandler(console_handler)
 
     # File handler - daily rotating log file
+    logs_dir = Path(settings.LOG.DIR)
+    logs_dir.mkdir(parents=True, exist_ok=True)
+
     today = datetime.now().strftime("%Y-%m-%d")
-    file_handler = logging.FileHandler(LOG_DIR / f"{today}.log", encoding="utf-8")
+    file_handler = logging.FileHandler(logs_dir / f"{today}.log", encoding="utf-8")
+    file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(logging.Formatter(FILE_FORMAT))
     logger.addHandler(file_handler)
 
-    # Don't propagate to root logger
     logger.propagate = False
 
     return logger

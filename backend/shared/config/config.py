@@ -11,19 +11,7 @@ class LoggingSettings(BaseSettings):
         default="INFO",
         description="Logging level",
     )
-    FORMAT: str = Field(
-        default="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        description="Log format string",
-    )
-    FILE_PATH: str = Field(default="logs", description="Path to log files directory")
-    FILE_MAX_BYTES: int = Field(
-        default=10_485_760,  # 10MB
-        description="Maximum size of log file before rotation (in bytes)",
-    )
-    FILE_BACKUP_COUNT: int = Field(
-        default=5,
-        description="Number of backup files to keep",
-    )
+    DIR: str = Field(default="logs", description="Path to log files directory")
 
     model_config = SettingsConfigDict(env_prefix="LOG_", extra="ignore")
 
