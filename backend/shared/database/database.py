@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator, Iterator
 from contextlib import asynccontextmanager, contextmanager
-from typing import Any
+from typing import Any, TypeVar
 
 from sqlalchemy import create_engine, select
 from sqlalchemy.engine import Engine
@@ -14,6 +14,8 @@ from shared.database.models import Course, Lesson, Transcription
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)
+
+T = TypeVar("T")
 
 
 class Database:
@@ -102,6 +104,57 @@ class Database:
             await self._async_engine.dispose()
 
     ## ORM operations, maybe we should move these to a separate repository class
+
+    def upsert(
+        self,
+        model_class: type[T],
+        keys: dict[str, Any],
+        values: dict[str, Any] | None = None,
+    ) -> T:
+        """
+        Generic upsert method for any model.
+
+        Args:
+            model_class: SQLAlchemy model class (e.g., Course, Lesson)
+            keys: Fields to use for lookup (e.g., {'code': 'CS101'})
+            values: Fields to update/create with
+
+        Example:
+        course = db.upsert(
+            model_class=Course,
+            keys={"code": "CS101"},
+            values={"name": "Computer Science"}
+        )
+        """
+        values = values or {}
+
+        with self.session_scope() as session:
+            conditions = [getattr(model_class, key) == value for key, value in keys.items()]
+
+            instance = session.execute(
+                select(model_class).where(*conditions),
+            ).scalar_one_or_none()
+
+            if instance:
+                # Update existing
+                for key, value in values.items():
+                    if hasattr(instance, key):
+                        # Handle metadata fields specially
+                        if key.endswith("_metadata") and hasattr(instance, key):
+                            existing_metadata = getattr(instance, key) or {}
+                            new_metadata = value or {}
+                            setattr(instance, key, {**existing_metadata, **new_metadata})
+                        else:
+                            setattr(instance, key, value)
+            else:
+                # Create new
+                instance_data = {**keys, **values}
+                instance = model_class(**instance_data)
+                session.add(instance)
+
+            session.flush()
+            session.refresh(instance)
+            return instance
 
     # Course
     def get_course_by_code(self, code: str) -> Course | None:
