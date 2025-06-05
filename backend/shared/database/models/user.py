@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
 
-from .base import TimestampedModel
+from shared.database.models.base import TimestampedModel
 
 
 class User(TimestampedModel):
