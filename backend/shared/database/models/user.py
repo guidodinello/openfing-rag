@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
 
 from shared.database.models.base import TimestampedModel
@@ -15,8 +15,6 @@ class User(TimestampedModel):
     email = Column(String, unique=True, nullable=False, index=True)
     username = Column(String(50), unique=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    is_active = Column(Boolean, default=True, nullable=False)
-    is_superuser = Column(Boolean, default=False, nullable=False)
 
     def __repr__(self):
-        return f"<User {self.username}>"
+        return f"User({self.id=} {self.username=} {self.email=})"

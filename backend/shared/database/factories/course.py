@@ -17,6 +17,6 @@ class CourseFactory(BaseFactory[Course]):
             ),
             "name": self.faker.sentence(
                 nb_words=4,
-            ),  # e.g. "Introduction to Computer Science"
-            "metadata": {},  # Empty dict as per server_default
+            ),
+            "metadata": {},
         }

@@ -1,6 +1,7 @@
 from sqlalchemy import func, select
 
 from shared.database.factories.base import BaseFactory
+from shared.database.factories.course import CourseFactory
 from shared.database.models import Lesson
 
 
@@ -24,9 +25,6 @@ class LessonFactory(BaseFactory[Lesson]):
         Ensures unique number within course.
         """
         if not hasattr(self, "_course_id"):
-            # If no course is set, create one using CourseFactory
-            from app.db.factories.course import CourseFactory
-
             course_factory = CourseFactory(self.db)
             course = await course_factory.create()
             self._course_id = course.id

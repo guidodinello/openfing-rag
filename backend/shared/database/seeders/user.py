@@ -13,36 +13,21 @@ class UserSeeder(BaseSeeder):
                 "email": "admin@openfing.edu.uy",
                 "username": "admin",
                 "hashed_password": "hash-XXX",  # TODO: implement
-                "is_active": True,
-                "is_superuser": True,
             },
             {
                 "email": "teacher@openfing.edu.uy",
                 "username": "teacher",
                 "hashed_password": "hash-XXX",
-                "is_active": True,
-                "is_superuser": False,
             },
             {
                 "email": "student@openfing.edu.uy",
                 "username": "student",
                 "hashed_password": "hash-XXX",
-                "is_active": True,
-                "is_superuser": False,
             },
             {
                 "email": "demo@openfing.edu.uy",
                 "username": "demo",
                 "hashed_password": "hash-XXX",
-                "is_active": True,
-                "is_superuser": False,
-            },
-            {
-                "email": "inactive@openfing.edu.uy",
-                "username": "inactive_user",
-                "hashed_password": "hash-XXX",
-                "is_active": False,
-                "is_superuser": False,
             },
         ]
 

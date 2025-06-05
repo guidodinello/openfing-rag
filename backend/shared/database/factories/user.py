@@ -76,8 +76,6 @@ class UserFactory(BaseFactory[User]):
             "email": email,
             "username": username,
             "hashed_password": self.hash_password("password123"),
-            "is_active": True,
-            "is_superuser": False,
         }
 
     async def create_with_password(self, password: str, **kwargs) -> User:

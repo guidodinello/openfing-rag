@@ -48,7 +48,7 @@ class Course(TimestampedModel):
     )
 
     def __repr__(self) -> str:
-        return f"Course(id={self.id}, code='{self.code}', name='{self.name}')"
+        return f"Course({self.id=} {self.code=} {self.name=} {self.subtitle=})"
 
     def __str__(self) -> str:
         return f"{self.code} - {self.name}"
