@@ -76,12 +76,6 @@ def upgrade() -> None:
 
     # Unique constraints for LESSON WITHIN COURSE
     op.create_unique_constraint(
-        "uq_lessons_course_title",
-        "lessons",
-        ["course_id", "title"],
-        schema="rag",
-    )
-    op.create_unique_constraint(
         "uq_lessons_course_number",
         "lessons",
         ["course_id", "number"],
@@ -144,7 +138,6 @@ def downgrade() -> None:
 
     # Drop unique constraints
     op.drop_constraint("uq_lessons_course_number", "lessons", schema="rag", type_="unique")
-    op.drop_constraint("uq_lessons_course_title", "lessons", schema="rag", type_="unique")
 
     # Drop tables
     for table in ["transcriptions", "lessons", "courses"]:
