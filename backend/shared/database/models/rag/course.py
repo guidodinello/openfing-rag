@@ -30,7 +30,8 @@ class Course(TimestampedModel):
         unique=True,
         comment="Unique course code (e.g., 'CS101')",
     )
-    name: str = Column(String(255), nullable=False, comment="Full name of the course")
+    name: str = Column(String(255), nullable=False, comment="Name of the course (i.e. Actividad Introductoria)")
+    subtitle: str = Column(String(255), nullable=True, comment="Course edition name (i.e. Charlas 2025)")
     course_metadata: dict = Column(
         JSONB,
         server_default="{}",
