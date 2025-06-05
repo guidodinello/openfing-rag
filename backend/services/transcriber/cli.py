@@ -29,7 +29,7 @@ def start_server(
     uvicorn.run(
         app_path,
         host=host,
-        port=port or settings.TRANSCRIBER_PORT,
+        port=port or settings.TRANSCRIBER.PORT,
         workers=workers or settings.WORKERS_COUNT,
         log_level=(log_level or settings.LOG.LEVEL).lower(),
         proxy_headers=True,
@@ -43,7 +43,7 @@ def start_dev_server() -> None:
     uvicorn.run(
         "services.transcriber.api.main:app",
         host="0.0.0.0",
-        port=settings.TRANSCRIBER_PORT,
+        port=settings.TRANSCRIBER.PORT,
         reload=True,
         log_level="debug",
     )

@@ -60,6 +60,11 @@ class WhisperSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="WHISPER_", extra="ignore")
 
 
+class TranscriberSettings(BaseSettings):
+    PORT: int = Field(default=8001, description="Server port")
+    model_config = SettingsConfigDict(env_prefix="TRANSCRIBER_", extra="ignore")
+
+
 class EmbeddingsSettings(BaseSettings):
     MODEL: str = Field(
         default="sentence-transformers/all-MiniLM-L6-v2",
@@ -86,6 +91,7 @@ class Settings(BaseSettings):
     LOG: LoggingSettings = Field(default_factory=LoggingSettings)
     WHISPER: WhisperSettings = Field(default_factory=WhisperSettings)
     EMBEDDINGS: EmbeddingsSettings = Field(default_factory=EmbeddingsSettings)
+    TRANSCRIBER: TranscriberSettings = Field(default_factory=TranscriberSettings)
 
     # Project paths
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
@@ -147,7 +153,6 @@ class Settings(BaseSettings):
     )
     LANGSMITH_API_KEY: str = Field(description="LangSmith API key")
 
-    # Configuration for environment variables
     model_config = SettingsConfigDict(
         env_file_encoding="utf-8",
         frozen=True,
@@ -160,6 +165,7 @@ class Settings(BaseSettings):
         kwargs["LOG"] = LoggingSettings(_env_file=_env_file)
         kwargs["WHISPER"] = WhisperSettings(_env_file=_env_file)
         kwargs["EMBEDDINGS"] = EmbeddingsSettings(_env_file=_env_file)
+        kwargs["TRANSCRIBER"] = TranscriberSettings(_env_file=_env_file)
         super().__init__(*args, **kwargs)
 
     @model_validator(mode="before")

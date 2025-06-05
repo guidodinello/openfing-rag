@@ -122,14 +122,14 @@ class Processor:
             if not course:
                 return False, f"Course {course_acronym} not found"
 
-            lesson = self.db.get_lesson_by_course_number(course["id"], class_number)
+            lesson = self.db.get_lesson_by_course_number(course.id, class_number)
             if not lesson:
                 return (
                     False,
                     f"Lesson {class_number} not found in course {course_acronym}",
                 )
 
-            transcription = self.db.get_transcription_by_lesson(lesson["id"])
+            transcription = self.db.get_transcription_by_lesson(lesson.id)
             if not transcription:
                 return (
                     False,
@@ -140,7 +140,7 @@ class Processor:
             if model_size and model_size != metadata.get("model_size"):
                 return False, f"Transcription with model size {model_size} not found"
 
-            return True, {"content": transcription["content"], "metadata": metadata}
+            return True, {"content": transcription.content, "metadata": metadata}
 
         except Exception as e:
             logger.exception(f"Error retrieving transcription: {str(e)}")
@@ -196,7 +196,7 @@ class Processor:
                 )
                 logger.info(f"Created new course {course_acronym} with ID {course_id}")
             else:
-                course_id = course["id"]
+                course_id = course.id
 
             # Get or create lesson
             lesson = self.db.get_lesson_by_course_number(course_id, class_number)
@@ -209,7 +209,7 @@ class Processor:
                 )
                 logger.info(f"Created new lesson {class_number} with ID {lesson_id}")
             else:
-                lesson_id = lesson["id"]
+                lesson_id = lesson.id
 
             # Save/update transcription
             existing_transcription = self.db.get_transcription_by_lesson(lesson_id)
@@ -230,7 +230,7 @@ class Processor:
 
             if existing_transcription:
                 success = self.db.update_transcription(
-                    existing_transcription["id"],
+                    existing_transcription.id,
                     content,
                     metadata,
                 )
