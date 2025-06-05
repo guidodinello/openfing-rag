@@ -1,67 +1,78 @@
-import ast
-from pathlib import Path
+from dataclasses import dataclass
 
 import requests
-from bs4 import BeautifulSoup
-from Constants.Constants import ACRONYMS_FOLDER, OPEN_FING_URL
+from bs4 import BeautifulSoup, Tag
 
-from shared.logging import get_logger
+from services.scraper.constants.constants import OPEN_FING_URL
+from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)
+
+
+@dataclass(frozen=True, slots=True)
+class Course:
+    acronym: str
+    title: str
+    subtitle: str
+    url: str
 
 
 class CourseScraper:
     def __init__(self):
         self.__logger = logger
+        self.__http_client = requests
 
-    def ensure_course_scraped(self, course_acronym: str):
-        self.__course_acronym = course_acronym
-        self.__path = Path(ACRONYMS_FOLDER + "/" + course_acronym + ".txt")
-        if not self.__is_course_scraped():
-            return self.__scrape_course()
-        else:
-            return self.__get_previous_scraped()
+    def get_courses(self) -> list[Course]:
+        soup = self.__get_html(OPEN_FING_URL)
+        courses_urls = self.__get_courses_urls(soup)
 
-    def __is_course_scraped(self):
-        return self.__path.exists()
+        results = []
+        for course_url in courses_urls:
+            soup = self.__get_html(course_url)
+            title = self.__get_course_title(soup)
 
-    def update_course_classes(self, course_acronym: str):
-        self.__course_acronym = course_acronym
-        self.__path = Path(ACRONYMS_FOLDER + "/" + course_acronym + ".txt")
-        self.__scrape_course()
+            for subcourse_tag in self.__get_subcourses_tags(soup):
+                results.append(
+                    Course(
+                        acronym=self.__get_acronym_from_url(subcourse_tag.get("href")),
+                        title=title,
+                        subtitle=subcourse_tag.text,
+                        url=subcourse_tag.get("href"),
+                    ),
+                )
 
-    def __scrape_course(self):
-        # TODO:
-        # scrapear para sacar las clases no es la mejor idea, si cambian la interfaz de la pagina se rompe todo
-        # lo mejor seria hablar con los de open fing. capaz tienen una api
-        # o generann los links con un metodo especifico.
-        self.__logger.log_message(f"Scraping course {self.__course_acronym}")
-        classes_numbers = self.__get_class_numbers(self.__course_acronym)
-        if len(classes_numbers) > 0:
-            self.__logger.log_message(f"Writing classes numbers to {self.__path}")
-            self.__logger.write_on_file(self.__path, classes_numbers)
-        return classes_numbers
+        return results
 
-    def __get_class_numbers(self, course_acronym):
-        url = f"{OPEN_FING_URL}/courses/{course_acronym}/"
-        self.__logger.log_message(url)
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, "html.parser")
-            class_items = soup.find_all("span", class_="class-list__item-number")
-            classes_numbers = [int(item.text.strip()) for item in class_items]
-            return classes_numbers
-        else:
-            self.__logger.log_message(
-                f"Failed to retrieve the page for {url}. Status code: {response.status_code}",
-            )
-            return []
+    def __get_subcourses_tags(self, soup: BeautifulSoup) -> list[Tag]:
+        return soup.find_all(
+            "a",
+            class_="related-links__item",
+        )
 
-    def __get_previous_scraped(self):
-        with open(self.__path) as file:
-            content = file.read().strip()
-            numbers = ast.literal_eval(content)
-            print(self.__path)
-            print(content)
-            print(numbers)
-            return numbers
+    def __get_courses_urls(self, soup: BeautifulSoup) -> list[str]:
+        course_items = soup.find_all("a", class_="name course")
+        courses = [course["href"] for course in course_items]
+        return courses
+
+    def __get_course_title(self, soup: BeautifulSoup) -> str:
+        return soup.find("h1").text.strip()
+
+    def __get_acronym_from_url(self, url: str) -> str:
+        courses_url_base = f"{OPEN_FING_URL}/courses/"
+        return url.replace(courses_url_base, "").rstrip("/")
+
+    def __get_html(self, url: str) -> BeautifulSoup | None:
+        try:
+            response = self.__http_client.get(url, timeout=10)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            self.__logger.error(f"Failed to scrape {url=}: {e}")
+            return None
+
+        try:
+            soup = BeautifulSoup(response.text, "html.parser")
+            return soup
+
+        except Exception as e:
+            self.__logger.error(f"Failed to parse response from {url=}: {e}")
+            return None
