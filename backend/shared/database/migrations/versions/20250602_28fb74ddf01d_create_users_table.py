@@ -12,6 +12,17 @@ import sqlalchemy as sa
 from alembic import op
 from sqlalchemy.dialects import postgresql
 
+from shared.database.migrations.helpers import (
+    add_id_column,
+    add_timestamp_trigger,
+    add_timestamps,
+    create_btree_index,
+    create_gin_index,
+    drop_btree_index,
+    drop_gin_index,
+    drop_timestamp_trigger,
+)
+
 revision: str = "28fb74ddf01d"
 down_revision: str | None = "001_initial"
 branch_labels: str | Sequence[str] | None = None
@@ -21,63 +32,29 @@ depends_on: str | Sequence[str] | None = None
 def upgrade() -> None:
     op.create_table(
         "users",
-        sa.Column("id", sa.Integer(), primary_key=True, comment="Unique identifier for the user"),
+        add_id_column(),
         sa.Column(
             "email",
             sa.String(),
             unique=True,
             nullable=False,
             index=True,
-            comment="User's email address (unique)",
         ),
         sa.Column(
             "username",
             sa.String(50),
             unique=True,
             nullable=False,
-            comment="User's username (unique, max 50 chars)",
         ),
         sa.Column("hashed_password", sa.String(), nullable=False, comment="Bcrypt hashed password"),
-        sa.Column(
-            "is_active",
-            sa.Boolean(),
-            default=True,
-            nullable=False,
-            comment="Whether the user account is active",
-        ),
-        sa.Column(
-            "is_superuser",
-            sa.Boolean(),
-            default=False,
-            nullable=False,
-            comment="Whether the user has admin privileges",
-        ),
-        sa.Column(
-            "created_at",
-            sa.TIMESTAMP(timezone=True),
-            server_default=sa.text("CURRENT_TIMESTAMP"),
-            nullable=False,
-            comment="Timestamp when the user was created",
-        ),
-        sa.Column(
-            "updated_at",
-            sa.TIMESTAMP(timezone=True),
-            server_default=sa.text("CURRENT_TIMESTAMP"),
-            nullable=False,
-            comment="Timestamp when the user was last updated",
-        ),
+        *add_timestamps(),
         comment="User accounts for authentication and authorization",
     )
 
     # Create chat_history table for conversation history
     op.create_table(
         "chat_history",
-        sa.Column(
-            "id",
-            sa.Integer(),
-            sa.Identity(always=True),
-            primary_key=True,
-        ),
+        add_id_column(),
         sa.Column("session_id", sa.String(64), nullable=False, index=True),
         sa.Column("message", postgresql.JSONB, nullable=False),
         sa.Column(
@@ -87,51 +64,32 @@ def upgrade() -> None:
             nullable=True,  # Allow anonymous sessions for now
             comment="Reference to the user (nullable for anonymous chats)",
         ),
-        sa.Column(
-            "created_at",
-            sa.TIMESTAMP(timezone=True),
-            server_default=sa.text("CURRENT_TIMESTAMP"),
-            nullable=False,
-        ),
+        *add_timestamps(),
         schema="public",
         comment="Chat message history for conversations",
     )
 
-    op.create_index("idx_chat_history_session_id", "chat_history", ["session_id"], postgresql_using="btree")
-    op.create_index("idx_chat_history_user_id", "chat_history", ["user_id"], postgresql_using="btree")
-    op.create_index("idx_chat_history_message", "chat_history", ["message"], postgresql_using="gin")
+    create_btree_index("users", ["email"], unique=True)
+    create_btree_index("users", ["username"], unique=True)
 
-    op.create_index("idx_users_email", "users", ["email"], unique=True, postgresql_using="btree")
-    op.create_index("idx_users_username", "users", ["username"], unique=True, postgresql_using="btree")
+    create_btree_index("chat_history", ["session_id"])
+    create_btree_index("chat_history", ["user_id"])
+    create_gin_index("chat_history", "message")
 
-    op.execute(
-        """
-        CREATE TRIGGER update_users_timestamp
-        BEFORE UPDATE ON users
-        FOR EACH ROW EXECUTE FUNCTION update_timestamp();
-        """,
-    )
-
-    op.execute(
-        """
-        CREATE TRIGGER users_change_notify
-        AFTER INSERT OR UPDATE OR DELETE ON users
-        FOR EACH ROW EXECUTE FUNCTION notify_record_change();
-        """,
-    )
+    add_timestamp_trigger("users")
+    add_timestamp_trigger("chat_history")
 
 
 def downgrade() -> None:
-    # Drop triggers
-    op.execute("DROP TRIGGER IF EXISTS update_users_timestamp ON users")
-    op.execute("DROP TRIGGER IF EXISTS users_change_notify ON users")
+    drop_timestamp_trigger("users")
+    drop_timestamp_trigger("chat_history")
 
-    op.drop_index("idx_chat_history_message", table_name="chat_history")
-    op.drop_index("idx_chat_history_user_id", table_name="chat_history")
-    op.drop_index("idx_chat_history_session_id", table_name="chat_history")
+    drop_gin_index("chat_history", "message")
+    drop_btree_index("chat_history", ["user_id"])
+    drop_btree_index("chat_history", ["session_id"])
 
-    op.drop_index("idx_users_username", table_name="users")
-    op.drop_index("idx_users_email", table_name="users")
+    drop_btree_index("users", ["username"])
+    drop_btree_index("users", ["email"])
 
     op.drop_table("chat_history")
     op.drop_table("users")
