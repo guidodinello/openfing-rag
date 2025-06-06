@@ -152,20 +152,17 @@ class ScrapingService:
         try:
             scraping_result = self.scraper.scrape()
 
-            # Find target course
             target_course = next((c for c in scraping_result.courses if c.acronym == course_acronym), None)
 
             if not target_course:
                 logger.warning(f"Course {course_acronym} not found in scraped data")
                 return {"courses_created": 0, "courses_updated": 0, "lessons_created": 0, "lessons_updated": 0}
 
-            # Filter lessons for this course
             course_lessons = [lesson for lesson in scraping_result.lessons if lesson.course_acronym == course_acronym]
 
             courses_stats = self._sync_courses([target_course])
             lessons_stats = self._sync_lessons(course_lessons)
 
-            # Commit changes
             self.db.commit()
 
             result = {
