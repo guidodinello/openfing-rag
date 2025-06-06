@@ -1,4 +1,3 @@
-
 class DataAccess:
     def __init__(self, db):
         self.db = db
@@ -7,6 +6,6 @@ class DataAccess:
         # Logic to retrieve a transcription by its ID
         pass
 
-    def insert_transcription(self, chunks,course_acronym: str, class_number: int, model_size: str):
-        
+    def insert_transcription(self, chunks, course_acronym: str, class_number: int, model_size: str):
+
         pass

@@ -1,0 +1,18 @@
+from shared.database.factories.base import BaseFactory
+from shared.database.models.rag.transcription import Transcription
+
+
+class TranscriptionFactory(BaseFactory[Transcription]):
+    def __init__(self, db):
+        super().__init__(model=Transcription, db=db)
+
+    def get_default_attributes(self):
+        return {
+            "content": self.faker.paragraph(nb_sentences=100),
+            "transcription_metadata": {
+                "whisper_model": "medium",
+                "language": "en",
+                "confidence": self.faker.random.uniform(0.8, 0.99),
+                "created_by": "factory",
+            },
+        }
