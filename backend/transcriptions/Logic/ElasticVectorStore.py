@@ -1,5 +1,4 @@
 from elasticsearch import Elasticsearch, helpers
-from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import BadRequestError
 from pymongo import MongoClient
 from typing import List

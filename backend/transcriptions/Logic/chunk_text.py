@@ -50,6 +50,7 @@ def testCollection():
             print(f"Collection '{COLLECTION_NAME}' does not exist.")
     except Exception as e:
         print(f"Error checking collection: {e}")
+
 def testSetUp():
     testConnection()
     testDatabase()
