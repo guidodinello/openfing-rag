@@ -94,10 +94,11 @@ class VectorRepository:
                 vector_size=self.config.EMBEDDINGS.DIMENSION,
             )
             logger.info(f"Created new vector store table: {table_name}")
-        except (sqlalchemy.exc.ProgrammingError, psycopg.errors.DuplicateTable):
-            logger.debug(f"Skipping init_vectorstore_table {table_name=} already exists")
-        except Exception as e:
-            raise logger.error(f"{e=}") from e
+        except sqlalchemy.exc.ProgrammingError as e:
+            if isinstance(e.orig, psycopg.errors.DuplicateTable):
+                logger.debug(f"Skipping init_vectorstore_table {table_name=} already exists")
+            else:
+                raise
 
         vector_store = PGVectorStore.create_sync(
             engine=self._engine,

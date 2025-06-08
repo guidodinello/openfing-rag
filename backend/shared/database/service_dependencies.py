@@ -3,8 +3,8 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from scraper.core.scrapers.openfing_scraper import OpenFingScraper
 from services.downloader.core.downloader_service import DownloaderService
+from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
 from services.scraper.core.scraping_service import ScrapingService
 from services.transcriber.core.transcription_service import TranscriptionService
 from shared.config.config import get_settings

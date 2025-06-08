@@ -39,6 +39,9 @@ def handle_cli_errors(
                 typer.echo(f"{cmd_name.capitalize()} completed successfully!")
                 return result
 
+            except (SystemExit, KeyboardInterrupt):
+                raise
+
             except SQLAlchemyError as e:
                 error_msg = f"Database error during {cmd_name}: {str(e)}"
                 if log_error:
@@ -86,6 +89,9 @@ def handle_async_cli_errors(
                 result = await func(*args, **kwargs)
                 typer.echo(f"{cmd_name.capitalize()} completed successfully!")
                 return result
+
+            except (SystemExit, KeyboardInterrupt):
+                raise
 
             except SQLAlchemyError as e:
                 error_msg = f"Database error during {cmd_name}: {str(e)}"

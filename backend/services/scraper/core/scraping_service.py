@@ -78,8 +78,8 @@ class ScrapingService:
                 total_lessons=len(lessons),
             )
 
-        except Exception as e:
-            logger.error(f"Sync failed: {e}")
+        except Exception:
+            logger.error("Sync failed!")
             self.db.rollback()
             raise
 

@@ -1,6 +1,8 @@
 from collections.abc import Generator, Iterator
 from contextlib import contextmanager
 
+import psycopg
+import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
@@ -45,6 +47,15 @@ def get_db_session() -> Iterator[Session]:
     try:
         yield session
         session.commit()
+    except sqlalchemy.exc.ProgrammingError as e:
+        if isinstance(e.orig, psycopg.errors.UndefinedTable):
+            print("\n❌ Database tables not found")
+            print("📝 Please run migrations first:")
+            print("   uv run openfing-db migrate\n")
+            raise SystemExit(1) from e
+        else:
+            logger.error(f"Database error: {str(e)}")
+            raise
     except SQLAlchemyError as e:
         session.rollback()
         logger.error(f"Database error: {str(e)}")
