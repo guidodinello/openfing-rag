@@ -1,8 +1,10 @@
 import typer
+import uvicorn
 from rich.console import Console
+from rich.table import Table
 
-from services.scraper.core.scraping_service import ScrapingService
 from shared.config.config import get_settings
+from shared.database.service_dependencies import create_scraping_service
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
 from shared.logging.logger import get_logger
@@ -24,22 +26,33 @@ def scrape_all() -> None:
     console.print("🕷️ Starting OpenFing scraping...", style="blue")
 
     with get_db_session() as db:
-        service = ScrapingService(db)
+        service = create_scraping_service(db)
 
-        try:
-            results = service.sync_openfing_data()
+        result = service.sync_openfing_data()
 
+        if result.success:
             console.print("✅ Scraping completed!", style="green")
-            console.print(f"📚 Courses created: {results['courses_created']}")
-            console.print(f"📚 Courses updated: {results['courses_updated']}")
-            console.print(f"📖 Lessons created: {results['lessons_created']}")
-            console.print(f"📖 Lessons updated: {results['lessons_updated']}")
-            console.print(f"📊 Total courses: {results['total_courses']}")
-            console.print(f"📊 Total lessons: {results['total_lessons']}")
 
-        except Exception as e:
-            console.print(f"❌ Scraping failed: {e}", style="red")
-            raise typer.Exit(1) from e
+            table = Table(title="📊 Scraping Results")
+            table.add_column("Metric", style="cyan")
+            table.add_column("Count", style="magenta")
+
+            table.add_row("Courses created", str(result.stats.courses_created))
+            table.add_row("Courses updated", str(result.stats.courses_updated))
+            table.add_row("Lessons created", str(result.stats.lessons_created))
+            table.add_row("Lessons updated", str(result.stats.lessons_updated))
+            table.add_row("Total courses found", str(result.stats.total_courses))
+            table.add_row("Total lessons found", str(result.stats.total_lessons))
+
+            console.print(table)
+
+            if result.stats.all_successful:
+                console.print("🎉 All items synchronized successfully!", style="bold green")
+            else:
+                console.print(f"⚠️  Partial sync completed: {result.stats}", style="yellow")
+        else:
+            console.print(f"❌ Scraping failed: {result.message}", style="red")
+            raise typer.Exit(1)
 
 
 @app.command(name="scrape-course")
@@ -49,17 +62,49 @@ def scrape_course(course_acronym: str = typer.Argument(..., help="Course acronym
     console.print(f"🕷️ Scraping course: {course_acronym}...", style="blue")
 
     with get_db_session() as db:
-        service = ScrapingService(db)
+        service = create_scraping_service(db)
 
-        try:
-            results = service.sync_course_only(course_acronym)
+        result = service.sync_course_only(course_acronym)
 
+        if result.success:
             console.print("✅ Course scraping completed!", style="green")
-            console.print(f"📚 Course created: {results['courses_created']}")
-            console.print(f"📚 Course updated: {results['courses_updated']}")
-            console.print(f"📖 Lessons created: {results['lessons_created']}")
-            console.print(f"📖 Lessons updated: {results['lessons_updated']}")
 
-        except Exception as e:
-            console.print(f"❌ Course scraping failed: {e}", style="red")
-            raise typer.Exit(1) from e
+            table = Table(title=f"📊 Results for {course_acronym}")
+            table.add_column("Metric", style="cyan")
+            table.add_column("Count", style="magenta")
+
+            table.add_row("Course created", str(result.stats.courses_created))
+            table.add_row("Course updated", str(result.stats.courses_updated))
+            table.add_row("Lessons created", str(result.stats.lessons_created))
+            table.add_row("Lessons updated", str(result.stats.lessons_updated))
+            table.add_row("Total lessons found", str(result.stats.total_lessons))
+
+            console.print(table)
+
+            if result.stats.total_courses_synced > 0:
+                action = "created" if result.stats.courses_created > 0 else "updated"
+                console.print(f"📚 Course {course_acronym} successfully {action}", style="green")
+
+            if result.stats.total_lessons_synced > 0:
+                console.print(f"📖 {result.stats.total_lessons_synced} lessons synchronized", style="green")
+
+                if result.stats.all_successful:
+                    console.print("✨ All available lessons were synchronized!", style="bold green")
+            else:
+                console.print("⚠️  No lessons found for this course", style="yellow")
+
+        else:
+            console.print(f"❌ Course scraping failed: {result.message}", style="red")
+            raise typer.Exit(1)
+
+
+@app.command(name="dev")
+@handle_cli_errors(operation_name="Scraper development server")
+def start_dev_server() -> None:
+    uvicorn.run(
+        "services.scraper.api.main:app",
+        host="0.0.0.0",
+        port=8002,
+        reload=True,
+        log_level="debug",
+    )

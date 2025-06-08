@@ -1,9 +1,0 @@
-ACRONYMS_FOLDER = "ScrapInfo"
-ENV_FILE_PATH = ".env"
-BYTES_TO_GB = 1024 * 1024 * 1024
-COURSES_ACRONYMS_PATH = ACRONYMS_FOLDER + "/CoursesAcronyms.txt"
-LOG_FOLDER = "../../logs/backend/scraping"
-OPEN_FING_URL = "https://open.fing.edu.uy"
-OPEN_FING_URL_MEDIA_URL = OPEN_FING_URL + "/media/"
-TMP_DOWNLOAD_FOLDER = "/media/diego/16_GB_NEGRO"
-VIDEO_EXTENSION = "mp4"

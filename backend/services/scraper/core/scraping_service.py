@@ -1,8 +1,10 @@
 from sqlalchemy.orm import Session
 
-from services.scraper.scrapers.course_scraper import Course as CourseSchema
-from services.scraper.scrapers.lesson_scraper import Lesson as LessonSchema
-from services.scraper.scrapers.openfing_scraper import OpenFingScraper
+from scraper.schemas.domain import SyncResult, SyncStats
+from services.scraper.core.scrapers.course_scraper import Course as CourseSchema
+from services.scraper.core.scrapers.lesson_scraper import Lesson as LessonSchema
+from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
+from shared.database.models.rag.course import Course
 from shared.database.repositories.course_repository import CourseRepository
 from shared.database.repositories.lesson_repository import LessonRepository
 from shared.logging.logger import get_logger
@@ -16,167 +18,103 @@ class ScrapingService:
     def __init__(
         self,
         db: Session,
-        course_repo: CourseRepository = None,
-        lesson_repo: LessonRepository = None,
-        scraper: OpenFingScraper = None,
+        course_repo: CourseRepository,
+        lesson_repo: LessonRepository,
+        scraper: OpenFingScraper,
     ):
-        """
-        Initialize scraping service.
-
-        Args:
-            db: Database session
-            course_repo: Course repository (will create if None)
-            lesson_repo: Lesson repository (will create if None)
-            scraper: OpenFing scraper (will create if None)
-        """
         self.db = db
-        self.course_repo = course_repo or CourseRepository(db)
-        self.lesson_repo = lesson_repo or LessonRepository(db)
-        self.scraper = scraper or OpenFingScraper()
+        self.course_repo = course_repo
+        self.lesson_repo = lesson_repo
+        self.scraper = scraper
 
-    def sync_openfing_data(self) -> dict[str, int]:
+    def sync_openfing_data(self) -> SyncResult:
         """
-        Scrape OpenFing and sync with database.
-
-        Returns:
-            Dictionary with sync statistics
+        Scrape all OpenFing courses and lessons, then sync with database.
         """
-        logger.info("Starting OpenFing data synchronization")
+        logger.info("Starting full OpenFing data synchronization")
 
-        try:
-            scraping_result = self.scraper.scrape()
+        scraping_result = self.scraper.scrape()
+        stats = self.__sync_data(scraping_result.courses, scraping_result.lessons)
 
-            courses_stats = self._sync_courses(scraping_result.courses)
-            lessons_stats = self._sync_lessons(scraping_result.lessons)
+        return SyncResult.success_result(stats)
 
-            # Commit all changes
-            self.db.commit()
+    def sync_course_only(self, course_acronym: str) -> SyncResult:
+        logger.info(f"Starting sync for course: {course_acronym=}")
 
-            total_stats = {
-                "courses_created": courses_stats["created"],
-                "courses_updated": courses_stats["updated"],
-                "lessons_created": lessons_stats["created"],
-                "lessons_updated": lessons_stats["updated"],
-                "total_courses": len(scraping_result.courses),
-                "total_lessons": len(scraping_result.lessons),
-            }
+        scraping_result = self.scraper.scrape()
 
-            logger.info(
-                f"Sync completed: {total_stats['courses_created']} courses created, "
-                f"{total_stats['lessons_created']} lessons created",
+        # Filter to target course only
+        target_course = [c for c in scraping_result.courses if c.acronym == course_acronym]
+        target_lessons = [le for le in scraping_result.lessons if le.course_acronym == course_acronym]
+
+        if not target_course:
+            logger.warning(f"Course {course_acronym} not found in scraped data")
+            return SyncResult.failure_result(
+                f"Course '{course_acronym}' not found on OpenFing",
+                course_code=course_acronym,
             )
 
-            return total_stats
+        stats = self.__sync_data(target_course, target_lessons)
+
+        return SyncResult.success_result(stats, course_code=course_acronym)
+
+    def __sync_data(self, courses: list[CourseSchema], lessons: list[LessonSchema]) -> SyncStats:
+        try:
+            # Step 1: Sync courses
+            courses_stats = self.__sync_courses(courses)
+
+            # Step 2: Sync lessons
+            course_mapping = self.course_repo.get_by_codes([course.acronym for course in courses])
+            lessons_stats = self.__sync_lessons(lessons, course_mapping)
+
+            self.db.commit()
+
+            return SyncStats(
+                courses_created=courses_stats["created"],
+                courses_updated=courses_stats["updated"],
+                lessons_created=lessons_stats["created"],
+                lessons_updated=lessons_stats["updated"],
+                total_courses=len(courses),
+                total_lessons=len(lessons),
+            )
 
         except Exception as e:
             logger.error(f"Sync failed: {e}")
             self.db.rollback()
             raise
 
-    def _sync_courses(self, scraped_courses: list[CourseSchema]) -> dict[str, int]:
-        """Sync scraped courses to database."""
-        created_count = 0
-        updated_count = 0
+    def __sync_lessons(self, scraped_lessons: list[LessonSchema], course_mapping: dict[str, Course]) -> dict[str, int]:
+        lessons_data = []
 
-        for scraped_course in scraped_courses:
-            try:
-                course, was_created = self.course_repo.update_or_create_by_code(
-                    code=scraped_course.acronym,
-                    name=scraped_course.title,
-                    subtitle=scraped_course.subtitle,
-                    course_metadata={
-                        "url": scraped_course.url,
+        for lesson in scraped_lessons:
+            course = course_mapping.get(lesson.course_acronym)
+            if not course:
+                logger.warning(f"Course {lesson.course_acronym} not found for lesson {lesson.number}")
+                continue
+
+            lessons_data.append(
+                {
+                    "course_id": course.id,
+                    "number": lesson.number,
+                    "title": lesson.title,
+                    "video_url": lesson.url,
+                },
+            )
+
+        return self.lesson_repo.bulk_sync_lessons(lessons_data)
+
+    def __sync_courses(self, scraped_courses: list[CourseSchema]) -> dict[str, int]:
+        return self.course_repo.bulk_sync_courses(
+            [
+                {
+                    "code": course.acronym,
+                    "name": course.title,
+                    "subtitle": course.subtitle,
+                    "course_metadata": {
+                        "url": course.url,
                         "scraped_from": "openfing",
                     },
-                )
-
-                if was_created:
-                    created_count += 1
-                    logger.debug(f"Created course: {course.code}")
-                else:
-                    updated_count += 1
-                    logger.debug(f"Updated course: {course.code}")
-
-            except Exception as e:
-                logger.error(f"Failed to sync course {scraped_course.acronym}: {e}")
-                continue
-
-        return {"created": created_count, "updated": updated_count}
-
-    def _sync_lessons(self, scraped_lessons: list[LessonSchema]) -> dict[str, int]:
-        """Sync scraped lessons to database."""
-        created_count = 0
-        updated_count = 0
-
-        for scraped_lesson in scraped_lessons:
-            try:
-                course = self.course_repo.get_by_code(scraped_lesson.course_acronym)
-                if not course:
-                    logger.warning(
-                        f"Course {scraped_lesson.course_acronym} not found for lesson {scraped_lesson.number}",
-                    )
-                    continue
-
-                lesson, was_created = self.lesson_repo.update_or_create_by_course_and_number(
-                    course_id=course.id,
-                    number=scraped_lesson.number,
-                    title=scraped_lesson.title,
-                    video_url=scraped_lesson.url,
-                )
-
-                if was_created:
-                    created_count += 1
-                    logger.debug(f"Created lesson: {course.code} - {lesson.number}")
-                else:
-                    updated_count += 1
-                    logger.debug(f"Updated lesson: {course.code} - {lesson.number}")
-
-            except Exception as e:
-                logger.error(f"Failed to sync lesson {scraped_lesson.course_acronym}#{scraped_lesson.number}: {e}")
-                continue
-
-        return {"created": created_count, "updated": updated_count}
-
-    def sync_course_only(self, course_acronym: str) -> dict[str, int]:
-        """
-        Sync a specific course and its lessons.
-
-        Args:
-            course_acronym: Course code to sync
-
-        Returns:
-            Dictionary with sync statistics
-        """
-        logger.info(f"Starting sync for course: {course_acronym}")
-
-        try:
-            scraping_result = self.scraper.scrape()
-
-            target_course = next((c for c in scraping_result.courses if c.acronym == course_acronym), None)
-
-            if not target_course:
-                logger.warning(f"Course {course_acronym} not found in scraped data")
-                return {"courses_created": 0, "courses_updated": 0, "lessons_created": 0, "lessons_updated": 0}
-
-            course_lessons = [lesson for lesson in scraping_result.lessons if lesson.course_acronym == course_acronym]
-
-            courses_stats = self._sync_courses([target_course])
-            lessons_stats = self._sync_lessons(course_lessons)
-
-            self.db.commit()
-
-            result = {
-                "courses_created": courses_stats["created"],
-                "courses_updated": courses_stats["updated"],
-                "lessons_created": lessons_stats["created"],
-                "lessons_updated": lessons_stats["updated"],
-                "total_lessons": len(course_lessons),
-            }
-
-            logger.info(f"Course sync completed: {result}")
-            return result
-
-        except Exception as e:
-            logger.error(f"Course sync failed: {e}")
-            self.db.rollback()
-            raise
+                }
+                for course in scraped_courses
+            ],
+        )

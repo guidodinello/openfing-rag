@@ -62,7 +62,7 @@ class VectorStore:
             use_jsonb=True,
         )
 
-        logger.info(f"Initialized PGVector store with collection: {self.config.VECTOR_STORE_COLLECTION}")
+        logger.info(f"Initialized VectorStore with collection: {self.config.VECTOR_STORE_COLLECTION}")
         return vector_store
 
     def get_collection_info(self) -> dict[str, Any]:

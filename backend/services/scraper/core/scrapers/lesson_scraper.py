@@ -3,10 +3,12 @@ from dataclasses import dataclass
 import requests
 from bs4 import BeautifulSoup, Tag
 
-from services.scraper.constants.constants import OPEN_FING_URL
+from shared.config.config import get_settings
+from shared.http.client import HTTPClient
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)
+settings = get_settings()
 
 
 @dataclass(frozen=True, slots=True)
@@ -17,17 +19,13 @@ class Lesson:
     url: str
 
 
-# TODO:
-# scrapear para sacar las clases no es la mejor idea, si cambian la interfaz de la pagina se rompe todo
-# lo mejor seria hablar con los de open fing. capaz tienen una api
-# o generann los links con un metodo especifico.
 class LessonScraper:
-    def __init__(self):
+    def __init__(self, http_client: HTTPClient):
         self.__logger = logger
-        self.__http_client = requests
+        self.__http_client = http_client
 
     def get_lessons(self, course_acronym: str) -> list[Lesson]:
-        soup = self.__get_html(f"{OPEN_FING_URL}/courses/{course_acronym}/")
+        soup = self.__get_html(f"{settings.SCRAPER.OPENFING_URL}/courses/{course_acronym}/")
 
         return [
             Lesson(

@@ -1,5 +1,10 @@
+import os
+import uuid
+from datetime import datetime
 from typing import Any
 
+import psycopg
+import sqlalchemy
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -11,12 +16,26 @@ from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)
 
+# Application namespace for deterministic UUIDs
+TRANSCRIPTION_NAMESPACE = uuid.uuid5(uuid.NAMESPACE_DNS, "openfing.transcription")
+
+
+def generate_chunk_uuid(transcription_id: int, chunk_index: int) -> str:
+    """
+    Generate a deterministic UUID for a transcription chunk.
+
+    This ensures:
+    - Same transcription + chunk always gets same UUID
+    - Clean upserts when re-transcribing
+    - Easy calculation for deletion/updates
+    """
+    seed = f"transcription_{transcription_id}_chunk_{chunk_index}"
+    return str(uuid.uuid5(TRANSCRIPTION_NAMESPACE, seed))
+
 
 class VectorRepository:
     """
-    Repository for vector store operations.
-    Uses the new PGVectorStore instead of deprecated PGVector.
-    https://github.com/langchain-ai/langchain-postgres/blob/main/README.md#vectorstore
+    Repository for vector store operations using deterministic UUIDs.
     """
 
     def __init__(self, config, db: Session):
@@ -24,21 +43,39 @@ class VectorRepository:
         self.db = db
         self.transcription_repo = TranscriptionRepository(db)
 
-        # Initialize embeddings and vector store
-        self._embeddings = self._create_embeddings()
-        self._engine = self._create_pg_engine()
-        self._vector_store = self._create_vector_store()
+        self.__embeddings = None
+        self.__engine = None
+        self.__vector_store = None
 
         logger.info("Vector repository initialized successfully")
+
+    @property
+    def _embeddings(self):
+        """Lazy load embeddings model."""
+        if self.__embeddings is None:
+            self.__embeddings = self._create_embeddings()
+        return self.__embeddings
+
+    @property
+    def _engine(self):
+        """Lazy load PG engine."""
+        if self.__engine is None:
+            self.__engine = PGEngine.from_connection_string(url=self.config.DATABASE.URL)
+        return self.__engine
+
+    @property
+    def _vector_store(self):
+        """Lazy load vector store."""
+        if self.__vector_store is None:
+            self.__vector_store = self._create_vector_store()
+        return self.__vector_store
 
     def _create_embeddings(self):
         """Create and configure embeddings model."""
         cache_folder = self.config.EMBEDDINGS.CACHE_DIR
-        if cache_folder:
-            import os
+        os.makedirs(cache_folder, exist_ok=True)
 
-            os.makedirs(cache_folder, exist_ok=True)
-
+        logger.debug("VectorRepository._create_embeddings")
         return HuggingFaceEmbeddings(
             model_name=self.config.EMBEDDINGS.MODEL,
             model_kwargs={"device": self.config.EMBEDDINGS.DEVICE},
@@ -46,30 +83,22 @@ class VectorRepository:
             encode_kwargs={"normalize_embeddings": True},
         )
 
-    def _create_pg_engine(self) -> PGEngine:
-        """Create PGEngine for the new PGVectorStore."""
-        # Convert connection string for PGVectorStore
-        conn_string = self.config.DATABASE.URL
-        if "postgresql+psycopg://" in conn_string:
-            # PGVectorStore prefers psycopg3 format
-            conn_string = conn_string.replace("postgresql+psycopg://", "postgresql+psycopg://")
-        elif "postgresql+asyncpg://" in conn_string:
-            conn_string = conn_string.replace("postgresql+asyncpg://", "postgresql+psycopg://")
-
-        return PGEngine.from_connection_string(url=conn_string)
-
     def _create_vector_store(self) -> PGVectorStore:
         """Create the new PGVectorStore."""
-        # Initialize the table for vector storage
         table_name = self.config.VECTOR_STORE_COLLECTION
 
-        # Create table if it doesn't exist
-        self._engine.init_vectorstore_table(
-            table_name=table_name,
-            vector_size=self.config.EMBEDDINGS.DIMENSION,
-        )
+        # Handle error if table already exists
+        try:
+            self._engine.init_vectorstore_table(
+                table_name=table_name,
+                vector_size=self.config.EMBEDDINGS.DIMENSION,
+            )
+            logger.info(f"Created new vector store table: {table_name}")
+        except (sqlalchemy.exc.ProgrammingError, psycopg.errors.DuplicateTable):
+            logger.debug(f"Skipping init_vectorstore_table {table_name=} already exists")
+        except Exception as e:
+            raise logger.error(f"{e=}") from e
 
-        # Create vector store instance
         vector_store = PGVectorStore.create_sync(
             engine=self._engine,
             table_name=table_name,
@@ -79,77 +108,99 @@ class VectorRepository:
         logger.info(f"Initialized PGVectorStore with table: {table_name}")
         return vector_store
 
-    def get_collection_info(self) -> dict[str, Any]:
-        """Get information about the vector store collection."""
-        conn_parts = self.config.DATABASE.URL.split("@")
-        host_info = conn_parts[1].split("/")[0] if len(conn_parts) > 1 else "unknown"
-
-        return {
-            "collection_name": self.config.VECTOR_STORE_COLLECTION,
-            "connection_host": host_info,
-            "embedding_model": self.config.EMBEDDINGS.MODEL,
-            "embedding_device": self.config.EMBEDDINGS.DEVICE,
-            "vector_dimension": self.config.EMBEDDINGS.DIMENSION,
-            "engine_type": "PGVectorStore",
-        }
-
     def ingest_transcription(self, transcription_id: int) -> list[str]:
         """
-        Ingest a transcription from the database into the vector store.
+        Ingest a transcription using deterministic UUIDs.
 
-        Args:
-            transcription_id: ID of the transcription to ingest
-
-        Returns:
-            List of added document IDs
+        Re-transcribing the same lesson will cleanly replace existing chunks.
         """
-        # Get transcription from database using repository
+        # Get transcription from database
         transcription = self.transcription_repo.get_by_id(transcription_id)
         if not transcription:
             raise ValueError(f"Transcription {transcription_id} not found")
 
-        # Chunk the transcription content
+        # Chunk the content
         chunks = self._chunk_content(
             content=transcription.content,
-            lesson_id=transcription.lesson_id,
             transcription_id=transcription.id,
+            # TODO: pensar mejor esto, la metadata del chunk deberia tener:
+            # MINIMO
+            # - start
+            # -  end
+            # - transcription_id
+            # CAPAZ (parametros de la chunking strategy)
+            # - chunking_strategy
+            # - chunk_size
+            # - overlap
             metadata=transcription.transcription_metadata or {},
         )
 
-        # Convert to LangChain documents
-        documents = [Document(page_content=chunk["text"], metadata=chunk["metadata"]) for chunk in chunks]
+        documents, ids = [], []
 
-        # Generate IDs for documents
-        ids = [chunk["metadata"]["id"] for chunk in chunks]
+        for chunk in chunks:
+            chunk_uuid = generate_chunk_uuid(transcription_id, chunk["metadata"]["chunk_index"])
 
-        # Add to vector store
+            documents.append(Document(page_content=chunk["text"], metadata=chunk["metadata"]))
+            ids.append(chunk_uuid)
+
+        # Add to vector store (will upsert if UUIDs already exist)
         added_ids = self._vector_store.add_documents(documents, ids=ids)
 
-        # Mark transcription as vectorized in database
-        self.transcription_repo.mark_as_vectorized(transcription_id)
+        embedding_metadata = {
+            "vectorized": True,
+            "embedding_model": self.__embeddings.model_name,
+            "vectorized_at": datetime.now().isoformat(),
+        }
 
-        logger.info(f"Ingested transcription {transcription_id} as {len(added_ids)} chunks")
+        self.transcription_repo.update_vectorization_metadata(transcription_id, embedding_metadata)
+
+        logger.info(f"Ingested transcription {transcription_id} as {len(added_ids)} chunks with deterministic UUIDs")
         return added_ids
 
-    def ingest_lesson_transcriptions(self, lesson_id: int) -> list[str]:
-        """
-        Ingest all transcriptions for a lesson.
+    def delete_by_transcription(self, transcription_id: int) -> bool:
+        """Delete all chunks for a transcription using calculated UUIDs."""
+        try:
+            # Get transcription to know how many chunks it had
+            transcription = self.transcription_repo.get_by_id(transcription_id)
+            if not transcription:
+                logger.warning(f"Transcription {transcription_id} not found")
+                return True
 
-        Args:
-            lesson_id: ID of the lesson
+            # TODO: improve this, dont guess, query DB
+            # Calculate all possible chunk UUIDs for this transcription
+            # We need to estimate max chunks or query the vector store
+            max_chunks = 100  # Reasonable upper bound
+            uuids_to_delete = []
 
-        Returns:
-            List of all added document IDs
-        """
-        transcriptions = self.transcription_repo.get_by_lesson_id(lesson_id)
-        all_ids = []
+            for chunk_index in range(max_chunks):
+                chunk_uuid = generate_chunk_uuid(transcription_id, chunk_index)
+                uuids_to_delete.append(chunk_uuid)
 
-        for transcription in transcriptions:
-            if not transcription.is_vectorized:
-                ids = self.ingest_transcription(transcription.id)
-                all_ids.extend(ids)
+            # Delete from vector store (non-existent UUIDs are ignored)
+            self._vector_store.delete(ids=uuids_to_delete)
+            self.transcription_repo.mark_as_not_vectorized(transcription_id)
 
-        return all_ids
+            logger.info(f"Deleted vectors for transcription {transcription_id}")
+            return True
+
+        except Exception as e:
+            logger.error(f"Error deleting vectors for transcription {transcription_id}: {e}")
+            return False
+
+    def delete_by_lesson(self, lesson_id: int) -> bool:
+        """Delete all vectors for a lesson."""
+        try:
+            transcriptions = self.transcription_repo.get_by_lesson(lesson_id)
+
+            for transcription in transcriptions:
+                self.delete_by_transcription(transcription.id)
+
+            logger.info(f"Deleted vectors for lesson {lesson_id}")
+            return True
+
+        except Exception as e:
+            logger.error(f"Error deleting vectors for lesson {lesson_id}: {e}")
+            return False
 
     def similarity_search(
         self,
@@ -159,19 +210,7 @@ class VectorRepository:
         course_codes: list[str] | None = None,
         lesson_ids: list[int] | None = None,
     ) -> list[dict[str, Any]]:
-        """
-        Perform similarity search with optional filters.
-
-        Args:
-            query: Search query
-            k: Number of results
-            filter: Custom filter dict
-            course_codes: Filter by course codes
-            lesson_ids: Filter by specific lesson IDs
-
-        Returns:
-            List of search results with documents and scores
-        """
+        """Perform similarity search with optional filters."""
         # Build filter from parameters
         search_filter = filter or {}
 
@@ -199,6 +238,7 @@ class VectorRepository:
                     "lesson_id": doc.metadata.get("lesson_id"),
                     "course_code": doc.metadata.get("course_code"),
                     "chunk_index": doc.metadata.get("chunk_index"),
+                    "vector_uuid": doc.metadata.get("vector_uuid"),
                 },
             )
 
@@ -220,68 +260,28 @@ class VectorRepository:
             search_kwargs=search_kwargs,
         )
 
-    def delete_by_lesson(self, lesson_id: int) -> bool:
-        """
-        Delete all vector chunks for a specific lesson.
+    def get_collection_info(self) -> dict[str, Any]:
+        """Get information about the vector store collection."""
+        conn_parts = self.config.DATABASE.URL.split("@")
+        host_info = conn_parts[1].split("/")[0] if len(conn_parts) > 1 else "unknown"
 
-        Args:
-            lesson_id: ID of the lesson
-
-        Returns:
-            True if deletion was successful
-        """
-        try:
-            # Delete from vector store
-            filter_criteria = {"lesson_id": {"$eq": lesson_id}}
-            self._vector_store.delete(filter=filter_criteria)
-
-            # Mark transcriptions as not vectorized
-            transcriptions = self.transcription_repo.get_by_lesson_id(lesson_id)
-            for transcription in transcriptions:
-                self.transcription_repo.mark_as_not_vectorized(transcription.id)
-
-            logger.info(f"Deleted vectors for lesson {lesson_id}")
-            return True
-
-        except Exception as e:
-            logger.error(f"Error deleting vectors for lesson {lesson_id}: {e}")
-            return False
-
-    def delete_by_transcription(self, transcription_id: int) -> bool:
-        """Delete all chunks for a specific transcription."""
-        try:
-            filter_criteria = {"transcription_id": {"$eq": transcription_id}}
-            self._vector_store.delete(filter=filter_criteria)
-
-            # Mark as not vectorized
-            self.transcription_repo.mark_as_not_vectorized(transcription_id)
-
-            logger.info(f"Deleted vectors for transcription {transcription_id}")
-            return True
-
-        except Exception as e:
-            logger.error(f"Error deleting vectors for transcription {transcription_id}: {e}")
-            return False
+        return {
+            "collection_name": self.config.VECTOR_STORE_COLLECTION,
+            "connection_host": host_info,
+            "embedding_model": self.config.EMBEDDINGS.MODEL,
+            "embedding_device": self.config.EMBEDDINGS.DEVICE,
+            "vector_dimension": self.config.EMBEDDINGS.DIMENSION,
+            "engine_type": type(self._vector_store).__name__,
+            "uuid_strategy": "deterministic",
+        }
 
     def _chunk_content(
         self,
         content: str,
-        lesson_id: int,
         transcription_id: int,
         metadata: dict[str, Any],
     ) -> list[dict[str, Any]]:
-        """
-        Chunk transcription content for vector storage.
-
-        Args:
-            content: Text content to chunk
-            lesson_id: ID of the lesson
-            transcription_id: ID of the transcription
-            metadata: Additional metadata
-
-        Returns:
-            List of chunks with text and metadata
-        """
+        """Chunk transcription content for vector storage."""
         chunk_size = 1000
         overlap = 200
         chunks = []
@@ -299,23 +299,15 @@ class VectorRepository:
                     end = start + last_space
                     chunk_text = content[start:end]
 
-            # Get course code from lesson (through repository)
-            from shared.database.repositories.lesson_repository import LessonRepository
-
-            lesson_repo = LessonRepository(self.db)
-            lesson = lesson_repo.get_by_id(lesson_id)
-            course_code = lesson.course.code if lesson and lesson.course else "unknown"
-
             chunk_metadata = {
                 **metadata,
-                "lesson_id": lesson_id,
                 "transcription_id": transcription_id,
-                "course_code": course_code,
                 "chunk_index": chunk_index,
                 "start_pos": start,
                 "end_pos": end,
-                "id": f"transcription_{transcription_id}_chunk_{chunk_index}",
-                "vectorized_at": "now",  # Add timestamp
+                "chunk_strategy": "simple_overlap",
+                "chunk_size": chunk_size,
+                "overlap": overlap,
             }
 
             chunks.append(
