@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
-from services.scraper.scrapers.course_scraper import Course, CourseScraper
-from services.scraper.scrapers.lesson_scraper import Lesson, LessonScraper
+from services.scraper.core.scrapers.course_scraper import Course, CourseScraper
+from services.scraper.core.scrapers.lesson_scraper import Lesson, LessonScraper
+from shared.http.client import HTTPClient
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)
@@ -14,10 +15,11 @@ class ScrapingResult:
 
 
 class OpenFingScraper:
-    def __init__(self):
+    def __init__(self, http_client: HTTPClient):
         self.__logger = logger
-        self.__course_scraper = CourseScraper()
-        self.__lesson_scraper = LessonScraper()
+        self.__http_client = http_client
+        self.__course_scraper = CourseScraper(self.__http_client)
+        self.__lesson_scraper = LessonScraper(self.__http_client)
 
     def scrape(self) -> ScrapingResult:
         """Scrape all courses and their lessons from OpenFing."""
