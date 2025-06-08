@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
 
-from pydantic import Field, HttpUrl, model_validator
+from pydantic import BaseModel, Field, HttpUrl, PostgresDsn, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,17 +21,15 @@ def detect_device(device: str) -> str:
         return "cpu"
 
 
-class LoggingSettings(BaseSettings):
+class LoggingSettings(BaseModel):
     LEVEL: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
         default="INFO",
         description="Logging level",
     )
     DIR: Path = Field(default="logs", description="Path to log files directory")
 
-    model_config = SettingsConfigDict(env_prefix="LOG_", extra="ignore")
 
-
-class DatabaseSettings(BaseSettings):
+class DatabaseSettings(BaseModel):
     USER: str = Field(default="postgres", description="Database username")
     PASSWORD: str = Field(default="postgres", description="Database password")
     HOST: str = Field(default="localhost", description="Database host")
@@ -41,34 +39,28 @@ class DatabaseSettings(BaseSettings):
     POOL_SIZE: int = 5
     MAX_OVERFLOW: int = 10
 
-    model_config = SettingsConfigDict(env_prefix="DATABASE_", extra="ignore")
-
     @property
-    def URL(self) -> str:
+    def URL(self) -> PostgresDsn:
         """Construct Datbase Connection String."""
         return f"postgresql+psycopg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DB}"
 
 
-class DownloaderSettings(BaseSettings):
+class DownloaderSettings(BaseModel):
     OUTPUT_DIR: Path = Field(default=Path("./audios"), description="Base directory for downloaded media files")
     WORKERS: int = Field(default=4, description="Number of concurrent workers", ge=1)
     CODEC: str = Field(default="best", description="Audio codec (best, mp3, m4a, etc.)")
     QUALITY: str = Field(default="0", description="Audio quality (0-10, 0=best)")
 
-    model_config = SettingsConfigDict(env_prefix="DOWNLOADER_", extra="ignore")
 
-
-class ScraperSettings(BaseSettings):
+class ScraperSettings(BaseModel):
     WORKERS: int = Field(default=4, description="Number of concurrent workers", ge=1)
     OPENFING_URL: HttpUrl = Field(
         default="https://open.fing.edu.uy",
         description="OpenFIng base url",
     )
 
-    model_config = SettingsConfigDict(env_prefix="SCRAPER_", extra="ignore")
 
-
-class TranscriberSettings(BaseSettings):
+class TranscriberSettings(BaseModel):
     PORT: int = Field(default=8001, description="Server port")
     INPUT_DIR: Path = Field(
         default=Path("./audios"),
@@ -76,10 +68,8 @@ class TranscriberSettings(BaseSettings):
     )
     OUTPUT_DIR: Path = Field(default=Path("./transcriptions"), description="Directory to save transcription JSON files")
 
-    model_config = SettingsConfigDict(env_prefix="TRANSCRIBER_", extra="ignore")
 
-
-class EmbeddingsSettings(BaseSettings):
+class EmbeddingsSettings(BaseModel):
     MODEL: str = Field(
         default="sentence-transformers/all-MiniLM-L6-v2",
         description="Embeddings model name",
@@ -91,15 +81,13 @@ class EmbeddingsSettings(BaseSettings):
         description="Device to run embeddings on",
     )
 
-    model_config = SettingsConfigDict(env_prefix="EMBEDDINGS_", extra="ignore")
-
     @model_validator(mode="after")
     def detect_device(self):
         self.DEVICE = detect_device(self.DEVICE)
         return self
 
 
-class WhisperSettings(BaseSettings):
+class WhisperSettings(BaseModel):
     MODEL: str = Field(default="tiny", description="Whisper model name")
     CACHE_DIR: Path | None = Field(default=None, description="Model cache directory")
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
@@ -107,22 +95,18 @@ class WhisperSettings(BaseSettings):
         description="Device to run embeddings on",
     )
 
-    model_config = SettingsConfigDict(env_prefix="WHISPER_", extra="ignore")
-
     @model_validator(mode="after")
     def detect_device(self):
         self.DEVICE = detect_device(self.DEVICE)
         return self
 
 
-class PrefectSettings(BaseSettings):
+class PrefectSettings(BaseModel):
     API_URL: HttpUrl = Field(
         default="http://127.0.0.1:4200/api",
         description="Prefect API URL",
     )
     DB: str = Field(default="prefect", description="Prefect database name")
-
-    model_config = SettingsConfigDict(env_prefix="PREFECT_", extra="ignore")
 
 
 class Settings(BaseSettings):
@@ -133,6 +117,7 @@ class Settings(BaseSettings):
     DOWNLOADER: DownloaderSettings = Field(default_factory=DownloaderSettings)
     TRANSCRIBER: TranscriberSettings = Field(default_factory=TranscriberSettings)
     SCRAPER: ScraperSettings = Field(default_factory=ScraperSettings)
+    PREFECT: PrefectSettings = Field(default_factory=PrefectSettings)
 
     # Project paths
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
@@ -171,22 +156,12 @@ class Settings(BaseSettings):
     LANGSMITH_API_KEY: str = Field(description="LangSmith API key")
 
     model_config = SettingsConfigDict(
+        env_file=".env",
         env_file_encoding="utf-8",
         frozen=True,
         extra="ignore",
+        env_nested_delimiter="_",
     )
-
-    def __init__(self, *args, **kwargs):
-        _env_file = kwargs.get("_env_file")
-        kwargs["DATABASE"] = DatabaseSettings(_env_file=_env_file)
-        kwargs["LOG"] = LoggingSettings(_env_file=_env_file)
-        kwargs["WHISPER"] = WhisperSettings(_env_file=_env_file)
-        kwargs["EMBEDDINGS"] = EmbeddingsSettings(_env_file=_env_file)
-        kwargs["PREFECT"] = PrefectSettings(_env_file=_env_file)
-        kwargs["DOWNLOADER"] = DownloaderSettings(_env_file=_env_file)
-        kwargs["TRANSCRIBER"] = TranscriberSettings(_env_file=_env_file)
-        kwargs["SCRAPER"] = ScraperSettings(_env_file=_env_file)
-        super().__init__(*args, **kwargs)
 
     @model_validator(mode="before")
     @classmethod
@@ -201,4 +176,4 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    return Settings(_env_file=".env")
+    return Settings()
