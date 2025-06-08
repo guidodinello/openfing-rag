@@ -161,7 +161,7 @@ def database_info() -> None:
     table.add_row("Schema", "rag")
     table.add_row("Pool Size", str(settings.DATABASE.POOL_SIZE))
     table.add_row("Max Overflow", str(settings.DATABASE.MAX_OVERFLOW))
-    table.add_row("Vector Collection", settings.VECTOR_STORE_COLLECTION)
+    table.add_row("Vector Collection", settings.DATABASE.VECTOR_STORE_COLLECTION)
 
     console.print(table)
 
@@ -194,7 +194,7 @@ def test_vector_store() -> None:
     try:
         from shared.database.vectorstore import VectorStore
 
-        vector_store = VectorStore(config=settings)
+        vector_store = VectorStore(settings)
         info = vector_store.get_collection_info()
 
         table = Table(title="Vector Store Information")

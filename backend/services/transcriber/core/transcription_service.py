@@ -32,7 +32,7 @@ class TranscriptionService:
         self.transcription_repo = transcription_repo
         self.vector_repo = vector_repo
 
-        self.media_base_path = Path(settings.TRANSCRIBER.MEDIA_BASE_PATH)
+        self.media_base_path = Path(settings.TRANSCRIBER.INPUT_DIR)
         self.output_dir = Path(settings.TRANSCRIBER.OUTPUT_DIR)
 
         logger.info("TranscriptionService initialized")

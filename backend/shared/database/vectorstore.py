@@ -7,6 +7,7 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_postgres import PGVector
 
+from shared.config.config import Settings
 from shared.logging.logger import get_logger
 
 from .data_models import SearchResult
@@ -15,7 +16,7 @@ logger = get_logger(__name__)
 
 
 class VectorStore:
-    def __init__(self, config):
+    def __init__(self, config: Settings):
         """
         Initialize the vector store with the provided configuration.
 
@@ -42,23 +43,10 @@ class VectorStore:
 
     def _create_vector_store(self) -> PGVector:
         """Create the PGVector store using langchain-postgres."""
-        # Ensure connection string uses the right driver for langchain-postgres
-        conn_string = self.config.DATABASE.URL
-        if "postgresql+psycopg2" in conn_string:
-            conn_string = conn_string.replace(
-                "postgresql+psycopg2",
-                "postgresql+psycopg",
-            )
-        elif "postgresql+asyncpg" in conn_string:
-            conn_string = conn_string.replace(
-                "postgresql+asyncpg",
-                "postgresql+psycopg",
-            )
-
         vector_store = PGVector(
             embeddings=self._embeddings,
-            collection_name=self.config.VECTOR_STORE_COLLECTION,
-            connection=conn_string,
+            collection_name=self.config.DATABASE.VECTOR_STORE_COLLECTION,
+            connection=self.config.DATABASE.URL,
             use_jsonb=True,
         )
 

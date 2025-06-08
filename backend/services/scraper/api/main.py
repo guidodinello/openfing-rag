@@ -8,13 +8,15 @@ settings = get_settings()
 
 
 def create_app() -> FastAPI:
+    service_base_url = f"{settings.API_V1_STR}/scraper"
+
     app = FastAPI(
-        title="Scraper Service",
-        description="API for scraping courses and lessons from OpenFIng",
-        version="1.0.0",
-        openapi_url=f"{settings.API_V1_STR}/openapi.json",
-        docs_url=f"{settings.API_V1_STR}/docs",
-        redoc_url=f"{settings.API_V1_STR}/redoc",
+        title=settings.APP_NAME,
+        description=settings.APP_DESCRIPTION,
+        version=settings.APP_VERSION,
+        openapi_url=f"{service_base_url}/openapi.json",
+        docs_url=f"{service_base_url}/docs",
+        redoc_url=f"{service_base_url}/redoc",
         license_info={
             "name": "MIT",
             "url": "https://opensource.org/licenses/MIT",
@@ -23,7 +25,7 @@ def create_app() -> FastAPI:
 
     setup_middlewares(app)
 
-    app.include_router(api_router, prefix=settings.API_V1_STR)
+    app.include_router(api_router, prefix=service_base_url)
     return app
 
 
