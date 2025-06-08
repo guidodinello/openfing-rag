@@ -11,6 +11,7 @@ from shared.database.repositories.lesson_repository import LessonRepository
 from shared.database.repositories.transcription_repository import TranscriptionRepository
 from shared.database.repositories.vector_repository import VectorRepository
 from shared.logging.logger import get_logger
+from shared.utils import deep_get
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -82,138 +83,6 @@ class TranscriptionService:
                 data={"course_code": course_code, "lesson_number": lesson_number},
             )
 
-    def _handle_transcription(
-        self,
-        lesson,
-        course_code: str,
-        lesson_number: int,
-        model_size: WhisperModelSize,
-        language: WhisperModelLanguage,
-        force_retranscribe: bool,
-    ) -> tuple[int | None, bool]:
-        """Handle transcription logic, return (transcription_id, was_transcribed)."""
-        ## TODO: we should retrieve the one made for this model_size and language not the latest
-        existing = self.transcription_repo.get_latest_by_lesson_id(lesson.id)
-
-        if existing and not force_retranscribe:
-            logger.info(f"Using existing transcription {existing.id}")
-            return existing.id, False
-
-        # Need to transcribe
-        media_file = self._find_media_file(course_code, lesson_number)
-        if not media_file:
-            logger.error(f"Media file not found for {course_code=} lesson {lesson_number=}")
-            return None, False
-
-        transcription_id = self._perform_transcription(lesson.id, media_file, model_size, language)
-        return transcription_id, True
-
-    def _perform_transcription(
-        self,
-        lesson_id: int,
-        media_file: Path,
-        model_size: WhisperModelSize,
-        language: WhisperModelLanguage,
-    ) -> int:
-        transcriber = Transcriber(
-            audio_path=str(media_file),
-            output_dir=str(self.output_dir),
-            model_size=model_size,
-            language=language,
-        )
-
-        result = transcriber.transcribe()
-        metadata = self._build_transcription_metadata(result, media_file, model_size, language)
-
-        ## TODO: we should consider, only update if it matches another one with the same
-        # model_size and language, it shouldnt overwrite if those not match
-        transcription = self.transcription_repo.create_or_update_for_lesson(
-            lesson_id=lesson_id,
-            content=result["text"],
-            metadata=metadata,
-        )
-
-        logger.info(f"Transcription completed with ID: {transcription.id}")
-        return transcription.id
-
-    def _build_transcription_metadata(
-        self,
-        transcription_result: dict,
-        media_file: Path,
-        model_size: WhisperModelSize,
-        language: WhisperModelLanguage,
-    ) -> dict:
-        segments = transcription_result.get("segments", [])
-        return {
-            # add asr model
-            "whisper_model": model_size.value,
-            "model_size": model_size.value,
-            "language": language.value,
-            # add embeddings model
-            "duration": segments[-1].get("end", 0) if segments else 0,
-            "segments_count": len(segments),
-            "processing_time": transcription_result.get("processing_time", 0),
-            "source_file": str(media_file),
-            "file_size_bytes": media_file.stat().st_size,
-            "created_by": "transcription_service",
-        }
-
-    def _handle_vectorization(self, transcription_id: int, force_revectorize: bool) -> bool:
-        """Handle vectorization logic, return whether vectorization occurred."""
-        if not self._should_vectorize(transcription_id, force_revectorize):
-            logger.info(f"Transcription {transcription_id} already vectorized, skipping")
-            return False
-
-        try:
-            if force_revectorize:
-                logger.info(f"Force revectorize: removing existing vectors for transcription {transcription_id}")
-                self.vector_repo.delete_by_transcription(transcription_id)
-
-            vector_ids = self.vector_repo.ingest_transcription(transcription_id)
-            logger.info(f"Added transcription to vector store: {len(vector_ids)} chunks")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to add to vector store: {e}")
-            return False
-
-    def _should_vectorize(self, transcription_id: int, force_revectorize: bool) -> bool:
-        """Determine if a transcription should be vectorized."""
-        if force_revectorize:
-            return True
-        return not self.transcription_repo.is_vectorized(transcription_id)
-
-    def _build_success_response(
-        self,
-        transcription_id: int,
-        course_code: str,
-        lesson_number: int,
-        transcribed: bool,
-        vectorized: bool,
-    ) -> TranscriptionResult:
-        """Build success response with appropriate message."""
-        actions = []
-        if transcribed:
-            actions.append("transcribed")
-        if vectorized:
-            actions.append("vectorized")
-
-        if not actions:
-            message = "transcription_already_exists_and_vectorized"
-        else:
-            message = f"transcription_{'_and_'.join(actions)}"
-
-        return TranscriptionResult.success_result(
-            message=message,
-            transcription_id=transcription_id,
-            data={
-                "course_code": course_code,
-                "lesson_number": lesson_number,
-                "transcribed": transcribed,
-                "vectorized": vectorized,
-            },
-        )
-
     def revectorize_transcription(self, transcription_id: int) -> TranscriptionResult:
         """Force revectorization of a specific transcription."""
         try:
@@ -264,29 +133,6 @@ class TranscriptionService:
             logger.error(f"Error scanning lessons for {course_code}: {e}")
             return LessonScanResult(success=False, message=f"Failed to scan lessons: {str(e)}", lessons=[])
 
-    def _scan_course_folder(self, course_folder: Path, course_code: str) -> list[dict]:
-        """Scan folder for lesson files and return lesson data."""
-        lessons = []
-        extensions = [".mp3", ".m4a", ".wav", ".flac", ".mp4", ".mkv", ".avi"]
-
-        for file_path in course_folder.iterdir():
-            if not file_path.is_file() or file_path.suffix.lower() not in extensions:
-                continue
-
-            lesson_number = self._extract_lesson_number(file_path.stem, course_code)
-            if lesson_number:
-                lessons.append(
-                    {
-                        "lesson_number": lesson_number,
-                        "filename": file_path.name,
-                        "file_size": file_path.stat().st_size,
-                        "file_path": str(file_path),
-                        "extension": file_path.suffix,
-                    },
-                )
-
-        return sorted(lessons, key=lambda x: x["lesson_number"])
-
     def list_transcriptions(
         self,
         course_code: str | None = None,
@@ -294,7 +140,6 @@ class TranscriptionService:
     ) -> TranscriptionListResult:
         """List transcriptions with optional filtering."""
         try:
-            # Direct repository call with filtering
             transcriptions = self.transcription_repo.get_filtered_transcriptions(
                 course_code=course_code,
                 unvectorized_only=unvectorized_only,
@@ -324,22 +169,6 @@ class TranscriptionService:
                 message=f"Failed to list transcriptions: {str(e)}",
                 data={"transcriptions": [], "total_count": 0, "error": str(e)},
             )
-
-    ## TODO: return a transcription dataclass?
-    def _format_transcription_data(self, transcription) -> dict:
-        """Format single transcription for API response."""
-        return {
-            "id": transcription.id,
-            "lesson_id": transcription.lesson_id,
-            "course_code": transcription.lesson.course.code,
-            "lesson_number": transcription.lesson.number,
-            "lesson_title": transcription.lesson.title,
-            "content_length": len(transcription.content) if transcription.content else 0,
-            "model_size": transcription.transcription_metadata.get("model_size"),
-            "language": transcription.transcription_metadata.get("language"),
-            "is_vectorized": transcription.transcription_metadata.get("vectorized", False),
-            "created_at": transcription.created_at.isoformat() if transcription.created_at else None,
-        }
 
     def get_transcription(
         self,
@@ -409,6 +238,29 @@ class TranscriptionService:
                 data={"transcription_id": transcription_id},
             )
 
+    def _scan_course_folder(self, course_folder: Path, course_code: str) -> list[dict]:
+        """Scan folder for lesson files and return lesson data."""
+        lessons = []
+        extensions = [".mp3", ".m4a", ".wav", ".flac", ".mp4", ".mkv", ".avi"]
+
+        for file_path in course_folder.iterdir():
+            if not file_path.is_file() or file_path.suffix.lower() not in extensions:
+                continue
+
+            lesson_number = self._extract_lesson_number(file_path.stem, course_code)
+            if lesson_number:
+                lessons.append(
+                    {
+                        "lesson_number": lesson_number,
+                        "filename": file_path.name,
+                        "file_size": file_path.stat().st_size,
+                        "file_path": str(file_path),
+                        "extension": file_path.suffix,
+                    },
+                )
+
+        return sorted(lessons, key=lambda x: x["lesson_number"])
+
     def _extract_lesson_number(self, filename: str, course_code: str) -> int | None:
         """Extract lesson number from filename."""
         import re
@@ -446,3 +298,154 @@ class TranscriptionService:
 
         logger.error(f"No media file found matching pattern: {file_pattern}.*")
         return None
+
+    ## TODO: return a transcription dataclass?
+    def _format_transcription_data(self, transcription) -> dict:
+        """Format single transcription for API response."""
+        return {
+            "id": transcription.id,
+            "lesson_id": transcription.lesson_id,
+            "course_code": transcription.lesson.course.code,
+            "lesson_number": transcription.lesson.number,
+            "lesson_title": transcription.lesson.title,
+            "content_length": len(transcription.content) if transcription.content else 0,
+            "model_size": transcription.transcription_metadata.get("model_size"),
+            "language": transcription.transcription_metadata.get("language"),
+            "is_vectorized": transcription.transcription_metadata.get("vectorized", False),
+            "created_at": transcription.created_at.isoformat() if transcription.created_at else None,
+        }
+
+    def _handle_transcription(
+        self,
+        lesson,
+        course_code: str,
+        lesson_number: int,
+        model_size: WhisperModelSize,
+        language: WhisperModelLanguage,
+        force_retranscribe: bool,
+    ) -> tuple[int | None, bool]:
+        """Handle transcription logic, return (transcription_id, was_transcribed)."""
+        ## TODO: we should retrieve the one made for this model_size and language not the latest
+        existing = self.transcription_repo.get_latest_by_lesson_id(lesson.id)
+
+        if existing and not force_retranscribe:
+            logger.info(f"Using existing transcription {existing.id}")
+            return existing.id, False
+
+        # Need to transcribe
+        media_file = self._find_media_file(course_code, lesson_number)
+        if not media_file:
+            logger.error(f"Media file not found for {course_code=} lesson {lesson_number=}")
+            return None, False
+
+        transcription_id = self._perform_transcription(lesson.id, media_file, model_size, language)
+        return transcription_id, True
+
+    def _perform_transcription(
+        self,
+        lesson_id: int,
+        media_file: Path,
+        model_size: WhisperModelSize,
+        language: WhisperModelLanguage,
+    ) -> int:
+        transcriber = Transcriber(
+            audio_path=str(media_file),
+            output_dir=str(self.output_dir),
+            model_size=model_size,
+            language=language,
+        )
+
+        result = transcriber.transcribe()
+        metadata = self._build_transcription_metadata(result, media_file)
+
+        ## TODO: we should consider, only update if it matches another one with the same
+        # model_size and language, it shouldnt overwrite if those not match
+        transcription = self.transcription_repo.create_or_update_for_lesson(
+            lesson_id=lesson_id,
+            content=result["text"],
+            metadata=metadata,
+        )
+
+        logger.info(f"Transcription completed with ID: {transcription.id}")
+        return transcription.id
+
+    def _build_transcription_metadata(
+        self,
+        transcription_result: dict,
+        media_file: Path,
+    ) -> dict:
+        segments = transcription_result.get("segments", [])
+
+        return {
+            # ASR Model Info
+            "asr_model": "whisper",
+            "asr_model_size": deep_get(transcription_result, "asr_model", "model", "size", default="unknown"),
+            "asr_language": transcription_result.get("language"),
+            # Content Metrics
+            "duration_seconds": segments[-1].get("end", 0.0) if segments else 0.0,
+            "segments_count": len(segments),
+            "content_length": len(transcription_result.get("text", "")),
+            # Processing Info
+            "processing_time": transcription_result.get("processing_time", 0.0),
+            "source_file": str(media_file),
+            "file_size_bytes": media_file.stat().st_size,
+            # Vectorization Status
+            "vectorized": False,
+            "embedding_model": None,
+            # System Info
+            "created_by": "transcription_service",
+        }
+
+    def _handle_vectorization(self, transcription_id: int, force_revectorize: bool) -> bool:
+        """Handle vectorization logic, return whether vectorization occurred."""
+        if not self._should_vectorize(transcription_id, force_revectorize):
+            logger.info(f"Transcription {transcription_id} already vectorized, skipping")
+            return False
+
+        try:
+            if force_revectorize:
+                logger.info(f"Force revectorize: removing existing vectors for transcription {transcription_id}")
+                self.vector_repo.delete_by_transcription(transcription_id)
+
+            vector_ids = self.vector_repo.ingest_transcription(transcription_id)
+            logger.info(f"Added transcription to vector store: {len(vector_ids)} chunks")
+            return True
+
+        except Exception as e:
+            logger.error(f"Failed to add to vector store: {e}")
+            return False
+
+    def _should_vectorize(self, transcription_id: int, force_revectorize: bool) -> bool:
+        if force_revectorize:
+            return True
+        return not self.transcription_repo.is_vectorized(transcription_id)
+
+    def _build_success_response(
+        self,
+        transcription_id: int,
+        course_code: str,
+        lesson_number: int,
+        transcribed: bool,
+        vectorized: bool,
+    ) -> TranscriptionResult:
+        actions = []
+        if transcribed:
+            actions.append("transcribed")
+        if vectorized:
+            actions.append("vectorized")
+
+        if not actions:
+            message = "transcription_already_exists_and_vectorized"
+        else:
+            message = f"transcription_{'_and_'.join(actions)}"
+
+        return TranscriptionResult.success_result(
+            message=message,
+            transcription_id=transcription_id,
+            data={
+                "course_code": course_code,
+                "lesson_number": lesson_number,
+                "transcribed": transcribed,
+                "vectorized": vectorized,
+            },
+        )
