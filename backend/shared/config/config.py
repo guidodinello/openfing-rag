@@ -43,13 +43,33 @@ class DatabaseSettings(BaseSettings):
         return self.URL.replace("postgresql+psycopg://", "postgresql+asyncpg://")
 
 
-class WhisperSettings(BaseSettings):
-    MODEL: str = Field(default="tiny", description="Whisper model name")
-    model_config = SettingsConfigDict(env_prefix="WHISPER_", extra="ignore")
+class DownloaderSettings(BaseSettings):
+    OUTPUT_DIR: Path = Field(default=Path("./audios"), description="Base directory for downloaded media files")
+    WORKERS: int = Field(default=4, description="Number of concurrent download workers", ge=1)
+    CODEC: str = Field(default="best", description="Audio codec (best, mp3, m4a, etc.)")
+    QUALITY: str = Field(default="0", description="Audio quality (0-10, 0=best)")
+
+    model_config = SettingsConfigDict(env_prefix="DOWNLOADER_", extra="ignore")
+
+
+class ScraperSettings(BaseSettings):
+    WORKERS: int = Field(default=4, description="Number of concurrent download workers", ge=1)
+    OPENFING_URL: HttpUrl = Field(
+        default="https://open.fing.edu.uy",
+        description="OpenFIng base url",
+    )
+
+    model_config = SettingsConfigDict(env_prefix="SCRAPER_", extra="ignore")
 
 
 class TranscriberSettings(BaseSettings):
     PORT: int = Field(default=8001, description="Server port")
+    MEDIA_BASE_PATH: Path = Field(
+        default=Path("./audios"),
+        description="Base path to look for media files",
+    )
+    OUTPUT_DIR: Path = Field(default=Path("./transcriptions"), description="Directory to save transcription JSON files")
+
     model_config = SettingsConfigDict(env_prefix="TRANSCRIBER_", extra="ignore")
 
 
@@ -66,12 +86,51 @@ class EmbeddingsSettings(BaseSettings):
         Increase if you have more GPU memory.""",
         ge=1,
     )
-    DEVICE: Literal["cpu", "cuda"] = Field(
-        default="cpu",
+    DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
+        default="auto",
         description="Device to run embeddings on",
     )
 
     model_config = SettingsConfigDict(env_prefix="EMBEDDINGS_", extra="ignore")
+
+    @model_validator(mode="after")
+    def detect_device(self):
+        """Auto-detect device if needed."""
+        if self.DEVICE == "auto":
+            import torch
+
+            if torch.cuda.is_available():
+                self.DEVICE = "cuda"
+            elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+                self.DEVICE = "mps"
+            else:
+                self.DEVICE = "cpu"
+        return self
+
+
+class WhisperSettings(BaseSettings):
+    MODEL: str = Field(default="tiny", description="Whisper model name")
+    CACHE_DIR: None | str = Field(default=None, description="Model cache directory")
+    DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
+        default="auto",
+        description="Device to run embeddings on",
+    )
+
+    model_config = SettingsConfigDict(env_prefix="WHISPER_", extra="ignore")
+
+    @model_validator(mode="after")
+    def detect_device(self):
+        """Auto-detect device if needed."""
+        if self.DEVICE == "auto":
+            import torch
+
+            if torch.cuda.is_available():
+                self.DEVICE = "cuda"
+            elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+                self.DEVICE = "mps"
+            else:
+                self.DEVICE = "cpu"
+        return self
 
 
 class Settings(BaseSettings):
@@ -79,7 +138,9 @@ class Settings(BaseSettings):
     LOG: LoggingSettings = Field(default_factory=LoggingSettings)
     WHISPER: WhisperSettings = Field(default_factory=WhisperSettings)
     EMBEDDINGS: EmbeddingsSettings = Field(default_factory=EmbeddingsSettings)
+    DOWNLOADER: DownloaderSettings = Field(default_factory=DownloaderSettings)
     TRANSCRIBER: TranscriberSettings = Field(default_factory=TranscriberSettings)
+    SCRAPER: ScraperSettings = Field(default_factory=ScraperSettings)
 
     # Project paths
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
@@ -153,7 +214,9 @@ class Settings(BaseSettings):
         kwargs["LOG"] = LoggingSettings(_env_file=_env_file)
         kwargs["WHISPER"] = WhisperSettings(_env_file=_env_file)
         kwargs["EMBEDDINGS"] = EmbeddingsSettings(_env_file=_env_file)
+        kwargs["DOWNLOADER"] = DownloaderSettings(_env_file=_env_file)
         kwargs["TRANSCRIBER"] = TranscriberSettings(_env_file=_env_file)
+        kwargs["SCRAPER"] = ScraperSettings(_env_file=_env_file)
         super().__init__(*args, **kwargs)
 
     @model_validator(mode="before")
