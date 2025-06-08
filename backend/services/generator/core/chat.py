@@ -5,7 +5,7 @@ from langchain_core.documents import Document
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from generator.core.database import get_db
-from generator.schemas.chat import ChatMessage, ChatResponse
+from generator.schemas.api import ChatMessage, ChatResponse
 from generator.services.llm import LLMService
 from shared.config.config import Settings, get_settings
 from shared.database.models import Chunk
