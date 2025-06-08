@@ -3,8 +3,6 @@ from sqlalchemy.orm import Session
 from shared.database.repositories.course_repository import CourseRepository
 from shared.database.repositories.lesson_repository import LessonRepository
 from shared.database.repositories.user_repository import UserRepository
-from shared.database.seeders import CourseSeeder, LessonSeeder
-from shared.database.seeders.transcription import TranscriptionSeeder
 from shared.database.seeders.user import UserSeeder
 from shared.logging.logger import get_logger
 
@@ -25,9 +23,9 @@ class DatabaseSeeder:
 
         self.seeders = [
             UserSeeder(db, self.user_repo),
-            CourseSeeder(db, self.course_repo),
-            LessonSeeder(db, self.lesson_repo, self.course_repo),
-            TranscriptionSeeder(db, self.lesson_repo),
+            # CourseSeeder(db, self.course_repo),
+            # LessonSeeder(db, self.lesson_repo, self.course_repo),
+            # TranscriptionSeeder(db, self.lesson_repo),
         ]
 
     def run(self) -> None:
