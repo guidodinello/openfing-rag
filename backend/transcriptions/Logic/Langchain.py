@@ -1,10 +1,3 @@
-# from langchain.llms import Ollama
-# from datetime import datetime  # Asegúrate de tener esta línea al inicio del archivo
-# from langchain.llms import ChatGroq
-# from langchain.llms import Cohere
-# from langchain.llms import Together
-# from langchain.llms import Cohere
-# from datetime import datetime, UTC
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch
 from langchain_core.documents import Document
@@ -20,7 +13,6 @@ import datetime
 import json
 import os
 
-
 # Initialize Ollama model
 class MongoElasticsearchSync:
     """
@@ -30,31 +22,25 @@ class MongoElasticsearchSync:
         self.mongo_client = MongoClient(mongo_uri)
         self.db = self.mongo_client[db_name]
         self.collection = self.db[collection_name]
-        
         self.es_client = Elasticsearch(hosts=[{"host": "localhost", "port": 9200, "scheme": "http"}])
         self.index_name = index_name
-        self.timestamp_file = f"{index_name}_last_sync.json"
-        
         self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        # llm = ChatGrok(
-        #     groq_api_key="your-groq-api-key",
-        #     model_name="mixtral-8x7b-32768"  # or "llama2-70b-4096"
-        # )
-        # llm = Together(
-        #     model="togethercomputer/llama-2-7b-chat",
-        #     together_api_key="your-together-api-key"
-        # )
         self.llm = OllamaLLM(model="llama3.2")
-        # llm = Cohere(cohere_api_key="your-cohere-api-key")
-        # llm = ChatGroq(
-        #     groq_api_key="your-groq-api-key",
-        #     model_name="mixtral-8x7b-32768"  # or "llama2-70b-4096"
-        # )
-        # self.llm = ChatOpenAI(api_key=api_key, model="gpt-3.5-turbo")
         self.es_vectorstore = None
-        
+        self.timestamp_file = f"{index_name}_sync_timestamp.json"
+    
+    def get_mongo_iterable(self) -> dict:
+        last_sync_timestamp=self.get_last_sync_timestamp()
+        if last_sync_timestamp is not None:
+            query = {"created_at": {"$gt": last_sync_timestamp}}
+        else:
+            query = {}
+            last_sync_timestamp = datetime.datetime.now()
+            self.save_last_sync_timestamp(last_sync_timestamp)
+        cursor = self.collection.find(query).sort("_id", 1)
+        return cursor, last_sync_timestamp
+    
     def get_last_sync_timestamp(self) -> Optional[datetime]:
-        
         """Retrieve the last sync timestamp from file."""
         try:
             if os.path.exists(self.timestamp_file):
@@ -76,108 +62,53 @@ class MongoElasticsearchSync:
                 }, f)
         except Exception as e:
             print(f"Error saving sync timestamp: {e}")
-
-    def get_mongodb_query(self, last_sync_timestamp: Optional[datetime]) -> Dict[str, Any]:
-        """Build MongoDB query based on last sync timestamp."""
-        if last_sync_timestamp:
-            return {
-                "$or": [
-                    {"created_at": {"$gt": last_sync_timestamp}},
-                    {"updated_at": {"$gt": last_sync_timestamp}}
-                ]
-            }
-        return {}
-
-    def process_mongodb_documents(self, cursor) -> tuple[List[Document], Optional[datetime]]:
+    
+    def process_mongodb_documents(self) -> tuple[List[Document], Optional[datetime]]:
         """Process MongoDB documents and convert to LangChain documents (chunks only)."""
+        cursor, last_sync_date = self.get_mongo_iterable()
         langchain_documents = []
         processed_count = 0
-        latest_timestamp = None
         
         for chunk_data in cursor:
-            chunks_list = chunk_data.get("chunks")
-            
-            doc_timestamp = chunk_data.get("updated_at") or chunk_data.get("created_at")
-            if doc_timestamp and (latest_timestamp is None or doc_timestamp > latest_timestamp):
-                latest_timestamp = doc_timestamp
-            
-            if isinstance(chunks_list, list):
-                for chunk in chunks_list:
-                    if isinstance(chunk, str) and chunk.strip():
-                        doc = Document(page_content=chunk)
-                        langchain_documents.append(doc)
-                    elif chunk and not isinstance(chunk, str):
-                        print(f"Warning: Non-string chunk found: {type(chunk)}")
-            else:
-                print(f"Warning: 'chunks' field is not a list in document {chunk_data.get('_id')}")
-            
+            created_at = chunk_data.get("created_at")
+            if not created_at or created_at >= last_sync_date:
+                continue
+            chunks500_list = chunk_data.get("chunks500")
+            metadata = {
+                "title": chunk_data.get("title"),
+                "subtitle": chunk_data.get("subtitle"),
+                "class": chunk_data.get("class"),
+            }
+            for chunk in chunks500_list:
+                doc = Document(page_content=chunk, metadata=metadata)
+                langchain_documents.append(doc)
             processed_count += 1
         
         print(f"Processed {processed_count} documents from MongoDB.")
         print(f"Created {len(langchain_documents)} documents for indexing.")
-        
-        return langchain_documents, latest_timestamp
+        return langchain_documents
     
-    def initialize_vectorstore(self, create_new: bool = False) -> ElasticsearchStore:
-        """Initialize or create Elasticsearch vector store."""
-        return ElasticsearchStore(
-            es_connection=self.es_client,
-            index_name=self.index_name,
-            embedding=self.embeddings,
-            distance_strategy="COSINE"
-        )
-
+    def initialize_vectorstore(self) -> ElasticsearchStore:
+        """
+        Initialize the Elasticsearch vector store.
+        If the index exists, it will be used; otherwise, a new one will be created.
+        """
+        self.es_vectorstore = ElasticsearchStore(
+                es_connection=self.es_client,
+                index_name=self.index_name,
+                embedding=self.embeddings,
+                distance_strategy="COSINE"
+            )
+        return self.es_vectorstore
+        
     def sync_documents(self) -> None:
         """Main synchronization method."""
         print(f"Starting synchronization for index: {self.index_name}")
-        
-        last_sync_timestamp = self.get_last_sync_timestamp()
-        
-        index_exists = self.es_client.indices.exists(index=self.index_name)
-        has_documents = False
-        
-        if index_exists:
-            doc_count = self.es_client.count(index=self.index_name)['count']
-            has_documents = doc_count > 0
-            print(f"Index '{self.index_name}' exists with {doc_count} documents.")
-        else:
-            print(f"Index '{self.index_name}' does not exist.")
-        
-        if has_documents and last_sync_timestamp:
-            print(f"Checking for documents updated since: {last_sync_timestamp}")
-            mongo_query = self.get_mongodb_query(last_sync_timestamp)
-        else:
-            print("Loading all documents from MongoDB...")
-            mongo_query = {}
-        
-        cursor = self.collection.find(mongo_query).sort("_id", 1)
-        langchain_documents, latest_timestamp = self.process_mongodb_documents(cursor)
+        self.es_vectorstore = self.initialize_vectorstore()
+        langchain_documents= self.process_mongodb_documents()
         
         if langchain_documents:
-            if not index_exists:
-                self.es_vectorstore = ElasticsearchStore.from_documents(
-                    documents=langchain_documents,
-                    embedding=self.embeddings,
-                    es_connection=self.es_client,
-                    index_name=self.index_name,
-                    distance_strategy="COSINE"
-                )
-                print(f"Created index and added {len(langchain_documents)} documents.")
-            else:
-                self.es_vectorstore = self.initialize_vectorstore()
-                self.es_vectorstore.add_documents(langchain_documents)
-                print(f"Added {len(langchain_documents)} new documents to existing index.")
-            
-            if latest_timestamp:
-                self.save_last_sync_timestamp(latest_timestamp)
-                print(f"Updated sync timestamp: {latest_timestamp}")
-        else:
-            self.es_vectorstore = self.initialize_vectorstore()
-            print("No documents found to add, but initialized vector store.")
-            
-            if last_sync_timestamp is None:
-                self.save_last_sync_timestamp(datetime.now())
-                print("Initialized sync timestamp.")
+                self.es_vectorstore.add_documents(langchain_documents) 
 
     def send_query(self, query: str="¿Que fuerzas aplican sobre un auto en movimiento?", k: int = 6, score_threshold: float = 0.7) -> dict:
         """
@@ -190,18 +121,22 @@ class MongoElasticsearchSync:
             Dictionary with answer and source chunks
         """
         qa_chain = self.create_qa_chain()
+        print(f"~*60")
         docs_with_scores = self.es_vectorstore.similarity_search_with_score(query, k=k)
         relevant_chunks = [
             (doc, score) for doc, score in docs_with_scores 
             if score >= score_threshold
         ]
-
+        print(f"~*60")
         if not relevant_chunks:
             return {
                 "answer": "No semantically relevant chunks found above threshold.",
                 "sources": []
             }
         docs = [doc for doc, score in relevant_chunks]
+        print(f"Found {len(docs)} relevant chunks with scores above {score_threshold}.")
+        print(f"~*60")
+        print(f"{docs[0]}")
         answer = qa_chain.invoke({"query": query})["result"]
         print(answer)
         
@@ -275,6 +210,7 @@ class MongoElasticsearchSync:
                 filtered.append(chunk)
 
         return filtered
+    
     def create_qa_chain(self, k: int = 4) -> RetrievalQA:
         """Create QA chain with retriever."""
         if self.es_vectorstore is None:
@@ -290,29 +226,28 @@ class MongoElasticsearchSync:
 def main():
     """Main execution function."""
     load_dotenv(dotenv_path="../.env")
-    api_key = os.getenv("API_KEY")
+    api_key = os.getenv("API_KEY_OPENAI")
     
-    if not api_key:
-        raise ValueError("API_KEY not found in .env file")
+    #if not api_key:
+        #raise ValueError("API_KEY_OPENAI not found in .env file")
     config = {
         "mongo_uri": "mongodb://localhost:27017",
         "es_uri": "http://localhost:9200",
         "db_name": "transcriptions_db",
         "collection_name": "classes",
-        "index_name": "my_index",
+        "index_name": "filtered_my_index",
         "api_key": api_key
     }
     
     sync = MongoElasticsearchSync(**config)
     try:
         sync.sync_documents()
-        
-        langchain_documents, _ = sync.process_mongodb_documents(sync.collection.find({}))
-        if langchain_documents:
+        documents= sync.es_client.count(index=sync.index_name)["count"]
+        if documents > 0:
             answer=sync.send_query()
+            print(f"Answer: {answer['answer']}")
         else:
             print("No documents available to process the query. Please add documents to MongoDB.")
-        
     except Exception as e:
         print(f"Error during execution: {e}")
         raise

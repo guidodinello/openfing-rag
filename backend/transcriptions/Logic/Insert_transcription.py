@@ -3,7 +3,8 @@ import json
 import re
 from pymongo import MongoClient
 from typing import List, Dict, Any
-
+import datetime
+SCRAP_INFO_FILE="../../../backend/scraping/ScrapInfo/CoursesAcronyms.json"
 
 def parse_filename(filename: str):
     match = re.match(r"(.+?)_(\d+)(?:_(.+))?\.json$", filename)
@@ -106,32 +107,49 @@ def insert_transcriptions(directory: str, db_name: str = "transcriptions_db", co
     client = MongoClient("mongodb://localhost:27017/")
     db = client[db_name]
     collection = db[collection_name]
+    with open(SCRAP_INFO_FILE, "r", encoding="utf-8") as f:
+        courses_acronyms = json.load(f)
 
     for root, _, files in os.walk(directory):
         for file in files:
             if not file.endswith(".json"):
                 continue
-
             filepath = os.path.join(root, file)
             try:
                 course_acronym, class_number, model_used = parse_filename(file)
-                if class_number is None:
+                if course_acronym is None or class_number is None:
                     print(f"⚠️ Skipping unrecognized filename: {file}")
+                    continue
+                key = f"{course_acronym}_{class_number}_{model_used}"
+                if collection.find_one({"key": key}):
+                    print(f"⏩ Skipping already processed {file} (key={key})")
                     continue
 
                 parsed = load_transcription(filepath)
-                chunks = chunk_text(parsed["text"])
+                chunks500 = chunk_text(parsed["text"])
+                chunks400 = chunk_text(parsed["text"],400)
+                chunks300 = chunk_text(parsed["text"],300)
+                title = None
+                subtitle = None
 
+                if(course_acronym in courses_acronyms):
+                    title= courses_acronyms[course_acronym]["title"]
+                    subtitle = courses_acronyms[course_acronym]["subtitle"]
+                
+                now = datetime.datetime.now()
                 doc = {
-                    "key": f"{course_acronym}_{class_number}",
-                    "title": None,
-                    "subtitle": None,
+                    "key": f"{course_acronym}_{class_number}_{model_used}",
+                    "created_at":now,
+                    "title": title,
+                    "subtitle": subtitle,
                     "class": class_number,
-                    "text": parsed["text"],
+                    "text": parsed["text"].strip(),
                     "segments": parsed["segments"],
-                    "model": parsed.get("model", model_used),
+                    "model": model_used,
                     "language": parsed.get("language"),
-                    "chunks": chunks
+                    "chunks500": chunks500,
+                    "chunks400": chunks400,
+                    "chunks300": chunks300
                 }
 
                 collection.replace_one({"key": doc["key"]}, doc, upsert=True)
