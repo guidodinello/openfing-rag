@@ -1,0 +1,7007 @@
+[
+  {
+    "start": 0.0,
+    "end": 18.0,
+    "text": "Continuamos, estábamos viendo automatas, push down. Vamos a plantear acá."
+  },
+  {
+    "start": 18.0,
+    "end": 37.0,
+    "text": "Bien, estábamos viendo entonces automatas con stack, automatas push down. Es un modelo de automata,"
+  },
+  {
+    "start": 37.0,
+    "end": 43.0,
+    "text": "nosotros hasta ahora teníamos gramáticas libres de contexto, que era un formalismo para definir"
+  },
+  {
+    "start": 43.0,
+    "end": 49.0,
+    "text": "lenguajes libres de contexto, que los definíamos hasta el momento como aquellos para los cuales,"
+  },
+  {
+    "start": 49.0,
+    "end": 54.0,
+    "text": "partiendo del símbolo inicial de mi gramática, al cabo de una secuencia de derivación,"
+  },
+  {
+    "start": 54.0,
+    "end": 60.0,
+    "text": "yo puedo llegar a secuencias determinadas, a tiras determinadas. Todas ese conjunto determinada"
+  },
+  {
+    "start": 60.0,
+    "end": 66.0,
+    "text": "es lo que se denomina lenguaje libre de contexto. ¿Por qué? Porque el formalismo que está atrás"
+  },
+  {
+    "start": 66.0,
+    "end": 72.0,
+    "text": "es el de una gramática libre de contexto. Al igual que hicimos con el modelo de lenguaje"
+  },
+  {
+    "start": 72.0,
+    "end": 78.0,
+    "text": "de lenguajes regulares, que los definimos en principio por expresiones regulares,"
+  },
+  {
+    "start": 78.0,
+    "end": 84.0,
+    "text": "con un mecanismo para describir cuáles eran los patrones que existían en los lenguajes regulares,"
+  },
+  {
+    "start": 84.0,
+    "end": 88.0,
+    "text": "definimos los lenguajes regulares. Y luego presentamos un modelo de automata para reconocer"
+  },
+  {
+    "start": 88.0,
+    "end": 93.0,
+    "text": "las tiras del lenguaje. ¿Se acuerdan que siempre estaba presente esta palabra,"
+  },
+  {
+    "start": 94.0,
+    "end": 102.0,
+    "text": "esta pregunta, que es la pregunta fundamental en la teoría de la computación, dado una tira,"
+  },
+  {
+    "start": 102.0,
+    "end": 108.0,
+    "text": "pertenece a mi lenguaje, dado un programa, pertenece a mi lenguaje, a mi conjunto de todos los posibles"
+  },
+  {
+    "start": 108.0,
+    "end": 114.0,
+    "text": "programas que yo puedo construir sobre el lenguaje con el que estoy trabajando,"
+  },
+  {
+    "start": 114.0,
+    "end": 121.0,
+    "text": "esa es un poco la pregunta fundamental. Entonces, para construir un modelo asociado"
+  },
+  {
+    "start": 121.0,
+    "end": 128.0,
+    "text": "a este tipo de lenguajes, veíamos que había algunas restricciones en cuanto al uso de memoria"
+  },
+  {
+    "start": 128.0,
+    "end": 134.0,
+    "text": "que los automatas finitos no tenían esa dificultad, porque para construir un automata finito,"
+  },
+  {
+    "start": 134.0,
+    "end": 138.0,
+    "text": "para modelar un automata finito, alcanzaba con la memoria para representar los estados"
+  },
+  {
+    "start": 138.0,
+    "end": 144.0,
+    "text": "y para representar la función de transición. Para reconocer particularidades,"
+  },
+  {
+    "start": 144.0,
+    "end": 148.0,
+    "text": "determinados patrones que existen en los lenguajes libres de contexto,"
+  },
+  {
+    "start": 148.0,
+    "end": 153.0,
+    "text": "yo necesitaba una memoria auxiliar. Esa memoria auxiliar es un stack."
+  },
+  {
+    "start": 154.0,
+    "end": 162.0,
+    "text": "Entonces, en la formulación de mi automata con stack, hay algunas letritas,"
+  },
+  {
+    "start": 162.0,
+    "end": 169.0,
+    "text": "decíamos el otro día, que coinciden con la formalización de los automatas finitos,"
+  },
+  {
+    "start": 169.0,
+    "end": 175.0,
+    "text": "un conjunto de estados, el alfabeto de entrada, la función de transición,"
+  },
+  {
+    "start": 175.0,
+    "end": 181.0,
+    "text": "estado inicial, conjunto de estados finales. Y aparecían dos letras distintas,"
+  },
+  {
+    "start": 181.0,
+    "end": 185.0,
+    "text": "que son las que hacen referencia al stack. Yo voy a tener un stack para manipular,"
+  },
+  {
+    "start": 185.0,
+    "end": 190.0,
+    "text": "además, de los estados y de la memoria para representar los estados"
+  },
+  {
+    "start": 190.0,
+    "end": 194.0,
+    "text": "y la función de transición, voy a tener un stack."
+  },
+  {
+    "start": 195.0,
+    "end": 201.0,
+    "text": "Y ese stack tiene como referente, como puntero al comienzo del stack,"
+  },
+  {
+    "start": 201.0,
+    "end": 213.0,
+    "text": "esta marca Z0, o sea que Z0, Z0 es un símbolo de este alfabeto,"
+  },
+  {
+    "start": 213.0,
+    "end": 216.0,
+    "text": "que era la otra letra rara que aparecía o nueva que aparecía,"
+  },
+  {
+    "start": 216.0,
+    "end": 219.0,
+    "text": "que es el alfabeto con el que yo manipulo el stack."
+  },
+  {
+    "start": 219.0,
+    "end": 224.0,
+    "text": "Entonces, empezamos a analizar algún ejemplito,"
+  },
+  {
+    "start": 224.0,
+    "end": 233.0,
+    "text": "que era una tira, un numeral, y después su tira,"
+  },
+  {
+    "start": 233.0,
+    "end": 244.0,
+    "text": "reverso, ¿sí? Entonces, no recuerdo si la W era B o 01, 01."
+  },
+  {
+    "start": 249.0,
+    "end": 253.0,
+    "text": "Entonces, lo que decíamos es, bueno, ¿cómo se tiene que comportar mi automata?"
+  },
+  {
+    "start": 254.0,
+    "end": 257.0,
+    "text": "Va a empezar a leer, siempre las tiras se leen de izquierda a derecha,"
+  },
+  {
+    "start": 257.0,
+    "end": 262.0,
+    "text": "empieza a leer mi secuencia de 01 hasta que me venga el numeral."
+  },
+  {
+    "start": 262.0,
+    "end": 266.0,
+    "text": "Cuando me viene el numeral, me cambia otro estado,"
+  },
+  {
+    "start": 266.0,
+    "end": 270.0,
+    "text": "y en función de, el stack lo manejo como un stack,"
+  },
+  {
+    "start": 270.0,
+    "end": 276.0,
+    "text": "con las operaciones push, pop y top, digamos, la que visualiza el tope."
+  },
+  {
+    "start": 276.0,
+    "end": 280.0,
+    "text": "Entonces, en función, yo leo, estoy en un estado,"
+  },
+  {
+    "start": 280.0,
+    "end": 285.0,
+    "text": "tengo un símbolo en el báfaro de entrada, yo siempre tengo el W."
+  },
+  {
+    "start": 288.0,
+    "end": 290.0,
+    "text": "Acá está mi tira de entrada, y empiezo a leerlos,"
+  },
+  {
+    "start": 290.0,
+    "end": 293.0,
+    "text": "vamos a poner otra letra porque el W pusimos ya,"
+  },
+  {
+    "start": 293.0,
+    "end": 297.0,
+    "text": "mi tira de entrada es una X, los procesos de izquierda a derecha,"
+  },
+  {
+    "start": 297.0,
+    "end": 301.0,
+    "text": "voy leyendo de aún símbolo a la vez."
+  },
+  {
+    "start": 303.0,
+    "end": 308.0,
+    "text": "Entonces, siempre leo un símbolo, estoy en un estado,"
+  },
+  {
+    "start": 308.0,
+    "end": 312.0,
+    "text": "leo un símbolo y me fijo en el símbolo que está en el tope del stack."
+  },
+  {
+    "start": 312.0,
+    "end": 316.0,
+    "text": "Ese es el comportamiento habitual de una máquina con stack."
+  },
+  {
+    "start": 317.0,
+    "end": 321.0,
+    "text": "Entonces, en mi especificación de la función de transición,"
+  },
+  {
+    "start": 321.0,
+    "end": 324.0,
+    "text": "lo que decíamos es, en automata finito, claro,"
+  },
+  {
+    "start": 324.0,
+    "end": 326.0,
+    "text": "yo lo que tenía era el báfaro de entrada y el estado,"
+  },
+  {
+    "start": 326.0,
+    "end": 328.0,
+    "text": "era lo único que me importaba."
+  },
+  {
+    "start": 328.0,
+    "end": 331.0,
+    "text": "Pero ahora parece un actor más que es el stack,"
+  },
+  {
+    "start": 331.0,
+    "end": 335.0,
+    "text": "entonces mi función delta, como voy a comportarme en mi automata,"
+  },
+  {
+    "start": 335.0,
+    "end": 339.0,
+    "text": "va a depender de tres componentes, del estado en el que yo esté,"
+  },
+  {
+    "start": 339.0,
+    "end": 343.0,
+    "text": "del símbolo de la entrada que yo leía y cuál es el elemento"
+  },
+  {
+    "start": 343.0,
+    "end": 345.0,
+    "text": "que tengo en la tope del stack."
+  },
+  {
+    "start": 345.0,
+    "end": 348.0,
+    "text": "En algún caso me importará y en otro caso no me importará,"
+  },
+  {
+    "start": 348.0,
+    "end": 352.0,
+    "text": "pero bueno, es un elemento que yo no tengo que considerar"
+  },
+  {
+    "start": 352.0,
+    "end": 356.0,
+    "text": "cuando especifico mi función de transición."
+  },
+  {
+    "start": 356.0,
+    "end": 361.0,
+    "text": "Entonces mi función de transición delta depende"
+  },
+  {
+    "start": 365.0,
+    "end": 369.0,
+    "text": "del estado, de la entrada y del símbolo que está en el stack."
+  },
+  {
+    "start": 371.0,
+    "end": 374.0,
+    "text": "Y lo que decíamos, por eso dejamos el espacio este,"
+  },
+  {
+    "start": 374.0,
+    "end": 379.0,
+    "text": "que es un automata que además tiene transiciones epsilon."
+  },
+  {
+    "start": 379.0,
+    "end": 385.0,
+    "text": "O sea, yo puedo requerir en alguna oportunidad transiciones epsilon."
+  },
+  {
+    "start": 385.0,
+    "end": 389.0,
+    "text": "Y alguno de ustedes lo manifestaba"
+  },
+  {
+    "start": 389.0,
+    "end": 394.0,
+    "text": "para qué podría querer yo tener una transición epsilon"
+  },
+  {
+    "start": 394.0,
+    "end": 400.0,
+    "text": "y claro, antes en el modelo de automata finitos"
+  },
+  {
+    "start": 400.0,
+    "end": 403.0,
+    "text": "yo una transición epsilon para qué la utilizaba."
+  },
+  {
+    "start": 403.0,
+    "end": 406.0,
+    "text": "¿Cuál es la finalidad en automata finitos?"
+  },
+  {
+    "start": 411.0,
+    "end": 414.0,
+    "text": "Claro, para cambiarme eventualmente de estado, no iba a ser un loop,"
+  },
+  {
+    "start": 414.0,
+    "end": 418.0,
+    "text": "para cambiarme de estado sin leer un símbolo de la entrada."
+  },
+  {
+    "start": 418.0,
+    "end": 422.0,
+    "text": "La transición epsilon acá en realidad"
+  },
+  {
+    "start": 422.0,
+    "end": 426.0,
+    "text": "me va a servir para cambiarme de estado eventualmente."
+  },
+  {
+    "start": 426.0,
+    "end": 430.0,
+    "text": "Me va a servir para no consumir un símbolo de la entrada,"
+  },
+  {
+    "start": 430.0,
+    "end": 432.0,
+    "text": "porque sigue siendo lo mismo,"
+  },
+  {
+    "start": 432.0,
+    "end": 435.0,
+    "text": "pero de parte me va a servir para manipular el stack."
+  },
+  {
+    "start": 435.0,
+    "end": 441.0,
+    "text": "Porque lo que es importante es que yo siempre hago un push o un pop"
+  },
+  {
+    "start": 441.0,
+    "end": 444.0,
+    "text": "del elemento que está en el tope."
+  },
+  {
+    "start": 444.0,
+    "end": 447.0,
+    "text": "Entonces si quiero sacar por cada símbolo,"
+  },
+  {
+    "start": 447.0,
+    "end": 449.0,
+    "text": "tres símbolos que tengan en el stack,"
+  },
+  {
+    "start": 450.0,
+    "end": 452.0,
+    "text": "eso lo tengo que simular con transición excepción."
+  },
+  {
+    "start": 452.0,
+    "end": 455.0,
+    "text": "Depende de cómo resuelva el problema, ahora lo vamos a dar más adelante."
+  },
+  {
+    "start": 457.0,
+    "end": 461.0,
+    "text": "Pero lo importante y la diferencia con el otro modelo"
+  },
+  {
+    "start": 461.0,
+    "end": 465.0,
+    "text": "es que el hecho de que yo tenga una transición epsilon"
+  },
+  {
+    "start": 465.0,
+    "end": 469.0,
+    "text": "no indica necesariamente que sea un modelo de automata determinista,"
+  },
+  {
+    "start": 469.0,
+    "end": 471.0,
+    "text": "no determinista."
+  },
+  {
+    "start": 471.0,
+    "end": 474.0,
+    "text": "Si bien era el modelo que nosotros habíamos estado comentando"
+  },
+  {
+    "start": 474.0,
+    "end": 475.0,
+    "text": "hasta el momento."
+  },
+  {
+    "start": 475.0,
+    "end": 479.0,
+    "text": "Está que es el modelo de automata pushdown más general."
+  },
+  {
+    "start": 481.0,
+    "end": 483.0,
+    "text": "Y después lo vamos a ver"
+  },
+  {
+    "start": 487.0,
+    "end": 489.0,
+    "text": "que no existe esa equivalencia"
+  },
+  {
+    "start": 489.0,
+    "end": 494.0,
+    "text": "entre los automatas no deterministas y los deterministas."
+  },
+  {
+    "start": 494.0,
+    "end": 497.0,
+    "text": "Eso lo vamos a ver en el correo de la clase de hoy."
+  },
+  {
+    "start": 497.0,
+    "end": 499.0,
+    "text": "Pero bueno, ¿por qué poníamos esto?"
+  },
+  {
+    "start": 499.0,
+    "end": 501.0,
+    "text": "Bueno, porque lo que me da,"
+  },
+  {
+    "start": 501.0,
+    "end": 504.0,
+    "text": "estoy definiendo un automata pushdown no determinista."
+  },
+  {
+    "start": 504.0,
+    "end": 507.0,
+    "text": "Que es el automata que sirve por otra parte"
+  },
+  {
+    "start": 507.0,
+    "end": 510.0,
+    "text": "para reconocer cualquier lenguaje libre de contexto"
+  },
+  {
+    "start": 510.0,
+    "end": 512.0,
+    "text": "más allá de que después lo vamos a formalizar."
+  },
+  {
+    "start": 514.0,
+    "end": 515.0,
+    "text": "¿De acuerdo?"
+  },
+  {
+    "start": 516.0,
+    "end": 519.0,
+    "text": "Y lo otro que era importante"
+  },
+  {
+    "start": 519.0,
+    "end": 521.0,
+    "text": "era entender qué significaba esto."
+  },
+  {
+    "start": 521.0,
+    "end": 523.0,
+    "text": "Esto eran pares,"
+  },
+  {
+    "start": 523.0,
+    "end": 527.0,
+    "text": "antes no deterministas eran conjuntos de estados."
+  },
+  {
+    "start": 527.0,
+    "end": 529.0,
+    "text": "Sí, yo podía ir a más de un estado."
+  },
+  {
+    "start": 529.0,
+    "end": 532.0,
+    "text": "Ahora son conjuntos de pares,"
+  },
+  {
+    "start": 532.0,
+    "end": 534.0,
+    "text": "estado, operación del STAC."
+  },
+  {
+    "start": 536.0,
+    "end": 539.0,
+    "text": "Está en la segunda componente del paro ordenado"
+  },
+  {
+    "start": 539.0,
+    "end": 541.0,
+    "text": "es la operación que yo hago en el STAC."
+  },
+  {
+    "start": 541.0,
+    "end": 543.0,
+    "text": "Y en ese sentido,"
+  },
+  {
+    "start": 543.0,
+    "end": 546.0,
+    "text": "vamos a ir poniendo la depositiva que habíamos visto,"
+  },
+  {
+    "start": 547.0,
+    "end": 551.0,
+    "text": "ésta era la formalización del automata con STAC."
+  },
+  {
+    "start": 553.0,
+    "end": 556.0,
+    "text": "Y en ese sentido, mi función de transición"
+  },
+  {
+    "start": 556.0,
+    "end": 563.0,
+    "text": "iba a tener como resultado de la función delta"
+  },
+  {
+    "start": 566.0,
+    "end": 569.0,
+    "text": "un conjunto delta de Q, A, X."
+  },
+  {
+    "start": 569.0,
+    "end": 571.0,
+    "text": "O sea, estoy en el estado Q,"
+  },
+  {
+    "start": 571.0,
+    "end": 574.0,
+    "text": "tengo A, el símbolo que estoy leyendo es una A."
+  },
+  {
+    "start": 574.0,
+    "end": 576.0,
+    "text": "Siempre le doy A1 también."
+  },
+  {
+    "start": 576.0,
+    "end": 578.0,
+    "text": "Y X es el tercer componente."
+  },
+  {
+    "start": 578.0,
+    "end": 581.0,
+    "text": "¿Cuál es el símbolo que tengo en el tope del STAC?"
+  },
+  {
+    "start": 581.0,
+    "end": 583.0,
+    "text": "Lo que me devuelve son pares,"
+  },
+  {
+    "start": 583.0,
+    "end": 585.0,
+    "text": "estado, operación del STAC."
+  },
+  {
+    "start": 585.0,
+    "end": 587.0,
+    "text": "O sea, cada uno de estos alfa subí"
+  },
+  {
+    "start": 587.0,
+    "end": 590.0,
+    "text": "es la operación que yo realizo con el STAC."
+  },
+  {
+    "start": 590.0,
+    "end": 593.0,
+    "text": "Y esa operación puede ser"
+  },
+  {
+    "start": 593.0,
+    "end": 595.0,
+    "text": "o bien un push,"
+  },
+  {
+    "start": 595.0,
+    "end": 597.0,
+    "text": "acá denotado como que yo..."
+  },
+  {
+    "start": 597.0,
+    "end": 600.0,
+    "text": "fíjense que siempre ponemos"
+  },
+  {
+    "start": 600.0,
+    "end": 603.0,
+    "text": "el símbolo, cuando yo hago el push de un símbolo"
+  },
+  {
+    "start": 603.0,
+    "end": 607.0,
+    "text": "es el elemento que queda más a la izquierda del alfa."
+  },
+  {
+    "start": 609.0,
+    "end": 611.0,
+    "text": "Estoy indicando, si yo tenía X"
+  },
+  {
+    "start": 611.0,
+    "end": 613.0,
+    "text": "y pongo después YX,"
+  },
+  {
+    "start": 613.0,
+    "end": 616.0,
+    "text": "quiere decir que el nuevo tope pasa a ser una Y."
+  },
+  {
+    "start": 617.0,
+    "end": 620.0,
+    "text": "Si el alfa es un epsilon,"
+  },
+  {
+    "start": 620.0,
+    "end": 623.0,
+    "text": "quiere decir que la operación que hice fue el pop."
+  },
+  {
+    "start": 623.0,
+    "end": 625.0,
+    "text": "¿Cuál va a ser el tope?"
+  },
+  {
+    "start": 625.0,
+    "end": 628.0,
+    "text": "Y el que estaba abajo del X, que no sé cuál es,"
+  },
+  {
+    "start": 628.0,
+    "end": 631.0,
+    "text": "porque yo no miro a través del STAC."
+  },
+  {
+    "start": 631.0,
+    "end": 633.0,
+    "text": "Siempre solamente veo el tope."
+  },
+  {
+    "start": 633.0,
+    "end": 636.0,
+    "text": "Es un STAC, como lo conocemos."
+  },
+  {
+    "start": 636.0,
+    "end": 639.0,
+    "text": "Y lo manipulamos como tal."
+  },
+  {
+    "start": 640.0,
+    "end": 643.0,
+    "text": "Y ta, y obviamente el X acá,"
+  },
+  {
+    "start": 643.0,
+    "end": 645.0,
+    "text": "si el alfa es X,"
+  },
+  {
+    "start": 645.0,
+    "end": 648.0,
+    "text": "quiere decir que yo tenía X en el tope"
+  },
+  {
+    "start": 648.0,
+    "end": 651.0,
+    "text": "y dejé X, quiere decir que el STAC no lo modifiqué."
+  },
+  {
+    "start": 652.0,
+    "end": 655.0,
+    "text": "Eventualmente lo que hice fue"
+  },
+  {
+    "start": 655.0,
+    "end": 657.0,
+    "text": "consumir un símbolo de la entrada,"
+  },
+  {
+    "start": 657.0,
+    "end": 659.0,
+    "text": "me cambié de estado,"
+  },
+  {
+    "start": 659.0,
+    "end": 661.0,
+    "text": "pero el STAC lo dejé igual."
+  },
+  {
+    "start": 665.0,
+    "end": 667.0,
+    "text": "¿Cómo?"
+  },
+  {
+    "start": 670.0,
+    "end": 673.0,
+    "text": "No me acuerdo el orden que dije,"
+  },
+  {
+    "start": 673.0,
+    "end": 676.0,
+    "text": "pero acá lo que estamos diciendo es"
+  },
+  {
+    "start": 676.0,
+    "end": 679.0,
+    "text": "YX quiere decir que lo que hice fue un push,"
+  },
+  {
+    "start": 679.0,
+    "end": 682.0,
+    "text": "tenía el STAC X en el tope X"
+  },
+  {
+    "start": 682.0,
+    "end": 685.0,
+    "text": "y agregué una Y."
+  },
+  {
+    "start": 685.0,
+    "end": 688.0,
+    "text": "Son simplemente etiquetas,"
+  },
+  {
+    "start": 688.0,
+    "end": 691.0,
+    "text": "no quiere decir que tengo que agregar una letra distinta."
+  },
+  {
+    "start": 691.0,
+    "end": 694.0,
+    "text": "Son simplemente etiquetas."
+  },
+  {
+    "start": 694.0,
+    "end": 696.0,
+    "text": "Alfa Y puede ser un epsilon,"
+  },
+  {
+    "start": 696.0,
+    "end": 699.0,
+    "text": "eso significa que lo que hice fue la operación de pop."
+  },
+  {
+    "start": 699.0,
+    "end": 701.0,
+    "text": "Quité el elemento que estaba en el tope."
+  },
+  {
+    "start": 701.0,
+    "end": 704.0,
+    "text": "O sea que si yo tenía, por ejemplo,"
+  },
+  {
+    "start": 704.0,
+    "end": 707.0,
+    "text": "acá tenía 3, acá tenía 1 y acá tenía 2"
+  },
+  {
+    "start": 707.0,
+    "end": 710.0,
+    "text": "y X es 2 y hago un pop,"
+  },
+  {
+    "start": 710.0,
+    "end": 712.0,
+    "text": "lo que hago es esto."
+  },
+  {
+    "start": 712.0,
+    "end": 714.0,
+    "text": "El STAC me queda así."
+  },
+  {
+    "start": 714.0,
+    "end": 717.0,
+    "text": "Ahora el tope va a apuntar a 1."
+  },
+  {
+    "start": 717.0,
+    "end": 719.0,
+    "text": "Pero no lo represento,"
+  },
+  {
+    "start": 719.0,
+    "end": 721.0,
+    "text": "por eso yo pongo epsilon simplemente,"
+  },
+  {
+    "start": 721.0,
+    "end": 724.0,
+    "text": "indico la operación epsilon, no sé lo que tengo después."
+  },
+  {
+    "start": 724.0,
+    "end": 726.0,
+    "text": "Cuando vaya a ejecutar mi nueva operación,"
+  },
+  {
+    "start": 726.0,
+    "end": 729.0,
+    "text": "ahí recién el STAC va a mirar el símbolo"
+  },
+  {
+    "start": 729.0,
+    "end": 732.0,
+    "text": "que queda en el nuevo tope, digamos."
+  },
+  {
+    "start": 732.0,
+    "end": 735.0,
+    "text": "Y la tercera componente es"
+  },
+  {
+    "start": 735.0,
+    "end": 737.0,
+    "text": "dejo el STAC como estaba"
+  },
+  {
+    "start": 737.0,
+    "end": 740.0,
+    "text": "y si estoy en el, acá decíamos que teníamos un 2,"
+  },
+  {
+    "start": 740.0,
+    "end": 742.0,
+    "text": "estoy en el estado Q, leo el símbolo A"
+  },
+  {
+    "start": 742.0,
+    "end": 744.0,
+    "text": "y tengo 2 en el tope del STAC,"
+  },
+  {
+    "start": 744.0,
+    "end": 747.0,
+    "text": "me cambio el estado P"
+  },
+  {
+    "start": 750.0,
+    "end": 753.0,
+    "text": "además de consumir el símbolo de la entrada"
+  },
+  {
+    "start": 753.0,
+    "end": 757.0,
+    "text": "y el STAC lo dejo así, con 2, con X."
+  },
+  {
+    "start": 757.0,
+    "end": 760.0,
+    "text": "Son las tres posibles operaciones"
+  },
+  {
+    "start": 760.0,
+    "end": 763.0,
+    "text": "que yo puedo hacer con el STAC."
+  },
+  {
+    "start": 763.0,
+    "end": 766.0,
+    "text": "Entonces, esto está, es importante,"
+  },
+  {
+    "start": 766.0,
+    "end": 769.0,
+    "text": "que las operaciones tienen cardinalidad"
+  },
+  {
+    "start": 769.0,
+    "end": 771.0,
+    "text": "a lo sumo 2,"
+  },
+  {
+    "start": 771.0,
+    "end": 774.0,
+    "text": "más allá de que hay propiedades"
+  },
+  {
+    "start": 774.0,
+    "end": 776.0,
+    "text": "que dicen, no, lo que yo hago,"
+  },
+  {
+    "start": 776.0,
+    "end": 778.0,
+    "text": "hago el pop"
+  },
+  {
+    "start": 778.0,
+    "end": 781.0,
+    "text": "de todo lo que tenga del tope"
+  },
+  {
+    "start": 781.0,
+    "end": 783.0,
+    "text": "y 5 lugares para abajo."
+  },
+  {
+    "start": 783.0,
+    "end": 786.0,
+    "text": "Eso en realidad, siempre,"
+  },
+  {
+    "start": 786.0,
+    "end": 789.0,
+    "text": "luego si yo lo quiero implementar, podemos ver algún ejemplito,"
+  },
+  {
+    "start": 789.0,
+    "end": 791.0,
+    "text": "siempre lo voy a poder implementar"
+  },
+  {
+    "start": 791.0,
+    "end": 793.0,
+    "text": "con transiciones Epsilon, que lo que se haga"
+  },
+  {
+    "start": 793.0,
+    "end": 795.0,
+    "text": "es sin consumir un símbolo de la entrada,"
+  },
+  {
+    "start": 795.0,
+    "end": 798.0,
+    "text": "me haga el pop de tope, tanto como yo quiera."
+  },
+  {
+    "start": 798.0,
+    "end": 801.0,
+    "text": "¿Se entiende lo que digo?"
+  },
+  {
+    "start": 801.0,
+    "end": 805.0,
+    "text": "Después lo vemos con un ejemplo, pero lo que quiero decir es"
+  },
+  {
+    "start": 805.0,
+    "end": 809.0,
+    "text": "siempre vamos a manipular el STAC de aún símbolo"
+  },
+  {
+    "start": 809.0,
+    "end": 812.0,
+    "text": "y si quiero agregar 2, tengo que ingeniármelas"
+  },
+  {
+    "start": 812.0,
+    "end": 815.0,
+    "text": "para hacer algo en mis transiciones"
+  },
+  {
+    "start": 815.0,
+    "end": 817.0,
+    "text": "que agreguen 2 símbolos en el STAC,"
+  },
+  {
+    "start": 817.0,
+    "end": 820.0,
+    "text": "pero no meto de a 2 símbolos en el STAC."
+  },
+  {
+    "start": 820.0,
+    "end": 823.0,
+    "text": "Lo mismo, no saco de a 7 símbolos del STAC."
+  },
+  {
+    "start": 823.0,
+    "end": 826.0,
+    "text": "Tengo que ingeniármelas con más estados,"
+  },
+  {
+    "start": 826.0,
+    "end": 828.0,
+    "text": "con transiciones Epsilon, para eso están"
+  },
+  {
+    "start": 828.0,
+    "end": 831.0,
+    "text": "que me resuelvan el problema."
+  },
+  {
+    "start": 834.0,
+    "end": 836.0,
+    "text": "El otro concepto que habíamos manejado"
+  },
+  {
+    "start": 836.0,
+    "end": 838.0,
+    "text": "era el concepto de descripción instantánea."
+  },
+  {
+    "start": 838.0,
+    "end": 841.0,
+    "text": "Es decir, en todo momento yo puedo sacarle"
+  },
+  {
+    "start": 841.0,
+    "end": 844.0,
+    "text": "una foto al STAC, al automata,"
+  },
+  {
+    "start": 844.0,
+    "end": 849.0,
+    "text": "que me dice en qué estado estoy,"
+  },
+  {
+    "start": 849.0,
+    "end": 854.0,
+    "text": "qué es mi tira de entrada, qué es lo que me resta"
+  },
+  {
+    "start": 854.0,
+    "end": 857.0,
+    "text": "por consumir y cómo está el STAC."
+  },
+  {
+    "start": 857.0,
+    "end": 861.0,
+    "text": "Veo todo el STAC, o sea, tengo una perspectiva"
+  },
+  {
+    "start": 861.0,
+    "end": 864.0,
+    "text": "en donde veo todo el panorama."
+  },
+  {
+    "start": 864.0,
+    "end": 867.0,
+    "text": "No es que yo pueda acceder a cualquier lugar del STAC,"
+  },
+  {
+    "start": 867.0,
+    "end": 869.0,
+    "text": "pero realmente es como tener un pantallazo"
+  },
+  {
+    "start": 869.0,
+    "end": 872.0,
+    "text": "de cómo se ve toda la situación."
+  },
+  {
+    "start": 872.0,
+    "end": 875.0,
+    "text": "Obviamente tenemos lo que sería"
+  },
+  {
+    "start": 875.0,
+    "end": 878.0,
+    "text": "una descripción instantánea inicial."
+  },
+  {
+    "start": 878.0,
+    "end": 883.0,
+    "text": "Cómo arranca mi automata, estando en Q0,"
+  },
+  {
+    "start": 883.0,
+    "end": 885.0,
+    "text": "que es el estado inicial,"
+  },
+  {
+    "start": 885.0,
+    "end": 887.0,
+    "text": "toda la tira que quiero validar"
+  },
+  {
+    "start": 887.0,
+    "end": 891.0,
+    "text": "y mi referencia en el STAC, el Z0."
+  },
+  {
+    "start": 891.0,
+    "end": 895.0,
+    "text": "Y a partir de ahí empiezo a ejecutar"
+  },
+  {
+    "start": 895.0,
+    "end": 897.0,
+    "text": "mis transiciones."
+  },
+  {
+    "start": 897.0,
+    "end": 901.0,
+    "text": "Entonces, lo que veíamos el otro día,"
+  },
+  {
+    "start": 901.0,
+    "end": 904.0,
+    "text": "cuando hicimos el dibujito asociado"
+  },
+  {
+    "start": 904.0,
+    "end": 906.0,
+    "text": "en vez de plantearlo el Delta,"
+  },
+  {
+    "start": 906.0,
+    "end": 908.0,
+    "text": "que lo hicimos, después lo que hicimos fue"
+  },
+  {
+    "start": 908.0,
+    "end": 911.0,
+    "text": "mostrar cómo me queda un diagrama de Estados"
+  },
+  {
+    "start": 911.0,
+    "end": 913.0,
+    "text": "asociado a un automata con STAC."
+  },
+  {
+    "start": 913.0,
+    "end": 917.0,
+    "text": "Sí, donde los estados lo representamos igual."
+  },
+  {
+    "start": 917.0,
+    "end": 921.0,
+    "text": "Y luego, con los arcos,"
+  },
+  {
+    "start": 921.0,
+    "end": 924.0,
+    "text": "estamos representando la transición,"
+  },
+  {
+    "start": 924.0,
+    "end": 926.0,
+    "text": "la transición Delta, lo mismo que hacíamos"
+  },
+  {
+    "start": 926.0,
+    "end": 929.0,
+    "text": "en el modelo de automata finito."
+  },
+  {
+    "start": 929.0,
+    "end": 932.0,
+    "text": "Sólo que como etiqueta de la transición,"
+  },
+  {
+    "start": 932.0,
+    "end": 934.0,
+    "text": "antes era el símbolo de la entrada,"
+  },
+  {
+    "start": 934.0,
+    "end": 935.0,
+    "text": "y ahora es."
+  },
+  {
+    "start": 935.0,
+    "end": 938.0,
+    "text": "Lo uso para leer el símbolo de la entrada,"
+  },
+  {
+    "start": 938.0,
+    "end": 941.0,
+    "text": "lo uso en la segunda componente,"
+  },
+  {
+    "start": 941.0,
+    "end": 944.0,
+    "text": "qué es lo que tengo en el tope del STAC"
+  },
+  {
+    "start": 944.0,
+    "end": 946.0,
+    "text": "y la tercera componente es cuál es la operación"
+  },
+  {
+    "start": 946.0,
+    "end": 948.0,
+    "text": "que hago sobre el STAC."
+  },
+  {
+    "start": 948.0,
+    "end": 951.0,
+    "text": "Entonces, lo que hacía era"
+  },
+  {
+    "start": 951.0,
+    "end": 953.0,
+    "text": "empezar a leer los símbolos 0 y 1"
+  },
+  {
+    "start": 953.0,
+    "end": 955.0,
+    "text": "hasta que me ven al numeral,"
+  },
+  {
+    "start": 955.0,
+    "end": 957.0,
+    "text": "y no me importa qué es lo que hay en el tope,"
+  },
+  {
+    "start": 957.0,
+    "end": 959.0,
+    "text": "yo lo que hago es push al STAC,"
+  },
+  {
+    "start": 959.0,
+    "end": 960.0,
+    "text": "lo que digo es,"
+  },
+  {
+    "start": 960.0,
+    "end": 963.0,
+    "text": "si leo un 0 y tengo 0 en el tope,"
+  },
+  {
+    "start": 963.0,
+    "end": 965.0,
+    "text": "hace el push de 0."
+  },
+  {
+    "start": 965.0,
+    "end": 968.0,
+    "text": "Si tengo un 0"
+  },
+  {
+    "start": 968.0,
+    "end": 972.0,
+    "text": "y tengo 0 en el tope,"
+  },
+  {
+    "start": 972.0,
+    "end": 974.0,
+    "text": "hace el push de 0."
+  },
+  {
+    "start": 974.0,
+    "end": 978.0,
+    "text": "Si tengo 0 y tengo 1 en el tope,"
+  },
+  {
+    "start": 978.0,
+    "end": 981.0,
+    "text": "hace el push de 0."
+  },
+  {
+    "start": 981.0,
+    "end": 983.0,
+    "text": "Esto es lo que decíamos hoy,"
+  },
+  {
+    "start": 983.0,
+    "end": 986.0,
+    "text": "el yx, cuál es el tope que teníamos"
+  },
+  {
+    "start": 986.0,
+    "end": 989.0,
+    "text": "y el símbolo que acabamos de agregar."
+  },
+  {
+    "start": 989.0,
+    "end": 992.0,
+    "text": "¿Tá?"
+  },
+  {
+    "start": 992.0,
+    "end": 994.0,
+    "text": "Y después, bueno, ésta era"
+  },
+  {
+    "start": 994.0,
+    "end": 996.0,
+    "text": "todas las combinaciones, ¿no?"
+  },
+  {
+    "start": 996.0,
+    "end": 1000.0,
+    "text": "0, 1, 0, 1, 1, 1, 1,"
+  },
+  {
+    "start": 1000.0,
+    "end": 1002.0,
+    "text": "y 1,"
+  },
+  {
+    "start": 1002.0,
+    "end": 1005.0,
+    "text": "Z0, 1, Z0."
+  },
+  {
+    "start": 1005.0,
+    "end": 1007.0,
+    "text": "Acá podemos hacer,"
+  },
+  {
+    "start": 1007.0,
+    "end": 1009.0,
+    "text": "separar en un arco los 0s"
+  },
+  {
+    "start": 1009.0,
+    "end": 1011.0,
+    "text": "y neutralar con los 1s."
+  },
+  {
+    "start": 1011.0,
+    "end": 1013.0,
+    "text": "Eso es a gusto de ustedes,"
+  },
+  {
+    "start": 1013.0,
+    "end": 1015.0,
+    "text": "de cómo quedan."
+  },
+  {
+    "start": 1017.0,
+    "end": 1021.0,
+    "text": "Esto, que está acá, por ejemplo,"
+  },
+  {
+    "start": 1023.0,
+    "end": 1025.0,
+    "text": "es lo que nosotros escribíamos como"
+  },
+  {
+    "start": 1025.0,
+    "end": 1028.0,
+    "text": "delta de Q0, leo un 0"
+  },
+  {
+    "start": 1028.0,
+    "end": 1031.0,
+    "text": "y tengo Z0 en el tope del STAC,"
+  },
+  {
+    "start": 1031.0,
+    "end": 1033.0,
+    "text": "paso al estado Q0"
+  },
+  {
+    "start": 1033.0,
+    "end": 1037.0,
+    "text": "y hice el push de 0."
+  },
+  {
+    "start": 1037.0,
+    "end": 1040.0,
+    "text": "Como ese par estado símbolo,"
+  },
+  {
+    "start": 1040.0,
+    "end": 1042.0,
+    "text": "solamente a una sola,"
+  },
+  {
+    "start": 1042.0,
+    "end": 1045.0,
+    "text": "no tengo una que dice 0, Z0, 0, Z0."
+  },
+  {
+    "start": 1045.0,
+    "end": 1050.0,
+    "text": "Podía otra tener 0, Z0, 1, Z0."
+  },
+  {
+    "start": 1050.0,
+    "end": 1052.0,
+    "text": "Entonces ahí tengo 2,"
+  },
+  {
+    "start": 1052.0,
+    "end": 1054.0,
+    "text": "con un 0 puedo,"
+  },
+  {
+    "start": 1054.0,
+    "end": 1057.0,
+    "text": "con un tope puedo hacer una cosa u otra."
+  },
+  {
+    "start": 1057.0,
+    "end": 1058.0,
+    "text": "¿Se entiende eso?"
+  },
+  {
+    "start": 1058.0,
+    "end": 1060.0,
+    "text": "Por eso es que no es determinista."
+  },
+  {
+    "start": 1060.0,
+    "end": 1062.0,
+    "text": "Más allá de que este ejemplo"
+  },
+  {
+    "start": 1062.0,
+    "end": 1063.0,
+    "text": "que estamos presentando,"
+  },
+  {
+    "start": 1063.0,
+    "end": 1064.0,
+    "text": "es un ejemplo simple,"
+  },
+  {
+    "start": 1064.0,
+    "end": 1066.0,
+    "text": "igual que el de 0 a la K, 1 a la K,"
+  },
+  {
+    "start": 1066.0,
+    "end": 1068.0,
+    "text": "digamos que pongo todos los 0s"
+  },
+  {
+    "start": 1068.0,
+    "end": 1070.0,
+    "text": "y cuando me vengan 1 me cambio el estado"
+  },
+  {
+    "start": 1070.0,
+    "end": 1072.0,
+    "text": "y empiezo a sacar."
+  },
+  {
+    "start": 1075.0,
+    "end": 1077.0,
+    "text": "Y esto es lo que mostraba"
+  },
+  {
+    "start": 1077.0,
+    "end": 1079.0,
+    "text": "o lo que pretendía mostrar,"
+  },
+  {
+    "start": 1079.0,
+    "end": 1081.0,
+    "text": "es cómo se ve"
+  },
+  {
+    "start": 1081.0,
+    "end": 1083.0,
+    "text": "cuando yo estoy computando"
+  },
+  {
+    "start": 1083.0,
+    "end": 1085.0,
+    "text": "mi automata."
+  },
+  {
+    "start": 1085.0,
+    "end": 1087.0,
+    "text": "En todo momento,"
+  },
+  {
+    "start": 1087.0,
+    "end": 1089.0,
+    "text": "cada vez que yo proceso un símbolo"
+  },
+  {
+    "start": 1089.0,
+    "end": 1091.0,
+    "text": "o manipulo el STAC,"
+  },
+  {
+    "start": 1091.0,
+    "end": 1093.0,
+    "text": "ejecuto una transición"
+  },
+  {
+    "start": 1093.0,
+    "end": 1095.0,
+    "text": "y vuelvo a sacar una foto."
+  },
+  {
+    "start": 1095.0,
+    "end": 1098.0,
+    "text": "Entonces al cabo de varias fotos"
+  },
+  {
+    "start": 1098.0,
+    "end": 1100.0,
+    "text": "yo llego a una configuración"
+  },
+  {
+    "start": 1100.0,
+    "end": 1102.0,
+    "text": "final, por decirlo de una manera."
+  },
+  {
+    "start": 1102.0,
+    "end": 1104.0,
+    "text": "Y en función de esa configuración"
+  },
+  {
+    "start": 1104.0,
+    "end": 1106.0,
+    "text": "a la cual yo llegue,"
+  },
+  {
+    "start": 1106.0,
+    "end": 1108.0,
+    "text": "es que se definen los dos modelos"
+  },
+  {
+    "start": 1108.0,
+    "end": 1110.0,
+    "text": "de lenguajes"
+  },
+  {
+    "start": 1111.0,
+    "end": 1113.0,
+    "text": "que existen para reconocer"
+  },
+  {
+    "start": 1113.0,
+    "end": 1115.0,
+    "text": "lenguajes libres de contexto."
+  },
+  {
+    "start": 1115.0,
+    "end": 1117.0,
+    "text": "Los dos modelos"
+  },
+  {
+    "start": 1117.0,
+    "end": 1119.0,
+    "text": "de automatas"
+  },
+  {
+    "start": 1121.0,
+    "end": 1123.0,
+    "text": "con STAC. Primero vamos a avanzar"
+  },
+  {
+    "start": 1123.0,
+    "end": 1125.0,
+    "text": "con este."
+  },
+  {
+    "start": 1125.0,
+    "end": 1127.0,
+    "text": "Acá lo hicimos todo"
+  },
+  {
+    "start": 1127.0,
+    "end": 1129.0,
+    "text": "pero no llegamos a los estados finales, ¿no?"
+  },
+  {
+    "start": 1129.0,
+    "end": 1131.0,
+    "text": "Es así."
+  },
+  {
+    "start": 1137.0,
+    "end": 1139.0,
+    "text": "Yo creo que no hablamos de estados finales,"
+  },
+  {
+    "start": 1139.0,
+    "end": 1141.0,
+    "text": "definimos pero no hicimos dibujitos"
+  },
+  {
+    "start": 1141.0,
+    "end": 1143.0,
+    "text": "de estados finales, ¿no?"
+  },
+  {
+    "start": 1143.0,
+    "end": 1145.0,
+    "text": "Yo porque así dejo lo mismo."
+  },
+  {
+    "start": 1147.0,
+    "end": 1149.0,
+    "text": "Esto era..."
+  },
+  {
+    "start": 1149.0,
+    "end": 1151.0,
+    "text": "porque cambiaba el estado cuando venía el numeral, ¿no?"
+  },
+  {
+    "start": 1151.0,
+    "end": 1153.0,
+    "text": "Hasta acá lo que hacía era push"
+  },
+  {
+    "start": 1153.0,
+    "end": 1155.0,
+    "text": "independientemente por eso"
+  },
+  {
+    "start": 1155.0,
+    "end": 1157.0,
+    "text": "hacía todas las combinaciones"
+  },
+  {
+    "start": 1157.0,
+    "end": 1159.0,
+    "text": "y acá 0, 0"
+  },
+  {
+    "start": 1159.0,
+    "end": 1161.0,
+    "text": "y numeral 1, 1."
+  },
+  {
+    "start": 1165.0,
+    "end": 1167.0,
+    "text": "Y acá era 0"
+  },
+  {
+    "start": 1167.0,
+    "end": 1169.0,
+    "text": "si hay 0 en el tope pop"
+  },
+  {
+    "start": 1169.0,
+    "end": 1171.0,
+    "text": "y 1"
+  },
+  {
+    "start": 1171.0,
+    "end": 1173.0,
+    "text": "si hay 1 en el tope pop."
+  },
+  {
+    "start": 1173.0,
+    "end": 1175.0,
+    "text": "No hacía todo."
+  },
+  {
+    "start": 1175.0,
+    "end": 1177.0,
+    "text": "Así ya vemos que ha dado."
+  },
+  {
+    "start": 1179.0,
+    "end": 1181.0,
+    "text": "Y acá es cuando definimos"
+  },
+  {
+    "start": 1181.0,
+    "end": 1183.0,
+    "text": "las dos formas"
+  },
+  {
+    "start": 1183.0,
+    "end": 1185.0,
+    "text": "que yo tengo para reconocer lenguajes."
+  },
+  {
+    "start": 1185.0,
+    "end": 1187.0,
+    "text": "Uno es lenguaje aceptado"
+  },
+  {
+    "start": 1187.0,
+    "end": 1189.0,
+    "text": "por estado final"
+  },
+  {
+    "start": 1189.0,
+    "end": 1191.0,
+    "text": "y otro es lenguaje aceptado"
+  },
+  {
+    "start": 1191.0,
+    "end": 1193.0,
+    "text": "por STAC vacío."
+  },
+  {
+    "start": 1193.0,
+    "end": 1195.0,
+    "text": "Yo tengo dos formas"
+  },
+  {
+    "start": 1195.0,
+    "end": 1197.0,
+    "text": "de modelar un automata"
+  },
+  {
+    "start": 1197.0,
+    "end": 1199.0,
+    "text": "push down."
+  },
+  {
+    "start": 1199.0,
+    "end": 1201.0,
+    "text": "Uno que tenga estado finales"
+  },
+  {
+    "start": 1201.0,
+    "end": 1203.0,
+    "text": "y otro que no tenga estado"
+  },
+  {
+    "start": 1203.0,
+    "end": 1205.0,
+    "text": "finales"
+  },
+  {
+    "start": 1205.0,
+    "end": 1207.0,
+    "text": "pero el que me marque"
+  },
+  {
+    "start": 1207.0,
+    "end": 1209.0,
+    "text": "si la tira es válida"
+  },
+  {
+    "start": 1209.0,
+    "end": 1211.0,
+    "text": "va a ser el STAC."
+  },
+  {
+    "start": 1211.0,
+    "end": 1213.0,
+    "text": "En uno, el STAC no me importa"
+  },
+  {
+    "start": 1213.0,
+    "end": 1215.0,
+    "text": "cómo queda"
+  },
+  {
+    "start": 1215.0,
+    "end": 1217.0,
+    "text": "al momento de reconocer el lenguaje"
+  },
+  {
+    "start": 1217.0,
+    "end": 1219.0,
+    "text": "las tiras de un lenguaje"
+  },
+  {
+    "start": 1219.0,
+    "end": 1221.0,
+    "text": "y en el otro"
+  },
+  {
+    "start": 1221.0,
+    "end": 1223.0,
+    "text": "el STAC es clave"
+  },
+  {
+    "start": 1223.0,
+    "end": 1225.0,
+    "text": "para decir"
+  },
+  {
+    "start": 1225.0,
+    "end": 1227.0,
+    "text": "cuáles son las tiras de mi lenguaje."
+  },
+  {
+    "start": 1233.0,
+    "end": 1235.0,
+    "text": "Claro, si lo tengo que especificar"
+  },
+  {
+    "start": 1235.0,
+    "end": 1237.0,
+    "text": "no tengo elementos de F."
+  },
+  {
+    "start": 1237.0,
+    "end": 1239.0,
+    "text": "Entonces"
+  },
+  {
+    "start": 1239.0,
+    "end": 1241.0,
+    "text": "en el caso de lenguaje aceptado"
+  },
+  {
+    "start": 1241.0,
+    "end": 1243.0,
+    "text": "por estado final, la especificación"
+  },
+  {
+    "start": 1243.0,
+    "end": 1245.0,
+    "text": "formal sería el conjunto de las X"
+  },
+  {
+    "start": 1245.0,
+    "end": 1247.0,
+    "text": "pertenecientes a SIG Master"
+  },
+  {
+    "start": 1247.0,
+    "end": 1249.0,
+    "text": "tal que partiendo de la descripción"
+  },
+  {
+    "start": 1249.0,
+    "end": 1251.0,
+    "text": "instantánea inicial"
+  },
+  {
+    "start": 1251.0,
+    "end": 1253.0,
+    "text": "al cabo"
+  },
+  {
+    "start": 1253.0,
+    "end": 1255.0,
+    "text": "de un montón de deltas"
+  },
+  {
+    "start": 1255.0,
+    "end": 1257.0,
+    "text": "de ejecuciones de mi tira"
+  },
+  {
+    "start": 1257.0,
+    "end": 1259.0,
+    "text": "de mi función de transición"
+  },
+  {
+    "start": 1261.0,
+    "end": 1263.0,
+    "text": "Llego a una foto en donde"
+  },
+  {
+    "start": 1263.0,
+    "end": 1265.0,
+    "text": "me queda el automata"
+  },
+  {
+    "start": 1265.0,
+    "end": 1267.0,
+    "text": "en un estado final"
+  },
+  {
+    "start": 1269.0,
+    "end": 1271.0,
+    "text": "obviamente la segunda componente"
+  },
+  {
+    "start": 1271.0,
+    "end": 1273.0,
+    "text": "el buffer que yo tengo para leer"
+  },
+  {
+    "start": 1273.0,
+    "end": 1275.0,
+    "text": "llegué a su fin"
+  },
+  {
+    "start": 1275.0,
+    "end": 1277.0,
+    "text": "leí el último símbolo"
+  },
+  {
+    "start": 1277.0,
+    "end": 1279.0,
+    "text": "o sea que el W en el X en este caso"
+  },
+  {
+    "start": 1279.0,
+    "end": 1281.0,
+    "text": "sería Y"
+  },
+  {
+    "start": 1283.0,
+    "end": 1285.0,
+    "text": "y la tercera componente"
+  },
+  {
+    "start": 1285.0,
+    "end": 1287.0,
+    "text": "es la que me decía la foto del STAC"
+  },
+  {
+    "start": 1287.0,
+    "end": 1289.0,
+    "text": "la tercera componente lo que me dice es"
+  },
+  {
+    "start": 1289.0,
+    "end": 1291.0,
+    "text": "me importa, no me importa"
+  },
+  {
+    "start": 1291.0,
+    "end": 1293.0,
+    "text": "porque me alcanza"
+  },
+  {
+    "start": 1293.0,
+    "end": 1295.0,
+    "text": "con saber las dos cosas"
+  },
+  {
+    "start": 1295.0,
+    "end": 1297.0,
+    "text": "como en automatas finitos"
+  },
+  {
+    "start": 1297.0,
+    "end": 1299.0,
+    "text": "estado final y que haya terminado"
+  },
+  {
+    "start": 1299.0,
+    "end": 1301.0,
+    "text": "de computar la tira"
+  },
+  {
+    "start": 1301.0,
+    "end": 1303.0,
+    "text": "en automatas finitas era la misma aceptación"
+  },
+  {
+    "start": 1303.0,
+    "end": 1305.0,
+    "text": "estado final y que la tira la haya leído"
+  },
+  {
+    "start": 1305.0,
+    "end": 1307.0,
+    "text": "toda"
+  },
+  {
+    "start": 1307.0,
+    "end": 1309.0,
+    "text": "acá"
+  },
+  {
+    "start": 1309.0,
+    "end": 1311.0,
+    "text": "en este modelo"
+  },
+  {
+    "start": 1311.0,
+    "end": 1313.0,
+    "text": "el automata no me importa"
+  },
+  {
+    "start": 1315.0,
+    "end": 1317.0,
+    "text": "me puede haber quedado con marcas"
+  },
+  {
+    "start": 1317.0,
+    "end": 1319.0,
+    "text": "todo depende"
+  },
+  {
+    "start": 1319.0,
+    "end": 1321.0,
+    "text": "de cómo haya yo resuelto"
+  },
+  {
+    "start": 1321.0,
+    "end": 1323.0,
+    "text": "mi automata"
+  },
+  {
+    "start": 1323.0,
+    "end": 1325.0,
+    "text": "en un modelo de estos"
+  },
+  {
+    "start": 1325.0,
+    "end": 1327.0,
+    "text": "y el STAC no me importa"
+  },
+  {
+    "start": 1327.0,
+    "end": 1329.0,
+    "text": "lo uso sí para computar pero no me importa como queda"
+  },
+  {
+    "start": 1331.0,
+    "end": 1333.0,
+    "text": "la otra manera"
+  },
+  {
+    "start": 1333.0,
+    "end": 1335.0,
+    "text": "y ahí"
+  },
+  {
+    "start": 1335.0,
+    "end": 1337.0,
+    "text": "el nombre que recibe el lenguaje aceptado"
+  },
+  {
+    "start": 1337.0,
+    "end": 1339.0,
+    "text": "por STAC vacío o por pila vacía"
+  },
+  {
+    "start": 1341.0,
+    "end": 1343.0,
+    "text": "no existe conjunto F"
+  },
+  {
+    "start": 1343.0,
+    "end": 1345.0,
+    "text": "o sea acá"
+  },
+  {
+    "start": 1345.0,
+    "end": 1347.0,
+    "text": "cuando yo hago una especificación"
+  },
+  {
+    "start": 1347.0,
+    "end": 1349.0,
+    "text": "formal de mi automata"
+  },
+  {
+    "start": 1349.0,
+    "end": 1351.0,
+    "text": "F es el conjunto vacío"
+  },
+  {
+    "start": 1351.0,
+    "end": 1353.0,
+    "text": "no tengo estado finales"
+  },
+  {
+    "start": 1353.0,
+    "end": 1355.0,
+    "text": "entonces"
+  },
+  {
+    "start": 1355.0,
+    "end": 1357.0,
+    "text": "como yo defino el lenguaje aceptado"
+  },
+  {
+    "start": 1357.0,
+    "end": 1359.0,
+    "text": "por un STAC"
+  },
+  {
+    "start": 1359.0,
+    "end": 1361.0,
+    "text": "que reconoce por STAC vacío"
+  },
+  {
+    "start": 1361.0,
+    "end": 1363.0,
+    "text": "es el conjunto de las X"
+  },
+  {
+    "start": 1363.0,
+    "end": 1365.0,
+    "text": "pertenecientes a Seamaster"
+  },
+  {
+    "start": 1365.0,
+    "end": 1367.0,
+    "text": "tal que partiendo de la descripción instantane inicial"
+  },
+  {
+    "start": 1367.0,
+    "end": 1369.0,
+    "text": "al cabo de una secuencia"
+  },
+  {
+    "start": 1369.0,
+    "end": 1371.0,
+    "text": "de transiciones"
+  },
+  {
+    "start": 1371.0,
+    "end": 1373.0,
+    "text": "llego a una foto final"
+  },
+  {
+    "start": 1373.0,
+    "end": 1375.0,
+    "text": "en donde llegué a un estado P"
+  },
+  {
+    "start": 1375.0,
+    "end": 1377.0,
+    "text": "la segunda componente"
+  },
+  {
+    "start": 1377.0,
+    "end": 1379.0,
+    "text": "es epsilon ¿por qué? porque la leí toda"
+  },
+  {
+    "start": 1379.0,
+    "end": 1381.0,
+    "text": "ya leí toda mi tira de entrada"
+  },
+  {
+    "start": 1381.0,
+    "end": 1383.0,
+    "text": "que estaba validando"
+  },
+  {
+    "start": 1383.0,
+    "end": 1385.0,
+    "text": "pero además"
+  },
+  {
+    "start": 1385.0,
+    "end": 1387.0,
+    "text": "el STAC está vacío"
+  },
+  {
+    "start": 1387.0,
+    "end": 1389.0,
+    "text": "y que el STAC está vacío"
+  },
+  {
+    "start": 1389.0,
+    "end": 1391.0,
+    "text": "es"
+  },
+  {
+    "start": 1391.0,
+    "end": 1393.0,
+    "text": "saqué todo"
+  },
+  {
+    "start": 1393.0,
+    "end": 1395.0,
+    "text": "incluido el Z0"
+  },
+  {
+    "start": 1395.0,
+    "end": 1397.0,
+    "text": "y eso es lo que decíamos el otro día"
+  },
+  {
+    "start": 1397.0,
+    "end": 1399.0,
+    "text": "ojo si yo saco el Z0"
+  },
+  {
+    "start": 1399.0,
+    "end": 1401.0,
+    "text": "marchaste"
+  },
+  {
+    "start": 1401.0,
+    "end": 1403.0,
+    "text": "ya después ahí el automata"
+  },
+  {
+    "start": 1403.0,
+    "end": 1405.0,
+    "text": "que detiene"
+  },
+  {
+    "start": 1405.0,
+    "end": 1407.0,
+    "text": "perdí totalmente"
+  },
+  {
+    "start": 1407.0,
+    "end": 1409.0,
+    "text": "la referencia"
+  },
+  {
+    "start": 1409.0,
+    "end": 1411.0,
+    "text": "ok"
+  },
+  {
+    "start": 1411.0,
+    "end": 1413.0,
+    "text": "o sea"
+  },
+  {
+    "start": 1413.0,
+    "end": 1415.0,
+    "text": "yo puedo sacarle el Z0"
+  },
+  {
+    "start": 1415.0,
+    "end": 1417.0,
+    "text": "en cualquier momento"
+  },
+  {
+    "start": 1417.0,
+    "end": 1419.0,
+    "text": "te voy a tener cuidado"
+  },
+  {
+    "start": 1419.0,
+    "end": 1421.0,
+    "text": "nada más que eso"
+  },
+  {
+    "start": 1427.0,
+    "end": 1429.0,
+    "text": "claro claro"
+  },
+  {
+    "start": 1429.0,
+    "end": 1431.0,
+    "text": "si mi automata"
+  },
+  {
+    "start": 1431.0,
+    "end": 1433.0,
+    "text": "hace el pop"
+  },
+  {
+    "start": 1433.0,
+    "end": 1435.0,
+    "text": "tengo en el top el Z0"
+  },
+  {
+    "start": 1435.0,
+    "end": 1437.0,
+    "text": "dice Q"
+  },
+  {
+    "start": 1437.0,
+    "end": 1439.0,
+    "text": "0 Z0"
+  },
+  {
+    "start": 1439.0,
+    "end": 1441.0,
+    "text": "pop"
+  },
+  {
+    "start": 1441.0,
+    "end": 1443.0,
+    "text": "paso en estado"
+  },
+  {
+    "start": 1443.0,
+    "end": 1445.0,
+    "text": "Q2"
+  },
+  {
+    "start": 1445.0,
+    "end": 1447.0,
+    "text": "y hago el pop"
+  },
+  {
+    "start": 1447.0,
+    "end": 1449.0,
+    "text": "si todavía me quedó tira por consumir"
+  },
+  {
+    "start": 1449.0,
+    "end": 1451.0,
+    "text": "y el STAC me quedó"
+  },
+  {
+    "start": 1451.0,
+    "end": 1453.0,
+    "text": "vacío"
+  },
+  {
+    "start": 1453.0,
+    "end": 1455.0,
+    "text": "¿qué es lo que concluyo?"
+  },
+  {
+    "start": 1455.0,
+    "end": 1457.0,
+    "text": "que no la reconoce"
+  },
+  {
+    "start": 1457.0,
+    "end": 1459.0,
+    "text": "porque si estoy haciendo un modelo"
+  },
+  {
+    "start": 1459.0,
+    "end": 1461.0,
+    "text": "por STAC vacío"
+  },
+  {
+    "start": 1461.0,
+    "end": 1463.0,
+    "text": "esto no se cumple"
+  },
+  {
+    "start": 1463.0,
+    "end": 1465.0,
+    "text": "para la tira porque me quedó tira por consumir"
+  },
+  {
+    "start": 1465.0,
+    "end": 1467.0,
+    "text": "el problema sería"
+  },
+  {
+    "start": 1467.0,
+    "end": 1469.0,
+    "text": "si yo hago un modelo que reconoce"
+  },
+  {
+    "start": 1469.0,
+    "end": 1471.0,
+    "text": "por STAC vacío"
+  },
+  {
+    "start": 1471.0,
+    "end": 1473.0,
+    "text": "vacío el STAC"
+  },
+  {
+    "start": 1473.0,
+    "end": 1475.0,
+    "text": "no terminé de consumir la tira"
+  },
+  {
+    "start": 1475.0,
+    "end": 1477.0,
+    "text": "y la tira era válida"
+  },
+  {
+    "start": 1481.0,
+    "end": 1483.0,
+    "text": "pero ese es un problema"
+  },
+  {
+    "start": 1483.0,
+    "end": 1485.0,
+    "text": "de construcción de la automata"
+  },
+  {
+    "start": 1485.0,
+    "end": 1487.0,
+    "text": "es como cuando modelábamos"
+  },
+  {
+    "start": 1487.0,
+    "end": 1489.0,
+    "text": "finito"
+  },
+  {
+    "start": 1489.0,
+    "end": 1491.0,
+    "text": "que reconocía tiras que no tenía que reconocer"
+  },
+  {
+    "start": 1491.0,
+    "end": 1493.0,
+    "text": "es lo mismo"
+  },
+  {
+    "start": 1493.0,
+    "end": 1495.0,
+    "text": "o peor"
+  },
+  {
+    "start": 1495.0,
+    "end": 1497.0,
+    "text": "o no reconocía tiras que tenía que reconocer"
+  },
+  {
+    "start": 1497.0,
+    "end": 1499.0,
+    "text": "que sería el caso Ana Luvaes"
+  },
+  {
+    "start": 1509.0,
+    "end": 1511.0,
+    "text": "determinista"
+  },
+  {
+    "start": 1511.0,
+    "end": 1513.0,
+    "text": "antes de ver esto"
+  },
+  {
+    "start": 1513.0,
+    "end": 1515.0,
+    "text": "ahí habíamos quedado"
+  },
+  {
+    "start": 1515.0,
+    "end": 1517.0,
+    "text": "vamos a ver como sería"
+  },
+  {
+    "start": 1521.0,
+    "end": 1523.0,
+    "text": "reconocer este lenguaje"
+  },
+  {
+    "start": 1523.0,
+    "end": 1525.0,
+    "text": "de acuerdo a los dos modelos"
+  },
+  {
+    "start": 1525.0,
+    "end": 1527.0,
+    "text": "que vimos recién"
+  },
+  {
+    "start": 1529.0,
+    "end": 1531.0,
+    "text": "que era lo que me faltaba para terminar esto"
+  },
+  {
+    "start": 1535.0,
+    "end": 1537.0,
+    "text": "por estado final"
+  },
+  {
+    "start": 1537.0,
+    "end": 1539.0,
+    "text": "primera solución"
+  },
+  {
+    "start": 1545.0,
+    "end": 1547.0,
+    "text": "que sería hacer"
+  },
+  {
+    "start": 1551.0,
+    "end": 1553.0,
+    "text": "acá"
+  },
+  {
+    "start": 1553.0,
+    "end": 1555.0,
+    "text": "yo pongo lo que me dicen"
+  },
+  {
+    "start": 1555.0,
+    "end": 1557.0,
+    "text": "después lo discutimos"
+  },
+  {
+    "start": 1557.0,
+    "end": 1559.0,
+    "text": "alguien se la jugó y puso esto"
+  },
+  {
+    "start": 1571.0,
+    "end": 1573.0,
+    "text": "¿cuál es la condición para aceptar la tira?"
+  },
+  {
+    "start": 1575.0,
+    "end": 1577.0,
+    "text": "que el estado sea final"
+  },
+  {
+    "start": 1577.0,
+    "end": 1579.0,
+    "text": "que haya leído toda la tira"
+  },
+  {
+    "start": 1579.0,
+    "end": 1581.0,
+    "text": "y el STAC no me importa como quedó"
+  },
+  {
+    "start": 1581.0,
+    "end": 1583.0,
+    "text": "lo que me dice el compañero acá"
+  },
+  {
+    "start": 1583.0,
+    "end": 1585.0,
+    "text": "es si yo tengo la tira"
+  },
+  {
+    "start": 1585.0,
+    "end": 1587.0,
+    "text": "0 0 1"
+  },
+  {
+    "start": 1587.0,
+    "end": 1589.0,
+    "text": "numeral 1 0"
+  },
+  {
+    "start": 1591.0,
+    "end": 1593.0,
+    "text": "fíjese como fue computándose"
+  },
+  {
+    "start": 1593.0,
+    "end": 1595.0,
+    "text": "tenía Z 0"
+  },
+  {
+    "start": 1595.0,
+    "end": 1597.0,
+    "text": "leo un 0"
+  },
+  {
+    "start": 1597.0,
+    "end": 1599.0,
+    "text": "tengo Z 0 hago el push de 0"
+  },
+  {
+    "start": 1599.0,
+    "end": 1601.0,
+    "text": "que es esta"
+  },
+  {
+    "start": 1601.0,
+    "end": 1603.0,
+    "text": "leo el 0"
+  },
+  {
+    "start": 1603.0,
+    "end": 1605.0,
+    "text": "leo el 0, tengo Z 0"
+  },
+  {
+    "start": 1605.0,
+    "end": 1607.0,
+    "text": "hago el push de 0"
+  },
+  {
+    "start": 1607.0,
+    "end": 1609.0,
+    "text": "leo el 1"
+  },
+  {
+    "start": 1609.0,
+    "end": 1611.0,
+    "text": "tengo 0, hago el push de 1"
+  },
+  {
+    "start": 1613.0,
+    "end": 1615.0,
+    "text": "leo el numeral y tengo 1"
+  },
+  {
+    "start": 1615.0,
+    "end": 1617.0,
+    "text": "ejecuto esta transición"
+  },
+  {
+    "start": 1617.0,
+    "end": 1619.0,
+    "text": "me paso al estado Q1"
+  },
+  {
+    "start": 1621.0,
+    "end": 1623.0,
+    "text": "leo 1"
+  },
+  {
+    "start": 1623.0,
+    "end": 1625.0,
+    "text": "tengo 1 en el tope del STAC"
+  },
+  {
+    "start": 1627.0,
+    "end": 1629.0,
+    "text": "no me mancho todos los dedos"
+  },
+  {
+    "start": 1633.0,
+    "end": 1635.0,
+    "text": "leo 1"
+  },
+  {
+    "start": 1635.0,
+    "end": 1637.0,
+    "text": "tenía 1 en el tope del STAC"
+  },
+  {
+    "start": 1637.0,
+    "end": 1639.0,
+    "text": "pop, que es esta"
+  },
+  {
+    "start": 1639.0,
+    "end": 1641.0,
+    "text": "leo 0, tengo 0 en el tope del STAC"
+  },
+  {
+    "start": 1641.0,
+    "end": 1643.0,
+    "text": "pop"
+  },
+  {
+    "start": 1645.0,
+    "end": 1647.0,
+    "text": "fin de tira, epsilon"
+  },
+  {
+    "start": 1647.0,
+    "end": 1649.0,
+    "text": "estoy en el estado Q1"
+  },
+  {
+    "start": 1649.0,
+    "end": 1651.0,
+    "text": "se me acabó la tira"
+  },
+  {
+    "start": 1651.0,
+    "end": 1653.0,
+    "text": "el STAC me quedó con cosas"
+  },
+  {
+    "start": 1653.0,
+    "end": 1655.0,
+    "text": "según el criterio"
+  },
+  {
+    "start": 1655.0,
+    "end": 1657.0,
+    "text": "esa tira es válida"
+  },
+  {
+    "start": 1657.0,
+    "end": 1659.0,
+    "text": "se entendió?"
+  },
+  {
+    "start": 1669.0,
+    "end": 1671.0,
+    "text": "esta entonces no me ha sido"
+  },
+  {
+    "start": 1687.0,
+    "end": 1689.0,
+    "text": "como acepto por estado final"
+  },
+  {
+    "start": 1697.0,
+    "end": 1699.0,
+    "text": "sé que es una tira válida"
+  },
+  {
+    "start": 1699.0,
+    "end": 1701.0,
+    "text": "dado el lenguaje como lo modelé"
+  },
+  {
+    "start": 1701.0,
+    "end": 1703.0,
+    "text": "no, para"
+  },
+  {
+    "start": 1707.0,
+    "end": 1709.0,
+    "text": "antes de hacer pop"
+  },
+  {
+    "start": 1709.0,
+    "end": 1711.0,
+    "text": "cuando?"
+  },
+  {
+    "start": 1715.0,
+    "end": 1717.0,
+    "text": "no tengo más nada que leer"
+  },
+  {
+    "start": 1717.0,
+    "end": 1719.0,
+    "text": "mi segunda componente es epsilon"
+  },
+  {
+    "start": 1719.0,
+    "end": 1721.0,
+    "text": "no tengo símbolos para leer"
+  },
+  {
+    "start": 1723.0,
+    "end": 1725.0,
+    "text": "sería una transición"
+  },
+  {
+    "start": 1725.0,
+    "end": 1727.0,
+    "text": "epsilon"
+  },
+  {
+    "start": 1729.0,
+    "end": 1731.0,
+    "text": "tengo Q en el tope"
+  },
+  {
+    "start": 1731.0,
+    "end": 1733.0,
+    "text": "para que la tira sea válida"
+  },
+  {
+    "start": 1733.0,
+    "end": 1735.0,
+    "text": "Z0, tengo que haber"
+  },
+  {
+    "start": 1735.0,
+    "end": 1737.0,
+    "text": "machado lo 3 con los 3"
+  },
+  {
+    "start": 1741.0,
+    "end": 1743.0,
+    "text": "entonces como lo arreglo eso"
+  },
+  {
+    "start": 1743.0,
+    "end": 1745.0,
+    "text": "para que la tira sea válida"
+  },
+  {
+    "start": 1753.0,
+    "end": 1755.0,
+    "text": "epsilon"
+  },
+  {
+    "start": 1755.0,
+    "end": 1757.0,
+    "text": "Z0"
+  },
+  {
+    "start": 1767.0,
+    "end": 1769.0,
+    "text": "para"
+  },
+  {
+    "start": 1769.0,
+    "end": 1771.0,
+    "text": "esto funciona?"
+  },
+  {
+    "start": 1771.0,
+    "end": 1773.0,
+    "text": "fue lo que me hicieron, estado Q2"
+  },
+  {
+    "start": 1775.0,
+    "end": 1777.0,
+    "text": "y el Q2 es final"
+  },
+  {
+    "start": 1781.0,
+    "end": 1783.0,
+    "text": "perdón"
+  },
+  {
+    "start": 1783.0,
+    "end": 1785.0,
+    "text": "no, que segunda componente"
+  },
+  {
+    "start": 1785.0,
+    "end": 1787.0,
+    "text": "la segunda componente es el tope del STAC"
+  },
+  {
+    "start": 1787.0,
+    "end": 1789.0,
+    "text": "está bien"
+  },
+  {
+    "start": 1793.0,
+    "end": 1795.0,
+    "text": "fíjense la tira esta"
+  },
+  {
+    "start": 1795.0,
+    "end": 1797.0,
+    "text": "bueno, la tira esta como funcionaba"
+  },
+  {
+    "start": 1797.0,
+    "end": 1799.0,
+    "text": "tengo 0"
+  },
+  {
+    "start": 1799.0,
+    "end": 1801.0,
+    "text": "y tenía"
+  },
+  {
+    "start": 1803.0,
+    "end": 1805.0,
+    "text": "así lo tenía, estaba ejecutando"
+  },
+  {
+    "start": 1805.0,
+    "end": 1807.0,
+    "text": "epsilon"
+  },
+  {
+    "start": 1807.0,
+    "end": 1809.0,
+    "text": "podría ir por este camino"
+  },
+  {
+    "start": 1809.0,
+    "end": 1811.0,
+    "text": "pero que tengo en el tope del STAC?"
+  },
+  {
+    "start": 1811.0,
+    "end": 1813.0,
+    "text": "0, entonces esta no se ejecuta"
+  },
+  {
+    "start": 1817.0,
+    "end": 1819.0,
+    "text": "que tengo que ver con Q1"
+  },
+  {
+    "start": 1821.0,
+    "end": 1823.0,
+    "text": "así como está, esta tira no es válida"
+  },
+  {
+    "start": 1823.0,
+    "end": 1825.0,
+    "text": "la reconoce?"
+  },
+  {
+    "start": 1825.0,
+    "end": 1827.0,
+    "text": "no, porque nunca llega Q2"
+  },
+  {
+    "start": 1827.0,
+    "end": 1829.0,
+    "text": "porque para llegar a Q2"
+  },
+  {
+    "start": 1829.0,
+    "end": 1831.0,
+    "text": "tengo que tener Z0 en el tope"
+  },
+  {
+    "start": 1833.0,
+    "end": 1835.0,
+    "text": "única chance"
+  },
+  {
+    "start": 1835.0,
+    "end": 1837.0,
+    "text": "uno va a decir"
+  },
+  {
+    "start": 1837.0,
+    "end": 1839.0,
+    "text": "ah, pero podrías no leer y tener Z0 en el tope"
+  },
+  {
+    "start": 1839.0,
+    "end": 1841.0,
+    "text": "es otro problema"
+  },
+  {
+    "start": 1843.0,
+    "end": 1845.0,
+    "text": "que ahora lo analizamos"
+  },
+  {
+    "start": 1849.0,
+    "end": 1851.0,
+    "text": "supongase que yo tengo"
+  },
+  {
+    "start": 1851.0,
+    "end": 1853.0,
+    "text": "00"
+  },
+  {
+    "start": 1853.0,
+    "end": 1855.0,
+    "text": "numeral"
+  },
+  {
+    "start": 1855.0,
+    "end": 1857.0,
+    "text": "001"
+  },
+  {
+    "start": 1863.0,
+    "end": 1865.0,
+    "text": "yo lo modelé así"
+  },
+  {
+    "start": 1867.0,
+    "end": 1869.0,
+    "text": "o sea, el problema este"
+  },
+  {
+    "start": 1869.0,
+    "end": 1871.0,
+    "text": "cuando tengo más de la izquierda"
+  },
+  {
+    "start": 1871.0,
+    "end": 1873.0,
+    "text": "que la derecha, viene todo bien"
+  },
+  {
+    "start": 1873.0,
+    "end": 1875.0,
+    "text": "quedó claro que no"
+  },
+  {
+    "start": 1875.0,
+    "end": 1877.0,
+    "text": "muere, no?"
+  },
+  {
+    "start": 1877.0,
+    "end": 1879.0,
+    "text": "si o no, todos"
+  },
+  {
+    "start": 1879.0,
+    "end": 1881.0,
+    "text": "bien, veamos este"
+  },
+  {
+    "start": 1884.0,
+    "end": 1887.0,
+    "text": "leo un 0, tengo Z0 en el tope"
+  },
+  {
+    "start": 1887.0,
+    "end": 1889.0,
+    "text": "pongo el 0"
+  },
+  {
+    "start": 1889.0,
+    "end": 1891.0,
+    "text": "leo un 0, tengo 0 en el tope"
+  },
+  {
+    "start": 1891.0,
+    "end": 1893.0,
+    "text": "pongo un 0"
+  },
+  {
+    "start": 1893.0,
+    "end": 1895.0,
+    "text": "leo numeral"
+  },
+  {
+    "start": 1895.0,
+    "end": 1897.0,
+    "text": "tengo 0 en el tope"
+  },
+  {
+    "start": 1897.0,
+    "end": 1899.0,
+    "text": "pasa al estado Q1"
+  },
+  {
+    "start": 1899.0,
+    "end": 1901.0,
+    "text": "estoy en estado Q1"
+  },
+  {
+    "start": 1903.0,
+    "end": 1905.0,
+    "text": "leo un 0, tengo Z0"
+  },
+  {
+    "start": 1905.0,
+    "end": 1907.0,
+    "text": "en el tope"
+  },
+  {
+    "start": 1907.0,
+    "end": 1909.0,
+    "text": "pop"
+  },
+  {
+    "start": 1911.0,
+    "end": 1913.0,
+    "text": "leo un 0, tengo Z0 en el tope"
+  },
+  {
+    "start": 1915.0,
+    "end": 1917.0,
+    "text": "pop"
+  },
+  {
+    "start": 1917.0,
+    "end": 1919.0,
+    "text": "leo un 1, tengo Z0 en el tope"
+  },
+  {
+    "start": 1919.0,
+    "end": 1921.0,
+    "text": "lo tengo acá modelado"
+  },
+  {
+    "start": 1921.0,
+    "end": 1923.0,
+    "text": "no"
+  },
+  {
+    "start": 1923.0,
+    "end": 1925.0,
+    "text": "pero parada"
+  },
+  {
+    "start": 1925.0,
+    "end": 1927.0,
+    "text": "tengo una transición epsilon con Z0 en el tope"
+  },
+  {
+    "start": 1927.0,
+    "end": 1929.0,
+    "text": "ah, y bueno, entonces las puedo ejecutar"
+  },
+  {
+    "start": 1931.0,
+    "end": 1933.0,
+    "text": "si o no"
+  },
+  {
+    "start": 1933.0,
+    "end": 1935.0,
+    "text": "bien, epsilon Z0"
+  },
+  {
+    "start": 1935.0,
+    "end": 1937.0,
+    "text": "Z0"
+  },
+  {
+    "start": 1937.0,
+    "end": 1939.0,
+    "text": "o sea que"
+  },
+  {
+    "start": 1939.0,
+    "end": 1941.0,
+    "text": "no consumió este 1"
+  },
+  {
+    "start": 1941.0,
+    "end": 1943.0,
+    "text": "porque es epsilon la primer componente"
+  },
+  {
+    "start": 1943.0,
+    "end": 1945.0,
+    "text": "tengo Z0"
+  },
+  {
+    "start": 1945.0,
+    "end": 1947.0,
+    "text": "y dejé Z0"
+  },
+  {
+    "start": 1947.0,
+    "end": 1949.0,
+    "text": "y me quedé en el estado Q2"
+  },
+  {
+    "start": 1951.0,
+    "end": 1953.0,
+    "text": "para qué quiero consumir el 1"
+  },
+  {
+    "start": 1955.0,
+    "end": 1957.0,
+    "text": "exacto"
+  },
+  {
+    "start": 1957.0,
+    "end": 1959.0,
+    "text": "entonces la pregunta es"
+  },
+  {
+    "start": 1959.0,
+    "end": 1961.0,
+    "text": "esto, se cumple"
+  },
+  {
+    "start": 1961.0,
+    "end": 1963.0,
+    "text": "no"
+  },
+  {
+    "start": 1963.0,
+    "end": 1965.0,
+    "text": "el estado me queda"
+  },
+  {
+    "start": 1965.0,
+    "end": 1967.0,
+    "text": "el automata me queda acá bloqueado"
+  },
+  {
+    "start": 1967.0,
+    "end": 1969.0,
+    "text": "pero la segunda componente no es epsilon"
+  },
+  {
+    "start": 1969.0,
+    "end": 1971.0,
+    "text": "porque me queda un 1 por consumir"
+  },
+  {
+    "start": 1973.0,
+    "end": 1975.0,
+    "text": "entonces el hecho"
+  },
+  {
+    "start": 1975.0,
+    "end": 1977.0,
+    "text": "y eso es importante"
+  },
+  {
+    "start": 1977.0,
+    "end": 1979.0,
+    "text": "en el modelo de automata con stack"
+  },
+  {
+    "start": 1981.0,
+    "end": 1983.0,
+    "text": "que acepta"
+  },
+  {
+    "start": 1983.0,
+    "end": 1985.0,
+    "text": "por estado final"
+  },
+  {
+    "start": 1985.0,
+    "end": 1987.0,
+    "text": "no importa el stack"
+  },
+  {
+    "start": 1987.0,
+    "end": 1989.0,
+    "text": "importa que quede"
+  },
+  {
+    "start": 1989.0,
+    "end": 1991.0,
+    "text": "en un estado final"
+  },
+  {
+    "start": 1991.0,
+    "end": 1993.0,
+    "text": "pero siempre tengo que haber consumido toda mi tira"
+  },
+  {
+    "start": 1993.0,
+    "end": 1995.0,
+    "text": "o sea el hecho"
+  },
+  {
+    "start": 1995.0,
+    "end": 1997.0,
+    "text": "de que quede en un estado final"
+  },
+  {
+    "start": 1997.0,
+    "end": 1999.0,
+    "text": "no me dice ah, entonces la tira es válida"
+  },
+  {
+    "start": 1999.0,
+    "end": 2001.0,
+    "text": "porque no termine de leerla"
+  },
+  {
+    "start": 2001.0,
+    "end": 2003.0,
+    "text": "es como si fuera"
+  },
+  {
+    "start": 2003.0,
+    "end": 2005.0,
+    "text": "a un estado pozo"
+  },
+  {
+    "start": 2005.0,
+    "end": 2007.0,
+    "text": "que era lo que modelábamos"
+  },
+  {
+    "start": 2007.0,
+    "end": 2009.0,
+    "text": "en automata finitos"
+  },
+  {
+    "start": 2009.0,
+    "end": 2011.0,
+    "text": "que sacábamos pozos de los finales"
+  },
+  {
+    "start": 2011.0,
+    "end": 2013.0,
+    "text": "estaba si viene ahora un numeral y no tenía que haber venido"
+  },
+  {
+    "start": 2013.0,
+    "end": 2015.0,
+    "text": "lo mando un pozo y sigo leyendo hasta el final"
+  },
+  {
+    "start": 2015.0,
+    "end": 2017.0,
+    "text": "acá lo que dijimos fue"
+  },
+  {
+    "start": 2017.0,
+    "end": 2019.0,
+    "text": "este modelo no construimos todos los pozos"
+  },
+  {
+    "start": 2019.0,
+    "end": 2021.0,
+    "text": "para no hacer todas las posibles combinaciones"
+  },
+  {
+    "start": 2021.0,
+    "end": 2023.0,
+    "text": "que me enchastrarían al dibujo"
+  },
+  {
+    "start": 2023.0,
+    "end": 2025.0,
+    "text": "en la vida real hay que ver"
+  },
+  {
+    "start": 2025.0,
+    "end": 2027.0,
+    "text": "como resuelvo esos problemas"
+  },
+  {
+    "start": 2029.0,
+    "end": 2031.0,
+    "text": "se entiende porque acá tengo un producto"
+  },
+  {
+    "start": 2031.0,
+    "end": 2033.0,
+    "text": "cartesiano"
+  },
+  {
+    "start": 2033.0,
+    "end": 2035.0,
+    "text": "de tres"
+  },
+  {
+    "start": 2035.0,
+    "end": 2037.0,
+    "text": "estado, símbolo"
+  },
+  {
+    "start": 2037.0,
+    "end": 2039.0,
+    "text": "y stack"
+  },
+  {
+    "start": 2039.0,
+    "end": 2041.0,
+    "text": "entonces donde empieza a ser un dibujo"
+  },
+  {
+    "start": 2041.0,
+    "end": 2043.0,
+    "text": "de estas características"
+  },
+  {
+    "start": 2043.0,
+    "end": 2045.0,
+    "text": "por eso es que nosotros no representamos"
+  },
+  {
+    "start": 2045.0,
+    "end": 2047.0,
+    "text": "toda transición que no sea válida"
+  },
+  {
+    "start": 2047.0,
+    "end": 2049.0,
+    "text": "entonces en principio el automata se bloquea"
+  },
+  {
+    "start": 2053.0,
+    "end": 2055.0,
+    "text": "conceptualmente me juí un pozo"
+  },
+  {
+    "start": 2055.0,
+    "end": 2057.0,
+    "text": "para que termine de leer"
+  },
+  {
+    "start": 2057.0,
+    "end": 2059.0,
+    "text": "y es un pozo que además es pozo y no es final"
+  },
+  {
+    "start": 2059.0,
+    "end": 2061.0,
+    "text": "entonces la tira no es válida"
+  },
+  {
+    "start": 2063.0,
+    "end": 2065.0,
+    "text": "se entiende, eso es un"
+  },
+  {
+    "start": 2065.0,
+    "end": 2067.0,
+    "text": "cambio"
+  },
+  {
+    "start": 2069.0,
+    "end": 2071.0,
+    "text": "acá no vamos a hablar de relación"
+  },
+  {
+    "start": 2071.0,
+    "end": 2073.0,
+    "text": "y automata completo y todo eso"
+  },
+  {
+    "start": 2073.0,
+    "end": 2075.0,
+    "text": "cuando teníamos infinitos"
+  },
+  {
+    "start": 2081.0,
+    "end": 2083.0,
+    "text": "entonces"
+  },
+  {
+    "start": 2083.0,
+    "end": 2085.0,
+    "text": "esta versión"
+  },
+  {
+    "start": 2085.0,
+    "end": 2087.0,
+    "text": "que me acepta por estado final funciona"
+  },
+  {
+    "start": 2091.0,
+    "end": 2093.0,
+    "text": "por qué no"
+  },
+  {
+    "start": 2093.0,
+    "end": 2095.0,
+    "text": "no, por qué no, sí"
+  },
+  {
+    "start": 2097.0,
+    "end": 2099.0,
+    "text": "bueno entonces sí"
+  },
+  {
+    "start": 2103.0,
+    "end": 2105.0,
+    "text": "por qué"
+  },
+  {
+    "start": 2107.0,
+    "end": 2109.0,
+    "text": "por qué"
+  },
+  {
+    "start": 2109.0,
+    "end": 2111.0,
+    "text": "por qué queda un estado final"
+  },
+  {
+    "start": 2111.0,
+    "end": 2113.0,
+    "text": "pero no termino de leerla"
+  },
+  {
+    "start": 2113.0,
+    "end": 2115.0,
+    "text": "porque el automata queda bloqueado"
+  },
+  {
+    "start": 2115.0,
+    "end": 2117.0,
+    "text": "no se cumple esto, no acepta tiras"
+  },
+  {
+    "start": 2117.0,
+    "end": 2119.0,
+    "text": "la tira no es válida"
+  },
+  {
+    "start": 2119.0,
+    "end": 2121.0,
+    "text": "no se cumple esto"
+  },
+  {
+    "start": 2121.0,
+    "end": 2123.0,
+    "text": "quedó el automata en el estado final"
+  },
+  {
+    "start": 2123.0,
+    "end": 2125.0,
+    "text": "y repito"
+  },
+  {
+    "start": 2125.0,
+    "end": 2127.0,
+    "text": "para que la tira sea válida"
+  },
+  {
+    "start": 2127.0,
+    "end": 2129.0,
+    "text": "antes era, se acuerdan"
+  },
+  {
+    "start": 2129.0,
+    "end": 2131.0,
+    "text": "q pertenece al conjunto de estado finales"
+  },
+  {
+    "start": 2131.0,
+    "end": 2133.0,
+    "text": "para aceptar un lenguaje aceptado por un automata finito"
+  },
+  {
+    "start": 2133.0,
+    "end": 2135.0,
+    "text": "alcanzaba que la tira llegara a un estado final"
+  },
+  {
+    "start": 2137.0,
+    "end": 2139.0,
+    "text": "acá"
+  },
+  {
+    "start": 2139.0,
+    "end": 2141.0,
+    "text": "no alcanza que la tira llegue a un estado final"
+  },
+  {
+    "start": 2141.0,
+    "end": 2143.0,
+    "text": "necesita"
+  },
+  {
+    "start": 2143.0,
+    "end": 2145.0,
+    "text": "que la tira llegue a un estado final"
+  },
+  {
+    "start": 2145.0,
+    "end": 2147.0,
+    "text": "que haya sido reconocida toda"
+  },
+  {
+    "start": 2147.0,
+    "end": 2149.0,
+    "text": "y el taxi no me importa como quede"
+  },
+  {
+    "start": 2151.0,
+    "end": 2153.0,
+    "text": "acá me tengo que fijar en las dos cosas"
+  },
+  {
+    "start": 2153.0,
+    "end": 2155.0,
+    "text": "entonces aunque me quede un estado final"
+  },
+  {
+    "start": 2155.0,
+    "end": 2157.0,
+    "text": "y el automata quede bloqueado"
+  },
+  {
+    "start": 2157.0,
+    "end": 2159.0,
+    "text": "no se cumple, nunca la termino de procesar"
+  },
+  {
+    "start": 2159.0,
+    "end": 2161.0,
+    "text": "la tira no es válida, ese par"
+  },
+  {
+    "start": 2161.0,
+    "end": 2163.0,
+    "text": "no se cumple"
+  },
+  {
+    "start": 2167.0,
+    "end": 2169.0,
+    "text": "es como si"
+  },
+  {
+    "start": 2169.0,
+    "end": 2171.0,
+    "text": "si yo lo quisiera hacer, no lo hacemos"
+  },
+  {
+    "start": 2171.0,
+    "end": 2173.0,
+    "text": "porque si no, incluso puede llegar hasta mareada"
+  },
+  {
+    "start": 2173.0,
+    "end": 2175.0,
+    "text": "es como si dijera, bueno, sabes que"
+  },
+  {
+    "start": 2175.0,
+    "end": 2177.0,
+    "text": "si cualquier cosa que está acá"
+  },
+  {
+    "start": 2177.0,
+    "end": 2179.0,
+    "text": "y viene a un uno y tengo z0 en el tope del stack"
+  },
+  {
+    "start": 2179.0,
+    "end": 2181.0,
+    "text": "que era lo que pasaba"
+  },
+  {
+    "start": 2181.0,
+    "end": 2183.0,
+    "text": "llega a un estado y me quedo acá y no acepto nunca"
+  },
+  {
+    "start": 2183.0,
+    "end": 2185.0,
+    "text": "y no es final"
+  },
+  {
+    "start": 2185.0,
+    "end": 2187.0,
+    "text": "sería esa la idea"
+  },
+  {
+    "start": 2189.0,
+    "end": 2191.0,
+    "text": "está"
+  },
+  {
+    "start": 2193.0,
+    "end": 2195.0,
+    "text": "bien"
+  },
+  {
+    "start": 2197.0,
+    "end": 2199.0,
+    "text": "por ahí decían"
+  },
+  {
+    "start": 2199.0,
+    "end": 2201.0,
+    "text": "de poner con uno también como final"
+  },
+  {
+    "start": 2201.0,
+    "end": 2203.0,
+    "text": "o eso es un animal"
+  },
+  {
+    "start": 2203.0,
+    "end": 2205.0,
+    "text": "no"
+  },
+  {
+    "start": 2205.0,
+    "end": 2207.0,
+    "text": "pero tenía que agregar alguna otra epsilon acá"
+  },
+  {
+    "start": 2207.0,
+    "end": 2209.0,
+    "text": "o eso es un animal"
+  },
+  {
+    "start": 2209.0,
+    "end": 2211.0,
+    "text": "puedes agregar todas las que quieras"
+  },
+  {
+    "start": 2211.0,
+    "end": 2213.0,
+    "text": "a priori puedes agregar todas las que quieras"
+  },
+  {
+    "start": 2215.0,
+    "end": 2217.0,
+    "text": "¿cuál quieres agregar?"
+  },
+  {
+    "start": 2219.0,
+    "end": 2221.0,
+    "text": "no se si"
+  },
+  {
+    "start": 2221.0,
+    "end": 2223.0,
+    "text": "jugo 2 pero"
+  },
+  {
+    "start": 2223.0,
+    "end": 2225.0,
+    "text": "jugo 1, jugo 1, capaz"
+  },
+  {
+    "start": 2225.0,
+    "end": 2227.0,
+    "text": "epsilon 0"
+  },
+  {
+    "start": 2227.0,
+    "end": 2229.0,
+    "text": "para cerrar el 0"
+  },
+  {
+    "start": 2231.0,
+    "end": 2233.0,
+    "text": "pero qué 0 quieres sacar"
+  },
+  {
+    "start": 2233.0,
+    "end": 2235.0,
+    "text": "si la tira no es válida"
+  },
+  {
+    "start": 2235.0,
+    "end": 2237.0,
+    "text": "ya vimos que no funcionaba"
+  },
+  {
+    "start": 2237.0,
+    "end": 2239.0,
+    "text": "porque quedaba bloqueado"
+  },
+  {
+    "start": 2239.0,
+    "end": 2241.0,
+    "text": "si la tira es válida"
+  },
+  {
+    "start": 2241.0,
+    "end": 2243.0,
+    "text": "que sería el caso"
+  },
+  {
+    "start": 2245.0,
+    "end": 2247.0,
+    "text": "este"
+  },
+  {
+    "start": 2247.0,
+    "end": 2249.0,
+    "text": "vamos acá leemos el siguiente"
+  },
+  {
+    "start": 2249.0,
+    "end": 2251.0,
+    "text": "estoy en 0"
+  },
+  {
+    "start": 2251.0,
+    "end": 2253.0,
+    "text": "leo el 0"
+  },
+  {
+    "start": 2253.0,
+    "end": 2255.0,
+    "text": "leo 0"
+  },
+  {
+    "start": 2255.0,
+    "end": 2257.0,
+    "text": "hago el pop y sigo en q1"
+  },
+  {
+    "start": 2259.0,
+    "end": 2261.0,
+    "text": "sigo en q1"
+  },
+  {
+    "start": 2261.0,
+    "end": 2263.0,
+    "text": "tengo una transición que diga epsilon"
+  },
+  {
+    "start": 2263.0,
+    "end": 2265.0,
+    "text": "porque se me acabó la tira"
+  },
+  {
+    "start": 2265.0,
+    "end": 2267.0,
+    "text": "epsilon z0"
+  },
+  {
+    "start": 2267.0,
+    "end": 2269.0,
+    "text": "voy a q2"
+  },
+  {
+    "start": 2269.0,
+    "end": 2271.0,
+    "text": "y dejo z0 en el tope"
+  },
+  {
+    "start": 2273.0,
+    "end": 2275.0,
+    "text": "no tengo transiciones"
+  },
+  {
+    "start": 2275.0,
+    "end": 2277.0,
+    "text": "no tengo más símbolos en la entrada"
+  },
+  {
+    "start": 2279.0,
+    "end": 2281.0,
+    "text": "estoy en un modelo que acepta"
+  },
+  {
+    "start": 2281.0,
+    "end": 2283.0,
+    "text": "por estado final"
+  },
+  {
+    "start": 2283.0,
+    "end": 2285.0,
+    "text": "ya está, ya cumplí"
+  },
+  {
+    "start": 2285.0,
+    "end": 2287.0,
+    "text": "la tira es válida, si"
+  },
+  {
+    "start": 2287.0,
+    "end": 2289.0,
+    "text": "ok, menos mal"
+  },
+  {
+    "start": 2289.0,
+    "end": 2291.0,
+    "text": "si la tira no es válida"
+  },
+  {
+    "start": 2291.0,
+    "end": 2293.0,
+    "text": "que es lo que decíamos hoy"
+  },
+  {
+    "start": 2293.0,
+    "end": 2295.0,
+    "text": "no llego nunca"
+  },
+  {
+    "start": 2295.0,
+    "end": 2297.0,
+    "text": "a ejecutar toda la segunda parte"
+  },
+  {
+    "start": 2297.0,
+    "end": 2299.0,
+    "text": "de esa terna"
+  },
+  {
+    "start": 2299.0,
+    "end": 2301.0,
+    "text": "que es leer todos los símbolos del lenguaje"
+  },
+  {
+    "start": 2305.0,
+    "end": 2307.0,
+    "text": "leer todos los símbolos de la tira"
+  },
+  {
+    "start": 2311.0,
+    "end": 2313.0,
+    "text": "ok"
+  },
+  {
+    "start": 2313.0,
+    "end": 2315.0,
+    "text": "bien"
+  },
+  {
+    "start": 2319.0,
+    "end": 2321.0,
+    "text": "como sería en vez de hacer"
+  },
+  {
+    "start": 2321.0,
+    "end": 2323.0,
+    "text": "esa transición y ese estado con azul"
+  },
+  {
+    "start": 2323.0,
+    "end": 2325.0,
+    "text": "como sería reconocer"
+  },
+  {
+    "start": 2325.0,
+    "end": 2327.0,
+    "text": "el mismo lenguaje"
+  },
+  {
+    "start": 2327.0,
+    "end": 2329.0,
+    "text": "por stack vacío"
+  },
+  {
+    "start": 2335.0,
+    "end": 2337.0,
+    "text": "que es la transición"
+  },
+  {
+    "start": 2361.0,
+    "end": 2363.0,
+    "text": "o sea, el azul no va"
+  },
+  {
+    "start": 2363.0,
+    "end": 2365.0,
+    "text": "no la quiero borrar"
+  },
+  {
+    "start": 2365.0,
+    "end": 2367.0,
+    "text": "esta no va ahora"
+  },
+  {
+    "start": 2367.0,
+    "end": 2369.0,
+    "text": "la puse con rojo"
+  },
+  {
+    "start": 2369.0,
+    "end": 2371.0,
+    "text": "la versión"
+  },
+  {
+    "start": 2371.0,
+    "end": 2373.0,
+    "text": "stack vacío"
+  },
+  {
+    "start": 2377.0,
+    "end": 2379.0,
+    "text": "para, y esto"
+  },
+  {
+    "start": 2379.0,
+    "end": 2381.0,
+    "text": "me sacaste el epsilon"
+  },
+  {
+    "start": 2381.0,
+    "end": 2383.0,
+    "text": "el z0"
+  },
+  {
+    "start": 2383.0,
+    "end": 2385.0,
+    "text": "y si me quedaban símbolos"
+  },
+  {
+    "start": 2385.0,
+    "end": 2387.0,
+    "text": "por leer"
+  },
+  {
+    "start": 2389.0,
+    "end": 2391.0,
+    "text": "esto no me armará lío"
+  },
+  {
+    "start": 2391.0,
+    "end": 2393.0,
+    "text": "0 a epsilon y 1 a 1 a epsilon"
+  },
+  {
+    "start": 2399.0,
+    "end": 2401.0,
+    "text": "por cómo construí"
+  },
+  {
+    "start": 2401.0,
+    "end": 2403.0,
+    "text": "mi automata"
+  },
+  {
+    "start": 2403.0,
+    "end": 2405.0,
+    "text": "cómo funcionaba mi automata"
+  },
+  {
+    "start": 2405.0,
+    "end": 2407.0,
+    "text": "lo voy a hacer ahora pero con rojo"
+  },
+  {
+    "start": 2411.0,
+    "end": 2413.0,
+    "text": "001"
+  },
+  {
+    "start": 2413.0,
+    "end": 2415.0,
+    "text": "numeral 100"
+  },
+  {
+    "start": 2415.0,
+    "end": 2417.0,
+    "text": "leo el símbolo"
+  },
+  {
+    "start": 2417.0,
+    "end": 2419.0,
+    "text": "estoy en Q0"
+  },
+  {
+    "start": 2419.0,
+    "end": 2421.0,
+    "text": "estoy en Q0"
+  },
+  {
+    "start": 2423.0,
+    "end": 2425.0,
+    "text": "leo el 0"
+  },
+  {
+    "start": 2425.0,
+    "end": 2427.0,
+    "text": "tengo z0 en el tope"
+  },
+  {
+    "start": 2427.0,
+    "end": 2429.0,
+    "text": "push de 0"
+  },
+  {
+    "start": 2429.0,
+    "end": 2431.0,
+    "text": "esta"
+  },
+  {
+    "start": 2431.0,
+    "end": 2433.0,
+    "text": "y me quedo en Q0"
+  },
+  {
+    "start": 2433.0,
+    "end": 2435.0,
+    "text": "leo el siguiente"
+  },
+  {
+    "start": 2435.0,
+    "end": 2437.0,
+    "text": "tengo 0 en el tope"
+  },
+  {
+    "start": 2437.0,
+    "end": 2439.0,
+    "text": "push de 0"
+  },
+  {
+    "start": 2439.0,
+    "end": 2441.0,
+    "text": "leo el siguiente"
+  },
+  {
+    "start": 2441.0,
+    "end": 2443.0,
+    "text": "tengo 0 en el tope"
+  },
+  {
+    "start": 2443.0,
+    "end": 2445.0,
+    "text": "y me quedo en Q1"
+  },
+  {
+    "start": 2445.0,
+    "end": 2447.0,
+    "text": "leo el siguiente"
+  },
+  {
+    "start": 2447.0,
+    "end": 2449.0,
+    "text": "numeral"
+  },
+  {
+    "start": 2449.0,
+    "end": 2451.0,
+    "text": "cambiate el estado Q1"
+  },
+  {
+    "start": 2451.0,
+    "end": 2453.0,
+    "text": "o sea que ahora a partir de ahora voy a estar acá"
+  },
+  {
+    "start": 2453.0,
+    "end": 2455.0,
+    "text": "en el estado Q1"
+  },
+  {
+    "start": 2455.0,
+    "end": 2457.0,
+    "text": "y el tope dejarlo como está"
+  },
+  {
+    "start": 2457.0,
+    "end": 2459.0,
+    "text": "numeral"
+  },
+  {
+    "start": 2459.0,
+    "end": 2461.0,
+    "text": "tengo 1 en el tope"
+  },
+  {
+    "start": 2461.0,
+    "end": 2463.0,
+    "text": "dejo el 1"
+  },
+  {
+    "start": 2463.0,
+    "end": 2465.0,
+    "text": "y me cambié el estado Q1"
+  },
+  {
+    "start": 2465.0,
+    "end": 2467.0,
+    "text": "leo el siguiente símbolo"
+  },
+  {
+    "start": 2467.0,
+    "end": 2469.0,
+    "text": "estoy en el estado Q1 ahora"
+  },
+  {
+    "start": 2469.0,
+    "end": 2471.0,
+    "text": "leo 1, tengo 1 en el tope"
+  },
+  {
+    "start": 2471.0,
+    "end": 2473.0,
+    "text": "1, 1 pop"
+  },
+  {
+    "start": 2475.0,
+    "end": 2477.0,
+    "text": "leo un 0"
+  },
+  {
+    "start": 2477.0,
+    "end": 2479.0,
+    "text": "tengo 0 en el tope"
+  },
+  {
+    "start": 2479.0,
+    "end": 2481.0,
+    "text": "pop"
+  },
+  {
+    "start": 2483.0,
+    "end": 2485.0,
+    "text": "leo un 0"
+  },
+  {
+    "start": 2485.0,
+    "end": 2487.0,
+    "text": "tengo 0 en el tope"
+  },
+  {
+    "start": 2487.0,
+    "end": 2489.0,
+    "text": "pop"
+  },
+  {
+    "start": 2491.0,
+    "end": 2493.0,
+    "text": "no tengo más símbolos"
+  },
+  {
+    "start": 2493.0,
+    "end": 2495.0,
+    "text": "tengo transiciones epsilon"
+  },
+  {
+    "start": 2495.0,
+    "end": 2497.0,
+    "text": "que me permitan moverme"
+  },
+  {
+    "start": 2497.0,
+    "end": 2499.0,
+    "text": "si tengo bien, tengo una"
+  },
+  {
+    "start": 2499.0,
+    "end": 2501.0,
+    "text": "pero que dice la transición epsilon"
+  },
+  {
+    "start": 2501.0,
+    "end": 2503.0,
+    "text": "que solamente se ejecuta si tiene z0 en el tope"
+  },
+  {
+    "start": 2505.0,
+    "end": 2507.0,
+    "text": "no tengo más símbolos"
+  },
+  {
+    "start": 2507.0,
+    "end": 2509.0,
+    "text": "tiene z0 en el tope, si"
+  },
+  {
+    "start": 2509.0,
+    "end": 2511.0,
+    "text": "y que hace? sacar tope"
+  },
+  {
+    "start": 2515.0,
+    "end": 2517.0,
+    "text": "sacaste el tope y mataste el estado"
+  },
+  {
+    "start": 2525.0,
+    "end": 2527.0,
+    "text": "y es correcto eso"
+  },
+  {
+    "start": 2527.0,
+    "end": 2529.0,
+    "text": "y es una tira válida"
+  },
+  {
+    "start": 2529.0,
+    "end": 2531.0,
+    "text": "o sea, esta transición"
+  },
+  {
+    "start": 2531.0,
+    "end": 2533.0,
+    "text": "solamente se va a ejecutar"
+  },
+  {
+    "start": 2533.0,
+    "end": 2535.0,
+    "text": "cuando en el tope esté z0"
+  },
+  {
+    "start": 2543.0,
+    "end": 2545.0,
+    "text": "se entiende?"
+  },
+  {
+    "start": 2545.0,
+    "end": 2547.0,
+    "text": "no es si leo"
+  },
+  {
+    "start": 2547.0,
+    "end": 2549.0,
+    "text": "1, 1"
+  },
+  {
+    "start": 2549.0,
+    "end": 2551.0,
+    "text": "y tengo z0 hago el pop"
+  },
+  {
+    "start": 2551.0,
+    "end": 2553.0,
+    "text": "solamente hago el pop"
+  },
+  {
+    "start": 2553.0,
+    "end": 2555.0,
+    "text": "de hecho"
+  },
+  {
+    "start": 2559.0,
+    "end": 2561.0,
+    "text": "de hecho, pensemos en"
+  },
+  {
+    "start": 2561.0,
+    "end": 2563.0,
+    "text": "por ejemplo"
+  },
+  {
+    "start": 2565.0,
+    "end": 2567.0,
+    "text": "supongase este caso"
+  },
+  {
+    "start": 2569.0,
+    "end": 2571.0,
+    "text": "supongase este caso"
+  },
+  {
+    "start": 2571.0,
+    "end": 2573.0,
+    "text": "algún descreído"
+  },
+  {
+    "start": 2575.0,
+    "end": 2577.0,
+    "text": "hicimos todo ¿no?"
+  },
+  {
+    "start": 2577.0,
+    "end": 2579.0,
+    "text": "hicimos 0, voy a poner todo de vuelta"
+  },
+  {
+    "start": 2579.0,
+    "end": 2581.0,
+    "text": "0, 0, 1"
+  },
+  {
+    "start": 2581.0,
+    "end": 2583.0,
+    "text": "cambiamos al q1"
+  },
+  {
+    "start": 2583.0,
+    "end": 2585.0,
+    "text": "hicimos el pop de 1, el pop de 0"
+  },
+  {
+    "start": 2585.0,
+    "end": 2586.0,
+    "text": "el pop"
+  },
+  {
+    "start": 2586.0,
+    "end": 2587.0,
+    "text": "llegué acá"
+  },
+  {
+    "start": 2587.0,
+    "end": 2589.0,
+    "text": "tengo un símbolo más para leer"
+  },
+  {
+    "start": 2589.0,
+    "end": 2591.0,
+    "text": "pero lo último que hice fue esta"
+  },
+  {
+    "start": 2591.0,
+    "end": 2593.0,
+    "text": "o sea que saqué el stack"
+  },
+  {
+    "start": 2593.0,
+    "end": 2595.0,
+    "text": "reventé el stack"
+  },
+  {
+    "start": 2597.0,
+    "end": 2599.0,
+    "text": "y dice para, entonces ¿qué aceptaste la tira?"
+  },
+  {
+    "start": 2599.0,
+    "end": 2601.0,
+    "text": "no"
+  },
+  {
+    "start": 2601.0,
+    "end": 2603.0,
+    "text": "porque la segunda componente"
+  },
+  {
+    "start": 2603.0,
+    "end": 2605.0,
+    "text": "no es epsilon"
+  },
+  {
+    "start": 2605.0,
+    "end": 2607.0,
+    "text": "me quedó un unito acá por leer"
+  },
+  {
+    "start": 2607.0,
+    "end": 2609.0,
+    "text": "o sea"
+  },
+  {
+    "start": 2609.0,
+    "end": 2611.0,
+    "text": "esta transición"
+  },
+  {
+    "start": 2611.0,
+    "end": 2613.0,
+    "text": "lo que dice es"
+  },
+  {
+    "start": 2613.0,
+    "end": 2615.0,
+    "text": "no leas un símbolo de la entrada"
+  },
+  {
+    "start": 2615.0,
+    "end": 2617.0,
+    "text": "pero si tenés el tope sacalo"
+  },
+  {
+    "start": 2617.0,
+    "end": 2619.0,
+    "text": "entonces"
+  },
+  {
+    "start": 2619.0,
+    "end": 2621.0,
+    "text": "esta transición"
+  },
+  {
+    "start": 2621.0,
+    "end": 2623.0,
+    "text": "es muy riesgosa"
+  },
+  {
+    "start": 2623.0,
+    "end": 2625.0,
+    "text": "cuando yo"
+  },
+  {
+    "start": 2625.0,
+    "end": 2627.0,
+    "text": "hago un modelo por stack vacío"
+  },
+  {
+    "start": 2627.0,
+    "end": 2629.0,
+    "text": "porque tengo"
+  },
+  {
+    "start": 2629.0,
+    "end": 2631.0,
+    "text": "que estar seguro"
+  },
+  {
+    "start": 2631.0,
+    "end": 2633.0,
+    "text": "que si la tira es válida solamente"
+  },
+  {
+    "start": 2633.0,
+    "end": 2635.0,
+    "text": "se ejecute cuando vas"
+  },
+  {
+    "start": 2635.0,
+    "end": 2637.0,
+    "text": "quiero reconocer"
+  },
+  {
+    "start": 2637.0,
+    "end": 2639.0,
+    "text": "pero"
+  },
+  {
+    "start": 2639.0,
+    "end": 2641.0,
+    "text": "en una tira"
+  },
+  {
+    "start": 2641.0,
+    "end": 2643.0,
+    "text": "en este ejemplo"
+  },
+  {
+    "start": 2643.0,
+    "end": 2645.0,
+    "text": "donde el largo de W"
+  },
+  {
+    "start": 2645.0,
+    "end": 2647.0,
+    "text": "reverso es mayor que el largo"
+  },
+  {
+    "start": 2647.0,
+    "end": 2649.0,
+    "text": "de W"
+  },
+  {
+    "start": 2649.0,
+    "end": 2651.0,
+    "text": "la segunda componente nunca es epsilon"
+  },
+  {
+    "start": 2651.0,
+    "end": 2653.0,
+    "text": "porque me queda unito"
+  },
+  {
+    "start": 2653.0,
+    "end": 2655.0,
+    "text": "me queda símbolo por leer"
+  },
+  {
+    "start": 2655.0,
+    "end": 2657.0,
+    "text": "entonces la tira no es válida"
+  },
+  {
+    "start": 2657.0,
+    "end": 2659.0,
+    "text": "para que la tira sea válida"
+  },
+  {
+    "start": 2659.0,
+    "end": 2661.0,
+    "text": "tengo que terminar en esta configuración"
+  },
+  {
+    "start": 2661.0,
+    "end": 2663.0,
+    "text": "vale lo mismo"
+  },
+  {
+    "start": 2663.0,
+    "end": 2665.0,
+    "text": "que para acá"
+  },
+  {
+    "start": 2667.0,
+    "end": 2669.0,
+    "text": "se entendió?"
+  },
+  {
+    "start": 2683.0,
+    "end": 2685.0,
+    "text": "y podríamos hacer hasta una"
+  },
+  {
+    "start": 2685.0,
+    "end": 2687.0,
+    "text": "tercera variante"
+  },
+  {
+    "start": 2693.0,
+    "end": 2695.0,
+    "text": "sabes qué"
+  },
+  {
+    "start": 2695.0,
+    "end": 2697.0,
+    "text": "además de aceptar por estado final"
+  },
+  {
+    "start": 2697.0,
+    "end": 2699.0,
+    "text": "matar stack"
+  },
+  {
+    "start": 2703.0,
+    "end": 2705.0,
+    "text": "y yo podría haber hecho"
+  },
+  {
+    "start": 2705.0,
+    "end": 2707.0,
+    "text": "en vez de esta"
+  },
+  {
+    "start": 2707.0,
+    "end": 2709.0,
+    "text": "y en vez de esta"
+  },
+  {
+    "start": 2713.0,
+    "end": 2715.0,
+    "text": "epsilon z a cero"
+  },
+  {
+    "start": 2715.0,
+    "end": 2717.0,
+    "text": "epsilon"
+  },
+  {
+    "start": 2717.0,
+    "end": 2719.0,
+    "text": "y acá el modelo"
+  },
+  {
+    "start": 2719.0,
+    "end": 2721.0,
+    "text": "acepta por estado final"
+  },
+  {
+    "start": 2721.0,
+    "end": 2723.0,
+    "text": "todo junto"
+  },
+  {
+    "start": 2723.0,
+    "end": 2725.0,
+    "text": "pero hay muchas dudas"
+  },
+  {
+    "start": 2725.0,
+    "end": 2727.0,
+    "text": "de vuelta"
+  },
+  {
+    "start": 2727.0,
+    "end": 2729.0,
+    "text": "estoy en este modelo"
+  },
+  {
+    "start": 2731.0,
+    "end": 2733.0,
+    "text": "pero estoy en el caso particular"
+  },
+  {
+    "start": 2733.0,
+    "end": 2735.0,
+    "text": "en que alpha es epsilon"
+  },
+  {
+    "start": 2737.0,
+    "end": 2739.0,
+    "text": "o sea este que dibujé"
+  },
+  {
+    "start": 2739.0,
+    "end": 2741.0,
+    "text": "con negro"
+  },
+  {
+    "start": 2741.0,
+    "end": 2743.0,
+    "text": "este que dibujé con negro"
+  },
+  {
+    "start": 2743.0,
+    "end": 2745.0,
+    "text": "es uno"
+  },
+  {
+    "start": 2745.0,
+    "end": 2747.0,
+    "text": "que acepta por estado final"
+  },
+  {
+    "start": 2747.0,
+    "end": 2749.0,
+    "text": "y de ya pate vacío el stack"
+  },
+  {
+    "start": 2749.0,
+    "end": 2751.0,
+    "text": "pero no es"
+  },
+  {
+    "start": 2751.0,
+    "end": 2753.0,
+    "text": "imprescindible que se vací el stack"
+  },
+  {
+    "start": 2757.0,
+    "end": 2759.0,
+    "text": "¿se entendió?"
+  },
+  {
+    "start": 2763.0,
+    "end": 2765.0,
+    "text": "bien"
+  },
+  {
+    "start": 2781.0,
+    "end": 2783.0,
+    "text": "fíjense que el ejemplo"
+  },
+  {
+    "start": 2783.0,
+    "end": 2785.0,
+    "text": "ah, para, a ver"
+  },
+  {
+    "start": 2787.0,
+    "end": 2789.0,
+    "text": "el caso de borde"
+  },
+  {
+    "start": 2789.0,
+    "end": 2791.0,
+    "text": "si, está acá, numeral"
+  },
+  {
+    "start": 2791.0,
+    "end": 2793.0,
+    "text": "en el caso de que el w fuera epsilon"
+  },
+  {
+    "start": 2793.0,
+    "end": 2795.0,
+    "text": "está contemplado acá"
+  },
+  {
+    "start": 2795.0,
+    "end": 2797.0,
+    "text": "numeral z a cero"
+  },
+  {
+    "start": 2797.0,
+    "end": 2799.0,
+    "text": "pasa q sub 1"
+  },
+  {
+    "start": 2799.0,
+    "end": 2801.0,
+    "text": "y después como no viene nada"
+  },
+  {
+    "start": 2801.0,
+    "end": 2803.0,
+    "text": "tengo z a cero, o sea que ahí no tengo"
+  },
+  {
+    "start": 2807.0,
+    "end": 2809.0,
+    "text": "fíjense que"
+  },
+  {
+    "start": 2811.0,
+    "end": 2813.0,
+    "text": "el de cero a la k uno a la k"
+  },
+  {
+    "start": 2813.0,
+    "end": 2815.0,
+    "text": "es igual"
+  },
+  {
+    "start": 2817.0,
+    "end": 2819.0,
+    "text": "el comportamiento del automata"
+  },
+  {
+    "start": 2819.0,
+    "end": 2821.0,
+    "text": "es igual, lo comentamos el otro día"
+  },
+  {
+    "start": 2821.0,
+    "end": 2823.0,
+    "text": "hago el push de todos los cero"
+  },
+  {
+    "start": 2823.0,
+    "end": 2825.0,
+    "text": "cuando me vengan uno, me cambio de estado y empiezo a sacar los pops"
+  },
+  {
+    "start": 2825.0,
+    "end": 2827.0,
+    "text": "y lo remato"
+  },
+  {
+    "start": 2827.0,
+    "end": 2829.0,
+    "text": "de manera muy similar"
+  },
+  {
+    "start": 2829.0,
+    "end": 2831.0,
+    "text": "el que remate acá"
+  },
+  {
+    "start": 2831.0,
+    "end": 2833.0,
+    "text": "o hago la versión rojo"
+  },
+  {
+    "start": 2833.0,
+    "end": 2835.0,
+    "text": "o la versión azul"
+  },
+  {
+    "start": 2835.0,
+    "end": 2837.0,
+    "text": "o la versión nega"
+  },
+  {
+    "start": 2841.0,
+    "end": 2843.0,
+    "text": "bien"
+  },
+  {
+    "start": 2847.0,
+    "end": 2849.0,
+    "text": "más allá"
+  },
+  {
+    "start": 2849.0,
+    "end": 2851.0,
+    "text": "de que"
+  },
+  {
+    "start": 2853.0,
+    "end": 2855.0,
+    "text": "este ejemplo"
+  },
+  {
+    "start": 2855.0,
+    "end": 2857.0,
+    "text": "no tengo más de una opción"
+  },
+  {
+    "start": 2857.0,
+    "end": 2859.0,
+    "text": "es decir"
+  },
+  {
+    "start": 2859.0,
+    "end": 2861.0,
+    "text": "para cada par"
+  },
+  {
+    "start": 2861.0,
+    "end": 2863.0,
+    "text": "para cada"
+  },
+  {
+    "start": 2863.0,
+    "end": 2865.0,
+    "text": "terna"
+  },
+  {
+    "start": 2865.0,
+    "end": 2867.0,
+    "text": "símbolo, tope"
+  },
+  {
+    "start": 2867.0,
+    "end": 2869.0,
+    "text": "solamente puedo hacer una cosa"
+  },
+  {
+    "start": 2869.0,
+    "end": 2871.0,
+    "text": "símbolo"
+  },
+  {
+    "start": 2871.0,
+    "end": 2873.0,
+    "text": "perdón, estado"
+  },
+  {
+    "start": 2873.0,
+    "end": 2875.0,
+    "text": "símbolo, tope"
+  },
+  {
+    "start": 2875.0,
+    "end": 2877.0,
+    "text": "solamente puedo hacer una acción"
+  },
+  {
+    "start": 2877.0,
+    "end": 2879.0,
+    "text": "porque lo programé así"
+  },
+  {
+    "start": 2881.0,
+    "end": 2883.0,
+    "text": "o hago el push de"
+  },
+  {
+    "start": 2883.0,
+    "end": 2885.0,
+    "text": "con esto, o sea cero, z a cero"
+  },
+  {
+    "start": 2885.0,
+    "end": 2887.0,
+    "text": "solamente hago un cero"
+  },
+  {
+    "start": 2887.0,
+    "end": 2889.0,
+    "text": "no tengo más de una opción"
+  },
+  {
+    "start": 2889.0,
+    "end": 2891.0,
+    "text": "más allá de que el modelo me lo permite"
+  },
+  {
+    "start": 2891.0,
+    "end": 2893.0,
+    "text": "en algún sentido"
+  },
+  {
+    "start": 2893.0,
+    "end": 2895.0,
+    "text": "este automata es determinista"
+  },
+  {
+    "start": 2899.0,
+    "end": 2901.0,
+    "text": "con el viejo nombre de automata determinista"
+  },
+  {
+    "start": 2901.0,
+    "end": 2903.0,
+    "text": "que nosotros manejábamos"
+  },
+  {
+    "start": 2903.0,
+    "end": 2905.0,
+    "text": "el cardinal"
+  },
+  {
+    "start": 2905.0,
+    "end": 2907.0,
+    "text": "del conjunto acá es formado"
+  },
+  {
+    "start": 2907.0,
+    "end": 2909.0,
+    "text": "solamente tengo un par"
+  },
+  {
+    "start": 2909.0,
+    "end": 2911.0,
+    "text": "p subida al faí"
+  },
+  {
+    "start": 2911.0,
+    "end": 2913.0,
+    "text": "¿se entiendes? para esta configuración"
+  },
+  {
+    "start": 2913.0,
+    "end": 2915.0,
+    "text": "tengo solamente uno"
+  },
+  {
+    "start": 2917.0,
+    "end": 2919.0,
+    "text": "pero la automata con stack determinista"
+  },
+  {
+    "start": 2921.0,
+    "end": 2923.0,
+    "text": "no alcanza con que"
+  },
+  {
+    "start": 2923.0,
+    "end": 2925.0,
+    "text": "el cardinal"
+  },
+  {
+    "start": 2925.0,
+    "end": 2927.0,
+    "text": "sea uno"
+  },
+  {
+    "start": 2927.0,
+    "end": 2929.0,
+    "text": "tiene una doble condición"
+  },
+  {
+    "start": 2931.0,
+    "end": 2933.0,
+    "text": "porque como yo le decía"
+  },
+  {
+    "start": 2933.0,
+    "end": 2935.0,
+    "text": "al principio"
+  },
+  {
+    "start": 2935.0,
+    "end": 2937.0,
+    "text": "el hecho de que yo tenga"
+  },
+  {
+    "start": 2937.0,
+    "end": 2939.0,
+    "text": "una transición epsilon"
+  },
+  {
+    "start": 2939.0,
+    "end": 2941.0,
+    "text": "no me asegura el no determinismo"
+  },
+  {
+    "start": 2941.0,
+    "end": 2943.0,
+    "text": "fíjense sin ir más lejos"
+  },
+  {
+    "start": 2943.0,
+    "end": 2945.0,
+    "text": "que acá metimos transiciones epsilon"
+  },
+  {
+    "start": 2947.0,
+    "end": 2949.0,
+    "text": "en la versión con azul"
+  },
+  {
+    "start": 2949.0,
+    "end": 2951.0,
+    "text": "en la versión con negro"
+  },
+  {
+    "start": 2951.0,
+    "end": 2953.0,
+    "text": "y en la versión con rojo"
+  },
+  {
+    "start": 2953.0,
+    "end": 2955.0,
+    "text": "y el automata"
+  },
+  {
+    "start": 2955.0,
+    "end": 2957.0,
+    "text": "sigue siendo determinista"
+  },
+  {
+    "start": 2965.0,
+    "end": 2967.0,
+    "text": "y eso es lo que especifica"
+  },
+  {
+    "start": 2967.0,
+    "end": 2969.0,
+    "text": "la definición"
+  },
+  {
+    "start": 2969.0,
+    "end": 2971.0,
+    "text": "de automata push down determinista"
+  },
+  {
+    "start": 2975.0,
+    "end": 2977.0,
+    "text": "se tiene que dar"
+  },
+  {
+    "start": 2977.0,
+    "end": 2979.0,
+    "text": "esta doble condición"
+  },
+  {
+    "start": 2985.0,
+    "end": 2987.0,
+    "text": "vamos a la de abajo"
+  },
+  {
+    "start": 2987.0,
+    "end": 2989.0,
+    "text": "primero"
+  },
+  {
+    "start": 2989.0,
+    "end": 2991.0,
+    "text": "después vemos la analizamos la de arriba"
+  },
+  {
+    "start": 2991.0,
+    "end": 2993.0,
+    "text": "la de abajo es más o menos"
+  },
+  {
+    "start": 2993.0,
+    "end": 2995.0,
+    "text": "la clásica"
+  },
+  {
+    "start": 2995.0,
+    "end": 2997.0,
+    "text": "lo que decimos es"
+  },
+  {
+    "start": 2997.0,
+    "end": 2999.0,
+    "text": "para todo estado"
+  },
+  {
+    "start": 2999.0,
+    "end": 3001.0,
+    "text": "símbolo del tope"
+  },
+  {
+    "start": 3001.0,
+    "end": 3003.0,
+    "text": "la variante está"
+  },
+  {
+    "start": 3003.0,
+    "end": 3005.0,
+    "text": "en que el símbolo de la entrada"
+  },
+  {
+    "start": 3005.0,
+    "end": 3007.0,
+    "text": "puede ser a"
+  },
+  {
+    "start": 3007.0,
+    "end": 3009.0,
+    "text": "o inclusive puede ser"
+  },
+  {
+    "start": 3009.0,
+    "end": 3011.0,
+    "text": "epsilon"
+  },
+  {
+    "start": 3011.0,
+    "end": 3013.0,
+    "text": "la cantidad de opciones"
+  },
+  {
+    "start": 3013.0,
+    "end": 3015.0,
+    "text": "a lo sumo es 1"
+  },
+  {
+    "start": 3015.0,
+    "end": 3017.0,
+    "text": "si está definida"
+  },
+  {
+    "start": 3017.0,
+    "end": 3019.0,
+    "text": "la transición"
+  },
+  {
+    "start": 3019.0,
+    "end": 3021.0,
+    "text": "es 1"
+  },
+  {
+    "start": 3021.0,
+    "end": 3023.0,
+    "text": "eso es esto"
+  },
+  {
+    "start": 3025.0,
+    "end": 3027.0,
+    "text": "este numeral es cantidad"
+  },
+  {
+    "start": 3027.0,
+    "end": 3029.0,
+    "text": "de"
+  },
+  {
+    "start": 3029.0,
+    "end": 3031.0,
+    "text": "cantidad de deltas"
+  },
+  {
+    "start": 3031.0,
+    "end": 3033.0,
+    "text": "o sea la cantidad de delta de q o a"
+  },
+  {
+    "start": 3033.0,
+    "end": 3035.0,
+    "text": "con ese z o sea"
+  },
+  {
+    "start": 3035.0,
+    "end": 3037.0,
+    "text": "estando en el estado q leyendo el símbolo a"
+  },
+  {
+    "start": 3037.0,
+    "end": 3039.0,
+    "text": "y teniendo z en el tope del stack"
+  },
+  {
+    "start": 3039.0,
+    "end": 3041.0,
+    "text": "solamente"
+  },
+  {
+    "start": 3041.0,
+    "end": 3043.0,
+    "text": "eso es lo que dice la segunda línea"
+  },
+  {
+    "start": 3045.0,
+    "end": 3047.0,
+    "text": "o puedo no estar nada sino estar definida"
+  },
+  {
+    "start": 3053.0,
+    "end": 3055.0,
+    "text": "estado q"
+  },
+  {
+    "start": 3055.0,
+    "end": 3057.0,
+    "text": "símbolo a"
+  },
+  {
+    "start": 3057.0,
+    "end": 3059.0,
+    "text": "tope z"
+  },
+  {
+    "start": 3059.0,
+    "end": 3061.0,
+    "text": "una sola opción"
+  },
+  {
+    "start": 3063.0,
+    "end": 3065.0,
+    "text": "y lo que me dice la opción 1"
+  },
+  {
+    "start": 3065.0,
+    "end": 3067.0,
+    "text": "es"
+  },
+  {
+    "start": 3067.0,
+    "end": 3069.0,
+    "text": "que si llego a tener una transición"
+  },
+  {
+    "start": 3071.0,
+    "end": 3073.0,
+    "text": "en un estado q"
+  },
+  {
+    "start": 3073.0,
+    "end": 3075.0,
+    "text": "una transición epsilon"
+  },
+  {
+    "start": 3075.0,
+    "end": 3077.0,
+    "text": "con un estado q"
+  },
+  {
+    "start": 3077.0,
+    "end": 3079.0,
+    "text": "y un tope z"
+  },
+  {
+    "start": 3079.0,
+    "end": 3081.0,
+    "text": "z a cualquiera"
+  },
+  {
+    "start": 3081.0,
+    "end": 3083.0,
+    "text": "x no importa"
+  },
+  {
+    "start": 3083.0,
+    "end": 3085.0,
+    "text": "no es z a cero es z"
+  },
+  {
+    "start": 3085.0,
+    "end": 3087.0,
+    "text": "si tengo una transición"
+  },
+  {
+    "start": 3087.0,
+    "end": 3089.0,
+    "text": "desde el estado q"
+  },
+  {
+    "start": 3089.0,
+    "end": 3091.0,
+    "text": "una transición epsilon"
+  },
+  {
+    "start": 3091.0,
+    "end": 3093.0,
+    "text": "desde el estado q"
+  },
+  {
+    "start": 3093.0,
+    "end": 3095.0,
+    "text": "con un tope z"
+  },
+  {
+    "start": 3095.0,
+    "end": 3097.0,
+    "text": "no puedo tener"
+  },
+  {
+    "start": 3097.0,
+    "end": 3099.0,
+    "text": "una transición"
+  },
+  {
+    "start": 3099.0,
+    "end": 3101.0,
+    "text": "desde el estado q"
+  },
+  {
+    "start": 3101.0,
+    "end": 3103.0,
+    "text": "con ese tope z"
+  },
+  {
+    "start": 3103.0,
+    "end": 3105.0,
+    "text": "pero que me lea el símbolo"
+  },
+  {
+    "start": 3107.0,
+    "end": 3109.0,
+    "text": "se entienden"
+  },
+  {
+    "start": 3111.0,
+    "end": 3113.0,
+    "text": "por eso es determinista"
+  },
+  {
+    "start": 3113.0,
+    "end": 3115.0,
+    "text": "porque no consumo"
+  },
+  {
+    "start": 3115.0,
+    "end": 3117.0,
+    "text": "un símbolo de la entrada"
+  },
+  {
+    "start": 3117.0,
+    "end": 3119.0,
+    "text": "pero puedo"
+  },
+  {
+    "start": 3119.0,
+    "end": 3121.0,
+    "text": "cambiar mi estado"
+  },
+  {
+    "start": 3121.0,
+    "end": 3123.0,
+    "text": "o puedo"
+  },
+  {
+    "start": 3123.0,
+    "end": 3125.0,
+    "text": "hacer un push del stack"
+  },
+  {
+    "start": 3125.0,
+    "end": 3127.0,
+    "text": "o puedo hacer un pop del stack"
+  },
+  {
+    "start": 3127.0,
+    "end": 3129.0,
+    "text": "sin leer el símbolo de la entrada"
+  },
+  {
+    "start": 3129.0,
+    "end": 3131.0,
+    "text": "pero no es que"
+  },
+  {
+    "start": 3131.0,
+    "end": 3133.0,
+    "text": "y esto es importante"
+  },
+  {
+    "start": 3133.0,
+    "end": 3135.0,
+    "text": "estas dos condiciones van juntas"
+  },
+  {
+    "start": 3137.0,
+    "end": 3139.0,
+    "text": "se tienen que cumplir las dos cosas"
+  },
+  {
+    "start": 3153.0,
+    "end": 3155.0,
+    "text": "creo claro eso"
+  },
+  {
+    "start": 3155.0,
+    "end": 3157.0,
+    "text": "fíjense que en el"
+  },
+  {
+    "start": 3157.0,
+    "end": 3159.0,
+    "text": "modelo que dibujamos allá"
+  },
+  {
+    "start": 3159.0,
+    "end": 3161.0,
+    "text": "yo"
+  },
+  {
+    "start": 3161.0,
+    "end": 3163.0,
+    "text": "en el modelo rojo tengo"
+  },
+  {
+    "start": 3163.0,
+    "end": 3165.0,
+    "text": "la única transición epsilon"
+  },
+  {
+    "start": 3165.0,
+    "end": 3167.0,
+    "text": "es epsilon"
+  },
+  {
+    "start": 3167.0,
+    "end": 3169.0,
+    "text": "con z a cero en el tope del stack"
+  },
+  {
+    "start": 3169.0,
+    "end": 3171.0,
+    "text": "no tengo ninguna otra transición"
+  },
+  {
+    "start": 3171.0,
+    "end": 3173.0,
+    "text": "que me diga cero z a cero"
+  },
+  {
+    "start": 3173.0,
+    "end": 3175.0,
+    "text": "en el tope del stack"
+  },
+  {
+    "start": 3175.0,
+    "end": 3177.0,
+    "text": "o uno z a cero en el tope del stack"
+  },
+  {
+    "start": 3177.0,
+    "end": 3179.0,
+    "text": "solamente tengo la transición epsilon"
+  },
+  {
+    "start": 3179.0,
+    "end": 3181.0,
+    "text": "lo mismo ocurre"
+  },
+  {
+    "start": 3181.0,
+    "end": 3183.0,
+    "text": "en el modelo"
+  },
+  {
+    "start": 3183.0,
+    "end": 3185.0,
+    "text": "que lo terminamos con"
+  },
+  {
+    "start": 3185.0,
+    "end": 3187.0,
+    "text": "el color azul"
+  },
+  {
+    "start": 3187.0,
+    "end": 3189.0,
+    "text": "tiene solamente epsilon"
+  },
+  {
+    "start": 3189.0,
+    "end": 3191.0,
+    "text": "con z a cero en el tope del stack"
+  },
+  {
+    "start": 3191.0,
+    "end": 3193.0,
+    "text": "una sola transición"
+  },
+  {
+    "start": 3203.0,
+    "end": 3205.0,
+    "text": "bien otro ejemplito más"
+  },
+  {
+    "start": 3213.0,
+    "end": 3215.0,
+    "text": "el lenguaje de las tiras"
+  },
+  {
+    "start": 3215.0,
+    "end": 3217.0,
+    "text": "con a del alfabeto a b"
+  },
+  {
+    "start": 3217.0,
+    "end": 3219.0,
+    "text": "donde"
+  },
+  {
+    "start": 3219.0,
+    "end": 3221.0,
+    "text": "las tiras x son de la forma"
+  },
+  {
+    "start": 3221.0,
+    "end": 3223.0,
+    "text": "a a la 2k"
+  },
+  {
+    "start": 3223.0,
+    "end": 3225.0,
+    "text": "b a la k"
+  },
+  {
+    "start": 3225.0,
+    "end": 3227.0,
+    "text": "con k mayor que cero"
+  },
+  {
+    "start": 3227.0,
+    "end": 3229.0,
+    "text": "como resolvo esto"
+  },
+  {
+    "start": 3231.0,
+    "end": 3233.0,
+    "text": "primero"
+  },
+  {
+    "start": 3233.0,
+    "end": 3235.0,
+    "text": "es un lenguaje regular"
+  },
+  {
+    "start": 3243.0,
+    "end": 3245.0,
+    "text": "por qué no"
+  },
+  {
+    "start": 3253.0,
+    "end": 3255.0,
+    "text": "es una lenguaje regular"
+  },
+  {
+    "start": 3255.0,
+    "end": 3270.04,
+    "text": "Ah, eso. Eso que lo dijeron bajito ahí. Pampilema. Tengo que aplicar el Pampilema. Bien."
+  },
+  {
+    "start": 3270.04,
+    "end": 3276.0,
+    "text": "¿Y cómo hago para aplicar el Pampilema? Ah, no se lo olvidaron. Hace veinte días estaban"
+  },
+  {
+    "start": 3276.0,
+    "end": 3293.84,
+    "text": "aplicando diez Pampilema. Es un lenguaje fácil, ¿qué tenía que hacer acá? Fijábamos un N y luego"
+  },
+  {
+    "start": 3293.84,
+    "end": 3304.16,
+    "text": "elegíamos un Z del lenguaje, pero que estuviera en N. ¿Qué Z vamos a elegir? Bien. Z igual"
+  },
+  {
+    "start": 3304.16,
+    "end": 3313.12,
+    "text": "a 2 a la N, b a la N. ¿Cuántas familias voy a tener acá? ¿Se acuerdan que hacíamos todas"
+  },
+  {
+    "start": 3313.12,
+    "end": 3324.0,
+    "text": "las descomposiciones de Z en u, b, w, tal que qué? Que las dos primeros eran menores iguales"
+  },
+  {
+    "start": 3324.0,
+    "end": 3330.72,
+    "text": "que N y la otra era mayor igual que uno. Y en estos casos buscábamos la falla en"
+  },
+  {
+    "start": 3330.7200000000003,
+    "end": 3338.84,
+    "text": "aquella condición que era la del I. Existe un I tal que u, b, y, w no pertenece al lenguaje. ¿Cuántos"
+  },
+  {
+    "start": 3338.84,
+    "end": 3351.28,
+    "text": "dado la tira? ¿Cuántos casos tengo acá? ¿Cuántas familias voy a tener? Yo tengo esto, ¿no?"
+  },
+  {
+    "start": 3351.28,
+    "end": 3362.52,
+    "text": "a, a, a, b, b, b. Esto es 2 N y esto es N. ¿Cuántas familias, cuántos casos tengo que"
+  },
+  {
+    "start": 3362.52,
+    "end": 3372.0,
+    "text": "analizar para buscar el I que cumplan estas dos cosas? Solamente esta, solamente pueden"
+  },
+  {
+    "start": 3372.0,
+    "end": 3384.2,
+    "text": "estar acá, la u a de acá y la b acá. Porque tengo 2 N entonces u, b menor que N, la u y"
+  },
+  {
+    "start": 3384.2,
+    "end": 3394.24,
+    "text": "la b solamente pueden tener as. ¿Cuántas as? El caso 1, u igual a la p, b igual a la"
+  },
+  {
+    "start": 3394.2400000000002,
+    "end": 3406.2400000000002,
+    "text": "j y w igual a a la 2 N menos p, menos j, b a la N. Hacemos esto. ¿Qué restricciones teníamos"
+  },
+  {
+    "start": 3406.2400000000002,
+    "end": 3411.2400000000002,
+    "text": "que poner para decir que estamos en el caso, un caso válido, un caso que cumple estas dos"
+  },
+  {
+    "start": 3411.2400000000002,
+    "end": 3426.32,
+    "text": "cosas? Ya no olvidamos nada. ¿Eh? Por lo pronto j mayor igual que 1, ¿no? Por este, la cantidad"
+  },
+  {
+    "start": 3426.32,
+    "end": 3435.2400000000002,
+    "text": "de as del b tiene que ser mayor igual que 1. Y después tenemos que poner, ¿qué cosa? P"
+  },
+  {
+    "start": 3435.2400000000002,
+    "end": 3444.2400000000002,
+    "text": "más j, menor igual que N. O sea, la cantidad de as entre u y b sea menor igual que N. Y ya"
+  },
+  {
+    "start": 3444.2400000000002,
+    "end": 3454.84,
+    "text": "que estoy, voy a hacer un comentario, que vivimos varios en el, en el, que también la manía"
+  },
+  {
+    "start": 3454.84,
+    "end": 3462.2400000000002,
+    "text": "que no necesariamente hay que hacer siempre el caso u igual a Epsilon. Ah, acá me agarraron,"
+  },
+  {
+    "start": 3462.2400000000002,
+    "end": 3472.2400000000002,
+    "text": "u igual, caso 1, u igual a Epsilon, b igual. A veces sí, a veces no, acá p mayor igual"
+  },
+  {
+    "start": 3472.2400000000002,
+    "end": 3478.2400000000002,
+    "text": "que 0, no importa si u es Epsilon o no es Epsilon. El problema cuando poníamos el caso de u a"
+  },
+  {
+    "start": 3478.2400000000002,
+    "end": 3488.2400000000002,
+    "text": "Epsilon es cuando yo tengo algo antes de las Na, o las 2 Na. Un chinimbo, o otra b o"
+  },
+  {
+    "start": 3488.2400000000002,
+    "end": 3494.2400000000002,
+    "text": "que esto fuera mayor que 1, yo qué sé. En algunos casos tengo que hacer el, distinguir el caso u"
+  },
+  {
+    "start": 3494.2400000000002,
+    "end": 3500.2400000000002,
+    "text": "igual a Epsilon, pero si no, no. Y aproveché para hacer el comentario porque varios lo hacían"
+  },
+  {
+    "start": 3500.2400000000002,
+    "end": 3506.2400000000002,
+    "text": "en el parcial. Ponían casos que estaban contenidos, si ponías esto ya estaba, no había que"
+  },
+  {
+    "start": 3506.2400000000002,
+    "end": 3517.2400000000002,
+    "text": "distinguir. Bueno, está. Y después hago, esto me quedaba así, ¿no?"
+  },
+  {
+    "start": 3518.2400000000002,
+    "end": 3526.2400000000002,
+    "text": "u v a la i, doble b y me queda a la p, a la j, a la i, ya que estamos lo hacemos, a la 2n"
+  },
+  {
+    "start": 3526.2400000000002,
+    "end": 3542.2400000000002,
+    "text": "menos j menos p, b a la n. Más p menos p y esto me queda a a la 2n más i menos 1 por j."
+  },
+  {
+    "start": 3543.2400000000002,
+    "end": 3545.2400000000002,
+    "text": "Mira la n."
+  },
+  {
+    "start": 3549.2400000000002,
+    "end": 3555.2400000000002,
+    "text": "Y ahora, ya está. ¿Qué hago? ¿Qué i no puedo tomar?"
+  },
+  {
+    "start": 3557.2400000000002,
+    "end": 3566.2400000000002,
+    "text": "Y alguno eligió 1. Bien. O ponían cualquier i mayor igual que 1, no."
+  },
+  {
+    "start": 3566.2400000000002,
+    "end": 3581.2400000000002,
+    "text": "Acá dame un i. ¿Cuál? ¿Cuál? 2. Igual 2. Entonces, ¿cómo me queda por acá?"
+  },
+  {
+    "start": 3581.2400000000002,
+    "end": 3588.2400000000002,
+    "text": "Z2 me queda a a la 2n. Igual 2 me queda más j."
+  },
+  {
+    "start": 3590.2400000000002,
+    "end": 3592.2400000000002,
+    "text": "B a la n."
+  },
+  {
+    "start": 3595.2400000000002,
+    "end": 3597.2400000000002,
+    "text": "¿Y ahora?"
+  },
+  {
+    "start": 3601.2400000000002,
+    "end": 3604.2400000000002,
+    "text": "Como j es mayor igual a 1."
+  },
+  {
+    "start": 3605.2400000000002,
+    "end": 3609.2400000000002,
+    "text": "Como j es mayor igual a 1."
+  },
+  {
+    "start": 3612.2400000000002,
+    "end": 3620.2400000000002,
+    "text": "La cantidad de b, o la cantidad de a, es mayor que el doble de la cantidad de b."
+  },
+  {
+    "start": 3620.2400000000002,
+    "end": 3622.2400000000002,
+    "text": "Entonces, no pertenece al lenguaje."
+  },
+  {
+    "start": 3623.2400000000002,
+    "end": 3629.2400000000002,
+    "text": "No es. Como j es mayor que 1, 2 a la n más j es mayor que 2 a la n."
+  },
+  {
+    "start": 3630.2400000000002,
+    "end": 3632.2400000000002,
+    "text": "Sí, claro, porque j es mayor igual que 1."
+  },
+  {
+    "start": 3633.2400000000002,
+    "end": 3637.2400000000002,
+    "text": "No. Siempre la justificación es en función de la estructura del lenguaje."
+  },
+  {
+    "start": 3640.2400000000002,
+    "end": 3644.2400000000002,
+    "text": "No me sirve como argumento. Como j es mayor igual que 1 y ahí escribo."
+  },
+  {
+    "start": 3645.2400000000002,
+    "end": 3661.2400000000002,
+    "text": "La cantidad de a, cant a, cant a de z2, mayor que 2 por cant b de z2."
+  },
+  {
+    "start": 3661.2400000000002,
+    "end": 3665.2400000000002,
+    "text": "Yo qué sé. Pueden hasta formular lo medio prolijo acá, de esa manera."
+  },
+  {
+    "start": 3667.2400000000002,
+    "end": 3669.2400000000002,
+    "text": "Es mayor estricto y tenía que ser igual."
+  },
+  {
+    "start": 3674.2400000000002,
+    "end": 3678.2400000000002,
+    "text": "Bueno, si hubiera elegido z2 le queda menor y igual."
+  },
+  {
+    "start": 3679.2400000000002,
+    "end": 3685.2400000000002,
+    "text": "Demostramos por pambilema que no es regular, con lo cual no me sirve hacer una automata finito."
+  },
+  {
+    "start": 3688.2400000000002,
+    "end": 3690.2400000000002,
+    "text": "Bien, hagamos una automata con esta."
+  },
+  {
+    "start": 3698.2400000000002,
+    "end": 3699.2400000000002,
+    "text": "Depende de lo que te pida."
+  },
+  {
+    "start": 3705.2400000000002,
+    "end": 3708.2400000000002,
+    "text": "Si yo te lo pongo así te tendrías que hacerlo así."
+  },
+  {
+    "start": 3710.2400000000002,
+    "end": 3715.2400000000002,
+    "text": "También podría decirte, sabiendo que él no es regular,"
+  },
+  {
+    "start": 3716.2400000000002,
+    "end": 3720.2400000000002,
+    "text": "y ahí te evito hacer el pambilema, porque ya te estoy diciendo que no es regular,"
+  },
+  {
+    "start": 3721.2400000000002,
+    "end": 3723.2400000000002,
+    "text": "construye una automata que reconozca a toda."
+  },
+  {
+    "start": 3724.2400000000002,
+    "end": 3726.2400000000002,
+    "text": "Pero como acá no dije nada, tenía que hacerlo."
+  },
+  {
+    "start": 3727.2400000000002,
+    "end": 3728.2400000000002,
+    "text": "Bien."
+  },
+  {
+    "start": 3729.2400000000002,
+    "end": 3731.2400000000002,
+    "text": "Bueno, ¿qué hacemos?"
+  },
+  {
+    "start": 3732.2400000000002,
+    "end": 3733.2400000000002,
+    "text": "Bueno, ¿qué hacemos?"
+  },
+  {
+    "start": 3747.2400000000002,
+    "end": 3748.2400000000002,
+    "text": "Si yo te pido."
+  },
+  {
+    "start": 3749.2400000000002,
+    "end": 3750.2400000000002,
+    "text": "Está buena la pregunta."
+  },
+  {
+    "start": 3750.2400000000002,
+    "end": 3753.2400000000002,
+    "text": "Si yo te pido, hacerme una automata push down, hacerme una automata push down."
+  },
+  {
+    "start": 3754.2400000000002,
+    "end": 3756.2400000000002,
+    "text": "Pero, pare, pero el lenguaje es regular."
+  },
+  {
+    "start": 3757.2400000000002,
+    "end": 3758.2400000000002,
+    "text": "¿Qué te pedís? ¿Push down o se push down?"
+  },
+  {
+    "start": 3758.2400000000002,
+    "end": 3769.2400000000002,
+    "text": "Pero, pero, si yo te pido, hacer una automata que reconozca este lenguaje,"
+  },
+  {
+    "start": 3774.2400000000002,
+    "end": 3780.2400000000002,
+    "text": "y nada más que lo que te dice acá, tengo que asegurarme de que no puedo hacer una automata finito."
+  },
+  {
+    "start": 3781.2400000000002,
+    "end": 3782.2400000000002,
+    "text": "Tengo que probar que no me sirve una automata finita."
+  },
+  {
+    "start": 3783.2400000000002,
+    "end": 3784.2400000000002,
+    "text": "Por eso hice aquello."
+  },
+  {
+    "start": 3785.2400000000002,
+    "end": 3786.2400000000002,
+    "text": "¿Va?"
+  },
+  {
+    "start": 3787.2400000000002,
+    "end": 3791.2400000000002,
+    "text": "Siempre, en todas las evaluaciones, les vamos a pedir,"
+  },
+  {
+    "start": 3792.2400000000002,
+    "end": 3795.2400000000002,
+    "text": "creo que está parecen las notas al pie de todas las pruebas,"
+  },
+  {
+    "start": 3796.2400000000002,
+    "end": 3801.2400000000002,
+    "text": "gramáticas y automatas en función de la categoría del lenguaje."
+  },
+  {
+    "start": 3802.2400000000002,
+    "end": 3805.2400000000002,
+    "text": "Si es una, o sea, cuando vimos gramáticas regulares, les dije,"
+  },
+  {
+    "start": 3806.2400000000002,
+    "end": 3807.2400000000002,
+    "text": "hicimos el comentario."
+  },
+  {
+    "start": 3808.2400000000002,
+    "end": 3811.2400000000002,
+    "text": "Y seguramente, condición a la presentación del práctico también."
+  },
+  {
+    "start": 3811.2400000000002,
+    "end": 3813.2400000000002,
+    "text": "Deben de haber hecho énfasis, los compañeros."
+  },
+  {
+    "start": 3814.2400000000002,
+    "end": 3818.2400000000002,
+    "text": "Es, si la gramática, si el lenguaje es regular, gramática regular."
+  },
+  {
+    "start": 3819.2400000000002,
+    "end": 3820.2400000000002,
+    "text": "Que es un caso vertical o de libre de contexto."
+  },
+  {
+    "start": 3821.2400000000002,
+    "end": 3822.2400000000002,
+    "text": "Sí, pero es regular."
+  },
+  {
+    "start": 3823.2400000000002,
+    "end": 3824.2400000000002,
+    "text": "Liñal izquierda o niñal derecha."
+  },
+  {
+    "start": 3826.2400000000002,
+    "end": 3827.2400000000002,
+    "text": "Y automata finito."
+  },
+  {
+    "start": 3828.2400000000002,
+    "end": 3829.2400000000002,
+    "text": "Si no te digo que, hacer que quiera."
+  },
+  {
+    "start": 3830.2400000000002,
+    "end": 3831.2400000000002,
+    "text": "No determinista, con transiciones de sépios, que quiera."
+  },
+  {
+    "start": 3833.2400000000002,
+    "end": 3835.2400000000002,
+    "text": "Pero, si el lenguaje es libre de contexto, no regular,"
+  },
+  {
+    "start": 3836.2400000000002,
+    "end": 3837.2400000000002,
+    "text": "entonces vas a tener que hacer una automata."
+  },
+  {
+    "start": 3838.2400000000002,
+    "end": 3839.2400000000002,
+    "text": "Con stack."
+  },
+  {
+    "start": 3840.2400000000002,
+    "end": 3841.2400000000002,
+    "text": "Y una gramática libre de contexto."
+  },
+  {
+    "start": 3842.2400000000002,
+    "end": 3844.2400000000002,
+    "text": "A menos que, y todavía falta el curso,"
+  },
+  {
+    "start": 3845.2400000000002,
+    "end": 3846.2400000000002,
+    "text": "aparezcan otras cosas más feas."
+  },
+  {
+    "start": 3848.2400000000002,
+    "end": 3849.2400000000002,
+    "text": "Bien."
+  },
+  {
+    "start": 3860.2400000000002,
+    "end": 3861.2400000000002,
+    "text": "¿Será libre de contexto?"
+  },
+  {
+    "start": 3863.2400000000002,
+    "end": 3864.2400000000002,
+    "text": "¿Cómo hacemos?"
+  },
+  {
+    "start": 3865.2400000000002,
+    "end": 3866.2400000000002,
+    "text": "¿Cómo hacemos?"
+  },
+  {
+    "start": 3870.2400000000002,
+    "end": 3871.2400000000002,
+    "text": "Verán, el automata."
+  },
+  {
+    "start": 3872.2400000000002,
+    "end": 3873.2400000000002,
+    "text": "¿Cómo se da la gramática?"
+  },
+  {
+    "start": 3878.2400000000002,
+    "end": 3879.2400000000002,
+    "text": "Ese flechita."
+  },
+  {
+    "start": 3880.2400000000002,
+    "end": 3881.2400000000002,
+    "text": "Ese flechita."
+  },
+  {
+    "start": 3890.2400000000002,
+    "end": 3891.2400000000002,
+    "text": "Papá."
+  },
+  {
+    "start": 3895.2400000000002,
+    "end": 3896.2400000000002,
+    "text": "Ya saben hacer gramática libre."
+  },
+  {
+    "start": 3897.2400000000002,
+    "end": 3898.2400000000002,
+    "text": "Entonces, es gramática libre de contexto."
+  },
+  {
+    "start": 3899.2400000000002,
+    "end": 3900.2400000000002,
+    "text": "El lenguaje libre de contexto."
+  },
+  {
+    "start": 3901.2400000000002,
+    "end": 3902.2400000000002,
+    "text": "¿Por qué? Porque pude construir una gramática que libre de contexto."
+  },
+  {
+    "start": 3904.2400000000002,
+    "end": 3905.2400000000002,
+    "text": "Bien."
+  },
+  {
+    "start": 3906.2400000000002,
+    "end": 3908.2400000000002,
+    "text": "Ahora, le dejo como lo debe, probarlo por inducción completa"
+  },
+  {
+    "start": 3909.2400000000002,
+    "end": 3910.2400000000002,
+    "text": "que genera las tiras de ese lenguaje."
+  },
+  {
+    "start": 3914.2400000000002,
+    "end": 3915.2400000000002,
+    "text": "Sí."
+  },
+  {
+    "start": 3916.2400000000002,
+    "end": 3917.2400000000002,
+    "text": "Todo depende."
+  },
+  {
+    "start": 3918.2400000000002,
+    "end": 3919.2400000000002,
+    "text": "¿Cómo nos agarres ese día?"
+  },
+  {
+    "start": 3921.2400000000002,
+    "end": 3922.2400000000002,
+    "text": "Bien."
+  },
+  {
+    "start": 3922.2400000000002,
+    "end": 3923.2400000000002,
+    "text": "¿Cómo sería una automata?"
+  },
+  {
+    "start": 3925.2400000000002,
+    "end": 3926.2400000000002,
+    "text": "Cusero."
+  },
+  {
+    "start": 3927.2400000000002,
+    "end": 3928.2400000000002,
+    "text": "Cusero. Bien."
+  },
+  {
+    "start": 3929.2400000000002,
+    "end": 3930.2400000000002,
+    "text": "Compro."
+  },
+  {
+    "start": 3931.2400000000002,
+    "end": 3932.2400000000002,
+    "text": "Tengo una automata y un cusero."
+  },
+  {
+    "start": 3933.2400000000002,
+    "end": 3934.2400000000002,
+    "text": "¿Qué tiene que ser automata?"
+  },
+  {
+    "start": 3935.2400000000002,
+    "end": 3936.2400000000002,
+    "text": "Pensemos en la estructura del lenguaje"
+  },
+  {
+    "start": 3937.2400000000002,
+    "end": 3938.2400000000002,
+    "text": "y a ver qué es lo que voy haciendo."
+  },
+  {
+    "start": 3942.2400000000002,
+    "end": 3943.2400000000002,
+    "text": "¿Cómo registro las AS?"
+  },
+  {
+    "start": 3952.2400000000002,
+    "end": 3954.2400000000002,
+    "text": "Si tengo Z0 en el tope del stack,"
+  },
+  {
+    "start": 3955.2400000000002,
+    "end": 3956.2400000000002,
+    "text": "con la A7T."
+  },
+  {
+    "start": 3958.2400000000002,
+    "end": 3959.2400000000002,
+    "text": "Y el plazo acá."
+  },
+  {
+    "start": 3960.2400000000002,
+    "end": 3961.2400000000002,
+    "text": "El compañero dice,"
+  },
+  {
+    "start": 3962.2400000000002,
+    "end": 3963.2400000000002,
+    "text": "si yo tengo una"
+  },
+  {
+    "start": 3964.2400000000002,
+    "end": 3965.2400000000002,
+    "text": "y tengo Z0 en el tope del stack,"
+  },
+  {
+    "start": 3966.2400000000002,
+    "end": 3967.2400000000002,
+    "text": "vamos a poner una grande."
+  },
+  {
+    "start": 3968.2400000000002,
+    "end": 3969.2400000000002,
+    "text": "Me gusta cambiar de alfabeto."
+  },
+  {
+    "start": 3972.2400000000002,
+    "end": 3973.2400000000002,
+    "text": "Podría poner X para no marear."
+  },
+  {
+    "start": 3975.2400000000002,
+    "end": 3976.2400000000002,
+    "text": "X."
+  },
+  {
+    "start": 3978.2400000000002,
+    "end": 3979.2400000000002,
+    "text": "Si no digo A, A, A."
+  },
+  {
+    "start": 3979.2400000000002,
+    "end": 3980.2400000000002,
+    "text": "Ya."
+  },
+  {
+    "start": 3981.2400000000002,
+    "end": 3982.2400000000002,
+    "text": "Está."
+  },
+  {
+    "start": 3984.2400000000002,
+    "end": 3986.2400000000002,
+    "text": "Si yo tengo A en el tope del stack..."
+  },
+  {
+    "start": 3988.2400000000002,
+    "end": 3989.2400000000002,
+    "text": "No, A en el tope del stack no tengo."
+  },
+  {
+    "start": 3994.2400000000002,
+    "end": 3995.2400000000002,
+    "text": "Leó una A y tengo X."
+  },
+  {
+    "start": 3996.2400000000002,
+    "end": 3997.2400000000002,
+    "text": "¿Y me quedo acá?"
+  },
+  {
+    "start": 4010.2400000000002,
+    "end": 4012.2400000000002,
+    "text": "Yo estoy diciendo lo que me están diciendo acá, ¿eh?"
+  },
+  {
+    "start": 4017.2400000000002,
+    "end": 4019.2400000000002,
+    "text": "Yo estoy diciendo lo que me están diciendo acá, ¿eh?"
+  },
+  {
+    "start": 4019.2400000000002,
+    "end": 4021.2400000000002,
+    "text": "Entonces, ¿qué podríamos haber hecho acá?"
+  },
+  {
+    "start": 4027.2400000000002,
+    "end": 4029.2400000000002,
+    "text": "O sea, ¿qué hiciera que?"
+  },
+  {
+    "start": 4030.2400000000002,
+    "end": 4031.2400000000002,
+    "text": "¿Qué hiciera?"
+  },
+  {
+    "start": 4031.2400000000002,
+    "end": 4032.2400000000002,
+    "text": "No, no."
+  },
+  {
+    "start": 4032.2400000000002,
+    "end": 4033.2400000000002,
+    "text": "No, no."
+  },
+  {
+    "start": 4034.2400000000002,
+    "end": 4035.2400000000002,
+    "text": "No, no, no."
+  },
+  {
+    "start": 4036.2400000000002,
+    "end": 4037.2400000000002,
+    "text": "¡Claro!"
+  },
+  {
+    "start": 4038.2400000000002,
+    "end": 4039.2400000000002,
+    "text": "No, no, no."
+  },
+  {
+    "start": 4040.2400000000002,
+    "end": 4041.2400000000002,
+    "text": "No, no, no."
+  },
+  {
+    "start": 4043.2400000000002,
+    "end": 4044.2400000000002,
+    "text": "No, no, no, no."
+  },
+  {
+    "start": 4045.2400000000002,
+    "end": 4046.2400000000002,
+    "text": "No, no, no, no, no, no."
+  },
+  {
+    "start": 4047.2400000000002,
+    "end": 4048.2400000000002,
+    "text": "¡Claro!"
+  },
+  {
+    "start": 4049.2400000000002,
+    "end": 4060.1600000000003,
+    "text": "otro nodo pero para qué otro otro estado para qué que no modifique el stack o sea algo así"
+  },
+  {
+    "start": 4060.1600000000003,
+    "end": 4072.28,
+    "text": "como que cada dosa mete una lo que sí tengo que asegurarme es cantidad par ojo o sea que eso"
+  },
+  {
+    "start": 4072.28,
+    "end": 4081.4,
+    "text": "también lo tengo que controlar ojo que igual te tengo fe para que salga una versión de este lado"
+  },
+  {
+    "start": 4085.28,
+    "end": 4087.6000000000004,
+    "text": "bien entonces"
+  },
+  {
+    "start": 4087.6,
+    "end": 4090.36,
+    "text": "a"
+  },
+  {
+    "start": 4092.36,
+    "end": 4096.6,
+    "text": "ceta cero a ceta x ceta cero"
+  },
+  {
+    "start": 4100.16,
+    "end": 4100.88,
+    "text": "cuno"
+  },
+  {
+    "start": 4106.04,
+    "end": 4111.16,
+    "text": "como para dónde de vuelta"
+  },
+  {
+    "start": 4111.16,
+    "end": 4117.04,
+    "text": "a x x no"
+  },
+  {
+    "start": 4121.92,
+    "end": 4128.5199999999995,
+    "text": "acá esto hice lo que hacía con el numeral no leo el numeral tengo cozo de tope el stack no hago"
+  },
+  {
+    "start": 4128.5199999999995,
+    "end": 4129.04,
+    "text": "nada en el stack"
+  },
+  {
+    "start": 4142.16,
+    "end": 4150.5199999999995,
+    "text": "si las a son impares me quedan acá o sea que en cu cero tengo las a pares"
+  },
+  {
+    "start": 4153.36,
+    "end": 4153.96,
+    "text": "bien"
+  },
+  {
+    "start": 4156.76,
+    "end": 4161.84,
+    "text": "pero son pares mayores que cero o sea que el cero tengo que tener cuidado también con eso no que el cero"
+  },
+  {
+    "start": 4163.12,
+    "end": 4165.32,
+    "text": "o sea la tira de epsilon no es una tira válida"
+  },
+  {
+    "start": 4165.639999999999,
+    "end": 4174.84,
+    "text": "claro cuando salga de acá tengo que tenerla con el stack y voy a salir de acá"
+  },
+  {
+    "start": 4176.24,
+    "end": 4179.799999999999,
+    "text": "si le una para este lado lo de falta no algo"
+  },
+  {
+    "start": 4182.96,
+    "end": 4187.0,
+    "text": "claro tengo que seguir consumiendo más o sea que"
+  },
+  {
+    "start": 4190.04,
+    "end": 4191.12,
+    "text": "que me está faltando acá"
+  },
+  {
+    "start": 4196.32,
+    "end": 4198.799999999999,
+    "text": "ponela ponela x"
+  },
+  {
+    "start": 4207.12,
+    "end": 4215.0,
+    "text": "no no ceta cero de ceta cero ceta cero es un símbolo especial que lo uso para tope el stack"
+  },
+  {
+    "start": 4225.44,
+    "end": 4234.44,
+    "text": "cudos y cuando voy a cudos una vez de donde de cusero"
+  },
+  {
+    "start": 4238.28,
+    "end": 4243.28,
+    "text": "necesito x en el tope del stack y ahí que hago"
+  },
+  {
+    "start": 4251.32,
+    "end": 4254.679999999999,
+    "text": "y acá no tengo que decir qué viesa lo prestado así o prestó final"
+  },
+  {
+    "start": 4256.32,
+    "end": 4260.759999999999,
+    "text": "que hago ahora"
+  },
+  {
+    "start": 4262.96,
+    "end": 4264.5599999999995,
+    "text": "y cómo funciona"
+  },
+  {
+    "start": 4267.28,
+    "end": 4268.08,
+    "text": "que te vas a"
+  },
+  {
+    "start": 4286.12,
+    "end": 4291.0,
+    "text": "y va"
+  },
+  {
+    "start": 4303.5599999999995,
+    "end": 4304.24,
+    "text": "si o no"
+  },
+  {
+    "start": 4305.84,
+    "end": 4311.12,
+    "text": "esta que es una transición epsilon cuando se va a ejecutar cuando tenga ceta cero en el tope del stack"
+  },
+  {
+    "start": 4312.12,
+    "end": 4319.12,
+    "text": "pero cómo me aseguro yo llegar al ceta cero en el tope de stack como yo cada dosa metía una una marca"
+  },
+  {
+    "start": 4319.12,
+    "end": 4325.2,
+    "text": "después tengo que sacar tantas veces como marcas metí y eso es la mitad de las as"
+  },
+  {
+    "start": 4326.72,
+    "end": 4331.2,
+    "text": "entonces me aseguro de que cuando se me acaba la tira tengo ceta cero en el tope del stack por"
+  },
+  {
+    "start": 4331.2,
+    "end": 4336.36,
+    "text": "eso puedo poner esta transición si quiere ponerlo como final o poner el final le hacemos como"
+  },
+  {
+    "start": 4336.36,
+    "end": 4342.0,
+    "text": "le decíamos hoy va si el stack y además quede en estado final pero si no lo puedo dejar así"
+  },
+  {
+    "start": 4345.16,
+    "end": 4346.0,
+    "text": "se entendió"
+  },
+  {
+    "start": 4362.0,
+    "end": 4363.08,
+    "text": "el mismo dibujito"
+  },
+  {
+    "start": 4366.96,
+    "end": 4367.639999999999,
+    "text": "estamos bien"
+  },
+  {
+    "start": 4375.16,
+    "end": 4378.04,
+    "text": "el mismo problema resuelto con transición es epsilon"
+  },
+  {
+    "start": 4383.4,
+    "end": 4389.679999999999,
+    "text": "como decía son aquellas que me permiten modificar el stack y eventualmente cambiarme de estado"
+  },
+  {
+    "start": 4389.679999999999,
+    "end": 4392.5199999999995,
+    "text": "sin consumir un símbolo de la entrada"
+  },
+  {
+    "start": 4392.68,
+    "end": 4395.96,
+    "text": "el mismo ejemplo"
+  },
+  {
+    "start": 4408.200000000001,
+    "end": 4411.56,
+    "text": "jugátele ahora el que decías hoy"
+  },
+  {
+    "start": 4423.280000000001,
+    "end": 4452.0,
+    "text": "que yo tengo que hacer acá lo que hizo el compañero fue"
+  },
+  {
+    "start": 4452.0,
+    "end": 4467.92,
+    "text": "metió toda la SAS. ¿A qué tener solamente un cuidado? ¿Qué es qué? No voy a acusar ni"
+  },
+  {
+    "start": 4467.92,
+    "end": 4477.44,
+    "text": "que hablar, porque ahí puedo llegar a hacer destrozos. Tengo que asegurar que esto no me"
+  },
+  {
+    "start": 4477.4800000000005,
+    "end": 4481.400000000001,
+    "text": "lo controla y este modelo sí. ¿Qué cosa?"
+  },
+  {
+    "start": 4485.64,
+    "end": 4492.320000000001,
+    "text": "Cantidad par de as. Tengo que controlar cantidad par de as de alguna manera. ¿Se entiende eso?"
+  },
+  {
+    "start": 4495.68,
+    "end": 4502.320000000001,
+    "text": "Exacto. Exacto. Entonces, voy a dijiste, vamos a los para acá abajo. Epsilon."
+  },
+  {
+    "start": 4508.4400000000005,
+    "end": 4528.080000000001,
+    "text": "Y ahí trazón Q3, cuando resiste una B, BX epsilon, y de ahí volves a Q2 con epsilon XF y volves a"
+  },
+  {
+    "start": 4528.08,
+    "end": 4530.36,
+    "text": "Q2, epsilon XF."
+  },
+  {
+    "start": 4530.36,
+    "end": 4552.36,
+    "text": "Para, para, para. Primero vamos a ver esto y después vemos variante."
+  },
+  {
+    "start": 4552.36,
+    "end": 4562.5599999999995,
+    "text": "A ver, saqué una B por una marca, pero tenía que sacar dos marcas, por cada B dos marcas."
+  },
+  {
+    "start": 4562.5599999999995,
+    "end": 4567.32,
+    "text": "Eso es lo que hace el compañero con la transición. La primera vez que aparece una B,"
+  },
+  {
+    "start": 4567.32,
+    "end": 4571.12,
+    "text": "sacó una marca, pero tengo que sacar dos, por cada B dos."
+  },
+  {
+    "start": 4571.12,
+    "end": 4583.84,
+    "text": "Viene la siguiente B, tengo que sacar dos. Vamos a TRE y volvemos a dos. Y así sucesivamente."
+  },
+  {
+    "start": 4587.72,
+    "end": 4593.96,
+    "text": "Cuando llegué acá, cuando lo que dice es en Q2 ya saqué cantidad par, porque siempre estoy"
+  },
+  {
+    "start": 4593.96,
+    "end": 4599.84,
+    "text": "controlando cantidad par. ¿Se entiende? Y estoy sacando por cada B dos marcas."
+  },
+  {
+    "start": 4606.32,
+    "end": 4611.84,
+    "text": "¿Funciona o no funciona? Sí. ¿Podría haber ahorrado estados?"
+  },
+  {
+    "start": 4611.84,
+    "end": 4618.84,
+    "text": "Sí, pero son baratos. Son baratos, son baratos los estados. Pero podría haber ahorrado estados."
+  },
+  {
+    "start": 4618.84,
+    "end": 4628.64,
+    "text": "¿Qué es lo que decía el compañero allá? En vez de hacer esto, ¿lo controlaba acá?"
+  },
+  {
+    "start": 4635.08,
+    "end": 4635.96,
+    "text": "Con B, perdón."
+  },
+  {
+    "start": 4641.24,
+    "end": 4648.6,
+    "text": "Entonces es 1, 2, 3, 4, 5, 6, 7, 8. Siempre me aseguro cantidad par."
+  },
+  {
+    "start": 4648.84,
+    "end": 4659.68,
+    "text": "Resolvimos el problema con dos automatas distintos. Es más, resolvimos el problema con tres automatas"
+  },
+  {
+    "start": 4659.68,
+    "end": 4668.68,
+    "text": "distintos. Estos dos tienen transición excepción? Está no. Este en negro no. Bueno, sí tiene esta, pero."
+  },
+  {
+    "start": 4668.68,
+    "end": 4684.6,
+    "text": "Mira, acá tiene la versión por estado final, que acá no lo hicimos. Enseguida hicieron por"
+  },
+  {
+    "start": 4684.6,
+    "end": 4697.4400000000005,
+    "text": "estado así. Es la misma idea de una transición epsilon, pero por estado final. Ya son cuatro."
+  },
+  {
+    "start": 4697.4400000000005,
+    "end": 4711.960000000001,
+    "text": "Para el mismo problema, los resolvimos de cuatro maneras distintas. ¿Está bien? ¿Se entendió? Bien."
+  },
+  {
+    "start": 4711.96,
+    "end": 4732.32,
+    "text": "Bueno. Vamos a empezar a dar una idea de esto, pero no lo vamos a terminar hoy, porque mire"
+  },
+  {
+    "start": 4732.32,
+    "end": 4739.2,
+    "text": "la obra siete y media. Aunque empezamos un poquito más tarde, por problemas técnicos. Pero igual,"
+  },
+  {
+    "start": 4739.2,
+    "end": 4749.8,
+    "text": "venimos bien. Equivalencia de modelos. ¿Qué quiere decir esto? Que nosotros presentamos el modelo"
+  },
+  {
+    "start": 4749.8,
+    "end": 4758.8,
+    "text": "de automata con STAC en dos versiones, que aceptan por estado final o que aceptan por estado vacío."
+  },
+  {
+    "start": 4758.8,
+    "end": 4772.6,
+    "text": "Y lo resolvimos de las dos maneras. Pero hasta ahora nadie se cuestionó si para un lenguaje"
+  },
+  {
+    "start": 4772.6,
+    "end": 4781.72,
+    "text": "puedo hacerlo de una manera o de otro. ¿Me lo preguntaste? Te lo cuestionaste. Bien. Y no sé a"
+  },
+  {
+    "start": 4781.76,
+    "end": 4790.96,
+    "text": "ningún a preguntar. Llegó el momento de preguntarlo. Profesor, ¿son los dos modelos equivalentes? Y la"
+  },
+  {
+    "start": 4790.96,
+    "end": 4802.96,
+    "text": "respuesta es sí. Todo automata con STAC, que acepta un lenguaje por estado final, tiene un"
+  },
+  {
+    "start": 4802.96,
+    "end": 4813.88,
+    "text": "automata equivalente, que acepta el mismo lenguaje, equivalente en ese sentido, por estado vacío"
+  },
+  {
+    "start": 4813.88,
+    "end": 4824.4,
+    "text": "irreciprocamente. Es decir, que si yo... ¿Qué es lo que me plantea el teorema? Que si yo tengo un"
+  },
+  {
+    "start": 4824.4,
+    "end": 4831.16,
+    "text": "lenguaje y construyo un automata por estado final, podría haberlo construido por estado vacío."
+  },
+  {
+    "start": 4833.36,
+    "end": 4841.72,
+    "text": "Exacto. Exacto. Para probar esta equivalencia, lo que hay es un algoritmo que transforma uno en el otro."
+  },
+  {
+    "start": 4842.92,
+    "end": 4852.36,
+    "text": "Y ese algoritmo, la idea del algoritmo es no atacar casos particulares, sino programarlo en términos"
+  },
+  {
+    "start": 4852.36,
+    "end": 4868.88,
+    "text": "de cualquier automata. ¿Tá? Entonces, pensemos simplemente, lo profundizamos en la clase que viene,"
+  },
+  {
+    "start": 4868.88,
+    "end": 4878.12,
+    "text": "pero pensemos, si yo tengo un automata que acepta por estado final y quiero construir uno que reconozca"
+  },
+  {
+    "start": 4878.12,
+    "end": 4884.2,
+    "text": "lo mismo, pero que sea por estado vacío. Sin tocar mi delta, o sea, tratar de ver un poco lo que decíamos recién,"
+  },
+  {
+    "start": 4884.2,
+    "end": 4890.72,
+    "text": "no ver casos particulares. ¿Qué es lo que tendría que hacer? Acuérdense de esto."
+  },
+  {
+    "start": 4890.72,
+    "end": 4910.92,
+    "text": "Yo tengo un automata que reconoce por estado final. O sea, ¿cuáles van a hacer las tiras válidas?"
+  },
+  {
+    "start": 4910.92,
+    "end": 4916.4400000000005,
+    "text": "Cuando pasa esto, llegué a un estado final, consumí toda la tira y tengo cualquier cosa en el stack."
+  },
+  {
+    "start": 4916.4400000000005,
+    "end": 4926.320000000001,
+    "text": "¿Qué es lo que me falta? Hay ese lenguaje para que lo pueda reconocer por estado vacío."
+  },
+  {
+    "start": 4926.320000000001,
+    "end": 4936.6,
+    "text": "¿Pasiar el stack? ¿Pasiar el stack? ¿Pasiar el stack? ¿Y dónde lo voy a vaciar el stack?"
+  },
+  {
+    "start": 4940.000000000001,
+    "end": 4943.92,
+    "text": "¿Qué es un estado final? En un estado final, si no tengo estado final, es en estado vacío."
+  },
+  {
+    "start": 4947.320000000001,
+    "end": 4950.960000000001,
+    "text": "Claro, yo tengo que pasar a un modelo que no tiene estado finales."
+  },
+  {
+    "start": 4954.76,
+    "end": 4961.960000000001,
+    "text": "De vuelta, quiero tratar de programarlo sin entrar en particularidades. ¿Qué es lo más fácil?"
+  },
+  {
+    "start": 4961.960000000001,
+    "end": 4968.200000000001,
+    "text": "Primero, pensemos conceptualmente qué es lo que tengo que hacer. Pensemos, llegamos a esta configuración."
+  },
+  {
+    "start": 4970.120000000001,
+    "end": 4974.160000000001,
+    "text": "Llegué a un estado final, se me acabó la tira y tengo cosas en el stack. ¿Qué tengo que hacer?"
+  },
+  {
+    "start": 4975.12,
+    "end": 4977.599999999999,
+    "text": "¿Sacar todo lo del stack? ¿Y dónde lo puedo hacer?"
+  },
+  {
+    "start": 4981.5599999999995,
+    "end": 4987.48,
+    "text": "¿Qué me dijiste hoy? ¿Qué me dijiste hoy de los estados? ¿Qué cómo eran? Baratos."
+  },
+  {
+    "start": 4992.4,
+    "end": 5003.599999999999,
+    "text": "De cada estado final, ¿que le manda una transición épsil? ¿Me acabaron los símbolos? ¿Qué va así el stack?"
+  },
+  {
+    "start": 5005.08,
+    "end": 5008.08,
+    "text": "Entonces, en un estado para vaciar el stack."
+  },
+  {
+    "start": 5010.08,
+    "end": 5016.32,
+    "text": "Esa sería la idea. Hay alguna particularidad que la vamos a discutir en la próxima clase. ¿Y al revés?"
+  },
+  {
+    "start": 5019.84,
+    "end": 5029.88,
+    "text": "Al revés, ojo al revés. O sea, está claro, si yo estoy por un estado final y quiero construir un equivalente por estado vacío,"
+  },
+  {
+    "start": 5030.4800000000005,
+    "end": 5038.88,
+    "text": "en principio, en principio de cada estado final saco transiciones épsilón a un nuevo estado que se encargue de vaciar el stack."
+  },
+  {
+    "start": 5041.6,
+    "end": 5044.76,
+    "text": "Ahora tengo, al revés, es decir..."
+  },
+  {
+    "start": 5051.4800000000005,
+    "end": 5055.4800000000005,
+    "text": "Sí, pero claro, pero no tengo estado final."
+  },
+  {
+    "start": 5056.4800000000005,
+    "end": 5060.4800000000005,
+    "text": "O sea, ¿qué es lo que necesito?"
+  },
+  {
+    "start": 5062.4800000000005,
+    "end": 5063.4800000000005,
+    "text": "Agregar un estado final."
+  },
+  {
+    "start": 5067.4800000000005,
+    "end": 5072.4800000000005,
+    "text": "¿Y a dónde lo voy a agregar ese estado? O sea, ¿cómo voy a llegar a ese estado final?"
+  },
+  {
+    "start": 5075.4800000000005,
+    "end": 5076.4800000000005,
+    "text": "Claro."
+  },
+  {
+    "start": 5078.4800000000005,
+    "end": 5082.4800000000005,
+    "text": "¿En qué momento te vería de llegar al estado final?"
+  },
+  {
+    "start": 5083.4800000000005,
+    "end": 5085.4800000000005,
+    "text": "Cuando vací el stack."
+  },
+  {
+    "start": 5086.4800000000005,
+    "end": 5095.4800000000005,
+    "text": "Entonces, lo que tengo que hacer es alguna cosita como para no tocar demasiado la Delta, para un caso particular,"
+  },
+  {
+    "start": 5095.4800000000005,
+    "end": 5103.4800000000005,
+    "text": "y ver cómo hago para definirme transiciones que me aseguren que el stack está vacío,"
+  },
+  {
+    "start": 5103.4800000000005,
+    "end": 5110.4800000000005,
+    "text": "porque recuerden que este automata se acepta por el stack vacío."
+  },
+  {
+    "start": 5111.4800000000005,
+    "end": 5114.4800000000005,
+    "text": "¿La última transición que hizo cuál fue?"
+  },
+  {
+    "start": 5115.4800000000005,
+    "end": 5117.4800000000005,
+    "text": "Sacar zeta cero."
+  },
+  {
+    "start": 5117.4800000000005,
+    "end": 5122.4800000000005,
+    "text": "Entonces, si yo reconocio una tira, pues yo digo que no es tan directo."
+  },
+  {
+    "start": 5122.4800000000005,
+    "end": 5124.4800000000005,
+    "text": "Si yo reconocio una tira, saqué el zeta cero."
+  },
+  {
+    "start": 5124.4800000000005,
+    "end": 5127.4800000000005,
+    "text": "Entonces, ¿cómo vas a tirarla? ¿Cómo vas a llegar al estado final?"
+  },
+  {
+    "start": 5127.4800000000005,
+    "end": 5129.4800000000005,
+    "text": "Si ya mataste todo."
+  },
+  {
+    "start": 5131.4800000000005,
+    "end": 5132.4800000000005,
+    "text": "¿Se entendió?"
+  },
+  {
+    "start": 5134.4800000000005,
+    "end": 5139.4800000000005,
+    "text": "Tiene ahí una pisadita, porque no se olviden que lo que yo estoy construyendo es otro automata."
+  },
+  {
+    "start": 5140.4800000000005,
+    "end": 5144.4800000000005,
+    "text": "Lo que pasa es que lo que voy a tratar de hacer es reutilizar todo lo que pueda."
+  },
+  {
+    "start": 5149.4800000000005,
+    "end": 5150.4800000000005,
+    "text": "Claro, de vuelta."
+  },
+  {
+    "start": 5150.4800000000005,
+    "end": 5155.4800000000005,
+    "text": "La idea es tratar de programar algo que se independice del automata y que considere."
+  },
+  {
+    "start": 5155.4800000000005,
+    "end": 5156.4800000000005,
+    "text": "O sea, que no toque."
+  },
+  {
+    "start": 5156.4800000000005,
+    "end": 5159.4800000000005,
+    "text": "Si el Delta es este, entonces lo cambio y hago esto."
+  },
+  {
+    "start": 5159.4800000000005,
+    "end": 5161.4800000000005,
+    "text": "Si el Delta es acá, entonces, ¿qué haremos allá?"
+  },
+  {
+    "start": 5161.4800000000005,
+    "end": 5162.4800000000005,
+    "text": "No."
+  },
+  {
+    "start": 5162.4800000000005,
+    "end": 5165.4800000000005,
+    "text": "La idea es programar un algoritmo, no lo vamos a programar,"
+  },
+  {
+    "start": 5165.4800000000005,
+    "end": 5170.4800000000005,
+    "text": "pero vamos a dar una idea de cómo sería un algoritmo que exactamente me haga eso."
+  },
+  {
+    "start": 5172.4800000000005,
+    "end": 5175.4800000000005,
+    "text": "Me considere los estados, me considere que va así el stack"
+  },
+  {
+    "start": 5176.4800000000005,
+    "end": 5181.4800000000005,
+    "text": "y que pueda reutilizar de un modelo a otro todas mis transiciones"
+  },
+  {
+    "start": 5181.4800000000005,
+    "end": 5185.4800000000005,
+    "text": "sin tener que tocar las transiciones originales del automata."
+  },
+  {
+    "start": 5185.4800000000005,
+    "end": 5187.4800000000005,
+    "text": "Reutilizar las transiciones."
+  },
+  {
+    "start": 5189.4800000000005,
+    "end": 5191.4800000000005,
+    "text": "Entonces, voy a agregar transiciones."
+  },
+  {
+    "start": 5191.4800000000005,
+    "end": 5194.4800000000005,
+    "text": "O sea, en un lado o ese a otro, voy a agregar nuevas transiciones"
+  },
+  {
+    "start": 5194.4800000000005,
+    "end": 5197.4800000000005,
+    "text": "y agregar nuevos estados que se encarguen de hacer las cosas que me faltan."
+  },
+  {
+    "start": 5197.4800000000005,
+    "end": 5200.4800000000005,
+    "text": "En un caso, va a ser el stack y en otro caso, aceptar."
+  },
+  {
+    "start": 5201.4800000000005,
+    "end": 5203.4800000000005,
+    "text": "En un caso que sea estado final."
+  },
+  {
+    "start": 5205.4800000000005,
+    "end": 5206.4800000000005,
+    "text": "¿De acuerdo?"
+  },
+  {
+    "start": 5207.4800000000005,
+    "end": 5209.4800000000005,
+    "text": "Entonces, dejamos acá"
+  },
+  {
+    "start": 5210.4800000000005,
+    "end": 5212.4800000000005,
+    "text": "y el lunes vemos esto, vemos algo de equivalencia"
+  },
+  {
+    "start": 5212.4800000000005,
+    "end": 5215.4800000000005,
+    "text": "y empezamos con la parte de propiedades, capaz."
+  }
+]

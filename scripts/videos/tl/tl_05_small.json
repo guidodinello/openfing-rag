@@ -1,0 +1,6437 @@
+[
+  {
+    "start": 0.0,
+    "end": 26.68,
+    "text": "Bueno decía, ¿qué tenemos por el momento un tipo particular de lenguajes que le llamamos"
+  },
+  {
+    "start": 26.68,
+    "end": 44.84,
+    "text": "por lenguajes regulares? Y esos lenguajes, por el momento, lo podemos ver desde dos enfoques."
+  },
+  {
+    "start": 44.84,
+    "end": 58.92,
+    "text": "Uno es desde el punto de vista de la descripción de los strings que componen el lenguaje, de"
+  },
+  {
+    "start": 58.92,
+    "end": 67.12,
+    "text": "una manera descriptiva, una notación formal, mediante expresiones regulares, que de alguna"
+  },
+  {
+    "start": 67.12,
+    "end": 76.96000000000001,
+    "text": "manera lo que están marcando es, ¿cuáles son los patrones que tienen todos esos strings"
+  },
+  {
+    "start": 76.96000000000001,
+    "end": 85.56,
+    "text": "que constituyen el lenguaje? Eso desde un punto de vista formal, desde un punto de vista de"
+  },
+  {
+    "start": 85.56,
+    "end": 99.0,
+    "text": "descripción de ese patrón que describe los strings del lenguaje. Y por otro lado, que"
+  },
+  {
+    "start": 99.0,
+    "end": 114.68,
+    "text": "lo presentamos en la clase pasada, es desde el punto de vista de su reconocimiento, es"
+  },
+  {
+    "start": 114.84,
+    "end": 124.24000000000001,
+    "text": "presentamos a los lenguajes regulares en función de un modelo de automata que es capaz de reconocer"
+  },
+  {
+    "start": 124.24000000000001,
+    "end": 133.20000000000002,
+    "text": "todas las tiras que constituyen ese lenguaje. Un lenguaje es un subconjunto de todos los"
+  },
+  {
+    "start": 133.20000000000002,
+    "end": 142.44,
+    "text": "posibles strings que se pueden formar sobre un alfabeto. Un lenguaje L es un subconjunto"
+  },
+  {
+    "start": 142.6,
+    "end": 148.88,
+    "text": "de sinmaster, siendo símbolo alfabeto. Entonces, por un lado tenemos a las expresiones regulares"
+  },
+  {
+    "start": 148.88,
+    "end": 157.92,
+    "text": "que definen la notación que tienen las tiras. Y por otro lado, los vemos desde el punto"
+  },
+  {
+    "start": 157.92,
+    "end": 163.4,
+    "text": "de vista de su reconocimiento como aquellos para los cuales yo puedo construir un modelo"
+  },
+  {
+    "start": 163.4,
+    "end": 173.48000000000002,
+    "text": "de máquina de estados denominado automata finitos determinista, el cual reconoce todos"
+  },
+  {
+    "start": 173.48000000000002,
+    "end": 181.0,
+    "text": "aquellos tiras que pertenecen a ese lenguaje. ¿Cómo hace ese reconocimiento? Y bueno, arrancando"
+  },
+  {
+    "start": 181.0,
+    "end": 191.52,
+    "text": "en un cierto estado del conjunto de estados, el estado inicial, y comienza a aplicar"
+  },
+  {
+    "start": 191.56,
+    "end": 197.24,
+    "text": "los estados, se empieza a ejecutar ese automata. Esa función de transición delta"
+  },
+  {
+    "start": 201.92000000000002,
+    "end": 209.68,
+    "text": "es una función que toma pares estado símbolo y me determina a qué estado voy."
+  },
+  {
+    "start": 209.68,
+    "end": 222.92000000000002,
+    "text": "Lo que veíamos el otro día es que uno habitualmente quiere decir, bueno, quiere a los efectos de"
+  },
+  {
+    "start": 222.92000000000002,
+    "end": 234.36,
+    "text": "efectivamente validar que ese automata reconoce. Tira, una determinada tira, es decir, un determinado"
+  },
+  {
+    "start": 234.36,
+    "end": 242.44000000000003,
+    "text": "string de sin máster pertenece o no pertenece al lenguaje L, es que yo arranco en Q0 y empiezo a"
+  },
+  {
+    "start": 242.44000000000003,
+    "end": 247.92000000000002,
+    "text": "ejecutar el delta. Ahí era que extendíamos, o sea, lo que decíamos el otro día, el delta de"
+  },
+  {
+    "start": 247.92000000000002,
+    "end": 256.76,
+    "text": "Q0 con W. Para saber si la tira pertenece o no pertenece, tengo que partir del estado inicial"
+  },
+  {
+    "start": 256.76,
+    "end": 266.96,
+    "text": "y computarla toda, leerla toda, consumirla toda, de izquierda a derecha. Entonces, siendo un poquito"
+  },
+  {
+    "start": 266.96,
+    "end": 273.92,
+    "text": "formales en la especificación, esto así yo no lo puedo plantear porque el delta está dado como"
+  },
+  {
+    "start": 273.92,
+    "end": 279.12,
+    "text": "pares estado símbolo. Entonces lo que hacíamos era extendíamos la función delta para poder,"
+  },
+  {
+    "start": 279.6,
+    "end": 281.24,
+    "text": "sobre todo los efectos prácticos,"
+  },
+  {
+    "start": 285.12,
+    "end": 291.0,
+    "text": "poder escribir formalmente cómo hacemos para plantear este tipo de cosas. Entonces,"
+  },
+  {
+    "start": 291.0,
+    "end": 298.52,
+    "text": "en vez de delta de Q0, W, tenemos el delta techo de Q0, W. Que el delta techo de Q0, W lo que"
+  },
+  {
+    "start": 298.52,
+    "end": 306.96,
+    "text": "hacemos es definirlo en función del delta. Me quedaría la composición de delta consigo mismo,"
+  },
+  {
+    "start": 306.96,
+    "end": 318.64,
+    "text": "tantas veces como sea necesario, como largo de W. Una vez computado, computada esta tira,"
+  },
+  {
+    "start": 319.76,
+    "end": 324.91999999999996,
+    "text": "esta secuencia de símbolos, lo que yo me fijo es en qué estado queda la automata."
+  },
+  {
+    "start": 325.91999999999996,
+    "end": 333.08,
+    "text": "Y ahí tengo dos posibilidades. O queda en un estado de los que denominamos finales,"
+  },
+  {
+    "start": 333.08,
+    "end": 338.64,
+    "text": "que son los estados aceptores, con lo cual la respuesta es si la tira pertenece"
+  },
+  {
+    "start": 339.76,
+    "end": 345.84,
+    "text": "al lenguaje para el cual está siendo construido esa automata, o queda un estado cualquiera que"
+  },
+  {
+    "start": 345.84,
+    "end": 350.59999999999997,
+    "text": "no está destacado en la especificación formal, ya no es un estado final,"
+  },
+  {
+    "start": 353.15999999999997,
+    "end": 356.68,
+    "text": "estado final, recuerden que decíamos estado final o estado de aceptación."
+  },
+  {
+    "start": 358.56,
+    "end": 361.4,
+    "text": "En cuyo caso la respuesta es no, la tira no pertenece al lenguaje."
+  },
+  {
+    "start": 362.36,
+    "end": 367.40000000000003,
+    "text": "Entonces tenemos la posibilidad de contestar sí o no a la pregunta si el W pertenece a él,"
+  },
+  {
+    "start": 367.40000000000003,
+    "end": 371.48,
+    "text": "que es como insistía la pregunta clave en teoría de lenguajes."
+  },
+  {
+    "start": 376.84000000000003,
+    "end": 383.48,
+    "text": "Entonces finalmente lo que hacíamos es, ¿cómo defino yo un lenguaje aceptado por"
+  },
+  {
+    "start": 383.48,
+    "end": 388.88000000000005,
+    "text": "una automata finito determinista? Y bueno justamente son todas aquellas secuencias de"
+  },
+  {
+    "start": 388.88,
+    "end": 396.92,
+    "text": "símbolos de sigmaster que partiendo del estado inicial llegan a algún estado de F, algún estado final."
+  },
+  {
+    "start": 399.52,
+    "end": 407.04,
+    "text": "¿De acuerdo? O sea definíamos a él como"
+  },
+  {
+    "start": 410.4,
+    "end": 417.6,
+    "text": "el conjunto de los W pertenecientes a sigmaster tal que el deltatecho de Q0 W"
+  },
+  {
+    "start": 419.88,
+    "end": 421.64,
+    "text": "es un estado final."
+  },
+  {
+    "start": 428.4,
+    "end": 429.04,
+    "text": "¿De acuerdo?"
+  },
+  {
+    "start": 437.44,
+    "end": 443.92,
+    "text": "Las maneras, alguna de las dudas que se planteaban, bueno pero como yo sé si esa expresión reconoce"
+  },
+  {
+    "start": 444.88,
+    "end": 451.52000000000004,
+    "text": "o define el lenguaje que quiero y lo siguiente que uno se va a preguntar es, bueno pero ¿cómo yo puedo probar"
+  },
+  {
+    "start": 452.56,
+    "end": 457.12,
+    "text": "que esa automata efectivamente reconoce el lenguaje que digo que reconoce?"
+  },
+  {
+    "start": 458.8,
+    "end": 465.12,
+    "text": "Entonces el otro día y ya con esta presentación nosotros"
+  },
+  {
+    "start": 466.72,
+    "end": 471.36,
+    "text": "haciendo la salvedad de que tendríamos que probarlo pero dejando de lado la prueba,"
+  },
+  {
+    "start": 472.32,
+    "end": 472.72,
+    "text": "si yo"
+  },
+  {
+    "start": 475.2,
+    "end": 476.88,
+    "text": "cambio la forma de plantear la pregunta"
+  },
+  {
+    "start": 479.68,
+    "end": 481.2,
+    "text": "y empiezo a formularla de manera"
+  },
+  {
+    "start": 486.08000000000004,
+    "end": 491.12,
+    "text": "dado un determinada, dado un determinada característica del lenguaje. ¿Ese lenguaje es regular?"
+  },
+  {
+    "start": 492.72,
+    "end": 497.6,
+    "text": "A priori ustedes ¿de qué manera pueden mostrarme que ese lenguaje es regular?"
+  },
+  {
+    "start": 498.56,
+    "end": 501.84000000000003,
+    "text": "¿De qué manera muestran que el lenguaje es regular?"
+  },
+  {
+    "start": 501.84000000000003,
+    "end": 509.84000000000003,
+    "text": "Por ejemplo, bueno, primero, la respuesta, dando una expresión regular es lo que acabamos de decir."
+  },
+  {
+    "start": 511.84000000000003,
+    "end": 517.6,
+    "text": "Si ustedes dan una expresión regular, están diciendo este lenguaje que vos especificaste es regular o si no"
+  },
+  {
+    "start": 519.6,
+    "end": 521.84,
+    "text": "construyendo una automata finita, determinista."
+  },
+  {
+    "start": 528.24,
+    "end": 531.76,
+    "text": "Lenguajes que hemos estado jugando, un poco para arrendear esta idea."
+  },
+  {
+    "start": 533.6,
+    "end": 537.84,
+    "text": "El de dos cero consecutivos, ¿no? Exactamente dos cero consecutivos. ¿Ese lenguaje es regular?"
+  },
+  {
+    "start": 541.84,
+    "end": 545.44,
+    "text": "No, primero al menos dos cero consecutivos, ¿no? Fue el que hicimos el otro día."
+  },
+  {
+    "start": 546.32,
+    "end": 550.24,
+    "text": "Al menos dos cero consecutivos. ¿Cómo yo demuestro que es regular?"
+  },
+  {
+    "start": 551.0400000000001,
+    "end": 556.0,
+    "text": "Por ejemplo, encontrando, decíamos el cien, una expresión regular y creo que la escribimos otra vez."
+  },
+  {
+    "start": 556.96,
+    "end": 563.52,
+    "text": "Eran los dos cero consecutivos y antes o después cero uno aster."
+  },
+  {
+    "start": 570.24,
+    "end": 575.76,
+    "text": "O sea, cualquier cosa, ¿no? Cualquier secuencia de cero si uno. Pero tengo, tengo al menos dos cero consecutivos."
+  },
+  {
+    "start": 578.4,
+    "end": 582.32,
+    "text": "¿De qué otra forma puedo demostrar? Lo demostrar suena feo."
+  },
+  {
+    "start": 582.6400000000001,
+    "end": 586.6400000000001,
+    "text": "Mostrar, en principio porque no estoy demostrando desde el punto de vista formal,"
+  },
+  {
+    "start": 587.5200000000001,
+    "end": 591.5200000000001,
+    "text": "¿qué es el lenguaje regular por medio de automatas finitos?"
+  },
+  {
+    "start": 592.72,
+    "end": 595.5200000000001,
+    "text": "¿Cómo podría ser esa automata? No me acuerdo si lo hicimos el otro día."
+  },
+  {
+    "start": 599.9200000000001,
+    "end": 605.5200000000001,
+    "text": "Un estado inicial, o sea, tratando de construir en definitiva en la máquina de estados, ¿no?"
+  },
+  {
+    "start": 605.9200000000001,
+    "end": 609.5200000000001,
+    "text": "Uno especificando cuáles son los estados y especificando la transición de los estados,"
+  },
+  {
+    "start": 609.52,
+    "end": 614.72,
+    "text": "en definitiva ya queda explícita indicando cuáles de esos estados son finales, ya queda explícita la definición, ¿verdad?"
+  },
+  {
+    "start": 618.72,
+    "end": 622.72,
+    "text": "Entonces, ¿cómo debería ejecutarse ese automata?"
+  },
+  {
+    "start": 624.72,
+    "end": 630.72,
+    "text": "Estado inicial, tengo que reconocer este lenguaje."
+  },
+  {
+    "start": 633.92,
+    "end": 636.72,
+    "text": "Siempre lo mismo, o viene cero o viene uno."
+  },
+  {
+    "start": 637.12,
+    "end": 643.12,
+    "text": "La manera de construirme la función de transiciones, tengo que pensar en todo momento, ¿qué es lo que hago si viene un símbolo u otro?"
+  },
+  {
+    "start": 643.12,
+    "end": 647.12,
+    "text": "U otro, si fuera tres, u otro, u otro, u otro, dependiendo del alfabeto, ¿verdad?"
+  },
+  {
+    "start": 649.12,
+    "end": 651.12,
+    "text": "O sea, acá me puede venir cero o uno."
+  },
+  {
+    "start": 654.32,
+    "end": 656.32,
+    "text": "Si viene uno, nos quedamos acá."
+  },
+  {
+    "start": 658.32,
+    "end": 660.32,
+    "text": "Si viene cero, me voy a otro estado, cus uno."
+  },
+  {
+    "start": 660.32,
+    "end": 664.32,
+    "text": "¿Qué es lo que decíamos? Bueno, el estado cus uno tiene esa semántica que indica"
+  },
+  {
+    "start": 665.12,
+    "end": 667.12,
+    "text": "el último símbolo que acabo de leer es un cero."
+  },
+  {
+    "start": 671.12,
+    "end": 677.12,
+    "text": "Con lo cual, cuando voy a definir la transición del estado cus uno, el delta,"
+  },
+  {
+    "start": 679.12,
+    "end": 683.12,
+    "text": "para cus uno, tengo que ver el delta de cus uno con cero y el delta de cus uno con uno."
+  },
+  {
+    "start": 683.12,
+    "end": 687.12,
+    "text": "O sea, para todo par estado símbolo, ahora voy a analizar el estado cus uno."
+  },
+  {
+    "start": 687.92,
+    "end": 693.92,
+    "text": "Entonces, de vuelta, si me viene un uno, me viene un cero."
+  },
+  {
+    "start": 693.92,
+    "end": 695.92,
+    "text": "Si me viene un uno, voy al estado inicial."
+  },
+  {
+    "start": 695.92,
+    "end": 701.92,
+    "text": "Fíjense que una cosa interesante, el estado inicial es inicial en el sentido de que arranca,"
+  },
+  {
+    "start": 701.92,
+    "end": 705.92,
+    "text": "pero a partir de ahí yo podría eventualmente devolver tantas veces como se quisiera."
+  },
+  {
+    "start": 705.92,
+    "end": 711.92,
+    "text": "¿Queda claro eso? No es que yo arranque y después no vuelvo más."
+  },
+  {
+    "start": 713.92,
+    "end": 715.92,
+    "text": "Yo podía pasar tantas veces como yo quiera."
+  },
+  {
+    "start": 716.7199999999999,
+    "end": 718.7199999999999,
+    "text": "Porque el estado inicial también tiene esa semántica,"
+  },
+  {
+    "start": 718.7199999999999,
+    "end": 720.7199999999999,
+    "text": "que es el último símbolo que acabo de leer es un uno."
+  },
+  {
+    "start": 724.7199999999999,
+    "end": 726.7199999999999,
+    "text": "¿De acuerdo?"
+  },
+  {
+    "start": 726.7199999999999,
+    "end": 732.7199999999999,
+    "text": "Bien, entonces con uno vuelvo acá y con cero me voy al cus dos."
+  },
+  {
+    "start": 734.7199999999999,
+    "end": 738.7199999999999,
+    "text": "A partir de este momento, como el lenguaje que nos estábamos planteando"
+  },
+  {
+    "start": 738.7199999999999,
+    "end": 742.7199999999999,
+    "text": "era el que tenía al menos dos ceros consecutivos, ¿qué significa?"
+  },
+  {
+    "start": 746.7199999999999,
+    "end": 750.7199999999999,
+    "text": "Que esta tira cualquiera fuera la secuencia de ceros y unos"
+  },
+  {
+    "start": 750.7199999999999,
+    "end": 752.7199999999999,
+    "text": "que arrancaron en cusero"
+  },
+  {
+    "start": 754.7199999999999,
+    "end": 756.7199999999999,
+    "text": "cuando llegue al cus dos, ¿qué debe pasar?"
+  },
+  {
+    "start": 758.7199999999999,
+    "end": 762.7199999999999,
+    "text": "Debo decir que sí, es decir, debo de reconocerla, debo de aceptarla,"
+  },
+  {
+    "start": 762.7199999999999,
+    "end": 766.7199999999999,
+    "text": "con lo cual tengo que indicar eso de alguna forma en el modelo de automotas."
+  },
+  {
+    "start": 766.7199999999999,
+    "end": 772.7199999999999,
+    "text": "Es decir, este es uno de aquellos cus que es F."
+  },
+  {
+    "start": 776.72,
+    "end": 778.72,
+    "text": "Entonces lo marco como estado final."
+  },
+  {
+    "start": 782.72,
+    "end": 786.72,
+    "text": "Y continuando con mi especificación de la función delta,"
+  },
+  {
+    "start": 786.72,
+    "end": 792.72,
+    "text": "tengo que ver qué hago del estado cus dos con cero y del estado cus dos con uno."
+  },
+  {
+    "start": 794.72,
+    "end": 796.72,
+    "text": "Eso vamos a seguir hablando sobre ese tema,"
+  },
+  {
+    "start": 796.72,
+    "end": 798.72,
+    "text": "pero en definitiva lo interesante que es,"
+  },
+  {
+    "start": 798.72,
+    "end": 802.72,
+    "text": "¿qué podemos decir a partir de este momento?"
+  },
+  {
+    "start": 806.72,
+    "end": 810.72,
+    "text": "Fíjense que yo, de alguna forma, hay lo que tengo moderados esto."
+  },
+  {
+    "start": 810.72,
+    "end": 814.72,
+    "text": "O sea, todas las tiras que suceden de esto, ¿verdad?"
+  },
+  {
+    "start": 814.72,
+    "end": 816.72,
+    "text": "Y para que sea válida,"
+  },
+  {
+    "start": 818.72,
+    "end": 822.72,
+    "text": "después de este segundo cero, ¿qué es lo que puede venir?"
+  },
+  {
+    "start": 823.72,
+    "end": 826.72,
+    "text": "Claro, cualquier cosa, pero lo interesante,"
+  },
+  {
+    "start": 826.72,
+    "end": 832.72,
+    "text": "lo que tenemos que tener claro siempre es que para yo responder a esta pregunta"
+  },
+  {
+    "start": 836.72,
+    "end": 838.72,
+    "text": "tengo que haber leído el último símbolo,"
+  },
+  {
+    "start": 838.72,
+    "end": 840.72,
+    "text": "tengo que estar seguro de que termine la tira,"
+  },
+  {
+    "start": 840.72,
+    "end": 844.72,
+    "text": "más allá de que yo en el medio pueda,"
+  },
+  {
+    "start": 844.72,
+    "end": 846.72,
+    "text": "o aceptar parcialmente,"
+  },
+  {
+    "start": 846.72,
+    "end": 850.72,
+    "text": "es decir, hasta acá esto leído hasta el momento es aceptado,"
+  },
+  {
+    "start": 850.72,
+    "end": 852.72,
+    "text": "pero no me asegura nada."
+  },
+  {
+    "start": 852.72,
+    "end": 854.72,
+    "text": "Este es un ejemplo particular en el cual,"
+  },
+  {
+    "start": 854.72,
+    "end": 856.72,
+    "text": "cuando se cumpla la condición,"
+  },
+  {
+    "start": 856.72,
+    "end": 860.72,
+    "text": "y bueno, después leete todo lo que sigue,"
+  },
+  {
+    "start": 860.72,
+    "end": 864.72,
+    "text": "y no importa porque ya sé que la tira es válida."
+  },
+  {
+    "start": 865.52,
+    "end": 869.52,
+    "text": "Se entiende, ya se cumplió el patrón S del doble cero."
+  },
+  {
+    "start": 871.52,
+    "end": 875.52,
+    "text": "Entonces lo que tengo que hacer es"
+  },
+  {
+    "start": 878.52,
+    "end": 883.52,
+    "text": "definirme una transición de Q2 a sí mismo, o sea, un lazo,"
+  },
+  {
+    "start": 883.52,
+    "end": 885.52,
+    "text": "con cericón."
+  },
+  {
+    "start": 890.52,
+    "end": 893.52,
+    "text": "Si fuera el lenguaje, ¿se entendió?"
+  },
+  {
+    "start": 893.52,
+    "end": 897.52,
+    "text": "Si fuera el lenguaje de las tiras compuestas nuevamente con cericón 1,"
+  },
+  {
+    "start": 899.52,
+    "end": 903.52,
+    "text": "pero que tengan exactamente 2 ceros consecutivos."
+  },
+  {
+    "start": 909.52,
+    "end": 911.52,
+    "text": "Bien, a ver."
+  },
+  {
+    "start": 915.52,
+    "end": 917.52,
+    "text": "Primero voy a quedarme con lo primero que dijiste."
+  },
+  {
+    "start": 919.52,
+    "end": 921.52,
+    "text": "¿Se escuchó lo que dijo él?"
+  },
+  {
+    "start": 921.52,
+    "end": 927.52,
+    "text": "Cuando llego a Q2 y no fue el final de la tira, vuelvo a Q0."
+  },
+  {
+    "start": 930.52,
+    "end": 932.52,
+    "text": "Todos ven que está mal."
+  },
+  {
+    "start": 933.52,
+    "end": 935.52,
+    "text": "Digo, porque el hecho de volver a Q0,"
+  },
+  {
+    "start": 935.52,
+    "end": 937.52,
+    "text": "si llego a volver a Q2,"
+  },
+  {
+    "start": 937.52,
+    "end": 942.52,
+    "text": "quiere decir que podría llegar a tener dos veces el doble cero."
+  },
+  {
+    "start": 943.52,
+    "end": 947.52,
+    "text": "O sea, que de Q2 a Q0, en este caso, no me sirve volver."
+  },
+  {
+    "start": 948.52,
+    "end": 954.52,
+    "text": "Pensemos primero en una expresión regular, o sea, de vuelta como ve, ¿no?"
+  },
+  {
+    "start": 954.52,
+    "end": 960.52,
+    "text": "El lenguaje formado por ceros y unos que tiene exactamente 2 ceros consecutivos."
+  },
+  {
+    "start": 960.52,
+    "end": 962.52,
+    "text": "¿Es un lenguaje regular?"
+  },
+  {
+    "start": 965.52,
+    "end": 967.52,
+    "text": "Opción 1,"
+  },
+  {
+    "start": 969.52,
+    "end": 971.52,
+    "text": "expresión regular."
+  },
+  {
+    "start": 971.52,
+    "end": 973.52,
+    "text": "Tiene 2 ceros consecutivos."
+  },
+  {
+    "start": 973.52,
+    "end": 975.52,
+    "text": "Ahora."
+  },
+  {
+    "start": 979.52,
+    "end": 983.52,
+    "text": "Es un poco la estrategia que uno podría llegar a intentar, ¿no?"
+  },
+  {
+    "start": 983.52,
+    "end": 986.52,
+    "text": "Cuando hay patrones muy claramente definidos,"
+  },
+  {
+    "start": 986.52,
+    "end": 988.52,
+    "text": "me aseguro que esté ahí,"
+  },
+  {
+    "start": 988.52,
+    "end": 990.52,
+    "text": "y después veo cómo lo complemento,"
+  },
+  {
+    "start": 990.52,
+    "end": 993.52,
+    "text": "cómo completo la definición de ese patrón."
+  },
+  {
+    "start": 994.52,
+    "end": 997.52,
+    "text": "Entonces, antes de esos ceros,"
+  },
+  {
+    "start": 997.52,
+    "end": 1000.52,
+    "text": "insisto, exactamente 2 ceros."
+  },
+  {
+    "start": 1000.52,
+    "end": 1003.52,
+    "text": "Antes de esos ceros, ¿qué puede venir?"
+  },
+  {
+    "start": 1007.52,
+    "end": 1009.52,
+    "text": "Cualquier cantidad de unos, sí."
+  },
+  {
+    "start": 1011.52,
+    "end": 1013.52,
+    "text": "Pero, ¿qué puede venir también?"
+  },
+  {
+    "start": 1015.52,
+    "end": 1017.52,
+    "text": "Ceros, solo no."
+  },
+  {
+    "start": 1024.52,
+    "end": 1026.52,
+    "text": "¿Cómo modelo lo que viene antes?"
+  },
+  {
+    "start": 1026.52,
+    "end": 1029.52,
+    "text": "¿Cómo modelo esa expresión que viene antes?"
+  },
+  {
+    "start": 1029.52,
+    "end": 1031.52,
+    "text": "Lo que me viene exactamente antes,"
+  },
+  {
+    "start": 1031.52,
+    "end": 1033.52,
+    "text": "para empezar, ya estoy contigo,"
+  },
+  {
+    "start": 1033.52,
+    "end": 1035.52,
+    "text": "lo que viene, lo que va a venir acá,"
+  },
+  {
+    "start": 1035.52,
+    "end": 1039.52,
+    "text": "¿qué va a ser el símbolo que va a tener que venir antes de este 0?"
+  },
+  {
+    "start": 1039.52,
+    "end": 1041.52,
+    "text": "No, unos o ceros, no."
+  },
+  {
+    "start": 1041.52,
+    "end": 1044.52,
+    "text": "Unos, solo unos puede venir."
+  },
+  {
+    "start": 1044.52,
+    "end": 1047.52,
+    "text": "Pero lo que pasa es que antes de ese 1,"
+  },
+  {
+    "start": 1047.52,
+    "end": 1049.52,
+    "text": "¿qué podría venir?"
+  },
+  {
+    "start": 1049.52,
+    "end": 1050.52,
+    "text": "Ceros o unos."
+  },
+  {
+    "start": 1050.52,
+    "end": 1052.52,
+    "text": "Pero no, ceros o unos."
+  },
+  {
+    "start": 1053.52,
+    "end": 1056.52,
+    "text": "Un, cero o un, uno."
+  },
+  {
+    "start": 1057.52,
+    "end": 1060.52,
+    "text": "Y si vino ese 0, antes que le tengamos que asegurar"
+  },
+  {
+    "start": 1060.52,
+    "end": 1061.52,
+    "text": "que venga un 1."
+  },
+  {
+    "start": 1061.52,
+    "end": 1063.52,
+    "text": "Es decir, lo que tengo que forzar"
+  },
+  {
+    "start": 1063.52,
+    "end": 1066.52,
+    "text": "es que justamente en aquella expresión,"
+  },
+  {
+    "start": 1066.52,
+    "end": 1068.52,
+    "text": "en aquel patrón que yo defino acá,"
+  },
+  {
+    "start": 1068.52,
+    "end": 1070.52,
+    "text": "no me venga dos ceros consecutivos."
+  },
+  {
+    "start": 1073.52,
+    "end": 1076.52,
+    "text": "Entonces, ¿qué es lo que... alguna sugerencia?"
+  },
+  {
+    "start": 1077.52,
+    "end": 1079.52,
+    "text": "Vamos, ¿de acuerdo?"
+  },
+  {
+    "start": 1081.52,
+    "end": 1083.52,
+    "text": "Esta secuencia"
+  },
+  {
+    "start": 1084.52,
+    "end": 1085.52,
+    "text": "de tiras."
+  },
+  {
+    "start": 1086.52,
+    "end": 1088.52,
+    "text": "¿Qué es lo... cómo es que funciona?"
+  },
+  {
+    "start": 1089.52,
+    "end": 1091.52,
+    "text": "Fíjense que el puntito de la concatenación"
+  },
+  {
+    "start": 1091.52,
+    "end": 1093.52,
+    "text": "recordarán que no lo ponemos."
+  },
+  {
+    "start": 1093.52,
+    "end": 1095.52,
+    "text": "Venga, cuando empezamos a escribir expresiones"
+  },
+  {
+    "start": 1095.52,
+    "end": 1097.52,
+    "text": "cada vez más grandes,"
+  },
+  {
+    "start": 1097.52,
+    "end": 1099.52,
+    "text": "el hecho de que haya dos símbolos"
+  },
+  {
+    "start": 1099.52,
+    "end": 1100.52,
+    "text": "uno al lado del otro"
+  },
+  {
+    "start": 1100.52,
+    "end": 1102.52,
+    "text": "implica que en aquel patrón"
+  },
+  {
+    "start": 1102.52,
+    "end": 1104.52,
+    "text": "una vez más más grande"
+  },
+  {
+    "start": 1104.52,
+    "end": 1107.52,
+    "text": "uno al lado del otro implica que en la concatenación."
+  },
+  {
+    "start": 1107.52,
+    "end": 1109.52,
+    "text": "El puntito es explícitamente no lo ponemos."
+  },
+  {
+    "start": 1111.52,
+    "end": 1113.52,
+    "text": "Entonces, ¿esto cómo se interpreta?"
+  },
+  {
+    "start": 1113.52,
+    "end": 1115.52,
+    "text": "Que lo que me viene antes es la clausura"
+  },
+  {
+    "start": 1115.52,
+    "end": 1116.52,
+    "text": "de esta expresión."
+  },
+  {
+    "start": 1116.52,
+    "end": 1117.52,
+    "text": "Y esta expresión es"
+  },
+  {
+    "start": 1117.52,
+    "end": 1120.52,
+    "text": "o un uno o un cero o uno."
+  },
+  {
+    "start": 1123.52,
+    "end": 1124.52,
+    "text": "Entonces, elijo."
+  },
+  {
+    "start": 1124.52,
+    "end": 1125.52,
+    "text": "Un uno o un cero o uno."
+  },
+  {
+    "start": 1125.52,
+    "end": 1126.52,
+    "text": "Y la siguiente vez elijo."
+  },
+  {
+    "start": 1126.52,
+    "end": 1127.52,
+    "text": "Un uno o un cero o uno."
+  },
+  {
+    "start": 1127.52,
+    "end": 1128.52,
+    "text": "Y la siguiente vez elijo."
+  },
+  {
+    "start": 1128.52,
+    "end": 1129.52,
+    "text": "Un uno o un cero o uno."
+  },
+  {
+    "start": 1129.52,
+    "end": 1131.52,
+    "text": "Siempre que venga un cero,"
+  },
+  {
+    "start": 1131.52,
+    "end": 1133.52,
+    "text": "siempre le estoy pegando el uno."
+  },
+  {
+    "start": 1134.52,
+    "end": 1135.52,
+    "text": "Con esto me aseguro,"
+  },
+  {
+    "start": 1135.52,
+    "end": 1138.52,
+    "text": "el cero o uno, cero o uno, cero o uno, cero o uno."
+  },
+  {
+    "start": 1138.52,
+    "end": 1140.52,
+    "text": "Pero si en algún momento elijo los unos,"
+  },
+  {
+    "start": 1140.52,
+    "end": 1142.52,
+    "text": "elijo entre comillas."
+  },
+  {
+    "start": 1145.52,
+    "end": 1147.52,
+    "text": "Quiere decir que me vienen secuencias solamente de unos."
+  },
+  {
+    "start": 1147.52,
+    "end": 1151.52,
+    "text": "O sea que otra de las cosas que uno tiene que pensar,"
+  },
+  {
+    "start": 1151.52,
+    "end": 1154.52,
+    "text": "mis tiras siempre pueden empezar"
+  },
+  {
+    "start": 1154.52,
+    "end": 1155.52,
+    "text": "en cero o en uno,"
+  },
+  {
+    "start": 1155.52,
+    "end": 1156.52,
+    "text": "en este caso, de este lenguaje."
+  },
+  {
+    "start": 1156.52,
+    "end": 1158.52,
+    "text": "Y eso está contentlado ahí."
+  },
+  {
+    "start": 1161.52,
+    "end": 1163.52,
+    "text": "Además, es importante"
+  },
+  {
+    "start": 1164.52,
+    "end": 1166.52,
+    "text": "la clausura que contempla la tira vacía."
+  },
+  {
+    "start": 1166.52,
+    "end": 1169.52,
+    "text": "Es decir, la tira podría empezar en el doble cero."
+  },
+  {
+    "start": 1169.52,
+    "end": 1171.52,
+    "text": "Podrían ser los dos primeros símbolos."
+  },
+  {
+    "start": 1171.52,
+    "end": 1174.52,
+    "text": "O sea que Epsilon también está contemplado ahí."
+  },
+  {
+    "start": 1176.52,
+    "end": 1177.52,
+    "text": "Venimos bien."
+  },
+  {
+    "start": 1179.52,
+    "end": 1182.52,
+    "text": "¿Y qué es lo que tenemos que poner después de ese doble cero?"
+  },
+  {
+    "start": 1185.52,
+    "end": 1187.52,
+    "text": "Parecido a esto."
+  },
+  {
+    "start": 1187.52,
+    "end": 1188.52,
+    "text": "Exacto."
+  },
+  {
+    "start": 1188.52,
+    "end": 1189.52,
+    "text": "Uno o"
+  },
+  {
+    "start": 1189.52,
+    "end": 1191.52,
+    "text": "uno se lo basta."
+  },
+  {
+    "start": 1191.52,
+    "end": 1193.52,
+    "text": "Es decir, lograr lo mismo,"
+  },
+  {
+    "start": 1193.52,
+    "end": 1195.52,
+    "text": "como el cero ya lo tenía acá,"
+  },
+  {
+    "start": 1195.52,
+    "end": 1197.52,
+    "text": "el símbolo que tiene que venir después,"
+  },
+  {
+    "start": 1197.52,
+    "end": 1199.52,
+    "text": "necesariamente tiene que ser uno."
+  },
+  {
+    "start": 1199.52,
+    "end": 1201.52,
+    "text": "Eso lo logro con este uno."
+  },
+  {
+    "start": 1201.52,
+    "end": 1204.52,
+    "text": "O para lograr intercalar unos con ceros,"
+  },
+  {
+    "start": 1206.52,
+    "end": 1207.52,
+    "text": "meto esto."
+  },
+  {
+    "start": 1207.52,
+    "end": 1209.52,
+    "text": "O sea, secuencias de unos,"
+  },
+  {
+    "start": 1209.52,
+    "end": 1212.52,
+    "text": "intercaladas consecuencias de 1, 0, 1, 0, 1, 0."
+  },
+  {
+    "start": 1212.52,
+    "end": 1215.52,
+    "text": "Y además acá, nuevamente el mismo análisis,"
+  },
+  {
+    "start": 1215.52,
+    "end": 1218.52,
+    "text": "el Epsilon también es correcto"
+  },
+  {
+    "start": 1218.52,
+    "end": 1220.52,
+    "text": "con lo cual esa expresión me contemplan"
+  },
+  {
+    "start": 1220.52,
+    "end": 1223.52,
+    "text": "las tiras que terminan en el doble cero"
+  },
+  {
+    "start": 1223.52,
+    "end": 1227.52,
+    "text": "y también contemplan las tiras que terminan en un cero,"
+  },
+  {
+    "start": 1227.52,
+    "end": 1229.52,
+    "text": "que obliga a que el símbolo anterior sea uno,"
+  },
+  {
+    "start": 1229.52,
+    "end": 1232.52,
+    "text": "o las tiras que terminan en secuencias de 1."
+  },
+  {
+    "start": 1232.52,
+    "end": 1236.52,
+    "text": "O sea que aparentemente esa expresión regular"
+  },
+  {
+    "start": 1239.52,
+    "end": 1241.52,
+    "text": "representa el lenguaje que queríamos."
+  },
+  {
+    "start": 1242.52,
+    "end": 1244.52,
+    "text": "¿Cuál es la otra forma que podríamos verlo?"
+  },
+  {
+    "start": 1245.52,
+    "end": 1247.52,
+    "text": "Tratando de construir"
+  },
+  {
+    "start": 1248.52,
+    "end": 1250.52,
+    "text": "un automata."
+  },
+  {
+    "start": 1250.52,
+    "end": 1252.52,
+    "text": "¿Me sirve el mismo que el anterior?"
+  },
+  {
+    "start": 1255.52,
+    "end": 1256.52,
+    "text": "¿Sí o no?"
+  },
+  {
+    "start": 1256.52,
+    "end": 1257.52,
+    "text": "No."
+  },
+  {
+    "start": 1258.52,
+    "end": 1260.52,
+    "text": "Claramente no es el mismo automata."
+  },
+  {
+    "start": 1260.52,
+    "end": 1263.52,
+    "text": "¿Por qué? Porque bueno, al tener este lazo acá"
+  },
+  {
+    "start": 1265.52,
+    "end": 1268.52,
+    "text": "me admite más de dos ceros consecutivos."
+  },
+  {
+    "start": 1272.52,
+    "end": 1274.52,
+    "text": "Pero podría..."
+  },
+  {
+    "start": 1277.52,
+    "end": 1280.52,
+    "text": "hacer un copy and paste y sacar alguna cosa."
+  },
+  {
+    "start": 1280.52,
+    "end": 1283.52,
+    "text": "Es decir, ¿podría reutilizar parte de esta idea?"
+  },
+  {
+    "start": 1283.52,
+    "end": 1284.52,
+    "text": "¿Correcto?"
+  },
+  {
+    "start": 1285.52,
+    "end": 1286.52,
+    "text": "¿Cómo sería?"
+  },
+  {
+    "start": 1289.52,
+    "end": 1290.52,
+    "text": "Cusero."
+  },
+  {
+    "start": 1292.52,
+    "end": 1294.52,
+    "text": "Con el 1 me vine acá."
+  },
+  {
+    "start": 1294.52,
+    "end": 1296.52,
+    "text": "Con el cero me voy acá."
+  },
+  {
+    "start": 1299.52,
+    "end": 1301.52,
+    "text": "Con el 1 vuelvo."
+  },
+  {
+    "start": 1302.52,
+    "end": 1303.52,
+    "text": "Con el 2 me voy."
+  },
+  {
+    "start": 1303.52,
+    "end": 1304.52,
+    "text": "Cudos."
+  },
+  {
+    "start": 1304.52,
+    "end": 1305.52,
+    "text": "Perfecto."
+  },
+  {
+    "start": 1307.52,
+    "end": 1308.52,
+    "text": "Ya."
+  },
+  {
+    "start": 1317.52,
+    "end": 1318.52,
+    "text": "Ahí va."
+  },
+  {
+    "start": 1320.52,
+    "end": 1321.52,
+    "text": "Bien."
+  },
+  {
+    "start": 1321.52,
+    "end": 1323.52,
+    "text": "El cudos tiene que ser final"
+  },
+  {
+    "start": 1323.52,
+    "end": 1325.52,
+    "text": "porque nos tenemos que asegurar"
+  },
+  {
+    "start": 1325.52,
+    "end": 1327.52,
+    "text": "de que como esas tiras"
+  },
+  {
+    "start": 1327.52,
+    "end": 1329.52,
+    "text": "que llegan acá ya cumple con el patrón"
+  },
+  {
+    "start": 1329.52,
+    "end": 1331.52,
+    "text": "cualquier secuencia"
+  },
+  {
+    "start": 1331.52,
+    "end": 1333.52,
+    "text": "de 0 y 1"
+  },
+  {
+    "start": 1333.52,
+    "end": 1335.52,
+    "text": "que llegue a cudos debe ser reconocida."
+  },
+  {
+    "start": 1335.52,
+    "end": 1337.52,
+    "text": "O sea que el cudos va a ser un estado final."
+  },
+  {
+    "start": 1337.52,
+    "end": 1339.52,
+    "text": "Y acá tenemos dos chances."
+  },
+  {
+    "start": 1339.52,
+    "end": 1341.52,
+    "text": "Voy a escribirlo así el..."
+  },
+  {
+    "start": 1341.52,
+    "end": 1343.52,
+    "text": "y después veremos"
+  },
+  {
+    "start": 1343.52,
+    "end": 1345.52,
+    "text": "si reutilizo o no reutilizo estados."
+  },
+  {
+    "start": 1347.52,
+    "end": 1349.52,
+    "text": "En cudos acá estaba claro lo que hacía."
+  },
+  {
+    "start": 1349.52,
+    "end": 1352.52,
+    "text": "Acá tengo en principio dos posibilidades."
+  },
+  {
+    "start": 1354.52,
+    "end": 1356.52,
+    "text": "Si me viene un 1 o me viene un 0."
+  },
+  {
+    "start": 1357.52,
+    "end": 1359.52,
+    "text": "Si pienso como decía el compañero"
+  },
+  {
+    "start": 1359.52,
+    "end": 1361.52,
+    "text": "con el 1 yo podría decir"
+  },
+  {
+    "start": 1361.52,
+    "end": 1363.52,
+    "text": "vuelvo al principio."
+  },
+  {
+    "start": 1364.52,
+    "end": 1366.52,
+    "text": "¿Me sirve con el 1 volver al principio?"
+  },
+  {
+    "start": 1371.52,
+    "end": 1373.52,
+    "text": "De acá con el 1 volver acá."
+  },
+  {
+    "start": 1376.52,
+    "end": 1377.52,
+    "text": "No."
+  },
+  {
+    "start": 1379.52,
+    "end": 1380.52,
+    "text": "Bien."
+  },
+  {
+    "start": 1382.52,
+    "end": 1384.52,
+    "text": "¿Podría volver a q1?"
+  },
+  {
+    "start": 1387.52,
+    "end": 1388.52,
+    "text": "¿Por qué no?"
+  },
+  {
+    "start": 1388.52,
+    "end": 1390.52,
+    "text": "Porque si después me viene un 0"
+  },
+  {
+    "start": 1390.52,
+    "end": 1391.52,
+    "text": "me vengo para acá."
+  },
+  {
+    "start": 1391.52,
+    "end": 1393.52,
+    "text": "Y este el compañero había dicho"
+  },
+  {
+    "start": 1393.52,
+    "end": 1395.52,
+    "text": "que lo iba a poner como un estado de no aceptación."
+  },
+  {
+    "start": 1395.52,
+    "end": 1396.52,
+    "text": "¿Por qué?"
+  },
+  {
+    "start": 1396.52,
+    "end": 1398.52,
+    "text": "Y ahí es donde tenemos que tener mucho cuidado."
+  },
+  {
+    "start": 1399.52,
+    "end": 1401.52,
+    "text": "Porque esto me sirve para cualquier secuencia"
+  },
+  {
+    "start": 1401.52,
+    "end": 1403.52,
+    "text": "con lo cual la 0, 0, 0"
+  },
+  {
+    "start": 1406.52,
+    "end": 1407.52,
+    "text": "la aceptaría."
+  },
+  {
+    "start": 1408.52,
+    "end": 1410.52,
+    "text": "¿Se entiende si yo hubiera puesto este como final?"
+  },
+  {
+    "start": 1410.52,
+    "end": 1411.52,
+    "text": "Dijimos que no."
+  },
+  {
+    "start": 1411.52,
+    "end": 1412.52,
+    "text": "Por lo que decíamos recién"
+  },
+  {
+    "start": 1412.52,
+    "end": 1414.52,
+    "text": "porque como lo iba ejecutando."
+  },
+  {
+    "start": 1414.52,
+    "end": 1416.52,
+    "text": "Pero si yo con el 1 me vuelvo para acá"
+  },
+  {
+    "start": 1416.52,
+    "end": 1418.52,
+    "text": "que en principio podría ser"
+  },
+  {
+    "start": 1419.52,
+    "end": 1421.52,
+    "text": "en seguida nos damos cuenta que no."
+  },
+  {
+    "start": 1421.52,
+    "end": 1422.52,
+    "text": "Además"
+  },
+  {
+    "start": 1422.52,
+    "end": 1424.52,
+    "text": "no lo puedo mandar acá."
+  },
+  {
+    "start": 1424.52,
+    "end": 1425.52,
+    "text": "¿Por qué no?"
+  },
+  {
+    "start": 1426.52,
+    "end": 1427.52,
+    "text": "No."
+  },
+  {
+    "start": 1427.52,
+    "end": 1428.52,
+    "text": "No."
+  },
+  {
+    "start": 1430.52,
+    "end": 1431.52,
+    "text": "Recuerden."
+  },
+  {
+    "start": 1432.52,
+    "end": 1433.52,
+    "text": "Eso."
+  },
+  {
+    "start": 1433.52,
+    "end": 1435.52,
+    "text": "Habíamos dicho que el estado con su 1"
+  },
+  {
+    "start": 1435.52,
+    "end": 1437.52,
+    "text": "era el estado al cual llegábamos"
+  },
+  {
+    "start": 1437.52,
+    "end": 1439.52,
+    "text": "cuando inmediatamente habíamos leído un 0."
+  },
+  {
+    "start": 1439.52,
+    "end": 1441.52,
+    "text": "Es decir, es importante"
+  },
+  {
+    "start": 1441.52,
+    "end": 1443.52,
+    "text": "asignarles a ese significado"
+  },
+  {
+    "start": 1443.52,
+    "end": 1445.52,
+    "text": "a los estados."
+  },
+  {
+    "start": 1445.52,
+    "end": 1446.52,
+    "text": "¿Se acuerdan?"
+  },
+  {
+    "start": 1446.52,
+    "end": 1448.52,
+    "text": "El 1 o el 2 día cuando comentábamos"
+  },
+  {
+    "start": 1448.52,
+    "end": 1450.52,
+    "text": "cuestiones bastante"
+  },
+  {
+    "start": 1450.52,
+    "end": 1452.52,
+    "text": "genéricas, decíamos"
+  },
+  {
+    "start": 1453.52,
+    "end": 1455.52,
+    "text": "a mí cuando yo construyo un modelo"
+  },
+  {
+    "start": 1455.52,
+    "end": 1457.52,
+    "text": "de máquina de estados"
+  },
+  {
+    "start": 1457.52,
+    "end": 1459.52,
+    "text": "no me interesa"
+  },
+  {
+    "start": 1459.52,
+    "end": 1461.52,
+    "text": "conocer exactamente"
+  },
+  {
+    "start": 1463.52,
+    "end": 1465.52,
+    "text": "la historia completa"
+  },
+  {
+    "start": 1465.52,
+    "end": 1467.52,
+    "text": "de esa secuencia de símbolos."
+  },
+  {
+    "start": 1467.52,
+    "end": 1468.52,
+    "text": "Exactamente."
+  },
+  {
+    "start": 1468.52,
+    "end": 1470.52,
+    "text": "Si me interesa saber"
+  },
+  {
+    "start": 1470.52,
+    "end": 1472.52,
+    "text": "la parte en la que"
+  },
+  {
+    "start": 1472.52,
+    "end": 1474.52,
+    "text": "sí me interesa saber"
+  },
+  {
+    "start": 1474.52,
+    "end": 1476.52,
+    "text": "la parte sustancial,"
+  },
+  {
+    "start": 1476.52,
+    "end": 1478.52,
+    "text": "la parte medular."
+  },
+  {
+    "start": 1478.52,
+    "end": 1480.52,
+    "text": "No tengo por qué recordar exactamente"
+  },
+  {
+    "start": 1480.52,
+    "end": 1481.52,
+    "text": "la secuencia."
+  },
+  {
+    "start": 1481.52,
+    "end": 1482.52,
+    "text": "Pero sí,"
+  },
+  {
+    "start": 1482.52,
+    "end": 1484.52,
+    "text": "cómo viene la cosa."
+  },
+  {
+    "start": 1486.52,
+    "end": 1487.52,
+    "text": "Entonces,"
+  },
+  {
+    "start": 1487.52,
+    "end": 1488.52,
+    "text": "primer punto,"
+  },
+  {
+    "start": 1488.52,
+    "end": 1490.52,
+    "text": "para acá en principio"
+  },
+  {
+    "start": 1490.52,
+    "end": 1491.52,
+    "text": "con el 1 no,"
+  },
+  {
+    "start": 1491.52,
+    "end": 1492.52,
+    "text": "para acá no,"
+  },
+  {
+    "start": 1492.52,
+    "end": 1494.52,
+    "text": "por lo que decíamos recién"
+  },
+  {
+    "start": 1495.52,
+    "end": 1497.52,
+    "text": "y para el Cusero ya habíamos descartado eso."
+  },
+  {
+    "start": 1497.52,
+    "end": 1499.52,
+    "text": "O sea, ya vemos que en este caso"
+  },
+  {
+    "start": 1499.52,
+    "end": 1501.52,
+    "text": "no vamos a reutilizar ningún estado."
+  },
+  {
+    "start": 1503.52,
+    "end": 1504.52,
+    "text": "Como dije"
+  },
+  {
+    "start": 1504.52,
+    "end": 1506.52,
+    "text": "en alguna de las clases"
+  },
+  {
+    "start": 1506.52,
+    "end": 1508.52,
+    "text": "los estados en principio"
+  },
+  {
+    "start": 1508.52,
+    "end": 1510.52,
+    "text": "son baratos, no nos cobran."
+  },
+  {
+    "start": 1510.52,
+    "end": 1512.52,
+    "text": "Generemos estado,"
+  },
+  {
+    "start": 1512.52,
+    "end": 1513.52,
+    "text": "creamos estado,"
+  },
+  {
+    "start": 1513.52,
+    "end": 1514.52,
+    "text": "utilicemos estado."
+  },
+  {
+    "start": 1514.52,
+    "end": 1516.52,
+    "text": "Después capaz que el problema,"
+  },
+  {
+    "start": 1516.52,
+    "end": 1517.52,
+    "text": "o sea, a ver,"
+  },
+  {
+    "start": 1517.52,
+    "end": 1519.52,
+    "text": "el problema nos vamos a patear para más adelante."
+  },
+  {
+    "start": 1519.52,
+    "end": 1521.52,
+    "text": "Que ya vamos a seguir hablando de eso."
+  },
+  {
+    "start": 1522.52,
+    "end": 1524.52,
+    "text": "Pero en principio 1 dice,"
+  },
+  {
+    "start": 1524.52,
+    "end": 1525.52,
+    "text": "bueno, tá."
+  },
+  {
+    "start": 1527.52,
+    "end": 1529.52,
+    "text": "Lo mando para este estado."
+  },
+  {
+    "start": 1529.52,
+    "end": 1530.52,
+    "text": "Bien."
+  },
+  {
+    "start": 1530.52,
+    "end": 1532.52,
+    "text": "¿Te dice una pregunta?"
+  },
+  {
+    "start": 1539.52,
+    "end": 1540.52,
+    "text": "Este estado qué?"
+  },
+  {
+    "start": 1541.52,
+    "end": 1542.52,
+    "text": "Es final."
+  },
+  {
+    "start": 1546.52,
+    "end": 1547.52,
+    "text": "Bien."
+  },
+  {
+    "start": 1547.52,
+    "end": 1549.52,
+    "text": "Esto ya lo marcamos como que eran unos finales."
+  },
+  {
+    "start": 1551.52,
+    "end": 1553.52,
+    "text": "Ah, lo anterior."
+  },
+  {
+    "start": 1553.52,
+    "end": 1554.52,
+    "text": "Tá."
+  },
+  {
+    "start": 1554.52,
+    "end": 1556.52,
+    "text": "Porque lo importante"
+  },
+  {
+    "start": 1556.52,
+    "end": 1557.52,
+    "text": "está bien."
+  },
+  {
+    "start": 1557.52,
+    "end": 1558.52,
+    "text": "Lo que él decía es"
+  },
+  {
+    "start": 1558.52,
+    "end": 1560.52,
+    "text": "que estos dos no son finales."
+  },
+  {
+    "start": 1560.52,
+    "end": 1562.52,
+    "text": "Y la tira, cuando llega acá"
+  },
+  {
+    "start": 1562.52,
+    "end": 1564.52,
+    "text": "si muriera acá o viene un 1"
+  },
+  {
+    "start": 1564.52,
+    "end": 1566.52,
+    "text": "si la tira fuera"
+  },
+  {
+    "start": 1566.52,
+    "end": 1568.52,
+    "text": "supongase 0, 0, 1"
+  },
+  {
+    "start": 1568.52,
+    "end": 1570.52,
+    "text": "la tira era válida."
+  },
+  {
+    "start": 1570.52,
+    "end": 1572.52,
+    "text": "O sea, otra forma de razonarlo."
+  },
+  {
+    "start": 1572.52,
+    "end": 1574.52,
+    "text": "Esta tira es válida."
+  },
+  {
+    "start": 1574.52,
+    "end": 1576.52,
+    "text": "Y si yo con este 1"
+  },
+  {
+    "start": 1576.52,
+    "end": 1578.52,
+    "text": "lo hubiera mandado acá o acá"
+  },
+  {
+    "start": 1578.52,
+    "end": 1580.52,
+    "text": "automáticamente eso contradice"
+  },
+  {
+    "start": 1580.52,
+    "end": 1582.52,
+    "text": "lo que veníamos diciendo."
+  },
+  {
+    "start": 1582.52,
+    "end": 1584.52,
+    "text": "Porque esa tira sería una tira válida"
+  },
+  {
+    "start": 1584.52,
+    "end": 1586.52,
+    "text": "y sin embargo el automata"
+  },
+  {
+    "start": 1586.52,
+    "end": 1588.52,
+    "text": "lo veníamos modelando, no lo reconocía."
+  },
+  {
+    "start": 1588.52,
+    "end": 1589.52,
+    "text": "¿Se entiende?"
+  },
+  {
+    "start": 1590.52,
+    "end": 1591.52,
+    "text": "¿Se entendió eso?"
+  },
+  {
+    "start": 1592.52,
+    "end": 1593.52,
+    "text": "Bien."
+  },
+  {
+    "start": 1595.52,
+    "end": 1597.52,
+    "text": "Entonces lo mandamos en estado CUSU 4."
+  },
+  {
+    "start": 1598.52,
+    "end": 1600.52,
+    "text": "Y ese CUSU 4"
+  },
+  {
+    "start": 1601.52,
+    "end": 1603.52,
+    "text": "también debería ser final."
+  },
+  {
+    "start": 1606.52,
+    "end": 1607.52,
+    "text": "Y bueno."
+  },
+  {
+    "start": 1613.52,
+    "end": 1615.52,
+    "text": "Si viene un 1, me quedo acá."
+  },
+  {
+    "start": 1616.52,
+    "end": 1618.52,
+    "text": "Si me viene un 0, ¿qué hago?"
+  },
+  {
+    "start": 1619.52,
+    "end": 1622.52,
+    "text": "Otro estado o reutilizo alguno de los demás."
+  },
+  {
+    "start": 1623.52,
+    "end": 1625.52,
+    "text": "¿Qué es lo que yo tengo que modelar ahora?"
+  },
+  {
+    "start": 1628.52,
+    "end": 1629.52,
+    "text": "Exacto."
+  },
+  {
+    "start": 1629.52,
+    "end": 1631.52,
+    "text": "Esta, de alguna manera"
+  },
+  {
+    "start": 1631.52,
+    "end": 1633.52,
+    "text": "esta secuencia."
+  },
+  {
+    "start": 1633.52,
+    "end": 1635.52,
+    "text": "Lo que vine después."
+  },
+  {
+    "start": 1639.52,
+    "end": 1642.52,
+    "text": "¿Podría poner con un 0 voy acá?"
+  },
+  {
+    "start": 1646.52,
+    "end": 1648.52,
+    "text": "Con un 0 ya se va."
+  },
+  {
+    "start": 1662.52,
+    "end": 1664.52,
+    "text": "Porque tenía 2 0 consecutivos."
+  },
+  {
+    "start": 1666.52,
+    "end": 1667.52,
+    "text": "Podría ir ahí."
+  },
+  {
+    "start": 1672.52,
+    "end": 1674.52,
+    "text": "Una posibilidad. ¿Se entiende esto?"
+  },
+  {
+    "start": 1677.52,
+    "end": 1678.52,
+    "text": "Sí."
+  },
+  {
+    "start": 1682.52,
+    "end": 1684.52,
+    "text": "Solo una vez 2 0 consecutivos puede haber."
+  },
+  {
+    "start": 1688.52,
+    "end": 1689.52,
+    "text": "Perdón."
+  },
+  {
+    "start": 1689.52,
+    "end": 1690.52,
+    "text": "¿Vale?"
+  },
+  {
+    "start": 1705.52,
+    "end": 1707.52,
+    "text": "Es más, yo priori."
+  },
+  {
+    "start": 1710.52,
+    "end": 1711.52,
+    "text": "Vamos a seguir."
+  },
+  {
+    "start": 1713.52,
+    "end": 1714.52,
+    "text": "Esta sería una posibilidad."
+  },
+  {
+    "start": 1714.52,
+    "end": 1716.52,
+    "text": "Otra opción que podría llegar a hacer."
+  },
+  {
+    "start": 1716.52,
+    "end": 1723.52,
+    "text": "Ahora, otra opción, esta la puse con azul, si yo siguiera con negro, otra opción sería"
+  },
+  {
+    "start": 1723.52,
+    "end": 1736.72,
+    "text": "voy con un cero acá, voy en Q5, ahí va, si me viene un cero me voy acá, si me viene"
+  },
+  {
+    "start": 1736.72,
+    "end": 1756.68,
+    "text": "un uno, me voy acá y este como es. Se ve esto con azul, hay una opción, acá, esta parte"
+  },
+  {
+    "start": 1756.68,
+    "end": 1770.44,
+    "text": "es otra opción, nuevamente lo mismo que dijimos en su momento para expresiones regulares, ya"
+  },
+  {
+    "start": 1771.44,
+    "end": 1788.6000000000001,
+    "text": "para poquito, no necesariamente hay un único automata para reconocer un lenguaje, lo que"
+  },
+  {
+    "start": 1788.6000000000001,
+    "end": 1804.4800000000002,
+    "text": "me están faltando en principio es terminar acá. Si me viene acá, en Q5, si me viene un uno."
+  },
+  {
+    "start": 1804.48,
+    "end": 1821.04,
+    "text": "Sí, ¿verdad? Lo interesante es que, claro, podría haber llegado a ser válida, venía válida al"
+  },
+  {
+    "start": 1821.04,
+    "end": 1832.16,
+    "text": "mandarla acá y leer un cero vas acá. Lo interesante es lo siguiente, el estado Q sub 3 tiene un"
+  },
+  {
+    "start": 1832.16,
+    "end": 1841.68,
+    "text": "significado también muy particular, de hecho hasta le ponemos un nombre, tiene hasta un nombre propio,"
+  },
+  {
+    "start": 1845.3600000000001,
+    "end": 1855.5600000000002,
+    "text": "un nombre así como estado inicial, a veces el estado Q sub 3 es más, cuando uno construye"
+  },
+  {
+    "start": 1855.56,
+    "end": 1875.08,
+    "text": "automatas o plantea automatas, a menudo no necesariamente escribe toda la función delta, sobre todo cuando"
+  },
+  {
+    "start": 1875.08,
+    "end": 1883.08,
+    "text": "estamos en presencia de algún lenguaje o una máquina de estados muy compleja, en donde"
+  },
+  {
+    "start": 1883.08,
+    "end": 1891.4399999999998,
+    "text": "empiezan a aparecer flechas y estados y medio como que nos perdemos, entonces a veces uno"
+  },
+  {
+    "start": 1891.4399999999998,
+    "end": 1898.9199999999998,
+    "text": "puede llegar a atender a no escribir la función delta de manera total, es decir, no definirla"
+  },
+  {
+    "start": 1898.9199999999998,
+    "end": 1907.32,
+    "text": "formalmente para todo par estado símbolo. Cuando digo no definirla es a nivel del gráfico"
+  },
+  {
+    "start": 1908.28,
+    "end": 1918.52,
+    "text": "de la máquina de estados, pero lo que sí sabemos es que sucede, si yo no la planteo de manera como"
+  },
+  {
+    "start": 1918.52,
+    "end": 1926.04,
+    "text": "función total, es decir, para todo par estado símbolo, este estado Q sub 3 que yo definí acá,"
+  },
+  {
+    "start": 1926.56,
+    "end": 1938.52,
+    "text": "qué semántica tiene, qué significado tiene, cuál es su función. Recuerden lo que decíamos hace un"
+  },
+  {
+    "start": 1938.52,
+    "end": 1945.48,
+    "text": "rato, yo tengo que responder esta pregunta, para responder esta pregunta tengo que consumir"
+  },
+  {
+    "start": 1945.48,
+    "end": 1958.16,
+    "text": "absolutamente todos los símbolos de la tira, ¿de acuerdo? Entonces la función del Q sub 3 cuál es"
+  },
+  {
+    "start": 1960.48,
+    "end": 1969.16,
+    "text": "justamente consumir todas las símbolos de la tira, lo mismo que hacía este, por ejemplo,"
+  },
+  {
+    "start": 1969.3200000000002,
+    "end": 1978.28,
+    "text": "que también vaciaba, leía, pero este era porque hasta ese momento, a partir de este momento no"
+  },
+  {
+    "start": 1978.28,
+    "end": 1985.24,
+    "text": "importa lo que venga la tira es válida, este lo que dice es, a partir de este momento lo que venga"
+  },
+  {
+    "start": 1985.24,
+    "end": 1993.88,
+    "text": "no me interesa, ya está mal, se entiende, a menudo este tipo de estados reciben el nombre de"
+  },
+  {
+    "start": 1993.88,
+    "end": 2001.3200000000002,
+    "text": "estados pozos, justamente por eso, caigo ahí, no es algo más, un pozo profundo."
+  },
+  {
+    "start": 2008.72,
+    "end": 2020.0400000000002,
+    "text": "Es decir, ¿qué es lo que debería hacer el Q sub 3? ¿Cómo yo defino la sintaxis, el delta de Q sub 3?"
+  },
+  {
+    "start": 2023.88,
+    "end": 2031.8400000000001,
+    "text": "De esta manera, y de esta manera totalizo la función, agrego el Q sub 3, es decir,"
+  },
+  {
+    "start": 2031.8400000000001,
+    "end": 2036.1200000000001,
+    "text": "yo no tengo otro marcador, yo podría ver esto en principio,"
+  },
+  {
+    "start": 2038.2800000000002,
+    "end": 2047.8400000000001,
+    "text": "depende del modelo, todo esto podría no escribirlo y uno lo que tiene que tener claro es que si"
+  },
+  {
+    "start": 2047.8400000000001,
+    "end": 2054.6400000000003,
+    "text": "hay algún delta que no está definido, entonces la función, digamos, termina de ejemplos, si el delta"
+  },
+  {
+    "start": 2054.6400000000003,
+    "end": 2061.92,
+    "text": "no estuviera definido para todo par estado símbolo, eso sumimos que ese delta va a un estado pozo que"
+  },
+  {
+    "start": 2061.92,
+    "end": 2069.56,
+    "text": "lo cuya función es consumir el resto de los símbolos y además el estado pozo tiene la particularidad"
+  },
+  {
+    "start": 2069.56,
+    "end": 2083.7999999999997,
+    "text": "de no ser un estado final. ¿De acuerdo? No, digo, lo que quiero decir es que este es un ejemplo"
+  },
+  {
+    "start": 2083.7999999999997,
+    "end": 2090.88,
+    "text": "relativamente sencillo en donde hay 1, 2, 3, 4, 5 estados, pero si vos hicieras un modelo de automata"
+  },
+  {
+    "start": 2090.96,
+    "end": 2099.28,
+    "text": "en el gráfico de 8, 9, 10 estados, empezar a poner los arcos entre todos los estados,"
+  },
+  {
+    "start": 2099.28,
+    "end": 2104.92,
+    "text": "pues vos tenés que definir para todo par estado símbolo y te digo más, si estamos jugando con"
+  },
+  {
+    "start": 2104.92,
+    "end": 2111.56,
+    "text": "0 y 1, pero si fuera 0, 1, 2, 3 y 4, o sea 5 símbolos, empezar a poner un montón de arcos,"
+  },
+  {
+    "start": 2113.48,
+    "end": 2117.52,
+    "text": "puede complicar a nivel, insisto, lo que estoy diciendo es a nivel gráfico."
+  },
+  {
+    "start": 2121.1600000000003,
+    "end": 2127.36,
+    "text": "Después, cuando avancemos más en el curso, vamos a encontrar un significado a todo esto,"
+  },
+  {
+    "start": 2127.36,
+    "end": 2134.84,
+    "text": "esto más adelante lo vamos a aterrizar, pero por ahora quedémonos en el concepto de modelo de"
+  },
+  {
+    "start": 2134.84,
+    "end": 2142.36,
+    "text": "máquina de estados que existe en estado, que siempre que yo plantee la función delta eventualmente"
+  },
+  {
+    "start": 2142.36,
+    "end": 2147.84,
+    "text": "podría no ser total, pero sabemos que si no es total, es que si a mí me la dan"
+  },
+  {
+    "start": 2148.8,
+    "end": 2153.6400000000003,
+    "text": "con función parcial, es decir no definida para todo par estado símbolo, sabemos que por lo menos"
+  },
+  {
+    "start": 2153.6400000000003,
+    "end": 2163.32,
+    "text": "metemos un pozo y ahí mandamos todo lo que no está definido. ¿Se entendió eso? Sí, seguros?"
+  },
+  {
+    "start": 2167.08,
+    "end": 2172.76,
+    "text": "Y otra cosa interesante con los dos o tres ejemplos que veníamos manejando es esto,"
+  },
+  {
+    "start": 2172.76,
+    "end": 2185.44,
+    "text": "F es un conjunto de estados. En aquel ejemplito que habíamos visto de la par de símbolos,"
+  },
+  {
+    "start": 2186.96,
+    "end": 2192.32,
+    "text": "el estado inicial era el estado final, ¿se acuerdan? Habíamos hecho el automata,"
+  },
+  {
+    "start": 2192.32,
+    "end": 2196.0400000000004,
+    "text": "fue nuestro primer créo automata, el de cantidad par de símbolos."
+  },
+  {
+    "start": 2196.7599999999998,
+    "end": 2206.0,
+    "text": "Este automata ya tiene algún estado más, pero también tiene un único estado final que"
+  },
+  {
+    "start": 2206.0,
+    "end": 2210.16,
+    "text": "tiene esa particularidad y este es un modelo en donde hay yo que sé, tres estados finales,"
+  },
+  {
+    "start": 2210.16,
+    "end": 2221.84,
+    "text": "es decir F es un subconjunto de Q y el estado inicial puede o no ser final. ¿Quedo claro eso?"
+  },
+  {
+    "start": 2227.04,
+    "end": 2234.68,
+    "text": "¿Se entiende la manera de que yo tengo de ir construyendo intuitivamente un automata finito?"
+  },
+  {
+    "start": 2236.68,
+    "end": 2242.8,
+    "text": "Un ejemplo que me encanta. Lenguaje de las tiras, ¿sí, ¿se acuerdan?"
+  },
+  {
+    "start": 2245.12,
+    "end": 2249.4,
+    "text": "Siempre las tiras se computan, se leen de izquierda a derecha, símbolos de izquierda a derecha."
+  },
+  {
+    "start": 2250.1600000000003,
+    "end": 2254.76,
+    "text": "Entonces veníamos preguntando si un determinado lenguaje,"
+  },
+  {
+    "start": 2254.76,
+    "end": 2258.6800000000003,
+    "text": "sigamos jugando con 0 y 1, si un determinado lenguaje es regular."
+  },
+  {
+    "start": 2261.12,
+    "end": 2266.88,
+    "text": "Lenguaje de las tiras formadas por 0 y 1 es tal que el tercer símbolo empezando de la derecha es un 0."
+  },
+  {
+    "start": 2272.52,
+    "end": 2276.96,
+    "text": "Empezando de la derecha, o sea, cuando estoy diciendo eso,"
+  },
+  {
+    "start": 2277.16,
+    "end": 2286.4,
+    "text": "podría haber dicho distinto, es que del final para atrás es un 0."
+  },
+  {
+    "start": 2287.92,
+    "end": 2289.08,
+    "text": "¿Es un lenguaje regular?"
+  },
+  {
+    "start": 2292.2,
+    "end": 2294.12,
+    "text": "¿Cómo sería una expresión?"
+  },
+  {
+    "start": 2306.96,
+    "end": 2317.88,
+    "text": "Como empezaba a decir, bueno, acá tengo el tercer 0, el tercer símbolo y después puede venir 0, 1 o 0, 1."
+  },
+  {
+    "start": 2317.88,
+    "end": 2321.92,
+    "text": "Y antes de ese 0, ¿qué puede venir?"
+  },
+  {
+    "start": 2321.92,
+    "end": 2326.92,
+    "text": "Cualquier secuencia de símbolo. Perfecto, eso es un lenguaje regular."
+  },
+  {
+    "start": 2329.12,
+    "end": 2330.7200000000003,
+    "text": "¿Cómo sería un automata finito?"
+  },
+  {
+    "start": 2337.96,
+    "end": 2338.96,
+    "text": "¿Está bien inicial?"
+  },
+  {
+    "start": 2340.96,
+    "end": 2341.96,
+    "text": "¿Qué puede pasar?"
+  },
+  {
+    "start": 2347.96,
+    "end": 2348.96,
+    "text": "¿Qué puede pasar?"
+  },
+  {
+    "start": 2348.96,
+    "end": 2349.96,
+    "text": "0 o 1."
+  },
+  {
+    "start": 2354.96,
+    "end": 2356.96,
+    "text": "Si me vienen unos, podríamos pensar."
+  },
+  {
+    "start": 2360.96,
+    "end": 2363.96,
+    "text": "Si me vienen unos, podríamos pensar."
+  },
+  {
+    "start": 2367.96,
+    "end": 2368.96,
+    "text": "¿Qué hacemos qué?"
+  },
+  {
+    "start": 2372.96,
+    "end": 2376.96,
+    "text": "En principio, podríamos decir, bueno, si me vienen unos, me quedo acá."
+  },
+  {
+    "start": 2377.96,
+    "end": 2380.96,
+    "text": "Si me vienen 0, me voy acá."
+  },
+  {
+    "start": 2383.96,
+    "end": 2384.96,
+    "text": "¿Tamo acuerdo?"
+  },
+  {
+    "start": 2388.96,
+    "end": 2389.96,
+    "text": "¿Qué puede venir después?"
+  },
+  {
+    "start": 2391.96,
+    "end": 2392.96,
+    "text": "0 o 1."
+  },
+  {
+    "start": 2392.96,
+    "end": 2393.96,
+    "text": "¿0 o 1?"
+  },
+  {
+    "start": 2395.96,
+    "end": 2396.96,
+    "text": "¿Y ahí qué hago?"
+  },
+  {
+    "start": 2400.96,
+    "end": 2401.96,
+    "text": "¿Eh?"
+  },
+  {
+    "start": 2403.96,
+    "end": 2404.96,
+    "text": "Dos estados más."
+  },
+  {
+    "start": 2406.96,
+    "end": 2407.96,
+    "text": "¿Q2?"
+  },
+  {
+    "start": 2410.96,
+    "end": 2412.96,
+    "text": "¿Q3? ¿Cómo llegó a Q2 y a Q3?"
+  },
+  {
+    "start": 2422.96,
+    "end": 2426.96,
+    "text": "Si me viene un 1 de Q1 a Q2, voy acá."
+  },
+  {
+    "start": 2426.96,
+    "end": 2429.96,
+    "text": "Si me viene un 1 de Q2 a Q3, voy acá."
+  },
+  {
+    "start": 2429.96,
+    "end": 2431.96,
+    "text": "Q3 sería final."
+  },
+  {
+    "start": 2440.96,
+    "end": 2442.96,
+    "text": "¿No puedo reutilizar acá estos dos?"
+  },
+  {
+    "start": 2446.96,
+    "end": 2448.96,
+    "text": "Con un 0 no me puedo venir acá."
+  },
+  {
+    "start": 2449.96,
+    "end": 2450.96,
+    "text": "Con un 0 acá y ya está."
+  },
+  {
+    "start": 2452.96,
+    "end": 2453.96,
+    "text": "Bien."
+  },
+  {
+    "start": 2462.96,
+    "end": 2463.96,
+    "text": "Bien."
+  },
+  {
+    "start": 2464.96,
+    "end": 2467.96,
+    "text": "Entonces, ¿se entendió lo que fue el compañero?"
+  },
+  {
+    "start": 2471.96,
+    "end": 2472.96,
+    "text": "O sea que..."
+  },
+  {
+    "start": 2475.96,
+    "end": 2477.96,
+    "text": "¿Vos me decís si viene un 0?"
+  },
+  {
+    "start": 2478.96,
+    "end": 2480.96,
+    "text": "Voy a este estado, Q4."
+  },
+  {
+    "start": 2483.96,
+    "end": 2487.96,
+    "text": "¿Y ahora qué puedo pasar?"
+  },
+  {
+    "start": 2487.96,
+    "end": 2488.96,
+    "text": "De vuelta."
+  },
+  {
+    "start": 2488.96,
+    "end": 2490.96,
+    "text": "Viene un 0 y viene un 1."
+  },
+  {
+    "start": 2508.96,
+    "end": 2510.96,
+    "text": "¿Alguien se anima a seguirlo?"
+  },
+  {
+    "start": 2512.96,
+    "end": 2513.96,
+    "text": "Sí."
+  },
+  {
+    "start": 2522.96,
+    "end": 2524.96,
+    "text": "A ver, tú decís esto, ¿no?"
+  },
+  {
+    "start": 2526.96,
+    "end": 2528.96,
+    "text": "Con un 0 y con un 0."
+  },
+  {
+    "start": 2530.96,
+    "end": 2533.96,
+    "text": "¿Qué pasa en Q3?"
+  },
+  {
+    "start": 2534.96,
+    "end": 2537.96,
+    "text": "Usimos el Q3 y lo murió ahí."
+  },
+  {
+    "start": 2537.96,
+    "end": 2539.96,
+    "text": "¿Qué debería de hacer el Q3?"
+  },
+  {
+    "start": 2543.96,
+    "end": 2546.96,
+    "text": "Fíjese que empezaron a tirar estados y nadie se acordó de lo de la semántica."
+  },
+  {
+    "start": 2551.96,
+    "end": 2554.96,
+    "text": "Claro, el problema que estamos teniendo,"
+  },
+  {
+    "start": 2554.96,
+    "end": 2557.96,
+    "text": "que no sabes cuándo termina,"
+  },
+  {
+    "start": 2557.96,
+    "end": 2559.96,
+    "text": "ese es el problema que tenemos."
+  },
+  {
+    "start": 2563.96,
+    "end": 2567.96,
+    "text": "Entonces, primero, ahora retomo eso."
+  },
+  {
+    "start": 2567.96,
+    "end": 2569.96,
+    "text": "¿En Q3 qué era lo que tendría que pasar?"
+  },
+  {
+    "start": 2570.96,
+    "end": 2573.96,
+    "text": "¿Quedar más acá y ya terminó?"
+  },
+  {
+    "start": 2573.96,
+    "end": 2575.96,
+    "text": "O sea, con 0 y 1 me quedó en Q3?"
+  },
+  {
+    "start": 2577.96,
+    "end": 2578.96,
+    "text": "No."
+  },
+  {
+    "start": 2579.96,
+    "end": 2581.96,
+    "text": "¿Y volver acá?"
+  },
+  {
+    "start": 2581.96,
+    "end": 2582.96,
+    "text": "¿Sirve?"
+  },
+  {
+    "start": 2585.96,
+    "end": 2587.96,
+    "text": "¿Con qué volvemos acá?"
+  },
+  {
+    "start": 2587.96,
+    "end": 2588.96,
+    "text": "Con un 0."
+  },
+  {
+    "start": 2594.96,
+    "end": 2597.96,
+    "text": "Bueno, pero de acá con 0 ¿qué hiciste? ¿Te fuiste para otro?"
+  },
+  {
+    "start": 2597.96,
+    "end": 2599.96,
+    "text": "Ah, bueno, sí, está."
+  },
+  {
+    "start": 2599.96,
+    "end": 2603.96,
+    "text": "Yo, en principio, estamos tratando de ver allá al compañero que dudaba el..."
+  },
+  {
+    "start": 2603.96,
+    "end": 2605.96,
+    "text": "¿Por qué no me servía esto?"
+  },
+  {
+    "start": 2605.96,
+    "end": 2607.96,
+    "text": "¿Se entiende el problema?"
+  },
+  {
+    "start": 2607.96,
+    "end": 2608.96,
+    "text": "¿Sí?"
+  },
+  {
+    "start": 2612.96,
+    "end": 2615.96,
+    "text": "Bien, el problema lo estamos teniendo"
+  },
+  {
+    "start": 2618.96,
+    "end": 2621.96,
+    "text": "es que yo debería hacer algo así,"
+  },
+  {
+    "start": 2621.96,
+    "end": 2623.96,
+    "text": "yo no sé si conocen el término."
+  },
+  {
+    "start": 2623.96,
+    "end": 2625.96,
+    "text": "Back cracking, ¿no?"
+  },
+  {
+    "start": 2625.96,
+    "end": 2627.96,
+    "text": "Es decir,"
+  },
+  {
+    "start": 2627.96,
+    "end": 2629.96,
+    "text": "llegar al final"
+  },
+  {
+    "start": 2629.96,
+    "end": 2631.96,
+    "text": "y retroceder."
+  },
+  {
+    "start": 2633.96,
+    "end": 2634.96,
+    "text": "¿Se entiende?"
+  },
+  {
+    "start": 2634.96,
+    "end": 2637.96,
+    "text": "Yo tengo que saber cuál fue el último símbolo leído"
+  },
+  {
+    "start": 2637.96,
+    "end": 2639.96,
+    "text": "y volver dos para atrás"
+  },
+  {
+    "start": 2639.96,
+    "end": 2641.96,
+    "text": "para chequear si es 0 no es 0."
+  },
+  {
+    "start": 2642.96,
+    "end": 2644.96,
+    "text": "Eso conceptualmente."
+  },
+  {
+    "start": 2647.96,
+    "end": 2649.96,
+    "text": "Ahora,"
+  },
+  {
+    "start": 2649.96,
+    "end": 2651.96,
+    "text": "¿Cómo yo podría modelar de todas maneras?"
+  },
+  {
+    "start": 2651.96,
+    "end": 2653.96,
+    "text": "Eso, evidentemente, no puedo hacer eso, ¿no?"
+  },
+  {
+    "start": 2653.96,
+    "end": 2654.96,
+    "text": "Está claro."
+  },
+  {
+    "start": 2654.96,
+    "end": 2656.96,
+    "text": "Yo, una vez que leí el símbolo, lo leí,"
+  },
+  {
+    "start": 2656.96,
+    "end": 2658.96,
+    "text": "no puedo volver para atrás a ver qué fue."
+  },
+  {
+    "start": 2658.96,
+    "end": 2661.96,
+    "text": "Eso, me tengo que arreglar con los estados."
+  },
+  {
+    "start": 2661.96,
+    "end": 2663.96,
+    "text": "Para eso están los estados."
+  },
+  {
+    "start": 2664.96,
+    "end": 2667.96,
+    "text": "¿De acuerdo? Yo no puedo volver para atrás."
+  },
+  {
+    "start": 2668.96,
+    "end": 2671.96,
+    "text": "Entonces, todo eso lo tengo que modelar con estados."
+  },
+  {
+    "start": 2681.96,
+    "end": 2683.96,
+    "text": "Para que tenga un montón de cosas."
+  },
+  {
+    "start": 2683.96,
+    "end": 2685.96,
+    "text": "¿Qué borro? ¿Borro esto?"
+  },
+  {
+    "start": 2689.96,
+    "end": 2691.96,
+    "text": "¿Esto lo borro?"
+  },
+  {
+    "start": 2695.96,
+    "end": 2697.96,
+    "text": "0 1 1."
+  },
+  {
+    "start": 2706.96,
+    "end": 2708.96,
+    "text": "¿De Q3?"
+  },
+  {
+    "start": 2708.96,
+    "end": 2710.96,
+    "text": "¿Con qué?"
+  },
+  {
+    "start": 2710.96,
+    "end": 2712.96,
+    "text": "¿Con qué?"
+  },
+  {
+    "start": 2712.96,
+    "end": 2714.96,
+    "text": "Con 0 1 1."
+  },
+  {
+    "start": 2727.96,
+    "end": 2729.96,
+    "text": "Con 1 1."
+  },
+  {
+    "start": 2741.96,
+    "end": 2743.96,
+    "text": "De acá voy al Q0."
+  },
+  {
+    "start": 2743.96,
+    "end": 2745.96,
+    "text": "Con qué?"
+  },
+  {
+    "start": 2770.96,
+    "end": 2772.96,
+    "text": "Ah, este no existe."
+  },
+  {
+    "start": 2774.96,
+    "end": 2776.96,
+    "text": "¿Dónde? ¿Aca?"
+  },
+  {
+    "start": 2776.96,
+    "end": 2778.96,
+    "text": "Con 0."
+  },
+  {
+    "start": 2784.96,
+    "end": 2786.96,
+    "text": "La tira, 0 0 0."
+  },
+  {
+    "start": 2788.96,
+    "end": 2790.96,
+    "text": "Está bien, está bien."
+  },
+  {
+    "start": 2790.96,
+    "end": 2792.96,
+    "text": "Eso se trata."
+  },
+  {
+    "start": 2792.96,
+    "end": 2794.96,
+    "text": "Es lo divertido esto."
+  },
+  {
+    "start": 2794.96,
+    "end": 2796.96,
+    "text": "¿Se entiende el problema acá?"
+  },
+  {
+    "start": 2796.96,
+    "end": 2799.96,
+    "text": "¿Por qué no me sirve la propuesta del compañero?"
+  },
+  {
+    "start": 2801.96,
+    "end": 2805.96,
+    "text": "Porque, por ejemplo, y eso es lo interesante."
+  },
+  {
+    "start": 2805.96,
+    "end": 2808.96,
+    "text": "Uno construye una automata y después empieza a darle palo,"
+  },
+  {
+    "start": 2808.96,
+    "end": 2810.96,
+    "text": "cosa de encontrarle el problema."
+  },
+  {
+    "start": 2810.96,
+    "end": 2812.96,
+    "text": "Encontrar alguna tira, ¿dónde falle?"
+  },
+  {
+    "start": 2812.96,
+    "end": 2815.96,
+    "text": "Como hicieron recién acá, que te dijeron, 0 0 0."
+  },
+  {
+    "start": 2815.96,
+    "end": 2818.96,
+    "text": "Pertenece y sin embargo la tira no la reconocería."
+  },
+  {
+    "start": 2826.96,
+    "end": 2828.96,
+    "text": "Dar vuelta."
+  },
+  {
+    "start": 2828.96,
+    "end": 2830.96,
+    "text": "No, no puedo dar vuelta."
+  },
+  {
+    "start": 2830.96,
+    "end": 2832.96,
+    "text": "Claro, pero no puedo."
+  },
+  {
+    "start": 2832.96,
+    "end": 2834.96,
+    "text": "No puedo."
+  },
+  {
+    "start": 2858.96,
+    "end": 2860.96,
+    "text": "0 0 1."
+  },
+  {
+    "start": 2865.96,
+    "end": 2867.96,
+    "text": "0 0 1."
+  },
+  {
+    "start": 2870.96,
+    "end": 2872.96,
+    "text": "Bien, bien."
+  },
+  {
+    "start": 2877.96,
+    "end": 2879.96,
+    "text": "Dale, dale, no te voy a cortar."
+  },
+  {
+    "start": 2879.96,
+    "end": 2881.96,
+    "text": "Dale."
+  },
+  {
+    "start": 2889.96,
+    "end": 2891.96,
+    "text": "Bien."
+  },
+  {
+    "start": 2891.96,
+    "end": 2893.96,
+    "text": "¿Se entiende lo que dice compañero?"
+  },
+  {
+    "start": 2897.96,
+    "end": 2899.96,
+    "text": "Ahí está."
+  },
+  {
+    "start": 2899.96,
+    "end": 2902.96,
+    "text": "Que está bueno acá porque es 0 y 1."
+  },
+  {
+    "start": 2902.96,
+    "end": 2904.96,
+    "text": "Imagínate si fuera 0 1 o 2."
+  },
+  {
+    "start": 2904.96,
+    "end": 2906.96,
+    "text": "Es lo que dice es tratar de ir viendo,"
+  },
+  {
+    "start": 2906.96,
+    "end": 2908.96,
+    "text": "construir un arbolito binario"
+  },
+  {
+    "start": 2908.96,
+    "end": 2911.96,
+    "text": "e ir analizando, hacer un grafo"
+  },
+  {
+    "start": 2911.96,
+    "end": 2914.96,
+    "text": "pensando en todas las posibilidades."
+  },
+  {
+    "start": 2915.96,
+    "end": 2917.96,
+    "text": "¿No se nos va infinito?"
+  },
+  {
+    "start": 2917.96,
+    "end": 2919.96,
+    "text": "No se nos va infinito."
+  },
+  {
+    "start": 2919.96,
+    "end": 2921.96,
+    "text": "Exacto."
+  },
+  {
+    "start": 2921.96,
+    "end": 2923.96,
+    "text": "Exacto."
+  },
+  {
+    "start": 2923.96,
+    "end": 2925.96,
+    "text": "Son tres niveles."
+  },
+  {
+    "start": 2925.96,
+    "end": 2928.96,
+    "text": "Porque qué es lo que nosotros tenemos que pensar."
+  },
+  {
+    "start": 2928.96,
+    "end": 2930.96,
+    "text": "Eso que decía vos de leer para atrás,"
+  },
+  {
+    "start": 2930.96,
+    "end": 2932.96,
+    "text": "o de darlo al revés."
+  },
+  {
+    "start": 2933.96,
+    "end": 2936.96,
+    "text": "Yo tengo que prestar atención en esto"
+  },
+  {
+    "start": 2936.96,
+    "end": 2938.96,
+    "text": "en los tres últimos símbolos."
+  },
+  {
+    "start": 2938.96,
+    "end": 2941.96,
+    "text": "Eso es lo único que a mí me interesa."
+  },
+  {
+    "start": 2942.96,
+    "end": 2944.96,
+    "text": "Recordar cuáles son los tres últimos símbolos."
+  },
+  {
+    "start": 2944.96,
+    "end": 2947.96,
+    "text": "Que no tengo infinitas posibilidades."
+  },
+  {
+    "start": 2951.96,
+    "end": 2953.96,
+    "text": "¿Se entiende?"
+  },
+  {
+    "start": 2953.96,
+    "end": 2955.96,
+    "text": "O sea, construir un automata"
+  },
+  {
+    "start": 2955.96,
+    "end": 2958.96,
+    "text": "en donde de alguna manera"
+  },
+  {
+    "start": 2960.96,
+    "end": 2962.96,
+    "text": "quede reflejado ese camino"
+  },
+  {
+    "start": 2962.96,
+    "end": 2964.96,
+    "text": "o ese arbolito como dice él."
+  },
+  {
+    "start": 2964.96,
+    "end": 2966.96,
+    "text": "Que me marque"
+  },
+  {
+    "start": 2966.96,
+    "end": 2968.96,
+    "text": "en las transiciones"
+  },
+  {
+    "start": 2969.96,
+    "end": 2972.96,
+    "text": "todas las posibles configuraciones."
+  },
+  {
+    "start": 2972.96,
+    "end": 2974.96,
+    "text": "¿Cuánto, en principio,"
+  },
+  {
+    "start": 2974.96,
+    "end": 2976.96,
+    "text": "con esa idea, cuántos estados"
+  },
+  {
+    "start": 2976.96,
+    "end": 2978.96,
+    "text": "debería tener el automata?"
+  },
+  {
+    "start": 2983.96,
+    "end": 2985.96,
+    "text": "Fuerte."
+  },
+  {
+    "start": 2985.96,
+    "end": 2987.96,
+    "text": "Ocho."
+  },
+  {
+    "start": 2987.96,
+    "end": 2989.96,
+    "text": "¿Por qué ocho?"
+  },
+  {
+    "start": 2990.96,
+    "end": 2992.96,
+    "text": "Porque es dos a la tres."
+  },
+  {
+    "start": 2995.96,
+    "end": 2997.96,
+    "text": "¿Se entiende?"
+  },
+  {
+    "start": 2997.96,
+    "end": 2999.96,
+    "text": "Es decir,"
+  },
+  {
+    "start": 2999.96,
+    "end": 3001.96,
+    "text": "mis posibles tiras"
+  },
+  {
+    "start": 3001.96,
+    "end": 3003.96,
+    "text": "terminan en"
+  },
+  {
+    "start": 3003.96,
+    "end": 3005.96,
+    "text": "0, 0, 0, 0, 1, 0, 0, 1, 1,"
+  },
+  {
+    "start": 3005.96,
+    "end": 3007.96,
+    "text": "1, 0, 0,"
+  },
+  {
+    "start": 3007.96,
+    "end": 3009.96,
+    "text": "algunas son válidas, no, ¿no?"
+  },
+  {
+    "start": 3009.96,
+    "end": 3011.96,
+    "text": "Pero lo que a mí me interesa"
+  },
+  {
+    "start": 3011.96,
+    "end": 3013.96,
+    "text": "es conocer cuáles son los tres últimos símbolos."
+  },
+  {
+    "start": 3015.96,
+    "end": 3017.96,
+    "text": "Y después"
+  },
+  {
+    "start": 3017.96,
+    "end": 3019.96,
+    "text": "de, a partir de"
+  },
+  {
+    "start": 3019.96,
+    "end": 3021.96,
+    "text": "esas tres configuraciones"
+  },
+  {
+    "start": 3021.96,
+    "end": 3023.96,
+    "text": "veré cuáles son"
+  },
+  {
+    "start": 3023.96,
+    "end": 3025.96,
+    "text": "de esas ocho posibles"
+  },
+  {
+    "start": 3025.96,
+    "end": 3027.96,
+    "text": "asociados a los estados finales."
+  },
+  {
+    "start": 3027.96,
+    "end": 3029.96,
+    "text": "¿Se ve el concepto?"
+  },
+  {
+    "start": 3029.96,
+    "end": 3031.96,
+    "text": "¿Se ve la idea?"
+  },
+  {
+    "start": 3034.96,
+    "end": 3036.96,
+    "text": "¿Sí?"
+  },
+  {
+    "start": 3042.96,
+    "end": 3044.96,
+    "text": "¿A qué voy con esto?"
+  },
+  {
+    "start": 3044.96,
+    "end": 3046.96,
+    "text": "¿Qué"
+  },
+  {
+    "start": 3046.96,
+    "end": 3048.96,
+    "text": "ya no es tan trivial como los anteriores?"
+  },
+  {
+    "start": 3049.96,
+    "end": 3051.96,
+    "text": "Primer punto."
+  },
+  {
+    "start": 3051.96,
+    "end": 3053.96,
+    "text": "¿Tá?"
+  },
+  {
+    "start": 3053.96,
+    "end": 3055.96,
+    "text": "Y yo creo que"
+  },
+  {
+    "start": 3055.96,
+    "end": 3057.96,
+    "text": "si les doy un tiempo, el automata"
+  },
+  {
+    "start": 3057.96,
+    "end": 3059.96,
+    "text": "este sale."
+  },
+  {
+    "start": 3059.96,
+    "end": 3061.96,
+    "text": "¿No? Porque bueno,"
+  },
+  {
+    "start": 3061.96,
+    "end": 3063.96,
+    "text": "sobre la idea de ir tratando de ver"
+  },
+  {
+    "start": 3063.96,
+    "end": 3065.96,
+    "text": "todas las ocho, esas posibles"
+  },
+  {
+    "start": 3065.96,
+    "end": 3067.96,
+    "text": "terminaciones, ¿no?"
+  },
+  {
+    "start": 3067.96,
+    "end": 3069.96,
+    "text": "De configuraciones de 0 y 1."
+  },
+  {
+    "start": 3069.96,
+    "end": 3071.96,
+    "text": "La cosa"
+  },
+  {
+    "start": 3071.96,
+    "end": 3073.96,
+    "text": "saldría."
+  },
+  {
+    "start": 3073.96,
+    "end": 3075.96,
+    "text": "Ocho estados en principio, a los humos"
+  },
+  {
+    "start": 3075.96,
+    "end": 3077.96,
+    "text": "sería razonable manejar."
+  },
+  {
+    "start": 3077.96,
+    "end": 3079.96,
+    "text": "No sé quién me está hablando."
+  },
+  {
+    "start": 3079.96,
+    "end": 3081.96,
+    "text": "Allá."
+  },
+  {
+    "start": 3081.96,
+    "end": 3083.96,
+    "text": "Sí."
+  },
+  {
+    "start": 3083.96,
+    "end": 3085.96,
+    "text": "Sí."
+  },
+  {
+    "start": 3085.96,
+    "end": 3087.96,
+    "text": "Exacto. A eso voy."
+  },
+  {
+    "start": 3087.96,
+    "end": 3089.96,
+    "text": "Ahora, si yo te cambio la letra del problema"
+  },
+  {
+    "start": 3089.96,
+    "end": 3091.96,
+    "text": "y en vez de decirte el tercer"
+  },
+  {
+    "start": 3091.96,
+    "end": 3093.96,
+    "text": "símbolo te hago el quinto"
+  },
+  {
+    "start": 3093.96,
+    "end": 3095.96,
+    "text": "o el décimo símbolo."
+  },
+  {
+    "start": 3099.96,
+    "end": 3101.96,
+    "text": "Ahí está."
+  },
+  {
+    "start": 3101.96,
+    "end": 3103.96,
+    "text": "1.024 estados."
+  },
+  {
+    "start": 3103.96,
+    "end": 3105.96,
+    "text": "¿Eh?"
+  },
+  {
+    "start": 3105.96,
+    "end": 3107.96,
+    "text": "Y ahí sí, nos llenamos"
+  },
+  {
+    "start": 3107.96,
+    "end": 3109.96,
+    "text": "los tres pizarrones, los dos."
+  },
+  {
+    "start": 3109.96,
+    "end": 3111.96,
+    "text": "Los dos pizarrones y no nos."
+  },
+  {
+    "start": 3121.96,
+    "end": 3123.96,
+    "text": "Casi."
+  },
+  {
+    "start": 3123.96,
+    "end": 3125.96,
+    "text": "En realidad,"
+  },
+  {
+    "start": 3125.96,
+    "end": 3127.96,
+    "text": "¿dónde está mi problema en este ejemplo?"
+  },
+  {
+    "start": 3129.96,
+    "end": 3131.96,
+    "text": "¿Cuál es el problema que yo tengo?"
+  },
+  {
+    "start": 3131.96,
+    "end": 3133.96,
+    "text": "El ejemplo es"
+  },
+  {
+    "start": 3133.96,
+    "end": 3135.96,
+    "text": "ese que está ahí."
+  },
+  {
+    "start": 3135.96,
+    "end": 3137.96,
+    "text": "En este ejemplo."
+  },
+  {
+    "start": 3137.96,
+    "end": 3139.96,
+    "text": "¿Cuál es el problema?"
+  },
+  {
+    "start": 3141.96,
+    "end": 3143.96,
+    "text": "¿Dónde está el problema?"
+  },
+  {
+    "start": 3145.96,
+    "end": 3147.96,
+    "text": "¿Eh?"
+  },
+  {
+    "start": 3147.96,
+    "end": 3149.96,
+    "text": "No, no."
+  },
+  {
+    "start": 3149.96,
+    "end": 3151.96,
+    "text": "Ese no."
+  },
+  {
+    "start": 3151.96,
+    "end": 3153.96,
+    "text": "Sí."
+  },
+  {
+    "start": 3153.96,
+    "end": 3155.96,
+    "text": "Pero el problema empieza"
+  },
+  {
+    "start": 3155.96,
+    "end": 3157.96,
+    "text": "en qué momento?"
+  },
+  {
+    "start": 3157.96,
+    "end": 3159.96,
+    "text": "Cuando aparece un cero."
+  },
+  {
+    "start": 3161.96,
+    "end": 3163.96,
+    "text": "En el momento que me aparezca"
+  },
+  {
+    "start": 3163.96,
+    "end": 3165.96,
+    "text": "un cero"
+  },
+  {
+    "start": 3165.96,
+    "end": 3167.96,
+    "text": "¿qué es lo que sucede?"
+  },
+  {
+    "start": 3173.96,
+    "end": 3175.96,
+    "text": "A partir de ahí"
+  },
+  {
+    "start": 3175.96,
+    "end": 3177.96,
+    "text": "tengo que saber qué pasa. Es decir"
+  },
+  {
+    "start": 3177.96,
+    "end": 3179.96,
+    "text": "cuando apareció ese cero"
+  },
+  {
+    "start": 3183.96,
+    "end": 3185.96,
+    "text": "después de ese cero"
+  },
+  {
+    "start": 3185.96,
+    "end": 3187.96,
+    "text": "puede venir un símbolo"
+  },
+  {
+    "start": 3187.96,
+    "end": 3189.96,
+    "text": "puede venir dos."
+  },
+  {
+    "start": 3189.96,
+    "end": 3191.96,
+    "text": "Si viene un símbolo, marché, la tira no es válida."
+  },
+  {
+    "start": 3191.96,
+    "end": 3193.96,
+    "text": "Pero si me vienen dos símbolos más"
+  },
+  {
+    "start": 3193.96,
+    "end": 3195.96,
+    "text": "no importa si es uno o cero"
+  },
+  {
+    "start": 3195.96,
+    "end": 3197.96,
+    "text": "la tira es válida."
+  },
+  {
+    "start": 3197.96,
+    "end": 3199.96,
+    "text": "Pero si me vienen tres símbolos"
+  },
+  {
+    "start": 3199.96,
+    "end": 3201.96,
+    "text": "marché."
+  },
+  {
+    "start": 3201.96,
+    "end": 3203.96,
+    "text": "Entonces el problema está"
+  },
+  {
+    "start": 3203.96,
+    "end": 3205.96,
+    "text": "en que cada mes que me venga"
+  },
+  {
+    "start": 3205.96,
+    "end": 3207.96,
+    "text": "un cero"
+  },
+  {
+    "start": 3207.96,
+    "end": 3209.96,
+    "text": "yo no sé si ese cero"
+  },
+  {
+    "start": 3209.96,
+    "end": 3211.96,
+    "text": "es el bendito tercer cero."
+  },
+  {
+    "start": 3215.96,
+    "end": 3217.96,
+    "text": "O sea, mi problema"
+  },
+  {
+    "start": 3217.96,
+    "end": 3219.96,
+    "text": "como yo tengo antes esto"
+  },
+  {
+    "start": 3219.96,
+    "end": 3221.96,
+    "text": "es que cada vez que leo un cero"
+  },
+  {
+    "start": 3221.96,
+    "end": 3223.96,
+    "text": "yo no sé si es este."
+  },
+  {
+    "start": 3223.96,
+    "end": 3225.96,
+    "text": "Entonces se me van acumulando."
+  },
+  {
+    "start": 3225.96,
+    "end": 3227.96,
+    "text": "Entonces allá el compañero decía"
+  },
+  {
+    "start": 3227.96,
+    "end": 3229.96,
+    "text": "bueno, si me metes un poco más de memoria"
+  },
+  {
+    "start": 3229.96,
+    "end": 3231.96,
+    "text": "y en realidad"
+  },
+  {
+    "start": 3241.96,
+    "end": 3243.96,
+    "text": "lo que podemos hacer"
+  },
+  {
+    "start": 3245.96,
+    "end": 3247.96,
+    "text": "es"
+  },
+  {
+    "start": 3259.96,
+    "end": 3261.96,
+    "text": "bien, hubieron dos"
+  },
+  {
+    "start": 3261.96,
+    "end": 3263.96,
+    "text": "pero seguramente"
+  },
+  {
+    "start": 3263.96,
+    "end": 3265.96,
+    "text": "se pensaron mucho más"
+  },
+  {
+    "start": 3265.96,
+    "end": 3267.96,
+    "text": "muchos más"
+  },
+  {
+    "start": 3271.96,
+    "end": 3273.96,
+    "text": "Exacto"
+  },
+  {
+    "start": 3273.96,
+    "end": 3275.96,
+    "text": "En el estado Cusum cero"
+  },
+  {
+    "start": 3275.96,
+    "end": 3277.96,
+    "text": "¿Qué es lo que estoy diciendo?"
+  },
+  {
+    "start": 3279.96,
+    "end": 3281.96,
+    "text": "Si me vienen unos"
+  },
+  {
+    "start": 3281.96,
+    "end": 3283.96,
+    "text": "sigo en Cusum cero"
+  },
+  {
+    "start": 3283.96,
+    "end": 3285.96,
+    "text": "pero si me viene un cero"
+  },
+  {
+    "start": 3289.96,
+    "end": 3291.96,
+    "text": "tengo dos posibilidades"
+  },
+  {
+    "start": 3295.96,
+    "end": 3297.96,
+    "text": "o me quedo en Cusum cero"
+  },
+  {
+    "start": 3297.96,
+    "end": 3299.96,
+    "text": "o me voy a Cusum cero"
+  },
+  {
+    "start": 3299.96,
+    "end": 3301.96,
+    "text": "o me voy a Cusum cero"
+  },
+  {
+    "start": 3301.96,
+    "end": 3303.96,
+    "text": "1, eso es lo que me está diciendo la automata"
+  },
+  {
+    "start": 3307.96,
+    "end": 3309.96,
+    "text": "¿De acuerdo?"
+  },
+  {
+    "start": 3311.96,
+    "end": 3313.96,
+    "text": "Entonces"
+  },
+  {
+    "start": 3315.96,
+    "end": 3317.96,
+    "text": "si yo estoy por ejemplo ejecutando la tira"
+  },
+  {
+    "start": 3317.96,
+    "end": 3319.96,
+    "text": "1, cero"
+  },
+  {
+    "start": 3319.96,
+    "end": 3321.96,
+    "text": "1"
+  },
+  {
+    "start": 3333.96,
+    "end": 3335.96,
+    "text": "Leo 1 no tengo problema"
+  },
+  {
+    "start": 3335.96,
+    "end": 3337.96,
+    "text": "para empezar, esta tira es válida"
+  },
+  {
+    "start": 3337.96,
+    "end": 3339.96,
+    "text": "si"
+  },
+  {
+    "start": 3339.96,
+    "end": 3341.96,
+    "text": "Entonces este automata"
+  },
+  {
+    "start": 3341.96,
+    "end": 3343.96,
+    "text": "¿Qué es lo que me está"
+  },
+  {
+    "start": 3343.96,
+    "end": 3345.96,
+    "text": "habilitando a hacer?"
+  },
+  {
+    "start": 3345.96,
+    "end": 3347.96,
+    "text": "Si Leo 1 me quedo en Cusum cero"
+  },
+  {
+    "start": 3347.96,
+    "end": 3349.96,
+    "text": "cuando en el siguiente símbolo y es un cero"
+  },
+  {
+    "start": 3353.96,
+    "end": 3355.96,
+    "text": "el tipo dice"
+  },
+  {
+    "start": 3355.96,
+    "end": 3357.96,
+    "text": "bueno"
+  },
+  {
+    "start": 3357.96,
+    "end": 3359.96,
+    "text": "te doy dos chances"
+  },
+  {
+    "start": 3361.96,
+    "end": 3363.96,
+    "text": "o te quedas en Cusum cero"
+  },
+  {
+    "start": 3367.96,
+    "end": 3369.96,
+    "text": "o te la jugas"
+  },
+  {
+    "start": 3369.96,
+    "end": 3371.96,
+    "text": "y decís"
+  },
+  {
+    "start": 3371.96,
+    "end": 3373.96,
+    "text": "andate a Cusum 1"
+  },
+  {
+    "start": 3373.96,
+    "end": 3375.96,
+    "text": "que este cero va a saber que Leo 2 más y se acaba"
+  },
+  {
+    "start": 3377.96,
+    "end": 3379.96,
+    "text": "¿Se entiende la idea?"
+  },
+  {
+    "start": 3381.96,
+    "end": 3383.96,
+    "text": "Cuando yo le da el siguiente símbolo"
+  },
+  {
+    "start": 3383.96,
+    "end": 3385.96,
+    "text": "y es un 1"
+  },
+  {
+    "start": 3387.96,
+    "end": 3389.96,
+    "text": "mi automata"
+  },
+  {
+    "start": 3389.96,
+    "end": 3391.96,
+    "text": "¿Dónde quedó?"
+  },
+  {
+    "start": 3391.96,
+    "end": 3393.96,
+    "text": "En ambos lugares"
+  },
+  {
+    "start": 3393.96,
+    "end": 3395.96,
+    "text": "es decir"
+  },
+  {
+    "start": 3395.96,
+    "end": 3397.96,
+    "text": "no sé en realidad"
+  },
+  {
+    "start": 3397.96,
+    "end": 3399.96,
+    "text": "haber quedado en ambos lugares"
+  },
+  {
+    "start": 3399.96,
+    "end": 3401.96,
+    "text": "podría decir al revés"
+  },
+  {
+    "start": 3401.96,
+    "end": 3403.96,
+    "text": "no sé en donde quedó"
+  },
+  {
+    "start": 3403.96,
+    "end": 3405.96,
+    "text": "porque podría haberse quedado"
+  },
+  {
+    "start": 3405.96,
+    "end": 3407.96,
+    "text": "o podría haberse ido a Cusum 1"
+  },
+  {
+    "start": 3409.96,
+    "end": 3411.96,
+    "text": "pero sigue siendo el mismo automata"
+  },
+  {
+    "start": 3415.96,
+    "end": 3417.96,
+    "text": "Entonces cuando leí el siguiente símbolo"
+  },
+  {
+    "start": 3417.96,
+    "end": 3419.96,
+    "text": "que era un 1"
+  },
+  {
+    "start": 3419.96,
+    "end": 3421.96,
+    "text": "este no tiene problema"
+  },
+  {
+    "start": 3421.96,
+    "end": 3423.96,
+    "text": "y entre comillas"
+  },
+  {
+    "start": 3423.96,
+    "end": 3425.96,
+    "text": "el otro automata el que se había jugado"
+  },
+  {
+    "start": 3425.96,
+    "end": 3427.96,
+    "text": "que dice andate para acá"
+  },
+  {
+    "start": 3429.96,
+    "end": 3431.96,
+    "text": "¿Se entiende?"
+  },
+  {
+    "start": 3431.96,
+    "end": 3433.96,
+    "text": "es como si yo largara"
+  },
+  {
+    "start": 3433.96,
+    "end": 3435.96,
+    "text": "entre comillas"
+  },
+  {
+    "start": 3435.96,
+    "end": 3437.96,
+    "text": "dos automatas que van en paralelo"
+  },
+  {
+    "start": 3437.96,
+    "end": 3439.96,
+    "text": "es el mismo automata"
+  },
+  {
+    "start": 3439.96,
+    "end": 3441.96,
+    "text": "pero como que largo"
+  },
+  {
+    "start": 3441.96,
+    "end": 3443.96,
+    "text": "en paralelo dos ejecuciones"
+  },
+  {
+    "start": 3447.96,
+    "end": 3449.96,
+    "text": "¿Perdón?"
+  },
+  {
+    "start": 3451.96,
+    "end": 3453.96,
+    "text": "Entonces"
+  },
+  {
+    "start": 3455.96,
+    "end": 3457.96,
+    "text": "cuando ya volví con tu respuesta"
+  },
+  {
+    "start": 3457.96,
+    "end": 3459.96,
+    "text": "cuando leí el siguiente símbolo"
+  },
+  {
+    "start": 3459.96,
+    "end": 3461.96,
+    "text": "¿Qué va a pasar?"
+  },
+  {
+    "start": 3461.96,
+    "end": 3463.96,
+    "text": "tenía esos dos automatas que habían corrido en paralelo"
+  },
+  {
+    "start": 3463.96,
+    "end": 3465.96,
+    "text": "¿Verdad?"
+  },
+  {
+    "start": 3465.96,
+    "end": 3467.96,
+    "text": "uno que se había quedado en Cusero"
+  },
+  {
+    "start": 3467.96,
+    "end": 3469.96,
+    "text": "y otro que estaba en Cusus 2"
+  },
+  {
+    "start": 3469.96,
+    "end": 3471.96,
+    "text": "este me va acá"
+  },
+  {
+    "start": 3471.96,
+    "end": 3473.96,
+    "text": "claro pero este de acá tiene el mismo problema"
+  },
+  {
+    "start": 3475.96,
+    "end": 3477.96,
+    "text": "de alguna manera"
+  },
+  {
+    "start": 3477.96,
+    "end": 3479.96,
+    "text": "armo el arbolito que estaba"
+  },
+  {
+    "start": 3479.96,
+    "end": 3481.96,
+    "text": "quería decirle compañero"
+  },
+  {
+    "start": 3481.96,
+    "end": 3483.96,
+    "text": "¿Sí? pero con mucho menos estados"
+  },
+  {
+    "start": 3483.96,
+    "end": 3485.96,
+    "text": "Entonces"
+  },
+  {
+    "start": 3485.96,
+    "end": 3487.96,
+    "text": "cuando leí"
+  },
+  {
+    "start": 3487.96,
+    "end": 3489.96,
+    "text": "un 2-0 acá"
+  },
+  {
+    "start": 3489.96,
+    "end": 3491.96,
+    "text": "como que si venía con entre comillas"
+  },
+  {
+    "start": 3491.96,
+    "end": 3493.96,
+    "text": "dos automatas es el mismo"
+  },
+  {
+    "start": 3493.96,
+    "end": 3495.96,
+    "text": "ejecutándose en paralelo"
+  },
+  {
+    "start": 3495.96,
+    "end": 3497.96,
+    "text": "¿Qué arranca ahí?"
+  },
+  {
+    "start": 3497.96,
+    "end": 3499.96,
+    "text": "un tercer automata"
+  },
+  {
+    "start": 3499.96,
+    "end": 3501.96,
+    "text": "es decir uno que se quedó en Cusero"
+  },
+  {
+    "start": 3501.96,
+    "end": 3503.96,
+    "text": "otro que se la jugó y dice este es el tercer símbolo"
+  },
+  {
+    "start": 3503.96,
+    "end": 3505.96,
+    "text": "dale por acá"
+  },
+  {
+    "start": 3505.96,
+    "end": 3507.96,
+    "text": "y se fue a Cus 1"
+  },
+  {
+    "start": 3507.96,
+    "end": 3509.96,
+    "text": "y otro que se fue contento del Cus 2"
+  },
+  {
+    "start": 3509.96,
+    "end": 3511.96,
+    "text": "al Cus 3"
+  },
+  {
+    "start": 3511.96,
+    "end": 3513.96,
+    "text": "lo que me falta a ver es que pasa en Cus 3"
+  },
+  {
+    "start": 3513.96,
+    "end": 3515.96,
+    "text": "que no lo definimos"
+  },
+  {
+    "start": 3515.96,
+    "end": 3517.96,
+    "text": "podría o reutilizar"
+  },
+  {
+    "start": 3517.96,
+    "end": 3519.96,
+    "text": "dependiendo de la configuración que uno quiera"
+  },
+  {
+    "start": 3519.96,
+    "end": 3521.96,
+    "text": "alguno de los estados anteriores"
+  },
+  {
+    "start": 3521.96,
+    "end": 3523.96,
+    "text": "o directamente como dice acá el compañero"
+  },
+  {
+    "start": 3523.96,
+    "end": 3525.96,
+    "text": "lo mandamos a un pozo y ya está"
+  },
+  {
+    "start": 3525.96,
+    "end": 3527.96,
+    "text": "¿Por qué podría mandarlo eventualmente a un pozo?"
+  },
+  {
+    "start": 3533.96,
+    "end": 3535.96,
+    "text": "claro y ahí está la respuesta"
+  },
+  {
+    "start": 3535.96,
+    "end": 3537.96,
+    "text": "tu pregunta"
+  },
+  {
+    "start": 3537.96,
+    "end": 3539.96,
+    "text": "¿Cuando yo voy a saber si mi tira es válida"
+  },
+  {
+    "start": 3539.96,
+    "end": 3541.96,
+    "text": "o no?"
+  },
+  {
+    "start": 3545.96,
+    "end": 3547.96,
+    "text": "cuando todos no"
+  },
+  {
+    "start": 3547.96,
+    "end": 3549.96,
+    "text": "al exacto"
+  },
+  {
+    "start": 3549.96,
+    "end": 3551.96,
+    "text": "depende de mi automata"
+  },
+  {
+    "start": 3551.96,
+    "end": 3553.96,
+    "text": "depende de cuántos estados finales tengan"
+  },
+  {
+    "start": 3553.96,
+    "end": 3555.96,
+    "text": "en este caso es un ejemplito muy sencillo"
+  },
+  {
+    "start": 3555.96,
+    "end": 3557.96,
+    "text": "porque hay un estado final"
+  },
+  {
+    "start": 3557.96,
+    "end": 3559.96,
+    "text": "lo que tengo que hacer al final"
+  },
+  {
+    "start": 3559.96,
+    "end": 3561.96,
+    "text": "de la tira"
+  },
+  {
+    "start": 3561.96,
+    "end": 3563.96,
+    "text": "es evaluar"
+  },
+  {
+    "start": 3563.96,
+    "end": 3565.96,
+    "text": "todos esos entre comillas"
+  },
+  {
+    "start": 3565.96,
+    "end": 3567.96,
+    "text": "automatas que larguen paralelo"
+  },
+  {
+    "start": 3567.96,
+    "end": 3569.96,
+    "text": "en qué estado se quedaron"
+  },
+  {
+    "start": 3569.96,
+    "end": 3571.96,
+    "text": "si alguno de esos estados"
+  },
+  {
+    "start": 3571.96,
+    "end": 3573.96,
+    "text": "es un estado"
+  },
+  {
+    "start": 3573.96,
+    "end": 3575.96,
+    "text": "este ejemplo sería el estado Cus 3"
+  },
+  {
+    "start": 3575.96,
+    "end": 3577.96,
+    "text": "es un estado final"
+  },
+  {
+    "start": 3577.96,
+    "end": 3579.96,
+    "text": "la tira es válida"
+  },
+  {
+    "start": 3579.96,
+    "end": 3581.96,
+    "text": "sin ninguno de esos estados es final"
+  },
+  {
+    "start": 3581.96,
+    "end": 3583.96,
+    "text": "o sea esos automatas"
+  },
+  {
+    "start": 3583.96,
+    "end": 3585.96,
+    "text": "entre comillas que se ejecutaron en paralelo"
+  },
+  {
+    "start": 3587.96,
+    "end": 3589.96,
+    "text": "quedaron todos en estados"
+  },
+  {
+    "start": 3589.96,
+    "end": 3591.96,
+    "text": "en este caso serían Cus 0, Cus 1, Cus 2"
+  },
+  {
+    "start": 3591.96,
+    "end": 3593.96,
+    "text": "o el Cus 1p"
+  },
+  {
+    "start": 3593.96,
+    "end": 3595.96,
+    "text": "la respuesta es la tira no es válida"
+  },
+  {
+    "start": 3599.96,
+    "end": 3601.96,
+    "text": "ya estoy con tu pregunta"
+  },
+  {
+    "start": 3601.96,
+    "end": 3603.96,
+    "text": "es decir"
+  },
+  {
+    "start": 3603.96,
+    "end": 3605.96,
+    "text": "si fuera"
+  },
+  {
+    "start": 3605.96,
+    "end": 3607.96,
+    "text": "supongamos ese ejemplo"
+  },
+  {
+    "start": 3607.96,
+    "end": 3609.96,
+    "text": "estoy arranco"
+  },
+  {
+    "start": 3609.96,
+    "end": 3611.96,
+    "text": "en Cus 0"
+  },
+  {
+    "start": 3613.96,
+    "end": 3615.96,
+    "text": "lo que me está diciendo es"
+  },
+  {
+    "start": 3615.96,
+    "end": 3617.96,
+    "text": "le 1 1"
+  },
+  {
+    "start": 3617.96,
+    "end": 3619.96,
+    "text": "si le 1 1"
+  },
+  {
+    "start": 3619.96,
+    "end": 3621.96,
+    "text": "voy al Cus 0"
+  },
+  {
+    "start": 3627.96,
+    "end": 3629.96,
+    "text": "estando en Cus 0"
+  },
+  {
+    "start": 3629.96,
+    "end": 3631.96,
+    "text": "le 1 0"
+  },
+  {
+    "start": 3631.96,
+    "end": 3633.96,
+    "text": "que es lo que sucede"
+  },
+  {
+    "start": 3633.96,
+    "end": 3635.96,
+    "text": "con un 0"
+  },
+  {
+    "start": 3635.96,
+    "end": 3637.96,
+    "text": "o me queda un Cus 0"
+  },
+  {
+    "start": 3637.96,
+    "end": 3639.96,
+    "text": "automata conservador"
+  },
+  {
+    "start": 3639.96,
+    "end": 3641.96,
+    "text": "o me voy al Cus 1"
+  },
+  {
+    "start": 3641.96,
+    "end": 3643.96,
+    "text": "este es el timbero"
+  },
+  {
+    "start": 3643.96,
+    "end": 3645.96,
+    "text": "este es el que se la jugó"
+  },
+  {
+    "start": 3645.96,
+    "end": 3647.96,
+    "text": "este es el que dijo"
+  },
+  {
+    "start": 3647.96,
+    "end": 3649.96,
+    "text": "va a saber que leo 2 más"
+  },
+  {
+    "start": 3649.96,
+    "end": 3651.96,
+    "text": "y se acaba"
+  },
+  {
+    "start": 3655.96,
+    "end": 3657.96,
+    "text": "leo el siguiente símbolo"
+  },
+  {
+    "start": 3657.96,
+    "end": 3659.96,
+    "text": "es un 1"
+  },
+  {
+    "start": 3659.96,
+    "end": 3661.96,
+    "text": "que es lo que me tengo que fijar"
+  },
+  {
+    "start": 3661.96,
+    "end": 3663.96,
+    "text": "en ambas configuraciones"
+  },
+  {
+    "start": 3663.96,
+    "end": 3665.96,
+    "text": "fíjense"
+  },
+  {
+    "start": 3665.96,
+    "end": 3667.96,
+    "text": "acabo de decir la palabra correcta"
+  },
+  {
+    "start": 3667.96,
+    "end": 3669.96,
+    "text": "yo usaba entre comillas automata"
+  },
+  {
+    "start": 3669.96,
+    "end": 3671.96,
+    "text": "en paralelo"
+  },
+  {
+    "start": 3671.96,
+    "end": 3673.96,
+    "text": "es como si yo tengo más de una configuración"
+  },
+  {
+    "start": 3673.96,
+    "end": 3675.96,
+    "text": "de mi automata"
+  },
+  {
+    "start": 3675.96,
+    "end": 3677.96,
+    "text": "que puede estar acá o acá"
+  },
+  {
+    "start": 3677.96,
+    "end": 3679.96,
+    "text": "pero es el mismo automata"
+  },
+  {
+    "start": 3679.96,
+    "end": 3681.96,
+    "text": "este leo"
+  },
+  {
+    "start": 3681.96,
+    "end": 3683.96,
+    "text": "un 1"
+  },
+  {
+    "start": 3683.96,
+    "end": 3685.96,
+    "text": "que lo que hace es"
+  },
+  {
+    "start": 3685.96,
+    "end": 3687.96,
+    "text": "un Cus 0"
+  },
+  {
+    "start": 3687.96,
+    "end": 3689.96,
+    "text": "y este Cus 1"
+  },
+  {
+    "start": 3689.96,
+    "end": 3691.96,
+    "text": "con un 1"
+  },
+  {
+    "start": 3691.96,
+    "end": 3693.96,
+    "text": "se va a Cus 2"
+  },
+  {
+    "start": 3693.96,
+    "end": 3695.96,
+    "text": "leo el siguiente símbolo"
+  },
+  {
+    "start": 3695.96,
+    "end": 3697.96,
+    "text": "un 0"
+  },
+  {
+    "start": 3699.96,
+    "end": 3701.96,
+    "text": "que es lo que sucede acá"
+  },
+  {
+    "start": 3701.96,
+    "end": 3703.96,
+    "text": "te vuelta lo mismo"
+  },
+  {
+    "start": 3703.96,
+    "end": 3705.96,
+    "text": "uno conserva"
+  },
+  {
+    "start": 3705.96,
+    "end": 3707.96,
+    "text": "que dice"
+  },
+  {
+    "start": 3707.96,
+    "end": 3709.96,
+    "text": "quédate acá"
+  },
+  {
+    "start": 3709.96,
+    "end": 3711.96,
+    "text": "va a saber"
+  },
+  {
+    "start": 3711.96,
+    "end": 3713.96,
+    "text": "y lo que se la juega"
+  },
+  {
+    "start": 3713.96,
+    "end": 3715.96,
+    "text": "un 1"
+  },
+  {
+    "start": 3715.96,
+    "end": 3717.96,
+    "text": "y por otro lado"
+  },
+  {
+    "start": 3717.96,
+    "end": 3719.96,
+    "text": "aquel que se había arriesgado"
+  },
+  {
+    "start": 3719.96,
+    "end": 3721.96,
+    "text": "al principio"
+  },
+  {
+    "start": 3721.96,
+    "end": 3723.96,
+    "text": "con un 0 se fue a Cus 3"
+  },
+  {
+    "start": 3723.96,
+    "end": 3725.96,
+    "text": "contento y se va a saber que ahora"
+  },
+  {
+    "start": 3725.96,
+    "end": 3727.96,
+    "text": "viene epsilon no viene más nada"
+  },
+  {
+    "start": 3727.96,
+    "end": 3729.96,
+    "text": "leo"
+  },
+  {
+    "start": 3729.96,
+    "end": 3731.96,
+    "text": "voy a fijarme y caramba"
+  },
+  {
+    "start": 3731.96,
+    "end": 3733.96,
+    "text": "sí hay un 0"
+  },
+  {
+    "start": 3735.96,
+    "end": 3737.96,
+    "text": "entonces ahora"
+  },
+  {
+    "start": 3737.96,
+    "end": 3739.96,
+    "text": "tengo tres posibles chances"
+  },
+  {
+    "start": 3739.96,
+    "end": 3741.96,
+    "text": "aquel automata que se quedó"
+  },
+  {
+    "start": 3741.96,
+    "end": 3743.96,
+    "text": "un Cus 0"
+  },
+  {
+    "start": 3743.96,
+    "end": 3745.96,
+    "text": "aquel automata que se quedó en Cus 1"
+  },
+  {
+    "start": 3745.96,
+    "end": 3747.96,
+    "text": "y aquel automata que se quedó en Cus 3"
+  },
+  {
+    "start": 3747.96,
+    "end": 3749.96,
+    "text": "el de Cus 0"
+  },
+  {
+    "start": 3749.96,
+    "end": 3751.96,
+    "text": "cuando le yo un 0 de vuelta"
+  },
+  {
+    "start": 3751.96,
+    "end": 3753.96,
+    "text": "lo mismo"
+  },
+  {
+    "start": 3753.96,
+    "end": 3755.96,
+    "text": "conserva que dice"
+  },
+  {
+    "start": 3755.96,
+    "end": 3757.96,
+    "text": "va a saber no"
+  },
+  {
+    "start": 3757.96,
+    "end": 3759.96,
+    "text": "este es mala onda"
+  },
+  {
+    "start": 3759.96,
+    "end": 3761.96,
+    "text": "este se queda siempre en Cus 0"
+  },
+  {
+    "start": 3761.96,
+    "end": 3763.96,
+    "text": "y este es el que se la juega"
+  },
+  {
+    "start": 3763.96,
+    "end": 3765.96,
+    "text": "y se fue a Cus 1"
+  },
+  {
+    "start": 3765.96,
+    "end": 3767.96,
+    "text": "este de Cus 1"
+  },
+  {
+    "start": 3767.96,
+    "end": 3769.96,
+    "text": "con un 0 se fue a Cus 2"
+  },
+  {
+    "start": 3769.96,
+    "end": 3771.96,
+    "text": "es"
+  },
+  {
+    "start": 3771.96,
+    "end": 3773.96,
+    "text": "que se había ido"
+  },
+  {
+    "start": 3775.96,
+    "end": 3777.96,
+    "text": "al primer 0"
+  },
+  {
+    "start": 3777.96,
+    "end": 3779.96,
+    "text": "nomás ya agarró viento y dijo"
+  },
+  {
+    "start": 3779.96,
+    "end": 3781.96,
+    "text": "marchó"
+  },
+  {
+    "start": 3783.96,
+    "end": 3785.96,
+    "text": "ese camino"
+  },
+  {
+    "start": 3785.96,
+    "end": 3787.96,
+    "text": "lo que dice es marchace"
+  },
+  {
+    "start": 3787.96,
+    "end": 3789.96,
+    "text": "viste lo que te pasó para haber seguido para ese lado"
+  },
+  {
+    "start": 3791.96,
+    "end": 3793.96,
+    "text": "hay más símbolos"
+  },
+  {
+    "start": 3793.96,
+    "end": 3795.96,
+    "text": "sí hay más símbolos leo un 1"
+  },
+  {
+    "start": 3795.96,
+    "end": 3797.96,
+    "text": "entonces"
+  },
+  {
+    "start": 3797.96,
+    "end": 3799.96,
+    "text": "este empezó de conserva"
+  },
+  {
+    "start": 3799.96,
+    "end": 3801.96,
+    "text": "se quedó en Cus 0"
+  },
+  {
+    "start": 3801.96,
+    "end": 3803.96,
+    "text": "marchó"
+  },
+  {
+    "start": 3803.96,
+    "end": 3805.96,
+    "text": "este de acá con un 1"
+  },
+  {
+    "start": 3805.96,
+    "end": 3807.96,
+    "text": "se fue a Cus 2"
+  },
+  {
+    "start": 3807.96,
+    "end": 3809.96,
+    "text": "este de Cus 2 con un 1"
+  },
+  {
+    "start": 3809.96,
+    "end": 3811.96,
+    "text": "se fue a Cus 3"
+  },
+  {
+    "start": 3811.96,
+    "end": 3813.96,
+    "text": "y este se quedó acá"
+  },
+  {
+    "start": 3815.96,
+    "end": 3817.96,
+    "text": "leo el siguiente símbolo"
+  },
+  {
+    "start": 3817.96,
+    "end": 3819.96,
+    "text": "no hay más"
+  },
+  {
+    "start": 3821.96,
+    "end": 3823.96,
+    "text": "entonces"
+  },
+  {
+    "start": 3823.96,
+    "end": 3825.96,
+    "text": "lo que yo me tengo que fijar"
+  },
+  {
+    "start": 3825.96,
+    "end": 3827.96,
+    "text": "o que es lo que el automata tiene que devolver"
+  },
+  {
+    "start": 3827.96,
+    "end": 3829.96,
+    "text": "y el tipo devuelve todo ese conjunto"
+  },
+  {
+    "start": 3829.96,
+    "end": 3831.96,
+    "text": "de estados"
+  },
+  {
+    "start": 3831.96,
+    "end": 3833.96,
+    "text": "y te dice mira"
+  },
+  {
+    "start": 3833.96,
+    "end": 3835.96,
+    "text": "yo me puedo haber quedado en Cus 0"
+  },
+  {
+    "start": 3835.96,
+    "end": 3837.96,
+    "text": "en Cus 3"
+  },
+  {
+    "start": 3837.96,
+    "end": 3839.96,
+    "text": "o en Cus P"
+  },
+  {
+    "start": 3841.96,
+    "end": 3843.96,
+    "text": "si alguno de esos estados"
+  },
+  {
+    "start": 3843.96,
+    "end": 3845.96,
+    "text": "es un estado final"
+  },
+  {
+    "start": 3847.96,
+    "end": 3849.96,
+    "text": "te atirás válida"
+  },
+  {
+    "start": 3849.96,
+    "end": 3851.96,
+    "text": "cuál fue el camino"
+  },
+  {
+    "start": 3851.96,
+    "end": 3853.96,
+    "text": "no sé, no me interesa"
+  },
+  {
+    "start": 3853.96,
+    "end": 3855.96,
+    "text": "depende de la tira"
+  },
+  {
+    "start": 3855.96,
+    "end": 3857.96,
+    "text": "es decir el problema que tenía"
+  },
+  {
+    "start": 3857.96,
+    "end": 3859.96,
+    "text": "que era saber el tercer símbolo"
+  },
+  {
+    "start": 3859.96,
+    "end": 3861.96,
+    "text": "yo lo modelo acá"
+  },
+  {
+    "start": 3865.96,
+    "end": 3867.96,
+    "text": "me aseguro en este caso"
+  },
+  {
+    "start": 3867.96,
+    "end": 3869.96,
+    "text": "lo del tercer símbolo"
+  },
+  {
+    "start": 3869.96,
+    "end": 3871.96,
+    "text": "y ya está"
+  },
+  {
+    "start": 3875.96,
+    "end": 3877.96,
+    "text": "allá viene una pregunta"
+  },
+  {
+    "start": 3879.96,
+    "end": 3881.96,
+    "text": "perdón"
+  },
+  {
+    "start": 3883.96,
+    "end": 3885.96,
+    "text": "no"
+  },
+  {
+    "start": 3885.96,
+    "end": 3887.96,
+    "text": "casi, claro, lo que tengo que hacer es definir"
+  },
+  {
+    "start": 3887.96,
+    "end": 3889.96,
+    "text": "lo que estamos acá"
+  },
+  {
+    "start": 3889.96,
+    "end": 3891.96,
+    "text": "la pregunta que hizo compañero es"
+  },
+  {
+    "start": 3891.96,
+    "end": 3893.96,
+    "text": "la función de transición deja de ser función"
+  },
+  {
+    "start": 3893.96,
+    "end": 3895.96,
+    "text": "lo que sucede acá"
+  },
+  {
+    "start": 3895.96,
+    "end": 3897.96,
+    "text": "deja de ser función con los criterios"
+  },
+  {
+    "start": 3897.96,
+    "end": 3899.96,
+    "text": "que veníamos manejando del modelo que veníamos manejando"
+  },
+  {
+    "start": 3905.96,
+    "end": 3907.96,
+    "text": "ya no es un automata finito determinista"
+  },
+  {
+    "start": 3909.96,
+    "end": 3911.96,
+    "text": "este es un automata finito"
+  },
+  {
+    "start": 3913.96,
+    "end": 3915.96,
+    "text": "no determinista"
+  },
+  {
+    "start": 3919.96,
+    "end": 3921.96,
+    "text": "se entiende este modelo"
+  },
+  {
+    "start": 3921.96,
+    "end": 3923.96,
+    "text": "que tenemos ahí en el gráfico"
+  },
+  {
+    "start": 3939.96,
+    "end": 3941.96,
+    "text": "es un automata finito"
+  },
+  {
+    "start": 3941.96,
+    "end": 3943.96,
+    "text": "no determinista"
+  },
+  {
+    "start": 3957.96,
+    "end": 3959.96,
+    "text": "es un automata finito"
+  },
+  {
+    "start": 3959.96,
+    "end": 3961.96,
+    "text": "no determinista"
+  },
+  {
+    "start": 3961.96,
+    "end": 3963.96,
+    "text": "una FND"
+  },
+  {
+    "start": 3963.96,
+    "end": 3965.96,
+    "text": "no es una FD determinista"
+  },
+  {
+    "start": 3965.96,
+    "end": 3967.96,
+    "text": "es un no determinista"
+  },
+  {
+    "start": 3967.96,
+    "end": 3969.96,
+    "text": "la función"
+  },
+  {
+    "start": 3971.96,
+    "end": 3973.96,
+    "text": "también es una quintupla"
+  },
+  {
+    "start": 3973.96,
+    "end": 3975.96,
+    "text": "fíjense conjunto de estados"
+  },
+  {
+    "start": 3975.96,
+    "end": 3977.96,
+    "text": "un estado inicial"
+  },
+  {
+    "start": 3977.96,
+    "end": 3979.96,
+    "text": "un conjunto estado finales"
+  },
+  {
+    "start": 3983.96,
+    "end": 3985.96,
+    "text": "el alfabeto"
+  },
+  {
+    "start": 3985.96,
+    "end": 3987.96,
+    "text": "y una función de transición"
+  },
+  {
+    "start": 3991.96,
+    "end": 3993.96,
+    "text": "cuando yo especifico mi función de transición"
+  },
+  {
+    "start": 3993.96,
+    "end": 3995.96,
+    "text": "¿qué es lo que me está diciendo la función ahí?"
+  },
+  {
+    "start": 3999.96,
+    "end": 4001.96,
+    "text": "que para un par"
+  },
+  {
+    "start": 4001.96,
+    "end": 4003.96,
+    "text": "estado"
+  },
+  {
+    "start": 4003.96,
+    "end": 4005.96,
+    "text": "símbolo"
+  },
+  {
+    "start": 4007.96,
+    "end": 4009.96,
+    "text": "voy a qué"
+  },
+  {
+    "start": 4009.96,
+    "end": 4011.96,
+    "text": "a un conjunto de estados"
+  },
+  {
+    "start": 4011.96,
+    "end": 4013.96,
+    "text": "¿a cuál conjunto de estados puedo ir?"
+  },
+  {
+    "start": 4015.96,
+    "end": 4017.96,
+    "text": "en principio si yo especifico"
+  },
+  {
+    "start": 4017.96,
+    "end": 4019.96,
+    "text": "la sintaxis de una función"
+  },
+  {
+    "start": 4019.96,
+    "end": 4021.96,
+    "text": "si es la función largo voy"
+  },
+  {
+    "start": 4021.96,
+    "end": 4023.96,
+    "text": "de sin máster A"
+  },
+  {
+    "start": 4023.96,
+    "end": 4025.96,
+    "text": "en los naturales porque es algún natural"
+  },
+  {
+    "start": 4025.96,
+    "end": 4027.96,
+    "text": "acá que voy a ir"
+  },
+  {
+    "start": 4027.96,
+    "end": 4029.96,
+    "text": "a un conjunto de qué"
+  },
+  {
+    "start": 4031.96,
+    "end": 4033.96,
+    "text": "a un subconjunto de Q"
+  },
+  {
+    "start": 4033.96,
+    "end": 4035.96,
+    "text": "¿a cuál subconjunto de Q?"
+  },
+  {
+    "start": 4039.96,
+    "end": 4041.96,
+    "text": "¿a Q?"
+  },
+  {
+    "start": 4047.96,
+    "end": 4049.96,
+    "text": "esto"
+  },
+  {
+    "start": 4051.96,
+    "end": 4053.96,
+    "text": "¿cuál es el tema?"
+  },
+  {
+    "start": 4053.96,
+    "end": 4055.96,
+    "text": "exacto"
+  },
+  {
+    "start": 4055.96,
+    "end": 4057.96,
+    "text": "acá es un subconjunto"
+  },
+  {
+    "start": 4057.96,
+    "end": 4059.96,
+    "text": "de Q"
+  },
+  {
+    "start": 4059.96,
+    "end": 4061.96,
+    "text": "¿cuál subconjunto de Q?"
+  },
+  {
+    "start": 4061.96,
+    "end": 4063.96,
+    "text": "cualquier"
+  },
+  {
+    "start": 4063.96,
+    "end": 4065.96,
+    "text": "potencialmente cualquiera"
+  },
+  {
+    "start": 4067.96,
+    "end": 4069.96,
+    "text": "justamente cuando yo especifico"
+  },
+  {
+    "start": 4069.96,
+    "end": 4071.96,
+    "text": "la sintaxis de mi función"
+  },
+  {
+    "start": 4071.96,
+    "end": 4073.96,
+    "text": "la semántica de mi función delta"
+  },
+  {
+    "start": 4073.96,
+    "end": 4075.96,
+    "text": "ahí es donde voy a ver"
+  },
+  {
+    "start": 4075.96,
+    "end": 4077.96,
+    "text": "¿cuáles son aquellos subconjunos?"
+  },
+  {
+    "start": 4077.96,
+    "end": 4079.96,
+    "text": "pero potencialmente"
+  },
+  {
+    "start": 4079.96,
+    "end": 4081.96,
+    "text": "a cualquier subconjunto de Q"
+  },
+  {
+    "start": 4083.96,
+    "end": 4085.96,
+    "text": "¿y cómo yo especifico cualquier"
+  },
+  {
+    "start": 4085.96,
+    "end": 4087.96,
+    "text": "subconjunto de Q?"
+  },
+  {
+    "start": 4089.96,
+    "end": 4091.96,
+    "text": "el conjunto"
+  },
+  {
+    "start": 4093.96,
+    "end": 4095.96,
+    "text": "exacto el conjunto potencia"
+  },
+  {
+    "start": 4101.96,
+    "end": 4103.96,
+    "text": "entonces fíjense"
+  },
+  {
+    "start": 4103.96,
+    "end": 4105.96,
+    "text": "que con esta especificación"
+  },
+  {
+    "start": 4109.96,
+    "end": 4111.96,
+    "text": "ahora lo que yo estoy habilitado a hacer"
+  },
+  {
+    "start": 4111.96,
+    "end": 4113.96,
+    "text": "es estando en el estado con su cero"
+  },
+  {
+    "start": 4113.96,
+    "end": 4115.96,
+    "text": "leyendo un cero"
+  },
+  {
+    "start": 4119.96,
+    "end": 4121.96,
+    "text": "esta es mi definición de delta"
+  },
+  {
+    "start": 4123.96,
+    "end": 4125.96,
+    "text": "para un par estado símbolo"
+  },
+  {
+    "start": 4125.96,
+    "end": 4127.96,
+    "text": "voy a un conjunto de estados"
+  },
+  {
+    "start": 4129.96,
+    "end": 4131.96,
+    "text": "esto"
+  },
+  {
+    "start": 4131.96,
+    "end": 4133.96,
+    "text": "este es el ejemplo este que estamos acá"
+  },
+  {
+    "start": 4139.96,
+    "end": 4141.96,
+    "text": "no"
+  },
+  {
+    "start": 4149.96,
+    "end": 4151.96,
+    "text": "no porque esta es la forma de poner"
+  },
+  {
+    "start": 4151.96,
+    "end": 4153.96,
+    "text": "conjunto potencia"
+  },
+  {
+    "start": 4153.96,
+    "end": 4155.96,
+    "text": "el conjunto de todos los subconjunos"
+  },
+  {
+    "start": 4155.96,
+    "end": 4157.96,
+    "text": "en la anotación es poner 2 a la Q"
+  },
+  {
+    "start": 4157.96,
+    "end": 4159.96,
+    "text": "lo repasamos acuerda en el primer día"
+  },
+  {
+    "start": 4159.96,
+    "end": 4161.96,
+    "text": "si, si, a ver"
+  },
+  {
+    "start": 4161.96,
+    "end": 4163.96,
+    "text": "yo que lo que digo es"
+  },
+  {
+    "start": 4163.96,
+    "end": 4165.96,
+    "text": "2 a la Q"
+  },
+  {
+    "start": 4165.96,
+    "end": 4167.96,
+    "text": "yo podrán haber"
+  },
+  {
+    "start": 4167.96,
+    "end": 4169.96,
+    "text": "que capaz que a eso apunta la pregunta"
+  },
+  {
+    "start": 4169.96,
+    "end": 4171.96,
+    "text": "podrán haber sus conjuntos"
+  },
+  {
+    "start": 4171.96,
+    "end": 4173.96,
+    "text": "que en realidad no son"
+  },
+  {
+    "start": 4173.96,
+    "end": 4175.96,
+    "text": "respuestas de ningún delta"
+  },
+  {
+    "start": 4175.96,
+    "end": 4177.96,
+    "text": "si"
+  },
+  {
+    "start": 4177.96,
+    "end": 4179.96,
+    "text": "pero potencialmente"
+  },
+  {
+    "start": 4179.96,
+    "end": 4181.96,
+    "text": "yo voy a cualquier subconjunto"
+  },
+  {
+    "start": 4181.96,
+    "end": 4183.96,
+    "text": "¿se entiende?"
+  },
+  {
+    "start": 4183.96,
+    "end": 4185.96,
+    "text": "si, si, si"
+  },
+  {
+    "start": 4185.96,
+    "end": 4187.96,
+    "text": "pero no es porque tengo 2 símbolos"
+  },
+  {
+    "start": 4187.96,
+    "end": 4189.96,
+    "text": "de entrada"
+  },
+  {
+    "start": 4189.96,
+    "end": 4191.96,
+    "text": "si, si, si"
+  },
+  {
+    "start": 4191.96,
+    "end": 4193.96,
+    "text": "puede estar o no puede estar"
+  },
+  {
+    "start": 4193.96,
+    "end": 4195.96,
+    "text": "en ese sentido"
+  },
+  {
+    "start": 4195.96,
+    "end": 4197.96,
+    "text": "si"
+  },
+  {
+    "start": 4197.96,
+    "end": 4199.96,
+    "text": "si"
+  },
+  {
+    "start": 4199.96,
+    "end": 4201.96,
+    "text": "si"
+  },
+  {
+    "start": 4201.96,
+    "end": 4203.96,
+    "text": "si"
+  },
+  {
+    "start": 4203.96,
+    "end": 4205.96,
+    "text": "si"
+  },
+  {
+    "start": 4205.96,
+    "end": 4207.96,
+    "text": "si"
+  },
+  {
+    "start": 4207.96,
+    "end": 4209.96,
+    "text": "si"
+  },
+  {
+    "start": 4209.96,
+    "end": 4211.96,
+    "text": "si"
+  },
+  {
+    "start": 4211.96,
+    "end": 4213.96,
+    "text": "si"
+  },
+  {
+    "start": 4213.96,
+    "end": 4215.96,
+    "text": "si"
+  },
+  {
+    "start": 4223.96,
+    "end": 4225.96,
+    "text": "si"
+  },
+  {
+    "start": 4225.96,
+    "end": 4227.96,
+    "text": "si"
+  },
+  {
+    "start": 4227.96,
+    "end": 4229.96,
+    "text": "si"
+  },
+  {
+    "start": 4229.96,
+    "end": 4231.96,
+    "text": "si"
+  },
+  {
+    "start": 4231.96,
+    "end": 4233.96,
+    "text": "si"
+  },
+  {
+    "start": 4233.96,
+    "end": 4235.96,
+    "text": "si"
+  },
+  {
+    "start": 4235.96,
+    "end": 4237.96,
+    "text": "si"
+  },
+  {
+    "start": 4237.96,
+    "end": 4239.96,
+    "text": "si"
+  },
+  {
+    "start": 4239.96,
+    "end": 4241.96,
+    "text": "si"
+  },
+  {
+    "start": 4241.96,
+    "end": 4243.96,
+    "text": "si"
+  },
+  {
+    "start": 4243.96,
+    "end": 4245.96,
+    "text": "si"
+  },
+  {
+    "start": 4245.96,
+    "end": 4247.96,
+    "text": "si"
+  },
+  {
+    "start": 4247.96,
+    "end": 4249.96,
+    "text": "si"
+  },
+  {
+    "start": 4249.96,
+    "end": 4251.96,
+    "text": "si"
+  },
+  {
+    "start": 4251.96,
+    "end": 4253.96,
+    "text": "si"
+  },
+  {
+    "start": 4253.96,
+    "end": 4261.96,
+    "text": "si"
+  },
+  {
+    "start": 4261.96,
+    "end": 4263.96,
+    "text": "si"
+  },
+  {
+    "start": 4263.96,
+    "end": 4286.56,
+    "text": "hace muchos caminos, ¿ok? Fíjense, hay más preguntas de esto. Fíjense, que aceptando"
+  },
+  {
+    "start": 4286.56,
+    "end": 4293.6,
+    "text": "este modelo de esta manera, sin duda que es mucho más sencillo resolver el problema"
+  },
+  {
+    "start": 4293.6,
+    "end": 4300.280000000001,
+    "text": "que decíamos hoy de las tres configuraciones, si yo admito este modelo. Me falta definir"
+  },
+  {
+    "start": 4300.280000000001,
+    "end": 4310.0,
+    "text": "alguna cosita. Fíjense que agregarle la complejidad que decíamos hoy, el décimo símbolo empezando"
+  },
+  {
+    "start": 4310.0,
+    "end": 4317.240000000001,
+    "text": "de la derecha es un cero. Si tengo que pensarlo con cabeza determinista, tengo que ponerme"
+  },
+  {
+    "start": 4317.24,
+    "end": 4327.16,
+    "text": "a ver todas las posibles terminaciones empezando del último cero, nueve símbolos después, o"
+  },
+  {
+    "start": 4327.16,
+    "end": 4335.679999999999,
+    "text": "sea, décimo y después nueve más. Mientras que pensando lo no determinista es agregar más"
+  },
+  {
+    "start": 4335.68,
+    "end": 4355.320000000001,
+    "text": "estados acá y hacerlo de la misma manera. Entonces, ¿se entendió esta idea? Bien. Al igual que"
+  },
+  {
+    "start": 4355.32,
+    "end": 4366.24,
+    "text": "en el modelo de automatas finitos deterministas, a mí lo que me interesa es lo que hicimos hoy."
+  },
+  {
+    "start": 4366.24,
+    "end": 4372.84,
+    "text": "Yo quiero poder después responder a la pregunta si el W pertenece a él o no, con lo cual"
+  },
+  {
+    "start": 4372.84,
+    "end": 4380.92,
+    "text": "yo en definitiva lo que hice fue esto. Entonces, ¿cuando? Yo lo que tengo que hacer acá,"
+  },
+  {
+    "start": 4381.08,
+    "end": 4385.52,
+    "text": "si no lo puedo poner, tengo que usar el deltatecho que es la extensión para manejar strings. ¿De"
+  },
+  {
+    "start": 4385.52,
+    "end": 4406.72,
+    "text": "acuerdo? Entonces, el deltatecho da un estado y un string ¿qué es lo que me va a dar"
+  },
+  {
+    "start": 4406.72,
+    "end": 4423.52,
+    "text": "acá? O sea, nuevamente un 2 a la q. Vamos a ver si surge naturalmente. Tengo que especificarla."
+  },
+  {
+    "start": 4428.400000000001,
+    "end": 4433.16,
+    "text": "Está muy igual que hoy que la vez pasada ¿no? O sea, estamos en la especificación de una"
+  },
+  {
+    "start": 4433.16,
+    "end": 4439.44,
+    "text": "función basada en un producto cartesian donde uno de los conjuntos es un conjunto definido inductivamente."
+  },
+  {
+    "start": 4454.08,
+    "end": 4456.32,
+    "text": "El deltatecho de q con epsilon."
+  },
+  {
+    "start": 4463.5599999999995,
+    "end": 4472.32,
+    "text": "¿Cuál es el resultado? Estoy en el estado q y no consumo nada. Bien, me gustó porque los dos"
+  },
+  {
+    "start": 4472.32,
+    "end": 4481.96,
+    "text": "que dijeron lo correcto, que es el conjunto formado por q. Nadie dijo, nadie se apuró y dijo q."
+  },
+  {
+    "start": 4484.4,
+    "end": 4490.2,
+    "text": "Se entiende porque lo que me da es un conjunto, es un conjunto formado por un único estado."
+  },
+  {
+    "start": 4494.12,
+    "end": 4496.44,
+    "text": "Y esto obviamente para todo q."
+  },
+  {
+    "start": 4506.599999999999,
+    "end": 4508.599999999999,
+    "text": "Y bueno, y acá ¿qué hacemos?"
+  },
+  {
+    "start": 4516.639999999999,
+    "end": 4522.36,
+    "text": "En principio como yo lo especificaría, vale decir lo primero que uno piensa."
+  },
+  {
+    "start": 4523.16,
+    "end": 4524.44,
+    "text": "Y después vemos cómo lo arreglamos."
+  },
+  {
+    "start": 4529.44,
+    "end": 4530.44,
+    "text": "El delta de quién?"
+  },
+  {
+    "start": 4538.44,
+    "end": 4548.44,
+    "text": "Bien, ahí está. A ver, en principio uno pondría esto. O sea, lo último que va a ejecutar es el delta con el a."
+  },
+  {
+    "start": 4549.4400000000005,
+    "end": 4556.4400000000005,
+    "text": "El problema es que el delta techo de q con w, ¿qué es lo que me da?"
+  },
+  {
+    "start": 4558.4400000000005,
+    "end": 4564.4400000000005,
+    "text": "Un conjunto de estados y el delta está definido para estados."
+  },
+  {
+    "start": 4567.4400000000005,
+    "end": 4571.4400000000005,
+    "text": "Entonces, lo que hacemos."
+  },
+  {
+    "start": 4579.4400000000005,
+    "end": 4580.4400000000005,
+    "text": "El delta moño."
+  },
+  {
+    "start": 4596.4400000000005,
+    "end": 4599.4400000000005,
+    "text": "Esto es simplemente para facilitar la notación."
+  },
+  {
+    "start": 4600.4400000000005,
+    "end": 4608.4400000000005,
+    "text": "Pero el delta moño no es otra cosa que q, el delta moño de un conjunto de estados con un símbolo."
+  },
+  {
+    "start": 4611.4400000000005,
+    "end": 4617.4400000000005,
+    "text": "La unión de los delta para cada uno de los estados del conjunto que estoy considerando."
+  },
+  {
+    "start": 4618.4400000000005,
+    "end": 4620.4400000000005,
+    "text": "O sea, ¿cómo yo defino el delta moño este?"
+  },
+  {
+    "start": 4621.4400000000005,
+    "end": 4628.4400000000005,
+    "text": "Delta de un conjunto p con un símbolo a."
+  },
+  {
+    "start": 4629.4400000000005,
+    "end": 4642.4400000000005,
+    "text": "Esto que me da la unión de los delta de cada uno de los estados de p con el símbolo a."
+  },
+  {
+    "start": 4642.4400000000005,
+    "end": 4651.4400000000005,
+    "text": "¿Se entiende esta notación?"
+  },
+  {
+    "start": 4652.4400000000005,
+    "end": 4660.4400000000005,
+    "text": "Digo, si no, acá yo tengo, este es para escribirlo esto un poquito más formal, si no tengo que empezar a hablar de todos aquellos que llegan acá y le hago el delta."
+  },
+  {
+    "start": 4662.4400000000005,
+    "end": 4663.4400000000005,
+    "text": "Entonces, ¿qué pongo acá?"
+  },
+  {
+    "start": 4672.4400000000005,
+    "end": 4675.4400000000005,
+    "text": "¿Se entiende que es el delta moño este?"
+  },
+  {
+    "start": 4680.4400000000005,
+    "end": 4682.4400000000005,
+    "text": "Es la unión de todos los deltas."
+  },
+  {
+    "start": 4682.4400000000005,
+    "end": 4683.4400000000005,
+    "text": "Entonces, ahí ya no tengo problema."
+  },
+  {
+    "start": 4683.4400000000005,
+    "end": 4684.4400000000005,
+    "text": "Bueno, esto es lo mismo."
+  },
+  {
+    "start": 4684.4400000000005,
+    "end": 4692.4400000000005,
+    "text": "Para todo q, perteneciente a q, a perteneciente a sigma y w, perteneciente a sigma."
+  },
+  {
+    "start": 4702.4400000000005,
+    "end": 4731.4400000000005,
+    "text": "Entonces, tenemos definido un nuevo modelo de automata finito que se diferencia del modelo anterior."
+  },
+  {
+    "start": 4733.4400000000005,
+    "end": 4734.4400000000005,
+    "text": "En su función de transición."
+  },
+  {
+    "start": 4736.4400000000005,
+    "end": 4749.4400000000005,
+    "text": "Que lo que me está habitando a mí es que no necesariamente, y esta es una nueva lectura que podemos hacer, no necesariamente queda especificado a qué estado voy dado un estado y un símbolo."
+  },
+  {
+    "start": 4750.4400000000005,
+    "end": 4765.4400000000005,
+    "text": "O sea, no queda determinado, y ahí viene el término no determinista, no queda determinado a dónde voy necesariamente para todo par estado símbolo."
+  },
+  {
+    "start": 4766.4400000000005,
+    "end": 4770.4400000000005,
+    "text": "Fíjese lo que hablo necesariamente en el ejemplito que teníamos acá."
+  },
+  {
+    "start": 4771.4400000000005,
+    "end": 4773.4400000000005,
+    "text": "El delta de q0 con 1, ¿qué hacía?"
+  },
+  {
+    "start": 4775.4400000000005,
+    "end": 4777.4400000000005,
+    "text": "En el dibujito que teníamos recién acá."
+  },
+  {
+    "start": 4778.4400000000005,
+    "end": 4780.4400000000005,
+    "text": "Ahí no tenía ambigüedad."
+  },
+  {
+    "start": 4780.4400000000005,
+    "end": 4782.4400000000005,
+    "text": "Ahí iba al estado q0."
+  },
+  {
+    "start": 4783.4400000000005,
+    "end": 4790.4400000000005,
+    "text": "Entonces, cuando yo especifico mi función delta en el modelo acá, lo que teníamos era esto."
+  },
+  {
+    "start": 4791.4400000000005,
+    "end": 4792.4400000000005,
+    "text": "Yo creo que lo teníamos ahí."
+  },
+  {
+    "start": 4793.4400000000005,
+    "end": 4798.4400000000005,
+    "text": "El delta de q0 con 0 y el delta de q0 con 1."
+  },
+  {
+    "start": 4799.4400000000005,
+    "end": 4807.4400000000005,
+    "text": "Esto era el conjunto q0 con 1 formado por q0 con 1, y este es el conjunto formado por q0."
+  },
+  {
+    "start": 4807.4400000000005,
+    "end": 4820.4400000000005,
+    "text": "Lo que quiero decir es que puede haber transiciones en una automata no determinista,"
+  },
+  {
+    "start": 4821.4400000000005,
+    "end": 4825.4400000000005,
+    "text": "donde sí esté determinado para ese estado y ese símbolo a dónde voy."
+  },
+  {
+    "start": 4828.4400000000005,
+    "end": 4836.4400000000005,
+    "text": "Pero en términos generales, el modelo ya por culpa de un estado, el modelo en general me queda no determinista."
+  },
+  {
+    "start": 4838.4400000000005,
+    "end": 4839.4400000000005,
+    "text": "¿Correcto?"
+  },
+  {
+    "start": 4841.4400000000005,
+    "end": 4842.4400000000005,
+    "text": "Bien."
+  },
+  {
+    "start": 4843.4400000000005,
+    "end": 4844.4400000000005,
+    "text": "Entonces..."
+  },
+  {
+    "start": 4867.4400000000005,
+    "end": 4880.4400000000005,
+    "text": "Lenguaje aceptado por un automata finito no determinista."
+  },
+  {
+    "start": 4881.4400000000005,
+    "end": 4882.4400000000005,
+    "text": "N."
+  },
+  {
+    "start": 4898.4400000000005,
+    "end": 4899.4400000000005,
+    "text": "¿Qué va a hacer?"
+  },
+  {
+    "start": 4902.4400000000005,
+    "end": 4905.4400000000005,
+    "text": "Lo sé aquí, pertenecientes a SIGMASTER."
+  },
+  {
+    "start": 4906.4400000000005,
+    "end": 4907.4400000000005,
+    "text": "¿Tal qué?"
+  },
+  {
+    "start": 4909.4400000000005,
+    "end": 4916.4400000000005,
+    "text": "Piensen cómo era la definición del lenguaje aceptado o chequen cómo era la definición."
+  },
+  {
+    "start": 4917.4400000000005,
+    "end": 4925.4400000000005,
+    "text": "Piensen cómo era la definición del lenguaje aceptado o chequen cómo era la definición del lenguaje aceptado"
+  },
+  {
+    "start": 4926.4400000000005,
+    "end": 4932.4400000000005,
+    "text": "por un automata finito determinista y vean a ver cómo esa definición la tenemos que adaptar acá."
+  },
+  {
+    "start": 4935.4400000000005,
+    "end": 4936.4400000000005,
+    "text": "¿Del tamoño?"
+  },
+  {
+    "start": 4937.4400000000005,
+    "end": 4938.4400000000005,
+    "text": "El de otro."
+  },
+  {
+    "start": 4938.4400000000005,
+    "end": 4939.4400000000005,
+    "text": "¿Del tamoño?"
+  },
+  {
+    "start": 4940.4400000000005,
+    "end": 4941.4400000000005,
+    "text": "El de otro."
+  },
+  {
+    "start": 4949.4400000000005,
+    "end": 4953.4400000000005,
+    "text": "¿El delta techo de Q0W qué debe pasar?"
+  },
+  {
+    "start": 4954.4400000000005,
+    "end": 4967.4400000000005,
+    "text": "El del delta techo de Q0W para cualquier W me va a dar un conjunto de estados."
+  },
+  {
+    "start": 4970.4400000000005,
+    "end": 4973.4400000000005,
+    "text": "¿Cuándo va a ser una tira válida?"
+  },
+  {
+    "start": 4975.4400000000005,
+    "end": 4982.4400000000005,
+    "text": "Me alcanza con que alguno de esos estados sea final."
+  },
+  {
+    "start": 4982.4400000000005,
+    "end": 4983.4400000000005,
+    "text": "Exacto."
+  },
+  {
+    "start": 4984.4400000000005,
+    "end": 4990.4400000000005,
+    "text": "Puede ser uno, puede ser dos, puede haber más de un camino, dependerá del ejemplo del automata que yo esté considerando."
+  },
+  {
+    "start": 5002.4400000000005,
+    "end": 5003.4400000000005,
+    "text": "Entonces..."
+  },
+  {
+    "start": 5005.4400000000005,
+    "end": 5006.4400000000005,
+    "text": "Ah, perdón, sí."
+  },
+  {
+    "start": 5013.4400000000005,
+    "end": 5026.4400000000005,
+    "text": "O sea, lo que estamos diciendo es, lenguaje aceptado por un automata no determinista, determinista es el conjunto de tiras de ese alfabeto,"
+  },
+  {
+    "start": 5027.4400000000005,
+    "end": 5031.4400000000005,
+    "text": "tales que computándolas desde el estado inicial,"
+  },
+  {
+    "start": 5032.4400000000005,
+    "end": 5036.4400000000005,
+    "text": "llegó a un conjunto de estados que contiene al menos un estado final,"
+  },
+  {
+    "start": 5037.4400000000005,
+    "end": 5039.4400000000005,
+    "text": "de los que yo decidí que eran finales."
+  },
+  {
+    "start": 5040.4400000000005,
+    "end": 5041.4400000000005,
+    "text": "O sea,"
+  },
+  {
+    "start": 5043.4400000000005,
+    "end": 5046.4400000000005,
+    "text": "prolijamente decir que esto me da un conjunto de estados,"
+  },
+  {
+    "start": 5047.4400000000005,
+    "end": 5049.4400000000005,
+    "text": "el delta techo me da un conjunto de estados,"
+  },
+  {
+    "start": 5051.4400000000005,
+    "end": 5055.4400000000005,
+    "text": "la intersección de ese conjunto de estados con F es distinta vacía,"
+  },
+  {
+    "start": 5056.4400000000005,
+    "end": 5057.4400000000005,
+    "text": "hay algún estado común,"
+  },
+  {
+    "start": 5059.4400000000005,
+    "end": 5060.4400000000005,
+    "text": "por lo menos alguno."
+  },
+  {
+    "start": 5063.4400000000005,
+    "end": 5064.4400000000005,
+    "text": "¿Se entendió?"
+  },
+  {
+    "start": 5070.4400000000005,
+    "end": 5072.4400000000005,
+    "text": "¿Y cómo era de esperar?"
+  },
+  {
+    "start": 5077.4400000000005,
+    "end": 5078.4400000000005,
+    "text": "¿Qué vamos a definir acá?"
+  },
+  {
+    "start": 5086.4400000000005,
+    "end": 5087.4400000000005,
+    "text": "Tres."
+  },
+  {
+    "start": 5087.4400000000005,
+    "end": 5088.4400000000005,
+    "text": "Tres."
+  },
+  {
+    "start": 5097.4400000000005,
+    "end": 5099.4400000000005,
+    "text": "Una tercera definición de lenguaje regular."
+  },
+  {
+    "start": 5102.4400000000005,
+    "end": 5109.4400000000005,
+    "text": "Un lenguaje regular, si es reconocido, si es aceptado por un automata finito no determinista."
+  },
+  {
+    "start": 5110.4400000000005,
+    "end": 5117.4400000000005,
+    "text": "O dicho de otra manera, si existe un automata finito no determinista que lo reconoce."
+  },
+  {
+    "start": 5128.4400000000005,
+    "end": 5129.4400000000005,
+    "text": "Entonces tenemos"
+  },
+  {
+    "start": 5131.4400000000005,
+    "end": 5134.4400000000005,
+    "text": "para el mismo conjunto"
+  },
+  {
+    "start": 5135.4400000000005,
+    "end": 5136.4400000000005,
+    "text": "el lenguaje regular es"
+  },
+  {
+    "start": 5138.4400000000005,
+    "end": 5139.4400000000005,
+    "text": "tres formas de verlo."
+  },
+  {
+    "start": 5140.4400000000005,
+    "end": 5143.4400000000005,
+    "text": "Expresiones regulares, automatas finitos deterministas"
+  },
+  {
+    "start": 5144.4400000000005,
+    "end": 5145.4400000000005,
+    "text": "y habrá una tercera definición."
+  },
+  {
+    "start": 5146.4400000000005,
+    "end": 5151.4400000000005,
+    "text": "Lo que nos seguro todos se lo están preguntando es para,"
+  },
+  {
+    "start": 5152.4400000000005,
+    "end": 5154.4400000000005,
+    "text": "pero entonces los tres son iguales, son equivalentes."
+  },
+  {
+    "start": 5156.4400000000005,
+    "end": 5158.4400000000005,
+    "text": "Bueno, lo que vamos a tener que hacer es"
+  },
+  {
+    "start": 5159.4400000000005,
+    "end": 5164.4400000000005,
+    "text": "intentar mostrar que cualquiera sea la manera de especificar"
+  },
+  {
+    "start": 5165.4400000000005,
+    "end": 5167.4400000000005,
+    "text": "a un lenguaje regular."
+  },
+  {
+    "start": 5168.4400000000005,
+    "end": 5172.4400000000005,
+    "text": "Llámese por medio de automatas finitos deterministas o no deterministas"
+  },
+  {
+    "start": 5172.4400000000005,
+    "end": 5175.4400000000005,
+    "text": "y expresiones regulares estamos hablando del mismo conjunto."
+  },
+  {
+    "start": 5176.4400000000005,
+    "end": 5179.4400000000005,
+    "text": "Es decir, que se trata efectivamente de definiciones equivalentes."
+  },
+  {
+    "start": 5179.4400000000005,
+    "end": 5195.4400000000005,
+    "text": "Lo que, un poco la idea con este ejemplo,"
+  },
+  {
+    "start": 5196.4400000000005,
+    "end": 5199.4400000000005,
+    "text": "por eso yo decía que es un ejemplo que me gusta siempre ponerlo,"
+  },
+  {
+    "start": 5200.4400000000005,
+    "end": 5201.4400000000005,
+    "text": "este es el tercer símbolo,"
+  },
+  {
+    "start": 5202.4400000000005,
+    "end": 5207.4400000000005,
+    "text": "porque muestra justamente una de las bondades de los automatas no deterministas"
+  },
+  {
+    "start": 5207.4400000000005,
+    "end": 5211.4400000000005,
+    "text": "que es hacerme la cosa más intuitiva,"
+  },
+  {
+    "start": 5213.4400000000005,
+    "end": 5219.4400000000005,
+    "text": "hacer las transiciones entre los estados más intuitivas,"
+  },
+  {
+    "start": 5220.4400000000005,
+    "end": 5222.4400000000005,
+    "text": "agregando, claro está el concepto de no determinismo."
+  },
+  {
+    "start": 5223.4400000000005,
+    "end": 5224.4400000000005,
+    "text": "O sea incorpora, sin duda,"
+  },
+  {
+    "start": 5225.4400000000005,
+    "end": 5227.4400000000005,
+    "text": "una herramienta bastante fuerte, nueva,"
+  },
+  {
+    "start": 5228.4400000000005,
+    "end": 5230.4400000000005,
+    "text": "que es el hecho de a priori no saber a dónde voy"
+  },
+  {
+    "start": 5231.4400000000005,
+    "end": 5234.4400000000005,
+    "text": "o que voy a, puedo ir a más de un lugar."
+  },
+  {
+    "start": 5234.4400000000005,
+    "end": 5237.4400000000005,
+    "text": "¿Había una pregunta? Sí."
+  },
+  {
+    "start": 5238.4400000000005,
+    "end": 5240.4400000000005,
+    "text": "¿Puedes saber qué es una automata?"
+  },
+  {
+    "start": 5241.4400000000005,
+    "end": 5243.4400000000005,
+    "text": "Shhh."
+  },
+  {
+    "start": 5244.4400000000005,
+    "end": 5245.4400000000005,
+    "text": "¿Eh?"
+  },
+  {
+    "start": 5248.4400000000005,
+    "end": 5250.4400000000005,
+    "text": "Bien, la pregunta es interesante."
+  },
+  {
+    "start": 5251.4400000000005,
+    "end": 5252.4400000000005,
+    "text": "La pregunta del compañero dice,"
+  },
+  {
+    "start": 5253.4400000000005,
+    "end": 5258.4400000000005,
+    "text": "un automata finito puede ser que sea un caso particular de automata,"
+  },
+  {
+    "start": 5259.4400000000005,
+    "end": 5260.4400000000005,
+    "text": "perdón, un automata finito determinista,"
+  },
+  {
+    "start": 5261.4400000000005,
+    "end": 5263.4400000000005,
+    "text": "un caso particular de un automata finito no determinista"
+  },
+  {
+    "start": 5264.4400000000005,
+    "end": 5266.4400000000005,
+    "text": "de un automata finito determinista."
+  },
+  {
+    "start": 5277.4400000000005,
+    "end": 5278.4400000000005,
+    "text": "Ahí está."
+  },
+  {
+    "start": 5279.4400000000005,
+    "end": 5281.4400000000005,
+    "text": "Lo que nosotros vamos a tener que probar,"
+  },
+  {
+    "start": 5282.4400000000005,
+    "end": 5283.4400000000005,
+    "text": "es esto."
+  },
+  {
+    "start": 5283.4400000000005,
+    "end": 5293.4400000000005,
+    "text": "Que los dos modelos son equivalentes,"
+  },
+  {
+    "start": 5294.4400000000005,
+    "end": 5295.4400000000005,
+    "text": "lo que decía recién."
+  },
+  {
+    "start": 5296.4400000000005,
+    "end": 5297.4400000000005,
+    "text": "¿Qué significa eso?"
+  },
+  {
+    "start": 5298.4400000000005,
+    "end": 5299.4400000000005,
+    "text": "Que reconocen al mismo conjunto de elementos,"
+  },
+  {
+    "start": 5300.4400000000005,
+    "end": 5301.4400000000005,
+    "text": "que reconocen lo mismo."
+  },
+  {
+    "start": 5302.4400000000005,
+    "end": 5304.4400000000005,
+    "text": "O sea, una doble inclusión,"
+  },
+  {
+    "start": 5305.4400000000005,
+    "end": 5306.4400000000005,
+    "text": "que si tengo uno de estos,"
+  },
+  {
+    "start": 5307.4400000000005,
+    "end": 5308.4400000000005,
+    "text": "puedo construir uno de estos"
+  },
+  {
+    "start": 5309.4400000000005,
+    "end": 5310.4400000000005,
+    "text": "y si tengo uno de estos,"
+  },
+  {
+    "start": 5311.4400000000005,
+    "end": 5312.4400000000005,
+    "text": "puedo construir uno de estos,"
+  },
+  {
+    "start": 5313.4400000000005,
+    "end": 5315.4400000000005,
+    "text": "y la pregunta a tu pregunta es,"
+  },
+  {
+    "start": 5316.4400000000005,
+    "end": 5317.4400000000005,
+    "text": "a partir de un determinista,"
+  },
+  {
+    "start": 5318.4400000000005,
+    "end": 5319.4400000000005,
+    "text": "puedo construir uno determinista"
+  },
+  {
+    "start": 5320.4400000000005,
+    "end": 5321.4400000000005,
+    "text": "que reconozca lo mismo?"
+  },
+  {
+    "start": 5322.4400000000005,
+    "end": 5324.4400000000005,
+    "text": "Y la respuesta es sí, claro."
+  },
+  {
+    "start": 5325.4400000000005,
+    "end": 5326.4400000000005,
+    "text": "Y ahí es donde sí,"
+  },
+  {
+    "start": 5327.4400000000005,
+    "end": 5329.4400000000005,
+    "text": "lo veo como una especie de caso particular,"
+  },
+  {
+    "start": 5330.4400000000005,
+    "end": 5331.4400000000005,
+    "text": "como decía un compañero por acá,"
+  },
+  {
+    "start": 5332.4400000000005,
+    "end": 5333.4400000000005,
+    "text": "en donde,"
+  },
+  {
+    "start": 5334.4400000000005,
+    "end": 5335.4400000000005,
+    "text": "este no, este,"
+  },
+  {
+    "start": 5336.4400000000005,
+    "end": 5337.4400000000005,
+    "text": "el delta"
+  },
+  {
+    "start": 5338.4400000000005,
+    "end": 5339.4400000000005,
+    "text": "me da"
+  },
+  {
+    "start": 5340.4400000000005,
+    "end": 5341.4400000000005,
+    "text": "sus conjuntos de cardinalidad,"
+  },
+  {
+    "start": 5341.4400000000005,
+    "end": 5343.4400000000005,
+    "text": "para todo par de estado símbolo."
+  },
+  {
+    "start": 5344.4400000000005,
+    "end": 5346.4400000000005,
+    "text": "Entonces, si en vez de pensarlo como"
+  },
+  {
+    "start": 5347.4400000000005,
+    "end": 5348.4400000000005,
+    "text": "estados, que eran el determinista,"
+  },
+  {
+    "start": 5349.4400000000005,
+    "end": 5350.4400000000005,
+    "text": "lo pienso como conjuntos,"
+  },
+  {
+    "start": 5351.4400000000005,
+    "end": 5352.4400000000005,
+    "text": "si todos los conjuntos"
+  },
+  {
+    "start": 5353.4400000000005,
+    "end": 5354.4400000000005,
+    "text": "son de cardinalidad 1,"
+  },
+  {
+    "start": 5356.4400000000005,
+    "end": 5358.4400000000005,
+    "text": "le agrego una n entre la f"
+  },
+  {
+    "start": 5359.4400000000005,
+    "end": 5360.4400000000005,
+    "text": "y le deiten uno determinista."
+  },
+  {
+    "start": 5362.4400000000005,
+    "end": 5363.4400000000005,
+    "text": "¿Le agregaste algo?"
+  },
+  {
+    "start": 5364.4400000000005,
+    "end": 5365.4400000000005,
+    "text": "Pero bueno,"
+  },
+  {
+    "start": 5366.4400000000005,
+    "end": 5367.4400000000005,
+    "text": "por lo menos sé que puedo construirlo."
+  },
+  {
+    "start": 5368.4400000000005,
+    "end": 5369.4400000000005,
+    "text": "¿Eh?"
+  },
+  {
+    "start": 5370.4400000000005,
+    "end": 5372.4400000000005,
+    "text": "Ah bueno, esto es la clase que viene."
+  },
+  {
+    "start": 5373.4400000000005,
+    "end": 5374.4400000000005,
+    "text": "Buena otra."
+  }
+]

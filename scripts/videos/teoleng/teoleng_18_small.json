@@ -1,0 +1,8532 @@
+[
+  {
+    "start": 0.0,
+    "end": 9.8,
+    "text": "En la clase pasada terminamos de ver el modelo de automata asociado a los lenguajes libres"
+  },
+  {
+    "start": 9.8,
+    "end": 15.0,
+    "text": "de contexto y ahora sí le pusimos lenguajes, le pusimos nombre a los lenguajes aceptados"
+  },
+  {
+    "start": 15.0,
+    "end": 21.72,
+    "text": "por automata push down, ¿sí? en cualquiera de sus dos sabores, por esta coacío o por"
+  },
+  {
+    "start": 21.72,
+    "end": 26.240000000000002,
+    "text": "estado final, vimos que esos dos modelos eran equivalentes, definimos lenguaje aceptado"
+  },
+  {
+    "start": 26.240000000000002,
+    "end": 33.84,
+    "text": "por esos modelos y después dijimos, bueno, este tipo de lenguajes, los aceptados por"
+  },
+  {
+    "start": 33.84,
+    "end": 38.040000000000006,
+    "text": "automatas con stack, se llaman lenguajes libres de contexto, ¿por qué? porque teníamos la"
+  },
+  {
+    "start": 38.040000000000006,
+    "end": 42.400000000000006,
+    "text": "definición de lenguajes libres de contexto a aquellos que eran generados por gramáticas libres"
+  },
+  {
+    "start": 42.400000000000006,
+    "end": 49.0,
+    "text": "de contexto, entonces en definitiva lo mostramos con un algoritmo y un ejemplito, no hicimos"
+  },
+  {
+    "start": 49.0,
+    "end": 59.16,
+    "text": "la demostración cruda, por mal, pero existe un algoritmo que me permitía o me permite a"
+  },
+  {
+    "start": 59.16,
+    "end": 66.64,
+    "text": "partir de una automata por esta coacío construir una gramática que de alguna manera generé"
+  },
+  {
+    "start": 66.64,
+    "end": 72.08,
+    "text": "el lenguaje que es reconocido por el automata, a partir de sus transiciones y del otro"
+  },
+  {
+    "start": 72.08,
+    "end": 76.88,
+    "text": "lado, si nosotros tenemos una gramática y hacemos la salvedad de una gramática"
+  },
+  {
+    "start": 76.96,
+    "end": 82.08,
+    "text": "a menos de Epsilon, o sea un lenguaje a menos de la tira de Epsilon, porque una de las condiciones"
+  },
+  {
+    "start": 82.08,
+    "end": 86.67999999999999,
+    "text": "que se ponía era que lo primero que teníamos que hacer para poder aplicar esa equivalencia"
+  },
+  {
+    "start": 86.67999999999999,
+    "end": 92.84,
+    "text": "era llevar esa gramática a forma normal de Graeba, porque un poco la idea de que el automata"
+  },
+  {
+    "start": 92.84,
+    "end": 97.88,
+    "text": "ese simule en sus transiciones lo que eran derivaciones de más a la izquierda en una"
+  },
+  {
+    "start": 97.88,
+    "end": 102.75999999999999,
+    "text": "gramática de Graeba, o sea medida, se acuerdan Graeba, que es variable y después"
+  },
+  {
+    "start": 102.80000000000001,
+    "end": 108.64,
+    "text": "estén indeterminales, entonces al poner la parte derecha al alfa en el stack, la que me queda arriba"
+  },
+  {
+    "start": 108.64,
+    "end": 114.36,
+    "text": "es la primer variable que se va a derivar o que se estaría derivando en una forma normal de Graeba."
+  },
+  {
+    "start": 115.96000000000001,
+    "end": 121.80000000000001,
+    "text": "Con eso un poco cerramos el tema de lenguajes libres de contexto, es decir su formalización por"
+  },
+  {
+    "start": 121.80000000000001,
+    "end": 129.08,
+    "text": "el lado de gramáticas y por el lado del modelo de automata asociado, entonces la idea es ahora"
+  },
+  {
+    "start": 129.4,
+    "end": 135.20000000000002,
+    "text": "ver un conjunto de propiedades que cumplen los lenguajes libres de contexto y en particular"
+  },
+  {
+    "start": 135.20000000000002,
+    "end": 140.56,
+    "text": "en la clase de hoy nos vamos a detener en la propiedad del pampinlema, como les comentaba el"
+  },
+  {
+    "start": 140.56,
+    "end": 146.76000000000002,
+    "text": "otro día, una versión recargada de lo que saben, de lo que es el pampinlema para regulares,"
+  },
+  {
+    "start": 146.76000000000002,
+    "end": 151.36,
+    "text": "pero ahora aplicado a lenguajes libres de contexto. Y en la clase que viene vamos"
+  },
+  {
+    "start": 151.36,
+    "end": 155.24,
+    "text": "a ver más propiedades, propiedades de clausura, lo mismo que hicimos en la parte"
+  },
+  {
+    "start": 155.24,
+    "end": 162.4,
+    "text": "de regulares, pero que ahora para el tipo de lenguajes libres de contexto. Entonces la pregunta"
+  },
+  {
+    "start": 162.4,
+    "end": 168.76000000000002,
+    "text": "que nos hacibamos sobre el final de la clase pasada es ¿Qué pasa con este lenguaje? ¿Será un lenguaje"
+  },
+  {
+    "start": 168.76000000000002,
+    "end": 179.36,
+    "text": "libre de contexto? Entonces lo primero que tenemos que hacer es la misma estrategia ante una"
+  },
+  {
+    "start": 179.36,
+    "end": 183.60000000000002,
+    "text": "pregunta es ¿Qué hacíamos para regulares? Es decir existirá una expresión regular"
+  },
+  {
+    "start": 183.68,
+    "end": 190.79999999999998,
+    "text": "que lo defina, existirá claramente una expresión regular, es como un 0 a la k, 1 a la k, pero"
+  },
+  {
+    "start": 190.79999999999998,
+    "end": 196.84,
+    "text": "además ahora tienen los dos. Entonces ya no podíamos controlar con una expresión regular"
+  },
+  {
+    "start": 196.84,
+    "end": 204.79999999999998,
+    "text": "el 0 a la k, 1 a la k menos vamos a poder controlar 0 a la k, 1 a la k, 2 a la k. Entonces no es"
+  },
+  {
+    "start": 204.79999999999998,
+    "end": 212.12,
+    "text": "regular, eso ya lo podemos probar por pampinlema de que el lenguaje no es regular. Entonces para"
+  },
+  {
+    "start": 212.24,
+    "end": 215.76,
+    "text": "ver si es un lenguaje libre de contexto ya sabemos que no es regular, para ver si es libre"
+  },
+  {
+    "start": 215.76,
+    "end": 222.56,
+    "text": "de contexto lo que tenemos que ver es si existe una pd o si existe una gramática. Lo que hacíamos en"
+  },
+  {
+    "start": 222.56,
+    "end": 229.52,
+    "text": "la clase pasada era decir bueno si yo tengo que generarse el lenguaje, tengo que generar cosas"
+  },
+  {
+    "start": 229.52,
+    "end": 235.04000000000002,
+    "text": "del estilo 0, 1, 2. Este sería mi paso base y con eso logro para k igual 1, pero después tengo"
+  },
+  {
+    "start": 235.04000000000002,
+    "end": 241.16,
+    "text": "que entrar a derivar secuencias de 0, seguidas de 1, seguidas de 2, pero la misma cantidad."
+  },
+  {
+    "start": 242.24,
+    "end": 247.44,
+    "text": "Y el problema donde lo encontrabamos que si nosotros hacíamos una recursión así y acá poníamos"
+  },
+  {
+    "start": 247.44,
+    "end": 256.36,
+    "text": "2, el 1 y el 2 me quedaban mezclados. Entonces claramente esto no me servía. Si esto en vez"
+  },
+  {
+    "start": 256.36,
+    "end": 265.96,
+    "text": "de 1 o 2 poníamos 0, s que se yo de y teníamos de en 1, de 2, ¿cuál sería el problema? Acá"
+  },
+  {
+    "start": 265.96,
+    "end": 271.44,
+    "text": "generó en orden los 0 y en orden los 2. ¿Por qué esto falla?"
+  },
+  {
+    "start": 275.59999999999997,
+    "end": 277.28,
+    "text": "Hablaron como 3 a la vez."
+  },
+  {
+    "start": 282.2,
+    "end": 288.52,
+    "text": "Claro, pierdo la relación no necesariamente, fíjense que interesante esta gramática así"
+  },
+  {
+    "start": 296.96,
+    "end": 311.24,
+    "text": "que tenemos acá genera el lenguaje s o digamos genera tiras de ese lenguaje, ¿sí o no? Todas"
+  },
+  {
+    "start": 311.24,
+    "end": 320.2,
+    "text": "las que tienen la misma cantidad de 0, 1 y 2, ¿la genera? No, genera todas, todas las"
+  },
+  {
+    "start": 320.2,
+    "end": 326.56,
+    "text": "genera. Las de 0 a la k, 1 a la k, 2 a la k, la genera. Pero el problema que es, me genera muchos"
+  },
+  {
+    "start": 326.56,
+    "end": 333.52,
+    "text": "más. Me genera tiras, secuencias de 0, seguidas de 1 y 2. Las 1 y 2 siempre son de la misma"
+  },
+  {
+    "start": 333.52,
+    "end": 343.59999999999997,
+    "text": "cantidad, pero no necesariamente se respeta la cantidad de 0 con respecto a 1 y 2. Entonces genera"
+  },
+  {
+    "start": 343.6,
+    "end": 351.44,
+    "text": "el lenguaje que yo quiero, pero genera mucho más. O sea, que el término que usábamos es"
+  },
+  {
+    "start": 351.44,
+    "end": 357.28000000000003,
+    "text": "sobregenera. Esta gramática sobregenera el lenguaje que nosotros queremos considerar. Por lo tanto esta"
+  },
+  {
+    "start": 357.28000000000003,
+    "end": 364.0,
+    "text": "gramática está mal, no me sirve. Bien, eso es importante, porque genera lo que queremos pero"
+  },
+  {
+    "start": 364.0,
+    "end": 370.92,
+    "text": "genera más tiras. O sea, en definitiva no genera el lenguaje. Bien, y con el automata lo que"
+  },
+  {
+    "start": 370.96000000000004,
+    "end": 376.40000000000003,
+    "text": "notábamos es fenómeno. Yo el problema que tengo es que tengo que controlar 0, 1, pero también con los"
+  },
+  {
+    "start": 376.40000000000003,
+    "end": 383.8,
+    "text": "2. Entonces, 0 y 1 con un stack lo veíamos bien. Pero si yo controlo los 0 y después con 1 lo saco,"
+  },
+  {
+    "start": 383.8,
+    "end": 392.04,
+    "text": "cuando me vengan los 2, perdí todos los que vinieron antes. Y si esto no lo pensamos,"
+  },
+  {
+    "start": 392.04,
+    "end": 405.84000000000003,
+    "text": "pero si yo en vez de poner por cada 0 pongo 2 0 y cuando vengan los 1 saco y cuando vengan los 2 sigo"
+  },
+  {
+    "start": 405.84000000000003,
+    "end": 417.04,
+    "text": "sacando 0 y cuando venga el z0 y fin de tira. ¿Se entiende? Por cada 0 metodo, acá tengo el z0,"
+  },
+  {
+    "start": 417.44,
+    "end": 421.84000000000003,
+    "text": "por cada 0 metodo 2, cuando vengan los 1 saco, cuando vengan los 1 saco."
+  },
+  {
+    "start": 428.84000000000003,
+    "end": 435.6,
+    "text": "La suma, o sea acá lo único que estoy controlando es que 2 veces la cantidad de 0 es igual a la"
+  },
+  {
+    "start": 435.6,
+    "end": 443.40000000000003,
+    "text": "cantidad de 1, más la cantidad de 2, que de vuelta. Contiene ese lenguaje, pero contiene otras tiras."
+  },
+  {
+    "start": 443.40000000000003,
+    "end": 452.68,
+    "text": "Porque 2 por K es igual a K más K. O sea que estas tiras las reconoce, pero reconoce otras más."
+  },
+  {
+    "start": 455.40000000000003,
+    "end": 462.36,
+    "text": "¿Se entendió eso? Bien. Entonces, todo indica intuitivamente que con un stack tampoco lo"
+  },
+  {
+    "start": 462.36,
+    "end": 467.12,
+    "text": "podemos resolver. Entonces el otro día salto, ah bueno, usamos 2 stack, ah bueno, si estamos"
+  },
+  {
+    "start": 467.12,
+    "end": 470.32000000000005,
+    "text": "hablando de 2 stack, estamos hablando de otro modelo, que no es el automata pushdown."
+  },
+  {
+    "start": 470.32,
+    "end": 479.12,
+    "text": "Entonces, por ahí en lo que caemos es que si no se nos ocurre a priori una gramática y no se nos"
+  },
+  {
+    "start": 479.12,
+    "end": 484.92,
+    "text": "ocurre a priori un automata, no quiere decir que eso sea un argumento como para decir este lenguaje"
+  },
+  {
+    "start": 484.92,
+    "end": 491.4,
+    "text": "no es libre de contexto, eso está claro, no se me ocurrió, entonces no es. Tengo que tener"
+  },
+  {
+    "start": 491.4,
+    "end": 499.48,
+    "text": "herramientas formales que me permitan efectivamente dar la certeza de que ese lenguaje no es libre"
+  },
+  {
+    "start": 499.64000000000004,
+    "end": 505.04,
+    "text": "de contexto. Y para eso es que existe, ah primero vamos a ver unas definiciones, algunas cuestiones"
+  },
+  {
+    "start": 505.04,
+    "end": 513.12,
+    "text": "antes, para eso existe el pampileno. Pero antes vamos a ver, a recordar algunas definiciones. Una es, sí."
+  },
+  {
+    "start": 520.6800000000001,
+    "end": 529.36,
+    "text": "No, exacto. Sí, a ver, o sea, lo que digo es yo no me doy cuenta, pero el hecho no es un argumento"
+  },
+  {
+    "start": 529.4,
+    "end": 534.16,
+    "text": "de peso que vos no te des cuenta, porque vos no te das cuenta, pero el otro se ve, estamos hablando"
+  },
+  {
+    "start": 534.16,
+    "end": 538.8000000000001,
+    "text": "de otro lenguaje y yo no me doy cuenta, o sea, no es un argumento, es solamente lo que me induce a"
+  },
+  {
+    "start": 538.8000000000001,
+    "end": 543.8000000000001,
+    "text": "pensar de que no se trata de un lenguaje libre de contexto. Pero capaz que es y no se me ocurrió"
+  },
+  {
+    "start": 543.8000000000001,
+    "end": 557.44,
+    "text": "la gramática. Lo que pasa es que eso es relativo al lenguaje, porque yo te doy un lenguaje"
+  },
+  {
+    "start": 557.9200000000001,
+    "end": 563.4000000000001,
+    "text": "y le digo, es un lenguaje libre de contexto y vos vas a decir, voy a pensar una automata, no me sale,"
+  },
+  {
+    "start": 563.4000000000001,
+    "end": 568.4000000000001,
+    "text": "voy a pensar una gramática, no me sale, voy a tratar de aplicar, bueno, después vamos a ver, pero"
+  },
+  {
+    "start": 568.4000000000001,
+    "end": 574.44,
+    "text": "capaz que en realidad el compañero de al lado, sí se le ocurrió una gramática, o sea, un lenguaje"
+  },
+  {
+    "start": 574.44,
+    "end": 577.72,
+    "text": "que sí era libre de contexto y se le ocurrió una gramática libre de contexto y funciona."
+  },
+  {
+    "start": 578.84,
+    "end": 583.7600000000001,
+    "text": "Se entiende, entonces yo necesito herramientas formales que me permitan estar seguro de mi"
+  },
+  {
+    "start": 583.76,
+    "end": 589.12,
+    "text": "afirmación. Entonces cada vez que a nivel de ejercicio se le pida, justifique su respuesta,"
+  },
+  {
+    "start": 589.12,
+    "end": 595.52,
+    "text": "no es, no se me ocurrió la gramática, entonces no es. O sea, tengo que encontrar mecanismos"
+  },
+  {
+    "start": 595.52,
+    "end": 603.0,
+    "text": "formales y eso es por lo general, con el uso de propiedades que me aseguren en qué lugar,"
+  },
+  {
+    "start": 603.0,
+    "end": 607.08,
+    "text": "más adelante vamos a ver el concepto de jerarquía, en qué lugar de la jerarquía se encuentra,"
+  },
+  {
+    "start": 607.6800000000001,
+    "end": 615.36,
+    "text": "en la jerarquía de lenguajes se encuentra ese lenguaje. Bien, decía algunas definiciones,"
+  },
+  {
+    "start": 615.36,
+    "end": 621.96,
+    "text": "una era la forma normal de Chomsky y la normalización según Chomsky, que habíamos comentado en su"
+  },
+  {
+    "start": 621.96,
+    "end": 626.76,
+    "text": "momento, es una gramática, una gramática, decimos que está en forma normal de Chomsky,"
+  },
+  {
+    "start": 626.76,
+    "end": 632.76,
+    "text": "cuando todas sus derivaciones lucen de esa manera, es decir, como es libre de contexto,"
+  },
+  {
+    "start": 633.16,
+    "end": 639.6,
+    "text": "de lado izquierdo una variable y del lado derecho, o bien dos variables, que pueden ser la misma"
+  },
+  {
+    "start": 639.6,
+    "end": 646.56,
+    "text": "distinta, puede ser una regla que sea A flechita, A, A, eso no importa, lo importante es que son"
+  },
+  {
+    "start": 646.56,
+    "end": 654.24,
+    "text": "dos, a lo sumo no, exactamente dos, o un terminal. Todas las reglas tienen esa forma."
+  },
+  {
+    "start": 654.5600000000001,
+    "end": 665.08,
+    "text": "Y bueno, después está como colorelario esa normalización, podemos decir, es una propiedad"
+  },
+  {
+    "start": 665.08,
+    "end": 670.04,
+    "text": "importante, a considerar que todo lenguaje libre de contexto, que no contenga epsilon,"
+  },
+  {
+    "start": 670.04,
+    "end": 678.92,
+    "text": "puede ser generado por una gramática normalizada según FNC. Siempre deja modelado en estos casos,"
+  },
+  {
+    "start": 678.92,
+    "end": 684.8399999999999,
+    "text": "epsilon, porque no tengo no tengo chance de poner A flechita epsilon, por definición."
+  },
+  {
+    "start": 687.5999999999999,
+    "end": 690.28,
+    "text": "¿Tá? Bien."
+  },
+  {
+    "start": 695.24,
+    "end": 703.64,
+    "text": "Y antes de presentar el pumping, repasemos este lemita, que me dice, un árbol de derivación"
+  },
+  {
+    "start": 703.64,
+    "end": 713.3199999999999,
+    "text": "binario de altura H, tiene como resultado una tira de largo menor igual que 2 a la H."
+  },
+  {
+    "start": 716.28,
+    "end": 721.52,
+    "text": "Nosotros habíamos visto, cuando empezamos a hablar de gramáticas libres de"
+  },
+  {
+    "start": 721.52,
+    "end": 726.0,
+    "text": "contexto, presentamos el concepto de árbol de derivación, que están asociados a las"
+  },
+  {
+    "start": 726.0,
+    "end": 730.64,
+    "text": "derivaciones de las tiras. Después vimos que había un teorema que me hablaba de la"
+  },
+  {
+    "start": 730.64,
+    "end": 736.56,
+    "text": "equivalencia de las tiras gener…, si existía un árbol de derivación para la tira S,"
+  },
+  {
+    "start": 736.56,
+    "end": 742.52,
+    "text": "para la tira W, con raíz S, existe una derivación que sale de S y llega a W."
+  },
+  {
+    "start": 742.52,
+    "end": 748.04,
+    "text": "Existe una correspondencia unívoca. Existe un árbol, existe una derivación,"
+  },
+  {
+    "start": 748.04,
+    "end": 756.16,
+    "text": "existe una derivación, existe un árbol. Ahora, lo que me dice el lemma es que si"
+  },
+  {
+    "start": 756.1999999999999,
+    "end": 763.0,
+    "text": "yo tengo un árbol de derivación para una gramática que es tan…, cuando digo que es un"
+  },
+  {
+    "start": 763.0,
+    "end": 765.7199999999999,
+    "text": "árbol de derivación binario, quise que la gramática está como."
+  },
+  {
+    "start": 769.7199999999999,
+    "end": 774.0799999999999,
+    "text": "¿Cómo son los árboles de derivación? ¿Se acuerdan? Este y tenía esto,"
+  },
+  {
+    "start": 774.0799999999999,
+    "end": 779.16,
+    "text": "esta y esta. Habíamos visto el ejemplo aquel de las expresiones, ¿no? S, flechita,"
+  },
+  {
+    "start": 779.3199999999999,
+    "end": 787.52,
+    "text": "S más S, cosa por estilo. Entonces, S más S y después teníamos S por S, ese es el ejemplo que"
+  },
+  {
+    "start": 787.52,
+    "end": 793.68,
+    "text": "habíamos visto acá en clase. Pero este árbol no es binario, digamos, un árbol de derivación"
+  },
+  {
+    "start": 793.68,
+    "end": 803.4399999999999,
+    "text": "binario es que…, o es así, o es así, o es en un terminal, o es en dos variables. ¿De acuerdo?"
+  },
+  {
+    "start": 804.44,
+    "end": 812.5600000000001,
+    "text": "Bien. Entonces, y después acá lo que hacíamos es el resultado, ese era aquel dibujito. Eso era el"
+  },
+  {
+    "start": 812.5600000000001,
+    "end": 820.6400000000001,
+    "text": "W, que me generaba el árbol de derivación con raíz en S. Ese era el ejemplo que nosotros poníamos."
+  },
+  {
+    "start": 820.6400000000001,
+    "end": 824.96,
+    "text": "Lo que me dice el lemma es, si yo tengo un árbol de derivación binario de altura H,"
+  },
+  {
+    "start": 824.96,
+    "end": 830.96,
+    "text": "tiene una cantidad de hojas, tiene una tira como resultado, menos igual que H, 2 a la H."
+  },
+  {
+    "start": 831.96,
+    "end": 838.0400000000001,
+    "text": "Es el resultado en nuestra cosa que la cantidad de hojas. Bien, la demostración de esto es"
+  },
+  {
+    "start": 838.0400000000001,
+    "end": 845.8000000000001,
+    "text": "en dos renglones, ¿no? Todo lo ven, esto se demuestra por instrucción completa en H,"
+  },
+  {
+    "start": 845.8000000000001,
+    "end": 853.84,
+    "text": "en la altura. ¿Se ve eso? H igual 1 paso bases este, ¿no? El paso bases este,"
+  },
+  {
+    "start": 854.24,
+    "end": 862.2,
+    "text": "o es un terminal, o una…, o sea, me quedan dos variables y después."
+  },
+  {
+    "start": 864.9200000000001,
+    "end": 877.4,
+    "text": "Bien. Entonces, la tesis es, si yo tengo, arranco así, la tesis inductiva es que si tengo la"
+  },
+  {
+    "start": 877.4,
+    "end": 883.0,
+    "text": "altura H más 1, la cantidad de hojas es menor igual que 2 a la H más 1. Entonces,"
+  },
+  {
+    "start": 883.04,
+    "end": 889.4,
+    "text": "si tengo, esto sería 1 y estos dos serían de altura H, la cantidad de hojas acá es menor"
+  },
+  {
+    "start": 889.4,
+    "end": 895.52,
+    "text": "igual que 2 a la H por hipótesis inductiva, la cantidad de hojas acá es menor igual que 2 a la H"
+  },
+  {
+    "start": 895.52,
+    "end": 900.16,
+    "text": "por hipótesis inductiva, entonces las de H más 1 es menor igual que 2 a la H más 1."
+  },
+  {
+    "start": 902.52,
+    "end": 911.2,
+    "text": "¿Vamos? Bien. Este lemma es importante porque en la demostración y ahora sí,"
+  },
+  {
+    "start": 912.08,
+    "end": 919.84,
+    "text": "del pumping lemma 2, la vamos a utilizar. No vamos a ir al detalle de la demostración,"
+  },
+  {
+    "start": 919.84,
+    "end": 926.24,
+    "text": "pero sí una idea de cómo es que se pruebe. ¿Qué es lo que me dice el pumping lemma 2?"
+  },
+  {
+    "start": 928.44,
+    "end": 930.6800000000001,
+    "text": "O el pumping lemma para el lenguaje libre de contexto."
+  },
+  {
+    "start": 933.96,
+    "end": 940.44,
+    "text": "Que si yo tengo un lenguaje que es libre de contexto, el enunciado es parecido al de"
+  },
+  {
+    "start": 940.44,
+    "end": 945.4000000000001,
+    "text": "los lenguajes regulares, que el pumping lemma era sea él un lenguaje regular, acá tengo sea él un"
+  },
+  {
+    "start": 945.4000000000001,
+    "end": 953.08,
+    "text": "lenguaje libre de contexto. Existe un natural tal que para toda zeta del lenguaje, cuyo largo sea"
+  },
+  {
+    "start": 953.08,
+    "end": 961.4000000000001,
+    "text": "mayor igual que n, existe al menos una, puede existir más de una, descomposición de zeta n,"
+  },
+  {
+    "start": 961.4000000000001,
+    "end": 966.4000000000001,
+    "text": "y en regulares, que es lo que hablábamos el otro día, en regulares yo decía en regulares"
+  },
+  {
+    "start": 967.36,
+    "end": 976.4399999999999,
+    "text": "la descomposición era z, igual u, b, w, en regulares, y las tres condiciones eran"
+  },
+  {
+    "start": 978.04,
+    "end": 983.48,
+    "text": "u b menor igual que n, b mayor igual que 1 y"
+  },
+  {
+    "start": 983.48,
+    "end": 1002.0,
+    "text": "para todo y mayor igual que 0, u, b a la i, w, pertenece a l, esto eran regulares."
+  },
+  {
+    "start": 1002.0,
+    "end": 1016.64,
+    "text": "Acá, en los lenguajes libres de contexto, lo que me dice es zeta no en tres, sino en cinco"
+  },
+  {
+    "start": 1016.64,
+    "end": 1029.48,
+    "text": "substring, u, b, w, x y y, y las tres condiciones que teníamos en regulares se transforman en"
+  },
+  {
+    "start": 1029.48,
+    "end": 1037.32,
+    "text": "estas nuevas tres condiciones. ¿Qué es? Que a largo de b, w, x, es decir,"
+  },
+  {
+    "start": 1040.04,
+    "end": 1047.44,
+    "text": "no desde el comienzo de la tira, sino desde el comienzo de lo que yo dije que era el segundo"
+  },
+  {
+    "start": 1047.44,
+    "end": 1055.1200000000001,
+    "text": "substring, en la descomposición. ¿Se entiende? En esta era desde el comienzo de la tira,"
+  },
+  {
+    "start": 1055.1200000000001,
+    "end": 1061.7600000000002,
+    "text": "acá lo que es menor igual que n, eso es una diferencia importante, es el largo de estos"
+  },
+  {
+    "start": 1061.7600000000002,
+    "end": 1070.0800000000002,
+    "text": "que están acá en el medio. ¿Está? Que eso es menor igual que n. La segunda condición,"
+  },
+  {
+    "start": 1070.0800000000002,
+    "end": 1078.16,
+    "text": "acá decía, al largo de b es mayor igual que 1, o sea que b, el substring del medio,"
+  },
+  {
+    "start": 1078.76,
+    "end": 1085.5600000000002,
+    "text": "no podía ser epsilon, eso es lo que me está diciendo. Y acá es, o sea acá es que b, w,"
+  },
+  {
+    "start": 1085.5600000000002,
+    "end": 1102.72,
+    "text": "x, menor igual que n. Y la segunda es que estos dos del medio, son mayores iguales que 1. Al largo de"
+  },
+  {
+    "start": 1102.72,
+    "end": 1118.56,
+    "text": "los dos, o sea esto es la cantidad de símbolos de los dos. b puede ser epsilon, x puede ser epsilon,"
+  },
+  {
+    "start": 1120.72,
+    "end": 1125.88,
+    "text": "lo que no puede ser son los dos, pero uno de los dos eventualmente podría ser epsilon,"
+  },
+  {
+    "start": 1126.88,
+    "end": 1136.5200000000002,
+    "text": "pero no los dos, eso es lo que está diciendo esta restricción. Y la tercera condición es parecida a la de"
+  },
+  {
+    "start": 1136.5200000000002,
+    "end": 1153.6000000000001,
+    "text": "regulares, pero lo que pampea son casualmente estos dos substring, los que pusimos acá en la"
+  },
+  {
+    "start": 1153.6000000000001,
+    "end": 1164.44,
+    "text": "condición, o sea que me dice, para todo y, mayor igual que 0, b a la i, w, x a la i, y, pertenece a l."
+  },
+  {
+    "start": 1168.1200000000001,
+    "end": 1177.8000000000002,
+    "text": "La misma y, o sea el substring x y el substring wb, se repiten una misma cantidad de veces,"
+  },
+  {
+    "start": 1178.3999999999999,
+    "end": 1193.1599999999999,
+    "text": "eso es substring. Estamos diciendo que, con igual, con igual dos sería wb, wb, x, x, y, con igual dos."
+  },
+  {
+    "start": 1193.16,
+    "end": 1205.24,
+    "text": "Bueno, con igual tres, wb, w, x, x, x, y, con igual cero, ¿cuál sería? wi."
+  },
+  {
+    "start": 1205.24,
+    "end": 1223.16,
+    "text": "¿Cómo se demuestra el pampin lema? Creo que aparece todo de una, ¿no? Bien,"
+  },
+  {
+    "start": 1225.44,
+    "end": 1231.72,
+    "text": "vamos de a poquito a entender el dibujito que aparece ahí. La demostración, yo sé que mi"
+  },
+  {
+    "start": 1231.72,
+    "end": 1245.0,
+    "text": "lenguaje es libre de contexto. Asumamos que el lenguaje no contiene epsilon. Si contiene epsilon,"
+  },
+  {
+    "start": 1245.0,
+    "end": 1256.8,
+    "text": "sacamos la, bueno, de hecho, sacamos la regla de epsilon, lo dejamos de lado. Acuérdense que implica"
+  },
+  {
+    "start": 1257.3999999999999,
+    "end": 1265.52,
+    "text": "en términos de lenguajes, ni que hablar de programación, que yo tenga epsilon como una tira válida de mi lenguaje,"
+  },
+  {
+    "start": 1267.28,
+    "end": 1274.1599999999999,
+    "text": "del programa que no tiene ninguna instrucción. O sea, qué bueno, qué es eso. Tampoco sacarlo nos"
+  },
+  {
+    "start": 1274.16,
+    "end": 1285.96,
+    "text": "complica mucho. Bien, cerramos paréntesis. Entonces, ese lenguaje libre de contexto, dato,"
+  },
+  {
+    "start": 1285.96,
+    "end": 1293.28,
+    "text": "puede, podemos decir, que existe una gramática que lo genera. Y en particular, esa gramática para la"
+  },
+  {
+    "start": 1293.28,
+    "end": 1300.92,
+    "text": "demostración, vamos a pedirle que esté en forma normal de Chomsky. Si no están en forma normal de"
+  },
+  {
+    "start": 1300.96,
+    "end": 1305.52,
+    "text": "Chomsky, la tengo que convertir antes de seguir con la demostración del teorema."
+  },
+  {
+    "start": 1309.64,
+    "end": 1318.5600000000002,
+    "text": "Esa gramática que genera el lenguaje L tiene una cierta cantidad de variables. La gramática es"
+  },
+  {
+    "start": 1318.56,
+    "end": 1325.04,
+    "text": "btps. Tiene una cierta cantidad de variables, llamémosle k a la cantidad de variables."
+  },
+  {
+    "start": 1330.44,
+    "end": 1340.28,
+    "text": "Y en el pumping decíamos, existe un n, está natural, está, está, está. Vamos a tomar n"
+  },
+  {
+    "start": 1340.28,
+    "end": 1347.28,
+    "text": "como 2 a la cama 1, donde caza el número de variables."
+  },
+  {
+    "start": 1349.3999999999999,
+    "end": 1353.76,
+    "text": "Ese va a ser mi natural y en función de ese voy a hacer mi razonamiento."
+  },
+  {
+    "start": 1356.3999999999999,
+    "end": 1363.96,
+    "text": "Luego, elegimos una tira de z mayor o igual que n, o sea que la tira va a ser de largo mayor o"
+  },
+  {
+    "start": 1363.96,
+    "end": 1374.2,
+    "text": "igual que 2 a la cama 1. ¿De acuerdo? Lo que aparece ahí, vamos a dibujarlo."
+  },
+  {
+    "start": 1380.04,
+    "end": 1386.92,
+    "text": "Sí. Perdón. Lo del k, sí. Yo tengo esta, esta es mi gramática."
+  },
+  {
+    "start": 1394.96,
+    "end": 1402.96,
+    "text": "Esta es mi gramática, ¿está? Que genera el lenguaje y la gramática está en forma normal de Chomsky."
+  },
+  {
+    "start": 1403.96,
+    "end": 1410.96,
+    "text": "Mi gramática, que no importa cuál es porque no conozco el lenguaje, tiene una cantidad, un,"
+  },
+  {
+    "start": 1410.96,
+    "end": 1414.96,
+    "text": "un, un conjunto de variables, un conjunto de terminales que son los símbolos del lenguaje,"
+  },
+  {
+    "start": 1414.96,
+    "end": 1419.96,
+    "text": "un conjunto de reglas que están todas en Chomsky y bueno, y un símbolo inicial."
+  },
+  {
+    "start": 1420.96,
+    "end": 1424.96,
+    "text": "Estos son conjuntos, estos son conjuntos, estos son conjuntos."
+  },
+  {
+    "start": 1425.96,
+    "end": 1430.96,
+    "text": "La cardinalidad del conjunto B, la cantidad de variables de mi gramática."
+  },
+  {
+    "start": 1430.96,
+    "end": 1436.96,
+    "text": "¿Yo qué sé yo? Hoy teníamos, hacíamos esta, s, 0, s, 1 y 0, 1."
+  },
+  {
+    "start": 1436.96,
+    "end": 1443.96,
+    "text": "¿Cuántas variables tiene el conjunto de B? 1, el conjunto B en esta gramática está formado"
+  },
+  {
+    "start": 1443.96,
+    "end": 1447.96,
+    "text": "solo por la variable s, con lo cual la cardinalidad de B es 1."
+  },
+  {
+    "start": 1447.96,
+    "end": 1452.96,
+    "text": "¿Por qué pues tienes la variable? Si tengo reglas con s y aparece la variable a,"
+  },
+  {
+    "start": 1452.96,
+    "end": 1458.96,
+    "text": "tengo dos variables, largo de B, cantidad de variables, cantidad de elementos 2."
+  },
+  {
+    "start": 1458.96,
+    "end": 1462.96,
+    "text": "Entonces lo que decimos es, esta gramática que genera el lenguaje"
+  },
+  {
+    "start": 1462.96,
+    "end": 1465.96,
+    "text": "y que está en forma normal de Chomsky tiene k variables."
+  },
+  {
+    "start": 1465.96,
+    "end": 1470.96,
+    "text": "No importa cuánto vale k, vale k, puede ser 1, 2, 3, 7, lo que sea."
+  },
+  {
+    "start": 1471.96,
+    "end": 1479.96,
+    "text": "Bien, entonces sabiendo que tengo k variables, voy a tomarme el n"
+  },
+  {
+    "start": 1479.96,
+    "end": 1485.96,
+    "text": "igual a 2 a la k más 1, donde k es el número de variables"
+  },
+  {
+    "start": 1485.96,
+    "end": 1487.96,
+    "text": "y ese va a ser muy natural."
+  },
+  {
+    "start": 1489.96,
+    "end": 1493.96,
+    "text": "Ahora vamos a ver cómo engancha esto con lo que dijimos hace 10 minutos."
+  },
+  {
+    "start": 1500.96,
+    "end": 1516.96,
+    "text": "Bien, tenemos una tira z, que dice ahí, se acuerdan decía el pumping,"
+  },
+  {
+    "start": 1516.96,
+    "end": 1518.96,
+    "text": "decía una tira z de largo mayor o igual que n."
+  },
+  {
+    "start": 1518.96,
+    "end": 1523.96,
+    "text": "O sea que si n es 2 a la k más 1, la tira z va a ser de largo mayor o igual"
+  },
+  {
+    "start": 1523.96,
+    "end": 1525.96,
+    "text": "que 2 a la k más 1."
+  },
+  {
+    "start": 1526.96,
+    "end": 1531.96,
+    "text": "Para esa tira, si yo empiezo a derivar para llegar a esa tira,"
+  },
+  {
+    "start": 1531.96,
+    "end": 1536.96,
+    "text": "obviamente arranco de la variable s, y empiezo a derivar."
+  },
+  {
+    "start": 1542.96,
+    "end": 1545.96,
+    "text": "Cuando empiezo a derivar voy a construir mi árbol de derivación,"
+  },
+  {
+    "start": 1545.96,
+    "end": 1548.96,
+    "text": "poco lo que repasábamos hoy, si existe una derivación existe un árbol."
+  },
+  {
+    "start": 1548.96,
+    "end": 1552.96,
+    "text": "En particular, como la gramática está en Chomsky el árbol de derivación es binario."
+  },
+  {
+    "start": 1553.96,
+    "end": 1555.96,
+    "text": "Entonces empiezo a tener todas cosas así."
+  },
+  {
+    "start": 1562.96,
+    "end": 1566.96,
+    "text": "No sé, como sea, las hojas."
+  },
+  {
+    "start": 1583.96,
+    "end": 1585.96,
+    "text": "Ahí va, se copó."
+  },
+  {
+    "start": 1585.96,
+    "end": 1593.96,
+    "text": "Bien, llegué al z, las hojas son estas, los terminales,"
+  },
+  {
+    "start": 1593.96,
+    "end": 1598.96,
+    "text": "que se vean de izquierda a derecha, tata, tata, bien."
+  },
+  {
+    "start": 1598.96,
+    "end": 1602.96,
+    "text": "O sea que existe un árbol de derivación."
+  },
+  {
+    "start": 1605.96,
+    "end": 1608.96,
+    "text": "¿Qué es lo que sucede?"
+  },
+  {
+    "start": 1608.96,
+    "end": 1615.96,
+    "text": "Esta z, que yo acabo de derivar, tiene un largo mayor o igual que 2 a la k más 1."
+  },
+  {
+    "start": 1619.96,
+    "end": 1627.96,
+    "text": "Entonces, ¿qué es lo que sé que sucede con respecto a la altura del árbol"
+  },
+  {
+    "start": 1627.96,
+    "end": 1629.96,
+    "text": "de derivación de esa tira?"
+  },
+  {
+    "start": 1634.96,
+    "end": 1636.96,
+    "text": "¿Qué es como?"
+  },
+  {
+    "start": 1637.96,
+    "end": 1642.96,
+    "text": "El lemita, pero el lemita lo que decía era algo padecido."
+  },
+  {
+    "start": 1642.96,
+    "end": 1645.96,
+    "text": "El lemita lo que decía era que si yo tengo de altura h,"
+  },
+  {
+    "start": 1645.96,
+    "end": 1650.96,
+    "text": "la cantidad de hojas es menor igual que 2 a la h."
+  },
+  {
+    "start": 1650.96,
+    "end": 1652.96,
+    "text": "Pero acá eso es al revés."
+  },
+  {
+    "start": 1652.96,
+    "end": 1655.96,
+    "text": "Lo que yo tengo es, ¿cuántas hojas tengo?"
+  },
+  {
+    "start": 1658.96,
+    "end": 1661.96,
+    "text": "¿Cuántas hojas tengo?"
+  },
+  {
+    "start": 1662.96,
+    "end": 1666.96,
+    "text": "Más de 2 a la k más 1, mayor o igual que 2 a la k más 1."
+  },
+  {
+    "start": 1668.96,
+    "end": 1672.96,
+    "text": "Entonces, razonándolo al revés."
+  },
+  {
+    "start": 1672.96,
+    "end": 1675.96,
+    "text": "¿Qué es lo que yo podría decir de la altura de mi árbol?"
+  },
+  {
+    "start": 1675.96,
+    "end": 1680.96,
+    "text": "Que es mayor o igual que k más 1."
+  },
+  {
+    "start": 1680.96,
+    "end": 1682.96,
+    "text": "O sea, aplico el remas al revés."
+  },
+  {
+    "start": 1682.96,
+    "end": 1686.96,
+    "text": "O sea, yo sé que de acá a la última,"
+  },
+  {
+    "start": 1686.96,
+    "end": 1689.96,
+    "text": "en la altura se mide en función de la última hoja,"
+  },
+  {
+    "start": 1689.96,
+    "end": 1692.96,
+    "text": "esto es mayor o igual que k más 1."
+  },
+  {
+    "start": 1692.96,
+    "end": 1695.96,
+    "text": "¿Sí o no? Bien."
+  },
+  {
+    "start": 1695.96,
+    "end": 1699.96,
+    "text": "Entonces, si es mayor o igual que k más 1,"
+  },
+  {
+    "start": 1700.96,
+    "end": 1703.96,
+    "text": "y mi gramática tiene k variables,"
+  },
+  {
+    "start": 1706.96,
+    "end": 1709.96,
+    "text": "al menos una se repite en la derivación."
+  },
+  {
+    "start": 1711.96,
+    "end": 1714.96,
+    "text": "No sé cuál, se puede repetir la misma varias veces,"
+  },
+  {
+    "start": 1714.96,
+    "end": 1717.96,
+    "text": "se puede repetir más de una, no me interesa."
+  },
+  {
+    "start": 1717.96,
+    "end": 1720.96,
+    "text": "Lo que sí es que si la altura es mayor o igual que k más 1,"
+  },
+  {
+    "start": 1720.96,
+    "end": 1723.96,
+    "text": "y tengo k variables, hay una que aparece dos veces en el árbol."
+  },
+  {
+    "start": 1723.96,
+    "end": 1727.96,
+    "text": "Por lo menos, por más estricta o que haya sido yo"
+  },
+  {
+    "start": 1727.96,
+    "end": 1730.96,
+    "text": "con el uso de las variables. ¿Se ve eso?"
+  },
+  {
+    "start": 1732.96,
+    "end": 1734.96,
+    "text": "Bien."
+  },
+  {
+    "start": 1735.96,
+    "end": 1739.96,
+    "text": "Entonces, el argumento para elegir la descomposición"
+  },
+  {
+    "start": 1739.96,
+    "end": 1741.96,
+    "text": "del pambilema, se acuerda que me dice,"
+  },
+  {
+    "start": 1741.96,
+    "end": 1743.96,
+    "text": "existe, al menos una, puede existir más de una,"
+  },
+  {
+    "start": 1743.96,
+    "end": 1747.96,
+    "text": "la descomposición de z, en v, w, x, y."
+  },
+  {
+    "start": 1749.96,
+    "end": 1751.96,
+    "text": "Lo que dice es, bueno,"
+  },
+  {
+    "start": 1751.96,
+    "end": 1756.96,
+    "text": "tomemos la derivación"
+  },
+  {
+    "start": 1757.96,
+    "end": 1760.96,
+    "text": "en donde se repite, o sea, el camino"
+  },
+  {
+    "start": 1761.96,
+    "end": 1765.96,
+    "text": "en donde se repite una variable,"
+  },
+  {
+    "start": 1765.96,
+    "end": 1768.96,
+    "text": "cualquiera, tomemos una cualquiera,"
+  },
+  {
+    "start": 1768.96,
+    "end": 1770.96,
+    "text": "si se repite, ahí el dibujito está,"
+  },
+  {
+    "start": 1770.96,
+    "end": 1772.96,
+    "text": "la que se repite es la variable a."
+  },
+  {
+    "start": 1772.96,
+    "end": 1774.96,
+    "text": "Pero podría repetirse la variable a,"
+  },
+  {
+    "start": 1774.96,
+    "end": 1778.96,
+    "text": "podría estar acá, podría estar acá, podría estar acá."
+  },
+  {
+    "start": 1780.96,
+    "end": 1782.96,
+    "text": "En ese caso,"
+  },
+  {
+    "start": 1783.96,
+    "end": 1786.96,
+    "text": "tomamos las dos más cerca,"
+  },
+  {
+    "start": 1786.96,
+    "end": 1789.96,
+    "text": "para el razonamiento, las dos más cerca de las hojas."
+  },
+  {
+    "start": 1792.96,
+    "end": 1794.96,
+    "text": "¿Se entiende lo que acabo de decir?"
+  },
+  {
+    "start": 1794.96,
+    "end": 1797.96,
+    "text": "O sea, la variable a puede aparecer varias veces."
+  },
+  {
+    "start": 1797.96,
+    "end": 1800.96,
+    "text": "Pero yo, en ese camino,"
+  },
+  {
+    "start": 1800.96,
+    "end": 1803.96,
+    "text": "voy a considerar las dos ocurrencias de la a,"
+  },
+  {
+    "start": 1805.96,
+    "end": 1807.96,
+    "text": "a ver si me sirve eso, pues no importa,"
+  },
+  {
+    "start": 1807.96,
+    "end": 1810.96,
+    "text": "que estén más cerca de las hojas."
+  },
+  {
+    "start": 1812.96,
+    "end": 1814.96,
+    "text": "Y lo que voy a decir es,"
+  },
+  {
+    "start": 1814.96,
+    "end": 1821.96,
+    "text": "voy a tomarme, como u, b, w, x, y,"
+  },
+  {
+    "start": 1821.96,
+    "end": 1824.96,
+    "text": "aquellos substrings"
+  },
+  {
+    "start": 1824.96,
+    "end": 1828.96,
+    "text": "que surgen de mi árbol de derivación,"
+  },
+  {
+    "start": 1828.96,
+    "end": 1831.96,
+    "text": "considerando los subárboles"
+  },
+  {
+    "start": 1832.96,
+    "end": 1835.96,
+    "text": "tanto de esta variable"
+  },
+  {
+    "start": 1835.96,
+    "end": 1838.96,
+    "text": "como los que surgen de esta variable,"
+  },
+  {
+    "start": 1839.96,
+    "end": 1842.96,
+    "text": "y como los que surgen de esta variable."
+  },
+  {
+    "start": 1844.96,
+    "end": 1846.96,
+    "text": "Ese es el dibujito"
+  },
+  {
+    "start": 1846.96,
+    "end": 1848.96,
+    "text": "que está acá."
+  },
+  {
+    "start": 1849.96,
+    "end": 1852.96,
+    "text": "Acá lo que dice es, yo tengo acá,"
+  },
+  {
+    "start": 1854.96,
+    "end": 1857.96,
+    "text": "ya he hecho muy lindo, mucho más prolijo, ¿no?"
+  },
+  {
+    "start": 1859.96,
+    "end": 1863.96,
+    "text": "Acá está puesto los strings,"
+  },
+  {
+    "start": 1863.96,
+    "end": 1866.96,
+    "text": "y la variable a que se repite"
+  },
+  {
+    "start": 1866.96,
+    "end": 1868.96,
+    "text": "está en este camino,"
+  },
+  {
+    "start": 1868.96,
+    "end": 1871.96,
+    "text": "y las dos variables son esta y esta."
+  },
+  {
+    "start": 1871.96,
+    "end": 1873.96,
+    "text": "Esto obviamente no está simbolizado."
+  },
+  {
+    "start": 1873.96,
+    "end": 1874.96,
+    "text": "Esto es un abuso de notación,"
+  },
+  {
+    "start": 1874.96,
+    "end": 1876.96,
+    "text": "no es que esté binaria, ¿no?"
+  },
+  {
+    "start": 1876.96,
+    "end": 1878.96,
+    "text": "El dibujito es este, que está binaria."
+  },
+  {
+    "start": 1878.96,
+    "end": 1879.96,
+    "text": "Esto es como queda,"
+  },
+  {
+    "start": 1879.96,
+    "end": 1881.96,
+    "text": "como el dibujito aquel que habíamos hecho hoy en la gas,"
+  },
+  {
+    "start": 1881.96,
+    "end": 1883.96,
+    "text": "en el lema."
+  },
+  {
+    "start": 1883.96,
+    "end": 1885.96,
+    "text": "Entonces, lo importante,"
+  },
+  {
+    "start": 1885.96,
+    "end": 1887.96,
+    "text": "si fuera en este dibujo, sería,"
+  },
+  {
+    "start": 1887.96,
+    "end": 1889.96,
+    "text": "fíjense,"
+  },
+  {
+    "start": 1890.96,
+    "end": 1892.96,
+    "text": "a este le llamo x,"
+  },
+  {
+    "start": 1892.96,
+    "end": 1894.96,
+    "text": "¿qué pasa con b?"
+  },
+  {
+    "start": 1894.96,
+    "end": 1895.96,
+    "text": "¿De acuerdo a esta a?"
+  },
+  {
+    "start": 1895.96,
+    "end": 1897.96,
+    "text": "¿Cómo es?"
+  },
+  {
+    "start": 1900.96,
+    "end": 1903.96,
+    "text": "O sea, todo esto que está"
+  },
+  {
+    "start": 1903.96,
+    "end": 1906.96,
+    "text": "a la izquierda de la..."
+  },
+  {
+    "start": 1906.96,
+    "end": 1907.96,
+    "text": "de..."
+  },
+  {
+    "start": 1907.96,
+    "end": 1909.96,
+    "text": "Tengo esta a y esta data."
+  },
+  {
+    "start": 1909.96,
+    "end": 1910.96,
+    "text": "O sea,"
+  },
+  {
+    "start": 1910.96,
+    "end": 1912.96,
+    "text": "venga que me voy a sacar este que maría."
+  },
+  {
+    "start": 1913.96,
+    "end": 1918.96,
+    "text": "Lo que está,"
+  },
+  {
+    "start": 1918.96,
+    "end": 1920.96,
+    "text": "después de las a más de abajo,"
+  },
+  {
+    "start": 1920.96,
+    "end": 1923.96,
+    "text": "podemos decir así, más cerca del resultado,"
+  },
+  {
+    "start": 1923.96,
+    "end": 1926.96,
+    "text": "eso es, a eso le llamo w."
+  },
+  {
+    "start": 1929.96,
+    "end": 1930.96,
+    "text": "Cuando subo,"
+  },
+  {
+    "start": 1930.96,
+    "end": 1932.96,
+    "text": "lo que se genere"
+  },
+  {
+    "start": 1932.96,
+    "end": 1934.96,
+    "text": "a la derecha,"
+  },
+  {
+    "start": 1934.96,
+    "end": 1936.96,
+    "text": "a la derecha si lo vemos de acá, de frente,"
+  },
+  {
+    "start": 1936.96,
+    "end": 1937.96,
+    "text": "de esa variable a,"
+  },
+  {
+    "start": 1937.96,
+    "end": 1938.96,
+    "text": "le llamo x,"
+  },
+  {
+    "start": 1938.96,
+    "end": 1939.96,
+    "text": "o sea, todo lo que es,"
+  },
+  {
+    "start": 1939.96,
+    "end": 1940.96,
+    "text": "todos los strings,"
+  },
+  {
+    "start": 1940.96,
+    "end": 1942.96,
+    "text": "que en este caso es un solo símbolo."
+  },
+  {
+    "start": 1942.96,
+    "end": 1944.96,
+    "text": "Pues esto es algo muy dignito."
+  },
+  {
+    "start": 1944.96,
+    "end": 1946.96,
+    "text": "Y lo que fuera a la izquierda,"
+  },
+  {
+    "start": 1946.96,
+    "end": 1948.96,
+    "text": "le llamo b."
+  },
+  {
+    "start": 1948.96,
+    "end": 1950.96,
+    "text": "¿Qué es lo que pasa en este dibujo?"
+  },
+  {
+    "start": 1950.96,
+    "end": 1952.96,
+    "text": "No hay nada de la izquierda,"
+  },
+  {
+    "start": 1952.96,
+    "end": 1954.96,
+    "text": "o sea, que ve quién es."
+  },
+  {
+    "start": 1954.96,
+    "end": 1955.96,
+    "text": "Epsilon."
+  },
+  {
+    "start": 1955.96,
+    "end": 1957.96,
+    "text": "Pero vale."
+  },
+  {
+    "start": 1958.96,
+    "end": 1959.96,
+    "text": "¿Se entiende?"
+  },
+  {
+    "start": 1959.96,
+    "end": 1961.96,
+    "text": "Porque b puede ser epsilon,"
+  },
+  {
+    "start": 1961.96,
+    "end": 1963.96,
+    "text": "x no puede ser epsilon."
+  },
+  {
+    "start": 1965.96,
+    "end": 1967.96,
+    "text": "¿Se ha entendido eso?"
+  },
+  {
+    "start": 1967.96,
+    "end": 1968.96,
+    "text": "Todos."
+  },
+  {
+    "start": 1968.96,
+    "end": 1969.96,
+    "text": "Bien."
+  },
+  {
+    "start": 1969.96,
+    "end": 1970.96,
+    "text": "Y bueno,"
+  },
+  {
+    "start": 1970.96,
+    "end": 1971.96,
+    "text": "lo que digo es,"
+  },
+  {
+    "start": 1971.96,
+    "end": 1972.96,
+    "text": "en este caso b no existe,"
+  },
+  {
+    "start": 1972.96,
+    "end": 1974.96,
+    "text": "o sea que b es epsilon,"
+  },
+  {
+    "start": 1975.96,
+    "end": 1977.96,
+    "text": "y todo el resto,"
+  },
+  {
+    "start": 1978.96,
+    "end": 1979.96,
+    "text": "es el u,"
+  },
+  {
+    "start": 1979.96,
+    "end": 1981.96,
+    "text": "y todo el resto,"
+  },
+  {
+    "start": 1982.96,
+    "end": 1983.96,
+    "text": "es el y."
+  },
+  {
+    "start": 1984.96,
+    "end": 1986.96,
+    "text": "Eso es lo que dice,"
+  },
+  {
+    "start": 1986.96,
+    "end": 1988.96,
+    "text": "esto que está acá."
+  },
+  {
+    "start": 1990.96,
+    "end": 1991.96,
+    "text": "Todo lo que se genera"
+  },
+  {
+    "start": 1991.96,
+    "end": 1994.96,
+    "text": "entre estas dos variables,"
+  },
+  {
+    "start": 1994.96,
+    "end": 1995.96,
+    "text": "es lo que llama b,"
+  },
+  {
+    "start": 1995.96,
+    "end": 1997.96,
+    "text": "que en este dibujito me quedó epsilon,"
+  },
+  {
+    "start": 1998.96,
+    "end": 1999.96,
+    "text": "lo que se genera"
+  },
+  {
+    "start": 1999.96,
+    "end": 2001.96,
+    "text": "después de esta variable"
+  },
+  {
+    "start": 2001.96,
+    "end": 2003.96,
+    "text": "es lo que llamo w,"
+  },
+  {
+    "start": 2003.96,
+    "end": 2004.96,
+    "text": "y lo que se genera"
+  },
+  {
+    "start": 2004.96,
+    "end": 2005.96,
+    "text": "a la derecha"
+  },
+  {
+    "start": 2005.96,
+    "end": 2007.96,
+    "text": "entre estas dos derivaciones,"
+  },
+  {
+    "start": 2007.96,
+    "end": 2009.96,
+    "text": "la aparición de estas dos variables,"
+  },
+  {
+    "start": 2009.96,
+    "end": 2010.96,
+    "text": "es lo que llama,"
+  },
+  {
+    "start": 2010.96,
+    "end": 2012.96,
+    "text": "acá dice y no?"
+  },
+  {
+    "start": 2012.96,
+    "end": 2013.96,
+    "text": "Uy dice x."
+  },
+  {
+    "start": 2013.96,
+    "end": 2014.96,
+    "text": "No dice x,"
+  },
+  {
+    "start": 2014.96,
+    "end": 2015.96,
+    "text": "es una marquita."
+  },
+  {
+    "start": 2015.96,
+    "end": 2016.96,
+    "text": "Dice y,"
+  },
+  {
+    "start": 2016.96,
+    "end": 2017.96,
+    "text": "dice x."
+  },
+  {
+    "start": 2018.96,
+    "end": 2020.96,
+    "text": "X y esto de acá es y."
+  },
+  {
+    "start": 2025.96,
+    "end": 2026.96,
+    "text": "Yo decía,"
+  },
+  {
+    "start": 2026.96,
+    "end": 2027.96,
+    "text": "no voy a hacer toda la demostración,"
+  },
+  {
+    "start": 2027.96,
+    "end": 2029.96,
+    "text": "pero vamos en la idea."
+  },
+  {
+    "start": 2036.96,
+    "end": 2037.96,
+    "text": "Sí, claro."
+  },
+  {
+    "start": 2039.96,
+    "end": 2041.96,
+    "text": "Claro, es que lo que pasa es que,"
+  },
+  {
+    "start": 2041.96,
+    "end": 2043.96,
+    "text": "vos lo que estás diciendo es,"
+  },
+  {
+    "start": 2044.96,
+    "end": 2045.96,
+    "text": "para derivar,"
+  },
+  {
+    "start": 2045.96,
+    "end": 2047.96,
+    "text": "por eso es la parte,"
+  },
+  {
+    "start": 2047.96,
+    "end": 2049.96,
+    "text": "lo clave es que se entienda esta parte."
+  },
+  {
+    "start": 2049.96,
+    "end": 2051.96,
+    "text": "Vos lo que estás diciendo es que,"
+  },
+  {
+    "start": 2051.96,
+    "end": 2053.96,
+    "text": "si mi tira z es de largo,"
+  },
+  {
+    "start": 2053.96,
+    "end": 2055.96,
+    "text": "mayor o igual que 2 a la cama 1,"
+  },
+  {
+    "start": 2055.96,
+    "end": 2057.96,
+    "text": "en la derivación,"
+  },
+  {
+    "start": 2057.96,
+    "end": 2059.96,
+    "text": "la altura del árbol es mayor"
+  },
+  {
+    "start": 2059.96,
+    "end": 2061.96,
+    "text": "o igual que cama 1."
+  },
+  {
+    "start": 2061.96,
+    "end": 2062.96,
+    "text": "Está."
+  },
+  {
+    "start": 2062.96,
+    "end": 2063.96,
+    "text": "Entonces,"
+  },
+  {
+    "start": 2063.96,
+    "end": 2065.96,
+    "text": "si la altura del árbol"
+  },
+  {
+    "start": 2065.96,
+    "end": 2067.96,
+    "text": "es mayor o igual que cama 1,"
+  },
+  {
+    "start": 2067.96,
+    "end": 2069.96,
+    "text": "para medir esa altura"
+  },
+  {
+    "start": 2069.96,
+    "end": 2071.96,
+    "text": "y tengo k variables,"
+  },
+  {
+    "start": 2071.96,
+    "end": 2073.96,
+    "text": "alguna de las variables se repite."
+  },
+  {
+    "start": 2073.96,
+    "end": 2074.96,
+    "text": "Entonces,"
+  },
+  {
+    "start": 2079.96,
+    "end": 2081.96,
+    "text": "porque justamente es lo que estoy diciendo,"
+  },
+  {
+    "start": 2081.96,
+    "end": 2083.96,
+    "text": "quien me mide el camino,"
+  },
+  {
+    "start": 2083.96,
+    "end": 2085.96,
+    "text": "el camino si querés más largo,"
+  },
+  {
+    "start": 2085.96,
+    "end": 2087.96,
+    "text": "por decirlo de alguna forma,"
+  },
+  {
+    "start": 2087.96,
+    "end": 2089.96,
+    "text": "y ahí se me va a repetir la variable a."
+  },
+  {
+    "start": 2089.96,
+    "end": 2091.96,
+    "text": "Puede repetirse"
+  },
+  {
+    "start": 2091.96,
+    "end": 2093.96,
+    "text": "una variable b y una variable b acá"
+  },
+  {
+    "start": 2093.96,
+    "end": 2095.96,
+    "text": "y una variable c acá"
+  },
+  {
+    "start": 2095.96,
+    "end": 2097.96,
+    "text": "y la c acá, qué sé yo."
+  },
+  {
+    "start": 2097.96,
+    "end": 2099.96,
+    "text": "Puede aparecer en varios lados,"
+  },
+  {
+    "start": 2099.96,
+    "end": 2101.96,
+    "text": "pero por lo menos en el camino"
+  },
+  {
+    "start": 2101.96,
+    "end": 2103.96,
+    "text": "que me mide la altura,"
+  },
+  {
+    "start": 2103.96,
+    "end": 2105.96,
+    "text": "hay una que se repite."
+  },
+  {
+    "start": 2105.96,
+    "end": 2107.96,
+    "text": "Y tomo ese camino"
+  },
+  {
+    "start": 2107.96,
+    "end": 2109.96,
+    "text": "y tomo, si la a, como decía acá,"
+  },
+  {
+    "start": 2109.96,
+    "end": 2111.96,
+    "text": "aparece más de una vez,"
+  },
+  {
+    "start": 2111.96,
+    "end": 2113.96,
+    "text": "la descomposición"
+  },
+  {
+    "start": 2113.96,
+    "end": 2115.96,
+    "text": "lo generado a partir de las dos"
+  },
+  {
+    "start": 2115.96,
+    "end": 2117.96,
+    "text": "más cerca del resultado."
+  },
+  {
+    "start": 2119.96,
+    "end": 2121.96,
+    "text": "Entonces fíjense que"
+  },
+  {
+    "start": 2121.96,
+    "end": 2123.96,
+    "text": "es como que nosotros armamos esto."
+  },
+  {
+    "start": 2133.96,
+    "end": 2135.96,
+    "text": "Yo empiezo a derivar mi variable s"
+  },
+  {
+    "start": 2135.96,
+    "end": 2137.96,
+    "text": "y llegó un momento"
+  },
+  {
+    "start": 2137.96,
+    "end": 2139.96,
+    "text": "a esta a"
+  },
+  {
+    "start": 2141.96,
+    "end": 2143.96,
+    "text": "todo lo de la izquierda se lú"
+  },
+  {
+    "start": 2143.96,
+    "end": 2145.96,
+    "text": "y todo lo de la derecha"
+  },
+  {
+    "start": 2145.96,
+    "end": 2147.96,
+    "text": "es en y."
+  },
+  {
+    "start": 2151.96,
+    "end": 2153.96,
+    "text": "A partir,"
+  },
+  {
+    "start": 2153.96,
+    "end": 2155.96,
+    "text": "capaz de lo mejor acá,"
+  },
+  {
+    "start": 2155.96,
+    "end": 2157.96,
+    "text": "porque allá justo es epsilon,"
+  },
+  {
+    "start": 2157.96,
+    "end": 2159.96,
+    "text": "lo que surge a partir de esta"
+  },
+  {
+    "start": 2159.96,
+    "end": 2161.96,
+    "text": "la primera vez que aparece"
+  },
+  {
+    "start": 2161.96,
+    "end": 2163.96,
+    "text": "de las dos más de abajo,"
+  },
+  {
+    "start": 2163.96,
+    "end": 2165.96,
+    "text": "la más de arriba,"
+  },
+  {
+    "start": 2167.96,
+    "end": 2169.96,
+    "text": "yo obtengo"
+  },
+  {
+    "start": 2169.96,
+    "end": 2171.96,
+    "text": "b a"
+  },
+  {
+    "start": 2171.96,
+    "end": 2173.96,
+    "text": "x."
+  },
+  {
+    "start": 2177.96,
+    "end": 2179.96,
+    "text": "Yo lo que digo es a partir de esta."
+  },
+  {
+    "start": 2181.96,
+    "end": 2183.96,
+    "text": "A partir de esta,"
+  },
+  {
+    "start": 2183.96,
+    "end": 2185.96,
+    "text": "obtengo el b"
+  },
+  {
+    "start": 2185.96,
+    "end": 2187.96,
+    "text": "lo que se genera a partir de esta a"
+  },
+  {
+    "start": 2187.96,
+    "end": 2189.96,
+    "text": "y el x."
+  },
+  {
+    "start": 2191.96,
+    "end": 2193.96,
+    "text": "Y a partir de esta a"
+  },
+  {
+    "start": 2193.96,
+    "end": 2195.96,
+    "text": "en particular"
+  },
+  {
+    "start": 2199.96,
+    "end": 2201.96,
+    "text": "el w."
+  },
+  {
+    "start": 2207.96,
+    "end": 2209.96,
+    "text": "Entonces"
+  },
+  {
+    "start": 2209.96,
+    "end": 2211.96,
+    "text": "la demostración"
+  },
+  {
+    "start": 2211.96,
+    "end": 2213.96,
+    "text": "de que esta"
+  },
+  {
+    "start": 2213.96,
+    "end": 2215.96,
+    "text": "descomposición"
+  },
+  {
+    "start": 2215.96,
+    "end": 2217.96,
+    "text": "lo que me falta mostrar"
+  },
+  {
+    "start": 2217.96,
+    "end": 2219.96,
+    "text": "es que esta descomposición cumple"
+  },
+  {
+    "start": 2219.96,
+    "end": 2221.96,
+    "text": "que b wx"
+  },
+  {
+    "start": 2221.96,
+    "end": 2223.96,
+    "text": "es menor igual que"
+  },
+  {
+    "start": 2223.96,
+    "end": 2225.96,
+    "text": "n"
+  },
+  {
+    "start": 2225.96,
+    "end": 2227.96,
+    "text": "y bx"
+  },
+  {
+    "start": 2227.96,
+    "end": 2229.96,
+    "text": "es mayor igual que 1."
+  },
+  {
+    "start": 2231.96,
+    "end": 2233.96,
+    "text": "Estas dos se cumplen"
+  },
+  {
+    "start": 2233.96,
+    "end": 2235.96,
+    "text": "y después vemos la otra."
+  },
+  {
+    "start": 2239.96,
+    "end": 2241.96,
+    "text": "Vamos a ver esta que es la más fácil"
+  },
+  {
+    "start": 2241.96,
+    "end": 2243.96,
+    "text": "o la más fácil de ver."
+  },
+  {
+    "start": 2243.96,
+    "end": 2245.96,
+    "text": "¿Por qué puedo decir que"
+  },
+  {
+    "start": 2245.96,
+    "end": 2247.96,
+    "text": "bx es mayor igual que 1?"
+  },
+  {
+    "start": 2247.96,
+    "end": 2249.96,
+    "text": "¿Por qué?"
+  },
+  {
+    "start": 2249.96,
+    "end": 2251.96,
+    "text": "Porque"
+  },
+  {
+    "start": 2251.96,
+    "end": 2253.96,
+    "text": "si ambas fueran epsilon"
+  },
+  {
+    "start": 2253.96,
+    "end": 2255.96,
+    "text": "no te quedaría la variabilidad en la variabilidad."
+  },
+  {
+    "start": 2255.96,
+    "end": 2257.96,
+    "text": "O sea,"
+  },
+  {
+    "start": 2257.96,
+    "end": 2259.96,
+    "text": "si esto"
+  },
+  {
+    "start": 2259.96,
+    "end": 2261.96,
+    "text": "no es mayor igual que 1,"
+  },
+  {
+    "start": 2261.96,
+    "end": 2263.96,
+    "text": "o sea que si no es mayor igual que 1"
+  },
+  {
+    "start": 2263.96,
+    "end": 2265.96,
+    "text": "ambas son epsilon"
+  },
+  {
+    "start": 2265.96,
+    "end": 2267.96,
+    "text": "¿no?"
+  },
+  {
+    "start": 2267.96,
+    "end": 2269.96,
+    "text": "Quiere decir que yo tengo a"
+  },
+  {
+    "start": 2269.96,
+    "end": 2271.96,
+    "text": "flechita"
+  },
+  {
+    "start": 2271.96,
+    "end": 2273.96,
+    "text": "a"
+  },
+  {
+    "start": 2273.96,
+    "end": 2275.96,
+    "text": "y no, ¿pero por qué no?"
+  },
+  {
+    "start": 2275.96,
+    "end": 2277.96,
+    "text": "No hay producción isonitaria."
+  },
+  {
+    "start": 2277.96,
+    "end": 2279.96,
+    "text": "Nunca se puede dar esto"
+  },
+  {
+    "start": 2279.96,
+    "end": 2281.96,
+    "text": "porque"
+  },
+  {
+    "start": 2281.96,
+    "end": 2283.96,
+    "text": "mi gramática es tan normal"
+  },
+  {
+    "start": 2283.96,
+    "end": 2285.96,
+    "text": "de Chomsky."
+  },
+  {
+    "start": 2285.96,
+    "end": 2287.96,
+    "text": "O sea que nunca voy a llegar a tener"
+  },
+  {
+    "start": 2287.96,
+    "end": 2289.96,
+    "text": "este tipo de cosas."
+  },
+  {
+    "start": 2289.96,
+    "end": 2291.96,
+    "text": "Se entiende por eso era la importancia"
+  },
+  {
+    "start": 2291.96,
+    "end": 2293.96,
+    "text": "de que la gramática estuviera en Chomsky"
+  },
+  {
+    "start": 2293.96,
+    "end": 2295.96,
+    "text": "entre otras cosas."
+  },
+  {
+    "start": 2295.96,
+    "end": 2297.96,
+    "text": "Bien, ésta se cumple"
+  },
+  {
+    "start": 2297.96,
+    "end": 2299.96,
+    "text": "y ésta"
+  },
+  {
+    "start": 2299.96,
+    "end": 2301.96,
+    "text": "¿por qué puedo decir que se cumple?"
+  },
+  {
+    "start": 2301.96,
+    "end": 2303.96,
+    "text": "¿Cuánto es h?"
+  },
+  {
+    "start": 2303.96,
+    "end": 2305.96,
+    "text": "¿Cuánto es n?"
+  },
+  {
+    "start": 2309.96,
+    "end": 2311.96,
+    "text": "n, acuérdense"
+  },
+  {
+    "start": 2311.96,
+    "end": 2313.96,
+    "text": "es 2 a la k más 1."
+  },
+  {
+    "start": 2321.96,
+    "end": 2323.96,
+    "text": "Exacto, la cantidad de hojas"
+  },
+  {
+    "start": 2323.96,
+    "end": 2325.96,
+    "text": "lo que estoy diciendo acá"
+  },
+  {
+    "start": 2325.96,
+    "end": 2327.96,
+    "text": "es que bwx"
+  },
+  {
+    "start": 2327.96,
+    "end": 2329.96,
+    "text": "es menor igual que"
+  },
+  {
+    "start": 2329.96,
+    "end": 2331.96,
+    "text": "2 a la k más 1."
+  },
+  {
+    "start": 2333.96,
+    "end": 2335.96,
+    "text": "¿Sí?"
+  },
+  {
+    "start": 2335.96,
+    "end": 2337.96,
+    "text": "O sea que la altura"
+  },
+  {
+    "start": 2339.96,
+    "end": 2341.96,
+    "text": "del árbol de derivación"
+  },
+  {
+    "start": 2341.96,
+    "end": 2343.96,
+    "text": "de ésta tira"
+  },
+  {
+    "start": 2345.96,
+    "end": 2347.96,
+    "text": "es"
+  },
+  {
+    "start": 2347.96,
+    "end": 2349.96,
+    "text": "menor igual que"
+  },
+  {
+    "start": 2351.96,
+    "end": 2353.96,
+    "text": "k más 1."
+  },
+  {
+    "start": 2353.96,
+    "end": 2355.96,
+    "text": "Ahí sí, o sea como que"
+  },
+  {
+    "start": 2355.96,
+    "end": 2357.96,
+    "text": "estoy aplicando al demás pero revisa."
+  },
+  {
+    "start": 2357.96,
+    "end": 2359.96,
+    "text": "¿Y la última?"
+  },
+  {
+    "start": 2363.96,
+    "end": 2365.96,
+    "text": "La última"
+  },
+  {
+    "start": 2365.96,
+    "end": 2367.96,
+    "text": "es que para todo y mayor"
+  },
+  {
+    "start": 2367.96,
+    "end": 2369.96,
+    "text": "igual que 0, v a la i"
+  },
+  {
+    "start": 2369.96,
+    "end": 2371.96,
+    "text": "wx a la i, y pertenece al lenguaje."
+  },
+  {
+    "start": 2371.96,
+    "end": 2373.96,
+    "text": "Si yo compongo todo esto"
+  },
+  {
+    "start": 2373.96,
+    "end": 2375.96,
+    "text": "fíjense que yo tengo esto"
+  },
+  {
+    "start": 2375.96,
+    "end": 2377.96,
+    "text": "s"
+  },
+  {
+    "start": 2377.96,
+    "end": 2379.96,
+    "text": "aterisco"
+  },
+  {
+    "start": 2379.96,
+    "end": 2381.96,
+    "text": "u a"
+  },
+  {
+    "start": 2381.96,
+    "end": 2383.96,
+    "text": "y"
+  },
+  {
+    "start": 2383.96,
+    "end": 2385.96,
+    "text": "aplicando éstas"
+  },
+  {
+    "start": 2385.96,
+    "end": 2387.96,
+    "text": "aplicando éstas"
+  },
+  {
+    "start": 2387.96,
+    "end": 2389.96,
+    "text": "aplicando ésta"
+  },
+  {
+    "start": 2393.96,
+    "end": 2395.96,
+    "text": "aplicando éstas"
+  },
+  {
+    "start": 2395.96,
+    "end": 2397.96,
+    "text": "llego a u"
+  },
+  {
+    "start": 2397.96,
+    "end": 2399.96,
+    "text": "v a"
+  },
+  {
+    "start": 2399.96,
+    "end": 2401.96,
+    "text": "x y"
+  },
+  {
+    "start": 2405.96,
+    "end": 2407.96,
+    "text": "y aplicó a otra w, k"
+  },
+  {
+    "start": 2407.96,
+    "end": 2409.96,
+    "text": "que no gano nada porque ya sabía que w pertenece al lenguaje."
+  },
+  {
+    "start": 2411.96,
+    "end": 2413.96,
+    "text": "Exactamente, entonces"
+  },
+  {
+    "start": 2413.96,
+    "end": 2415.96,
+    "text": "ésta"
+  },
+  {
+    "start": 2415.96,
+    "end": 2417.96,
+    "text": "es la variable a."
+  },
+  {
+    "start": 2417.96,
+    "end": 2419.96,
+    "text": "O sea que si hay unas reglas"
+  },
+  {
+    "start": 2419.96,
+    "end": 2421.96,
+    "text": "que partiendo de a, llego a esto"
+  },
+  {
+    "start": 2421.96,
+    "end": 2423.96,
+    "text": "puedo aplicarlo de vuelta"
+  },
+  {
+    "start": 2423.96,
+    "end": 2425.96,
+    "text": "y me queda u v"
+  },
+  {
+    "start": 2425.96,
+    "end": 2427.96,
+    "text": "v a x"
+  },
+  {
+    "start": 2427.96,
+    "end": 2429.96,
+    "text": "x y"
+  },
+  {
+    "start": 2429.96,
+    "end": 2431.96,
+    "text": "y todas las veces que quiera"
+  },
+  {
+    "start": 2431.96,
+    "end": 2433.96,
+    "text": "hasta que en algún momento"
+  },
+  {
+    "start": 2433.96,
+    "end": 2435.96,
+    "text": "digo, ¿sabes qué? Aplicó ésta."
+  },
+  {
+    "start": 2439.96,
+    "end": 2441.96,
+    "text": "¿Y con igual 0?"
+  },
+  {
+    "start": 2443.96,
+    "end": 2445.96,
+    "text": "Aplicó ésta y aplicó ésta."
+  },
+  {
+    "start": 2451.96,
+    "end": 2453.96,
+    "text": "Entonces"
+  },
+  {
+    "start": 2453.96,
+    "end": 2455.96,
+    "text": "si un lenguaje regular"
+  },
+  {
+    "start": 2455.96,
+    "end": 2457.96,
+    "text": "se cumplen las condiciones"
+  },
+  {
+    "start": 2457.96,
+    "end": 2459.96,
+    "text": "del pampin lema"
+  },
+  {
+    "start": 2459.96,
+    "end": 2461.96,
+    "text": "existe una descomposición"
+  },
+  {
+    "start": 2461.96,
+    "end": 2463.96,
+    "text": "existe un n"
+  },
+  {
+    "start": 2463.96,
+    "end": 2465.96,
+    "text": "para el cual"
+  },
+  {
+    "start": 2467.96,
+    "end": 2469.96,
+    "text": "existe un n"
+  },
+  {
+    "start": 2469.96,
+    "end": 2471.96,
+    "text": "en donde para toda tira"
+  },
+  {
+    "start": 2471.96,
+    "end": 2473.96,
+    "text": "de largo mayor o igual que cn"
+  },
+  {
+    "start": 2473.96,
+    "end": 2475.96,
+    "text": "toda tira de lenguaje"
+  },
+  {
+    "start": 2475.96,
+    "end": 2477.96,
+    "text": "mayor o igual que cn"
+  },
+  {
+    "start": 2477.96,
+    "end": 2479.96,
+    "text": "existe una descomposición"
+  },
+  {
+    "start": 2479.96,
+    "end": 2481.96,
+    "text": "que cumplen estas tres condiciones."
+  },
+  {
+    "start": 2487.96,
+    "end": 2489.96,
+    "text": "Sacamos el éxilo."
+  },
+  {
+    "start": 2491.96,
+    "end": 2493.96,
+    "text": "Digo, no se cumple"
+  },
+  {
+    "start": 2493.96,
+    "end": 2495.96,
+    "text": "digamos se cumple trivialmente"
+  },
+  {
+    "start": 2495.96,
+    "end": 2497.96,
+    "text": "porque no existe una gramática"
+  },
+  {
+    "start": 2497.96,
+    "end": 2499.96,
+    "text": "en forma normal de Chomsky"
+  },
+  {
+    "start": 2499.96,
+    "end": 2501.96,
+    "text": "que la genere."
+  },
+  {
+    "start": 2503.96,
+    "end": 2505.96,
+    "text": "Exacto, eso se cumpliría"
+  },
+  {
+    "start": 2505.96,
+    "end": 2507.96,
+    "text": "por vacuidad o de vacitio termino."
+  },
+  {
+    "start": 2511.96,
+    "end": 2513.96,
+    "text": "Acá dice, ¿no?"
+  },
+  {
+    "start": 2517.96,
+    "end": 2519.96,
+    "text": "Entonces pensando en lo mismo que"
+  },
+  {
+    "start": 2519.96,
+    "end": 2521.96,
+    "text": "hicimos en el caso de regulares"
+  },
+  {
+    "start": 2521.96,
+    "end": 2523.96,
+    "text": "yo no voy a usar el directo del pampin lema"
+  },
+  {
+    "start": 2523.96,
+    "end": 2525.96,
+    "text": "lo que voy a tratar, lo que voy a hacer"
+  },
+  {
+    "start": 2525.96,
+    "end": 2527.96,
+    "text": "es anunciar el contrarreciproco"
+  },
+  {
+    "start": 2527.96,
+    "end": 2529.96,
+    "text": "del pampin lema."
+  },
+  {
+    "start": 2529.96,
+    "end": 2531.96,
+    "text": "O sea que si yo tengo un lenguaje"
+  },
+  {
+    "start": 2533.96,
+    "end": 2535.96,
+    "text": "que cumple determinadas condiciones"
+  },
+  {
+    "start": 2535.96,
+    "end": 2537.96,
+    "text": "trato de ver que el lenguaje no sea regular"
+  },
+  {
+    "start": 2537.96,
+    "end": 2539.96,
+    "text": "o sea el no de la tesis"
+  },
+  {
+    "start": 2539.96,
+    "end": 2541.96,
+    "text": "voy al no de la hipótesis"
+  },
+  {
+    "start": 2541.96,
+    "end": 2543.96,
+    "text": "del pampin"
+  },
+  {
+    "start": 2543.96,
+    "end": 2545.96,
+    "text": "por eso es el contrarreciproco."
+  },
+  {
+    "start": 2545.96,
+    "end": 2547.96,
+    "text": "Entonces el enunciado"
+  },
+  {
+    "start": 2547.96,
+    "end": 2549.96,
+    "text": "también de una manera similar al de regulares"
+  },
+  {
+    "start": 2549.96,
+    "end": 2551.96,
+    "text": "pero ahora con esta otra"
+  },
+  {
+    "start": 2551.96,
+    "end": 2553.96,
+    "text": "formulación es"
+  },
+  {
+    "start": 2553.96,
+    "end": 2555.96,
+    "text": "sea el un lenguaje"
+  },
+  {
+    "start": 2555.96,
+    "end": 2557.96,
+    "text": "el existe n es para todo"
+  },
+  {
+    "start": 2557.96,
+    "end": 2559.96,
+    "text": "n natural"
+  },
+  {
+    "start": 2559.96,
+    "end": 2561.96,
+    "text": "el para todo z, existe un z"
+  },
+  {
+    "start": 2561.96,
+    "end": 2563.96,
+    "text": "pertenecientemente al lenguaje"
+  },
+  {
+    "start": 2563.96,
+    "end": 2565.96,
+    "text": "de largo mayor o igual que n"
+  },
+  {
+    "start": 2565.96,
+    "end": 2567.96,
+    "text": "y el existe una descomposición de z"
+  },
+  {
+    "start": 2567.96,
+    "end": 2569.96,
+    "text": "es para toda descomposición de z"
+  },
+  {
+    "start": 2571.96,
+    "end": 2573.96,
+    "text": "donde alguna de estas condiciones"
+  },
+  {
+    "start": 2573.96,
+    "end": 2575.96,
+    "text": "no se cumple"
+  },
+  {
+    "start": 2575.96,
+    "end": 2577.96,
+    "text": "me alcanza con que alguna no se cumpla"
+  },
+  {
+    "start": 2577.96,
+    "end": 2579.96,
+    "text": "entonces es al lenguaje no regular."
+  },
+  {
+    "start": 2581.96,
+    "end": 2583.96,
+    "text": "Que es bwx menor o igual que n"
+  },
+  {
+    "start": 2583.96,
+    "end": 2585.96,
+    "text": "bwx"
+  },
+  {
+    "start": 2585.96,
+    "end": 2587.96,
+    "text": "bx mayor o igual que 1 y para todo y"
+  },
+  {
+    "start": 2587.96,
+    "end": 2589.96,
+    "text": "mayor o igual que 0"
+  },
+  {
+    "start": 2589.96,
+    "end": 2591.96,
+    "text": "entonces el n es regular"
+  },
+  {
+    "start": 2593.96,
+    "end": 2595.96,
+    "text": "¿Cómo se prueba un lenguaje"
+  },
+  {
+    "start": 2595.96,
+    "end": 2597.96,
+    "text": "utilizando el contrarreciproco"
+  },
+  {
+    "start": 2597.96,
+    "end": 2599.96,
+    "text": "del pampin leno?"
+  },
+  {
+    "start": 2605.96,
+    "end": 2607.96,
+    "text": "O sea"
+  },
+  {
+    "start": 2607.96,
+    "end": 2609.96,
+    "text": "la idea es, los pasos"
+  },
+  {
+    "start": 2609.96,
+    "end": 2611.96,
+    "text": "fijamos el n"
+  },
+  {
+    "start": 2611.96,
+    "end": 2613.96,
+    "text": "el hijo de vuelta"
+  },
+  {
+    "start": 2613.96,
+    "end": 2615.96,
+    "text": "una z en función del n"
+  },
+  {
+    "start": 2617.96,
+    "end": 2619.96,
+    "text": "que pertenezca al lenguaje"
+  },
+  {
+    "start": 2619.96,
+    "end": 2621.96,
+    "text": "y cuyo largo sea mayor o igual que el n"
+  },
+  {
+    "start": 2623.96,
+    "end": 2625.96,
+    "text": "y trato de ver"
+  },
+  {
+    "start": 2625.96,
+    "end": 2627.96,
+    "text": "toda descomposición"
+  },
+  {
+    "start": 2627.96,
+    "end": 2629.96,
+    "text": "de mi z"
+  },
+  {
+    "start": 2629.96,
+    "end": 2631.96,
+    "text": "que cumplan las dos primeras"
+  },
+  {
+    "start": 2631.96,
+    "end": 2633.96,
+    "text": "la bwx menor o igual que n"
+  },
+  {
+    "start": 2633.96,
+    "end": 2635.96,
+    "text": "y la bx mayor o igual que 1"
+  },
+  {
+    "start": 2635.96,
+    "end": 2637.96,
+    "text": "y ahí encontrar"
+  },
+  {
+    "start": 2637.96,
+    "end": 2639.96,
+    "text": "para todas esas descomposiciones"
+  },
+  {
+    "start": 2639.96,
+    "end": 2641.96,
+    "text": "que cumplen esas dos condiciones"
+  },
+  {
+    "start": 2643.96,
+    "end": 2645.96,
+    "text": "encontrar algún i mayor"
+  },
+  {
+    "start": 2645.96,
+    "end": 2647.96,
+    "text": "o igual que 0"
+  },
+  {
+    "start": 2647.96,
+    "end": 2649.96,
+    "text": "en donde v ala i"
+  },
+  {
+    "start": 2649.96,
+    "end": 2651.96,
+    "text": "wx ala iy"
+  },
+  {
+    "start": 2651.96,
+    "end": 2653.96,
+    "text": "no pertenezca a l"
+  },
+  {
+    "start": 2659.96,
+    "end": 2661.96,
+    "text": "esa es la parte"
+  },
+  {
+    "start": 2661.96,
+    "end": 2663.96,
+    "text": "digamos, esta sería la parte práctica"
+  },
+  {
+    "start": 2663.96,
+    "end": 2665.96,
+    "text": "para probarlo con un ejemplo"
+  },
+  {
+    "start": 2665.96,
+    "end": 2667.96,
+    "text": "y ahora lo vamos a hacer"
+  },
+  {
+    "start": 2667.96,
+    "end": 2669.96,
+    "text": "es muy importante lo que está escrito ahí"
+  },
+  {
+    "start": 2669.96,
+    "end": 2671.96,
+    "text": "y lo voy a leer"
+  },
+  {
+    "start": 2673.96,
+    "end": 2675.96,
+    "text": "una vez justificada"
+  },
+  {
+    "start": 2675.96,
+    "end": 2677.96,
+    "text": "toda descomposición"
+  },
+  {
+    "start": 2677.96,
+    "end": 2679.96,
+    "text": "y creo que hay hasta negritas puesto"
+  },
+  {
+    "start": 2679.96,
+    "end": 2681.96,
+    "text": "una vez justificada"
+  },
+  {
+    "start": 2681.96,
+    "end": 2683.96,
+    "text": "toda descomposición de manera adecuada"
+  },
+  {
+    "start": 2685.96,
+    "end": 2687.96,
+    "text": "y argumentando"
+  },
+  {
+    "start": 2687.96,
+    "end": 2689.96,
+    "text": "de acuerdo a la estructura del lenguaje"
+  },
+  {
+    "start": 2689.96,
+    "end": 2691.96,
+    "text": "no es porque k mayor o igual que 1"
+  },
+  {
+    "start": 2691.96,
+    "end": 2693.96,
+    "text": "p mayor que 0"
+  },
+  {
+    "start": 2693.96,
+    "end": 2695.96,
+    "text": "es porque la cantidad de 0 es mayor que la cantidad de 1"
+  },
+  {
+    "start": 2695.96,
+    "end": 2697.96,
+    "text": "lo que sea de acuerdo al lenguaje"
+  },
+  {
+    "start": 2697.96,
+    "end": 2699.96,
+    "text": "por eso es"
+  },
+  {
+    "start": 2699.96,
+    "end": 2701.96,
+    "text": "de acuerdo a la estructura del lenguaje"
+  },
+  {
+    "start": 2701.96,
+    "end": 2703.96,
+    "text": "agregamos una cláusula"
+  },
+  {
+    "start": 2703.96,
+    "end": 2705.96,
+    "text": "o sea, eso lo hice para todas las descomposiciones"
+  },
+  {
+    "start": 2705.96,
+    "end": 2707.96,
+    "text": "agregamos una cláusula"
+  },
+  {
+    "start": 2707.96,
+    "end": 2709.96,
+    "text": "que indique"
+  },
+  {
+    "start": 2709.96,
+    "end": 2711.96,
+    "text": "que cualquier otra descomposición"
+  },
+  {
+    "start": 2711.96,
+    "end": 2713.96,
+    "text": "de z no cumplen 1 y 2"
+  },
+  {
+    "start": 2713.96,
+    "end": 2715.96,
+    "text": "que son estas dos"
+  },
+  {
+    "start": 2717.96,
+    "end": 2719.96,
+    "text": "no pongan 1 y 2"
+  },
+  {
+    "start": 2719.96,
+    "end": 2721.96,
+    "text": "a menos que hayan puesto"
+  },
+  {
+    "start": 2721.96,
+    "end": 2723.96,
+    "text": "1 es esta y 2 es esta"
+  },
+  {
+    "start": 2723.96,
+    "end": 2725.96,
+    "text": "no pongan"
+  },
+  {
+    "start": 2725.96,
+    "end": 2727.96,
+    "text": "porque 1 y 2 no sé lo que es"
+  },
+  {
+    "start": 2727.96,
+    "end": 2729.96,
+    "text": "a menos que hayan puesto antes"
+  },
+  {
+    "start": 2729.96,
+    "end": 2731.96,
+    "text": "que era 1 y que era 2"
+  },
+  {
+    "start": 2733.96,
+    "end": 2735.96,
+    "text": "después de que pusimos esa cláusula"
+  },
+  {
+    "start": 2735.96,
+    "end": 2737.96,
+    "text": "de esta manera"
+  },
+  {
+    "start": 2737.96,
+    "end": 2739.96,
+    "text": "de esa manera se puede concluir"
+  },
+  {
+    "start": 2739.96,
+    "end": 2741.96,
+    "text": "por el contrarreciproco"
+  },
+  {
+    "start": 2741.96,
+    "end": 2743.96,
+    "text": "del pumping lema 2"
+  },
+  {
+    "start": 2743.96,
+    "end": 2745.96,
+    "text": "vamos a poner un pumping lema 2"
+  },
+  {
+    "start": 2745.96,
+    "end": 2747.96,
+    "text": "para el libre contexto"
+  },
+  {
+    "start": 2747.96,
+    "end": 2749.96,
+    "text": "que el lenguaje no es un lenguaje libre de contexto"
+  },
+  {
+    "start": 2749.96,
+    "end": 2751.96,
+    "text": "¿se entendió?"
+  },
+  {
+    "start": 2753.96,
+    "end": 2755.96,
+    "text": "esta es la manera práctica"
+  },
+  {
+    "start": 2755.96,
+    "end": 2757.96,
+    "text": "en el cual nosotros"
+  },
+  {
+    "start": 2757.96,
+    "end": 2759.96,
+    "text": "aplicamos el"
+  },
+  {
+    "start": 2759.96,
+    "end": 2761.96,
+    "text": "contrarreciproco"
+  },
+  {
+    "start": 2763.96,
+    "end": 2765.96,
+    "text": "y como sé que lo estaban esperando"
+  },
+  {
+    "start": 2767.96,
+    "end": 2769.96,
+    "text": "vamos a hacer"
+  },
+  {
+    "start": 2769.96,
+    "end": 2771.96,
+    "text": "el ejemplo"
+  },
+  {
+    "start": 2771.96,
+    "end": 2773.96,
+    "text": "de la aplicación"
+  },
+  {
+    "start": 2773.96,
+    "end": 2775.96,
+    "text": "del pumping lema 2"
+  },
+  {
+    "start": 2775.96,
+    "end": 2777.96,
+    "text": "para el lenguaje 0 a la k"
+  },
+  {
+    "start": 2777.96,
+    "end": 2779.96,
+    "text": "1 a la k"
+  },
+  {
+    "start": 2779.96,
+    "end": 2781.96,
+    "text": "2 a la k"
+  },
+  {
+    "start": 2783.96,
+    "end": 2785.96,
+    "text": "para decir que el lenguaje no es libre de contexto"
+  },
+  {
+    "start": 2785.96,
+    "end": 2787.96,
+    "text": "¿se puede que lo termine de probar?"
+  },
+  {
+    "start": 2787.96,
+    "end": 2789.96,
+    "text": "si"
+  },
+  {
+    "start": 2789.96,
+    "end": 2791.96,
+    "text": "todavía no"
+  },
+  {
+    "start": 2791.96,
+    "end": 2793.96,
+    "text": "a final de la clase si"
+  },
+  {
+    "start": 2793.96,
+    "end": 2795.96,
+    "text": "acá un poco"
+  },
+  {
+    "start": 2795.96,
+    "end": 2797.96,
+    "text": "lo que ya habíamos manejado"
+  },
+  {
+    "start": 2797.96,
+    "end": 2799.96,
+    "text": "intuitivamente en base a lo que estuvimos charlando"
+  },
+  {
+    "start": 2799.96,
+    "end": 2801.96,
+    "text": "todo indica"
+  },
+  {
+    "start": 2801.96,
+    "end": 2803.96,
+    "text": "no era que no se habia ocurrido la gramática"
+  },
+  {
+    "start": 2803.96,
+    "end": 2805.96,
+    "text": "sino que todo indica"
+  },
+  {
+    "start": 2805.96,
+    "end": 2807.96,
+    "text": "no se me ocurrió que se yo"
+  },
+  {
+    "start": 2807.96,
+    "end": 2809.96,
+    "text": "vamos a tratar de ver"
+  },
+  {
+    "start": 2809.96,
+    "end": 2811.96,
+    "text": "a probar"
+  },
+  {
+    "start": 2811.96,
+    "end": 2813.96,
+    "text": "esto es importante"
+  },
+  {
+    "start": 2813.96,
+    "end": 2815.96,
+    "text": "en la presentación del práctico que viene"
+  },
+  {
+    "start": 2815.96,
+    "end": 2817.96,
+    "text": "que lo vamos a hacer en el martes"
+  },
+  {
+    "start": 2817.96,
+    "end": 2819.96,
+    "text": "que capaz que le doy yo"
+  },
+  {
+    "start": 2819.96,
+    "end": 2821.96,
+    "text": "vamos a hacer énfasis en eso"
+  },
+  {
+    "start": 2821.96,
+    "end": 2823.96,
+    "text": "es"
+  },
+  {
+    "start": 2825.96,
+    "end": 2827.96,
+    "text": "como a veces"
+  },
+  {
+    "start": 2827.96,
+    "end": 2829.96,
+    "text": "uno comete el error"
+  },
+  {
+    "start": 2829.96,
+    "end": 2831.96,
+    "text": "y elige una tira"
+  },
+  {
+    "start": 2831.96,
+    "end": 2833.96,
+    "text": "cuando aplica el pumping lema"
+  },
+  {
+    "start": 2833.96,
+    "end": 2835.96,
+    "text": "esta"
+  },
+  {
+    "start": 2835.96,
+    "end": 2837.96,
+    "text": "eso lo dejo"
+  },
+  {
+    "start": 2837.96,
+    "end": 2839.96,
+    "text": "para el martes que viene"
+  },
+  {
+    "start": 2839.96,
+    "end": 2841.96,
+    "text": "pero ahora"
+  },
+  {
+    "start": 2841.96,
+    "end": 2843.96,
+    "text": "vamos a seguir en lo que estamos"
+  },
+  {
+    "start": 2843.96,
+    "end": 2845.96,
+    "text": "intuitivamente creemos que en base a lo que estuvimos"
+  },
+  {
+    "start": 2845.96,
+    "end": 2847.96,
+    "text": "comentando que no es un lenguaje libre"
+  },
+  {
+    "start": 2847.96,
+    "end": 2849.96,
+    "text": "de contexto e intentamos"
+  },
+  {
+    "start": 2849.96,
+    "end": 2851.96,
+    "text": "vamos a intentar probarlo por el pumping lema"
+  },
+  {
+    "start": 2851.96,
+    "end": 2853.96,
+    "text": "por el contrarreciproco del pumping lema"
+  },
+  {
+    "start": 2853.96,
+    "end": 2855.96,
+    "text": "bien, ¿qué es lo que tenemos que hacer?"
+  },
+  {
+    "start": 2855.96,
+    "end": 2857.96,
+    "text": "fijamos un n"
+  },
+  {
+    "start": 2857.96,
+    "end": 2859.96,
+    "text": "elegimos una tira z en función"
+  },
+  {
+    "start": 2859.96,
+    "end": 2861.96,
+    "text": "del n cuya largo sea mayor igual que"
+  },
+  {
+    "start": 2861.96,
+    "end": 2863.96,
+    "text": "n se hacen todas las descomposiciones"
+  },
+  {
+    "start": 2863.96,
+    "end": 2865.96,
+    "text": "que cumplan esas dos condiciones"
+  },
+  {
+    "start": 2865.96,
+    "end": 2867.96,
+    "text": "se busca para cada descomposición"
+  },
+  {
+    "start": 2867.96,
+    "end": 2869.96,
+    "text": "un n mayor igual que cero que esta"
+  },
+  {
+    "start": 2869.96,
+    "end": 2871.96,
+    "text": "y si se logra"
+  },
+  {
+    "start": 2871.96,
+    "end": 2873.96,
+    "text": "entonces podemos afirmar que l no es"
+  },
+  {
+    "start": 2873.96,
+    "end": 2875.96,
+    "text": "un lenguaje libre de contexto"
+  },
+  {
+    "start": 2875.96,
+    "end": 2877.96,
+    "text": "estos son los pasos que tenemos"
+  },
+  {
+    "start": 2877.96,
+    "end": 2879.96,
+    "text": "que dar"
+  },
+  {
+    "start": 2879.96,
+    "end": 2881.96,
+    "text": "con las consideraciones que hicimos hace"
+  },
+  {
+    "start": 2881.96,
+    "end": 2883.96,
+    "text": "dos minutos"
+  },
+  {
+    "start": 2885.96,
+    "end": 2887.96,
+    "text": "n"
+  },
+  {
+    "start": 2887.96,
+    "end": 2889.96,
+    "text": "consideramos n, fijamos n"
+  },
+  {
+    "start": 2889.96,
+    "end": 2891.96,
+    "text": "y elijo un z"
+  },
+  {
+    "start": 2891.96,
+    "end": 2893.96,
+    "text": "y acá es"
+  },
+  {
+    "start": 2893.96,
+    "end": 2895.96,
+    "text": "que z tiene que ser"
+  },
+  {
+    "start": 2895.96,
+    "end": 2897.96,
+    "text": "una z en función del n"
+  },
+  {
+    "start": 2897.96,
+    "end": 2899.96,
+    "text": "y que la tira sea mayor igual que n"
+  },
+  {
+    "start": 2899.96,
+    "end": 2901.96,
+    "text": "y ahí empezamos con todos los casos"
+  },
+  {
+    "start": 2901.96,
+    "end": 2903.96,
+    "text": "como hicimos en el otro, acá"
+  },
+  {
+    "start": 2903.96,
+    "end": 2905.96,
+    "text": "podría haber hecho aparecer los de a uno"
+  },
+  {
+    "start": 2905.96,
+    "end": 2907.96,
+    "text": "cero a la n sobre el tres, uno a la n sobre el tres"
+  },
+  {
+    "start": 2907.96,
+    "end": 2909.96,
+    "text": "dos a la n sobre el tres"
+  },
+  {
+    "start": 2909.96,
+    "end": 2911.96,
+    "text": "cien es múltiplo de tres"
+  },
+  {
+    "start": 2911.96,
+    "end": 2913.96,
+    "text": "partentera en fin"
+  },
+  {
+    "start": 2913.96,
+    "end": 2915.96,
+    "text": "ahí el largo es"
+  },
+  {
+    "start": 2915.96,
+    "end": 2917.96,
+    "text": "n o un poquito más"
+  },
+  {
+    "start": 2917.96,
+    "end": 2919.96,
+    "text": "o si no cero a la n, uno a la n"
+  },
+  {
+    "start": 2919.96,
+    "end": 2921.96,
+    "text": "dos a la n"
+  },
+  {
+    "start": 2921.96,
+    "end": 2923.96,
+    "text": "o cero a la dos n, uno a la dos n"
+  },
+  {
+    "start": 2923.96,
+    "end": 2925.96,
+    "text": "dos a la dos n"
+  },
+  {
+    "start": 2925.96,
+    "end": 2927.96,
+    "text": "o cero a la tres n, o sea"
+  },
+  {
+    "start": 2927.96,
+    "end": 2929.96,
+    "text": "nada, el mismo razonamiento que hicimos en el"
+  },
+  {
+    "start": 2929.96,
+    "end": 2931.96,
+    "text": "pambinlema 1"
+  },
+  {
+    "start": 2935.96,
+    "end": 2937.96,
+    "text": "¿cuál vamos a hacer?"
+  },
+  {
+    "start": 2937.96,
+    "end": 2939.96,
+    "text": "el segundo"
+  },
+  {
+    "start": 2939.96,
+    "end": 2941.96,
+    "text": "el uno no"
+  },
+  {
+    "start": 2941.96,
+    "end": 2943.96,
+    "text": "el uno ya tuvieron con regulares"
+  },
+  {
+    "start": 2943.96,
+    "end": 2945.96,
+    "text": "el uno ya pasaron con regulares"
+  },
+  {
+    "start": 2945.96,
+    "end": 2947.96,
+    "text": "vamos a elegir entonces"
+  },
+  {
+    "start": 2947.96,
+    "end": 2949.96,
+    "text": "sabía, esperaba"
+  },
+  {
+    "start": 2949.96,
+    "end": 2951.96,
+    "text": "esa respuesta"
+  },
+  {
+    "start": 2951.96,
+    "end": 2953.96,
+    "text": "y las diapositivas están"
+  },
+  {
+    "start": 2953.96,
+    "end": 2955.96,
+    "text": "cero a la n, uno a la"
+  },
+  {
+    "start": 2955.96,
+    "end": 2957.96,
+    "text": "n, dos a la n"
+  },
+  {
+    "start": 2957.96,
+    "end": 2959.96,
+    "text": "entonces"
+  },
+  {
+    "start": 2959.96,
+    "end": 2961.96,
+    "text": "tomamos esa z"
+  },
+  {
+    "start": 2961.96,
+    "end": 2963.96,
+    "text": "y analizamos todas las descomposiciones"
+  },
+  {
+    "start": 2963.96,
+    "end": 2965.96,
+    "text": "que cumplan esas dos condiciones"
+  },
+  {
+    "start": 2965.96,
+    "end": 2967.96,
+    "text": "bwx menor igual que n"
+  },
+  {
+    "start": 2967.96,
+    "end": 2969.96,
+    "text": "y bx mayor igual que 1"
+  },
+  {
+    "start": 2969.96,
+    "end": 2971.96,
+    "text": "y de vuelta ven que estoy"
+  },
+  {
+    "start": 2971.96,
+    "end": 2973.96,
+    "text": "haciendo mucho énfasis en lo mismo"
+  },
+  {
+    "start": 2973.96,
+    "end": 2975.96,
+    "text": "una y otra vez"
+  },
+  {
+    "start": 2975.96,
+    "end": 2977.96,
+    "text": "planteé el estudio de todas las familias"
+  },
+  {
+    "start": 2977.96,
+    "end": 2979.96,
+    "text": "argumento por qué"
+  },
+  {
+    "start": 2979.96,
+    "end": 2981.96,
+    "text": "el z subí"
+  },
+  {
+    "start": 2981.96,
+    "end": 2983.96,
+    "text": "el v ala i, wx ala i"
+  },
+  {
+    "start": 2983.96,
+    "end": 2985.96,
+    "text": "no pertenece"
+  },
+  {
+    "start": 2985.96,
+    "end": 2987.96,
+    "text": "para cada familia"
+  },
+  {
+    "start": 2987.96,
+    "end": 2989.96,
+    "text": "en función de la estructura del lenguaje"
+  },
+  {
+    "start": 2989.96,
+    "end": 2991.96,
+    "text": "y esto está bueno"
+  },
+  {
+    "start": 2995.96,
+    "end": 2997.96,
+    "text": "ahora lo vamos a ver"
+  },
+  {
+    "start": 2997.96,
+    "end": 2999.96,
+    "text": "esto se va a entender mejor ahora después"
+  },
+  {
+    "start": 2999.96,
+    "end": 3001.96,
+    "text": "¿qué es?"
+  },
+  {
+    "start": 3001.96,
+    "end": 3003.96,
+    "text": "en aquellos casos en que se agrupen"
+  },
+  {
+    "start": 3003.96,
+    "end": 3005.96,
+    "text": "análisis"
+  },
+  {
+    "start": 3005.96,
+    "end": 3007.96,
+    "text": "yo podré argumentar"
+  },
+  {
+    "start": 3007.96,
+    "end": 3009.96,
+    "text": "este caso no lo estudio"
+  },
+  {
+    "start": 3009.96,
+    "end": 3011.96,
+    "text": "porque es análogo al caso tal o a la familia tal"
+  },
+  {
+    "start": 3011.96,
+    "end": 3013.96,
+    "text": "y la diferencia"
+  },
+  {
+    "start": 3013.96,
+    "end": 3015.96,
+    "text": "pero tengo que marcar cuál es la diferencia"
+  },
+  {
+    "start": 3015.96,
+    "end": 3017.96,
+    "text": "esto que por ahora"
+  },
+  {
+    "start": 3017.96,
+    "end": 3019.96,
+    "text": "nos entiende mucho qué es lo que quiere decir"
+  },
+  {
+    "start": 3019.96,
+    "end": 3021.96,
+    "text": "lo vamos a ver a continuación"
+  },
+  {
+    "start": 3031.96,
+    "end": 3033.96,
+    "text": "si"
+  },
+  {
+    "start": 3037.96,
+    "end": 3039.96,
+    "text": "perdón"
+  },
+  {
+    "start": 3039.96,
+    "end": 3041.96,
+    "text": "si"
+  },
+  {
+    "start": 3041.96,
+    "end": 3043.96,
+    "text": "9 casos"
+  },
+  {
+    "start": 3043.96,
+    "end": 3045.96,
+    "text": "y este es de los fáciles"
+  },
+  {
+    "start": 3049.96,
+    "end": 3051.96,
+    "text": "pero no han visto nada"
+  },
+  {
+    "start": 3051.96,
+    "end": 3053.96,
+    "text": "después de este no vieron nada"
+  },
+  {
+    "start": 3061.96,
+    "end": 3063.96,
+    "text": "un error"
+  },
+  {
+    "start": 3067.96,
+    "end": 3069.96,
+    "text": "imagínate si yo la puedo tener una sola de tres"
+  },
+  {
+    "start": 3073.96,
+    "end": 3075.96,
+    "text": "en realidad"
+  },
+  {
+    "start": 3075.96,
+    "end": 3077.96,
+    "text": "no tengo por qué tomar"
+  },
+  {
+    "start": 3077.96,
+    "end": 3079.96,
+    "text": "2n"
+  },
+  {
+    "start": 3079.96,
+    "end": 3081.96,
+    "text": "no resuelvo, no a chico mucho si pongo"
+  },
+  {
+    "start": 3081.96,
+    "end": 3083.96,
+    "text": "2n"
+  },
+  {
+    "start": 3083.96,
+    "end": 3085.96,
+    "text": "no a chico"
+  },
+  {
+    "start": 3085.96,
+    "end": 3087.96,
+    "text": "no a chico"
+  },
+  {
+    "start": 3087.96,
+    "end": 3089.96,
+    "text": "no a chico si el hijo 2n"
+  },
+  {
+    "start": 3089.96,
+    "end": 3091.96,
+    "text": "lo van a ver ustedes"
+  },
+  {
+    "start": 3091.96,
+    "end": 3093.96,
+    "text": "tenemos esto"
+  },
+  {
+    "start": 3095.96,
+    "end": 3097.96,
+    "text": "esto es lo primero que recomendamos hacer"
+  },
+  {
+    "start": 3097.96,
+    "end": 3099.96,
+    "text": "lo mismo que hacíamos en regulares"
+  },
+  {
+    "start": 3099.96,
+    "end": 3101.96,
+    "text": "que a veces teníamos eran pocas filitas"
+  },
+  {
+    "start": 3101.96,
+    "end": 3103.96,
+    "text": "porque no son muchos los casos"
+  },
+  {
+    "start": 3103.96,
+    "end": 3105.96,
+    "text": "acá sí"
+  },
+  {
+    "start": 3105.96,
+    "end": 3107.96,
+    "text": "recomiendo a sabros"
+  },
+  {
+    "start": 3107.96,
+    "end": 3109.96,
+    "text": "no sé si me va a dar el pizarron"
+  },
+  {
+    "start": 3109.96,
+    "end": 3111.96,
+    "text": "pero paramos ahí"
+  },
+  {
+    "start": 3115.96,
+    "end": 3117.96,
+    "text": "porque qué es lo que tenemos que hacer"
+  },
+  {
+    "start": 3117.96,
+    "end": 3119.96,
+    "text": "tengo que ver"
+  },
+  {
+    "start": 3119.96,
+    "end": 3121.96,
+    "text": "antes era dónde ubicaba el B"
+  },
+  {
+    "start": 3121.96,
+    "end": 3123.96,
+    "text": "no"
+  },
+  {
+    "start": 3123.96,
+    "end": 3125.96,
+    "text": "acá me tengo que"
+  },
+  {
+    "start": 3125.96,
+    "end": 3127.96,
+    "text": "concentrar"
+  },
+  {
+    "start": 3127.96,
+    "end": 3129.96,
+    "text": "dónde ubico el B"
+  },
+  {
+    "start": 3129.96,
+    "end": 3131.96,
+    "text": "y el X"
+  },
+  {
+    "start": 3131.96,
+    "end": 3133.96,
+    "text": "son los importantes"
+  },
+  {
+    "start": 3133.96,
+    "end": 3135.96,
+    "text": "porque son los que pampeo"
+  },
+  {
+    "start": 3139.96,
+    "end": 3141.96,
+    "text": "entonces dónde por ejemplo"
+  },
+  {
+    "start": 3141.96,
+    "end": 3143.96,
+    "text": "no voy a hacer"
+  },
+  {
+    "start": 3143.96,
+    "end": 3145.96,
+    "text": "recuerden esto"
+  },
+  {
+    "start": 3147.96,
+    "end": 3149.96,
+    "text": "esto es clave"
+  },
+  {
+    "start": 3149.96,
+    "end": 3151.96,
+    "text": "o sea que"
+  },
+  {
+    "start": 3151.96,
+    "end": 3153.96,
+    "text": "la distancia entre B"
+  },
+  {
+    "start": 3153.96,
+    "end": 3155.96,
+    "text": "y X"
+  },
+  {
+    "start": 3155.96,
+    "end": 3157.96,
+    "text": "no puede superar"
+  },
+  {
+    "start": 3157.96,
+    "end": 3159.96,
+    "text": "el B y X"
+  },
+  {
+    "start": 3159.96,
+    "end": 3161.96,
+    "text": "no puede superar"
+  },
+  {
+    "start": 3161.96,
+    "end": 3163.96,
+    "text": "n"
+  },
+  {
+    "start": 3163.96,
+    "end": 3165.96,
+    "text": "o sea por ejemplo"
+  },
+  {
+    "start": 3165.96,
+    "end": 3167.96,
+    "text": "dónde no voy a buscar un I"
+  },
+  {
+    "start": 3167.96,
+    "end": 3169.96,
+    "text": "cuando el B está"
+  },
+  {
+    "start": 3169.96,
+    "end": 3171.96,
+    "text": "con los ceros y la X está en dónde"
+  },
+  {
+    "start": 3171.96,
+    "end": 3173.96,
+    "text": "en los dos"
+  },
+  {
+    "start": 3173.96,
+    "end": 3175.96,
+    "text": "porque sé que tengo n1 acá"
+  },
+  {
+    "start": 3175.96,
+    "end": 3177.96,
+    "text": "está"
+  },
+  {
+    "start": 3181.96,
+    "end": 3183.96,
+    "text": "claro"
+  },
+  {
+    "start": 3183.96,
+    "end": 3185.96,
+    "text": "por eso que"
+  },
+  {
+    "start": 3185.96,
+    "end": 3187.96,
+    "text": "ustedes sugirieron 1 a la n"
+  },
+  {
+    "start": 3187.96,
+    "end": 3189.96,
+    "text": "0 a la n, 1 a la n, 2 a la n"
+  },
+  {
+    "start": 3189.96,
+    "end": 3191.96,
+    "text": "porque ya se toparon"
+  },
+  {
+    "start": 3191.96,
+    "end": 3193.96,
+    "text": "con el pampeo y lema 1"
+  },
+  {
+    "start": 3193.96,
+    "end": 3195.96,
+    "text": "entonces"
+  },
+  {
+    "start": 3195.96,
+    "end": 3197.96,
+    "text": "sé que ese no lo voy a considerar"
+  },
+  {
+    "start": 3197.96,
+    "end": 3199.96,
+    "text": "pero sí dónde puede estar"
+  },
+  {
+    "start": 3199.96,
+    "end": 3201.96,
+    "text": "y acá ya tengo que empezar a ver eso"
+  },
+  {
+    "start": 3201.96,
+    "end": 3203.96,
+    "text": "dónde puede estar B y X"
+  },
+  {
+    "start": 3203.96,
+    "end": 3205.96,
+    "text": "B acá"
+  },
+  {
+    "start": 3205.96,
+    "end": 3207.96,
+    "text": "y X acá"
+  },
+  {
+    "start": 3207.96,
+    "end": 3209.96,
+    "text": "las dos en los ceros"
+  },
+  {
+    "start": 3209.96,
+    "end": 3211.96,
+    "text": "dónde más pueden estar"
+  },
+  {
+    "start": 3211.96,
+    "end": 3213.96,
+    "text": "las dos en los unos"
+  },
+  {
+    "start": 3213.96,
+    "end": 3215.96,
+    "text": "y acá en el medio está el W"
+  },
+  {
+    "start": 3215.96,
+    "end": 3217.96,
+    "text": "lo que ubico es la B y la X"
+  },
+  {
+    "start": 3217.96,
+    "end": 3219.96,
+    "text": "eso es lo clave"
+  },
+  {
+    "start": 3219.96,
+    "end": 3221.96,
+    "text": "y acá tengo"
+  },
+  {
+    "start": 3221.96,
+    "end": 3223.96,
+    "text": "B y X"
+  },
+  {
+    "start": 3223.96,
+    "end": 3225.96,
+    "text": "fíjate"
+  },
+  {
+    "start": 3225.96,
+    "end": 3227.96,
+    "text": "ahora ya te gustó eso"
+  },
+  {
+    "start": 3229.96,
+    "end": 3231.96,
+    "text": "acá ya tengo 3 familias"
+  },
+  {
+    "start": 3231.96,
+    "end": 3233.96,
+    "text": "que son 3 familias distintas"
+  },
+  {
+    "start": 3235.96,
+    "end": 3237.96,
+    "text": "parecidas en la forma de resolverlo"
+  },
+  {
+    "start": 3237.96,
+    "end": 3239.96,
+    "text": "esa es la clave"
+  },
+  {
+    "start": 3239.96,
+    "end": 3241.96,
+    "text": "esa es la clave"
+  },
+  {
+    "start": 3241.96,
+    "end": 3243.96,
+    "text": "¿Qué otra posibilidad tenemos?"
+  },
+  {
+    "start": 3245.96,
+    "end": 3247.96,
+    "text": "la B en los ceros"
+  },
+  {
+    "start": 3247.96,
+    "end": 3249.96,
+    "text": "y la X"
+  },
+  {
+    "start": 3249.96,
+    "end": 3251.96,
+    "text": "en los unos"
+  },
+  {
+    "start": 3251.96,
+    "end": 3253.96,
+    "text": "la que no tenemos es la B en los ceros"
+  },
+  {
+    "start": 3253.96,
+    "end": 3255.96,
+    "text": "y la X en los dos"
+  },
+  {
+    "start": 3255.96,
+    "end": 3257.96,
+    "text": "pero tenemos"
+  },
+  {
+    "start": 3257.96,
+    "end": 3259.96,
+    "text": "la B en los unos"
+  },
+  {
+    "start": 3259.96,
+    "end": 3261.96,
+    "text": "y la X en los dos"
+  },
+  {
+    "start": 3261.96,
+    "end": 3263.96,
+    "text": "siempre y cuando que eso lo vamos a tener"
+  },
+  {
+    "start": 3263.96,
+    "end": 3265.96,
+    "text": "que plantear, en los casos este es un esquema"
+  },
+  {
+    "start": 3265.96,
+    "end": 3267.96,
+    "text": "que tiene que cumplirse esto ¿no?"
+  },
+  {
+    "start": 3267.96,
+    "end": 3269.96,
+    "text": "siempre tiene que cumplirse esto"
+  },
+  {
+    "start": 3269.96,
+    "end": 3271.96,
+    "text": "siempre tiene que cumplirse esto"
+  },
+  {
+    "start": 3271.96,
+    "end": 3273.96,
+    "text": "bien"
+  },
+  {
+    "start": 3275.96,
+    "end": 3277.96,
+    "text": "o sea que ya estamos acá"
+  },
+  {
+    "start": 3277.96,
+    "end": 3279.96,
+    "text": "4"
+  },
+  {
+    "start": 3279.96,
+    "end": 3281.96,
+    "text": "5"
+  },
+  {
+    "start": 3281.96,
+    "end": 3283.96,
+    "text": "y tengo más"
+  },
+  {
+    "start": 3289.96,
+    "end": 3291.96,
+    "text": "y tengo todas las que aparecen"
+  },
+  {
+    "start": 3291.96,
+    "end": 3293.96,
+    "text": "algunos de los dos tienen mezcla"
+  },
+  {
+    "start": 3293.96,
+    "end": 3295.96,
+    "text": "acá son"
+  },
+  {
+    "start": 3295.96,
+    "end": 3297.96,
+    "text": "todos ceros"
+  },
+  {
+    "start": 3297.96,
+    "end": 3299.96,
+    "text": "o todos unos"
+  },
+  {
+    "start": 3299.96,
+    "end": 3301.96,
+    "text": "y tengo"
+  },
+  {
+    "start": 3301.96,
+    "end": 3303.96,
+    "text": "la B con ceros"
+  },
+  {
+    "start": 3305.96,
+    "end": 3307.96,
+    "text": "y la X con algún cero y alguno"
+  },
+  {
+    "start": 3307.96,
+    "end": 3309.96,
+    "text": "uno"
+  },
+  {
+    "start": 3311.96,
+    "end": 3313.96,
+    "text": "la B y bueno y ahí todos"
+  },
+  {
+    "start": 3313.96,
+    "end": 3315.96,
+    "text": "la B"
+  },
+  {
+    "start": 3315.96,
+    "end": 3317.96,
+    "text": "con ceros y unos y la X con dos"
+  },
+  {
+    "start": 3319.96,
+    "end": 3321.96,
+    "text": "la B"
+  },
+  {
+    "start": 3325.96,
+    "end": 3327.96,
+    "text": "no, la X"
+  },
+  {
+    "start": 3327.96,
+    "end": 3329.96,
+    "text": "dije con dos pero es con uno"
+  },
+  {
+    "start": 3329.96,
+    "end": 3331.96,
+    "text": "lo puse bien y lo dije mal"
+  },
+  {
+    "start": 3331.96,
+    "end": 3333.96,
+    "text": "la B con ceros y unos"
+  },
+  {
+    "start": 3333.96,
+    "end": 3335.96,
+    "text": "y la X con unos"
+  },
+  {
+    "start": 3335.96,
+    "end": 3337.96,
+    "text": "la B con unos"
+  },
+  {
+    "start": 3337.96,
+    "end": 3339.96,
+    "text": "y la X con unos"
+  },
+  {
+    "start": 3339.96,
+    "end": 3341.96,
+    "text": "y dos"
+  },
+  {
+    "start": 3341.96,
+    "end": 3343.96,
+    "text": "y la B"
+  },
+  {
+    "start": 3343.96,
+    "end": 3345.96,
+    "text": "con unos y dos"
+  },
+  {
+    "start": 3345.96,
+    "end": 3347.96,
+    "text": "y la X con dos"
+  },
+  {
+    "start": 3355.96,
+    "end": 3357.96,
+    "text": "gracias si me falta alguno"
+  },
+  {
+    "start": 3357.96,
+    "end": 3359.96,
+    "text": "tengo la B solo con ceros y la X con la mezcla"
+  },
+  {
+    "start": 3359.96,
+    "end": 3361.96,
+    "text": "ceros y unos"
+  },
+  {
+    "start": 3361.96,
+    "end": 3363.96,
+    "text": "la B con ceros y unos"
+  },
+  {
+    "start": 3363.96,
+    "end": 3365.96,
+    "text": "y la X con unos"
+  },
+  {
+    "start": 3365.96,
+    "end": 3367.96,
+    "text": "la B con unos y la X con unos y dos"
+  },
+  {
+    "start": 3367.96,
+    "end": 3369.96,
+    "text": "y la B"
+  },
+  {
+    "start": 3369.96,
+    "end": 3371.96,
+    "text": "con unos y dos"
+  },
+  {
+    "start": 3371.96,
+    "end": 3373.96,
+    "text": "y la B con dos"
+  },
+  {
+    "start": 3373.96,
+    "end": 3375.96,
+    "text": "y ahí están los nueve"
+  },
+  {
+    "start": 3381.96,
+    "end": 3383.96,
+    "text": "el cuadrito que hicimos ahí"
+  },
+  {
+    "start": 3383.96,
+    "end": 3385.96,
+    "text": "no coincide con este"
+  },
+  {
+    "start": 3385.96,
+    "end": 3387.96,
+    "text": "pero no es tan grave"
+  },
+  {
+    "start": 3387.96,
+    "end": 3389.96,
+    "text": "porque lo importante es que"
+  },
+  {
+    "start": 3389.96,
+    "end": 3391.96,
+    "text": "no nos olvidemos"
+  },
+  {
+    "start": 3391.96,
+    "end": 3393.96,
+    "text": "eso es lo importante"
+  },
+  {
+    "start": 3393.96,
+    "end": 3395.96,
+    "text": "es que no nos olvidemos"
+  },
+  {
+    "start": 3395.96,
+    "end": 3397.96,
+    "text": "de ninguno de nosotros"
+  },
+  {
+    "start": 3397.96,
+    "end": 3399.96,
+    "text": "de nosotros"
+  },
+  {
+    "start": 3399.96,
+    "end": 3401.96,
+    "text": "de nosotros"
+  },
+  {
+    "start": 3401.96,
+    "end": 3403.96,
+    "text": "es que no nos olvidemos"
+  },
+  {
+    "start": 3403.96,
+    "end": 3405.96,
+    "text": "de ninguno cuando hacemos el cuadrito"
+  },
+  {
+    "start": 3405.96,
+    "end": 3407.96,
+    "text": "y a veces"
+  },
+  {
+    "start": 3407.96,
+    "end": 3409.96,
+    "text": "uno tiende"
+  },
+  {
+    "start": 3409.96,
+    "end": 3411.96,
+    "text": "no es tan grave"
+  },
+  {
+    "start": 3411.96,
+    "end": 3413.96,
+    "text": "es menos prolijo pero bueno"
+  },
+  {
+    "start": 3413.96,
+    "end": 3415.96,
+    "text": "hacer casos redundantes"
+  },
+  {
+    "start": 3415.96,
+    "end": 3417.96,
+    "text": "casos que están"
+  },
+  {
+    "start": 3417.96,
+    "end": 3419.96,
+    "text": "contenidos en otro"
+  },
+  {
+    "start": 3419.96,
+    "end": 3421.96,
+    "text": "muy bueno"
+  },
+  {
+    "start": 3425.96,
+    "end": 3427.96,
+    "text": "hemos llegado a ver"
+  },
+  {
+    "start": 3427.96,
+    "end": 3429.96,
+    "text": "depende del lenguaje"
+  },
+  {
+    "start": 3429.96,
+    "end": 3431.96,
+    "text": "13"
+  },
+  {
+    "start": 3431.96,
+    "end": 3433.96,
+    "text": "podría decir"
+  },
+  {
+    "start": 3433.96,
+    "end": 3435.96,
+    "text": "hasta 17"
+  },
+  {
+    "start": 3437.96,
+    "end": 3439.96,
+    "text": "ya si te quedaron"
+  },
+  {
+    "start": 3439.96,
+    "end": 3441.96,
+    "text": "más de 20"
+  },
+  {
+    "start": 3441.96,
+    "end": 3443.96,
+    "text": "seguro estás metiendo algún caso"
+  },
+  {
+    "start": 3443.96,
+    "end": 3445.96,
+    "text": "redundante"
+  },
+  {
+    "start": 3445.96,
+    "end": 3447.96,
+    "text": "pero todo depende del lenguaje"
+  },
+  {
+    "start": 3455.96,
+    "end": 3457.96,
+    "text": "¿saben cómo les amplió la cantidad de"
+  },
+  {
+    "start": 3457.96,
+    "end": 3459.96,
+    "text": "ejemplo?"
+  },
+  {
+    "start": 3459.96,
+    "end": 3461.96,
+    "text": "en este mismo lenguaje"
+  },
+  {
+    "start": 3461.96,
+    "end": 3463.96,
+    "text": "con una pequeña variante"
+  },
+  {
+    "start": 3465.96,
+    "end": 3467.96,
+    "text": "ese si"
+  },
+  {
+    "start": 3467.96,
+    "end": 3469.96,
+    "text": "pero agregando"
+  },
+  {
+    "start": 3469.96,
+    "end": 3471.96,
+    "text": "otra cosa"
+  },
+  {
+    "start": 3473.96,
+    "end": 3475.96,
+    "text": "un numeral"
+  },
+  {
+    "start": 3475.96,
+    "end": 3477.96,
+    "text": "entre 0 y 1"
+  },
+  {
+    "start": 3477.96,
+    "end": 3479.96,
+    "text": "y entre 1 y 2"
+  },
+  {
+    "start": 3479.96,
+    "end": 3481.96,
+    "text": "a los efectos del lenguaje"
+  },
+  {
+    "start": 3481.96,
+    "end": 3483.96,
+    "text": "pero a los efectos del panfilema"
+  },
+  {
+    "start": 3483.96,
+    "end": 3485.96,
+    "text": "tenés más casos"
+  },
+  {
+    "start": 3485.96,
+    "end": 3487.96,
+    "text": "porque además de todo esto tenés"
+  },
+  {
+    "start": 3487.96,
+    "end": 3489.96,
+    "text": "fíjese si tengo un numeral acá"
+  },
+  {
+    "start": 3489.96,
+    "end": 3491.96,
+    "text": "tengo los que tienen el numeral"
+  },
+  {
+    "start": 3491.96,
+    "end": 3493.96,
+    "text": "y los que no tienen el numeral"
+  },
+  {
+    "start": 3493.96,
+    "end": 3495.96,
+    "text": "los que tienen el numeral con 0"
+  },
+  {
+    "start": 3495.96,
+    "end": 3497.96,
+    "text": "y el numeral con 1"
+  },
+  {
+    "start": 3497.96,
+    "end": 3499.96,
+    "text": "si claro que si"
+  },
+  {
+    "start": 3499.96,
+    "end": 3501.96,
+    "text": "lo importante"
+  },
+  {
+    "start": 3501.96,
+    "end": 3503.96,
+    "text": "lo importante"
+  },
+  {
+    "start": 3503.96,
+    "end": 3505.96,
+    "text": "en esos casos"
+  },
+  {
+    "start": 3505.96,
+    "end": 3507.96,
+    "text": "es plantearlos todos"
+  },
+  {
+    "start": 3509.96,
+    "end": 3511.96,
+    "text": "pero la clave está"
+  },
+  {
+    "start": 3511.96,
+    "end": 3513.96,
+    "text": "en una palabra que aparecía por acá"
+  },
+  {
+    "start": 3515.96,
+    "end": 3517.96,
+    "text": "exactamente"
+  },
+  {
+    "start": 3517.96,
+    "end": 3519.96,
+    "text": "¿dónde era que estaba?"
+  },
+  {
+    "start": 3519.96,
+    "end": 3521.96,
+    "text": "ahí"
+  },
+  {
+    "start": 3521.96,
+    "end": 3523.96,
+    "text": "ahí"
+  },
+  {
+    "start": 3523.96,
+    "end": 3525.96,
+    "text": "me perdí ¿no?"
+  },
+  {
+    "start": 3525.96,
+    "end": 3527.96,
+    "text": "ahí"
+  },
+  {
+    "start": 3527.96,
+    "end": 3529.96,
+    "text": "acá"
+  },
+  {
+    "start": 3529.96,
+    "end": 3531.96,
+    "text": "osea tienes familia en ejemplo de la familia"
+  },
+  {
+    "start": 3531.96,
+    "end": 3533.96,
+    "text": "no"
+  },
+  {
+    "start": 3533.96,
+    "end": 3535.96,
+    "text": "la clave es por eso lo importante"
+  },
+  {
+    "start": 3535.96,
+    "end": 3537.96,
+    "text": "acá es donde"
+  },
+  {
+    "start": 3537.96,
+    "end": 3539.96,
+    "text": "sobre esta frase vamos a venir"
+  },
+  {
+    "start": 3539.96,
+    "end": 3541.96,
+    "text": "ahora a continuación"
+  },
+  {
+    "start": 3541.96,
+    "end": 3543.96,
+    "text": "análogo"
+  },
+  {
+    "start": 3543.96,
+    "end": 3545.96,
+    "text": "es análogo?"
+  },
+  {
+    "start": 3545.96,
+    "end": 3547.96,
+    "text": "claro pero vamos a tener que decir"
+  },
+  {
+    "start": 3547.96,
+    "end": 3549.96,
+    "text": "lo que no está bueno que digan"
+  },
+  {
+    "start": 3549.96,
+    "end": 3551.96,
+    "text": "ahora lo vamos a ver con este ejemplo"
+  },
+  {
+    "start": 3551.96,
+    "end": 3553.96,
+    "text": "es la familia"
+  },
+  {
+    "start": 3553.96,
+    "end": 3555.96,
+    "text": "por ejemplo vamos a hacer el 1"
+  },
+  {
+    "start": 3555.96,
+    "end": 3557.96,
+    "text": "¿no?"
+  },
+  {
+    "start": 3557.96,
+    "end": 3559.96,
+    "text": "entonces ¿qué es lo que va a pasar?"
+  },
+  {
+    "start": 3559.96,
+    "end": 3561.96,
+    "text": "cuando pampeos ¿qué es lo que va a pasar?"
+  },
+  {
+    "start": 3561.96,
+    "end": 3563.96,
+    "text": "pampeos o los 0"
+  },
+  {
+    "start": 3563.96,
+    "end": 3565.96,
+    "text": "entonces dependiendo del z a 0"
+  },
+  {
+    "start": 3565.96,
+    "end": 3567.96,
+    "text": "si es igual 2"
+  },
+  {
+    "start": 3567.96,
+    "end": 3569.96,
+    "text": "ponerle ¿qué es lo que va a pasar?"
+  },
+  {
+    "start": 3569.96,
+    "end": 3571.96,
+    "text": "me va a crecer los 0"
+  },
+  {
+    "start": 3571.96,
+    "end": 3573.96,
+    "text": "se rompen los 1 y los 2"
+  },
+  {
+    "start": 3577.96,
+    "end": 3579.96,
+    "text": "lo que no puedes decir"
+  },
+  {
+    "start": 3579.96,
+    "end": 3581.96,
+    "text": "es el caso 2 y el caso 3 son análogos"
+  },
+  {
+    "start": 3581.96,
+    "end": 3583.96,
+    "text": "punto"
+  },
+  {
+    "start": 3583.96,
+    "end": 3585.96,
+    "text": "es análogo"
+  },
+  {
+    "start": 3585.96,
+    "end": 3587.96,
+    "text": "análogo a la forma"
+  },
+  {
+    "start": 3587.96,
+    "end": 3589.96,
+    "text": "de resolverlo"
+  },
+  {
+    "start": 3589.96,
+    "end": 3591.96,
+    "text": "entonces vos vas a"
+  },
+  {
+    "start": 3591.96,
+    "end": 3593.96,
+    "text": "creo que lo tenemos por acá"
+  },
+  {
+    "start": 3593.96,
+    "end": 3595.96,
+    "text": "pero voy adelantando algo"
+  },
+  {
+    "start": 3595.96,
+    "end": 3597.96,
+    "text": "que ya se están dando cuenta"
+  },
+  {
+    "start": 3597.96,
+    "end": 3599.96,
+    "text": "yo voy a poder decir el caso 2"
+  },
+  {
+    "start": 3599.96,
+    "end": 3601.96,
+    "text": "o el caso 1"
+  },
+  {
+    "start": 3601.96,
+    "end": 3603.96,
+    "text": "solo que la cantidad de 0"
+  },
+  {
+    "start": 3603.96,
+    "end": 3605.96,
+    "text": "son las que varían"
+  },
+  {
+    "start": 3605.96,
+    "end": 3607.96,
+    "text": "y el caso 3"
+  },
+  {
+    "start": 3607.96,
+    "end": 3609.96,
+    "text": "la cantidad de 2 son las que aumentan"
+  },
+  {
+    "start": 3609.96,
+    "end": 3611.96,
+    "text": "sí"
+  },
+  {
+    "start": 3611.96,
+    "end": 3613.96,
+    "text": "ahí sí"
+  },
+  {
+    "start": 3615.96,
+    "end": 3617.96,
+    "text": "¿se entiende?"
+  },
+  {
+    "start": 3617.96,
+    "end": 3619.96,
+    "text": "bien"
+  },
+  {
+    "start": 3619.96,
+    "end": 3621.96,
+    "text": "entonces"
+  },
+  {
+    "start": 3621.96,
+    "end": 3623.96,
+    "text": "es otro cuadrito"
+  },
+  {
+    "start": 3623.96,
+    "end": 3625.96,
+    "text": "el que tenemos acá"
+  },
+  {
+    "start": 3625.96,
+    "end": 3627.96,
+    "text": "pero bueno"
+  },
+  {
+    "start": 3627.96,
+    "end": 3629.96,
+    "text": "fíjense"
+  },
+  {
+    "start": 3629.96,
+    "end": 3631.96,
+    "text": "acá dice en amarillo tenemos el b y el x"
+  },
+  {
+    "start": 3631.96,
+    "end": 3633.96,
+    "text": "con el mismo símbolo"
+  },
+  {
+    "start": 3637.96,
+    "end": 3639.96,
+    "text": "en azul tenemos el b y el x"
+  },
+  {
+    "start": 3639.96,
+    "end": 3641.96,
+    "text": "con símbolos distintos"
+  },
+  {
+    "start": 3641.96,
+    "end": 3643.96,
+    "text": "y consecutivos"
+  },
+  {
+    "start": 3643.96,
+    "end": 3645.96,
+    "text": "son consecutivos por lo que ya habíamos dicho"
+  },
+  {
+    "start": 3645.96,
+    "end": 3647.96,
+    "text": "no podía"
+  },
+  {
+    "start": 3647.96,
+    "end": 3649.96,
+    "text": "en el n tenía en el medio"
+  },
+  {
+    "start": 3649.96,
+    "end": 3651.96,
+    "text": "no podían estar consecutivos"
+  },
+  {
+    "start": 3651.96,
+    "end": 3653.96,
+    "text": "claro que si hubiéramos elegido"
+  },
+  {
+    "start": 3653.96,
+    "end": 3655.96,
+    "text": "0 a la n sobre 3"
+  },
+  {
+    "start": 3655.96,
+    "end": 3657.96,
+    "text": "y teníamos todos"
+  },
+  {
+    "start": 3657.96,
+    "end": 3659.96,
+    "text": "teníamos un montón de casos más"
+  },
+  {
+    "start": 3659.96,
+    "end": 3661.96,
+    "text": "pasa que a veces uno"
+  },
+  {
+    "start": 3661.96,
+    "end": 3663.96,
+    "text": "quiere después simplificar tanto"
+  },
+  {
+    "start": 3663.96,
+    "end": 3665.96,
+    "text": "la tira elegida"
+  },
+  {
+    "start": 3665.96,
+    "end": 3667.96,
+    "text": "y cometa el error que vamos a estar haciendo"
+  },
+  {
+    "start": 3667.96,
+    "end": 3669.96,
+    "text": "de énfasis en la presentación del martes"
+  },
+  {
+    "start": 3669.96,
+    "end": 3671.96,
+    "text": "bueno"
+  },
+  {
+    "start": 3671.96,
+    "end": 3673.96,
+    "text": "entonces tenemos en amarillo del mismo símbolo"
+  },
+  {
+    "start": 3673.96,
+    "end": 3675.96,
+    "text": "en azul con símbolos distintos"
+  },
+  {
+    "start": 3675.96,
+    "end": 3677.96,
+    "text": "y consecutivos"
+  },
+  {
+    "start": 3677.96,
+    "end": 3679.96,
+    "text": "y en verde la de la mezcla"
+  },
+  {
+    "start": 3679.96,
+    "end": 3681.96,
+    "text": "en algunos de ellos hay mezcla"
+  },
+  {
+    "start": 3681.96,
+    "end": 3683.96,
+    "text": "de vuelta no hay mezcla en los 2"
+  },
+  {
+    "start": 3683.96,
+    "end": 3685.96,
+    "text": "x con 1 y 2"
+  },
+  {
+    "start": 3685.96,
+    "end": 3687.96,
+    "text": "porque seguro a largo supera n"
+  },
+  {
+    "start": 3687.96,
+    "end": 3689.96,
+    "text": "porque tengo n acá en el medio"
+  },
+  {
+    "start": 3689.96,
+    "end": 3691.96,
+    "text": "de vuelta"
+  },
+  {
+    "start": 3691.96,
+    "end": 3693.96,
+    "text": "0 a la n sobre 3"
+  },
+  {
+    "start": 3693.96,
+    "end": 3695.96,
+    "text": "1 a la n sobre 3"
+  },
+  {
+    "start": 3695.96,
+    "end": 3697.96,
+    "text": "tenía que considerar ese caso también"
+  },
+  {
+    "start": 3697.96,
+    "end": 3699.96,
+    "text": "en el planteo"
+  },
+  {
+    "start": 3699.96,
+    "end": 3701.96,
+    "text": "después vemos que es más simple"
+  },
+  {
+    "start": 3701.96,
+    "end": 3703.96,
+    "text": "para cuando lo resuelvo"
+  },
+  {
+    "start": 3703.96,
+    "end": 3705.96,
+    "text": "está bien la discusión"
+  },
+  {
+    "start": 3705.96,
+    "end": 3707.96,
+    "text": "me quedó un cuadrito"
+  },
+  {
+    "start": 3707.96,
+    "end": 3709.96,
+    "text": "todo de colores"
+  },
+  {
+    "start": 3709.96,
+    "end": 3711.96,
+    "text": "esto no tiene poco que hacerlo en la prueba"
+  },
+  {
+    "start": 3711.96,
+    "end": 3713.96,
+    "text": "pero si es importante"
+  },
+  {
+    "start": 3713.96,
+    "end": 3715.96,
+    "text": "que digan cuáles son"
+  },
+  {
+    "start": 3715.96,
+    "end": 3717.96,
+    "text": "que ustedes mismos se den cuenta cuando empiezan a"
+  },
+  {
+    "start": 3717.96,
+    "end": 3719.96,
+    "text": "y no ponerse a hacer"
+  },
+  {
+    "start": 3719.96,
+    "end": 3721.96,
+    "text": "no esto está bueno"
+  },
+  {
+    "start": 3721.96,
+    "end": 3723.96,
+    "text": "no ponerse a hacer caso 1"
+  },
+  {
+    "start": 3723.96,
+    "end": 3725.96,
+    "text": "caso 2"
+  },
+  {
+    "start": 3725.96,
+    "end": 3727.96,
+    "text": "porque van a gastar todas las hojas"
+  },
+  {
+    "start": 3727.96,
+    "end": 3729.96,
+    "text": "del parcial"
+  },
+  {
+    "start": 3729.96,
+    "end": 3731.96,
+    "text": "siempre y más"
+  },
+  {
+    "start": 3731.96,
+    "end": 3733.96,
+    "text": "siempre y más"
+  },
+  {
+    "start": 3733.96,
+    "end": 3735.96,
+    "text": "no se pongan hacer los 19 casos"
+  },
+  {
+    "start": 3735.96,
+    "end": 3737.96,
+    "text": "no"
+  },
+  {
+    "start": 3741.96,
+    "end": 3743.96,
+    "text": "todo caso por separado no"
+  },
+  {
+    "start": 3743.96,
+    "end": 3745.96,
+    "text": "nunca"
+  },
+  {
+    "start": 3745.96,
+    "end": 3747.96,
+    "text": "bien"
+  },
+  {
+    "start": 3747.96,
+    "end": 3749.96,
+    "text": "fijando entonces en esa"
+  },
+  {
+    "start": 3749.96,
+    "end": 3751.96,
+    "text": "clasificación podemos distinguir"
+  },
+  {
+    "start": 3751.96,
+    "end": 3753.96,
+    "text": "tres grandes familias"
+  },
+  {
+    "start": 3753.96,
+    "end": 3755.96,
+    "text": "que era lo que habíamos visto acá"
+  },
+  {
+    "start": 3755.96,
+    "end": 3757.96,
+    "text": "vx con el mismo símbolo"
+  },
+  {
+    "start": 3757.96,
+    "end": 3759.96,
+    "text": "en amarillo"
+  },
+  {
+    "start": 3759.96,
+    "end": 3761.96,
+    "text": "vx con símbolos distintos"
+  },
+  {
+    "start": 3761.96,
+    "end": 3763.96,
+    "text": "pero consecutivos por la restricción"
+  },
+  {
+    "start": 3763.96,
+    "end": 3765.96,
+    "text": "que era la"
+  },
+  {
+    "start": 3765.96,
+    "end": 3767.96,
+    "text": "que están en azul y el vx"
+  },
+  {
+    "start": 3767.96,
+    "end": 3769.96,
+    "text": "con mezcla de dos símbolos"
+  },
+  {
+    "start": 3769.96,
+    "end": 3771.96,
+    "text": "en alguno de ellos que le pusimos el color verde"
+  },
+  {
+    "start": 3771.96,
+    "end": 3773.96,
+    "text": "y de vuelta"
+  },
+  {
+    "start": 3773.96,
+    "end": 3775.96,
+    "text": "las estrategias entonces"
+  },
+  {
+    "start": 3775.96,
+    "end": 3777.96,
+    "text": "para un representante"
+  },
+  {
+    "start": 3777.96,
+    "end": 3779.96,
+    "text": "de esa familia"
+  },
+  {
+    "start": 3779.96,
+    "end": 3781.96,
+    "text": "o sea tengo la familia de vx con mi símbolo"
+  },
+  {
+    "start": 3781.96,
+    "end": 3783.96,
+    "text": "bueno"
+  },
+  {
+    "start": 3783.96,
+    "end": 3785.96,
+    "text": "o hago este"
+  },
+  {
+    "start": 3785.96,
+    "end": 3787.96,
+    "text": "o hago este"
+  },
+  {
+    "start": 3787.96,
+    "end": 3789.96,
+    "text": "buscar la i"
+  },
+  {
+    "start": 3789.96,
+    "end": 3791.96,
+    "text": "donde falla la tercera condición"
+  },
+  {
+    "start": 3791.96,
+    "end": 3793.96,
+    "text": "vx"
+  },
+  {
+    "start": 3793.96,
+    "end": 3795.96,
+    "text": "y"
+  },
+  {
+    "start": 3795.96,
+    "end": 3797.96,
+    "text": "no pertenece al lenguaje"
+  },
+  {
+    "start": 3797.96,
+    "end": 3799.96,
+    "text": "y luego indicar"
+  },
+  {
+    "start": 3799.96,
+    "end": 3801.96,
+    "text": "mostrutemente la palabra"
+  },
+  {
+    "start": 3801.96,
+    "end": 3803.96,
+    "text": "análogos"
+  },
+  {
+    "start": 3803.96,
+    "end": 3805.96,
+    "text": "aunque siempre"
+  },
+  {
+    "start": 3805.96,
+    "end": 3807.96,
+    "text": "y acá está hasta subrayado"
+  },
+  {
+    "start": 3807.96,
+    "end": 3809.96,
+    "text": "indicando que propiedad del lenguaje"
+  },
+  {
+    "start": 3809.96,
+    "end": 3811.96,
+    "text": "es la que se rompe"
+  },
+  {
+    "start": 3811.96,
+    "end": 3813.96,
+    "text": "en cada uno de esos casos análogos"
+  },
+  {
+    "start": 3813.96,
+    "end": 3815.96,
+    "text": "repito"
+  },
+  {
+    "start": 3815.96,
+    "end": 3817.96,
+    "text": "no poner solo análogo"
+  },
+  {
+    "start": 3821.96,
+    "end": 3823.96,
+    "text": "bien"
+  },
+  {
+    "start": 3823.96,
+    "end": 3825.96,
+    "text": "para no escribir todo"
+  },
+  {
+    "start": 3825.96,
+    "end": 3827.96,
+    "text": "como dicen cosas"
+  },
+  {
+    "start": 3827.96,
+    "end": 3829.96,
+    "text": "ya estaba escrito acá"
+  },
+  {
+    "start": 3829.96,
+    "end": 3831.96,
+    "text": "veamos el caso 1"
+  },
+  {
+    "start": 3831.96,
+    "end": 3833.96,
+    "text": "que justo es este 1"
+  },
+  {
+    "start": 3835.96,
+    "end": 3837.96,
+    "text": "v o sea que"
+  },
+  {
+    "start": 3837.96,
+    "end": 3839.96,
+    "text": "fíjense que"
+  },
+  {
+    "start": 3839.96,
+    "end": 3841.96,
+    "text": "es la v y la x acá"
+  },
+  {
+    "start": 3843.96,
+    "end": 3845.96,
+    "text": "o sea que la u que está a la izquierda de la v"
+  },
+  {
+    "start": 3845.96,
+    "end": 3847.96,
+    "text": "también tiene ceros"
+  },
+  {
+    "start": 3847.96,
+    "end": 3849.96,
+    "text": "la w que está entre la vx"
+  },
+  {
+    "start": 3849.96,
+    "end": 3851.96,
+    "text": "y la v"
+  },
+  {
+    "start": 3851.96,
+    "end": 3853.96,
+    "text": "y la x la w"
+  },
+  {
+    "start": 3853.96,
+    "end": 3855.96,
+    "text": "también tiene ceros"
+  },
+  {
+    "start": 3855.96,
+    "end": 3857.96,
+    "text": "la x estamos haciendo el caso de que solamente tiene ceros"
+  },
+  {
+    "start": 3857.96,
+    "end": 3859.96,
+    "text": "para la y"
+  },
+  {
+    "start": 3859.96,
+    "end": 3861.96,
+    "text": "tenemos alguna restricción"
+  },
+  {
+    "start": 3861.96,
+    "end": 3863.96,
+    "text": "no es la y esto del resto"
+  },
+  {
+    "start": 3863.96,
+    "end": 3865.96,
+    "text": "siempre lo que está a la izquierda"
+  },
+  {
+    "start": 3865.96,
+    "end": 3867.96,
+    "text": "de la x es la y"
+  },
+  {
+    "start": 3867.96,
+    "end": 3869.96,
+    "text": "entonces"
+  },
+  {
+    "start": 3869.96,
+    "end": 3871.96,
+    "text": "cuál es el caso 1"
+  },
+  {
+    "start": 3871.96,
+    "end": 3873.96,
+    "text": "0 a la p, v es 0 a la q"
+  },
+  {
+    "start": 3873.96,
+    "end": 3875.96,
+    "text": "w es 0 a la r"
+  },
+  {
+    "start": 3875.96,
+    "end": 3877.96,
+    "text": "x es 0 a la a"
+  },
+  {
+    "start": 3877.96,
+    "end": 3879.96,
+    "text": "y es 0 a la"
+  },
+  {
+    "start": 3879.96,
+    "end": 3881.96,
+    "text": "n menos p, menos q, menos r"
+  },
+  {
+    "start": 3881.96,
+    "end": 3883.96,
+    "text": "menos ese"
+  },
+  {
+    "start": 3883.96,
+    "end": 3885.96,
+    "text": "el 1 a la n y 2 a la n"
+  },
+  {
+    "start": 3887.96,
+    "end": 3889.96,
+    "text": "que tengo que poner"
+  },
+  {
+    "start": 3889.96,
+    "end": 3891.96,
+    "text": "estas dos cosas"
+  },
+  {
+    "start": 3893.96,
+    "end": 3895.96,
+    "text": "esta de acá es como media"
+  },
+  {
+    "start": 3895.96,
+    "end": 3897.96,
+    "text": "entre comillas"
+  },
+  {
+    "start": 3897.96,
+    "end": 3899.96,
+    "text": "natural porque estamos considerando un caso que está solamente"
+  },
+  {
+    "start": 3899.96,
+    "end": 3901.96,
+    "text": "entre los n 0s"
+  },
+  {
+    "start": 3901.96,
+    "end": 3903.96,
+    "text": "pero acostumbrense siempre a colocarla"
+  },
+  {
+    "start": 3907.96,
+    "end": 3909.96,
+    "text": "me pude poner p mayor o igual que 0"
+  },
+  {
+    "start": 3909.96,
+    "end": 3911.96,
+    "text": "si"
+  },
+  {
+    "start": 3911.96,
+    "end": 3913.96,
+    "text": "si"
+  },
+  {
+    "start": 3913.96,
+    "end": 3915.96,
+    "text": "si no lo pones asumimos que es p mayor o igual que 0"
+  },
+  {
+    "start": 3915.96,
+    "end": 3917.96,
+    "text": "pero si está bien, está buena la aclaración"
+  },
+  {
+    "start": 3917.96,
+    "end": 3919.96,
+    "text": "podríamos poner p mayor o igual que 0"
+  },
+  {
+    "start": 3919.96,
+    "end": 3921.96,
+    "text": "para no distinguir"
+  },
+  {
+    "start": 3921.96,
+    "end": 3923.96,
+    "text": "y eso es una cosa que"
+  },
+  {
+    "start": 3923.96,
+    "end": 3925.96,
+    "text": "es importante"
+  },
+  {
+    "start": 3925.96,
+    "end": 3927.96,
+    "text": "hay veces que si hay que distinguir u igual epsilon"
+  },
+  {
+    "start": 3927.96,
+    "end": 3929.96,
+    "text": "y hay veces que no"
+  },
+  {
+    "start": 3931.96,
+    "end": 3933.96,
+    "text": "no siempre hay que distinguir u igual epsilon"
+  },
+  {
+    "start": 3933.96,
+    "end": 3935.96,
+    "text": "entonces en donde no es necesario"
+  },
+  {
+    "start": 3935.96,
+    "end": 3937.96,
+    "text": "p mayor o igual que 0"
+  },
+  {
+    "start": 3937.96,
+    "end": 3939.96,
+    "text": "y ella te contempla el caso de que u igual epsilon"
+  },
+  {
+    "start": 3939.96,
+    "end": 3941.96,
+    "text": "o sea sería el caso en que"
+  },
+  {
+    "start": 3941.96,
+    "end": 3943.96,
+    "text": "la b comienza en el primer cerrito"
+  },
+  {
+    "start": 3947.96,
+    "end": 3949.96,
+    "text": "bien, y bueno y ahí está"
+  },
+  {
+    "start": 3949.96,
+    "end": 3951.96,
+    "text": "todas las cuentas"
+  },
+  {
+    "start": 3951.96,
+    "end": 3953.96,
+    "text": "que no las voy a hacer yo de vuelta"
+  },
+  {
+    "start": 3953.96,
+    "end": 3955.96,
+    "text": "o sea, z subí como me queda"
+  },
+  {
+    "start": 3955.96,
+    "end": 3957.96,
+    "text": "0 a la p, 0 la q a la i, 0 a la r"
+  },
+  {
+    "start": 3957.96,
+    "end": 3959.96,
+    "text": "0 a la s a la i"
+  },
+  {
+    "start": 3959.96,
+    "end": 3961.96,
+    "text": "y todo el resto, el y"
+  },
+  {
+    "start": 3961.96,
+    "end": 3963.96,
+    "text": "ahí hacemos un poquito de cuentitas"
+  },
+  {
+    "start": 3963.96,
+    "end": 3965.96,
+    "text": "0 a la p"
+  },
+  {
+    "start": 3965.96,
+    "end": 3967.96,
+    "text": "o sea, lo que hace es juntar"
+  },
+  {
+    "start": 3967.96,
+    "end": 3969.96,
+    "text": "son strings, son símbolos"
+  },
+  {
+    "start": 3969.96,
+    "end": 3971.96,
+    "text": "los ceros, junto todo en"
+  },
+  {
+    "start": 3971.96,
+    "end": 3973.96,
+    "text": "los ceros, o sea eso me queda"
+  },
+  {
+    "start": 3973.96,
+    "end": 3975.96,
+    "text": "0 a la p"
+  },
+  {
+    "start": 3975.96,
+    "end": 3977.96,
+    "text": "0 a la q a la i es 0 a la iq"
+  },
+  {
+    "start": 3977.96,
+    "end": 3979.96,
+    "text": "o a la qi"
+  },
+  {
+    "start": 3979.96,
+    "end": 3981.96,
+    "text": "más r"
+  },
+  {
+    "start": 3981.96,
+    "end": 3983.96,
+    "text": "más s por i"
+  },
+  {
+    "start": 3983.96,
+    "end": 3985.96,
+    "text": "más n menos p, menos q, menos r, menos s"
+  },
+  {
+    "start": 3985.96,
+    "end": 3987.96,
+    "text": "1 a la n, 2 a la n"
+  },
+  {
+    "start": 3989.96,
+    "end": 3991.96,
+    "text": "y ahí operamos un poquito"
+  },
+  {
+    "start": 3991.96,
+    "end": 3993.96,
+    "text": "tengo acá"
+  },
+  {
+    "start": 3993.96,
+    "end": 3995.96,
+    "text": "más r y acá tengo menos r"
+  },
+  {
+    "start": 3995.96,
+    "end": 3997.96,
+    "text": "obviamente se simplifican"
+  },
+  {
+    "start": 3997.96,
+    "end": 3999.96,
+    "text": "y..."
+  },
+  {
+    "start": 3999.96,
+    "end": 4001.96,
+    "text": "y después tengo qi"
+  },
+  {
+    "start": 4001.96,
+    "end": 4003.96,
+    "text": "y acá tengo menos q"
+  },
+  {
+    "start": 4003.96,
+    "end": 4005.96,
+    "text": "ah, y la p se simplifica también"
+  },
+  {
+    "start": 4005.96,
+    "end": 4007.96,
+    "text": "porque tengo acá menos p y acá más p"
+  },
+  {
+    "start": 4007.96,
+    "end": 4009.96,
+    "text": "y acá tengo qi y acá menos q"
+  },
+  {
+    "start": 4009.96,
+    "end": 4011.96,
+    "text": "y acá tengo si"
+  },
+  {
+    "start": 4011.96,
+    "end": 4013.96,
+    "text": "y acá menos s"
+  },
+  {
+    "start": 4013.96,
+    "end": 4015.96,
+    "text": "entonces simplemente lo que hice acá"
+  },
+  {
+    "start": 4015.96,
+    "end": 4017.96,
+    "text": "es juntar 0 a la n más"
+  },
+  {
+    "start": 4017.96,
+    "end": 4019.96,
+    "text": "q más s por i menos 1"
+  },
+  {
+    "start": 4019.96,
+    "end": 4021.96,
+    "text": "junté las"
+  },
+  {
+    "start": 4021.96,
+    "end": 4023.96,
+    "text": "esas dos términos en esas dos"
+  },
+  {
+    "start": 4023.96,
+    "end": 4025.96,
+    "text": "factores"
+  },
+  {
+    "start": 4025.96,
+    "end": 4027.96,
+    "text": "y también pues el 1"
+  },
+  {
+    "start": 4027.96,
+    "end": 4029.96,
+    "text": "a la n, 2 a la n"
+  },
+  {
+    "start": 4029.96,
+    "end": 4031.96,
+    "text": "acá"
+  },
+  {
+    "start": 4031.96,
+    "end": 4033.96,
+    "text": "o sea, es tratar de"
+  },
+  {
+    "start": 4033.96,
+    "end": 4035.96,
+    "text": "jugar un poco, a chicar"
+  },
+  {
+    "start": 4035.96,
+    "end": 4037.96,
+    "text": "y ta, llega un punto de decir bueno"
+  },
+  {
+    "start": 4037.96,
+    "end": 4039.96,
+    "text": "ahora voy a elegir el i"
+  },
+  {
+    "start": 4039.96,
+    "end": 4041.96,
+    "text": "obviamente qi es"
+  },
+  {
+    "start": 4041.96,
+    "end": 4043.96,
+    "text": "de vuelta, qi es el que no puedo elegir"
+  },
+  {
+    "start": 4043.96,
+    "end": 4045.96,
+    "text": "igual 1"
+  },
+  {
+    "start": 4045.96,
+    "end": 4047.96,
+    "text": "fíjense, de hecho si el hijo igual 1"
+  },
+  {
+    "start": 4047.96,
+    "end": 4049.96,
+    "text": "esto me queda 0, o sea que q más s"
+  },
+  {
+    "start": 4049.96,
+    "end": 4051.96,
+    "text": "por 0 es 0, me queda 0 a la n"
+  },
+  {
+    "start": 4051.96,
+    "end": 4053.96,
+    "text": "1 a la n es a la n"
+  },
+  {
+    "start": 4057.96,
+    "end": 4059.96,
+    "text": "está bueno porque"
+  },
+  {
+    "start": 4063.96,
+    "end": 4065.96,
+    "text": "nunca pongan, acostúmbrense"
+  },
+  {
+    "start": 4065.96,
+    "end": 4067.96,
+    "text": "a poner un i, hagan"
+  },
+  {
+    "start": 4067.96,
+    "end": 4069.96,
+    "text": "las cuentas con un i"
+  },
+  {
+    "start": 4069.96,
+    "end": 4071.96,
+    "text": "no pongan, para cualquier i mayor"
+  },
+  {
+    "start": 4071.96,
+    "end": 4073.96,
+    "text": "que tanto, porque después"
+  },
+  {
+    "start": 4073.96,
+    "end": 4075.96,
+    "text": "cometen ah, para cualquier i mayor"
+  },
+  {
+    "start": 4075.96,
+    "end": 4077.96,
+    "text": "que 0 se cumple, o cualquier i mayor"
+  },
+  {
+    "start": 4077.96,
+    "end": 4079.96,
+    "text": "igual que 1 se cumple, y es tan mal"
+  },
+  {
+    "start": 4079.96,
+    "end": 4081.96,
+    "text": "porque si yo te haces que con el 1"
+  },
+  {
+    "start": 4081.96,
+    "end": 4083.96,
+    "text": "igual 1 no te cumple"
+  },
+  {
+    "start": 4083.96,
+    "end": 4085.96,
+    "text": "ah, pero todo lo demás si"
+  },
+  {
+    "start": 4085.96,
+    "end": 4087.96,
+    "text": "pero pusiste i mayor igual que 1"
+  },
+  {
+    "start": 4089.96,
+    "end": 4091.96,
+    "text": "se entiende"
+  },
+  {
+    "start": 4091.96,
+    "end": 4093.96,
+    "text": "acostúmbrense a poner"
+  },
+  {
+    "start": 4093.96,
+    "end": 4095.96,
+    "text": "elijan un i, no elijan igual 1"
+  },
+  {
+    "start": 4095.96,
+    "end": 4097.96,
+    "text": "elijan otro i"
+  },
+  {
+    "start": 4097.96,
+    "end": 4099.96,
+    "text": "claro, a veces con igual 0"
+  },
+  {
+    "start": 4099.96,
+    "end": 4101.96,
+    "text": "no te sirve, entonces vas a tener que"
+  },
+  {
+    "start": 4101.96,
+    "end": 4103.96,
+    "text": "igual 2, o igual 3"
+  },
+  {
+    "start": 4103.96,
+    "end": 4105.96,
+    "text": "o a veces con igual 2, no te sirve"
+  },
+  {
+    "start": 4105.96,
+    "end": 4107.96,
+    "text": "vas a tener que elegir igual 0"
+  },
+  {
+    "start": 4107.96,
+    "end": 4109.96,
+    "text": "pero nunca igual 1"
+  },
+  {
+    "start": 4111.96,
+    "end": 4113.96,
+    "text": "bien"
+  },
+  {
+    "start": 4113.96,
+    "end": 4115.96,
+    "text": "acá en la diapositiva"
+  },
+  {
+    "start": 4115.96,
+    "end": 4117.96,
+    "text": "se eligió igual 0"
+  },
+  {
+    "start": 4117.96,
+    "end": 4119.96,
+    "text": "entonces me quedó 0 a la n"
+  },
+  {
+    "start": 4119.96,
+    "end": 4121.96,
+    "text": "menos q más s"
+  },
+  {
+    "start": 4121.96,
+    "end": 4123.96,
+    "text": "porque 0 menos 1"
+  },
+  {
+    "start": 4123.96,
+    "end": 4125.96,
+    "text": "me da menos 1 por q más s"
+  },
+  {
+    "start": 4125.96,
+    "end": 4127.96,
+    "text": "me queda menos q más s"
+  },
+  {
+    "start": 4127.96,
+    "end": 4129.96,
+    "text": "1 a la n es a la n"
+  },
+  {
+    "start": 4129.96,
+    "end": 4131.96,
+    "text": "entonces"
+  },
+  {
+    "start": 4131.96,
+    "end": 4133.96,
+    "text": "que es lo que no se cumple"
+  },
+  {
+    "start": 4133.96,
+    "end": 4135.96,
+    "text": "como q más s"
+  },
+  {
+    "start": 4135.96,
+    "end": 4137.96,
+    "text": "acá es una forma de escribirlo"
+  },
+  {
+    "start": 4137.96,
+    "end": 4139.96,
+    "text": "esta notación ya la habíamos"
+  },
+  {
+    "start": 4139.96,
+    "end": 4141.96,
+    "text": "utilizado"
+  },
+  {
+    "start": 4141.96,
+    "end": 4143.96,
+    "text": "como q más s es mayor igual"
+  },
+  {
+    "start": 4143.96,
+    "end": 4145.96,
+    "text": "que 1"
+  },
+  {
+    "start": 4145.96,
+    "end": 4147.96,
+    "text": "acá lo puso de una manera"
+  },
+  {
+    "start": 4147.96,
+    "end": 4149.96,
+    "text": "no se cumple que la cantidad"
+  },
+  {
+    "start": 4149.96,
+    "end": 4151.96,
+    "text": "de 0s de z sub 0"
+  },
+  {
+    "start": 4151.96,
+    "end": 4153.96,
+    "text": "es igual a la cantidad de 1s"
+  },
+  {
+    "start": 4153.96,
+    "end": 4155.96,
+    "text": "de z sub 0"
+  },
+  {
+    "start": 4155.96,
+    "end": 4157.96,
+    "text": "tampoco se cumple con respecto a la cantidad de 2"
+  },
+  {
+    "start": 4157.96,
+    "end": 4159.96,
+    "text": "me cansa que por lo menos compararlo con uno de ellos"
+  },
+  {
+    "start": 4161.96,
+    "end": 4163.96,
+    "text": "entonces como no se cumple que la cantidad"
+  },
+  {
+    "start": 4163.96,
+    "end": 4165.96,
+    "text": "de 0s es igual a la cantidad de 1s"
+  },
+  {
+    "start": 4165.96,
+    "end": 4167.96,
+    "text": "la de 1s y 2s, pero no la cantidad"
+  },
+  {
+    "start": 4167.96,
+    "end": 4169.96,
+    "text": "de 0s es la que se rompe"
+  },
+  {
+    "start": 4169.96,
+    "end": 4171.96,
+    "text": "porque q más s es mayor igual que 1"
+  },
+  {
+    "start": 4171.96,
+    "end": 4173.96,
+    "text": "o sea acá"
+  },
+  {
+    "start": 4173.96,
+    "end": 4175.96,
+    "text": "que es lo que decíamos hoy hace un rato"
+  },
+  {
+    "start": 4175.96,
+    "end": 4177.96,
+    "text": "yo lo estoy argumentando"
+  },
+  {
+    "start": 4177.96,
+    "end": 4179.96,
+    "text": "en función de la estructura del lenguaje"
+  },
+  {
+    "start": 4179.96,
+    "end": 4181.96,
+    "text": "no estoy diciendo"
+  },
+  {
+    "start": 4181.96,
+    "end": 4183.96,
+    "text": "porque q más 1 es mayor igual que 1"
+  },
+  {
+    "start": 4183.96,
+    "end": 4185.96,
+    "text": "entonces no pertenece"
+  },
+  {
+    "start": 4185.96,
+    "end": 4187.96,
+    "text": "porque siempre va a pasar eso"
+  },
+  {
+    "start": 4189.96,
+    "end": 4191.96,
+    "text": "lo que tienen que especificar"
+  },
+  {
+    "start": 4191.96,
+    "end": 4193.96,
+    "text": "es que es lo que"
+  },
+  {
+    "start": 4193.96,
+    "end": 4195.96,
+    "text": "hace que se rompa"
+  },
+  {
+    "start": 4195.96,
+    "end": 4197.96,
+    "text": "la z sub 0 en este caso"
+  },
+  {
+    "start": 4199.96,
+    "end": 4201.96,
+    "text": "que es lo que se rompe de la estructura del lenguaje"
+  },
+  {
+    "start": 4201.96,
+    "end": 4203.96,
+    "text": "en este caso"
+  },
+  {
+    "start": 4203.96,
+    "end": 4205.96,
+    "text": "que la cantidad de 0s es distinta de la cantidad de 1s"
+  },
+  {
+    "start": 4205.96,
+    "end": 4207.96,
+    "text": "que en este caso es menor"
+  },
+  {
+    "start": 4207.96,
+    "end": 4209.96,
+    "text": "porque como q más s"
+  },
+  {
+    "start": 4209.96,
+    "end": 4211.96,
+    "text": "es mayor igual que 1"
+  },
+  {
+    "start": 4211.96,
+    "end": 4213.96,
+    "text": "tengo menos 0s que 1s"
+  },
+  {
+    "start": 4215.96,
+    "end": 4217.96,
+    "text": "que es lo que están esperando ahora"
+  },
+  {
+    "start": 4219.96,
+    "end": 4221.96,
+    "text": "eso"
+  },
+  {
+    "start": 4221.96,
+    "end": 4223.96,
+    "text": "los análogos"
+  },
+  {
+    "start": 4225.96,
+    "end": 4227.96,
+    "text": "antes de ponerme a hacer el caso 2"
+  },
+  {
+    "start": 4229.96,
+    "end": 4231.96,
+    "text": "acá tenía otra numeración"
+  },
+  {
+    "start": 4233.96,
+    "end": 4235.96,
+    "text": "son los análogos"
+  },
+  {
+    "start": 4235.96,
+    "end": 4237.96,
+    "text": "en el cuadrito de las diapositivas"
+  },
+  {
+    "start": 4237.96,
+    "end": 4239.96,
+    "text": "dice los casos 5 y 9"
+  },
+  {
+    "start": 4239.96,
+    "end": 4241.96,
+    "text": "son análogos a 1"
+  },
+  {
+    "start": 4241.96,
+    "end": 4243.96,
+    "text": "acá diría en este ejemplo"
+  },
+  {
+    "start": 4243.96,
+    "end": 4245.96,
+    "text": "el caso 2 y el 3 son análogos a 1"
+  },
+  {
+    "start": 4245.96,
+    "end": 4247.96,
+    "text": "la diferencia es"
+  },
+  {
+    "start": 4247.96,
+    "end": 4249.96,
+    "text": "2 puntos"
+  },
+  {
+    "start": 4249.96,
+    "end": 4251.96,
+    "text": "en el 5 lo que cambian son los 1s"
+  },
+  {
+    "start": 4251.96,
+    "end": 4253.96,
+    "text": "con respecto al resto"
+  },
+  {
+    "start": 4253.96,
+    "end": 4255.96,
+    "text": "a los 0s y los 2s"
+  },
+  {
+    "start": 4255.96,
+    "end": 4257.96,
+    "text": "y en el 9 lo que cambian"
+  },
+  {
+    "start": 4257.96,
+    "end": 4259.96,
+    "text": "son los 2s con respecto a los 0s"
+  },
+  {
+    "start": 4259.96,
+    "end": 4261.96,
+    "text": "o a los 1s"
+  },
+  {
+    "start": 4261.96,
+    "end": 4263.96,
+    "text": "no es tan grave"
+  },
+  {
+    "start": 4263.96,
+    "end": 4265.96,
+    "text": "no es tan grave"
+  },
+  {
+    "start": 4265.96,
+    "end": 4267.96,
+    "text": "no es como para entrar"
+  },
+  {
+    "start": 4267.96,
+    "end": 4269.96,
+    "text": "en pánico el tema de los análogos"
+  },
+  {
+    "start": 4269.96,
+    "end": 4271.96,
+    "text": "pero está bueno"
+  },
+  {
+    "start": 4271.96,
+    "end": 4273.96,
+    "text": "para sumbrarse a justificar"
+  },
+  {
+    "start": 4273.96,
+    "end": 4275.96,
+    "text": "que fue lo que se rompe"
+  },
+  {
+    "start": 4275.96,
+    "end": 4277.96,
+    "text": "en cada uno de los casos"
+  },
+  {
+    "start": 4277.96,
+    "end": 4279.96,
+    "text": "entonces yo no les voy a pedir"
+  },
+  {
+    "start": 4279.96,
+    "end": 4281.96,
+    "text": "que hagan todo este ejemplo para el 3"
+  },
+  {
+    "start": 4281.96,
+    "end": 4283.96,
+    "text": "y para el 2 y para el 3"
+  },
+  {
+    "start": 4283.96,
+    "end": 4285.96,
+    "text": "o para el 5 y para el 9 en el ejemplo"
+  },
+  {
+    "start": 4285.96,
+    "end": 4287.96,
+    "text": "pero alcanzan que lo justifiquen bien"
+  },
+  {
+    "start": 4287.96,
+    "end": 4289.96,
+    "text": "y no poner simplemente el caso 9"
+  },
+  {
+    "start": 4289.96,
+    "end": 4291.96,
+    "text": "y el caso 5 son análogos"
+  },
+  {
+    "start": 4291.96,
+    "end": 4293.96,
+    "text": "tómense 2 minutos más"
+  },
+  {
+    "start": 4293.96,
+    "end": 4295.96,
+    "text": "y expliquen"
+  },
+  {
+    "start": 4295.96,
+    "end": 4297.96,
+    "text": "que es lo que cambia en ese razonamiento"
+  },
+  {
+    "start": 4301.96,
+    "end": 4303.96,
+    "text": "el 6 acá"
+  },
+  {
+    "start": 4305.96,
+    "end": 4307.96,
+    "text": "está bueno ahora lo vamos a ver"
+  },
+  {
+    "start": 4307.96,
+    "end": 4309.96,
+    "text": "ahora lo vamos a ver"
+  },
+  {
+    "start": 4309.96,
+    "end": 4311.96,
+    "text": "bien"
+  },
+  {
+    "start": 4311.96,
+    "end": 4313.96,
+    "text": "caso 2"
+  },
+  {
+    "start": 4313.96,
+    "end": 4315.96,
+    "text": "acá el caso 2 que se tomó"
+  },
+  {
+    "start": 4315.96,
+    "end": 4317.96,
+    "text": "es"
+  },
+  {
+    "start": 4317.96,
+    "end": 4319.96,
+    "text": "y esto es importante"
+  },
+  {
+    "start": 4319.96,
+    "end": 4321.96,
+    "text": "fíjense lo que dice la diapositiva"
+  },
+  {
+    "start": 4321.96,
+    "end": 4323.96,
+    "text": "el caso 2 es el caso en que tengo"
+  },
+  {
+    "start": 4325.96,
+    "end": 4327.96,
+    "text": "sería el caso"
+  },
+  {
+    "start": 4327.96,
+    "end": 4329.96,
+    "text": "6, ahí va"
+  },
+  {
+    "start": 4329.96,
+    "end": 4331.96,
+    "text": "quedando a los que decía el compañero"
+  },
+  {
+    "start": 4331.96,
+    "end": 4333.96,
+    "text": "el caso 2 sería el caso 6"
+  },
+  {
+    "start": 4333.96,
+    "end": 4335.96,
+    "text": "que tengo b con 0"
+  },
+  {
+    "start": 4335.96,
+    "end": 4337.96,
+    "text": "y la x con algun 1"
+  },
+  {
+    "start": 4337.96,
+    "end": 4339.96,
+    "text": "y algun 0"
+  },
+  {
+    "start": 4339.96,
+    "end": 4341.96,
+    "text": "entonces"
+  },
+  {
+    "start": 4341.96,
+    "end": 4343.96,
+    "text": "también acá otro"
+  },
+  {
+    "start": 4343.96,
+    "end": 4345.96,
+    "text": "le diría otro pique"
+  },
+  {
+    "start": 4345.96,
+    "end": 4347.96,
+    "text": "como para que les quede más simple"
+  },
+  {
+    "start": 4347.96,
+    "end": 4349.96,
+    "text": "la formulación"
+  },
+  {
+    "start": 4349.96,
+    "end": 4351.96,
+    "text": "que es"
+  },
+  {
+    "start": 4351.96,
+    "end": 4353.96,
+    "text": "si yo voy a tomarlo por acá"
+  },
+  {
+    "start": 4353.96,
+    "end": 4355.96,
+    "text": "en el medio"
+  },
+  {
+    "start": 4355.96,
+    "end": 4357.96,
+    "text": "siempre traten de tirar para lú"
+  },
+  {
+    "start": 4357.96,
+    "end": 4359.96,
+    "text": "o para yé"
+  },
+  {
+    "start": 4359.96,
+    "end": 4361.96,
+    "text": "toda la n-r-q"
+  },
+  {
+    "start": 4361.96,
+    "end": 4363.96,
+    "text": "no sé qué"
+  },
+  {
+    "start": 4363.96,
+    "end": 4365.96,
+    "text": "porque si lo ponen en el x"
+  },
+  {
+    "start": 4365.96,
+    "end": 4367.96,
+    "text": "uno empieza a poner u a la p"
+  },
+  {
+    "start": 4367.96,
+    "end": 4369.96,
+    "text": "o sea lo mismo que hoy no"
+  },
+  {
+    "start": 4369.96,
+    "end": 4371.96,
+    "text": "u es 0 a la p"
+  },
+  {
+    "start": 4371.96,
+    "end": 4373.96,
+    "text": "b es 0 a la q"
+  },
+  {
+    "start": 4373.96,
+    "end": 4375.96,
+    "text": "w es 0 a la r"
+  },
+  {
+    "start": 4375.96,
+    "end": 4377.96,
+    "text": "y cuando llegan al s que va a tener 0s y 1s"
+  },
+  {
+    "start": 4377.96,
+    "end": 4379.96,
+    "text": "le ponen 0 a la n-r-p-q"
+  },
+  {
+    "start": 4379.96,
+    "end": 4381.96,
+    "text": "1"
+  },
+  {
+    "start": 4381.96,
+    "end": 4383.96,
+    "text": "y les va a quedar una cosa horrible de ver"
+  },
+  {
+    "start": 4383.96,
+    "end": 4385.96,
+    "text": "que no funcione"
+  },
+  {
+    "start": 4385.96,
+    "end": 4387.96,
+    "text": "pero le va a quedar feo después"
+  },
+  {
+    "start": 4387.96,
+    "end": 4389.96,
+    "text": "para trabajarla"
+  },
+  {
+    "start": 4389.96,
+    "end": 4391.96,
+    "text": "y eso muchas veces lleva errores"
+  },
+  {
+    "start": 4391.96,
+    "end": 4393.96,
+    "text": "y no son errores"
+  },
+  {
+    "start": 4393.96,
+    "end": 4395.96,
+    "text": "de procedimiento, son errores porque"
+  },
+  {
+    "start": 4395.96,
+    "end": 4397.96,
+    "text": "les quedó tan horrible eso"
+  },
+  {
+    "start": 4397.96,
+    "end": 4399.96,
+    "text": "que después cuando quieren simplificar"
+  },
+  {
+    "start": 4399.96,
+    "end": 4401.96,
+    "text": "unificar los 0s"
+  },
+  {
+    "start": 4401.96,
+    "end": 4403.96,
+    "text": "ya se armaron lío porque eso tiene que"
+  },
+  {
+    "start": 4403.96,
+    "end": 4405.96,
+    "text": "que le vale a i, entonces después te va a quedar"
+  },
+  {
+    "start": 4405.96,
+    "end": 4407.96,
+    "text": "con n-i"
+  },
+  {
+    "start": 4407.96,
+    "end": 4409.96,
+    "text": "se arman lío"
+  },
+  {
+    "start": 4409.96,
+    "end": 4411.96,
+    "text": "entonces"
+  },
+  {
+    "start": 4411.96,
+    "end": 4413.96,
+    "text": "b es 0 a la q"
+  },
+  {
+    "start": 4413.96,
+    "end": 4415.96,
+    "text": "w es 0 a la"
+  },
+  {
+    "start": 4415.96,
+    "end": 4417.96,
+    "text": "r y x es 0 a la s"
+  },
+  {
+    "start": 4417.96,
+    "end": 4419.96,
+    "text": "1 a la t"
+  },
+  {
+    "start": 4419.96,
+    "end": 4421.96,
+    "text": "de vuelta las condiciones"
+  },
+  {
+    "start": 4421.96,
+    "end": 4423.96,
+    "text": "son que p"
+  },
+  {
+    "start": 4423.96,
+    "end": 4425.96,
+    "text": "o sea largo de bx es mayor igual que 1"
+  },
+  {
+    "start": 4425.96,
+    "end": 4427.96,
+    "text": "y b es"
+  },
+  {
+    "start": 4427.96,
+    "end": 4429.96,
+    "text": "q más s más t mayor igual que 1"
+  },
+  {
+    "start": 4429.96,
+    "end": 4431.96,
+    "text": "y"
+  },
+  {
+    "start": 4431.96,
+    "end": 4433.96,
+    "text": "que bwx es menor igual que n"
+  },
+  {
+    "start": 4433.96,
+    "end": 4435.96,
+    "text": "o sea que es"
+  },
+  {
+    "start": 4435.96,
+    "end": 4437.96,
+    "text": "0 a la r y x es 0 a la s 1 a la t"
+  },
+  {
+    "start": 4437.96,
+    "end": 4439.96,
+    "text": "de vuelta las condiciones"
+  },
+  {
+    "start": 4439.96,
+    "end": 4441.96,
+    "text": "bwx es menor igual que n"
+  },
+  {
+    "start": 4441.96,
+    "end": 4443.96,
+    "text": "o sea que q más r más s más t menor igual"
+  },
+  {
+    "start": 4443.96,
+    "end": 4445.96,
+    "text": "que n esas son las condiciones"
+  },
+  {
+    "start": 4447.96,
+    "end": 4449.96,
+    "text": "y acá estamos haciendo otra aclaración"
+  },
+  {
+    "start": 4449.96,
+    "end": 4451.96,
+    "text": "que está bueno hacerlo"
+  },
+  {
+    "start": 4451.96,
+    "end": 4453.96,
+    "text": "sobre todo porque después"
+  },
+  {
+    "start": 4453.96,
+    "end": 4455.96,
+    "text": "les va a simplificar a ustedes"
+  },
+  {
+    "start": 4455.96,
+    "end": 4457.96,
+    "text": "al momento de la justificación"
+  },
+  {
+    "start": 4457.96,
+    "end": 4459.96,
+    "text": "fíjense que estamos diciendo"
+  },
+  {
+    "start": 4461.96,
+    "end": 4463.96,
+    "text": "además, estoy diciendo que"
+  },
+  {
+    "start": 4463.96,
+    "end": 4465.96,
+    "text": "ese es mayor que 0"
+  },
+  {
+    "start": 4465.96,
+    "end": 4467.96,
+    "text": "¿qué estoy diciendo con esto?"
+  },
+  {
+    "start": 4467.96,
+    "end": 4469.96,
+    "text": "¿está poniéndole una restricción?"
+  },
+  {
+    "start": 4469.96,
+    "end": 4471.96,
+    "text": "en realidad lo que estoy diciendo es que"
+  },
+  {
+    "start": 4471.96,
+    "end": 4473.96,
+    "text": "estoy considerando el caso"
+  },
+  {
+    "start": 4473.96,
+    "end": 4475.96,
+    "text": "en que justamente hay de los dos"
+  },
+  {
+    "start": 4477.96,
+    "end": 4479.96,
+    "text": "de 0 y 1"
+  },
+  {
+    "start": 4479.96,
+    "end": 4481.96,
+    "text": "porque si no, cabemos en el caso"
+  },
+  {
+    "start": 4481.96,
+    "end": 4483.96,
+    "text": "bueno en el caso 3, no me acuerdo cuál era"
+  },
+  {
+    "start": 4483.96,
+    "end": 4485.96,
+    "text": "el caso 3"
+  },
+  {
+    "start": 4485.96,
+    "end": 4487.96,
+    "text": "ahi va"
+  },
+  {
+    "start": 4487.96,
+    "end": 4489.96,
+    "text": "b en 0"
+  },
+  {
+    "start": 4489.96,
+    "end": 4491.96,
+    "text": "y x solamente 1"
+  },
+  {
+    "start": 4491.96,
+    "end": 4493.96,
+    "text": "y eso lo voy a tratar después"
+  },
+  {
+    "start": 4497.96,
+    "end": 4499.96,
+    "text": "ahi"
+  },
+  {
+    "start": 4499.96,
+    "end": 4501.96,
+    "text": "oops"
+  },
+  {
+    "start": 4501.96,
+    "end": 4503.96,
+    "text": "ahi"
+  },
+  {
+    "start": 4503.96,
+    "end": 4505.96,
+    "text": "bien, y lo mi... era acá ¿no?"
+  },
+  {
+    "start": 4505.96,
+    "end": 4507.96,
+    "text": "y el t mayor igual que 0"
+  },
+  {
+    "start": 4507.96,
+    "end": 4509.96,
+    "text": "porque si no, cabemos en el caso 1"
+  },
+  {
+    "start": 4509.96,
+    "end": 4511.96,
+    "text": "que habíamos hecho recién"
+  },
+  {
+    "start": 4511.96,
+    "end": 4513.96,
+    "text": "que la b y la x solamente con 0s"
+  },
+  {
+    "start": 4513.96,
+    "end": 4515.96,
+    "text": "¿se entendió?"
+  },
+  {
+    "start": 4515.96,
+    "end": 4517.96,
+    "text": "bien"
+  },
+  {
+    "start": 4517.96,
+    "end": 4519.96,
+    "text": "esta es otra cosa importante"
+  },
+  {
+    "start": 4519.96,
+    "end": 4521.96,
+    "text": "cuando hay mezcla"
+  },
+  {
+    "start": 4523.96,
+    "end": 4525.96,
+    "text": "o sea cuando la b o la x"
+  },
+  {
+    "start": 4525.96,
+    "end": 4527.96,
+    "text": "tiene"
+  },
+  {
+    "start": 4527.96,
+    "end": 4529.96,
+    "text": "de más de un símbolo"
+  },
+  {
+    "start": 4529.96,
+    "end": 4531.96,
+    "text": "cuando hacen esto"
+  },
+  {
+    "start": 4533.96,
+    "end": 4535.96,
+    "text": "¿cómo me queda el z ahi? bueno"
+  },
+  {
+    "start": 4535.96,
+    "end": 4537.96,
+    "text": "plateo"
+  },
+  {
+    "start": 4537.96,
+    "end": 4539.96,
+    "text": "me queda"
+  },
+  {
+    "start": 4539.96,
+    "end": 4541.96,
+    "text": "0 a la n, menos q, menos r, menos s"
+  },
+  {
+    "start": 4541.96,
+    "end": 4543.96,
+    "text": "0 a la qi, 0 a la r"
+  },
+  {
+    "start": 4543.96,
+    "end": 4545.96,
+    "text": "0 a la s, 1 a la t"
+  },
+  {
+    "start": 4545.96,
+    "end": 4547.96,
+    "text": "a la i"
+  },
+  {
+    "start": 4547.96,
+    "end": 4549.96,
+    "text": "eso quiere decir es"
+  },
+  {
+    "start": 4549.96,
+    "end": 4551.96,
+    "text": "0 a la s, 1 a la t"
+  },
+  {
+    "start": 4551.96,
+    "end": 4553.96,
+    "text": "y veces, o sea concatenado"
+  },
+  {
+    "start": 4553.96,
+    "end": 4555.96,
+    "text": "consigo mismo"
+  },
+  {
+    "start": 4557.96,
+    "end": 4559.96,
+    "text": "si, entonces el siguiente"
+  },
+  {
+    "start": 4559.96,
+    "end": 4561.96,
+    "text": "renglón, bueno juntamos un poco"
+  },
+  {
+    "start": 4561.96,
+    "end": 4563.96,
+    "text": "junté los 0's de iq"
+  },
+  {
+    "start": 4563.96,
+    "end": 4565.96,
+    "text": "0 a la n, q"
+  },
+  {
+    "start": 4565.96,
+    "end": 4567.96,
+    "text": "y por i menos 1, menos s"
+  },
+  {
+    "start": 4569.96,
+    "end": 4571.96,
+    "text": "podría haber"
+  },
+  {
+    "start": 4571.96,
+    "end": 4573.96,
+    "text": "extendido un poquito"
+  },
+  {
+    "start": 4575.96,
+    "end": 4577.96,
+    "text": "pero no importa demasiado"
+  },
+  {
+    "start": 4577.96,
+    "end": 4579.96,
+    "text": "voy a hablar"
+  },
+  {
+    "start": 4579.96,
+    "end": 4581.96,
+    "text": "de escrito distinto"
+  },
+  {
+    "start": 4581.96,
+    "end": 4583.96,
+    "text": "ese intésor mayor es que 0"
+  },
+  {
+    "start": 4585.96,
+    "end": 4587.96,
+    "text": "eso ya lo sabemos"
+  },
+  {
+    "start": 4587.96,
+    "end": 4589.96,
+    "text": "entonces"
+  },
+  {
+    "start": 4589.96,
+    "end": 4591.96,
+    "text": "si, lo que dices en este ejemplo"
+  },
+  {
+    "start": 4591.96,
+    "end": 4593.96,
+    "text": "tomamos igual 2"
+  },
+  {
+    "start": 4593.96,
+    "end": 4595.96,
+    "text": "con z a 2"
+  },
+  {
+    "start": 4595.96,
+    "end": 4597.96,
+    "text": "me queda esto"
+  },
+  {
+    "start": 4599.96,
+    "end": 4601.96,
+    "text": "0 a la n, más q"
+  },
+  {
+    "start": 4601.96,
+    "end": 4603.96,
+    "text": "o sea tengo que sustituir i por 2"
+  },
+  {
+    "start": 4603.96,
+    "end": 4605.96,
+    "text": "entonces me queda 0 a la n, más q"
+  },
+  {
+    "start": 4605.96,
+    "end": 4607.96,
+    "text": "2 menos 1, 1"
+  },
+  {
+    "start": 4607.96,
+    "end": 4609.96,
+    "text": "entonces me queda"
+  },
+  {
+    "start": 4609.96,
+    "end": 4611.96,
+    "text": "menos s"
+  },
+  {
+    "start": 4613.96,
+    "end": 4615.96,
+    "text": "0 a la s, 1 a la t"
+  },
+  {
+    "start": 4615.96,
+    "end": 4617.96,
+    "text": "0 a la s, 1 a la t"
+  },
+  {
+    "start": 4617.96,
+    "end": 4619.96,
+    "text": "1 a la n, menos t, 2 a la n"
+  },
+  {
+    "start": 4619.96,
+    "end": 4621.96,
+    "text": "acá"
+  },
+  {
+    "start": 4621.96,
+    "end": 4623.96,
+    "text": "me queda fíjese la operación que hizo"
+  },
+  {
+    "start": 4623.96,
+    "end": 4625.96,
+    "text": "es"
+  },
+  {
+    "start": 4625.96,
+    "end": 4627.96,
+    "text": "0 a la n, más q, menos s concatenado"
+  },
+  {
+    "start": 4627.96,
+    "end": 4629.96,
+    "text": "con 0 a la s"
+  },
+  {
+    "start": 4629.96,
+    "end": 4631.96,
+    "text": "ahí todo bien, en realidad es"
+  },
+  {
+    "start": 4631.96,
+    "end": 4633.96,
+    "text": "0 a la n, más q"
+  },
+  {
+    "start": 4635.96,
+    "end": 4637.96,
+    "text": "1 a la t, 0 a la s"
+  },
+  {
+    "start": 4637.96,
+    "end": 4639.96,
+    "text": "y lo mismo acá"
+  },
+  {
+    "start": 4639.96,
+    "end": 4641.96,
+    "text": "el 1 a la t con n, menos t"
+  },
+  {
+    "start": 4641.96,
+    "end": 4643.96,
+    "text": "se me simplifican las t"
+  },
+  {
+    "start": 4643.96,
+    "end": 4645.96,
+    "text": "pero qué pasa"
+  },
+  {
+    "start": 4645.96,
+    "end": 4647.96,
+    "text": "cómo me quedó el z a su 2"
+  },
+  {
+    "start": 4647.96,
+    "end": 4649.96,
+    "text": "0 a la n, más q"
+  },
+  {
+    "start": 4649.96,
+    "end": 4651.96,
+    "text": "1 a la t, 0 a la s, 1 a la n"
+  },
+  {
+    "start": 4651.96,
+    "end": 4653.96,
+    "text": "2 a la n"
+  },
+  {
+    "start": 4653.96,
+    "end": 4655.96,
+    "text": "y como estábamos en el caso"
+  },
+  {
+    "start": 4655.96,
+    "end": 4657.96,
+    "text": "en el supuesto que"
+  },
+  {
+    "start": 4657.96,
+    "end": 4659.96,
+    "text": "s era mayor que 0"
+  },
+  {
+    "start": 4661.96,
+    "end": 4663.96,
+    "text": "porque si no caíamos en otro de las familias"
+  },
+  {
+    "start": 4663.96,
+    "end": 4665.96,
+    "text": "ya sé que acá"
+  },
+  {
+    "start": 4665.96,
+    "end": 4667.96,
+    "text": "lo que va a pasar"
+  },
+  {
+    "start": 4667.96,
+    "end": 4669.96,
+    "text": "ahí mezcla"
+  },
+  {
+    "start": 4669.96,
+    "end": 4671.96,
+    "text": "en este caso de 0 y 1"
+  },
+  {
+    "start": 4673.96,
+    "end": 4675.96,
+    "text": "si yo eso no lo aclaro"
+  },
+  {
+    "start": 4675.96,
+    "end": 4677.96,
+    "text": "antes"
+  },
+  {
+    "start": 4677.96,
+    "end": 4679.96,
+    "text": "tengo que tener mucho cuidado"
+  },
+  {
+    "start": 4679.96,
+    "end": 4681.96,
+    "text": "cuando justifique"
+  },
+  {
+    "start": 4681.96,
+    "end": 4683.96,
+    "text": "por eso está bueno"
+  },
+  {
+    "start": 4683.96,
+    "end": 4685.96,
+    "text": "tomarse un tiempo"
+  },
+  {
+    "start": 4685.96,
+    "end": 4687.96,
+    "text": "y pensar"
+  },
+  {
+    "start": 4687.96,
+    "end": 4689.96,
+    "text": "en hacer estas aclaraciones"
+  },
+  {
+    "start": 4689.96,
+    "end": 4691.96,
+    "text": "porque si no"
+  },
+  {
+    "start": 4691.96,
+    "end": 4693.96,
+    "text": "este argumento no te va a servir siempre"
+  },
+  {
+    "start": 4693.96,
+    "end": 4695.96,
+    "text": "se mezclan 0 con 1"
+  },
+  {
+    "start": 4695.96,
+    "end": 4697.96,
+    "text": "siempre y cuando"
+  },
+  {
+    "start": 4697.96,
+    "end": 4699.96,
+    "text": "los dos no sean 0"
+  },
+  {
+    "start": 4699.96,
+    "end": 4701.96,
+    "text": "mayor que 0 porque si no"
+  },
+  {
+    "start": 4701.96,
+    "end": 4703.96,
+    "text": "no necesariamente"
+  },
+  {
+    "start": 4703.96,
+    "end": 4705.96,
+    "text": "eso es importante"
+  },
+  {
+    "start": 4705.96,
+    "end": 4707.96,
+    "text": "al momento de justificar"
+  },
+  {
+    "start": 4707.96,
+    "end": 4709.96,
+    "text": "y es en las cosas que hacemos énfasis"
+  },
+  {
+    "start": 4711.96,
+    "end": 4713.96,
+    "text": "bien"
+  },
+  {
+    "start": 4713.96,
+    "end": 4715.96,
+    "text": "entonces consideramos el caso"
+  },
+  {
+    "start": 4715.96,
+    "end": 4717.96,
+    "text": "de B con un símbolo"
+  },
+  {
+    "start": 4717.96,
+    "end": 4719.96,
+    "text": "uno de los símbolos"
+  },
+  {
+    "start": 4719.96,
+    "end": 4721.96,
+    "text": "que es el caso 6"
+  },
+  {
+    "start": 4721.96,
+    "end": 4723.96,
+    "text": "y la x con mezcla"
+  },
+  {
+    "start": 4723.96,
+    "end": 4725.96,
+    "text": "vamos a la zonálogos"
+  },
+  {
+    "start": 4725.96,
+    "end": 4727.96,
+    "text": "que son los otros tres casos"
+  },
+  {
+    "start": 4727.96,
+    "end": 4729.96,
+    "text": "el 4 que en el cuadrito era"
+  },
+  {
+    "start": 4729.96,
+    "end": 4731.96,
+    "text": "el 4, el 6 y el 8"
+  },
+  {
+    "start": 4731.96,
+    "end": 4733.96,
+    "text": "son a la gasa del caso 2 y de vuelta"
+  },
+  {
+    "start": 4733.96,
+    "end": 4735.96,
+    "text": "cuál es la diferencia"
+  },
+  {
+    "start": 4735.96,
+    "end": 4737.96,
+    "text": "en el 4"
+  },
+  {
+    "start": 4737.96,
+    "end": 4739.96,
+    "text": "sería"
+  },
+  {
+    "start": 4739.96,
+    "end": 4741.96,
+    "text": "el 6"
+  },
+  {
+    "start": 4741.96,
+    "end": 4743.96,
+    "text": "que era este con este"
+  },
+  {
+    "start": 4743.96,
+    "end": 4745.96,
+    "text": "en un caso se mezclaba la x"
+  },
+  {
+    "start": 4745.96,
+    "end": 4747.96,
+    "text": "en otro caso se mezclaba la B"
+  },
+  {
+    "start": 4747.96,
+    "end": 4749.96,
+    "text": "en el 6"
+  },
+  {
+    "start": 4749.96,
+    "end": 4751.96,
+    "text": "se mezclan son los 1 con los 2"
+  },
+  {
+    "start": 4751.96,
+    "end": 4753.96,
+    "text": "y el 8 es el mismo que los 6"
+  },
+  {
+    "start": 4753.96,
+    "end": 4755.96,
+    "text": "pero la mezcla sucede en el string B"
+  },
+  {
+    "start": 4755.96,
+    "end": 4757.96,
+    "text": "no en el string X"
+  },
+  {
+    "start": 4757.96,
+    "end": 4759.96,
+    "text": "con esto se alcanza"
+  },
+  {
+    "start": 4759.96,
+    "end": 4761.96,
+    "text": "con esto yo quedo claro"
+  },
+  {
+    "start": 4763.96,
+    "end": 4765.96,
+    "text": "se entendió la forma de justificar"
+  },
+  {
+    "start": 4767.96,
+    "end": 4769.96,
+    "text": "caso 3"
+  },
+  {
+    "start": 4771.96,
+    "end": 4773.96,
+    "text": "que sé que me falta"
+  },
+  {
+    "start": 4773.96,
+    "end": 4775.96,
+    "text": "cuando yo tengo"
+  },
+  {
+    "start": 4775.96,
+    "end": 4777.96,
+    "text": "que era el que acá habíamos puesto"
+  },
+  {
+    "start": 4777.96,
+    "end": 4779.96,
+    "text": "que es el 4 y el 5"
+  },
+  {
+    "start": 4779.96,
+    "end": 4781.96,
+    "text": "en donde"
+  },
+  {
+    "start": 4781.96,
+    "end": 4783.96,
+    "text": "el A B por ejemplo tiene ceros"
+  },
+  {
+    "start": 4783.96,
+    "end": 4785.96,
+    "text": "y la X tiene unos"
+  },
+  {
+    "start": 4787.96,
+    "end": 4789.96,
+    "text": "o sea hay símbolos distintos"
+  },
+  {
+    "start": 4789.96,
+    "end": 4791.96,
+    "text": "de vuelta"
+  },
+  {
+    "start": 4791.96,
+    "end": 4793.96,
+    "text": "la misma"
+  },
+  {
+    "start": 4793.96,
+    "end": 4795.96,
+    "text": "consideración que hicimos hoy"
+  },
+  {
+    "start": 4795.96,
+    "end": 4797.96,
+    "text": "a Lule tiramos todo"
+  },
+  {
+    "start": 4797.96,
+    "end": 4799.96,
+    "text": "lo que sobre del string"
+  },
+  {
+    "start": 4799.96,
+    "end": 4801.96,
+    "text": "nos concentramos en B, W y X"
+  },
+  {
+    "start": 4801.96,
+    "end": 4803.96,
+    "text": "que nos quede lo más simple posible"
+  },
+  {
+    "start": 4803.96,
+    "end": 4805.96,
+    "text": "para después hacer las cuentas"
+  },
+  {
+    "start": 4805.96,
+    "end": 4807.96,
+    "text": "que tenemos después"
+  },
+  {
+    "start": 4807.96,
+    "end": 4809.96,
+    "text": "entonces U es"
+  },
+  {
+    "start": 4809.96,
+    "end": 4811.96,
+    "text": "en general de hecho"
+  },
+  {
+    "start": 4811.96,
+    "end": 4813.96,
+    "text": "B, 0 a la Q, W"
+  },
+  {
+    "start": 4813.96,
+    "end": 4815.96,
+    "text": "0 a la P, 1 a la R, X"
+  },
+  {
+    "start": 4815.96,
+    "end": 4817.96,
+    "text": "1 a la S"
+  },
+  {
+    "start": 4817.96,
+    "end": 4819.96,
+    "text": "¿Cuántas la U que es el resto"
+  },
+  {
+    "start": 4819.96,
+    "end": 4821.96,
+    "text": "y es 0 a la N menos"
+  },
+  {
+    "start": 4821.96,
+    "end": 4823.96,
+    "text": "B menos Q, perfecto, ya está"
+  },
+  {
+    "start": 4823.96,
+    "end": 4825.96,
+    "text": "completé ahí"
+  },
+  {
+    "start": 4825.96,
+    "end": 4827.96,
+    "text": "y la llevo en lo que me falta"
+  },
+  {
+    "start": 4827.96,
+    "end": 4829.96,
+    "text": "me concentro en B, W"
+  },
+  {
+    "start": 4829.96,
+    "end": 4831.96,
+    "text": "y X y después completo"
+  },
+  {
+    "start": 4831.96,
+    "end": 4833.96,
+    "text": "y la ta"
+  },
+  {
+    "start": 4833.96,
+    "end": 4835.96,
+    "text": "la inversión ¿no? Q más S mayor"
+  },
+  {
+    "start": 4835.96,
+    "end": 4837.96,
+    "text": "igual que 1"
+  },
+  {
+    "start": 4837.96,
+    "end": 4839.96,
+    "text": "o que tengo más"
+  },
+  {
+    "start": 4839.96,
+    "end": 4841.96,
+    "text": "B y X tiene que ser mayor"
+  },
+  {
+    "start": 4841.96,
+    "end": 4843.96,
+    "text": "igual que 1 y de vuelta"
+  },
+  {
+    "start": 4843.96,
+    "end": 4845.96,
+    "text": "Q más P más R más S"
+  },
+  {
+    "start": 4845.96,
+    "end": 4847.96,
+    "text": "tiene que ser menor o igual que N"
+  },
+  {
+    "start": 4847.96,
+    "end": 4849.96,
+    "text": "para cumplir la otra condición"
+  },
+  {
+    "start": 4849.96,
+    "end": 4851.96,
+    "text": "y bueno y ahí nada"
+  },
+  {
+    "start": 4851.96,
+    "end": 4853.96,
+    "text": "se hace lo mismo"
+  },
+  {
+    "start": 4853.96,
+    "end": 4855.96,
+    "text": "Z subí igual 0 a la N"
+  },
+  {
+    "start": 4855.96,
+    "end": 4857.96,
+    "text": "menos P menos Q"
+  },
+  {
+    "start": 4857.96,
+    "end": 4859.96,
+    "text": "0 a la Q a la I, 0 a la P"
+  },
+  {
+    "start": 4859.96,
+    "end": 4861.96,
+    "text": "1 a la R, 1 a la S a la I"
+  },
+  {
+    "start": 4861.96,
+    "end": 4863.96,
+    "text": "0 a la N más Q"
+  },
+  {
+    "start": 4863.96,
+    "end": 4865.96,
+    "text": "por I menos 1"
+  },
+  {
+    "start": 4865.96,
+    "end": 4867.96,
+    "text": "1 a la N más S por I menos 1"
+  },
+  {
+    "start": 4867.96,
+    "end": 4869.96,
+    "text": "2 a la N"
+  },
+  {
+    "start": 4869.96,
+    "end": 4871.96,
+    "text": "y esto por lo general"
+  },
+  {
+    "start": 4871.96,
+    "end": 4873.96,
+    "text": "siempre pasa"
+  },
+  {
+    "start": 4873.96,
+    "end": 4875.96,
+    "text": "de"
+  },
+  {
+    "start": 4875.96,
+    "end": 4877.96,
+    "text": "partir"
+  },
+  {
+    "start": 4877.96,
+    "end": 4879.96,
+    "text": "en función de si"
+  },
+  {
+    "start": 4879.96,
+    "end": 4881.96,
+    "text": "alguno de los dos"
+  },
+  {
+    "start": 4881.96,
+    "end": 4883.96,
+    "text": "podría ser 0, no los dos"
+  },
+  {
+    "start": 4883.96,
+    "end": 4885.96,
+    "text": "Q y S no pueden ser 0 los dos"
+  },
+  {
+    "start": 4885.96,
+    "end": 4887.96,
+    "text": "por lo que dijimos acá"
+  },
+  {
+    "start": 4887.96,
+    "end": 4889.96,
+    "text": "Q más S es mayor igual que 1"
+  },
+  {
+    "start": 4889.96,
+    "end": 4891.96,
+    "text": "pero eventualmente el argumento"
+  },
+  {
+    "start": 4891.96,
+    "end": 4893.96,
+    "text": "de por qué no pertenezca"
+  },
+  {
+    "start": 4895.96,
+    "end": 4897.96,
+    "text": "tendría que contemplarlo"
+  },
+  {
+    "start": 4897.96,
+    "end": 4899.96,
+    "text": "cuando yo justifico"
+  },
+  {
+    "start": 4899.96,
+    "end": 4901.96,
+    "text": "por eso es lo que yo insisto"
+  },
+  {
+    "start": 4901.96,
+    "end": 4903.96,
+    "text": "con eso, como Q más S"
+  },
+  {
+    "start": 4903.96,
+    "end": 4905.96,
+    "text": "que 1 la tira no pertenece"
+  },
+  {
+    "start": 4905.96,
+    "end": 4907.96,
+    "text": "¿cuál es el razonamiento?"
+  },
+  {
+    "start": 4907.96,
+    "end": 4909.96,
+    "text": "¿qué es lo que te hace?"
+  },
+  {
+    "start": 4909.96,
+    "end": 4911.96,
+    "text": "¿qué es lo que se rompe de la estructura"
+  },
+  {
+    "start": 4911.96,
+    "end": 4913.96,
+    "text": "del lenguaje? bien"
+  },
+  {
+    "start": 4913.96,
+    "end": 4915.96,
+    "text": "si Q es igual a 0"
+  },
+  {
+    "start": 4915.96,
+    "end": 4917.96,
+    "text": "que podría pasar porque uno de los dos"
+  },
+  {
+    "start": 4917.96,
+    "end": 4919.96,
+    "text": "sabemos que S no es 0"
+  },
+  {
+    "start": 4919.96,
+    "end": 4921.96,
+    "text": "entonces"
+  },
+  {
+    "start": 4921.96,
+    "end": 4923.96,
+    "text": "en ese caso"
+  },
+  {
+    "start": 4923.96,
+    "end": 4925.96,
+    "text": "si S no es 0 tomamos igual 0"
+  },
+  {
+    "start": 4925.96,
+    "end": 4927.96,
+    "text": "lo que falla"
+  },
+  {
+    "start": 4927.96,
+    "end": 4929.96,
+    "text": "es que la cantidad de 0 es mayor"
+  },
+  {
+    "start": 4929.96,
+    "end": 4931.96,
+    "text": "que la cantidad de 1"
+  },
+  {
+    "start": 4931.96,
+    "end": 4933.96,
+    "text": "entonces 0 a 2 no pertenece"
+  },
+  {
+    "start": 4933.96,
+    "end": 4935.96,
+    "text": "si Q es mayor que 0"
+  },
+  {
+    "start": 4935.96,
+    "end": 4937.96,
+    "text": "ahí ni siquiera importa S"
+  },
+  {
+    "start": 4937.96,
+    "end": 4939.96,
+    "text": "puede ser 0, no importa"
+  },
+  {
+    "start": 4939.96,
+    "end": 4941.96,
+    "text": "porque me voy a concentrar en Q"
+  },
+  {
+    "start": 4941.96,
+    "end": 4943.96,
+    "text": "se entiende, no tengo por qué hacer"
+  },
+  {
+    "start": 4943.96,
+    "end": 4945.96,
+    "text": "si Q es mayor que 0"
+  },
+  {
+    "start": 4945.96,
+    "end": 4947.96,
+    "text": "si Q es 0 y el otro es distinto de 0"
+  },
+  {
+    "start": 4947.96,
+    "end": 4949.96,
+    "text": "si los dos son distinto de 0"
+  },
+  {
+    "start": 4949.96,
+    "end": 4951.96,
+    "text": "me alcanza con"
+  },
+  {
+    "start": 4951.96,
+    "end": 4953.96,
+    "text": "también, esto se los da la práctica"
+  },
+  {
+    "start": 4953.96,
+    "end": 4955.96,
+    "text": "tengo que hacer esa discusión"
+  },
+  {
+    "start": 4957.96,
+    "end": 4959.96,
+    "text": "si Q es mayor que 0"
+  },
+  {
+    "start": 4959.96,
+    "end": 4961.96,
+    "text": "no importa demasiado porque ahí"
+  },
+  {
+    "start": 4961.96,
+    "end": 4963.96,
+    "text": "en realidad si S es igual a 0"
+  },
+  {
+    "start": 4963.96,
+    "end": 4965.96,
+    "text": "lo que me cambian son los Q"
+  },
+  {
+    "start": 4965.96,
+    "end": 4967.96,
+    "text": "los 0's"
+  },
+  {
+    "start": 4967.96,
+    "end": 4969.96,
+    "text": "entonces los 0's los controlo con los n's"
+  },
+  {
+    "start": 4969.96,
+    "end": 4971.96,
+    "text": "si Q es mayor que 0"
+  },
+  {
+    "start": 4971.96,
+    "end": 4973.96,
+    "text": "y S es mayor que 0"
+  },
+  {
+    "start": 4975.96,
+    "end": 4977.96,
+    "text": "tengo que hacer"
+  },
+  {
+    "start": 4977.96,
+    "end": 4979.96,
+    "text": "que se rompa"
+  },
+  {
+    "start": 4979.96,
+    "end": 4981.96,
+    "text": "no me sirve comparar"
+  },
+  {
+    "start": 4981.96,
+    "end": 4983.96,
+    "text": "0's con 1's"
+  },
+  {
+    "start": 4983.96,
+    "end": 4985.96,
+    "text": "siempre comparo"
+  },
+  {
+    "start": 4985.96,
+    "end": 4987.96,
+    "text": "con el que se queda quieto"
+  },
+  {
+    "start": 4987.96,
+    "end": 4989.96,
+    "text": "con los dos en este caso"
+  },
+  {
+    "start": 4991.96,
+    "end": 4993.96,
+    "text": "porque yo digo"
+  },
+  {
+    "start": 4993.96,
+    "end": 4995.96,
+    "text": "qué argumento es lo que no puedo poner"
+  },
+  {
+    "start": 4997.96,
+    "end": 4999.96,
+    "text": "si Q es distinto de S"
+  },
+  {
+    "start": 4999.96,
+    "end": 5001.96,
+    "text": "la cantidad de 0"
+  },
+  {
+    "start": 5001.96,
+    "end": 5003.96,
+    "text": "es mayor que 0"
+  },
+  {
+    "start": 5003.96,
+    "end": 5005.96,
+    "text": "la cantidad de 0 es distinto de la cantidad de 1's"
+  },
+  {
+    "start": 5007.96,
+    "end": 5009.96,
+    "text": "y si Q es igual a S"
+  },
+  {
+    "start": 5013.96,
+    "end": 5015.96,
+    "text": "entonces no usemos eso para controlar"
+  },
+  {
+    "start": 5015.96,
+    "end": 5017.96,
+    "text": "usemos lo que quedan fijos"
+  },
+  {
+    "start": 5021.96,
+    "end": 5023.96,
+    "text": "de acuerdo"
+  },
+  {
+    "start": 5025.96,
+    "end": 5027.96,
+    "text": "bien"
+  },
+  {
+    "start": 5027.96,
+    "end": 5029.96,
+    "text": "teníamos el 4 y el 5"
+  },
+  {
+    "start": 5029.96,
+    "end": 5031.96,
+    "text": "entonces en este caso"
+  },
+  {
+    "start": 5031.96,
+    "end": 5033.96,
+    "text": "a lo igual 3 la diferencia es que se compara"
+  },
+  {
+    "start": 5033.96,
+    "end": 5035.96,
+    "text": "con los 0's que son los que quedan fijos"
+  },
+  {
+    "start": 5035.96,
+    "end": 5037.96,
+    "text": "lo que decíamos recién que ahí comparaba con los 2"
+  },
+  {
+    "start": 5041.96,
+    "end": 5043.96,
+    "text": "se entendió"
+  },
+  {
+    "start": 5045.96,
+    "end": 5047.96,
+    "text": "entonces al final"
+  },
+  {
+    "start": 5049.96,
+    "end": 5051.96,
+    "text": "hicimos los 9 casos"
+  },
+  {
+    "start": 5051.96,
+    "end": 5053.96,
+    "text": "agrupados en 3 familias"
+  },
+  {
+    "start": 5055.96,
+    "end": 5057.96,
+    "text": "o sea son 9 familias"
+  },
+  {
+    "start": 5057.96,
+    "end": 5059.96,
+    "text": "pero agrupados en 3"
+  },
+  {
+    "start": 5059.96,
+    "end": 5061.96,
+    "text": "grupos de resolución distintos"
+  },
+  {
+    "start": 5063.96,
+    "end": 5065.96,
+    "text": "son 9 familias"
+  },
+  {
+    "start": 5065.96,
+    "end": 5067.96,
+    "text": "familias de descomposiciones"
+  },
+  {
+    "start": 5067.96,
+    "end": 5069.96,
+    "text": "familias de descomposiciones"
+  },
+  {
+    "start": 5069.96,
+    "end": 5071.96,
+    "text": "son familias de descomposiciones"
+  },
+  {
+    "start": 5071.96,
+    "end": 5073.96,
+    "text": "pero que las reduce a 3 casos"
+  },
+  {
+    "start": 5073.96,
+    "end": 5075.96,
+    "text": "de estudio"
+  },
+  {
+    "start": 5075.96,
+    "end": 5077.96,
+    "text": "pero argumenten las 9"
+  },
+  {
+    "start": 5079.96,
+    "end": 5081.96,
+    "text": "se estudiaron todas las descomposiciones"
+  },
+  {
+    "start": 5081.96,
+    "end": 5083.96,
+    "text": "que cumplen esas condiciones"
+  },
+  {
+    "start": 5083.96,
+    "end": 5085.96,
+    "text": "la BWX"
+  },
+  {
+    "start": 5085.96,
+    "end": 5087.96,
+    "text": "menor igual que N"
+  },
+  {
+    "start": 5087.96,
+    "end": 5089.96,
+    "text": "y BX mayor igual que 1"
+  },
+  {
+    "start": 5089.96,
+    "end": 5091.96,
+    "text": "y a todas esas"
+  },
+  {
+    "start": 5091.96,
+    "end": 5093.96,
+    "text": "se les encontró un I"
+  },
+  {
+    "start": 5093.96,
+    "end": 5095.96,
+    "text": "por la cual la tira no pertenece"
+  },
+  {
+    "start": 5097.96,
+    "end": 5099.96,
+    "text": "ahí faltaría poner"
+  },
+  {
+    "start": 5099.96,
+    "end": 5101.96,
+    "text": "estas son todas"
+  },
+  {
+    "start": 5101.96,
+    "end": 5103.96,
+    "text": "bueno dice ahí"
+  },
+  {
+    "start": 5103.96,
+    "end": 5105.96,
+    "text": "esto es transformado en la cláusula"
+  },
+  {
+    "start": 5105.96,
+    "end": 5107.96,
+    "text": "estas son todas las familias"
+  },
+  {
+    "start": 5107.96,
+    "end": 5109.96,
+    "text": "que cumplen tal y tal"
+  },
+  {
+    "start": 5109.96,
+    "end": 5111.96,
+    "text": "acá yo puse como se han estudiado"
+  },
+  {
+    "start": 5111.96,
+    "end": 5113.96,
+    "text": "todo lo mismo"
+  },
+  {
+    "start": 5113.96,
+    "end": 5115.96,
+    "text": "todo como hice"
+  },
+  {
+    "start": 5115.96,
+    "end": 5117.96,
+    "text": "cualquier otra descomposición"
+  },
+  {
+    "start": 5117.96,
+    "end": 5119.96,
+    "text": "ya falla en esta"
+  },
+  {
+    "start": 5119.96,
+    "end": 5121.96,
+    "text": "entonces no me importa"
+  },
+  {
+    "start": 5121.96,
+    "end": 5123.96,
+    "text": "no voy a buscar ningún I"
+  },
+  {
+    "start": 5123.96,
+    "end": 5125.96,
+    "text": "cualquier otra descomposición la tira no pertenece"
+  },
+  {
+    "start": 5125.96,
+    "end": 5127.96,
+    "text": "si B está acá y la X acá"
+  },
+  {
+    "start": 5127.96,
+    "end": 5129.96,
+    "text": "porque no cumple esta"
+  },
+  {
+    "start": 5129.96,
+    "end": 5131.96,
+    "text": "por eso que no busco el I"
+  },
+  {
+    "start": 5131.96,
+    "end": 5133.96,
+    "text": "se entiende eso no?"
+  },
+  {
+    "start": 5133.96,
+    "end": 5135.96,
+    "text": "por eso no las planteo"
+  },
+  {
+    "start": 5135.96,
+    "end": 5137.96,
+    "text": "cualquier otra descomposición posible"
+  },
+  {
+    "start": 5137.96,
+    "end": 5139.96,
+    "text": "la B acá y la X acá"
+  },
+  {
+    "start": 5139.96,
+    "end": 5141.96,
+    "text": "directamente no cumple BWX"
+  },
+  {
+    "start": 5141.96,
+    "end": 5143.96,
+    "text": "ya no busco el I"
+  },
+  {
+    "start": 5143.96,
+    "end": 5145.96,
+    "text": "entonces recién ahí podemos concluir"
+  },
+  {
+    "start": 5145.96,
+    "end": 5147.96,
+    "text": "que el lenguaje"
+  },
+  {
+    "start": 5147.96,
+    "end": 5149.96,
+    "text": "no es un lenguaje libre de contexto"
+  },
+  {
+    "start": 5153.96,
+    "end": 5155.96,
+    "text": "preguntas"
+  },
+  {
+    "start": 5159.96,
+    "end": 5161.96,
+    "text": "se entendió?"
+  },
+  {
+    "start": 5161.96,
+    "end": 5163.96,
+    "text": "se entendió como se trabaja?"
+  },
+  {
+    "start": 5163.96,
+    "end": 5165.96,
+    "text": "si?"
+  },
+  {
+    "start": 5165.96,
+    "end": 5167.96,
+    "text": "bien"
+  },
+  {
+    "start": 5167.96,
+    "end": 5169.96,
+    "text": "bueno dejamos por acá entonces"
+  },
+  {
+    "start": 5169.96,
+    "end": 5171.96,
+    "text": "y"
+  },
+  {
+    "start": 5171.96,
+    "end": 5173.96,
+    "text": "el lunes seguimos"
+  },
+  {
+    "start": 5173.96,
+    "end": 5175.96,
+    "text": "viendo más propiedades"
+  },
+  {
+    "start": 5175.96,
+    "end": 5177.96,
+    "text": "del lenguaje libre de contexto"
+  }
+]

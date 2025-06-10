@@ -1,0 +1,4397 @@
+[
+  {
+    "start": 0.0,
+    "end": 8.72,
+    "text": "Bien, perfecto. Bueno, la idea de la clase hoy es continuar con lo que habíamos empezado"
+  },
+  {
+    "start": 8.72,
+    "end": 17.080000000000002,
+    "text": "en la Cresce pasada, que eran modelos dimentarios. Hoy vamos a ver algunos otros modelos para"
+  },
+  {
+    "start": 17.080000000000002,
+    "end": 23.080000000000002,
+    "text": "el caso en los que se asume que la demanda es conocida, pero puede variar con el tiempo,"
+  },
+  {
+    "start": 24.080000000000002,
+    "end": 30.12,
+    "text": "de lo que se conoce como demanda dinámica. Y después, en esta clase o en la que viene,"
+  },
+  {
+    "start": 30.12,
+    "end": 35.72,
+    "text": "vamos a ver problemas con múltiples artículos, con más de un ítem, digamos, que hay controlar,"
+  },
+  {
+    "start": 35.72,
+    "end": 43.400000000000006,
+    "text": "y algunas extensiones más, en donde además de las cantidades a comprar o a producir,"
+  },
+  {
+    "start": 43.400000000000006,
+    "end": 50.68000000000001,
+    "text": "hay que analizar también el tema del precio de los artículos. Eso es, como lo hice ahí en la"
+  },
+  {
+    "start": 50.68,
+    "end": 59.519999999999996,
+    "text": "slide, son los modelos con fijación de precio. Entonces hoy vamos a empezar con el modelo del"
+  },
+  {
+    "start": 59.519999999999996,
+    "end": 66.12,
+    "text": "tamaño económico del lote, con demandas variables, que se le adjudica a los autores van"
+  },
+  {
+    "start": 66.12,
+    "end": 75.36,
+    "text": "el WII, que fueron los primeros en publicar un trabajo sobre este tipo de problemas, digamos,"
+  },
+  {
+    "start": 75.36,
+    "end": 82.68,
+    "text": "de determinar las cantidades a producir o ordenar con demandas variables, que plantearon un modelo"
+  },
+  {
+    "start": 82.68,
+    "end": 88.48,
+    "text": "matemático de programación matemática y un algoritmo, además, que hoy en día se conocen como"
+  },
+  {
+    "start": 88.48,
+    "end": 96.12,
+    "text": "el Modengo de van der Widen o el algoritmo de van der Widen. Y después vamos a ver ese problema,"
+  },
+  {
+    "start": 96.12,
+    "end": 102.76,
+    "text": "pero donde se agregan restricciones de capacidad en la cantidad a comprar o producir. Estos dos"
+  },
+  {
+    "start": 102.84,
+    "end": 107.80000000000001,
+    "text": "modelos, tanto el 1 y el 2 están, bueno, también el 3, que es modelos multiproductos,"
+  },
+  {
+    "start": 107.80000000000001,
+    "end": 113.2,
+    "text": "están muy asociados también a problemas de planificación de la producción, además de"
+  },
+  {
+    "start": 113.2,
+    "end": 120.0,
+    "text": "control de inventario. O sea, probablemente indistintamente me refiere a tanto a producir,"
+  },
+  {
+    "start": 120.0,
+    "end": 128.4,
+    "text": "pero sería también, en este contexto, podría ser ordenar o adquirir o comprar un cierto"
+  },
+  {
+    "start": 128.4,
+    "end": 135.68,
+    "text": "artículo. ¿Está bien? Bueno, como la clase pasada, cualquier duda que tengas, prenden el"
+  },
+  {
+    "start": 135.68,
+    "end": 144.92000000000002,
+    "text": "micrófono y me paran o me mandan ahí para el chat, ¿ok? Bueno, seguimos. ¿Se acuerdan que en la"
+  },
+  {
+    "start": 144.92000000000002,
+    "end": 152.72,
+    "text": "clase pasada estuvimos viendo el modelo del EOQ o económico orden cuantitivo, cantidad económica"
+  },
+  {
+    "start": 153.04,
+    "end": 163.07999999999998,
+    "text": "de tamaño de lote, que fue el primer modelo que se conoce para este tipo de problemas de control"
+  },
+  {
+    "start": 163.07999999999998,
+    "end": 170.48,
+    "text": "de inventario, en donde se asunía que la demanda era conocida y que, a su vez, era constante,"
+  },
+  {
+    "start": 170.48,
+    "end": 177.24,
+    "text": "o sea, era una cantidad de unidades por unidad de tiempo, las unidades de item por unidad de"
+  },
+  {
+    "start": 177.24,
+    "end": 188.28,
+    "text": "tiempo. En este caso, vamos a asumir o vamos a relajar esa, digamos, esa restricción de que la"
+  },
+  {
+    "start": 188.28,
+    "end": 197.60000000000002,
+    "text": "demanda tenga que ser contante a una situación en donde puede variar o ser diferente, período a"
+  },
+  {
+    "start": 197.6,
+    "end": 207.51999999999998,
+    "text": "período. Esta es otra también, otra suposición, es que el tiempo se considera discreto, como una"
+  },
+  {
+    "start": 207.51999999999998,
+    "end": 213.4,
+    "text": "cantidad de períodos. Esto lo vendría a hacer, y se acuerdan que yo mencioné la clase pasada que el EOQ"
+  },
+  {
+    "start": 213.4,
+    "end": 218.32,
+    "text": "es un modelo de revisión continuo, se llama porque se asume que el nivel de inventario se puede"
+  },
+  {
+    "start": 218.32,
+    "end": 225.51999999999998,
+    "text": "medir en cualquier momento y se puede alterar en cualquier momento con una reposición. Cuando la"
+  },
+  {
+    "start": 225.52,
+    "end": 233.64000000000001,
+    "text": "demanda es dinámica o en ciertas situaciones en que la demanda dinámica se suele discrepizar en"
+  },
+  {
+    "start": 233.64000000000001,
+    "end": 238.72,
+    "text": "tiempo, se suele ser un problema de revisión periódica en donde se asume, pues se supone que en"
+  },
+  {
+    "start": 238.72,
+    "end": 246.52,
+    "text": "realidad en ciertos momentos del día o del período, pues días, semanas, o sea, se puede"
+  },
+  {
+    "start": 246.52,
+    "end": 254.0,
+    "text": "tanto medir el nivel de inventario como alterar ese nivel de inventario. Bueno,"
+  },
+  {
+    "start": 254.6,
+    "end": 261.28,
+    "text": "la unidad de tiempo en general se consideran este período de tiempo iguales, que por eso dice"
+  },
+  {
+    "start": 261.28,
+    "end": 269.68,
+    "text": "el arco idéntico, para el modelo van a ser simplemente momentos de tiempo, ya les digo,"
+  },
+  {
+    "start": 269.68,
+    "end": 275.96,
+    "text": "pueden ser segundos, minutos, horas, días, semanas, pero en general se asumen iguales. Y en lo que"
+  },
+  {
+    "start": 275.96,
+    "end": 283.28,
+    "text": "vamos a ver acá hay también como dos grandes especificaciones que son de cubo chico,"
+  },
+  {
+    "start": 283.28000000000003,
+    "end": 289.56,
+    "text": "cubo grande, con la gordura literatura, small bucket o big bucket, que quiere decir si se pueden"
+  },
+  {
+    "start": 289.56,
+    "end": 295.04,
+    "text": "hacer muchas actividades en ese período o pocas actividades. En general los problemas de small"
+  },
+  {
+    "start": 295.04,
+    "end": 302.08000000000004,
+    "text": "bucket, pocas, en los hechos digamos para la resolución, para el modelo, quiere decir que se"
+  },
+  {
+    "start": 302.08000000000004,
+    "end": 306.8,
+    "text": "pueda producir o comprar un solo artículo y los de big bucket, quiere decir que se pueden"
+  },
+  {
+    "start": 306.8,
+    "end": 310.64000000000004,
+    "text": "hacer más de un artículo a la vez o producir o comprar más de un artículo en el mismo"
+  },
+  {
+    "start": 310.64,
+    "end": 318.88,
+    "text": "período. Bueno, ¿cuál va a ser el objetivo, digamos, que perseguimos dentro de la contesta de"
+  },
+  {
+    "start": 318.88,
+    "end": 323.52,
+    "text": "estos cursos, de identificar esas políticas optimas de inventario para el caso de un único"
+  },
+  {
+    "start": 323.52,
+    "end": 329.88,
+    "text": "producto? Y vamos a ver, para el caso de múltiples productos, una hubística, porque estos problemas"
+  },
+  {
+    "start": 329.88,
+    "end": 336.08,
+    "text": "cuando hay múltiples productos, los problemas de control de inventario o planificación de"
+  },
+  {
+    "start": 336.08,
+    "end": 341.35999999999996,
+    "text": "producción suelen ser complejos de resolver por métodos exactos. Es muy difícil encontrar una"
+  },
+  {
+    "start": 341.35999999999996,
+    "end": 347.56,
+    "text": "política óptima. Y bueno, la sección 8 del libro es la que está dedicada a lo que vamos a ver hoy,"
+  },
+  {
+    "start": 349.8,
+    "end": 359.03999999999996,
+    "text": "modelos de inventario con demanda dinámica. ¿Bien? Sí. Entonces para el modelo de"
+  },
+  {
+    "start": 359.04,
+    "end": 365.96000000000004,
+    "text": "Daniel y Will. Disculpa, Pedro, una consulta eurística viene a ser una aproximación, digamos,"
+  },
+  {
+    "start": 365.96000000000004,
+    "end": 373.0,
+    "text": "sobre tu solución. Bien, perfecto. Sí, en general. No, por favor, ahí vamos a decirles dos grandes"
+  },
+  {
+    "start": 373.0,
+    "end": 380.92,
+    "text": "métodos de resolución. Uno son estos métodos exactos donde, digamos, mediante ese método lo que"
+  },
+  {
+    "start": 380.92,
+    "end": 387.8,
+    "text": "se obtiene luego de ejecutarlo es una solución óptima del problema. Y después hay métodos"
+  },
+  {
+    "start": 387.84000000000003,
+    "end": 396.40000000000003,
+    "text": "eurísticos que son métodos aproximados, que no garantizan en la mayoría de los casos que la"
+  },
+  {
+    "start": 396.40000000000003,
+    "end": 404.32,
+    "text": "solución que retorre ese procedimiento sea óptima. Pero el beneficio que tiene esos métodos aproximados"
+  },
+  {
+    "start": 404.32,
+    "end": 409.88,
+    "text": "es que me da una solución en poco tiempo o, mejor dicho, en un tiempo razonable,"
+  },
+  {
+    "start": 409.88,
+    "end": 416.48,
+    "text": "obviamente si mi problema es muy grande, también, este más morar un cierto tiempo en"
+  },
+  {
+    "start": 416.56,
+    "end": 422.04,
+    "text": "ejecución, pero va a ser mucho menor en general que un método exacto. Obviamente esto depende de la"
+  },
+  {
+    "start": 422.04,
+    "end": 429.24,
+    "text": "complejidad del problema. Hay problemas, cuya complejidad admite, digamos, más más los problemas"
+  },
+  {
+    "start": 429.24,
+    "end": 436.16,
+    "text": "fáciles, donde se pueden aplicar métodos exactos, sea cual sea el tamaño de ese problema, de esa"
+  },
+  {
+    "start": 436.16,
+    "end": 442.40000000000003,
+    "text": "instancia de ese problema. Y hay otros problemas que no. Ahora, tuvo perfecta la pregunta,"
+  },
+  {
+    "start": 442.40000000000003,
+    "end": 445.16,
+    "text": "porque vamos a ver enseguida del modelo de Daniel and Will en una extensión,"
+  },
+  {
+    "start": 445.20000000000005,
+    "end": 450.04,
+    "text": "que es el modelo con restrucciones de capacidad donde vamos a ver que ese problema ya es complejo de"
+  },
+  {
+    "start": 450.04,
+    "end": 456.44,
+    "text": "resolver computacionalmente. Cuando se agrega la restrucción de capacidad, ya no sé, ya el problema"
+  },
+  {
+    "start": 456.44,
+    "end": 461.28000000000003,
+    "text": "se clasifica con un problema complejo del punto de vista computacional y es necesario"
+  },
+  {
+    "start": 464.04,
+    "end": 468.92,
+    "text": "muchas veces aplicar técnicas eurísticas de resolución. Dentro de las eurísticas,"
+  },
+  {
+    "start": 468.92,
+    "end": 474.92,
+    "text": "a su vez, hay varios tipos, digamos. Están los métodos aproximados, propiamente dicho,"
+  },
+  {
+    "start": 474.92,
+    "end": 479.16,
+    "text": "que se llama donde uno puede dar una cota de la calidad de la solución que se tiene. Por ejemplo,"
+  },
+  {
+    "start": 479.16,
+    "end": 485.8,
+    "text": "como vimos la clase pasada, en un peor caso, asegurar que está tanto por ciento de la solución"
+  },
+  {
+    "start": 485.8,
+    "end": 492.56,
+    "text": "óptima. Eso en general se puede para problemas relativamente sencillos, como vimos la clase"
+  },
+  {
+    "start": 492.56,
+    "end": 498.16,
+    "text": "pasada, que son fáciles de analizar matemáticamente. Hay otros problemas que no, porque es muy"
+  },
+  {
+    "start": 498.16,
+    "end": 507.28000000000003,
+    "text": "difícil. Hay muchos óptimos locales. Es muy difícil de analizar. Y ahí es muy difícil"
+  },
+  {
+    "start": 507.28000000000003,
+    "end": 513.72,
+    "text": "obtener un método aproximado con una cota del peor caso. Entonces, a veces hay eurísticas que no"
+  },
+  {
+    "start": 513.72,
+    "end": 519.72,
+    "text": "me garantizan que la solución sea óptima, pero sí que en la práctica empíricamente uno"
+  },
+  {
+    "start": 519.72,
+    "end": 525.84,
+    "text": "puede mostrar que son de buena calidad. Por ejemplo, para este problema no es el foco"
+  },
+  {
+    "start": 526.44,
+    "end": 531.52,
+    "text": "de lo que nosotros vamos a ver, pero hay una eurística famosa que es la de Silver Mill. Es una"
+  },
+  {
+    "start": 531.52,
+    "end": 541.24,
+    "text": "eurística que da buenos resultados. Y hay otras. Una de las palabras no recuerdo las"
+  },
+  {
+    "start": 541.24,
+    "end": 547.72,
+    "text": "si en el libro se mencionan, pero las pueden encontrar en internet. Y bueno, después hay meta"
+  },
+  {
+    "start": 547.72,
+    "end": 551.52,
+    "text": "eurística que es otro enfoque de eurísticas, que es basarse en una idea como es que lo han"
+  },
+  {
+    "start": 551.52,
+    "end": 556.4,
+    "text": "sentido algoritmos genéticos por ejemplo, o algoritmos angoolutivos, redes neuronales,"
+  },
+  {
+    "start": 556.4,
+    "end": 562.52,
+    "text": "inteligencia artificial, en machine learning. Otros métodos, digamos, que capaz que no me"
+  },
+  {
+    "start": 562.52,
+    "end": 569.04,
+    "text": "garantizan una solución óptima. Y además, son ideas que se pueden aplicar a cualquier problema,"
+  },
+  {
+    "start": 569.04,
+    "end": 573.72,
+    "text": "digamos, en la sida de optimización. No son lo que se llama una eurística"
+  },
+  {
+    "start": 573.72,
+    "end": 579.04,
+    "text": "constructiva ad hoc para un problema específico, sino que son generales y que uno le tome"
+  },
+  {
+    "start": 579.12,
+    "end": 583.92,
+    "text": "enseguida y implementa, a su vez, un procedimiento a resolución basado en esa meta eurística para ese problema."
+  },
+  {
+    "start": 584.92,
+    "end": 591.5999999999999,
+    "text": "¿También? Entonces, como vieron, hay una gama. Incluso uno puede combinar métodos exactos"
+  },
+  {
+    "start": 591.5999999999999,
+    "end": 597.88,
+    "text": "con métodos eurísticos, y obviamente en general son métodos eurísticos. Es grande la gama de"
+  },
+  {
+    "start": 597.88,
+    "end": 608.36,
+    "text": "posibilidades. Pero en este caso, volviendo a este caso, vamos a ver que existe un algoritmo"
+  },
+  {
+    "start": 609.24,
+    "end": 615.92,
+    "text": "exacto, que es bastante eficiente, de lo suficiente porque depende de una medida del tamaño de"
+  },
+  {
+    "start": 615.92,
+    "end": 621.8,
+    "text": "problemas, pero se considera eficiente. Vamos a ver, después, un algoritmo adorable en polinomial,"
+  },
+  {
+    "start": 621.8,
+    "end": 628.9599999999999,
+    "text": "cuando quiere decir, cuando la cantidad de pasos que requeriría hacia algoritmo está"
+  },
+  {
+    "start": 628.9599999999999,
+    "end": 633.16,
+    "text": "acotado por un polinomio. En esos casos, decimos que ese problema se puede resolver"
+  },
+  {
+    "start": 633.16,
+    "end": 638.36,
+    "text": "de forma eficiente. Cuando eso nos burre, cuando no se puede acotar por un polinomio,"
+  },
+  {
+    "start": 638.4,
+    "end": 643.92,
+    "text": "la cantidad de operaciones que requieren algoritmo se dice que es un algoritmo no polinomio. Por"
+  },
+  {
+    "start": 643.92,
+    "end": 651.48,
+    "text": "ejemplo, el método simplex que ustedes conocen es no polinomio. Existen otros que sí, son polinomiales"
+  },
+  {
+    "start": 651.48,
+    "end": 656.36,
+    "text": "para resolver métodos de programación lineal. Esto no quiere decir necesariamente que sea bueno"
+  },
+  {
+    "start": 656.36,
+    "end": 665.48,
+    "text": "ni malo, porque ustedes ya saben el simplex es muy utilizado en la práctica. Solamente que"
+  },
+  {
+    "start": 665.48,
+    "end": 670.64,
+    "text": "cuando los problemas son realmente muy grandes, no es eficiente como otros métodos. ¿Está bien?"
+  },
+  {
+    "start": 670.64,
+    "end": 675.36,
+    "text": "Entonces los solvers hoy en día usan una combinación de simplex con otros métodos de"
+  },
+  {
+    "start": 675.36,
+    "end": 685.9200000000001,
+    "text": "para resolver problemas lineales. ¿Está bien? Bueno, sigo con el tema de Madrid. Entonces,"
+  },
+  {
+    "start": 685.92,
+    "end": 696.04,
+    "text": "tenemos lo que se assume es que tenemos una secuencia de deletes y de períodos que tenemos,"
+  },
+  {
+    "start": 696.04,
+    "end": 701.24,
+    "text": "como se dice, pedir, comprar, conocir. En un horizonte de planificación de T-periodos,"
+  },
+  {
+    "start": 701.24,
+    "end": 707.88,
+    "text": "unitarios de T-periodos o sea, T-periodos idénticos, también en un horizonte finito o sea,"
+  },
+  {
+    "start": 708.2,
+    "end": 715.84,
+    "text": "cinco días, dos, veinte semanas, lo que sea. ¿Está bien? Y en cada periodo hay una decisión a tomar"
+  },
+  {
+    "start": 715.84,
+    "end": 721.64,
+    "text": "que es el tamaño del pedido o del lote producido. En general se asume que todas,"
+  },
+  {
+    "start": 723.4,
+    "end": 727.32,
+    "text": "por ejemplo, imagínense que un periodo es un día, se asume que todas las acciones se hacen al"
+  },
+  {
+    "start": 727.32,
+    "end": 734.2,
+    "text": "comienzo del día. Ahí se termina, cuánto es el inventario que entra a ese periodo,"
+  },
+  {
+    "start": 734.96,
+    "end": 741.88,
+    "text": "del periodo anterior, cuánto voy a comprar y establezco ya en nivel de inventario. ¿Qué va a quedar?"
+  },
+  {
+    "start": 744.2,
+    "end": 750.4000000000001,
+    "text": "Entonces, como antes, es una demanda conocida para ese periodo que vamos a notar como de subté,"
+  },
+  {
+    "start": 750.4000000000001,
+    "end": 755.9200000000001,
+    "text": "que es la cantidad, el valor de la demanda que tengo para cada diate o cada periodote,"
+  },
+  {
+    "start": 757.6,
+    "end": 763.6400000000001,
+    "text": "es muy importante la forma de los costos. En general, los problemas de control de"
+  },
+  {
+    "start": 763.68,
+    "end": 767.1999999999999,
+    "text": "inventario de producción se asume en esta forma que para los costos de producir,"
+  },
+  {
+    "start": 767.1999999999999,
+    "end": 773.96,
+    "text": "o de adquirirse asume esta estructura de costos que se menciona acá, que es que hay un costo C,"
+  },
+  {
+    "start": 773.96,
+    "end": 783.3199999999999,
+    "text": "que es por unidad de producto, y un costo fijo que tiene ese significado. Si se coloco un"
+  },
+  {
+    "start": 783.3199999999999,
+    "end": 790.76,
+    "text": "pedido de unidades, el costo es C i más K por delta i. Con delta i es una función indicatriz,"
+  },
+  {
+    "start": 791.24,
+    "end": 798.36,
+    "text": "que me da 1 si la cantidad i es mayor que 0 y si no me da 0. Ese costo fijo,"
+  },
+  {
+    "start": 800.36,
+    "end": 806.04,
+    "text": "el problema de producción está asociado, por ejemplo, a los costos de configuración de una línea"
+  },
+  {
+    "start": 806.04,
+    "end": 814.08,
+    "text": "de producción. Es un costo que no depende de la cantidad que vaya a producir. Solo depende del"
+  },
+  {
+    "start": 814.08,
+    "end": 827.72,
+    "text": "hecho de si voy a producir o no voy a producir. ¿Está bien? Sí, se entiende. Ven ahí,"
+  },
+  {
+    "start": 829.72,
+    "end": 839.44,
+    "text": "ven esta pantalla acá. Sí, ven. Bien. O sea, esto es un... yo hice una... dibujé esto. Eso"
+  },
+  {
+    "start": 839.44,
+    "end": 845.7600000000001,
+    "text": "tal vez es un esquema también del problema, digamos que tenemos entre manos. Ahí tenemos un"
+  },
+  {
+    "start": 845.7600000000001,
+    "end": 853.36,
+    "text": "conjunto de períodos, de 1 hasta T, con unos ciertos valores de demanda. Y esto es lo que queremos"
+  },
+  {
+    "start": 853.36,
+    "end": 860.44,
+    "text": "determinar, que son las cantidades a producir o a reinar, los I sub T, Y sub T, y los I"
+  },
+  {
+    "start": 860.44,
+    "end": 870.12,
+    "text": "mayúscula sub 1 hasta T van a ser el nivel dimentario. ¿Está bien? Un horizonte de planificación,"
+  },
+  {
+    "start": 870.12,
+    "end": 877.48,
+    "text": "que se llama el T mayúscula, que es finito. Vamos a hacer de planificación finito. Y asumimos que"
+  },
+  {
+    "start": 877.48,
+    "end": 882.4000000000001,
+    "text": "la demanda es no negativa. Hay muchos trabajos, incluso la literatura, se asume que en cada"
+  },
+  {
+    "start": 882.4000000000001,
+    "end": 889.6400000000001,
+    "text": "período hay una demanda mayor que 0. En el caso general podemos decir que 0 o una... también se"
+  },
+  {
+    "start": 889.64,
+    "end": 896.76,
+    "text": "pone como una función lineal, obviamente. Esta es un poco la gráfica de cada caso. Esto desde la"
+  },
+  {
+    "start": 896.76,
+    "end": 903.76,
+    "text": "cantidad a producir es una... una línea, digamos, que empieza en el valor T, siempre cuando sea mayor"
+  },
+  {
+    "start": 903.76,
+    "end": 911.48,
+    "text": "que 0, con pendiente C, y esta es la función del costo de inventario. Ahí es lo que han"
+  },
+  {
+    "start": 911.48,
+    "end": 916.0,
+    "text": "mencionado de la función indicatriz. Y uno puede... como está ahí en la... en el eslael,"
+  },
+  {
+    "start": 916.04,
+    "end": 922.64,
+    "text": "puede escribir la función del costo de producir de esta forma. También es una forma bastante habitual,"
+  },
+  {
+    "start": 922.64,
+    "end": 927.68,
+    "text": "porque, como en el general, por lo menos, ya sea los problemas de control dimentario de"
+  },
+  {
+    "start": 927.68,
+    "end": 932.32,
+    "text": "planificación de la producción, hay un costo fijo. Existe un costo que no depende de la cantidad"
+  },
+  {
+    "start": 932.32,
+    "end": 938.28,
+    "text": "a producir, y hay un cierto costo unitario por cada unidad que se produce, o sea, guía."
+  },
+  {
+    "start": 939.28,
+    "end": 947.68,
+    "text": "También existen otras formas de costo, obviamente, que dependerán de cada situación. En general,"
+  },
+  {
+    "start": 947.68,
+    "end": 955.88,
+    "text": "para estos problemas, una forma general de funciones de costo es asumir funciones de costos"
+  },
+  {
+    "start": 955.88,
+    "end": 965.12,
+    "text": "cóntagos, donde las funciones son cóntagos, porque expresan que los costos... costos de economía"
+  },
+  {
+    "start": 965.12,
+    "end": 969.12,
+    "text": "de escala, esto quiere decir que, a medida que aumenta la cantidad que va a producir, los costos"
+  },
+  {
+    "start": 969.12,
+    "end": 975.76,
+    "text": "marginales disminuyen. Porque si los costos de cada nueva unidad, si bien es positivo, van disminuyendo"
+  },
+  {
+    "start": 975.76,
+    "end": 982.32,
+    "text": "a metiendo. Van creciendo, pero suben los costos marginales, van creciendo. Son funciones,"
+  },
+  {
+    "start": 982.32,
+    "end": 990.6,
+    "text": "por eso la gráfica, digamos, sería algo de este estilo así. Serían costos de esta forma."
+  },
+  {
+    "start": 990.6,
+    "end": 997.6800000000001,
+    "text": "Son funciones con cabas, que se llaman en general economías de escala, o sea, cuando"
+  },
+  {
+    "start": 997.6800000000001,
+    "end": 1004.76,
+    "text": "tengo que producir muchas cantidades o no, muchas cantidades. Existen mucho trabajo en la"
+  },
+  {
+    "start": 1004.76,
+    "end": 1011.2,
+    "text": "literatura, ustedes buscan donde asumen que... o esta estructura de costos, o si quieren ir a"
+  },
+  {
+    "start": 1011.2,
+    "end": 1017.24,
+    "text": "algo más general, obviamente existen otras más generales, pero en muchos casos se asumen que"
+  },
+  {
+    "start": 1017.24,
+    "end": 1029.8,
+    "text": "las funciones de costos son con cabas, tienen esta forma. Bueno, como así, los costos inventarios"
+  },
+  {
+    "start": 1029.8,
+    "end": 1037.84,
+    "text": "asumen lineales, el inventario inicial se asume cero, también esto es sin perdida de generalidad,"
+  },
+  {
+    "start": 1037.84,
+    "end": 1043.36,
+    "text": "digamos, uno podría asumir una cantidad positiva, parecido a lo que vimos con el problema de la"
+  },
+  {
+    "start": 1043.3600000000001,
+    "end": 1052.0800000000002,
+    "text": "iglesia pasada de OQ. Disculpa, pero otra consulta. Acá en las presentaciones vemos que la variable es"
+  },
+  {
+    "start": 1052.0800000000002,
+    "end": 1059.2,
+    "text": "y, sin embargo, en las notas de Pizarron que todavía se ha hecho, la variable y la x, pero sin embargo,"
+  },
+  {
+    "start": 1059.2,
+    "end": 1066.3600000000001,
+    "text": "la abscisa era y, la tancia de inventario. ¿Es lo mismo? Sí, en realidad son funciones, ¿no?"
+  },
+  {
+    "start": 1067.3600000000001,
+    "end": 1074.44,
+    "text": "Son funciones, o sea, yo acá no puse poner y porque en realidad y sería un vector, ¿no?"
+  },
+  {
+    "start": 1076.44,
+    "end": 1082.8000000000002,
+    "text": "y mayúscula sería un vector, cada componente sería y su 1 y su 2, hace una cierta cantidad."
+  },
+  {
+    "start": 1083.68,
+    "end": 1090.44,
+    "text": "Pero ese y es lo que yo quiero allá de verdad, de su vector. Las variables, claro, las variables en"
+  },
+  {
+    "start": 1090.44,
+    "end": 1096.28,
+    "text": "realidad del problema, ahora vamos a ver las formulaciones, son las y y y la y mayúscula,"
+  },
+  {
+    "start": 1096.28,
+    "end": 1105.44,
+    "text": "en realidad la y mayúscula, como es el nivel de inventario, vamos a ver. Eso se determina. Mi pregunta"
+  },
+  {
+    "start": 1105.44,
+    "end": 1113.3600000000001,
+    "text": "es ¿cuál es la diferencia entre x y y y y y y y y y? Ningún, x es como haber puesto z y es una"
+  },
+  {
+    "start": 1113.3600000000001,
+    "end": 1119.52,
+    "text": "variable, esto que puse acá son como si fuera una función cualquiera. Es una función que va de los"
+  },
+  {
+    "start": 1119.52,
+    "end": 1128.4,
+    "text": "reales a los reales. Toma un valor, una variable, un cierto valor x y calcula este el costo, digamos,"
+  },
+  {
+    "start": 1128.4,
+    "end": 1138.32,
+    "text": "el valor funcional. ¿Está bien? Bien, pero x tiene un significado, un modelo, pero no representa"
+  },
+  {
+    "start": 1138.32,
+    "end": 1145.44,
+    "text": "cantidad de inventario, nada. En este caso de acá va a ser la cantidad a producir o a guardenar la"
+  },
+  {
+    "start": 1145.44,
+    "end": 1156.64,
+    "text": "x. Bien, en este caso es el nivel de inventario. Pero no pasa nada bien, puede ser medio confuso,"
+  },
+  {
+    "start": 1156.64,
+    "end": 1162.8,
+    "text": "pero digamos compreendo lo de la compañía, pero acá puso una x como si fuera cualquier variable,"
+  },
+  {
+    "start": 1162.8,
+    "end": 1171.8400000000001,
+    "text": "también pasa que es una variable real y digamos y, también en las notas está usado como si"
+  },
+  {
+    "start": 1171.84,
+    "end": 1176.6399999999999,
+    "text": "fuera una variable real, pero también uno podría pensar que es un vector porque son todas las"
+  },
+  {
+    "start": 1176.6399999999999,
+    "end": 1184.8,
+    "text": "en realidad las variables que van desde 1 hasta t ¿no? Pero acá solamente es una variable,"
+  },
+  {
+    "start": 1184.8,
+    "end": 1191.12,
+    "text": "pasa que acá por eso, la función p es la función de costo y la función h es la función, perdón,"
+  },
+  {
+    "start": 1191.12,
+    "end": 1194.9599999999998,
+    "text": "la p es la función de costo de producir y la h es la función del costo de inventario."
+  },
+  {
+    "start": 1195.3600000000001,
+    "end": 1203.04,
+    "text": "¿Está bien? Pero es una función cualquier. Ok, seguimos acá."
+  },
+  {
+    "start": 1206.16,
+    "end": 1212.08,
+    "text": "Bueno, el tiempo de entrega se sume cero, también esto cuando es un valor conocido,"
+  },
+  {
+    "start": 1212.08,
+    "end": 1217.1200000000001,
+    "text": "también esto es sin pérdida generalidad, es si mi tiempo de entrega por ejemplo es,"
+  },
+  {
+    "start": 1217.1200000000001,
+    "end": 1221.92,
+    "text": "imagínense que los pedidos son días y si yo tengo un tiempo de entrega de dos días,"
+  },
+  {
+    "start": 1222.0,
+    "end": 1226.88,
+    "text": "lo que tengo que hacer es acomodar después todas las órdenes digamos,"
+  },
+  {
+    "start": 1226.88,
+    "end": 1236.2,
+    "text": "restarle dos ¿no? Porque me va a demorar dos días sin llegar. No modifique el análisis del problema,"
+  },
+  {
+    "start": 1236.2,
+    "end": 1244.48,
+    "text": "ya si los tiempos de entrega así son dinámicos, ahí sí modifica o tienen otra o son con algún"
+  },
+  {
+    "start": 1244.48,
+    "end": 1249.04,
+    "text": "valor con disertidumbre o lo que sea ¿no? Pero en general si es un valor conocido y"
+  },
+  {
+    "start": 1249.12,
+    "end": 1253.36,
+    "text": "estacionario digamos, se puede asumir que es cero como se hace acá."
+  },
+  {
+    "start": 1255.2,
+    "end": 1258.96,
+    "text": "Bueno, el horizonte de planificación normalmente es conocido y discretizado,"
+  },
+  {
+    "start": 1258.96,
+    "end": 1269.84,
+    "text": "o sea tengo un conjunto de pedidos de minúscula, de uno hasta de ese cero que está ahí es porque van"
+  },
+  {
+    "start": 1269.84,
+    "end": 1274.96,
+    "text": "a ver ahora cuando hagamos el modelo, es necesario para representar el inventario inicial."
+  },
+  {
+    "start": 1275.52,
+    "end": 1281.16,
+    "text": "También el IMA y suscula sub cero, lo que vamos a hacer con eso es representar la cantidad que tengo"
+  },
+  {
+    "start": 1281.16,
+    "end": 1287.92,
+    "text": "al inicio de la planificación. También que suele asumirse también, bueno es lo que vimos antes,"
+  },
+  {
+    "start": 1287.92,
+    "end": 1293.64,
+    "text": "porque está ahí inventario inicial cero, que suele asumirse cero sin perdida generalidad."
+  },
+  {
+    "start": 1295.24,
+    "end": 1299.88,
+    "text": "Bueno, como ahí dice lo que les comentaba antes que las órdenes y las demandas se"
+  },
+  {
+    "start": 1299.88,
+    "end": 1306.2800000000002,
+    "text": "realizan o ocurren al comienzo de cada periodo ¿no? Y el costo de inventario digamos se aplica a la"
+  },
+  {
+    "start": 1306.2800000000002,
+    "end": 1311.3200000000002,
+    "text": "cantidad disponible, se dice al final del periodo que les dice que durante ese periodo va a haber un"
+  },
+  {
+    "start": 1311.3200000000002,
+    "end": 1316.72,
+    "text": "nivel de inventario que es el que resulta de decir bueno, todo lo que tenía venía del periodo"
+  },
+  {
+    "start": 1316.72,
+    "end": 1323.5600000000002,
+    "text": "anterior más lo que compré o se va a producir en este periodo, menos la demanda me falta de"
+  },
+  {
+    "start": 1323.5600000000002,
+    "end": 1328.48,
+    "text": "terminar el valor de inventario de este periodo ¿no? Por eso se dice que es sobre el final del"
+  },
+  {
+    "start": 1328.48,
+    "end": 1337.48,
+    "text": "periodo, para que quede claro que es después de realizar las actividades de compra o de producción ¿vale?"
+  },
+  {
+    "start": 1338.68,
+    "end": 1347.04,
+    "text": "Entonces las variables de decisión serían como ya comentamos la Y que es la cantidad de ordenar"
+  },
+  {
+    "start": 1347.04,
+    "end": 1353.96,
+    "text": "o a producir y la Y que es el tamaño o el nivel de inventario al final de cada periodo."
+  },
+  {
+    "start": 1354.92,
+    "end": 1362.68,
+    "text": "Entonces el objetivo que se persigue es determinar cuánto ordenar en cada periodo o sea"
+  },
+  {
+    "start": 1362.68,
+    "end": 1368.72,
+    "text": "cuándo y cuándo, qué cantidad y cuándo producir o comprar para atender la demanda,"
+  },
+  {
+    "start": 1368.72,
+    "end": 1377.44,
+    "text": "esto sin quiebre de stock o sin retraso, en inglés se denomina backlogging cuando"
+  },
+  {
+    "start": 1378.44,
+    "end": 1383.18,
+    "text": "es una extensión también conocida del problema que es cuando se permite"
+  },
+  {
+    "start": 1383.18,
+    "end": 1389.42,
+    "text": "satisfacer la demanda pero con retraso ¿no? Eso quiere decir el punto de vista del modelo que se"
+  },
+  {
+    "start": 1389.42,
+    "end": 1398.3400000000001,
+    "text": "permite el nivel de inventario negativo. Bueno pero en este caso no, en el caso digamos básico no se"
+  },
+  {
+    "start": 1398.3400000000001,
+    "end": 1407.18,
+    "text": "permite minimizando los costos totales esto es la suma de los costos de pedir o comprar o producir"
+  },
+  {
+    "start": 1407.18,
+    "end": 1418.26,
+    "text": "y los costos de mantener el inventario ¿vale? Bueno este modelo como o sea mencionamos fue"
+  },
+  {
+    "start": 1418.26,
+    "end": 1425.9,
+    "text": "estudiado inicialmente por van der wiling en 1958 y toma el nombre de sus autores que operó los"
+  },
+  {
+    "start": 1425.9,
+    "end": 1432.94,
+    "text": "que estudiaron este problema y sobre todo los que propusieron un algoritmo de resolución"
+  },
+  {
+    "start": 1432.94,
+    "end": 1442.98,
+    "text": "eficiente para este problema. Entonces esta es la formulación de programación matemática,"
+  },
+  {
+    "start": 1446.98,
+    "end": 1453.5,
+    "text": "acá tenemos la función objetivo que es la suma de los costos de producir más los costos de"
+  },
+  {
+    "start": 1453.5,
+    "end": 1463.34,
+    "text": "inventario también tenemos esta restricción que es la que me calcula el nivel de inventario"
+  },
+  {
+    "start": 1464.34,
+    "end": 1469.78,
+    "text": "que es lo que mencionaba antes que es el nivel de inventario que voy a tener en un periodo te va a"
+  },
+  {
+    "start": 1469.78,
+    "end": 1478.12,
+    "text": "ser igual a lo que viene del periodo anterior más lo que se produce en este periodo menos la"
+  },
+  {
+    "start": 1478.12,
+    "end": 1482.54,
+    "text": "demanda de este periodo también ese es el nivel de inventario que me va a quedar al final del"
+  },
+  {
+    "start": 1482.54,
+    "end": 1489.98,
+    "text": "periodo y este es el nivel inicial la restricción de nivel de inicial de inventario, vieron que"
+  },
+  {
+    "start": 1489.98,
+    "end": 1496.3799999999999,
+    "text": "estas restricciones esto en realidad como dice acá restricciones dos y que se conocen como"
+  },
+  {
+    "start": 1496.3799999999999,
+    "end": 1504.74,
+    "text": "ecuaciones de equilibrio de inventario de balance de inventario, vieron que esto es una"
+  },
+  {
+    "start": 1504.74,
+    "end": 1511.6200000000001,
+    "text": "familia de restricciones como dice acá son muchas restricciones son varias no es una restricción"
+  },
+  {
+    "start": 1511.6200000000001,
+    "end": 1517.58,
+    "text": "porque acá hay una restricción por cada t que va desde uno hasta el tema yúscula también"
+  },
+  {
+    "start": 1519.3,
+    "end": 1524.46,
+    "text": "acá si por ejemplo la 3 es una única restricción porque estoy exigiendo que y sub 0 sea igual"
+  },
+  {
+    "start": 1524.46,
+    "end": 1532.02,
+    "text": "a 0 pero esta restricción acá van desde uno en el caso de t igual uno acá voy a necesitar el"
+  },
+  {
+    "start": 1532.02,
+    "end": 1542.3799999999999,
+    "text": "valor de y sub 0 también porque yo que me venía ya más al principio de la planificación también"
+  },
+  {
+    "start": 1544.82,
+    "end": 1549.62,
+    "text": "estas bueno las de cuatro son restricciones de dominio que es que las variables tienen que ser"
+  },
+  {
+    "start": 1549.62,
+    "end": 1558.74,
+    "text": "no negativas lo cual vieron que esta la restricción de dos además de o se tiene cumple"
+  },
+  {
+    "start": 1559.54,
+    "end": 1564.5,
+    "text": "os sirve para varias cosas y una es para determinar el nivel de inventario en cada periodo pero también"
+  },
+  {
+    "start": 1565.86,
+    "end": 1572.9,
+    "text": "para determinar o para indicar que se satisface la demanda en cada periodo sin retraso"
+  },
+  {
+    "start": 1574.18,
+    "end": 1581.86,
+    "text": "porque porque cada la junto con esta restricción de cuatro me dicen que cada variable de nivel"
+  },
+  {
+    "start": 1581.86,
+    "end": 1588.06,
+    "text": "de inventario tiene que ser no negativa por lo tanto la única posibilidad es para eso es si"
+  },
+  {
+    "start": 1588.06,
+    "end": 1596.94,
+    "text": "ustedes analizan esta ecuación es que la cantidad de inventario que tengo del periodo anterior más"
+  },
+  {
+    "start": 1596.94,
+    "end": 1607.3799999999999,
+    "text": "lo que voy a producir tiene que ser mayor o igual que la demanda también lo ven a eso esto garantiza si"
+  },
+  {
+    "start": 1607.3799999999999,
+    "end": 1613.5,
+    "text": "eso no ocurre así este valor de y sub 0 sería negativo lo cual no está permitido por las"
+  },
+  {
+    "start": 1613.5,
+    "end": 1618.42,
+    "text": "restricciones de cuatro por lo tanto la demanda siempre se satisface con lo que tengo del periodo"
+  },
+  {
+    "start": 1618.42,
+    "end": 1622.9,
+    "text": "anterior más lo que se va a producir en este periodo también"
+  },
+  {
+    "start": 1625.38,
+    "end": 1632.58,
+    "text": "bueno esto es este una observación que en realidad inventario la variable inventario no la"
+  },
+  {
+    "start": 1632.58,
+    "end": 1639.58,
+    "text": "podría eliminar del modelo porque se puede sustituir por por esta por este término esto es todo"
+  },
+  {
+    "start": 1639.58,
+    "end": 1644.4199999999998,
+    "text": "lo que se produce menos la demanda la producción acumulada que se llama del periodo 1 hasta t"
+  },
+  {
+    "start": 1644.4199999999998,
+    "end": 1651.58,
+    "text": "menos la demanda acumulada desde uno hasta el periodo es justamente el nivel inventario por"
+  },
+  {
+    "start": 1651.58,
+    "end": 1658.06,
+    "text": "lo tanto no puede sustituir en este modelo acá por esto y lleva una familia de variables por"
+  },
+  {
+    "start": 1658.06,
+    "end": 1662.1799999999998,
+    "text": "eso en general cuando hicimos una solución del problema nos referimos a la y que son"
+  },
+  {
+    "start": 1662.18,
+    "end": 1665.02,
+    "text": "las cantidades a producir o a ordenar en cada periodo"
+  },
+  {
+    "start": 1667.98,
+    "end": 1668.5,
+    "text": "ok"
+  },
+  {
+    "start": 1676.02,
+    "end": 1676.78,
+    "text": "díganos"
+  },
+  {
+    "start": 1678.94,
+    "end": 1685.3,
+    "text": "no que se entendió se entendió bien esto también es de la solución óptima o sea este"
+  },
+  {
+    "start": 1685.3,
+    "end": 1691.22,
+    "text": "término a usted lo mira en este término de acá se se porí subte en realidad se puede eliminar"
+  },
+  {
+    "start": 1692.42,
+    "end": 1697.14,
+    "text": "por esta observación que dice acá en cualquier solución óptima la cantidad este que voy a"
+  },
+  {
+    "start": 1697.14,
+    "end": 1704.3,
+    "text": "producir va a ser igual a la cantidad de demanda por lo tanto el término se por y subte la"
+  },
+  {
+    "start": 1704.3,
+    "end": 1710.8200000000002,
+    "text": "sumatoria de una t de c por y subte se puede sustituir por la sumatoria de uno a tema"
+  },
+  {
+    "start": 1710.8200000000002,
+    "end": 1716.6200000000001,
+    "text": "yucula de subte por c lo cual es una contante por lo que este término de acá se puede omitir"
+  },
+  {
+    "start": 1716.6200000000001,
+    "end": 1719.6200000000001,
+    "text": "sólo este es un problema equivalente"
+  },
+  {
+    "start": 1721.5000000000002,
+    "end": 1723.7,
+    "text": "sólo este dejar el costo fijo"
+  },
+  {
+    "start": 1725.0600000000002,
+    "end": 1728.5000000000002,
+    "text": "en la función objetivo el costo de los costos fijos y los costos de inventario"
+  },
+  {
+    "start": 1728.5000000000002,
+    "end": 1735.7,
+    "text": "en realidad el problema la complejidad del problema está ahí digamos en esa competencia"
+  },
+  {
+    "start": 1736.5400000000002,
+    "end": 1741.66,
+    "text": "en ese tradito entre los costos fijos y los costos de inventario eso lo que me va a determinar a"
+  },
+  {
+    "start": 1741.66,
+    "end": 1748.0600000000002,
+    "text": "mí la forma de la solución más que los costos unitarios obviamente esto no es así cuando los"
+  },
+  {
+    "start": 1748.0600000000002,
+    "end": 1755.9,
+    "text": "costos unitarios acá estamos viendo el caso este en que los costos que se mueven que los costos son"
+  },
+  {
+    "start": 1755.9,
+    "end": 1765.8600000000001,
+    "text": "estacionarios se llaman que no dependen del del periodo que uno puede extender a este este"
+  },
+  {
+    "start": 1765.8600000000001,
+    "end": 1773.6200000000001,
+    "text": "modelo relajando eso y suponiendo que los costos pueden pueden variar o ser dinámicos o sea que hay un"
+  },
+  {
+    "start": 1773.6200000000001,
+    "end": 1781.0600000000002,
+    "text": "valor diferente por cada t ahí ya no ahí ya no puede digamos eliminar este término acá si fuera"
+  },
+  {
+    "start": 1781.06,
+    "end": 1782.1399999999999,
+    "text": "se subte por y subte"
+  },
+  {
+    "start": 1786.78,
+    "end": 1788.98,
+    "text": "ahí tengo algo para comentarles"
+  },
+  {
+    "start": 1792.02,
+    "end": 1793.1,
+    "text": "todos en esto si"
+  },
+  {
+    "start": 1795.34,
+    "end": 1804.82,
+    "text": "cambio bien esta formulación bien gracias esta formulación es otra forma de ver el problema"
+  },
+  {
+    "start": 1804.82,
+    "end": 1810.06,
+    "text": "o eso es la que se conoce como una formulación de flujo san real y que es muy importante para"
+  },
+  {
+    "start": 1810.06,
+    "end": 1821.86,
+    "text": "la análisis del problema ok vieron que acá esto es una es una red con un nodo fuente y tema yúscula"
+  },
+  {
+    "start": 1821.86,
+    "end": 1829.78,
+    "text": "nodos tal que representan los nubes de consumo de consumo digamos de demand de flujo también y"
+  },
+  {
+    "start": 1829.78,
+    "end": 1834.5,
+    "text": "vieron que esto estos arcos acá están asociados a la cantidad a producir y estos arcos de acá a"
+  },
+  {
+    "start": 1834.5,
+    "end": 1840.5,
+    "text": "los niveles de inventario también es una forma de representar el problema con un problema de flujo"
+  },
+  {
+    "start": 1840.5,
+    "end": 1845.54,
+    "text": "san real entonces es una forma de ver naturalmente también esta ecuación de balance de inventario"
+  },
+  {
+    "start": 1845.54,
+    "end": 1851.66,
+    "text": "porque en cada periodo t lo que yo tengo es la cantidad de flujo que entran son las cantidades"
+  },
+  {
+    "start": 1852.9,
+    "end": 1859.06,
+    "text": "a producir y la cantidad del nivel de inventario del periodo anterior y los flujos que salen son"
+  },
+  {
+    "start": 1859.3,
+    "end": 1867.58,
+    "text": "la demanda que vas a satisfacer y el nivel de inventario de este periodo y acá este surge"
+  },
+  {
+    "start": 1867.58,
+    "end": 1873.74,
+    "text": "naturalmente por eso se le llama ecuación de equilibrio de balance de inventario que es la"
+  },
+  {
+    "start": 1873.74,
+    "end": 1882.06,
+    "text": "restrucción o la condición de equilibrio de flujo ok esta formulación es muy importante ahora"
+  },
+  {
+    "start": 1882.06,
+    "end": 1889.94,
+    "text": "vamos a comentar un poquito porque el algoritmo van el huyen por ejemplo es válido este para cuando"
+  },
+  {
+    "start": 1889.94,
+    "end": 1896.74,
+    "text": "los costos son más generales que esa forma que vimos ahí y la demostración de eso se basa en"
+  },
+  {
+    "start": 1896.74,
+    "end": 1906.02,
+    "text": "esta estructura del problema en flujo san real también una pregunta porque resultaría que"
+  },
+  {
+    "start": 1906.02,
+    "end": 1910.78,
+    "text": "tenés inventario si no te conviene no porque por los costos"
+  },
+  {
+    "start": 1912.94,
+    "end": 1919.5,
+    "text": "dependen o te diría que tengas inventario compras por lote o algo de eso no pero depende si tus costos"
+  },
+  {
+    "start": 1919.5,
+    "end": 1926.3799999999999,
+    "text": "fijos son muy altos yo te digo tenés un costo fijo de mil y un costo unitario de uno y tu demanda"
+  },
+  {
+    "start": 1926.3799999999999,
+    "end": 1933.3799999999999,
+    "text": "es diez y diez si vos compras dos veces va a tener un valor objetivo de dos mil sin embargo"
+  },
+  {
+    "start": 1933.38,
+    "end": 1949.0600000000002,
+    "text": "una vez de mil siempre un costo por mantener inventario ahora este no quiere decir que la"
+  },
+  {
+    "start": 1949.0600000000002,
+    "end": 1959.18,
+    "text": "mejor política sea el inventario cero eso es en otro contexto puede ser no por determinadas"
+  },
+  {
+    "start": 1959.18,
+    "end": 1964.98,
+    "text": "otras razones quiere tener el nivel inventario lo más chico posible lo cual es cierto digamos"
+  },
+  {
+    "start": 1964.98,
+    "end": 1970.94,
+    "text": "si uno ya tiene per fijada las cantidades que va a producir o los períodos siempre digamos puede"
+  },
+  {
+    "start": 1970.94,
+    "end": 1977.3400000000001,
+    "text": "ser perdón un signo de eficiencia mantener los niveles inventario lo más chico posible pero"
+  },
+  {
+    "start": 1977.3400000000001,
+    "end": 1983.3,
+    "text": "no quiere decir que a la hora de minimizar los costos sea lo más conveniente un nivel"
+  },
+  {
+    "start": 1983.3,
+    "end": 1990.22,
+    "text": "inventario cero eso por eso depende de los costos del problema no siempre es así"
+  },
+  {
+    "start": 1992.3799999999999,
+    "end": 2000.8999999999999,
+    "text": "bien este como le decía esta formulación es muy importante la realidad este muchas generalizaciones"
+  },
+  {
+    "start": 2000.8999999999999,
+    "end": 2007.94,
+    "text": "de los problemas de inventario para llevarlos a otras estructuras de costos están basadas en"
+  },
+  {
+    "start": 2007.94,
+    "end": 2015.54,
+    "text": "esta formulación en las propiedades que tienen esta formulación otra característica el que acá"
+  },
+  {
+    "start": 2015.54,
+    "end": 2021.02,
+    "text": "se puede ver claramente es que el nivel final de inventario en una solución óptima es cero o sea el"
+  },
+  {
+    "start": 2021.02,
+    "end": 2030.8600000000001,
+    "text": "isubté mayúscula es cero sería el arco que va que sale de este último modo en una solución"
+  },
+  {
+    "start": 2030.8600000000001,
+    "end": 2036.06,
+    "text": "si yo estoy buscando la solución óptima no tiene sentido que sea posible que quede un sobrante"
+  },
+  {
+    "start": 2036.06,
+    "end": 2044.54,
+    "text": "digamos de de producto no ninguna solución que tenga un isubté mayúscula mayor que cero va a ser"
+  },
+  {
+    "start": 2044.54,
+    "end": 2050.42,
+    "text": "óptima o mejor o potencialmente podrás hacerlo en un caso muy particular pero siempre va a"
+  },
+  {
+    "start": 2050.42,
+    "end": 2057.2999999999997,
+    "text": "existir una donde isubté vale cero por eso directamente este arco de acá en este último"
+  },
+  {
+    "start": 2057.2999999999997,
+    "end": 2064.82,
+    "text": "no uno lo puede dibujar igual no pero va a ser cero el flujo va a ser cero nunca haber en una"
+  },
+  {
+    "start": 2064.82,
+    "end": 2069.82,
+    "text": "solución óptima no va a haber una un valor inventario al final del horizonte de planificación"
+  },
+  {
+    "start": 2073.26,
+    "end": 2078.6600000000003,
+    "text": "esto siempre mirando el modelo como siempre siempre que ten en cuenta que un modelo no es la"
+  },
+  {
+    "start": 2078.6600000000003,
+    "end": 2084.06,
+    "text": "realidad obviamente cuando uno tiene un problema y planifica el horizonte de planificación cada 10"
+  },
+  {
+    "start": 2084.06,
+    "end": 2091.7000000000003,
+    "text": "días puede ser conveniente que me quede un remanente de esto lo que se conoce como esto de"
+  },
+  {
+    "start": 2091.7,
+    "end": 2097.14,
+    "text": "seguridad ahí lo tengo a los que hay tengo que obligar en el modelo a que el valor de isubté"
+  },
+  {
+    "start": 2097.14,
+    "end": 2103.3799999999997,
+    "text": "mayúscula sea mayor o igual a dar valor ok no ven a eso tengo que grabar una restricción al modelo"
+  },
+  {
+    "start": 2103.3799999999997,
+    "end": 2117.14,
+    "text": "para pedirles de seguridad ok seguimos bueno se acuerdan que la clase pasada también vimos esta"
+  },
+  {
+    "start": 2117.14,
+    "end": 2124.2999999999997,
+    "text": "propiedad que se menciona que es la propiedad de inventario cero en este caso que quiere decir"
+  },
+  {
+    "start": 2124.2999999999997,
+    "end": 2129.2999999999997,
+    "text": "que me conviene ordenar o producir cuando el nivel de inventario es cero en este caso también se"
+  },
+  {
+    "start": 2129.2999999999997,
+    "end": 2136.66,
+    "text": "cumple esa propiedad que es la justa el nombre está más relacionado a la propiedad en este"
+  },
+  {
+    "start": 2136.66,
+    "end": 2142.94,
+    "text": "contexto que es la propiedad inventario cero que es esa esta propiedad es la que demostraron"
+  },
+  {
+    "start": 2142.94,
+    "end": 2148.66,
+    "text": "bachner willing en su trabajo de 1958 además de algunas otras cosas no del algoritmo y otras cosas más"
+  },
+  {
+    "start": 2148.66,
+    "end": 2157.82,
+    "text": "regamos una un resultado relevante es este es la propiedad inventario cero que es expresado en las"
+  },
+  {
+    "start": 2157.82,
+    "end": 2165.86,
+    "text": "variables que estamos manejando que da así es y su griega subte por y mayor y mayúscula si es"
+  },
+  {
+    "start": 2165.86,
+    "end": 2173.9,
+    "text": "menos uno es igual a cero lo ven a eso es el flujo esto en la formulación de flujos en red"
+  },
+  {
+    "start": 2173.9,
+    "end": 2180.46,
+    "text": "quiere decir que otra forma de verlo es que uno de estos dos flujos en frente va a ser positivo pero"
+  },
+  {
+    "start": 2180.46,
+    "end": 2197.7,
+    "text": "no ambos a la vez o sea en este caso por ejemplo para este no tres o y subte y griega sub tres va a"
+  },
+  {
+    "start": 2197.7,
+    "end": 2204.42,
+    "text": "ser mayor que cero o y sus dos va a ser mayor que cero lo cual quiere decir que la demanda de este"
+  },
+  {
+    "start": 2204.42,
+    "end": 2209.94,
+    "text": "período se va a satisfacer o por la producción o con el inventario que viene en periodo anterior pero"
+  },
+  {
+    "start": 2209.94,
+    "end": 2224.66,
+    "text": "no con ambas en una solución bueno como cómo va lo esto de este como dice ahí una una y es lo que"
+  },
+  {
+    "start": 2224.66,
+    "end": 2232.3,
+    "text": "está en el en el trabajo de bachner y willing es que por absurdo es que si suponemos que una política"
+  },
+  {
+    "start": 2232.3,
+    "end": 2237.2200000000003,
+    "text": "óptima o una no cumple esta propiedad o sea esto que quiere decir que no cumple quiere decir que"
+  },
+  {
+    "start": 2237.2200000000003,
+    "end": 2243.1400000000003,
+    "text": "un determinado período tengo el nivel inventario que viene del período anterior es positivo y yo"
+  },
+  {
+    "start": 2243.1400000000003,
+    "end": 2248.86,
+    "text": "decido y se decide es mejor decir la solución producir igual y yo tengo una política de"
+  },
+  {
+    "start": 2248.86,
+    "end": 2255.9,
+    "text": "esa forma lo que puedo hacer es obtener otra que va a tener un menor costa que es al que es al que"
+  },
+  {
+    "start": 2255.9,
+    "end": 2265.94,
+    "text": "tenía originalmente para hacer eso lo que hago es si yo este es en sí en realidad es relativamente"
+  },
+  {
+    "start": 2266.02,
+    "end": 2274.98,
+    "text": "sencillo lo que tengo que hacer es si yo tengo si en un período jota decidí producir este una cierta"
+  },
+  {
+    "start": 2274.98,
+    "end": 2281.86,
+    "text": "cantidad cuando realidad el inventario que ingresaba ese periodo jota era positiva eso quiere"
+  },
+  {
+    "start": 2281.86,
+    "end": 2290.62,
+    "text": "decir que en algún periodo anterior y latina se hubo una producción no lo ven a eso"
+  },
+  {
+    "start": 2291.5,
+    "end": 2295.42,
+    "text": "y acá de buscar lo que"
+  },
+  {
+    "start": 2300.42,
+    "end": 2305.58,
+    "text": "lo que estoy diciendo es que si yo en una determinada solución imagino"
+  },
+  {
+    "start": 2307.42,
+    "end": 2308.46,
+    "text": "pasa esto"
+  },
+  {
+    "start": 2308.46,
+    "end": 2322.34,
+    "text": "y yo a su vez tengo esto le estoy poniendo techito para decir que era una solución particular"
+  },
+  {
+    "start": 2322.34,
+    "end": 2325.62,
+    "text": "también y techo y griega techo y techo"
+  },
+  {
+    "start": 2325.62,
+    "end": 2344.22,
+    "text": "y tú diciéndole que hay producción cuando el nivel inventario en jota menos uno era también mayor de"
+  },
+  {
+    "start": 2344.22,
+    "end": 2348.14,
+    "text": "cero bien que para obviamente para que esta multiplicación sea mayor que cero ambos tienen"
+  },
+  {
+    "start": 2348.2999999999997,
+    "end": 2349.02,
+    "text": "mayor que cero"
+  },
+  {
+    "start": 2350.62,
+    "end": 2355.62,
+    "text": "a bien y entonces lo que yo puedo hacer es construir otra solución"
+  },
+  {
+    "start": 2358.1,
+    "end": 2367.9,
+    "text": "y voy a poner y a este disco que va a ser igual en todos los periodos salvo en el periodo y y el"
+  },
+  {
+    "start": 2367.9,
+    "end": 2376.54,
+    "text": "periodo jota va a ser igual a y techo pero que va a tener en el periodo y por ejemplo va a ser así"
+  },
+  {
+    "start": 2380.9,
+    "end": 2386.98,
+    "text": "la cual es el periodo y es donde se hay es la producción ese periodo anterior de producción al"
+  },
+  {
+    "start": 2386.98,
+    "end": 2393.46,
+    "text": "periodo jota que viene inmediatamente antes que decir que entre y jota no hay producción porque"
+  },
+  {
+    "start": 2393.46,
+    "end": 2397.26,
+    "text": "en algún lugar se tiene que haber producido esta cantidad que me quedó digamos inventario"
+  },
+  {
+    "start": 2397.26,
+    "end": 2402.66,
+    "text": "producido o inventario positivo perdón en el periodo jota menos uno se tiene que haber producido en un"
+  },
+  {
+    "start": 2402.66,
+    "end": 2419.18,
+    "text": "periodo y anterior entonces me decía a vuestro le saco esa cantidad que a su vez esto es"
+  },
+  {
+    "start": 2419.18,
+    "end": 2424.54,
+    "text": "actible esto va a ser mayor igual que cero porque si quiere decir que me quedó algo positivo porque"
+  },
+  {
+    "start": 2424.54,
+    "end": 2431.3399999999997,
+    "text": "esta cantidad y sujo y techo jota menos uno no lo utilice para satisfacer más bien"
+  },
+  {
+    "start": 2435.66,
+    "end": 2437.66,
+    "text": "y en el periodo jota"
+  },
+  {
+    "start": 2437.66,
+    "end": 2449.58,
+    "text": "lo que hago es"
+  },
+  {
+    "start": 2452.8599999999997,
+    "end": 2457.2599999999998,
+    "text": "producir esta cantidad y jota menos y su jota menos uno en el periodo jota"
+  },
+  {
+    "start": 2457.26,
+    "end": 2472.1000000000004,
+    "text": "también entonces ahí pues cuál es esta política o esta solución también va a ser este"
+  },
+  {
+    "start": 2472.1000000000004,
+    "end": 2477.5400000000004,
+    "text": "perdón óptima no este factible porque esta cantidad y sujo tan menos uno si me quedó"
+  },
+  {
+    "start": 2477.5400000000004,
+    "end": 2483.2200000000003,
+    "text": "inventario es porque no lo utilicé para satisfacer la demanda por lo tanto si yo resto"
+  },
+  {
+    "start": 2483.2200000000003,
+    "end": 2488.46,
+    "text": "lo resto acá esta solución también va a satisfacer la demanda entre y y el periodo jota menos"
+  },
+  {
+    "start": 2488.46,
+    "end": 2495.7400000000002,
+    "text": "uno también y vieron que la cantidad que tengo de artículo en el periodo jota es la misma que"
+  },
+  {
+    "start": 2495.7400000000002,
+    "end": 2501.26,
+    "text": "tenía antes lo único que hice fue trasladar la cantidad y subjota menos uno desde el periodo y"
+  },
+  {
+    "start": 2501.26,
+    "end": 2508.86,
+    "text": "al periodo jota y con eso me ahorro una cierta cantidad del puesto de stock me ahorro esta"
+  },
+  {
+    "start": 2508.86,
+    "end": 2514.98,
+    "text": "cantidad el ahorro es proporcional a esto"
+  },
+  {
+    "start": 2519.2200000000003,
+    "end": 2525.82,
+    "text": "a jota menos y por h por esta cantidad justamente que es la cantidad que me ahorro"
+  },
+  {
+    "start": 2529.6200000000003,
+    "end": 2535.26,
+    "text": "que se asumo que todas estas cantidades son mayores que cero esto va a ser mayor que cero por lo"
+  },
+  {
+    "start": 2535.26,
+    "end": 2543.5,
+    "text": "tanto determine otra solución que es más económico más barata que la solución original por lo tanto la"
+  },
+  {
+    "start": 2543.5,
+    "end": 2547.5800000000004,
+    "text": "solución original no puede ser óptima también"
+  },
+  {
+    "start": 2551.98,
+    "end": 2552.5,
+    "text": "si"
+  },
+  {
+    "start": 2556.1800000000003,
+    "end": 2562.5,
+    "text": "ya hemos básicamente la idea es esa es cuando yo si yo decido producir en un periodo que tiene"
+  },
+  {
+    "start": 2562.7,
+    "end": 2568.1,
+    "text": "en el cual recibe una cantidad de inventario es bueno esa cantidad de inventario que en algo se se"
+  },
+  {
+    "start": 2568.1,
+    "end": 2573.9,
+    "text": "ordenó o se produjo en algún periodo anterior lo que hago es si no la utilice porque me quedó quedó en"
+  },
+  {
+    "start": 2573.9,
+    "end": 2579.42,
+    "text": "el inventario lo que hago es trasladar a este periodo jota en el que voy a producir es eso nada más"
+  },
+  {
+    "start": 2580.74,
+    "end": 2584.86,
+    "text": "y ahí tengo un ahorro que se esté acá que es mi ahorro todo ese costo de inventario"
+  },
+  {
+    "start": 2584.86,
+    "end": 2591.7,
+    "text": "de haber hecho una producción pero una cantidad digamos más de la que necesitaba en un"
+  },
+  {
+    "start": 2591.7000000000003,
+    "end": 2595.26,
+    "text": "periodo y arrastrarlo en todo mantenerlo durante varios períodos en el"
+  },
+  {
+    "start": 2596.34,
+    "end": 2599.2200000000003,
+    "text": "estoy siendo más eficiente en el punto de vista de los costos de"
+  },
+  {
+    "start": 2601.4600000000005,
+    "end": 2607.9,
+    "text": "todo este absurdo digamos esta situación nace de suponer que no se cumple la propiedad de"
+  },
+  {
+    "start": 2607.9,
+    "end": 2614.34,
+    "text": "inventario cero que se está acá ok si lo ven"
+  },
+  {
+    "start": 2614.78,
+    "end": 2620.2200000000003,
+    "text": "están ahí asumo que si"
+  },
+  {
+    "start": 2622.6600000000003,
+    "end": 2627.34,
+    "text": "si es bien vamos arriba bueno este"
+  },
+  {
+    "start": 2629.34,
+    "end": 2635.82,
+    "text": "entonces como resultado es lo que dice como coronario lo que pasa es que en una política"
+  },
+  {
+    "start": 2635.82,
+    "end": 2641.34,
+    "text": "óptima recuerdo que la política óptima es lo que me dice las cuándo tengo que producir y qué"
+  },
+  {
+    "start": 2641.34,
+    "end": 2647.1000000000004,
+    "text": "cantidades todos los pedidos por los o las cantidades a producir tienen tamaño igual a la"
+  },
+  {
+    "start": 2647.1000000000004,
+    "end": 2654.26,
+    "text": "suma de las demandas este por una cantidad entera el periodo es un siguiente que es más difícil"
+  },
+  {
+    "start": 2654.26,
+    "end": 2658.42,
+    "text": "de expresar que que deber que decir que en cada periodo cuando voy a producir o ordenar tengo"
+  },
+  {
+    "start": 2658.42,
+    "end": 2665.7000000000003,
+    "text": "que hacerlo por una cantidad una cierta cantidad de periodos consecutivos si estoy en el periodo"
+  },
+  {
+    "start": 2665.7000000000003,
+    "end": 2673.78,
+    "text": "y si como tenía en eso que dibujamos recién si yo tengo dos periodos de producción y jota"
+  },
+  {
+    "start": 2674.9800000000005,
+    "end": 2681.26,
+    "text": "con j mayor que y la producción de entre medio no hay periodos de producción lo que va a pasar es que"
+  },
+  {
+    "start": 2681.26,
+    "end": 2686.26,
+    "text": "el nivel de producción del periodo iba a pasar la demanda de y más la demanda y más uno más"
+  },
+  {
+    "start": 2686.26,
+    "end": 2695.26,
+    "text": "la demanda y más dos hasta jota es una cantidad entera o ese de periodos no hay fracciones"
+  },
+  {
+    "start": 2695.26,
+    "end": 2701.1400000000003,
+    "text": "esto es importante no justamente porque la propiedad inventario cero mi nivel ese tipo de solución"
+  },
+  {
+    "start": 2701.1400000000003,
+    "end": 2709.2200000000003,
+    "text": "fracciones quiere decir que bueno en este periodo este a una producción una orden por una cantidad"
+  },
+  {
+    "start": 2709.2200000000003,
+    "end": 2715.1800000000003,
+    "text": "por la cantidad de demanda de este periodo el que viene el otro y la mitad del otro eso no tiene"
+  },
+  {
+    "start": 2715.1800000000003,
+    "end": 2721.2200000000003,
+    "text": "sentido eso de la mitad justamente va me llevaría una solución en el que en ese periodo donde se"
+  },
+  {
+    "start": 2721.2200000000003,
+    "end": 2726.9800000000005,
+    "text": "produce la mitad tiene que producir lo cual quiere decir que voy a producir cuando tengo un inventario"
+  },
+  {
+    "start": 2726.9800000000005,
+    "end": 2735.26,
+    "text": "positivo de entrada a bien entonces esto no es nada menor este corollario porque justamente basado en"
+  },
+  {
+    "start": 2735.26,
+    "end": 2740.5400000000004,
+    "text": "ese corollario que está ahí se puede resolver el problema de forma eficiente está con un algoritmo"
+  },
+  {
+    "start": 2740.5400000000004,
+    "end": 2747.0600000000004,
+    "text": "eficiente de punto de vista computaciones que vamos a ver eso ahora es el algoritmo de"
+  },
+  {
+    "start": 2747.06,
+    "end": 2750.1,
+    "text": "van de hui que está basado en esa propiedad"
+  },
+  {
+    "start": 2752.22,
+    "end": 2759.44,
+    "text": "ahí este para una forma de ver lo que es la que dije el libro y que está bien que está basada en"
+  },
+  {
+    "start": 2759.44,
+    "end": 2765.04,
+    "text": "grafos pero no es un grafo que es diferente a lo que les mostré recién que es un problema es un"
+  },
+  {
+    "start": 2765.04,
+    "end": 2770.06,
+    "text": "grafo pero para un problema para la formulación del problema con un problema de flujo sangre"
+  },
+  {
+    "start": 2770.06,
+    "end": 2776.62,
+    "text": "acá es otro grafo orientado a encontrar este la mejor alternativa del punto de vista de los"
+  },
+  {
+    "start": 2776.62,
+    "end": 2785.38,
+    "text": "costos también por eso dice es una red acíclica o sea no tiene ciclos es importante una propiedad"
+  },
+  {
+    "start": 2785.38,
+    "end": 2791.02,
+    "text": "digamos en la relleguidad donde tiene un cierto conjunto de nodos que van desde uno hasta temas"
+  },
+  {
+    "start": 2791.02,
+    "end": 2795.1,
+    "text": "uno recuerden que tema yúscula es la cantidad de periodos o sea que si yo tengo un problema con"
+  },
+  {
+    "start": 2795.1,
+    "end": 2803.3399999999997,
+    "text": "tres periodos voy a tener cuatro nodos bien de no uno dos tres y cuatro y donde hay arcos y"
+  },
+  {
+    "start": 2803.38,
+    "end": 2810.34,
+    "text": "jota para todo j mayor que y a los que se le asoció un cierto costo"
+  },
+  {
+    "start": 2812.86,
+    "end": 2818.82,
+    "text": "ahí se menciona un largo porque se usa él y su mijota que es es el costo que tiene a realizar un"
+  },
+  {
+    "start": 2818.82,
+    "end": 2826.1400000000003,
+    "text": "pedido en el periodo y para satisfacer la demanda desde y hasta j-sul que es esto que está acá"
+  },
+  {
+    "start": 2826.14,
+    "end": 2834.42,
+    "text": "abajo abajo de este parado es el costo fijo más el costo de mantener el inventario las diferentes"
+  },
+  {
+    "start": 2834.42,
+    "end": 2841.2999999999997,
+    "text": "cantidades de demanda este de ese de ese rango de periodos que va desde y hasta j-sul"
+  },
+  {
+    "start": 2843.54,
+    "end": 2844.06,
+    "text": "si"
+  },
+  {
+    "start": 2845.98,
+    "end": 2848.02,
+    "text": "entonces yo tengo algo dibujado acá"
+  },
+  {
+    "start": 2848.02,
+    "end": 2849.18,
+    "text": "pasamos un poco más"
+  },
+  {
+    "start": 2859.22,
+    "end": 2865.38,
+    "text": "y yo hice el caso como les mencionaba para t igual 3 lo ven acá a este a este grafo acá"
+  },
+  {
+    "start": 2867.34,
+    "end": 2875.02,
+    "text": "que es una bien y lo se analice es un grafo orientado una red que no tiene flujo este flujo"
+  },
+  {
+    "start": 2876.02,
+    "end": 2887.78,
+    "text": "se no tiene ciclos y justamente expresa este eso que se mencionaba recién a la slide son los"
+  },
+  {
+    "start": 2887.78,
+    "end": 2895.5,
+    "text": "diferentes los cada arco está asociado con el valor del costo que ha asociado a producir en este"
+  },
+  {
+    "start": 2895.5,
+    "end": 2901.02,
+    "text": "periodo y una cierta cantidad de demanda y mantener los inventarios acá está un poco"
+  },
+  {
+    "start": 2901.34,
+    "end": 2909.14,
+    "text": "esquematizado eso y en lo que yo tengo tres periodos por ejemplo en el periodo 3 lo único que"
+  },
+  {
+    "start": 2909.14,
+    "end": 2913.54,
+    "text": "puedo hacer digamos la única decisión que puedo que tengo para tomar es producir la demanda del"
+  },
+  {
+    "start": 2913.54,
+    "end": 2925.66,
+    "text": "periodo 3 si y eso me determina el el valor llamo o el costo el su 34 si en el periodo 2 tengo"
+  },
+  {
+    "start": 2925.66,
+    "end": 2931.54,
+    "text": "2 decisiones puedo satisfacer la demanda de 2 y si satisfacer la demanda de 2 y de 3"
+  },
+  {
+    "start": 2932.54,
+    "end": 2934.54,
+    "text": "del periodo 2 y del periodo 3"
+  },
+  {
+    "start": 2935.98,
+    "end": 2936.62,
+    "text": "también"
+  },
+  {
+    "start": 2938.7,
+    "end": 2943.8199999999997,
+    "text": "bien o que las alternativas son siempre por cantidades enteras digamos de la demanda de"
+  },
+  {
+    "start": 2943.8199999999997,
+    "end": 2949.2599999999998,
+    "text": "los períodos no hay fracciones justamente eso me reduce tremendamente la cantidad de alternativas"
+  },
+  {
+    "start": 2950.26,
+    "end": 2955.94,
+    "text": "si yo no si yo no tuviera no supiera eso no asuniera eso"
+  },
+  {
+    "start": 2955.94,
+    "end": 2964.1000000000004,
+    "text": "llamo las alternativas nomás para el periodo 3 serían desde uno desde podría producir 1 2 3 4"
+  },
+  {
+    "start": 2964.1000000000004,
+    "end": 2969.6600000000003,
+    "text": "hasta la cantidad de 3 si lo ven a eso sería una cantidad de opción y sin embargo todas esas"
+  },
+  {
+    "start": 2969.6600000000003,
+    "end": 2973.94,
+    "text": "cantidades no llamo lo que me dicen estos resultados a propiedad inventario 0 es que no"
+  },
+  {
+    "start": 2973.94,
+    "end": 2978.1000000000004,
+    "text": "analices todas esas posibilidades sólo la posibilidad que tiene sentido es estar acá"
+  },
+  {
+    "start": 2978.1,
+    "end": 2981.58,
+    "text": "es cuando en 3 producís de 3"
+  },
+  {
+    "start": 2983.66,
+    "end": 2984.22,
+    "text": "a bien"
+  },
+  {
+    "start": 2986.42,
+    "end": 2987.54,
+    "text": "si lo ven a eso"
+  },
+  {
+    "start": 2990.02,
+    "end": 2991.62,
+    "text": "tenemos a repetir pedro"
+  },
+  {
+    "start": 2993.62,
+    "end": 2998.98,
+    "text": "si como la propiedad inventario 0 el efecto que tiene justamente está reflejado acá"
+  },
+  {
+    "start": 2998.98,
+    "end": 3007.18,
+    "text": "es que me reduce exponencialmente es tremendo toda la cantidad de alternativas"
+  },
+  {
+    "start": 3007.18,
+    "end": 3013.14,
+    "text": "que tengo que considerar si yo no tuviera la propiedad inventario 0 por ejemplo estoy parado"
+  },
+  {
+    "start": 3013.14,
+    "end": 3020.58,
+    "text": "en el periodo 3 y tengo una cierta demanda imagínense que la demanda acá el periodo 3 es mil mil"
+  },
+  {
+    "start": 3020.58,
+    "end": 3028.46,
+    "text": "unidades entonces en el periodo 3 yo podría producir bueno yo no lo dije pero está en la"
+  },
+  {
+    "start": 3028.46,
+    "end": 3031.94,
+    "text": "tentativa de no producir nada a cero porque digo bueno se va a satisfacer con la producción"
+  },
+  {
+    "start": 3031.94,
+    "end": 3036.18,
+    "text": "del periodo anterior pero si voy a producir una cantidad positiva el día que sí bueno"
+  },
+  {
+    "start": 3036.18,
+    "end": 3042.2999999999997,
+    "text": "la producción podría ser de uno en el caso que inventario anterior venga 999 o de 2 siguen"
+  },
+  {
+    "start": 3042.2999999999997,
+    "end": 3047.8999999999996,
+    "text": "998 o de 3 o de 4 o de 5 o sea tendría que analizar mil alternativas diferentes"
+  },
+  {
+    "start": 3049.46,
+    "end": 3055.2999999999997,
+    "text": "ok porque tengo la demanda vale mil y a su vez si vale 10 mil tendría que analizar 10 mil"
+  },
+  {
+    "start": 3055.2999999999997,
+    "end": 3061.18,
+    "text": "alternativas diferentes sin embargo la propiedad inventario 0 lo que me dice es no no no no"
+  },
+  {
+    "start": 3061.1800000000003,
+    "end": 3065.6200000000003,
+    "text": "consideres todas las alternativas sólo hay dos que tienen sentido desde el punto de vista de los"
+  },
+  {
+    "start": 3065.6200000000003,
+    "end": 3071.42,
+    "text": "costos de utilizar los costos es o que no producís nada o que si vas a producir producir por toda la"
+  },
+  {
+    "start": 3071.42,
+    "end": 3080.1800000000003,
+    "text": "demanda de ese periodo también y en el periodo 2 es lo mismo pero además de la demanda de ese"
+  },
+  {
+    "start": 3080.1800000000003,
+    "end": 3083.4600000000005,
+    "text": "periodo puedes producir además por la demanda de ese periodo más la demanda del periodo"
+  },
+  {
+    "start": 3083.46,
+    "end": 3085.86,
+    "text": "siguiente no todas las combinaciones posibles"
+  },
+  {
+    "start": 3088.86,
+    "end": 3093.7,
+    "text": "que ven a eso ahora vieron que además no depende de cuánto valga"
+  },
+  {
+    "start": 3093.7,
+    "end": 3098.78,
+    "text": "no depende de los valores de des usted es independiente de las cantidades"
+  },
+  {
+    "start": 3100.42,
+    "end": 3106.94,
+    "text": "estos valores de de podrían ser decenas centenas miles millares no me afecta la cantidad"
+  },
+  {
+    "start": 3106.94,
+    "end": 3115.7400000000002,
+    "text": "de alternativas que tengo que considerar si no entiendo porque entonces y dos no es cero"
+  },
+  {
+    "start": 3115.7400000000002,
+    "end": 3123.86,
+    "text": "también y producí todo en el uno todavía no hablé de esto que está el rojo acá no"
+  },
+  {
+    "start": 3127.86,
+    "end": 3133.02,
+    "text": "ahora vamos a ver eso estas son las alternativas que yo tengo que considerar obviamente si"
+  },
+  {
+    "start": 3134.02,
+    "end": 3142.2599999999998,
+    "text": "lo que pasa acá es que la solución óptima va a ser el el camino de menor costo en este"
+  },
+  {
+    "start": 3142.2599999999998,
+    "end": 3147.98,
+    "text": "grafo va a ser este arco de acá y este arco de acá para llegar de 1 a 4 con el menor costo"
+  },
+  {
+    "start": 3150.66,
+    "end": 3157.54,
+    "text": "posible voy a tener que ir de 1 hasta 2 y de 2 hasta 4 y eso qué quiere decir"
+  },
+  {
+    "start": 3158.54,
+    "end": 3165.02,
+    "text": "si voy a determinar el plan de producción es que tengo es el uno él es uno dos quiere decir"
+  },
+  {
+    "start": 3165.02,
+    "end": 3169.94,
+    "text": "que en el periodo uno tengo que producir la demanda solamente el periodo por eso dice y subo un igual"
+  },
+  {
+    "start": 3169.94,
+    "end": 3176.5,
+    "text": "de uno y él es dos cuatro me dice que tengo que en el periodo tengo que producir la demanda del"
+  },
+  {
+    "start": 3176.5,
+    "end": 3184.62,
+    "text": "periodo dos y del periodo tres lo cual quiere decir a su vez que ni sub tres o sea en el periodo"
+  },
+  {
+    "start": 3184.62,
+    "end": 3189.8599999999997,
+    "text": "tres no voy a producir nada porque ya se esa cantidad se se produce en el periodo dos"
+  },
+  {
+    "start": 3191.42,
+    "end": 3191.94,
+    "text": "ok"
+  },
+  {
+    "start": 3193.74,
+    "end": 3199.42,
+    "text": "pero eso lo sé después de resolver justamente encontrar el camino más corto en este grafo de acá"
+  },
+  {
+    "start": 3199.42,
+    "end": 3205.06,
+    "text": "pero estas son todas las alternativas o sea para construir este grafo acá necesito primero"
+  },
+  {
+    "start": 3205.06,
+    "end": 3210.9,
+    "text": "determinar todas estas alternativas no quiere decir que todas sean combinadas combinables vamos"
+  },
+  {
+    "start": 3210.9,
+    "end": 3218.5,
+    "text": "a decir entre sí alguna por ejemplo el uno dos tiene sentido con el de dos cuatro o con el de dos"
+  },
+  {
+    "start": 3218.5,
+    "end": 3230.3,
+    "text": "tres existen ciertas combinaciones digamos posibles pero lo importante es que yo puedo terminar el plan"
+  },
+  {
+    "start": 3230.3,
+    "end": 3237.46,
+    "text": "de costo mínimo óptimo sólo evaluando estas alternativas que son independientes de la"
+  },
+  {
+    "start": 3237.46,
+    "end": 3238.58,
+    "text": "cantidad de la demanda"
+  },
+  {
+    "start": 3241.58,
+    "end": 3246.98,
+    "text": "uno esto también se puede expresar otra forma de expresarlos mediante esta recursividad que está"
+  },
+  {
+    "start": 3246.98,
+    "end": 3254.66,
+    "text": "acá con las f que se conoce es una recursión porque viene que primero digo bueno doy un valor"
+  },
+  {
+    "start": 3254.66,
+    "end": 3258.54,
+    "text": "de un cierto valor base digo bueno f es un tema es uno va a ser cero"
+  },
+  {
+    "start": 3260.54,
+    "end": 3266.54,
+    "text": "está asociado a ese periodo de auxiliar y después para cada periodo y lo que digo"
+  },
+  {
+    "start": 3266.54,
+    "end": 3276.62,
+    "text": "es el costo el f en realidad representa el costo de la solución de menor costo"
+  },
+  {
+    "start": 3276.62,
+    "end": 3285.1,
+    "text": "hasta el período y también entonces para un período de cualquiera lo que voy a tener que"
+  },
+  {
+    "start": 3285.1,
+    "end": 3292.1,
+    "text": "analizar van a ser todas las alternativas que están entre y y temas uno y que ya conozco"
+  },
+  {
+    "start": 3292.1,
+    "end": 3296.22,
+    "text": "con esa recursión y quedarme con la con la que me da menor costa"
+  },
+  {
+    "start": 3299.38,
+    "end": 3303.14,
+    "text": "esta es una formulación que se cuenta de recursión es una recursidad de programación"
+  },
+  {
+    "start": 3303.14,
+    "end": 3308.02,
+    "text": "dinámica le digo porque también en realidad el algoritmo de vanguard bueno está basado en"
+  },
+  {
+    "start": 3308.02,
+    "end": 3315.18,
+    "text": "esta recursión que es equivalente a resolver el problema de camino más corto en este graf"
+  },
+  {
+    "start": 3315.4600000000005,
+    "end": 3325.9,
+    "text": "si estas otras normativas de formular el problema es es lo mismo va a resolver el problema es"
+  },
+  {
+    "start": 3325.9,
+    "end": 3333.5400000000004,
+    "text": "considerar todas las alternativas en empezar con f sub t f sub t menos uno f sub t menos tres"
+  },
+  {
+    "start": 3333.5400000000004,
+    "end": 3340.4600000000005,
+    "text": "hasta llegar a f de uno f de uno es lo que yo quiero es la política es el valor de la política"
+  },
+  {
+    "start": 3340.46,
+    "end": 3350.54,
+    "text": "óptima y a su vez después que conozco f sub uno voy a poder digamos deducir cuál van a lo mismo que"
+  },
+  {
+    "start": 3350.54,
+    "end": 3355.86,
+    "text": "acá ya más porque conozco el camino óptimo voy a poder reducir cuáles son las cantidades que tengo"
+  },
+  {
+    "start": 3355.86,
+    "end": 3365.54,
+    "text": "que producir en cada período fácilmente si ustedes se fijan mirando su vez resulta un poco"
+  },
+  {
+    "start": 3365.54,
+    "end": 3369.7,
+    "text": "claro acá la cantidad de alternativas que yo tengo que analizar que son estas de acá"
+  },
+  {
+    "start": 3370.62,
+    "end": 3375.62,
+    "text": "se puede calcular con esta fórmula no porque en realidad es la sumatoria si ustedes miran"
+  },
+  {
+    "start": 3375.62,
+    "end": 3379.22,
+    "text": "acá de 1 a 3 de t"
+  },
+  {
+    "start": 3383.3399999999997,
+    "end": 3384.5,
+    "text": "o sea esto que está acá"
+  },
+  {
+    "start": 3387.1,
+    "end": 3388.2999999999997,
+    "text": "en cada período"
+  },
+  {
+    "start": 3395.5,
+    "end": 3397.8599999999997,
+    "text": "esto como si fuera en cada periodo"
+  },
+  {
+    "start": 3406.46,
+    "end": 3413.98,
+    "text": "en cada periodo t tengo que justamente"
+  },
+  {
+    "start": 3416.22,
+    "end": 3419.2599999999998,
+    "text": "analizar de alternativas"
+  },
+  {
+    "start": 3420.9,
+    "end": 3424.8599999999997,
+    "text": "no esto va de t igual a una esta tema yupi lo ven a eso"
+  },
+  {
+    "start": 3424.86,
+    "end": 3430.3,
+    "text": "y aunque acá"
+  },
+  {
+    "start": 3432.46,
+    "end": 3435.9,
+    "text": "se tengo tres alternativas dos alternativas y una alternativa"
+  },
+  {
+    "start": 3438.06,
+    "end": 3439.02,
+    "text": "si lo ven"
+  },
+  {
+    "start": 3441.26,
+    "end": 3448.02,
+    "text": "es la sumatoria de uno de una n y eso justamente se calcula como"
+  },
+  {
+    "start": 3448.34,
+    "end": 3453.14,
+    "text": "temas uno por t sobre dos que es esto acá esto son las cantidades alternativas que"
+  },
+  {
+    "start": 3453.14,
+    "end": 3453.98,
+    "text": "tengo que considerar"
+  },
+  {
+    "start": 3458.46,
+    "end": 3464.94,
+    "text": "y a su vez esto es lo que se dice computacionalmente que tiene un orden de t cuadrado porque"
+  },
+  {
+    "start": 3464.94,
+    "end": 3472.06,
+    "text": "obviamente esta esta esta cantidad alternativa va a ser una ecuación cuyo un polinomio"
+  },
+  {
+    "start": 3472.06,
+    "end": 3476.66,
+    "text": "puede decirse que depende de t cuyo mayor grado va a ser t al cuadrado"
+  },
+  {
+    "start": 3478.1,
+    "end": 3484.2999999999997,
+    "text": "también entonces se dice que el orden de operaciones que tengo que ejecutar o que tengo que"
+  },
+  {
+    "start": 3484.2999999999997,
+    "end": 3490.98,
+    "text": "realizar para este algoritmo es una cantidad que depende del cuadrado de t donde t es la cantidad"
+  },
+  {
+    "start": 3490.98,
+    "end": 3497.06,
+    "text": "de periodos entonces dicen que el orden del algoritmo es cuadrático este cuadrado"
+  },
+  {
+    "start": 3497.7799999999997,
+    "end": 3505.2599999999998,
+    "text": "pero algo significativo es que no depende de los valores de la demanda si yo no tuviera la"
+  },
+  {
+    "start": 3505.2599999999998,
+    "end": 3509.82,
+    "text": "propiedad inventario cero el orden del algoritmo dependería de las cantidades de la demanda"
+  },
+  {
+    "start": 3511.82,
+    "end": 3519.5,
+    "text": "como vimos hoy porque debería considerar todas las alternativas con por ejemplo si la demanda"
+  },
+  {
+    "start": 3519.5,
+    "end": 3526.82,
+    "text": "fuera del periodo 3 fuera 1000 con 1999 1998 y así o sea el orden de ese algoritmo si no"
+  },
+  {
+    "start": 3526.82,
+    "end": 3531.02,
+    "text": "tuviera la propiedad inventario cero dependería de los valores de la demanda que es algo que"
+  },
+  {
+    "start": 3532.6200000000003,
+    "end": 3538.9,
+    "text": "es no desfiado es lo que se dice seguro polinomial porque depende de las cantidades"
+  },
+  {
+    "start": 3539.86,
+    "end": 3548.82,
+    "text": "de mi problema en realidad uno quiere una cuando es uno quiere medir la eficiencia del"
+  },
+  {
+    "start": 3548.82,
+    "end": 3553.02,
+    "text": "algoritmo o que la o que la eficiencia del algoritmo mejor dicho dependa solo de ciertas"
+  },
+  {
+    "start": 3553.02,
+    "end": 3559.86,
+    "text": "características del problema en este caso de la cantidad de periodos pero no de los valores"
+  },
+  {
+    "start": 3562.5,
+    "end": 3569.42,
+    "text": "de este algoritmos es lo que se conoce como un algoritmo eficiente en punto de vista de la"
+  },
+  {
+    "start": 3569.42,
+    "end": 3575.42,
+    "text": "complejidad computacional porque está cotado por un polinomio a cotado quiere decir que una"
+  },
+  {
+    "start": 3575.42,
+    "end": 3580.5,
+    "text": "siempre la cantidad de operaciones va a estar acotado por un polinomio de grado vos en el"
+  },
+  {
+    "start": 3580.5,
+    "end": 3584.94,
+    "text": "tamaño digamos o en la cantidad de periodos si"
+  },
+  {
+    "start": 3587.94,
+    "end": 3588.58,
+    "text": "a bien"
+  },
+  {
+    "start": 3592.66,
+    "end": 3593.94,
+    "text": "bueno sumo que sí"
+  },
+  {
+    "start": 3595.46,
+    "end": 3604.46,
+    "text": "entonces la política óptima pensada o vista como los los periodos o los momentos donde se debe"
+  },
+  {
+    "start": 3604.46,
+    "end": 3610.02,
+    "text": "producir o reordenar está por aquellos como dice por aquellos nuevos que pertenecen en ese"
+  },
+  {
+    "start": 3610.02,
+    "end": 3616.5,
+    "text": "camino y las cantidades pedidas se calculan como vimos este es fácilmente a partir de los"
+  },
+  {
+    "start": 3616.5,
+    "end": 3623.7,
+    "text": "arcos o de las arriscas de ese camino y bueno el algoritmo de Wagner y Williams ya les digo"
+  },
+  {
+    "start": 3623.7,
+    "end": 3630.98,
+    "text": "está expresado con esa recursión o de esa forma con una recursión de programación dinámica también"
+  },
+  {
+    "start": 3630.98,
+    "end": 3635.86,
+    "text": "este otra forma de verlo y que es equivalente es que un algoritmo de búsqueda de camino más"
+  },
+  {
+    "start": 3635.86,
+    "end": 3644.42,
+    "text": "corto como el algoritmo de distra que encuentra dado un grafo completo"
+  },
+  {
+    "start": 3646.26,
+    "end": 3653.78,
+    "text": "encuentra la cantidad o el camino más corto entre un par de nudos también tiene complejidad que"
+  },
+  {
+    "start": 3653.78,
+    "end": 3660.58,
+    "text": "depende del en este caso en ese caso va a depender de depende de la cantidad de listas que se la"
+  },
+  {
+    "start": 3660.58,
+    "end": 3665.2200000000003,
+    "text": "cantidad de listas está cotado por el valor el cuadrado de la cantidad de nudos"
+  },
+  {
+    "start": 3666.42,
+    "end": 3671.78,
+    "text": "en este caso la cantidad de nudos depende de t es igual a t por lo tanto el orden de algoritmo"
+  },
+  {
+    "start": 3671.78,
+    "end": 3678.1,
+    "text": "de distra va a quedar de cuadráticos como dice ahí de cuadrado pero obviamente es otra forma de verlo"
+  },
+  {
+    "start": 3678.1,
+    "end": 3683.38,
+    "text": "pero que es equivalente a la recursividad que plantea en Wagner y Williams es de este cuadrado"
+  },
+  {
+    "start": 3683.38,
+    "end": 3688.1400000000003,
+    "text": "porque esencialmente hay t cuadrado combinación alternativas posibles que tengo que analizar"
+  },
+  {
+    "start": 3688.1400000000003,
+    "end": 3693.2200000000003,
+    "text": "si estoy en el periodo 1 tengo que analizar t mayor que la alternativa si estoy en el periodo"
+  },
+  {
+    "start": 3693.2200000000003,
+    "end": 3697.7000000000003,
+    "text": "2 t-1 y así hasta que llevo al periodo tema yúscula que tengo una alternativa"
+  },
+  {
+    "start": 3699.0600000000004,
+    "end": 3701.6200000000003,
+    "text": "también conforma se equivalente a terminar el problema"
+  },
+  {
+    "start": 3704.1800000000003,
+    "end": 3709.3,
+    "text": "pero lo importante es que el algoritmo de Wagner y Williams me da esa es la solución óptima digamos"
+  },
+  {
+    "start": 3709.3,
+    "end": 3716.5000000000005,
+    "text": "del problema que modelamos de esta forma cuando obviamente esto tiene sentido cuando"
+  },
+  {
+    "start": 3716.5000000000005,
+    "end": 3720.5000000000005,
+    "text": "las demandas son dinámicas pueden ser diferentes periodos a periodos y tengo un horizonte de"
+  },
+  {
+    "start": 3720.5,
+    "end": 3724.74,
+    "text": "la significación que hay si"
+  },
+  {
+    "start": 3730.58,
+    "end": 3736.34,
+    "text": "una generalización sencilla que yo les comentaba es cuando los costos fijos y los unitarios"
+  },
+  {
+    "start": 3736.34,
+    "end": 3740.66,
+    "text": "al igual que los de mantener en inventario se extienden a costos dinámicos o sea que pueden"
+  },
+  {
+    "start": 3740.66,
+    "end": 3746.42,
+    "text": "variar en el tiempo en ese caso también es válido el algoritmo Wagner y Williams incluso es válido"
+  },
+  {
+    "start": 3747.14,
+    "end": 3750.5,
+    "text": "aunque el caso más general de costos con caba"
+  },
+  {
+    "start": 3754.5,
+    "end": 3760.82,
+    "text": "eso lo demostró sangui que es un investigador en el año 68 porque estudió esa formulación que"
+  },
+  {
+    "start": 3760.82,
+    "end": 3768.5,
+    "text": "yo les comentaba de flujos en red sangui lo que lo que estudió fue bueno esa red con costos donde"
+  },
+  {
+    "start": 3768.5,
+    "end": 3774.5,
+    "text": "los costos asociados a cada arco es puede ser una función con caba y demostró que si yo tengo"
+  },
+  {
+    "start": 3775.14,
+    "end": 3780.42,
+    "text": "una cierta cantidad de nodos fuentes en este caso dieron que tengo un solo nodo fuente"
+  },
+  {
+    "start": 3785.46,
+    "end": 3791.22,
+    "text": "no a esta formulación tiene que tener un solo nodo fuente"
+  },
+  {
+    "start": 3792.9,
+    "end": 3797.06,
+    "text": "lo que el resultado que demostró sanguiles cuando los costos asociados a estos arcos son"
+  },
+  {
+    "start": 3797.06,
+    "end": 3802.66,
+    "text": "con cabos lo que va a pasar en cada uno de los nodos digamos que consumen"
+  },
+  {
+    "start": 3805.38,
+    "end": 3811.06,
+    "text": "o mejor dicho que no son fuentes es que la cantidad de entradas positiva va a ser este si tengo"
+  },
+  {
+    "start": 3814.74,
+    "end": 3822.02,
+    "text": "no fuentes m fuentes a los sumos van a existir m fuentes entradas positivas para cada no en este"
+  },
+  {
+    "start": 3822.02,
+    "end": 3828.9,
+    "text": "caso quiere decir que si yo tengo una entrada un perdón un un solo nodo fuente lo que va a pasar es que"
+  },
+  {
+    "start": 3828.9,
+    "end": 3834.58,
+    "text": "a los sumos voy a tener una entrada positiva para cualquiera es justamente eso es la propiedad de"
+  },
+  {
+    "start": 3834.58,
+    "end": 3843.7,
+    "text": "mentarios si no ven o el y es positivo o el y sub uno en este caso es positivo"
+  },
+  {
+    "start": 3845.3,
+    "end": 3851.14,
+    "text": "pero eso es válido para cualquier función de costos con cabas en particular las lineales en"
+  },
+  {
+    "start": 3851.14,
+    "end": 3855.2999999999997,
+    "text": "particular cuando es un componente fijo más una componente variable lo que sea pero"
+  },
+  {
+    "start": 3855.8599999999997,
+    "end": 3860.74,
+    "text": "entonces quiere decir que la propiedad de inventario cero es válida incluso cuando los costos son con"
+  },
+  {
+    "start": 3860.74,
+    "end": 3865.7799999999997,
+    "text": "cabos por lo tanto el algoritmo de van y van y ruiden que está basado en la propiedad de inventario"
+  },
+  {
+    "start": 3865.7799999999997,
+    "end": 3877.46,
+    "text": "cero es válido también para cuando tengo costos con también sanguil también lo analizó este"
+  },
+  {
+    "start": 3877.46,
+    "end": 3885.06,
+    "text": "problema lo que hizo fue a su vez analizar el problema extendió este el problema de van y"
+  },
+  {
+    "start": 3885.06,
+    "end": 3890.5,
+    "text": "ruiden para otras situaciones por ejemplo cuando tengo valglovin valglovin vendría a ser que tengo"
+  },
+  {
+    "start": 3890.5,
+    "end": 3897.78,
+    "text": "un arco que va desde acá hasta acá este tipo de cosas donde esta es la cantidad una cantidad z"
+  },
+  {
+    "start": 3898.1000000000004,
+    "end": 3907.46,
+    "text": "z sub uno en este caso acá z sub dos que son las cantidades que cumple por retraso"
+  },
+  {
+    "start": 3907.46,
+    "end": 3913.26,
+    "text": "pero ahí sigue siendo válido el mismo resultado o sea como tengo un solo nuevo fuente la cantidad"
+  },
+  {
+    "start": 3913.26,
+    "end": 3917.7000000000003,
+    "text": "que va a entrar a cada no va a ser una sola en la cantidad positiva entonces qué quiere decir"
+  },
+  {
+    "start": 3917.7000000000003,
+    "end": 3924.0600000000004,
+    "text": "en los hechos es que la demanda por ejemplo vean acá del período dos esta demanda acá"
+  },
+  {
+    "start": 3924.06,
+    "end": 3931.66,
+    "text": "o se satisface con la producción del período dos o con el lo que viene de inventario del período uno"
+  },
+  {
+    "start": 3934.66,
+    "end": 3940.2999999999997,
+    "text": "con lo que viene digamos de la producción del período tres con retraso pero no puede ser"
+  },
+  {
+    "start": 3940.2999999999997,
+    "end": 3944.62,
+    "text": "con alguna combinación de las tres con ninguna de las combinaciones es con una de las tres"
+  },
+  {
+    "start": 3944.62,
+    "end": 3951.58,
+    "text": "días entonces ahí puedo también me ayuda a esta propiedad de inventario cero a derivar"
+  },
+  {
+    "start": 3951.58,
+    "end": 3956.54,
+    "text": "un algoritmo eficiente digamos que va a ser así cuando tengo valglovin"
+  },
+  {
+    "start": 3958.1,
+    "end": 3967.2999999999997,
+    "text": "también y bueno y otras extensiones pero como lo que le quería decir es que la representación"
+  },
+  {
+    "start": 3967.2999999999997,
+    "end": 3973.42,
+    "text": "mediante flujos en red digamos es muy potente es muy utilizada porque justamente me da ese tipo"
+  },
+  {
+    "start": 3973.42,
+    "end": 3983.34,
+    "text": "de resultado me permite generalizar el análisis a funciones de costos más generales que la de"
+  },
+  {
+    "start": 3983.34,
+    "end": 3985.3,
+    "text": "costos lineales y una componente fija"
+  },
+  {
+    "start": 3988.1800000000003,
+    "end": 3996.42,
+    "text": "y seguimos poco más bueno ahora vamos a ver el problema de este del modelo de valglovin"
+  },
+  {
+    "start": 3996.7400000000002,
+    "end": 3999.62,
+    "text": "pero cuando tenga una cota la cantidad que puedo producir"
+  },
+  {
+    "start": 4002.02,
+    "end": 4007.3,
+    "text": "que está abordado la sección 8.2 del libro la referencia del curso"
+  },
+  {
+    "start": 4009.3,
+    "end": 4018.78,
+    "text": "tiene que ahora en las restricciones de nueve lo que se dice es que la cantidad que voy a producir o voy"
+  },
+  {
+    "start": 4018.78,
+    "end": 4021.94,
+    "text": "a ordenar en cada periodo está cotado por un cierto valor se subte"
+  },
+  {
+    "start": 4021.94,
+    "end": 4033.14,
+    "text": "si entonces estos valores se subte son las cantidades máximas que se pueden comprar o"
+  },
+  {
+    "start": 4033.14,
+    "end": 4043.14,
+    "text": "producir en un periodo dado también tienen que antes potencialmente esas que se conocen"
+  },
+  {
+    "start": 4043.14,
+    "end": 4048.3,
+    "text": "problemas sin restricciones de capacidad o donde se asume que la capacidad de producción es infinita"
+  },
+  {
+    "start": 4048.3,
+    "end": 4054.5,
+    "text": "esos los hechos obviamente no es así pero lo que quiere decir es que potencialmente puedo producir"
+  },
+  {
+    "start": 4054.5,
+    "end": 4059.0600000000004,
+    "text": "en un periodo en el primer periodo toda la demanda que tengo de mi problema"
+  },
+  {
+    "start": 4062.9,
+    "end": 4069.38,
+    "text": "o sea si yo la realidad tengo esa situación o sea no estoy acotado o sea"
+  },
+  {
+    "start": 4069.38,
+    "end": 4075.9,
+    "text": "me tengo un problema de una semana y sé que en un día puedo producir o comprar todo lo que"
+  },
+  {
+    "start": 4075.9,
+    "end": 4082.5,
+    "text": "la demanda de esa semana en realidad como tuviera no plantería la restricción de nueve porque"
+  },
+  {
+    "start": 4082.5,
+    "end": 4089.58,
+    "text": "no estaría activa nunca o sea es un problema que se dice con producción infinita pero en ciertos"
+  },
+  {
+    "start": 4089.58,
+    "end": 4095.7400000000002,
+    "text": "casos eso no se aplica imagina es una de las anteplanificaciones es lo suficientemente extenso"
+  },
+  {
+    "start": 4095.7400000000002,
+    "end": 4100.9400000000005,
+    "text": "por ejemplo un mes y estoy haciendo la planificación día por día de un mes bueno es muy raro que"
+  },
+  {
+    "start": 4100.9400000000005,
+    "end": 4106.580000000001,
+    "text": "en un día puedas producir toda la demanda de ese mes o comprar todo lo que necesita en ese mes"
+  },
+  {
+    "start": 4106.580000000001,
+    "end": 4113.3,
+    "text": "o imagínense una lista de planificación de meses en los periodos de meses para un año quizás"
+  },
+  {
+    "start": 4113.3,
+    "end": 4118.9400000000005,
+    "text": "no sea lógico que en un mes puedas comprar toda la producción o todo lo que te demandan de ese"
+  },
+  {
+    "start": 4118.9400000000005,
+    "end": 4127.740000000001,
+    "text": "año entonces suelen ponerse restricciones o limitarse las cantidades que se pueden"
+  },
+  {
+    "start": 4127.74,
+    "end": 4132.98,
+    "text": "comprar o producir en un mes está en un periodo está bien"
+  },
+  {
+    "start": 4135.0599999999995,
+    "end": 4141.7,
+    "text": "bueno esto que si que parece sencillo y que es relativamente sencillo de decir y de poner en"
+  },
+  {
+    "start": 4141.7,
+    "end": 4144.82,
+    "text": "el modelo digamos extender en el modelo que es mediante esta restricción"
+  },
+  {
+    "start": 4147.0599999999995,
+    "end": 4151.94,
+    "text": "lleva que problemas la complejidad del problema cambia totalmente vieron que ahí"
+  },
+  {
+    "start": 4152.900000000001,
+    "end": 4160.18,
+    "text": "de esa esa frase que está al final en la frase que dice esta modificación alcanza para que"
+  },
+  {
+    "start": 4160.18,
+    "end": 4170.22,
+    "text": "problema sea en el completo no sé si algunos han sentido o han visto la clasificación digamos de"
+  },
+  {
+    "start": 4170.22,
+    "end": 4181.780000000001,
+    "text": "complejidad los np jr en el completo no han visto no no bueno en realidad es toda la teoría"
+  },
+  {
+    "start": 4181.78,
+    "end": 4187.9,
+    "text": "de complejidad computacional de las medidas pesadas los formalismos del punto de vista de la"
+  },
+  {
+    "start": 4187.9,
+    "end": 4196.219999999999,
+    "text": "optimización que es un poco en enfoque que estamos utilizando acá este cuando las cosas"
+  },
+  {
+    "start": 4196.219999999999,
+    "end": 4202.0199999999995,
+    "text": "cuando son np algo quiere decir que son complejas complicadas digamos resolver quiere decir que"
+  },
+  {
+    "start": 4203.0199999999995,
+    "end": 4208.46,
+    "text": "en los hechos que no existe un algoritmo no se conoce un algoritmo eficiente o de orden"
+  },
+  {
+    "start": 4208.46,
+    "end": 4214.02,
+    "text": "polinomial cada un algoritmo de orden polinomial es como el que vimos de panguí está acotado por un"
+  },
+  {
+    "start": 4214.02,
+    "end": 4220.42,
+    "text": "polinomio la cantidad de operaciones se puede acotar por un polinomio en los problemas donde no se"
+  },
+  {
+    "start": 4220.42,
+    "end": 4226.94,
+    "text": "conoce un algoritmo que está acotado por un polinomio se dicen que son np algo np completo"
+  },
+  {
+    "start": 4226.94,
+    "end": 4236.22,
+    "text": "cuando se puedan reducir a cualquier otro problema de np producir que si convertir digamos obviamente"
+  },
+  {
+    "start": 4236.22,
+    "end": 4241.780000000001,
+    "text": "convertir en tiempo polinomial no para que tenga sentido a cualquier otro problema de np"
+  },
+  {
+    "start": 4243.22,
+    "end": 4250.54,
+    "text": "y np jr también se usa que vamos a ser ese equivalente de punto de vista de la dificultad"
+  },
+  {
+    "start": 4250.54,
+    "end": 4255.18,
+    "text": "np completo que quiere decir que es al menos tan difícil de resolver como otro problema np"
+  },
+  {
+    "start": 4255.18,
+    "end": 4259.26,
+    "text": "esto quiere decir que el algoritmo en los hechos quiere decir que no hay un algoritmo"
+  },
+  {
+    "start": 4259.26,
+    "end": 4264.66,
+    "text": "eficiente por ejemplo el algoritmo que se conoce está acotado por 2 a la n y aunque"
+  },
+  {
+    "start": 4264.66,
+    "end": 4272.5,
+    "text": "2 a la n ya no crece suave digamos con un polinomio no es exponencial también o es n factorial"
+  },
+  {
+    "start": 4274.18,
+    "end": 4280.5,
+    "text": "si o sea el or a medida que aumenta n donde n es el tamaño del problema en este caso sería"
+  },
+  {
+    "start": 4280.5,
+    "end": 4285.139999999999,
+    "text": "tema yúscula la cantidad de periodos y un algoritmo que fuera t factorial quiere decir que a medida"
+  },
+  {
+    "start": 4285.139999999999,
+    "end": 4289.86,
+    "text": "comenta t la complejidad o la cantidad de pasos que requiere es algoritmo crece de forma"
+  },
+  {
+    "start": 4289.94,
+    "end": 4301.0199999999995,
+    "text": "factorial o sea crece de forma muy rápida o 2 a la t por ejemplo el método simplex es 2 a la n"
+  },
+  {
+    "start": 4301.0199999999995,
+    "end": 4307.299999999999,
+    "text": "quiere decir que eso en el peor caso eso es algo que no dije no quiere decir que en todos los casos va a"
+  },
+  {
+    "start": 4307.299999999999,
+    "end": 4312.46,
+    "text": "pasar eso pero si existe un caso donde va a requerir una cantidad exponencial por ejemplo como le"
+  },
+  {
+    "start": 4312.46,
+    "end": 4318.179999999999,
+    "text": "decía el método simplex está probado que existe un problema de programación lineal que"
+  },
+  {
+    "start": 4318.18,
+    "end": 4325.1,
+    "text": "producieron unos investigadores que tiene 2 a la n puntos extremos y demostraron que el algoritmo"
+  },
+  {
+    "start": 4325.1,
+    "end": 4331.22,
+    "text": "simplex tiene que recorrer no importa por cuál extremo por cuál solución básica que es lo mismo"
+  },
+  {
+    "start": 4331.22,
+    "end": 4336.06,
+    "text": "no vértice de la región factible comience va a llevar va a tener que recorrer los 2 a la n"
+  },
+  {
+    "start": 4337.26,
+    "end": 4343.06,
+    "text": "vértices hasta encontrar la solución óptima entonces por eso justamente el algoritmo simplex se"
+  },
+  {
+    "start": 4343.06,
+    "end": 4355.02,
+    "text": "dice que no es eficiente porque tiene que recorrer 2 a la n donde n es la cantidad de puntos extremos"
+  },
+  {
+    "start": 4355.02,
+    "end": 4359.700000000001,
+    "text": "o de vértices de la región factible ahora eso no quiere decir que la programación lineal no"
+  },
+  {
+    "start": 4359.700000000001,
+    "end": 4364.34,
+    "text": "sea eficiente porque ya se han encontrado otros algoritmos que sí son de orden polinomial que"
+  },
+  {
+    "start": 4364.34,
+    "end": 4369.18,
+    "text": "están acotados por un polinomial si pero cuando no se conoce ese algoritmo y el algoritmo"
+  },
+  {
+    "start": 4369.18,
+    "end": 4375.860000000001,
+    "text": "que se conoce es de orden este exponencial o digamos no polinomial se dice que el problema"
+  },
+  {
+    "start": 4375.860000000001,
+    "end": 4385.02,
+    "text": "es np todavía es un problema abierto de lógica digamos saber si los problemas que si existe un"
+  },
+  {
+    "start": 4385.02,
+    "end": 4390.9400000000005,
+    "text": "algoritmo eficiente son digamos son los p los polinomiales y los np que no quiere decir no"
+  },
+  {
+    "start": 4390.9400000000005,
+    "end": 4397.46,
+    "text": "polinomial bueno que sí que no existe un algoritmo determinista polinomial todavía es un"
+  },
+  {
+    "start": 4397.46,
+    "end": 4403.02,
+    "text": "problema abierto de la literatura si p es igual a np o es diferente no se ha demostrado"
+  },
+  {
+    "start": 4403.02,
+    "end": 4408.42,
+    "text": "hay algunos que dicen que sí que son diferentes problemas son diferentes y hay otros que dicen"
+  },
+  {
+    "start": 4408.42,
+    "end": 4415.74,
+    "text": "que son iguales la mayoría dice que son distintos o sea porque que no existe un algoritmo no"
+  },
+  {
+    "start": 4415.74,
+    "end": 4421.78,
+    "text": "quiere decir que potencialmente no no no se descubrió hasta el momento pero podría existir"
+  },
+  {
+    "start": 4422.78,
+    "end": 4429.179999999999,
+    "text": "pero cuando no existe a tal momento para un determinado problema un algoritmo acotado polinomialmente"
+  },
+  {
+    "start": 4429.179999999999,
+    "end": 4433.58,
+    "text": "yo demuestro que mi problema es equivo se puede reducir a ese problema para cuando"
+  },
+  {
+    "start": 4433.58,
+    "end": 4442.5,
+    "text": "existe también digamos en un problema np en los en los hechos como le decía la práctica"
+  },
+  {
+    "start": 4442.5,
+    "end": 4446.86,
+    "text": "digamos el punto de vista de la optimización quiere decir que problema es difícil de resolver"
+  },
+  {
+    "start": 4446.86,
+    "end": 4451.86,
+    "text": "digamos medida comenta el tamaño del problema por resuelvo problemas para instancias pequeñas"
+  },
+  {
+    "start": 4451.86,
+    "end": 4458.86,
+    "text": "pero si la cantidad de instancia aumenta no es que aumente proporcionalmente la dificultad"
+  },
+  {
+    "start": 4458.86,
+    "end": 4467.58,
+    "text": "computacional aumenta exponencialmente o o factorialmente la cantidad de pasos el tiempo"
+  },
+  {
+    "start": 4467.58,
+    "end": 4476.42,
+    "text": "de cómputo que necesito para resolver ese problema si eso quiere decir bien este pueden"
+  },
+  {
+    "start": 4476.42,
+    "end": 4482.9800000000005,
+    "text": "encontrar información en internet busquen np completo np hard cuál es la diferencia obviamente"
+  },
+  {
+    "start": 4482.9800000000005,
+    "end": 4489.26,
+    "text": "hay todo un trasfondo de la formalidad de esto puede ser un poco pesada van a ver que habla de"
+  },
+  {
+    "start": 4489.26,
+    "end": 4493.66,
+    "text": "problemas de decisión en realidad los problemas de optimización se pueden llevar a problemas de"
+  },
+  {
+    "start": 4493.66,
+    "end": 4497.9400000000005,
+    "text": "decisión los problemas de decisión son esos problemas donde uno busca respuestas de tipo si"
+  },
+  {
+    "start": 4497.9400000000005,
+    "end": 4504.62,
+    "text": "o no van a ver que un problema clásico que el problema de partición o bueno si da un"
+  },
+  {
+    "start": 4504.62,
+    "end": 4514.22,
+    "text": "conjunto de números existirá una una combinación por ejemplo de tal cantidad de esos números en este"
+  },
+  {
+    "start": 4514.22,
+    "end": 4524.42,
+    "text": "conjunto que sume tanto si o no ese tipo de problema este es un problema que se dice np porque no se"
+  },
+  {
+    "start": 4524.42,
+    "end": 4531.38,
+    "text": "puede determinar en tiempo polinomial la factibilidad del problema no se puede responder si o no para"
+  },
+  {
+    "start": 4531.38,
+    "end": 4536.3,
+    "text": "otros problemas justamente se puede responder en tiempo polinomial se puede determinar la factibilidad"
+  },
+  {
+    "start": 4536.3,
+    "end": 4545.58,
+    "text": "entonces yo le digo esa parte más la parte formal de complejidad es un poco más pesada y"
+  },
+  {
+    "start": 4545.58,
+    "end": 4548.9400000000005,
+    "text": "en realidad los problemas de optimización no son problemas de decisión pero se puede llevar"
+  },
+  {
+    "start": 4548.9400000000005,
+    "end": 4552.5,
+    "text": "un problema de decisión o un problema de optimización se puede formar un problema de"
+  },
+  {
+    "start": 4552.5,
+    "end": 4558.86,
+    "text": "decisión equivalente pero bueno por eso en la optimización es una más la clasificación"
+  },
+  {
+    "start": 4558.86,
+    "end": 4563.78,
+    "text": "np hard que justamente quiere decir que es al menos tan difícil de resolver como un problema np"
+  },
+  {
+    "start": 4563.78,
+    "end": 4570.42,
+    "text": "en los hechos es eso es que a medida que aumenta el tamaño del problema aumenta no proporcionalmente"
+  },
+  {
+    "start": 4570.42,
+    "end": 4577.62,
+    "text": "sino exponencialmente o factorialmente la complejidad la cantidad de paso que necesito para resolver"
+  },
+  {
+    "start": 4577.62,
+    "end": 4585.7,
+    "text": "el problema entonces sólo con agregar esta restricción el problema se transforma totalmente"
+  },
+  {
+    "start": 4585.7,
+    "end": 4590.86,
+    "text": "o sea pasa de ser un problema fácil de resolver un problema ser difícil de resolver lo que vamos"
+  },
+  {
+    "start": 4590.86,
+    "end": 4597.94,
+    "text": "a ver nosotros ahora esto cuando el césar te puede ser cualquier valor arbitrario o sea no sigue ningún"
+  },
+  {
+    "start": 4597.94,
+    "end": 4605.82,
+    "text": "patrón de comportamiento digamos por ejemplo hay situaciones donde aumenta bueno mi patrón de"
+  },
+  {
+    "start": 4605.82,
+    "end": 4610.38,
+    "text": "mi capacidad va aumentando periodo a periodo va disminuyendo un caso particular que es el que"
+  },
+  {
+    "start": 4610.38,
+    "end": 4617.3,
+    "text": "vamos a ver acá es cuando esa capacidad es contante o sea en vez de hacer un césar te lo que tengo es un"
+  },
+  {
+    "start": 4617.3,
+    "end": 4627.9400000000005,
+    "text": "valor c determinado y es igual para todos los pedidos el impacto bueno este es el impacto de la"
+  },
+  {
+    "start": 4627.9400000000005,
+    "end": 4635.02,
+    "text": "complejidad o sea para problemas de tamaño pequeño este o mediano yo puedo aplicar métodos exactos"
+  },
+  {
+    "start": 4635.26,
+    "end": 4642.860000000001,
+    "text": "o sea metodos que me van a dar la solución pero ya cuando el tamaño problema es grande imagínense"
+  },
+  {
+    "start": 4644.22,
+    "end": 4652.46,
+    "text": "de cenas o de periodos ya tengo que aplicar otras técnicas porque mi problema este va a ser"
+  },
+  {
+    "start": 4652.46,
+    "end": 4659.740000000001,
+    "text": "complejo computacional como hablamos hoy eurística o metaurística o lo que sea pero si nos enfocamos"
+  },
+  {
+    "start": 4659.74,
+    "end": 4671.86,
+    "text": "en el caso de un de una capacidad de producción estacionaria que es esto o sea para todo te yo"
+  },
+  {
+    "start": 4671.86,
+    "end": 4678.7,
+    "text": "asumo que la capacidad es igual a un cierto valor c ahí florian y clain en el 71 plantearon un"
+  },
+  {
+    "start": 4678.7,
+    "end": 4687.5,
+    "text": "algoritmo para resolver este caso que está acotado polinominalmente si bien es más complejo que"
+  },
+  {
+    "start": 4687.5,
+    "end": 4692.9,
+    "text": "le van el huy es de orden 4 no de orden 2 pero bueno todavía estamos acotados por un polinomí o"
+  },
+  {
+    "start": 4692.9,
+    "end": 4703.98,
+    "text": "sea este a la 4 no te agrada para para ello mostraron varias cosas en particular"
+  },
+  {
+    "start": 4705.82,
+    "end": 4707.5,
+    "text": "estas que están mencionadas acá"
+  },
+  {
+    "start": 4707.5,
+    "end": 4718.34,
+    "text": "el conjunto p es el conjunto de todas las las soluciones factibles del problema w w c o sea son"
+  },
+  {
+    "start": 4718.34,
+    "end": 4725.46,
+    "text": "todas las soluciones factibles de según estas dadas por estas restricciones de acá por las"
+  },
+  {
+    "start": 4725.46,
+    "end": 4738.26,
+    "text": "restricciones 6 a 9 si como es un problema este determino una región con vexa y a su vez la función"
+  },
+  {
+    "start": 4738.26,
+    "end": 4746.3,
+    "text": "de costos es con cava esta función de acá es una función con cava en particular es con vexa y"
+  },
+  {
+    "start": 4746.3,
+    "end": 4752.38,
+    "text": "con cava a la vez pero el resultado de florian y clain se se da para funciones con cavas"
+  },
+  {
+    "start": 4755.46,
+    "end": 4760.02,
+    "text": "es lo que dice acá vieron o sea por ser la función objetivo con cava y el problema un"
+  },
+  {
+    "start": 4760.02,
+    "end": 4763.78,
+    "text": "problema de administración los puntos extremos o sea la solución en su clima se están en"
+  },
+  {
+    "start": 4763.78,
+    "end": 4769.46,
+    "text": "los vértices o puntos extremos de cepolider si como la como un problema de programación"
+  },
+  {
+    "start": 4769.46,
+    "end": 4773.82,
+    "text": "lineal que ustedes vieron en investigación de operaciones recuerdan eso que las soluciones"
+  },
+  {
+    "start": 4773.82,
+    "end": 4783.86,
+    "text": "estaban en los vértices de la región con vexa si vieron que este problema es de"
+  },
+  {
+    "start": 4783.86,
+    "end": 4791.299999999999,
+    "text": "programación lineal pero digamos es de programación lineal entera porque una variable que tiene que"
+  },
+  {
+    "start": 4791.299999999999,
+    "end": 4799.98,
+    "text": "ser binaria bueno acá no está dicho explícitamente pero este delta subite obviamente se puede"
+  },
+  {
+    "start": 4799.98,
+    "end": 4806.5,
+    "text": "modelar con una variable es la función indicatriz se puede modelar con una variable binaria entonces"
+  },
+  {
+    "start": 4806.5,
+    "end": 4814.62,
+    "text": "ahí bueno aunque esté así la función acá este obviamente no hay que estudiar esta función a ver"
+  },
+  {
+    "start": 4814.62,
+    "end": 4822.54,
+    "text": "si no es una función lineal a eso voy porque está acá hay una depende de esta función indicatriz que"
+  },
+  {
+    "start": 4822.54,
+    "end": 4826.26,
+    "text": "también se puede representar con una variable binaria para lo que voy que el problema es un"
+  },
+  {
+    "start": 4826.26,
+    "end": 4833.9,
+    "text": "problema de lineal pero con variables enteras entonces es necesario demostrar este hecho que"
+  },
+  {
+    "start": 4833.9400000000005,
+    "end": 4840.38,
+    "text": "la función logra su el óptimo al mínimo está en un vértice de esa región factil"
+  },
+  {
+    "start": 4841.38,
+    "end": 4852.22,
+    "text": "que se puede demostrar eso o es de conocimiento que existe hay resultados estudios que avalan que"
+  },
+  {
+    "start": 4852.22,
+    "end": 4856.9400000000005,
+    "text": "cuando una función es un problema de programación matemática o una función con cava si la"
+  },
+  {
+    "start": 4856.9400000000005,
+    "end": 4866.3,
+    "text": "región es convexa este lo que va a pasar es que el mínimo está en uno de los vertices a su vez"
+  },
+  {
+    "start": 4866.3,
+    "end": 4873.500000000001,
+    "text": "otra propiedad que que utilicen en la propiedad de composición del inventario lo que dice esta"
+  },
+  {
+    "start": 4873.500000000001,
+    "end": 4881.820000000001,
+    "text": "propiedad es que si yo en un cierto período acá este inventario es 0 lo que establece que"
+  },
+  {
+    "start": 4881.82,
+    "end": 4887.58,
+    "text": "puedo estudiar el problema por separado digamos acá esta condición que se pone acá es una"
+  },
+  {
+    "start": 4887.58,
+    "end": 4892.9,
+    "text": "condición de factibilidad lo que está diciendo acá es bueno si en un cierto período acá"
+  },
+  {
+    "start": 4892.9,
+    "end": 4900.0199999999995,
+    "text": "inventario es 0 y a su vez desde k más 1 hacia cualquier otro período y que venga hacia adelante"
+  },
+  {
+    "start": 4900.0199999999995,
+    "end": 4906.179999999999,
+    "text": "la capacidad me da para satisfacer la demanda entonces la solución del problema se puede"
+  },
+  {
+    "start": 4906.18,
+    "end": 4912.42,
+    "text": "descomponer y estudiar para los primeros k periód porque recuérdete y su k quiere decir que no no"
+  },
+  {
+    "start": 4912.42,
+    "end": 4917.5,
+    "text": "dejo inventario digamos no hay excelente se puede estudiar para los primeros k periód y para los"
+  },
+  {
+    "start": 4917.5,
+    "end": 4922.66,
+    "text": "últimos temenos k periód puedo descomponer el análisis de la solución determinar la solución"
+  },
+  {
+    "start": 4922.66,
+    "end": 4927.900000000001,
+    "text": "óptima la solución óptima de mi problema global va a ser la solución óptima de los primeros"
+  },
+  {
+    "start": 4927.900000000001,
+    "end": 4935.34,
+    "text": "k periód y la solución óptima de los últimos temenos k periód ok si a su vez eso es"
+  },
+  {
+    "start": 4935.34,
+    "end": 4940.860000000001,
+    "text": "recursivo no si yo tengo los primeros k periód también puedo aplicar si en un período intermedio o"
+  },
+  {
+    "start": 4940.860000000001,
+    "end": 4945.62,
+    "text": "dentro de esos k se cumple que el nivel de inventario es 0 pasa lo mismo puedo estudiar por separado"
+  },
+  {
+    "start": 4945.62,
+    "end": 4950.9400000000005,
+    "text": "esos primeros periodos de ese primer conjunto de periodes pues ese segundo conjunto de periodos"
+  },
+  {
+    "start": 4955.5,
+    "end": 4961.78,
+    "text": "cada t es donde pasa que el nivel de inventario es 0 se conoce como punto de regeneración"
+  },
+  {
+    "start": 4961.78,
+    "end": 4964.66,
+    "text": "está bien"
+  },
+  {
+    "start": 4969.0199999999995,
+    "end": 4970.099999999999,
+    "text": "lo ven a eso sí"
+  },
+  {
+    "start": 4972.099999999999,
+    "end": 4975.94,
+    "text": "de total digo con un esquema de flujos así"
+  },
+  {
+    "start": 4985.34,
+    "end": 4987.78,
+    "text": "esto es como si tuviera"
+  },
+  {
+    "start": 4992.62,
+    "end": 4995.0199999999995,
+    "text": "la presidencia"
+  },
+  {
+    "start": 4996.54,
+    "end": 5000.86,
+    "text": "los puntos de regeneración recuerden que el inventario en una formulación de flujo"
+  },
+  {
+    "start": 5000.86,
+    "end": 5009.46,
+    "text": "en red que son arcos que van en estos en estos en este sentido no"
+  },
+  {
+    "start": 5011.099999999999,
+    "end": 5014.66,
+    "text": "entonces yo tengo punto de regeneración quiere decir que"
+  },
+  {
+    "start": 5014.66,
+    "end": 5026.9,
+    "text": "por ejemplo acá puedo tener acá y acá y acá por ejemplo"
+  },
+  {
+    "start": 5028.5,
+    "end": 5035.82,
+    "text": "entonces acá tengo acá hay un punto de regeneración en el período dos hay una regeneración en el"
+  },
+  {
+    "start": 5035.82,
+    "end": 5043.139999999999,
+    "text": "período cuatro también en el cinco también sí lo ven y acá tengo cantidades a producir"
+  },
+  {
+    "start": 5043.139999999999,
+    "end": 5048.78,
+    "text": "por ejemplo esto para que sea sólo sólo dibujo arcos para simplificar"
+  },
+  {
+    "start": 5050.78,
+    "end": 5056.78,
+    "text": "cuando la cantidad producir es positivo obviamente si pasa esto y a tener si acá hay un punto de"
+  },
+  {
+    "start": 5056.78,
+    "end": 5058.5,
+    "text": "regeneración ya tener que producir acá no"
+  },
+  {
+    "start": 5060.62,
+    "end": 5062.34,
+    "text": "si"
+  },
+  {
+    "start": 5065.34,
+    "end": 5070.5,
+    "text": "pero este es un problema de acá lo puedo resolver independientemente de este de acá"
+  },
+  {
+    "start": 5071.9,
+    "end": 5075.62,
+    "text": "porque hay un período de regeneración hay un nivel de inventario a placer"
+  },
+  {
+    "start": 5077.46,
+    "end": 5082.7,
+    "text": "si o sea para los períodos 3 y 4 sólo va a depender de la producción de los períodos 3 y"
+  },
+  {
+    "start": 5082.7,
+    "end": 5090.139999999999,
+    "text": "4 es eso lo que dice la propiedad si yo sé que los justamente que los niveles de inventario"
+  },
+  {
+    "start": 5090.139999999999,
+    "end": 5095.54,
+    "text": "hay puntos de regeneración entre 3 y 4 o mejor dicho hay una regeneración al período 2 y"
+  },
+  {
+    "start": 5095.54,
+    "end": 5104.9,
+    "text": "al período 4 es eso a su vez el otro hecho que es que se hace el más relevante que demostraron"
+  },
+  {
+    "start": 5104.9,
+    "end": 5108.7,
+    "text": "este bueno entre los más relevante que demostraron flor y recline es que"
+  },
+  {
+    "start": 5108.7,
+    "end": 5115.58,
+    "text": "estos valores de producción tienen cierta estructura que si conocen como secuencias de"
+  },
+  {
+    "start": 5115.58,
+    "end": 5120.58,
+    "text": "producción vieron que acá una secuencia ese subijota"
+  },
+  {
+    "start": 5122.98,
+    "end": 5128.98,
+    "text": "tiene esta estructura son las cantidades a producir entre los períodos y más uno hasta jota"
+  },
+  {
+    "start": 5128.98,
+    "end": 5135.34,
+    "text": "pero donde los extremos en los extremos en jota el nivel inventario es 0 pero entre"
+  },
+  {
+    "start": 5135.34,
+    "end": 5142.34,
+    "text": "medio es positivo por ejemplo acá tenemos la secuencia esta secuencia sería la secuencia"
+  },
+  {
+    "start": 5142.34,
+    "end": 5154.42,
+    "text": "ese 2 porque el nivel inventario del período 2 es 0 ese 2 4 porque entre el período 3 y 4"
+  },
+  {
+    "start": 5154.42,
+    "end": 5164.38,
+    "text": "el nivel inventario es positivo si por ejemplo si hubiera si acá también fuera positivo esto"
+  },
+  {
+    "start": 5164.42,
+    "end": 5174.7,
+    "text": "sería la secuencia ese 2 5 y no hay secuencia ese 2 4 si lo ven a eso quiere decir que entre"
+  },
+  {
+    "start": 5174.7,
+    "end": 5180.46,
+    "text": "medio entre todos los períodos de esta secuencia el nivel inventario tiene que ser positivo pero"
+  },
+  {
+    "start": 5180.46,
+    "end": 5185.22,
+    "text": "los en los extremos tiene que ser 0 el nivel inventario o sea son puntos de regeneración"
+  },
+  {
+    "start": 5185.22,
+    "end": 5198.1,
+    "text": "los extremos de lo ven acá por ejemplo esta es la secuencia ese ese 0 2"
+  },
+  {
+    "start": 5200.34,
+    "end": 5207.58,
+    "text": "porque entra en el período 0 el nivel inventario de 0 y en el período 2 es 0 y hay un inventario"
+  },
+  {
+    "start": 5207.58,
+    "end": 5224.94,
+    "text": "positivo del en el período 1 y esta es ese 5 porque si el período anterior en el 5 nivel"
+  },
+  {
+    "start": 5224.94,
+    "end": 5235.5,
+    "text": "inventario positivo 5 6 7 1 2 3 4 5 6 7 son esta solución está formada por 3 secuencias"
+  },
+  {
+    "start": 5235.58,
+    "end": 5238.82,
+    "text": "ese 0 2 ese 2 5 y ese 5 7 obviamente hay otras no"
+  },
+  {
+    "start": 5240.98,
+    "end": 5248.02,
+    "text": "hay otras posibles si en particular está la secuencia si todos los niveles de inventario"
+  },
+  {
+    "start": 5248.02,
+    "end": 5253.58,
+    "text": "fueran positivos imagínense esta situación qué secuencia sería"
+  },
+  {
+    "start": 5253.58,
+    "end": 5269.54,
+    "text": "0 7 ese 0 7 perfecto bien es una es una secuencia es la única es una de la secuencia posible pero"
+  },
+  {
+    "start": 5269.54,
+    "end": 5277.0199999999995,
+    "text": "es la es la secuencia particular en la que todo el o sea todos los niveles de inventario son"
+  },
+  {
+    "start": 5277.0199999999995,
+    "end": 5280.98,
+    "text": "positivos salvo el último obviamente porque se sigue cumpliendo que en una solución óptima"
+  },
+  {
+    "start": 5281.3,
+    "end": 5289.42,
+    "text": "el nivel inventario final es 0 también perfecto a su vez"
+  },
+  {
+    "start": 5291.740000000001,
+    "end": 5297.780000000001,
+    "text": "la propiedad relevante para esto es que esa secuencia esos valores de producción en una"
+  },
+  {
+    "start": 5297.780000000001,
+    "end": 5302.580000000001,
+    "text": "secuencia cumple con ciertas características es que es la que está mencionada ahí en la"
+  },
+  {
+    "start": 5302.66,
+    "end": 5311.42,
+    "text": "segunda línea segundo para segunda frase son secuencias restringidas por la capacidad"
+  },
+  {
+    "start": 5313.58,
+    "end": 5320.94,
+    "text": "esto que quiere decir es que todos los valores de producción los y o son 0 o son se que es"
+  },
+  {
+    "start": 5320.94,
+    "end": 5328.34,
+    "text": "la capacidad o excepto en uno de ellos o como máximo en uno puede ser una cantidad entre"
+  },
+  {
+    "start": 5328.34,
+    "end": 5333.14,
+    "text": "0 y sé que es lo que se conoce como un período fraccional o sea puede tener una cantidad épsilon"
+  },
+  {
+    "start": 5333.14,
+    "end": 5342.22,
+    "text": "que está entre 0 y sé o sea dicho de otra o de otra forma en cada secuencia lo que va a pasar"
+  },
+  {
+    "start": 5344.22,
+    "end": 5352.82,
+    "text": "es que el hizo usted va a tomar uno de estos tres valores o es 0 o es c o es un épsilon"
+  },
+  {
+    "start": 5352.82,
+    "end": 5369.74,
+    "text": "con épsilon que está entre 0 y sé ok sólo puede tomar tres valores o 0 o c o épsilon no puede"
+  },
+  {
+    "start": 5369.74,
+    "end": 5376.98,
+    "text": "tomar cualquier valor y si a su vez en una secuencia puede haber un único período fraccional un único"
+  },
+  {
+    "start": 5376.9800000000005,
+    "end": 5382.26,
+    "text": "épsilon digamos no puede ocurrir más de una vez un épsilon si"
+  },
+  {
+    "start": 5386.860000000001,
+    "end": 5391.500000000001,
+    "text": "esto quiere decir que en esta secuencia de acá por ejemplo si yo tengo producción en estos"
+  },
+  {
+    "start": 5391.500000000001,
+    "end": 5393.860000000001,
+    "text": "períodos de acá que son cinco"
+  },
+  {
+    "start": 5395.620000000001,
+    "end": 5402.22,
+    "text": "quiere decir que van a ser hay va a haber cuatro que valgan digamos que estén a capacidad y uno a los"
+  },
+  {
+    "start": 5402.22,
+    "end": 5407.780000000001,
+    "text": "sumo uno o sea o los cinco están a capacidad o si no hay cuatro capacidad y uno que vale épsilon"
+  },
+  {
+    "start": 5409.06,
+    "end": 5414.1,
+    "text": "si obviamente el único que vale 0 es este acá por eso no lo puse este el arco que va desde acá"
+  },
+  {
+    "start": 5414.1,
+    "end": 5419.42,
+    "text": "hasta no final no lo puse porque vale 0 pero los que puse que son positivos bueno este"
+  },
+  {
+    "start": 5419.42,
+    "end": 5425.7,
+    "text": "también vale 0 o sea no hay producción ni sumo y su do vale 0 en los restantes como son positivos"
+  },
+  {
+    "start": 5425.7,
+    "end": 5432.0199999999995,
+    "text": "lo que va a pasar es que o todo valen c que es la capacidad se mayúscula o hay cuatro c y uno que"
+  },
+  {
+    "start": 5432.0199999999995,
+    "end": 5448.62,
+    "text": "valen si si me siguieron están ahí y si bien bien importante este entonces cómo determino"
+  },
+  {
+    "start": 5448.62,
+    "end": 5454.26,
+    "text": "la solución óptima bueno de forma similar o sea me puedo me tengo que estudiar todas las"
+  },
+  {
+    "start": 5454.26,
+    "end": 5460.820000000001,
+    "text": "combinaciones eso subí jota que es uno la cantidad cuadrática sea que depende del cuadrado de t"
+  },
+  {
+    "start": 5461.9800000000005,
+    "end": 5468.780000000001,
+    "text": "y a su vez de terminar cuál es ese ese subí jota digamos el óptimo la solución óptima entre"
+  },
+  {
+    "start": 5468.780000000001,
+    "end": 5477.860000000001,
+    "text": "cada par de no y jota y de vuelta a hacerme un un problema de un grafo para encontrar el camino"
+  },
+  {
+    "start": 5477.860000000001,
+    "end": 5482.9400000000005,
+    "text": "más corto y resolverlo en tiempo cuadrático que es lo que va a pasar o lo que pasa acá"
+  },
+  {
+    "start": 5482.9400000000005,
+    "end": 5490.18,
+    "text": "es cuál es la característica es que encontrar cada ese el el subí jota que en el caso de"
+  },
+  {
+    "start": 5490.18,
+    "end": 5497.18,
+    "text": "bánner y en el caso del modelo era sencillo era trivial lo podíamos determinar de forma directa"
+  },
+  {
+    "start": 5497.18,
+    "end": 5502.820000000001,
+    "text": "o sea lo que se conoce cuando orden uno porque era hacer una cuenta acá ya no es tan sencillo"
+  },
+  {
+    "start": 5502.820000000001,
+    "end": 5512.34,
+    "text": "encontrar cada el subí jota también lleva un tiempo que depende de t cuadrado por lo"
+  },
+  {
+    "start": 5512.34,
+    "end": 5521.74,
+    "text": "cual el algoritmo completo esté a la cuarta porque tengo o te cuadrado este valores el subí jota"
+  },
+  {
+    "start": 5521.74,
+    "end": 5527.38,
+    "text": "pero el terminar cada el subí jota también me llegó un tiempo cuadrático entonces es o te"
+  },
+  {
+    "start": 5527.38,
+    "end": 5539.14,
+    "text": "cuadrado por o te cuadrado si me queda o te a la cuarta para que vean yo tengo un ejemplo"
+  },
+  {
+    "start": 5539.14,
+    "end": 5548.1,
+    "text": "acá que cada ese subí jota no es tan sencillo terminar voy a mostrarles un ejemplo ya salí de pantalla"
+  },
+  {
+    "start": 5548.1,
+    "end": 5559.900000000001,
+    "text": "completa siguen viendo acá en el pdf bueno acá si no se los mostré para que no se ha explorado este"
+  },
+  {
+    "start": 5559.900000000001,
+    "end": 5566.46,
+    "text": "por ejemplo es el artículo de bánner huid original del año 58 acá vieron que está esa"
+  },
+  {
+    "start": 5566.9800000000005,
+    "end": 5571.9,
+    "text": "similar porque tiene otra notación pero esta recursividad que les que les comentaba hoy que"
+  },
+  {
+    "start": 5571.9,
+    "end": 5577.26,
+    "text": "les dibujaba hoy acá están este es el de san huid en el que extiende"
+  },
+  {
+    "start": 5579.26,
+    "end": 5587.34,
+    "text": "los resultados este para el caso de flujos este problemas de flujos en red con costos con cabos"
+  },
+  {
+    "start": 5587.34,
+    "end": 5595.1,
+    "text": "para el 68 o sea 10 años después del de bánner huid y nada tienen ahí que estudia el problema"
+  },
+  {
+    "start": 5595.1,
+    "end": 5603.14,
+    "text": "son interesantes este es el de estas son otros casos este es el de florian y clain que es el que"
+  },
+  {
+    "start": 5603.14,
+    "end": 5613.5,
+    "text": "les estoy comentando ahora aunque les parezca mentira la versión que conseguís está toda su"
+  },
+  {
+    "start": 5613.5,
+    "end": 5621.94,
+    "text": "frayada este del paper del año 71 que acá plantea todo esto de las secuencias"
+  },
+  {
+    "start": 5622.98,
+    "end": 5629.3,
+    "text": "y no la descomposición la propiedad de descomposición que estábamos mencionando recién bueno la"
+  },
+  {
+    "start": 5629.3,
+    "end": 5635.82,
+    "text": "recursividad similar a la de bánner huid y acá hace una caracterización bueno ya un poco"
+  },
+  {
+    "start": 5635.82,
+    "end": 5640.38,
+    "text": "más pesado pero digo es varios resultados relacionados a las secuencias"
+  },
+  {
+    "start": 5643.259999999999,
+    "end": 5649.94,
+    "text": "y acá incluso acá tiene un ejemplo al final de este paper para construir cada vez su hijota hay"
+  },
+  {
+    "start": 5649.94,
+    "end": 5657.66,
+    "text": "que hacerse hay que resolver un problema que involucra además este resolver un problema de camino"
+  },
+  {
+    "start": 5657.66,
+    "end": 5664.259999999999,
+    "text": "más corto que es de orden de cuadrado y este es el grafo con acá lo que está este es el"
+  },
+  {
+    "start": 5664.26,
+    "end": 5669.900000000001,
+    "text": "parecido o equivalente al que vimos para el problema de bánner huid pero donde cada arco"
+  },
+  {
+    "start": 5671.18,
+    "end": 5677.58,
+    "text": "está cuál es la secuencia óptima entre pares de no por ejemplo acá entre 0 y 4 esta es la secuencia"
+  },
+  {
+    "start": 5677.58,
+    "end": 5684.820000000001,
+    "text": "entonces a su vez esto es de cuadrado y resolver cada ese su hijota cada uno de esos valores de"
+  },
+  {
+    "start": 5684.820000000001,
+    "end": 5691.38,
+    "text": "los arcos que va a ir hay que resolver otro grafo más entonces yo acá tengo un ejemplo"
+  },
+  {
+    "start": 5691.38,
+    "end": 5698.1,
+    "text": "este es un ejemplo incluso más más general lo ven ahí sí"
+  },
+  {
+    "start": 5700.74,
+    "end": 5704.66,
+    "text": "sí sí pero que es una función de costo incluso"
+  },
+  {
+    "start": 5707.06,
+    "end": 5713.3,
+    "text": "que dice ahí los costos van de setup van aumentando la función de pero no le demolicias ahora la"
+  },
+  {
+    "start": 5713.3,
+    "end": 5719.7,
+    "text": "función de inventario es este a que incluso usado otra nomenclatura tan importa es una función"
+  },
+  {
+    "start": 5721.38,
+    "end": 5726.74,
+    "text": "no lineal pero lo importante para entender un poco más el algoritmo es bueno tengo cuatro"
+  },
+  {
+    "start": 5726.74,
+    "end": 5735.9400000000005,
+    "text": "períodos en la capacidad está cotado en siete en cada periodo estacionaria y tengo estos valores"
+  },
+  {
+    "start": 5735.9400000000005,
+    "end": 5743.54,
+    "text": "de demanda para cada periodo en el periodo 1 2 en el periodo 2 1 en el 3 8 y en el 4 9"
+  },
+  {
+    "start": 5744.18,
+    "end": 5748.14,
+    "text": "dieron que la suma de todo esto perdón el 9 también"
+  },
+  {
+    "start": 5750.3,
+    "end": 5752.82,
+    "text": "si lo suma me da 20 no"
+  },
+  {
+    "start": 5754.3,
+    "end": 5755.58,
+    "text": "y también me acuerdo"
+  },
+  {
+    "start": 5757.82,
+    "end": 5766.0199999999995,
+    "text": "si y como la capacidad de 7 esto que quiere decir si yo considero por ejemplo la secuencia"
+  },
+  {
+    "start": 5766.02,
+    "end": 5775.3,
+    "text": "s 04 la que voy a considerar todos los períodos como mi demanda total es 20 y mi capacidad de 7"
+  },
+  {
+    "start": 5775.3,
+    "end": 5780.740000000001,
+    "text": "esto que quiere decir que voy a tener dos períodos a capacidad o sea 7 más 7 14 y un período"
+  },
+  {
+    "start": 5780.740000000001,
+    "end": 5789.06,
+    "text": "fraccional y con lo que voy a producir una cantidad epsilon igual a 6 porque 7 más 7 más 6 es igual a"
+  },
+  {
+    "start": 5789.06,
+    "end": 5794.9800000000005,
+    "text": "20 si entonces ya cuando cuando yo sé la demanda que tengo que satisfacer en una"
+  },
+  {
+    "start": 5794.9800000000005,
+    "end": 5801.9400000000005,
+    "text": "secuencia puedo calcular la función de mi capacidad la cantidad de períodos que voy a"
+  },
+  {
+    "start": 5801.9400000000005,
+    "end": 5809.860000000001,
+    "text": "tener a capacidad máxima y cuál va a ser eventualmente este mi período fraccional obviamente"
+  },
+  {
+    "start": 5809.860000000001,
+    "end": 5814.02,
+    "text": "que si esta suma hubiera dado 14 no va a haber período fraccional porque voy a tener dos"
+  },
+  {
+    "start": 5814.02,
+    "end": 5820.9400000000005,
+    "text": "períodos a capacidad con 7 y 7 si hubiera dado 13 por ejemplo si hubiera dado 12 voy a tener"
+  },
+  {
+    "start": 5820.9800000000005,
+    "end": 5827.580000000001,
+    "text": "12 voy a tener un período de capacidad en 7 y un período fraccional con 5 y esto es lo que"
+  },
+  {
+    "start": 5827.580000000001,
+    "end": 5833.26,
+    "text": "me reduce la cantidad de combinación de todas maneras el problema es más complejo como le decían y"
+  },
+  {
+    "start": 5833.26,
+    "end": 5840.26,
+    "text": "tengo que resolver algo de este estilo esta es la secuencia s 04 esto que quiere decir es que"
+  },
+  {
+    "start": 5840.26,
+    "end": 5845.620000000001,
+    "text": "si yo tengo cuatro períodos alimentario las soluciones que me interesan a mí son todas"
+  },
+  {
+    "start": 5845.62,
+    "end": 5853.42,
+    "text": "aquellas que van de 0 a 4 todas las secuencias de 0 a 4 lo cual quiere decir que el nivel"
+  },
+  {
+    "start": 5853.42,
+    "end": 5858.0599999999995,
+    "text": "inventario en cada uno de los períodos intermedio es positivo entonces tengo que analizar todas"
+  },
+  {
+    "start": 5858.0599999999995,
+    "end": 5864.34,
+    "text": "estas alternativas es obvio que al comienzo esto lo que me dice que al comienzo no tengo nada"
+  },
+  {
+    "start": 5864.34,
+    "end": 5869.86,
+    "text": "tengo cero artículo pero al final cuando termine en el período 4 voy a tener que producir 20"
+  },
+  {
+    "start": 5869.86,
+    "end": 5877.42,
+    "text": "y cantidad acumulada de producción va a ser 20 que justamente 12 más éxito recuerden que se vale 7"
+  },
+  {
+    "start": 5877.42,
+    "end": 5885.58,
+    "text": "y éxilo en vale 6 entonces en el período 1 tengo 2 alternativas que es o producir 6 o producir 7"
+  },
+  {
+    "start": 5885.58,
+    "end": 5893.299999999999,
+    "text": "verdad recuerden que tengo una demanda positiva sea que tengo que producir si ahora en el período 2"
+  },
+  {
+    "start": 5893.46,
+    "end": 5901.78,
+    "text": "este caso sería éxilo en igual seis serían que la producción acumulada hasta el período 2 es 6"
+  },
+  {
+    "start": 5901.78,
+    "end": 5906.7,
+    "text": "quiere decir que vamos nada porque ya había producido una cantidad de éxilo en el período 1 o puedo"
+  },
+  {
+    "start": 5906.7,
+    "end": 5916.46,
+    "text": "producir una cantidad c c más éxilo o puedo no producir nada y en el período anterior había"
+  },
+  {
+    "start": 5916.46,
+    "end": 5921.9800000000005,
+    "text": "producido una cantidad c mieron que no todos los caminos por ejemplo los caminos están"
+  },
+  {
+    "start": 5921.9800000000005,
+    "end": 5929.620000000001,
+    "text": "permitidos o puede ser que haya producido en el período 1 c o sea 7 y en este período también"
+  },
+  {
+    "start": 5929.620000000001,
+    "end": 5935.620000000001,
+    "text": "decida producir c que es 14 y así voy elaborando todas las alternativas posibles sabiendo que al"
+  },
+  {
+    "start": 5935.620000000001,
+    "end": 5940.660000000001,
+    "text": "final tengo que producir una cantidad acumulada 12 más éxito y lo que tengo que hacer luego de"
+  },
+  {
+    "start": 5940.660000000001,
+    "end": 5948.780000000001,
+    "text": "es encontrar el camino de costo mínimo que en este caso en cada arco está este está"
+  },
+  {
+    "start": 5948.78,
+    "end": 5954.0599999999995,
+    "text": "estiquetado digamos con el costo correspondiente costo de producción a el costo de mantener el"
+  },
+  {
+    "start": 5954.0599999999995,
+    "end": 5962.0599999999995,
+    "text": "inventario de cada decisión y luego determino cuál es el costo o el camino más corto y ese"
+  },
+  {
+    "start": 5962.0599999999995,
+    "end": 5968.82,
+    "text": "va a ser mis dentro de toda la secuencia posible que van de 0 a 4 mi secuencia óptima pero vieron"
+  },
+  {
+    "start": 5968.82,
+    "end": 5975.54,
+    "text": "que ya encontrar la secuencia esto que embalan un buidin era directo cuando yo tengo capacidad"
+  },
+  {
+    "start": 5975.54,
+    "end": 5982.18,
+    "text": "estacionaria o restricciones de capacidad y contantes ya no es tan sencillo tengo que resolver"
+  },
+  {
+    "start": 5982.18,
+    "end": 5988.9,
+    "text": "digamos otro problema de camino más corto es bebido en el problema este más general digamos"
+  },
+  {
+    "start": 5988.9,
+    "end": 5997.22,
+    "text": "o global que es el de encontrar la política o las secuencias óptimas para mi problema global"
+  },
+  {
+    "start": 5997.22,
+    "end": 6009.38,
+    "text": "que después que tengo determinada cada una de las secuencias lo que hago como les comentaba resolver"
+  },
+  {
+    "start": 6010.740000000001,
+    "end": 6016.38,
+    "text": "un grafo con las secuencias óptimas y ahí tengo la solución de mi problema original como dice acá"
+  },
+  {
+    "start": 6016.38,
+    "end": 6023.900000000001,
+    "text": "después obtengo el plan digamos según sabiendo en este caso tan dibujado con un triángulo las"
+  },
+  {
+    "start": 6023.900000000001,
+    "end": 6030.9400000000005,
+    "text": "opciones que son este óptima por ejemplo acá es la secuencia 0 1 después de la secuencia"
+  },
+  {
+    "start": 6032.26,
+    "end": 6038.860000000001,
+    "text": "1 3 y después la secuencia 3 4 y a partir de son las que tienen un triángulo y a partir"
+  },
+  {
+    "start": 6038.860000000001,
+    "end": 6044.26,
+    "text": "de eso puede obtener cuál es mi plan de producción óptima o de compras si"
+  },
+  {
+    "start": 6044.38,
+    "end": 6048.58,
+    "text": "están ahí"
+  },
+  {
+    "start": 6051.22,
+    "end": 6062.38,
+    "text": "y bien bueno vieron que la cosa se complica digamos no es más complejo de formular de entender y a su"
+  },
+  {
+    "start": 6062.38,
+    "end": 6070.26,
+    "text": "vez es más complejo computacionalmente cuando tengo restricciones de capacidad y eso que es un"
+  },
+  {
+    "start": 6070.26,
+    "end": 6074.34,
+    "text": "caso relativamente sencillo que cuando todas las capacidades son estacionarios"
+  },
+  {
+    "start": 6076.860000000001,
+    "end": 6085.58,
+    "text": "pero bueno está dentro digamos de las de las cosas este que se pueden resolver de todas maneras"
+  },
+  {
+    "start": 6085.58,
+    "end": 6089.42,
+    "text": "de forma eficiente porque están acotado por un algoritmo que ahora en este caso es de orden"
+  },
+  {
+    "start": 6089.42,
+    "end": 6096.9800000000005,
+    "text": "4 existe en otros otras situaciones también otras combinaciones digamos como decía cuando"
+  },
+  {
+    "start": 6097.9800000000005,
+    "end": 6107.38,
+    "text": "las capacidades son no decrecientes o no crecientes existen cuando los costos de set up son cero así"
+  },
+  {
+    "start": 6107.38,
+    "end": 6114.18,
+    "text": "se han estudiado un montón de combinaciones a lo largo de que este paper es del año 71 después"
+  },
+  {
+    "start": 6114.18,
+    "end": 6121.540000000001,
+    "text": "hay algunos avances o estudios en los años 80 sobre la complejidad sobre la complejidad de"
+  },
+  {
+    "start": 6121.54,
+    "end": 6128.26,
+    "text": "diferentes variantes de este problema y sin duda es uno de los problemas más relevantes dentro de lo"
+  },
+  {
+    "start": 6128.26,
+    "end": 6133.66,
+    "text": "que es el de la planificación de la producción y el control inventario con demanda dinámica y"
+  },
+  {
+    "start": 6133.66,
+    "end": 6140.98,
+    "text": "restricciones de capacidad este la clase que viene así vamos a ver hoy vamos a estudiar"
+  },
+  {
+    "start": 6140.98,
+    "end": 6148.06,
+    "text": "este problemas multiproductos o sea donde tengo más de un protego que determinar las políticas"
+  },
+  {
+    "start": 6148.06,
+    "end": 6157.900000000001,
+    "text": "óptimas o las soluciones óptimas para situaciones donde tengo más de un artículo este que controlar"
+  },
+  {
+    "start": 6157.900000000001,
+    "end": 6162.660000000001,
+    "text": "digamos que decidir que tomar decisión de cuando pedir está bien"
+  },
+  {
+    "start": 6165.26,
+    "end": 6170.14,
+    "text": "no vemos que viene que sería martes primero"
+  },
+  {
+    "start": 6178.06,
+    "end": 6179.14,
+    "text": "y"
+  }
+]
