@@ -28,43 +28,37 @@ class LLMResult:
 
 
 class LLMService:
-    """Service for interacting with external LLM APIs."""
-
     def __init__(self):
         settings = get_settings()
-        self.api_base_url = "https://api-inference.huggingface.co/models"
-        self.model_name = "mistralai/Mistral-7B-Instruct-v0.2"
-        self.api_url = f"{self.api_base_url}/{self.model_name}"
+        self.api_url = "https://router.huggingface.co/novita/v3/openai/chat/completions"
+        self.model_name = "deepseek/deepseek-v3-0324"
         self.headers = {"Authorization": f"Bearer {settings.HUGGINGFACE_API_KEY}"}
-        self.max_length = 500
+        self.max_length = 512
         self.timeout = httpx.Timeout(30.0, connect=10.0)
 
     def generate_response(self, chunks: list[RetrievedChunk], query: str) -> LLMResult:
         """Generate response from chunks using external LLM."""
         try:
-            prompt = self._build_prompt(chunks, query)
+            messages = self._build_chat_messages(chunks, query)
 
-            # Make API call (your existing logic)
             with httpx.Client(timeout=self.timeout) as client:
                 response = client.post(
                     self.api_url,
                     headers=self.headers,
                     json={
-                        "inputs": prompt,
-                        "parameters": {
-                            "max_new_tokens": self.max_length,
-                            "temperature": 0.7,
-                            "top_p": 0.95,
-                            "return_full_text": False,
-                        },
+                        "model": self.model_name,
+                        "messages": messages,
+                        "max_tokens": self.max_length,
+                        "temperature": 0.7,
+                        "top_p": 0.95,
                     },
                 )
 
                 response.raise_for_status()
                 data = response.json()
 
-                if isinstance(data, list) and len(data) > 0:
-                    generated_text = data[0].get("generated_text", "")
+                if "choices" in data and len(data["choices"]) > 0:
+                    generated_text = data["choices"][0]["message"]["content"]
                     return LLMResult.success_result(generated_text, self.model_name)
 
                 return LLMResult.failure_result("Unexpected response format from HuggingFace API")
@@ -78,6 +72,22 @@ class LLMService:
         except Exception as e:
             logger.error(f"Error generating LLM response: {e}")
             return LLMResult.failure_result(f"Failed to generate response: {str(e)}")
+
+    def _build_chat_messages(self, chunks: list[RetrievedChunk], query: str) -> list[dict]:
+        """Build messages for OpenAI-style chat completion."""
+        context = "\n\n".join(f"Fragmento {i + 1}:\n{chunk.content}" for i, chunk in enumerate(chunks))
+
+        return [
+            {
+                "role": "system",
+                "content": (
+                    "Eres un chatbot educativo, y debes responder utilizando los siguientes "
+                    "fragmentos de informacion del contexto. Contesta la siguiente pregunta. "
+                    "Responde en español."
+                ),
+            },
+            {"role": "user", "content": f"Pregunta: {query}\n\nContexto:\n{context}"},
+        ]
 
     def _build_prompt(self, chunks: list[RetrievedChunk], query: str) -> str:
         """Build prompt for LLM from chunks and query."""

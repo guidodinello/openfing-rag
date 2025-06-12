@@ -72,25 +72,22 @@ class ChatService:
     def _retrieve_relevant_chunks(self, context: SearchContext) -> list[RetrievedChunk]:
         """Retrieve relevant chunks from vector store."""
         try:
-            # Build filters
             course_codes = context.course_codes or []
             lesson_ids = [context.lesson_id] if context.lesson_id else None
 
-            # Use your existing vector repository
             search_results = self.vector_repo.similarity_search(
                 query=context.query,
                 k=context.max_results,
                 course_codes=course_codes,
                 lesson_ids=lesson_ids,
             )
+            logger.debug("Resultados de la busqueda vectorial", search_results)
 
-            # Convert to domain objects
             return [RetrievedChunk.from_search_result(result) for result in search_results]
 
         except Exception as e:
             logger.error(f"Error retrieving chunks: {e}")
             raise
-            # return []
 
     def _format_sources(self, chunks: list[RetrievedChunk]) -> list[str]:
         """Format source information for chunks."""
