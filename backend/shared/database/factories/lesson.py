@@ -39,7 +39,7 @@ class LessonFactory(BaseFactory[Lesson]):
             "lesson_metadata": {
                 "duration_seconds": self.faker.random_int(min=1800, max=7200),  # 30min to 2h
                 "topics": [self.faker.word() for _ in range(self.faker.random_int(min=2, max=5))],
-                "created_by": "factory",
+                "created_by": __name__,
             },
         }
 

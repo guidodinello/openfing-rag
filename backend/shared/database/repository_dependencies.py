@@ -11,6 +11,8 @@ from shared.database.repositories.user_repository import UserRepository
 from shared.database.repositories.vector_repository import VectorRepository
 from shared.database.session import get_db
 
+settings = get_settings()
+
 # ============================================================================
 # FASTAPI DEPENDENCY FUNCTIONS
 # ============================================================================
@@ -33,7 +35,6 @@ def get_user_repository(db: Session = Depends(get_db)) -> UserRepository:
 
 
 def get_vector_repository(db: Session = Depends(get_db)) -> VectorRepository:
-    settings = get_settings()
     return VectorRepository(settings, db)
 
 

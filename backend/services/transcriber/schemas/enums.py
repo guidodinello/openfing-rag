@@ -16,3 +16,5 @@ class WhisperModelLanguage(StrEnum):
     spanish = "es"
     english = "en"
     auto = "auto"
+
+    # All possible values print(whisper.tokenizer.LANGUAGES)

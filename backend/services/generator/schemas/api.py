@@ -21,7 +21,7 @@ class ChatMessage(BaseModel):
         }
 
 
-# TODO: improve this response schema. see https://claude.ai/chat/69f18051-e9d6-43a8-8d01-d10a5a8b4482
+# TODO: improve this response schema. see https://claude.ai/share/39d65386-d35f-4012-9603-e3f9065ead3b
 class ChatResponse(BaseModel):
     response: str = Field(..., description="The chatbot's response")
     sources: list[str] = Field(

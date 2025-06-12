@@ -1,8 +1,14 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Column, ForeignKey, Identity, Index, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, relationship
 
 from shared.database.models import TimestampedModel
+
+if TYPE_CHECKING:
+    from shared.database.models.rag.course import Course
+    from shared.database.models.rag.transcription import Transcription
 
 
 class Lesson(TimestampedModel):
@@ -23,40 +29,40 @@ class Lesson(TimestampedModel):
         },
     )
 
-    id: int = Column(
+    id: Mapped[int] = Column(
         Integer,
         Identity(always=True),
         primary_key=True,
         comment="Unique identifier for the lesson",
     )
-    number: int = Column(
+    number: Mapped[int] = Column(
         Integer,
         nullable=False,
         comment="Lesson number within the course (unique per course)",
     )
 
-    title: str = Column(String(255), nullable=False, comment="Title of the lesson")
-    video_url: str = Column(
+    title: Mapped[str] = Column(String(255), nullable=False, comment="Title of the lesson")
+    video_url: Mapped[str] = Column(
         String(255),
         nullable=True,
         comment="URL to the video content (optional)",
     )
-    lesson_metadata: dict = Column(
+    lesson_metadata: Mapped[dict] = Column(
         JSONB,
         server_default="{}",
         nullable=False,
         comment="Additional lesson attributes stored as JSONB",
     )
 
-    course_id: int = Column(
+    course_id: Mapped[int] = Column(
         Integer,
         ForeignKey("rag.courses.id", ondelete="CASCADE"),
         nullable=False,
         comment="Reference to the parent course",
     )
 
-    course = relationship("Course", back_populates="lessons")
-    transcriptions = relationship(
+    course: Mapped["Course"] = relationship("Course", back_populates="lessons")
+    transcriptions: Mapped[list["Transcription"]] = relationship(
         "Transcription",
         back_populates="lesson",
         cascade="all, delete-orphan",
