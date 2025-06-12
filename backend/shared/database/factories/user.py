@@ -14,7 +14,7 @@ class UserFactory(BaseFactory[User]):
 
         return f"$2b$12${hashlib.md5(password.encode()).hexdigest()}"
 
-    def get_unique_email(self, base_email: str = None) -> str:
+    def get_unique_email(self, base_email: str | None = None) -> str:
         """Generate a unique email that doesn't exist in the database."""
         if base_email is None:
             base_email = self.faker.email()
@@ -38,7 +38,7 @@ class UserFactory(BaseFactory[User]):
                 return unique_email
             counter += 1
 
-    def get_unique_username(self, base_username: str = None) -> str:
+    def get_unique_username(self, base_username: str | None = None) -> str:
         """Generate a unique username that doesn't exist in the database."""
         if base_username is None:
             base_username = self.faker.user_name()

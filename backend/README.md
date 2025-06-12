@@ -41,23 +41,23 @@ pre-commit install
 ### 3. Setup Database
 
 ```bash
-uv run openfing-db migrate
+uv run openchat-db migrate
 ```
 
 ```bash
-uv run openfing-db seed
+uv run openchat-db seed
 ```
 
 ## Running Services
 
 ```bash
-uv run openfing-scraper
+uv run openchat-scraper
 
-uv run openfing-downloader
+uv run openchat-downloader
 
-uv run openfing-transcriber
+uv run openchat-transcriber
 
-uv run openfing-generator
+uv run openchat-generator
 ```
 
 ## Development
@@ -162,7 +162,7 @@ services/
 │   ├── core/                     # Business logic
 │   │   ├── __init__.py
 │   │   └── *.py
-│   ├── schemas/                  # Pydantic models
+│   ├── schemas/                  # Pydantic models and dataclasses
 │   │   ├── __init__.py
 │   │   └── *.py
 │   ├── services/                 # Service layer (optional)

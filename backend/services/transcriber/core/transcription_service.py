@@ -6,12 +6,13 @@ from services.transcriber.core.transcriber import Transcriber
 from services.transcriber.schemas.domain import LessonScanResult, TranscriptionListResult, TranscriptionResult
 from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
 from shared.config.config import get_settings
+from shared.database.models.rag.transcription import Transcription
 from shared.database.repositories.course_repository import CourseRepository
 from shared.database.repositories.lesson_repository import LessonRepository
 from shared.database.repositories.transcription_repository import TranscriptionRepository
 from shared.database.repositories.vector_repository import VectorRepository
 from shared.logging.logger import get_logger
-from shared.utils import deep_get
+from shared.utils import normalize_json
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -32,8 +33,11 @@ class TranscriptionService:
         self.transcription_repo = transcription_repo
         self.vector_repo = vector_repo
 
-        self.media_base_path = Path(settings.TRANSCRIBER.INPUT_DIR)
-        self.output_dir = Path(settings.TRANSCRIBER.OUTPUT_DIR)
+        self._transcriber = Transcriber(
+            output_dir=str(settings.TRANSCRIBER.OUTPUT_DIR),
+        )
+
+        self.media_base_path = settings.TRANSCRIBER.INPUT_DIR
 
         logger.info("TranscriptionService initialized")
 
@@ -43,6 +47,8 @@ class TranscriptionService:
         lesson_number: int,
         model_size: WhisperModelSize = WhisperModelSize.base,
         language: WhisperModelLanguage = WhisperModelLanguage.spanish,
+        ## TODO: usar este parametro para poder cambiar el model de embedding dinamicamente
+        embedding_model: str = settings.EMBEDDINGS.MODEL,
         force_retranscribe: bool = False,
         force_revectorize: bool = False,
     ) -> TranscriptionResult:
@@ -86,14 +92,14 @@ class TranscriptionService:
     def revectorize_transcription(self, transcription_id: int) -> TranscriptionResult:
         """Force revectorization of a specific transcription."""
         try:
-            if not self.transcription_repo.exists(transcription_id):
+            transcription = self.transcription_repo.get_by_id(transcription_id)
+            if not transcription:
                 return TranscriptionResult.failure_result(
                     f"Transcription {transcription_id} not found",
                     data={"transcription_id": transcription_id},
                 )
 
-            self.vector_repo.delete_by_transcription(transcription_id)
-            vector_ids = self.vector_repo.ingest_transcription(transcription_id)
+            vector_ids = self.vector_repo.upsert_transcription(transcription_id)
             self.db.commit()
 
             return TranscriptionResult.success_result(
@@ -213,15 +219,15 @@ class TranscriptionService:
             )
 
     def vectorize_transcription(self, transcription_id: int) -> TranscriptionResult:
-        """Vectorize a specific transcription."""
         try:
-            if not self.transcription_repo.exists(transcription_id):
+            transcription = self.transcription_repo.get_by_id(transcription_id)
+            if not transcription:
                 return TranscriptionResult.failure_result(
                     f"Transcription {transcription_id} not found",
                     data={"transcription_id": transcription_id},
                 )
 
-            vector_ids = self.vector_repo.ingest_transcription(transcription_id)
+            vector_ids = self.vector_repo.upsert_transcription(transcription_id)
             self.db.commit()
 
             return TranscriptionResult.success_result(
@@ -282,7 +288,7 @@ class TranscriptionService:
         return None
 
     def _find_media_file(self, course_code: str, lesson_number: int) -> Path | None:
-        """Find media file for a course and lesson."""
+        """Find audio file for a course and lesson."""
         base_folder = self.media_base_path / course_code
 
         if not base_folder.exists():
@@ -300,7 +306,7 @@ class TranscriptionService:
         return None
 
     ## TODO: return a transcription dataclass?
-    def _format_transcription_data(self, transcription) -> dict:
+    def _format_transcription_data(self, transcription: Transcription) -> dict:
         """Format single transcription for API response."""
         return {
             "id": transcription.id,
@@ -324,7 +330,6 @@ class TranscriptionService:
         language: WhisperModelLanguage,
         force_retranscribe: bool,
     ) -> tuple[int | None, bool]:
-        """Handle transcription logic, return (transcription_id, was_transcribed)."""
         ## TODO: we should retrieve the one made for this model_size and language not the latest
         existing = self.transcription_repo.get_latest_by_lesson_id(lesson.id)
 
@@ -348,14 +353,7 @@ class TranscriptionService:
         model_size: WhisperModelSize,
         language: WhisperModelLanguage,
     ) -> int:
-        transcriber = Transcriber(
-            audio_path=str(media_file),
-            output_dir=str(self.output_dir),
-            model_size=model_size,
-            language=language,
-        )
-
-        result = transcriber.transcribe()
+        result = self._transcriber.transcribe(model_size=model_size, language=language, audio_path=media_file)
         metadata = self._build_transcription_metadata(result, media_file)
 
         ## TODO: we should consider, only update if it matches another one with the same
@@ -377,10 +375,9 @@ class TranscriptionService:
         segments = transcription_result.get("segments", [])
 
         return {
-            # ASR Model Info
-            "asr_model": "whisper",
-            "asr_model_size": deep_get(transcription_result, "asr_model", "model", "size", default="unknown"),
-            "asr_language": transcription_result.get("language"),
+            **normalize_json(self._transcriber.model_info(), prefix="transcriber"),
+            "transcriber_model_size": transcription_result.get("model_size"),
+            "language": transcription_result.get("language"),
             # Content Metrics
             "duration_seconds": segments[-1].get("end", 0.0) if segments else 0.0,
             "segments_count": len(segments),
@@ -391,9 +388,8 @@ class TranscriptionService:
             "file_size_bytes": media_file.stat().st_size,
             # Vectorization Status
             "vectorized": False,
-            "embedding_model": None,
             # System Info
-            "created_by": "transcription_service",
+            "created_by": __name__,
         }
 
     def _handle_vectorization(self, transcription_id: int, force_revectorize: bool) -> bool:
@@ -407,7 +403,7 @@ class TranscriptionService:
                 logger.info(f"Force revectorize: removing existing vectors for transcription {transcription_id}")
                 self.vector_repo.delete_by_transcription(transcription_id)
 
-            vector_ids = self.vector_repo.ingest_transcription(transcription_id)
+            vector_ids = self.vector_repo.upsert_transcription(transcription_id)
             logger.info(f"Added transcription to vector store: {len(vector_ids)} chunks")
             return True
 

@@ -1,8 +1,13 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Column, Identity, Index, Integer, String
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, relationship
 
 from shared.database.models import TimestampedModel
+
+if TYPE_CHECKING:
+    from shared.database.models.rag.lesson import Lesson
 
 
 class Course(TimestampedModel):
@@ -17,21 +22,21 @@ class Course(TimestampedModel):
         },
     )
 
-    id: int = Column(
+    id: Mapped[int] = Column(
         Integer,
         Identity(always=True),
         primary_key=True,
         comment="Unique identifier for the course",
     )
 
-    code: str = Column(
+    code: Mapped[str] = Column(
         String(50),
         nullable=False,
         unique=True,
         comment="Unique course code (e.g., 'CS101')",
     )
-    name: str = Column(String(255), nullable=False, comment="Name of the course (i.e. Actividad Introductoria)")
-    subtitle: str = Column(String(255), nullable=True, comment="Course edition name (i.e. Charlas 2025)")
+    name: Mapped[str] = Column(String(255), nullable=False, comment="Name of the course (i.e. Actividad Introductoria)")
+    subtitle: Mapped[str] = Column(String(255), nullable=True, comment="Course edition name (i.e. Charlas 2025)")
     course_metadata: dict = Column(
         JSONB,
         server_default="{}",
@@ -39,7 +44,7 @@ class Course(TimestampedModel):
         comment="Additional course attributes stored as JSONB",
     )
 
-    lessons = relationship(
+    lessons: Mapped["Lesson"] = relationship(
         "Lesson",
         back_populates="course",
         cascade="all, delete-orphan",

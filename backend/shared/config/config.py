@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, HttpUrl, PostgresDsn, model_validator
+from pydantic import BaseModel, Field, HttpUrl, PostgresDsn, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -81,10 +81,10 @@ class EmbeddingsSettings(BaseModel):
         description="Device to run embeddings on",
     )
 
-    @model_validator(mode="after")
-    def detect_device(self):
-        self.DEVICE = detect_device(self.DEVICE)
-        return self
+    @field_validator("DEVICE", mode="after")
+    @classmethod
+    def detect_device(cls, v: str) -> str:
+        return detect_device(v)
 
 
 class WhisperSettings(BaseModel):
@@ -92,13 +92,26 @@ class WhisperSettings(BaseModel):
     CACHE_DIR: Path | None = Field(default=None, description="Model cache directory")
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
         default="auto",
-        description="Device to run embeddings on",
+        description="Device to run whisper on",
     )
 
-    @model_validator(mode="after")
-    def detect_device(self):
-        self.DEVICE = detect_device(self.DEVICE)
-        return self
+    @field_validator("MODEL", mode="after")
+    @classmethod
+    def validate_model(cls, v: str) -> str:
+        import whisper
+
+        available_models = whisper.available_models()
+        if v not in available_models:
+            raise ValueError(
+                f"WHISPER_MODEL should be one of {', '.join(sorted(available_models))}\
+            if its there and still fails please add it to our WhisperModelSize enum",
+            )
+        return v
+
+    @field_validator("DEVICE", mode="after")
+    @classmethod
+    def detect_device(cls, v: str) -> str:
+        return detect_device(v)
 
 
 class PrefectSettings(BaseModel):

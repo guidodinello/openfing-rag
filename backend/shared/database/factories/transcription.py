@@ -20,7 +20,7 @@ class TranscriptionFactory(BaseFactory[Transcription]):
         content_text = self.faker.paragraph(nb_sentences=100)
 
         metadata = {
-            "asr_model": "whisper",
+            "asr_model": "faked",
             "asr_model_size": model_size.value,
             "asr_language": language.value,
             "duration_seconds": duration_seconds,
@@ -31,7 +31,7 @@ class TranscriptionFactory(BaseFactory[Transcription]):
             "file_size_bytes": int((duration_seconds / 60) * self.faker.random.uniform(100000, 500000)),
             "vectorized": False,
             "embedding_model": None,
-            "created_by": "transcription_factory",
+            "created_by": __name__,
         }
 
         return {

@@ -1,8 +1,13 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Column, ForeignKey, Identity, Index, Integer, Text
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, relationship
 
 from shared.database.models import TimestampedModel
+
+if TYPE_CHECKING:
+    from shared.database.models.rag.lesson import Lesson
 
 
 class Transcription(TimestampedModel):
@@ -21,33 +26,33 @@ class Transcription(TimestampedModel):
         },
     )
 
-    id: int = Column(
+    id: Mapped[int] = Column(
         Integer,
         Identity(always=True),
         primary_key=True,
         comment="Unique identifier for the transcription",
     )
 
-    content: str = Column(
+    content: Mapped[str] = Column(
         Text,
         nullable=False,
         comment="Transcription text content",
     )
-    transcription_metadata: dict = Column(
+    transcription_metadata: Mapped[dict] = Column(
         JSONB,
         server_default="{}",
         nullable=False,
         comment="Additional transcription attributes stored as JSONB",
     )
 
-    lesson_id: int = Column(
+    lesson_id: Mapped[int] = Column(
         Integer,
         ForeignKey("rag.lessons.id", ondelete="CASCADE"),
         nullable=False,
         comment="Reference to the parent lesson",
     )
 
-    lesson = relationship(
+    lesson: Mapped["Lesson"] = relationship(
         "Lesson",
         back_populates="transcriptions",
     )

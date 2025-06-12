@@ -20,10 +20,6 @@ class TranscriptionRepository(BaseRepository[Transcription]):
         """Alias for get_by_lesson_id for backward compatibility."""
         return self.get_by_lesson_id(lesson_id)
 
-    def exists(self, transcription_id: int) -> bool:
-        """Check if transcription exists."""
-        return self.get_by_id(transcription_id) is not None
-
     def get_latest_by_lesson_id(self, lesson_id: int) -> Transcription | None:
         """Get the most recent transcription for a lesson."""
         return (
@@ -168,13 +164,13 @@ class TranscriptionRepository(BaseRepository[Transcription]):
         self.db.refresh(transcription)
         return transcription
 
-    def update_vectorization_metadata(self, transcription_id: int, embedding_metadata: dict) -> bool:
-        """Update transcription with vectorization metadata."""
+    def update_metadata(self, transcription_id: int, new_metadata: dict) -> bool:
+        """Update transcription metadata."""
         try:
             self.db.execute(
                 update(self.model)
                 .where(self.model.id == transcription_id)
-                .values(transcription_metadata=self.model.transcription_metadata.op("||")(embedding_metadata)),
+                .values(transcription_metadata=self.model.transcription_metadata.op("||")(new_metadata)),
             )
             return True
         except Exception:
