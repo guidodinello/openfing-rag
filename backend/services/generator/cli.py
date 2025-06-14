@@ -1,52 +1,42 @@
 import typer
-import uvicorn
+from rich.console import Console
 
-from shared.config.config import get_settings
+from services.generator.schemas.domain import SearchContext
+from shared.database.service_dependencies import create_chat_service
+from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
-from shared.logging.logger import get_logger
-
-logger = get_logger(__name__)
-settings = get_settings()
 
 app = typer.Typer(
-    help="OpenFing Chat CLI",
+    help="🤖 OpenFing Chat Generator CLI",
     no_args_is_help=True,
 )
+console = Console()
 
 
-@app.command(name="start")
-@handle_cli_errors(operation_name="Production server")
-def start_server(
-    app_path: str = "services.generator.api.main:app",
-    host: str = "0.0.0.0",
-    port: int | None = None,
-    workers: int | None = None,
-    log_level: str | None = None,
+@app.command(name="test-chat")
+@handle_cli_errors(operation_name="Test chat")
+def test_chat(
+    query: str = typer.Argument(..., help="Test query"),
+    lesson_id: int = typer.Option(None, help="Optional lesson ID filter"),
 ) -> None:
-    """Start production server"""
-    uvicorn.run(
-        app_path,
-        host=host,
-        port=port or settings.PORT,
-        workers=workers or settings.WORKERS_COUNT,
-        log_level=(log_level or settings.LOG.LEVEL).lower(),
-        proxy_headers=True,
-        forwarded_allow_ips="*",
-    )
+    """Test the chat functionality."""
+    console.print(f"🤖 Testing chat with query: {query}", style="blue")
 
+    with get_db_session() as db:
+        service = create_chat_service(db)
 
-@app.command(name="dev")
-@handle_cli_errors(operation_name="Development server")
-def start_dev_server() -> None:
-    """Development server entry point with hot reload"""
-    uvicorn.run(
-        "services.generator.api.main:app",
-        host="0.0.0.0",
-        port=settings.PORT,
-        reload=True,
-        log_level="debug",
-    )
+        search_context = SearchContext(
+            query=query,
+            lesson_id=lesson_id,
+            max_results=3,
+        )
 
+        result = service.process_message(search_context)
 
-if __name__ == "__main__":
-    app()
+        if result.success:
+            console.print("✅ Response generated:", style="green")
+            console.print(f"🤖 {result.response}")
+            console.print(f"📚 Sources: {', '.join(result.sources)}")
+            console.print(f"🔧 Model: {result.model_used}")
+        else:
+            console.print(f"❌ Error: {result.error}", style="red")

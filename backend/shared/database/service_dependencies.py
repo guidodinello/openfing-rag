@@ -3,6 +3,8 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
+from generator.core.chat_service import ChatService
+from generator.core.llm_service import LLMService
 from services.downloader.core.downloader_service import DownloaderService
 from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
 from services.scraper.core.scraping_service import ScrapingService
@@ -21,6 +23,9 @@ from shared.database.repository_dependencies import (
 from shared.database.session import get_db
 from shared.http.client import get_http_client
 
+settings = get_settings()
+http_client = get_http_client()
+
 # ============================================================================
 # SERVICE FACTORY FUNCTIONS (CLI/Script contexts)
 # ============================================================================
@@ -32,7 +37,7 @@ def create_transcription_service(db: Session) -> TranscriptionService:
         course_repo=CourseRepository(db),
         lesson_repo=LessonRepository(db),
         transcription_repo=TranscriptionRepository(db),
-        vector_repo=VectorRepository(get_settings(), db),
+        vector_repo=VectorRepository(settings, db),
     )
 
 
@@ -49,7 +54,15 @@ def create_scraping_service(db: Session) -> ScrapingService:
         db=db,
         course_repo=CourseRepository(db),
         lesson_repo=LessonRepository(db),
-        scraper=OpenFingScraper(get_http_client()),
+        scraper=OpenFingScraper(http_client),
+    )
+
+
+def create_chat_service(db: Session) -> ChatService:
+    return ChatService(
+        db=db,
+        vector_repo=VectorRepository(settings, db),
+        llm_service=LLMService(),
     )
 
 
@@ -99,7 +112,19 @@ def get_scraping_service(
     )
 
 
+def get_chat_service(
+    vector_repo: VectorRepositoryDep,
+    db: Session = Depends(get_db),
+) -> ChatService:
+    return ChatService(
+        db=db,
+        vector_repo=vector_repo,
+        llm_service=LLMService(),
+    )
+
+
 # Type aliases
 TranscriptionServiceDep = Annotated[TranscriptionService, Depends(get_transcription_service)]
 DownloaderServiceDep = Annotated[DownloaderService, Depends(get_downloader_service)]
 ScrapingServiceDep = Annotated[ScrapingService, Depends(get_scraping_service)]
+ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]

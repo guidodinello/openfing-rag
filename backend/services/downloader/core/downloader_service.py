@@ -50,7 +50,7 @@ class DownloaderService:
         codec: str,
         quality: str,
     ) -> DownloadResult:
-        lessons = self.__get_course_lessons(course_code, lesson_numbers)
+        lessons = self._get_course_lessons(course_code, lesson_numbers)
         if not lessons:
             return DownloadResult.failure_result(
                 course_code=course_code,
@@ -118,12 +118,13 @@ class DownloaderService:
             ],
             "outtmpl": str(course_dir / f"{expected_filename}.%(ext)s"),
             "concurrent_fragment_downloads": workers,
-            "retries": 3,
             "fragment_retries": 3,
+            "retries": 3,
             "continuedl": True,
             "quiet": True,
             "no_warnings": True,
             "ignoreerrors": False,
+            # "http_headers": get_rotating_headers(),
         }
 
         try:
@@ -137,5 +138,5 @@ class DownloaderService:
             logger.error(f"Failed to download {lesson_number=}: {e}")
             return "failed"
 
-    def __get_course_lessons(self, course_code: str, lesson_numbers: list[int] = None) -> list[Lesson]:
+    def _get_course_lessons(self, course_code: str, lesson_numbers: list[int] | None) -> list[Lesson]:
         return self.lesson_repo.get_downloadable_lessons_by_course_code(course_code, lesson_numbers)

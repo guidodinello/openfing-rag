@@ -9,7 +9,7 @@ settings = get_settings()
 
 def create_app() -> FastAPI:
     """Factory pattern for creating FastAPI app with all configurations"""
-    service_base_url = f"{settings.API_V1_STR}/transcriber"
+    service_base_url = f"{settings.API_V1_STR}/generator"
 
     app = FastAPI(
         title=settings.APP_NAME,

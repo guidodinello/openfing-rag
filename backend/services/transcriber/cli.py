@@ -3,6 +3,7 @@ from typing import Annotated
 import typer
 import uvicorn
 from rich.console import Console
+from rich.table import Table
 
 from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
 from shared.config.config import get_settings
@@ -109,9 +110,9 @@ def transcribe(
 
                 if result.success:
                     success_count += 1
-                    console.print(f"  ✅ Success: {result.message}", style="green")
+                    console.print(f"✅ Success: {result.message}", style="green")
                 else:
-                    console.print(f"  ❌ Failed: {result.message}", style="red")
+                    console.print(f"❌ Failed: {result.message}", style="red")
 
             console.print(f"🎉 Completed: {success_count}/{len(lessons)} lessons transcribed", style="bold green")
 
@@ -120,13 +121,13 @@ def transcribe(
 @handle_cli_errors(operation_name="List transcriptions")
 def list_transcriptions(
     course_code: str = typer.Option(None, help="Filter by course code"),
-    unvectorized: bool = typer.Option(False, help="Show only unvectorized"),
+    only_unvectorized: bool = typer.Option(False, help="Show only unvectorized"),
 ) -> None:
     """List transcriptions."""
     with get_db_session() as db:
         service = create_transcription_service(db)
 
-        result = service.list_transcriptions(course_code, unvectorized)
+        result = service.list_transcriptions(course_code, only_unvectorized)
 
         if not result.success:
             console.print(f"❌ Error: {result.message}", style="red")
@@ -135,11 +136,28 @@ def list_transcriptions(
         data = result.data
         console.print(f"📋 Found {data['total_count']} transcriptions", style="blue")
         console.print(f"✅ Vectorized: {data['vectorized_count']}")
-        console.print(f"⏳ Unvectorized: {data['unvectorized_count']}")
+        console.print(f"⏳ Unvectorized: {data['unvectorized_count']}\n")
 
-        for t in data["transcriptions"][:10]:  # Show first 10
-            status = "✅" if t["is_vectorized"] else "⏳"
-            console.print(f"{status} {t['course_code']} L{t['lesson_number']} - {t['content_length']} chars")
+        table = Table(show_header=True, header_style="bold blue")
+        table.add_column("Status", width=6, justify="center")
+        table.add_column("Course", width=8)
+        table.add_column("Lesson", width=6)
+        table.add_column("Title", width=30, overflow="ellipsis", no_wrap=True)
+        table.add_column("Model", width=8)
+        table.add_column("Created", width=10)
+        table.add_column("ID", width=6, style="dim", justify="right")
+
+        for t in data["transcriptions"]:  # TODO: paginate? or interactive?
+            table.add_row(
+                "✅" if t["is_vectorized"] else "⏳",
+                t["course_code"],
+                str(t["lesson_number"]),
+                t["lesson_title"],
+                str(t["model_size"]),
+                t["created_at"][:10] if t["created_at"] else "N/A",
+                str(t["id"]),
+            )
+        console.print(table)
 
 
 @app.command(name="scan")
@@ -221,6 +239,7 @@ def vectorize_transcription(
     transcription_id: int = typer.Argument(..., help="Transcription ID to vectorize"),
 ) -> None:
     """Vectorize a specific transcription."""
+    ## TODO: change to accept lesson list like transcribe
     with get_db_session() as db:
         service = create_transcription_service(db)
 
@@ -239,16 +258,16 @@ def vectorize_transcription(
 @handle_cli_errors(operation_name="Transcriber server")
 def start_server(
     host: str = "0.0.0.0",
-    port: int = None,
-    workers: int = None,
-    log_level: str = None,
+    port: int = settings.TRANSCRIBER.PORT,
+    workers: int = settings.WORKERS_COUNT,
+    log_level: str = settings.LOG.LEVEL.lower(),
 ) -> None:
     uvicorn.run(
         "services.transcriber.api.main:app",
         host=host,
-        port=port or settings.TRANSCRIBER.PORT,
-        workers=workers or settings.WORKERS_COUNT,
-        log_level=(log_level or settings.LOG.LEVEL).lower(),
+        port=port,
+        workers=workers,
+        log_level=log_level,
         proxy_headers=True,
         forwarded_allow_ips="*",
     )

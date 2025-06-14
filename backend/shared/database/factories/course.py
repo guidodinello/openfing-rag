@@ -18,6 +18,6 @@ class CourseFactory(BaseFactory[Course]):
                 ),
                 "credits": self.faker.random_int(min=3, max=12),
                 "difficulty": self.faker.random_element(["beginner", "intermediate", "advanced"]),
-                "created_by": "factory",
+                "created_by": __name__,
             },
         }
