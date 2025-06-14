@@ -23,8 +23,8 @@ class MongoElasticsearchSync:
         self.db = self.mongo_client[db_name]
         self.collection = self.db[collection_name]
         self.es_client = Elasticsearch(hosts=[{"host": "localhost", "port": 9200, "scheme": "http"}])
-        self.index_name = index_name
         self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        self.index_name = f"{self.embeddings}_{self.distance_strategy}"
         self.llm = OllamaLLM(model="llama3.2")
         self.es_vectorstore = None
         self.timestamp_file = f"{index_name}_sync_timestamp.json"
@@ -110,7 +110,7 @@ class MongoElasticsearchSync:
         if langchain_documents:
                 self.es_vectorstore.add_documents(langchain_documents) 
 
-    def send_query(self, query: str="¿Que fuerzas aplican sobre un auto en movimiento?", k: int = 6, score_threshold: float = 0.7) -> dict:
+    def send_query(self, query: str="¿A partir de qué se puede generar el Biodisel y ?", k: int = 6, score_threshold: float = 0.7) -> dict:
         """
         Simple semantic search on pre-filtered chunks
         Args:
@@ -121,13 +121,13 @@ class MongoElasticsearchSync:
             Dictionary with answer and source chunks
         """
         qa_chain = self.create_qa_chain()
-        print(f"~*60")
+
         docs_with_scores = self.es_vectorstore.similarity_search_with_score(query, k=k)
         relevant_chunks = [
             (doc, score) for doc, score in docs_with_scores 
             if score >= score_threshold
         ]
-        print(f"~*60")
+
         if not relevant_chunks:
             return {
                 "answer": "No semantically relevant chunks found above threshold.",
@@ -135,10 +135,8 @@ class MongoElasticsearchSync:
             }
         docs = [doc for doc, score in relevant_chunks]
         print(f"Found {len(docs)} relevant chunks with scores above {score_threshold}.")
-        print(f"~*60")
-        print(f"{docs[0]}")
+        
         answer = qa_chain.invoke({"query": query})["result"]
-        print(answer)
         
         return {
             "question": query,
