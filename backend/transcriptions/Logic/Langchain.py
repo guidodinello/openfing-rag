@@ -18,16 +18,16 @@ class MongoElasticsearchSync:
     """
     Handles synchronization between MongoDB and Elasticsearch with timestamp-based incremental loading.
     """
-    def __init__(self, mongo_uri: str, es_uri: str, db_name: str, collection_name: str, index_name: str, api_key: str):
+    def __init__(self, mongo_uri: str, es_uri: str, db_name: str, collection_name: str, api_key: str):
         self.mongo_client = MongoClient(mongo_uri)
         self.db = self.mongo_client[db_name]
         self.collection = self.db[collection_name]
         self.es_client = Elasticsearch(hosts=[{"host": "localhost", "port": 9200, "scheme": "http"}])
         self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        self.index_name = f"{self.embeddings}_{self.distance_strategy}"
+        self.index_name = f"{"all-MiniLM-L6-v2"}_{"COSINE"}_{"CHUNKS500"}".lower()
         self.llm = OllamaLLM(model="llama3.2")
         self.es_vectorstore = None
-        self.timestamp_file = f"{index_name}_sync_timestamp.json"
+        self.timestamp_file = f"{self.index_name}_sync_timestamp.json"
     
     def get_mongo_iterable(self) -> dict:
         last_sync_timestamp=self.get_last_sync_timestamp()
@@ -93,6 +93,7 @@ class MongoElasticsearchSync:
         Initialize the Elasticsearch vector store.
         If the index exists, it will be used; otherwise, a new one will be created.
         """
+        print(f"Initializing Elasticsearch vector store for index: {self.index_name}")
         self.es_vectorstore = ElasticsearchStore(
                 es_connection=self.es_client,
                 index_name=self.index_name,
@@ -110,7 +111,7 @@ class MongoElasticsearchSync:
         if langchain_documents:
                 self.es_vectorstore.add_documents(langchain_documents) 
 
-    def send_query(self, query: str="¿A partir de qué se puede generar el Biodisel y ?", k: int = 6, score_threshold: float = 0.7) -> dict:
+    def send_query(self, query: str="¿A partir de qué se puede generar el Biodisel y ?", k: int = 4, score_threshold: float = 0.7) -> dict:
         """
         Simple semantic search on pre-filtered chunks
         Args:
@@ -127,6 +128,8 @@ class MongoElasticsearchSync:
             (doc, score) for doc, score in docs_with_scores 
             if score >= score_threshold
         ]
+        print(f"Retrieved {len(relevant_chunks)}.")
+        print(f"Score threshold: {relevant_chunks}")
 
         if not relevant_chunks:
             return {
@@ -150,7 +153,7 @@ class MongoElasticsearchSync:
             ]
         }
 
-    def send_query_with_filters(self, query: str, filters: dict = None, k: int = 6) -> dict:
+    def send_query_with_filters(self, query: str, filters: dict = None, k: int = 4) -> dict:
         """
         Enhanced query with metadata-based filtering
 
@@ -233,13 +236,13 @@ def main():
         "es_uri": "http://localhost:9200",
         "db_name": "transcriptions_db",
         "collection_name": "classes",
-        "index_name": "filtered_my_index",
         "api_key": api_key
     }
     
     sync = MongoElasticsearchSync(**config)
     try:
         sync.sync_documents()
+        print(f"ES_CLIENT.count: {sync.index_name}")
         documents= sync.es_client.count(index=sync.index_name)["count"]
         if documents > 0:
             answer=sync.send_query()

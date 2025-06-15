@@ -139,6 +139,7 @@ def insert_transcriptions(directory: str, db_name: str = "transcriptions_db", co
                 now = datetime.datetime.now()
                 doc = {
                     "key": f"{course_acronym}_{class_number}_{model_used}",
+                    "course_acronym": course_acronym,
                     "created_at":now,
                     "title": title,
                     "subtitle": subtitle,
