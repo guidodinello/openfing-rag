@@ -32,7 +32,9 @@ class Transcriber:
             if cache_folder:
                 cache_folder.mkdir(exist_ok=True, parents=True)
 
-            logger.debug(f"Loading ASR {model_size.value=} on {settings.WHISPER.DEVICE=}")
+            logger.debug(
+                f"Loading ASR {model_size.value=} on {settings.WHISPER.DEVICE=}",
+            )
             cls._models_cache[cache_key] = whisper.load_model(
                 model_size.value,
                 device=settings.WHISPER.DEVICE,
@@ -56,7 +58,7 @@ class Transcriber:
         """
         if not audio_path.exists():
             raise FileNotFoundError(f"Audio file not found: {audio_path}")
-        logger.info(f"Transcribing {audio_path} with model {model_size.value}")
+        logger.info(f"Transcribing {audio_path} with {model_size.value=}")
 
         try:
             model = self._get_asr_model(model_size)
@@ -93,13 +95,17 @@ class Transcriber:
             raise
 
     def _save_result(self, result: dict[str, Any], file_name: str) -> None:
-        course_code = file_name.split("_")[0].lower()
-        course_output_dir = self.output_dir / course_code
+        parts = file_name.lower().split("_")
+        course_code, model_size = parts[0], parts[2]
+        course_output_dir = self.output_dir / model_size / course_code
 
         course_output_dir.mkdir(parents=True, exist_ok=True)
 
         output_path = course_output_dir / f"{file_name}.json"
-        output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+        output_path.write_text(
+            json.dumps(result, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
 
         logger.info(f"Saved transcription result to {output_path}")
 

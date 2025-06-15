@@ -7,6 +7,7 @@ from rich.table import Table
 from sqlalchemy import text
 
 from shared.config.config import get_settings
+from shared.database.repository_dependencies import get_course_repository
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
 
@@ -52,7 +53,14 @@ def migrate() -> None:
 
 @app.command("rollback")
 @handle_cli_errors(operation_name="Database rollback")
-def rollback(steps: int = typer.Option(1, "--steps", "-n", help="Number of migrations to rollback")) -> None:
+def rollback(
+    steps: int = typer.Option(
+        1,
+        "--steps",
+        "-n",
+        help="Number of migrations to rollback",
+    ),
+) -> None:
     console.print(f"⏪ Rolling back {steps} migration(s)...", style="yellow")
 
     if run_alembic_command("downgrade", f"-{steps}"):
@@ -78,7 +86,11 @@ def status() -> None:
 @app.command("create")
 def create_migration(
     message: str = typer.Argument(..., help="Migration message"),
-    autogenerate: bool = typer.Option(True, "--auto/--manual", help="Auto-generate migration from model changes"),
+    autogenerate: bool = typer.Option(
+        True,
+        "--auto/--manual",
+        help="Auto-generate migration from model changes",
+    ),
 ) -> None:
     console.print(f"📝 Creating new migration: {message}", style="blue")
 
@@ -95,7 +107,9 @@ def create_migration(
 
 @app.command("reset")
 @handle_cli_errors(operation_name="Database reset")
-def reset_database(confirm: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation prompt")) -> None:
+def reset_database(
+    confirm: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation prompt"),
+) -> None:
     if not confirm:
         console.print(
             Panel(
@@ -207,7 +221,10 @@ def test_vector_store() -> None:
         console.print(table)
 
         test_docs = [
-            {"text": "This is a test document about machine learning.", "metadata": {"test": True, "topic": "ml"}},
+            {
+                "text": "This is a test document about machine learning.",
+                "metadata": {"test": True, "topic": "ml"},
+            },
         ]
         doc_ids = vector_store.ingest_chunks(test_docs)
         console.print(f"✅ Added test document with ID: {doc_ids[0]}", style="green")
@@ -226,6 +243,82 @@ def test_vector_store() -> None:
         console.print("💡 Make sure langchain-postgres is installed", style="yellow")
     except Exception as e:
         console.print(f"❌ Vector store test failed: {e}", style="red")
+
+
+@app.command("courses-codes")
+# @handle_cli_errors(operation_name="List course codes")
+def list_course_codes(
+    format: str = typer.Option(
+        "space",
+        help="Output format: 'space', 'comma', 'newline', 'table'",
+        case_sensitive=False,
+    ),
+    active_only: bool = typer.Option(
+        False,
+        "--active-only",
+        help="Only show courses with lessons that have video URLs",
+    ),
+) -> None:
+    """List all course codes in various formats for use with other commands."""
+
+    with get_db_session() as db:
+        course_repo = get_course_repository(db)
+        courses = course_repo.get_all(limit=1000)  # Get all courses
+
+        if not courses:
+            console.print("❌ No courses found in database", style="red")
+            raise typer.Exit(1)
+
+        # Filter active courses if requested
+        if active_only:
+            # This would require a join or additional method
+            # For now, just show all courses
+            console.print(
+                "ℹ️ Note: --active-only filtering not yet implemented",
+                style="yellow",
+            )
+
+        codes = [course.code for course in courses]
+
+        if format.lower() == "space":
+            # Perfect for command substitution: $(uv run db courses list-codes)
+            output = " ".join(codes)
+            console.print(output, highlight=False)
+
+        elif format.lower() == "comma":
+            output = ",".join(codes)
+            console.print(output, highlight=False)
+
+        elif format.lower() == "newline":
+            for code in codes:
+                console.print(code, highlight=False)
+
+        elif format.lower() == "table":
+            table = Table(title=f"📚 Course Codes ({len(codes)} total)")
+            table.add_column("Code", style="cyan")
+            table.add_column("Name", style="magenta")
+            table.add_column("Subtitle", style="dim")
+
+            for course in courses:
+                table.add_row(
+                    course.code,
+                    course.name[:50] + "..." if len(course.name) > 50 else course.name,
+                    (
+                        course.subtitle[:30] + "..."
+                        if course.subtitle and len(course.subtitle) > 30
+                        else course.subtitle or ""
+                    ),
+                )
+
+            console.print(table)
+
+        else:
+            console.print(f"❌ Unknown format: {format}", style="red")
+            console.print(
+                "Available formats: space, comma, newline, table",
+                style="yellow",
+            )
+            raise typer.Exit(1)
 
 
 if __name__ == "__main__":

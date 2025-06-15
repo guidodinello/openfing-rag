@@ -38,7 +38,10 @@ class TranscriptionRepository(BaseRepository[Transcription]):
         query = self.db.query(self.model).filter(self.model.lesson_id == lesson_id)
 
         if model_size:
-            query = query.filter(self.model.transcription_metadata["model_size"].astext == model_size.value)
+            query = query.filter(
+                self.model.transcription_metadata["model_size"].astext
+                == model_size.value,
+            )
 
         return query.order_by(self.model.created_at.desc()).first()
 
@@ -53,13 +56,19 @@ class TranscriptionRepository(BaseRepository[Transcription]):
             .options(joinedload(Transcription.lesson).joinedload(Lesson.course))
             .filter(
                 Transcription.lesson.has(
-                    and_(Lesson.number == lesson_number, Lesson.course.has(Course.code == course_code)),
+                    and_(
+                        Lesson.number == lesson_number,
+                        Lesson.course.has(Course.code == course_code),
+                    ),
                 ),
             )
         )
 
         if model_size:
-            query = query.filter(self.model.transcription_metadata["model_size"].astext == model_size.value)
+            query = query.filter(
+                self.model.transcription_metadata["model_size"].astext
+                == model_size.value,
+            )
 
         return query.order_by(self.model.created_at.desc()).first()
 
@@ -78,10 +87,14 @@ class TranscriptionRepository(BaseRepository[Transcription]):
         unvectorized_only: bool = False,
     ) -> list[Transcription]:
         """Get transcriptions with optional filtering."""
-        query = self.db.query(self.model).options(joinedload(Transcription.lesson).joinedload(Lesson.course))
+        query = self.db.query(self.model).options(
+            joinedload(Transcription.lesson).joinedload(Lesson.course),
+        )
 
         if unvectorized_only:
-            query = query.filter(~self.model.transcription_metadata.op("?")("vectorized"))
+            query = query.filter(
+                ~self.model.transcription_metadata.op("?")("vectorized"),
+            )
 
         if course_code:
             query = query.join(Lesson).join(Course).filter(Course.code == course_code)
@@ -96,7 +109,12 @@ class TranscriptionRepository(BaseRepository[Transcription]):
         """Alias for get_filtered_transcriptions."""
         return self.get_filtered_transcriptions(course_code, unvectorized_only)
 
-    def create_or_update_for_lesson(self, lesson_id: int, content: str, metadata: dict) -> Transcription:
+    def create_or_update_for_lesson(
+        self,
+        lesson_id: int,
+        content: str,
+        metadata: dict,
+    ) -> Transcription:
         """Create new transcription or update existing one for a lesson."""
         existing = self.get_latest_by_lesson_id(lesson_id)
 
@@ -132,7 +150,11 @@ class TranscriptionRepository(BaseRepository[Transcription]):
             self.db.execute(
                 update(self.model)
                 .where(self.model.id == transcription_id)
-                .values(transcription_metadata=self.model.transcription_metadata.op("||")({"vectorized": True})),
+                .values(
+                    transcription_metadata=self.model.transcription_metadata.op("||")(
+                        {"vectorized": True},
+                    ),
+                ),
             )
             return True
         except Exception:
@@ -144,7 +166,11 @@ class TranscriptionRepository(BaseRepository[Transcription]):
             self.db.execute(
                 update(self.model)
                 .where(self.model.id == transcription_id)
-                .values(transcription_metadata=self.model.transcription_metadata.op("||")({"vectorized": False})),
+                .values(
+                    transcription_metadata=self.model.transcription_metadata.op("||")(
+                        {"vectorized": False},
+                    ),
+                ),
             )
             return True
         except Exception:
@@ -170,8 +196,24 @@ class TranscriptionRepository(BaseRepository[Transcription]):
             self.db.execute(
                 update(self.model)
                 .where(self.model.id == transcription_id)
-                .values(transcription_metadata=self.model.transcription_metadata.op("||")(new_metadata)),
+                .values(
+                    transcription_metadata=self.model.transcription_metadata.op("||")(
+                        new_metadata,
+                    ),
+                ),
             )
             return True
         except Exception:
             return False
+
+    def get_by_id_with_course_and_lesson(
+        self,
+        transcription_id: int,
+    ) -> Transcription | None:
+        """Get transcription with lesson and course relationships loaded."""
+        return (
+            self.db.query(self.model)
+            .options(joinedload(Transcription.lesson).joinedload(Lesson.course))
+            .filter(self.model.id == transcription_id)
+            .first()
+        )

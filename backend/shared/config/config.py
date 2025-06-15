@@ -2,7 +2,14 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, HttpUrl, PostgresDsn, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    Field,
+    HttpUrl,
+    PostgresDsn,
+    field_validator,
+    model_validator,
+)
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -46,7 +53,10 @@ class DatabaseSettings(BaseModel):
 
 
 class DownloaderSettings(BaseModel):
-    OUTPUT_DIR: Path = Field(default=Path("./audios"), description="Base directory for downloaded media files")
+    OUTPUT_DIR: Path = Field(
+        default=Path("./audios"),
+        description="Base directory for downloaded media files",
+    )
     WORKERS: int = Field(default=4, description="Number of concurrent workers", ge=1)
     CODEC: str = Field(default="best", description="Audio codec (best, mp3, m4a, etc.)")
     QUALITY: str = Field(default="0", description="Audio quality (0-10, 0=best)")
@@ -66,7 +76,10 @@ class TranscriberSettings(BaseModel):
         default=Path("./audios"),
         description="Base path to look for audio files",
     )
-    OUTPUT_DIR: Path = Field(default=Path("./transcriptions"), description="Directory to save transcription JSON files")
+    OUTPUT_DIR: Path = Field(
+        default=Path("./transcriptions"),
+        description="Directory to save transcription JSON files",
+    )
 
 
 class EmbeddingsSettings(BaseModel):
@@ -181,9 +194,10 @@ class Settings(BaseSettings):
     def validate_env_file(cls, values: dict[str, Any]) -> dict[str, Any]:
         env_file = Path(".env")
         if not env_file.is_file():
-            msg = f"""{env_file.absolute()} file not found!
-            Please create one based on '.env.example'"""
-            raise ValueError(msg)
+            raise ValueError(
+                f"""{env_file.absolute()} file not found!
+            Please create one based on '.env.example'""",
+            )
         return values
 
 
