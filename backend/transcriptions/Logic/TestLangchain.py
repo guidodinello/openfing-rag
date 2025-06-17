@@ -20,9 +20,11 @@ class TestConfiguration:
     embedding_model: str
     llm_model: str
     metadata_option: str
-    index_suffix: str
+    index_suffix: int
     question:str
 
+result_path = "/home/diego/_Modulos/Facu/tesis/backend/transcriptions/Logic/results.json"
+parametes_path = "/home/diego/_Modulos/Facu/tesis/backend/transcriptions/Logic/parameters.json"
 class ParametrizedMongoElasticsearchSync:
     """
     Parametrized version for testing different combinations of parameters.
@@ -40,7 +42,6 @@ class ParametrizedMongoElasticsearchSync:
         self.es_client = Elasticsearch(hosts=[{"host": "localhost", "port": 9200, "scheme": "http"}])
         self.index_name = f"test_index_{test_config.distance_strategy}_{test_config.embedding_model}_{test_config.chunk_field}".lower()
         
-        # Initialize components with test parameters
         safe_embedding_model = test_config.embedding_model.replace("/", "_").replace(" ", "_")
         self.index_name = f"test_index_{test_config.distance_strategy}_{safe_embedding_model}_{test_config.chunk_field}".lower()
         self.embeddings = HuggingFaceEmbeddings(model_name=test_config.embedding_model)
@@ -52,7 +53,7 @@ class ParametrizedMongoElasticsearchSync:
         )
         self.question = test_config.question
         self.es_vectorstore = None
-        self.timestamp_file = f"{self.index_name}_sync_timestamp.json"
+        self.timestamp_file = f"tmp/{self.index_name}_sync_timestamp.json"
     
     def get_mongo_iterable(self) -> tuple:
         """Get MongoDB cursor with timestamp filtering"""
@@ -112,9 +113,6 @@ class ParametrizedMongoElasticsearchSync:
                 doc = Document(page_content=chunk, metadata=metadata)
                 langchain_documents.append(doc)
             processed_count += 1
-        
-        print(f"Processed {processed_count} documents from MongoDB using {self.test_config.chunk_field}.")
-        print(f"Created {len(langchain_documents)} documents for indexing.")
         return langchain_documents
     
     def build_query_filters(self, query_metadata: dict) -> dict:
@@ -123,22 +121,24 @@ class ParametrizedMongoElasticsearchSync:
             return {}
 
         filters = {}
-        if self.test_config.metadata_option in ["title", "title_subtitle", "title_subtitle_class"]:
-            if query_metadata.get("title"):
-                filters["title"] = {"match": {"title": query_metadata["title"]}}
+        if self.test_config.metadata_option in ["related_course", "course", "course_and_class"]:
+            if query_metadata.get("related_course"):
+                filters["related_course"] = {"match": {"related_course": query_metadata["related_course"]}}
 
-        if self.test_config.metadata_option in ["title_subtitle", "title_subtitle_class"]:
-            if query_metadata.get("subtitle"):
-                filters["subtitle"] = {"match": {"subtitle": query_metadata["subtitle"]}}
+        if self.test_config.metadata_option in ["course", "course_and_class"]:
+            if query_metadata.get("course"):
+                filters["course"] = {"match": {"course": query_metadata["course"]}}
 
-        if self.test_config.metadata_option == "title_subtitle_class":
+        if self.test_config.metadata_option == "course_and_class":
             if query_metadata.get("class"):
-                filters["class"] = {"match": {"class": query_metadata["class"]}}
+                filters["course_and_class"] = {"match": {"class": query_metadata["class"]}}
 
         return filters
     
     def initialize_vectorstore(self) -> ElasticsearchStore:
-        """Initialize the Elasticsearch vector store with parametrized distance strategy"""
+        if not self.es_client.indices.exists(index=self.index_name):
+            print(f"Index {self.index_name} does not exist. Creating index...")
+            self.es_client.indices.create(index=self.index_name)
         self.es_vectorstore = ElasticsearchStore(
             es_connection=self.es_client,
             index_name=self.index_name,
@@ -206,24 +206,15 @@ class ParametrizedMongoElasticsearchSync:
         """Build query filters based on metadata option"""
         if self.test_config.metadata_option == "no":
             return {}
-
         must_clauses = []
-
-        if self.test_config.metadata_option in ["title", "title_subtitle", "title_subtitle_class"]:
-            if query_metadata.get("title"):
-                must_clauses.append({"match": {"metadata.title": query_metadata["title"]}})
-
-        if self.test_config.metadata_option in ["title_subtitle", "title_subtitle_class"]:
-            if query_metadata.get("subtitle"):
-                must_clauses.append({"match": {"metadata.subtitle": query_metadata["subtitle"]}})
-
-        if self.test_config.metadata_option == "title_subtitle_class":
-            if query_metadata.get("class"):
-                must_clauses.append({"match": {"metadata.class": query_metadata["class"]}})
-
+        if self.test_config.metadata_option == "related_course":
+            must_clauses.append({"match": {"metadata.related_course": query_metadata["related_course"]}})
+        if self.test_config.metadata_option == "course":
+            must_clauses.append({"match": {"metadata.course": query_metadata["course"]}})
+        if self.test_config.metadata_option == "course_and_class":
+            must_clauses.append({"match": {"metadata.course": query_metadata["course"],"metadata['class']": query_metadata["class"]}})
         if not must_clauses:
             return {}
-
         return {
             "bool": {
                 "must": must_clauses
@@ -245,14 +236,14 @@ class ParametrizedMongoElasticsearchSync:
 class ParameterTester:
     """Handles parameter combination testing"""
     
-    def __init__(self, config_path: str = "parameters.json"):
+    def __init__(self, config_path: str = parametes_path):
         with open(config_path, 'r', encoding='utf-8') as f:
             self.config = json.load(f)
     
     def generate_combinations(self) -> List[TestConfiguration]:
         """Generate all parameter combinations, including questions."""
         params = self.config['parameters']
-        prompts = params["prompts"]  # Assume questions are defined in config
+        prompts = params["prompts"] 
 
         # Extract parameter values
         chunks = list(params['chunks'].values())
@@ -269,7 +260,7 @@ class ParameterTester:
         ):
             for question in prompts:
                 config = TestConfiguration(
-                index_suffix=f"combo_{combo_id + 1}",
+                index_suffix=f"{combo_id}",
                 chunk_field=chunk,
                 distance_strategy=distance,
                 embedding_model=embedding,
@@ -281,44 +272,49 @@ class ParameterTester:
                 combo_id += 1
         return combinations
     
-    def save_results(self, index:int,results: List[Dict[str, Any]]) -> None:
-        self.save_answer(index,results)
-        self.save_context(index,results)
+    def save_results(self, test:TestConfiguration,results: List[Dict[str, Any]]) -> None:
+        self.save_answer(test,results)
+        self.save_context(test,results)
     
-    def save_answer(self,index:int, result: Dict[str, Any]) -> None:
-        with open("answers.json", 'r', encoding='utf-8') as f:
+    def save_answer(self, test: TestConfiguration, result: Dict[str, Any]) -> None:
+    # Load existing data or initialize if file doesn't exist
+        with open(result_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            answers = data.get("answers", [])
-        
-        answers.append({
-            "index": index,
-            "question": result['question'],
-            "answer": result['answer']
-        })
-        
-        with open("answers.json", 'w', encoding='utf-8') as f:
-            json.dump({"answers": answers}, f, ensure_ascii=False,indent=1)
-    
-    def save_context(self,index:int, results: List[Dict[str, Any]]) -> None:
-        with open("context.json", 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            context_list = data.get("context", [])
-        to_add = {
-            "index": index,
-            "question": results['question'],
-            "context": [
-                {
-                    "content": source['content'],
-                    "metadata": source['metadata']
-                }
-                for source in results['sources']
-            ]
-        }
-        context_list.append(to_add)
-        with open("context.json", 'w', encoding='utf-8') as f:
-            json.dump({"context": context_list}, f, ensure_ascii=False,indent=1)
 
-    def run_single_test(self, test_config: TestConfiguration, test_questions: List[dict] = None) -> None:
+        if self.combo_id not in data["tested_combinations"]:
+            data["tested_combinations"][self.combo_id] = {
+                "config": {
+                    "chunks": test.chunk_field,
+                    "distance": test.distance_strategy,
+                    "embeddings": test.embedding_model,
+                    "llms": test.llm_model,
+                    "metadata_option": test.metadata_option,
+                    "question": test.question["question"],
+                    "metadata": test.question["metadata"],
+                },
+                "question":test.question["question"],
+                "metadata": test.question["metadata"],
+                "answers": result['answer'],
+                "context": []
+            }
+
+        with open(result_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=1)
+
+    def save_context(self,test: TestConfiguration, results: List[Dict[str, Any]]) -> None:
+        with open(result_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        data["tested_combinations"][f"{test.index_suffix}"]["context"]=[
+            {
+                "content": source['content'],
+                "metadata": source['metadata']
+            }
+            for source in results['sources']
+        ]
+        with open(result_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False,indent=1)
+
+    def run_single_test(self, test_config: TestConfiguration) -> None:
         """Run a single parameter combination test"""
         print(f"\n{'='*80}")
         print(f"TESTING COMBINATION: {test_config.index_suffix}")
@@ -326,23 +322,23 @@ class ParameterTester:
         print(f"Distance: {test_config.distance_strategy}")
         print(f"Embedding: {test_config.embedding_model}")
         print(f"LLM: {test_config.llm_model}")
-        print(f"Metadata: {test_config.metadata_option}")
-        print(f"Question: {test_config.question}")
+        print(f"metadata: {test_config.metadata_option}")
+        print(f"Metadata: {test_config.question["metadata"]}")
+        print(f"Question: {test_config.question["question"]}")
         print(f"{'='*80}")
         
         sync = ParametrizedMongoElasticsearchSync(self.config, test_config)
-        
-        
         sync.sync_documents()
-        
         doc_count = sync.es_client.count(index=sync.index_name)["count"]
+        if not sync.es_client.indices.exists(index=sync.index_name):
+            print(f"Index {sync.index_name} does not exist!")
+        else:
+            doc_count = sync.es_client.count(index=sync.index_name)["count"]
         print(f"Documents in index: {doc_count}")
 
         if doc_count > 0:
             questions_to_test = test_config.question
         
-            print(f"Metadata: {questions_to_test['metadata']}")
-            print(f"Testing question: {questions_to_test['question']}")
             result = sync.send_query_with_metadata_filters(
                 questions_to_test['question'], 
                 questions_to_test['metadata']
@@ -352,7 +348,7 @@ class ParameterTester:
             print(f"Sources found: {len(result['sources'])}")
             
             if result['sources']:
-                self.save_results(test_config.index_suffix, result)
+                self.save_results(test_config, result)
         else:
             print("No documents available for testing queries.")
         sync.close_connections()
@@ -360,11 +356,8 @@ class ParameterTester:
     def run_all_tests(self, max_combinations: int = None) -> None:
         """Run tests for all parameter combinations"""
         combinations = self.generate_combinations()
+        combinations = combinations[:max_combinations]
         
-        if max_combinations:
-            combinations = combinations[:max_combinations]
-        
-        # Filter out already tested combinations
         untested_combinations = [
             combo for combo in combinations 
             if not self.is_combination_tested(combo)
@@ -378,29 +371,25 @@ class ParameterTester:
             print("All combinations have already been tested!")
             return
         
-        for i, test_config in enumerate(untested_combinations, 1):
-            combo_id = self.generate_combo_id(test_config)
+        for i, test_config in enumerate(untested_combinations, 0):
+            self.combo_id = test_config.index_suffix
             if self.is_combination_tested(test_config):
-                print(f"⚠️ Combination {combo_id} has already been tested. Skipping...")
+                print(f"⚠️ Combination {self.combo_id} has already been tested. Skipping...")
                 continue
             try:
                 self.run_single_test(test_config)
                 # Save combination as tested after successful completion
-                self.save_tested_combination(test_config)
+                #self.save_tested_combination(test_config)
             except Exception as e:
-                print(f"❌ Error in combination {combo_id}: {e}")
-                print(traceback.format_exc())
-
-
-                
+                print(f"❌ Error in combination {self.combo_id}: {e}")
+                print(traceback.format_exc())              
 
     def load_tested_combinations(self) -> List[str]:
         """Load already tested combinations from file"""
         try:
-            if os.path.exists("tested_combinations.json"):
-                with open("tested_combinations.json", 'r',encoding='utf-8') as f:
-                    data = json.load(f)
-                    return data.get("tested_combinations", [])
+            with open(result_path, 'r',encoding='utf-8') as f:
+                data = json.load(f)
+                return data.get("tested_combinations", [])
             return []
         except Exception as e:
             print(f"Error loading tested combinations: {e}")
@@ -411,32 +400,37 @@ class ParameterTester:
         try:
             tested_combinations = self.load_tested_combinations()
             combo_id = self.generate_combo_id(test_config)    
-            tested_combinations.append(combo_id)
-            with open("tested_combinations.json", 'w', encoding='utf-8') as f:
+            with open(result_path, 'w', encoding='utf-8') as f:
                 json.dump({"tested_combinations": tested_combinations}, f,ensure_ascii=False,indent=1)
-            print(f"✅ Saved tested combination: {combo_id}")
+            print(f"✅ Saved tested combination")
             
         except Exception as e:
+            print(traceback.format_exc())
             print(f"Error saving tested combination: {e}")
     
     def is_combination_tested(self, test_config: TestConfiguration) -> bool:
         """Check if a combination has already been tested"""
         tested_combinations = self.load_tested_combinations()
-        combo_id = self.generate_combo_id(test_config)
-        return combo_id in tested_combinations
+        return test_config.index_suffix in tested_combinations
     
-    def generate_combo_id(self, test_config: TestConfiguration) -> str:
+    def generate_combo_id(self, test_config: TestConfiguration) -> Dict[str,Dict[str,str]]:
         """Generate a unique ID for the test configuration"""
-        return (
-            f"{test_config.index_suffix}_{test_config.chunk_field}_{test_config.distance_strategy}_"
-            f"{test_config.embedding_model}_{test_config.llm_model}_{test_config.metadata_option}_{test_config.question}"
-        )
+        return {
+        f"{test_config.index_suffix}": {
+            "config": {
+        "chunks": test_config.chunk_field,
+        "distance": test_config.distance_strategy,
+        "embedding": test_config.embedding_model,
+        "llms": test_config.llm_model,
+        "metadata": test_config.metadata_option,
+        "question": test_config.question,
+        }}
+    }
 
 def main():
     """Main execution function with parameter testing"""
-    load_dotenv(dotenv_path="../.env")
     
-    tester = ParameterTester("parameters.json")
+    tester = ParameterTester(parametes_path)
     tester.run_all_tests()  
 if __name__ == "__main__":
     main()

@@ -135,11 +135,13 @@ def insert_transcriptions(directory: str, db_name: str = "transcriptions_db", co
                 if(course_acronym in courses_acronyms):
                     title= courses_acronyms[course_acronym]["title"]
                     subtitle = courses_acronyms[course_acronym]["subtitle"]
+                    related_courses = courses_acronyms[course_acronym]["related_course"]
                 
                 now = datetime.datetime.now()
                 doc = {
                     "key": f"{course_acronym}_{class_number}_{model_used}",
                     "course_acronym": course_acronym,
+                    "related_courses": related_courses,
                     "created_at":now,
                     "title": title,
                     "subtitle": subtitle,
