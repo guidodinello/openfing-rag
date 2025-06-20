@@ -3,11 +3,12 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from generator.core.chat_service import ChatService
-from generator.core.llm_service import LLMService
 from services.downloader.core.downloader_service import DownloaderService
+from services.generator.core.chat_service import ChatService
+from services.generator.core.llm_service import LLMService
 from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
 from services.scraper.core.scraping_service import ScrapingService
+from services.transcriber.core.asr.faster_whisper import FasterWhisperTranscriber
 from services.transcriber.core.transcription_service import TranscriptionService
 from shared.config.config import get_settings
 from shared.database.repositories.course_repository import CourseRepository
@@ -38,6 +39,9 @@ def create_transcription_service(db: Session) -> TranscriptionService:
         lesson_repo=LessonRepository(db),
         transcription_repo=TranscriptionRepository(db),
         vector_repo=VectorRepository(settings, db),
+        transcriber=FasterWhisperTranscriber(
+            output_dir=str(settings.TRANSCRIBER.OUTPUT_DIR),
+        ),
     )
 
 
@@ -84,6 +88,10 @@ def get_transcription_service(
         lesson_repo=lesson_repo,
         transcription_repo=transcription_repo,
         vector_repo=vector_repo,
+        ## TODO: im not sure if this is the best way to handle this dependency
+        transcriber=FasterWhisperTranscriber(
+            output_dir=str(settings.TRANSCRIBER.OUTPUT_DIR),
+        ),
     )
 
 

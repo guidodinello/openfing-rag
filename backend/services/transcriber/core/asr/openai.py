@@ -14,7 +14,7 @@ logger = get_logger(__name__)
 settings = get_settings()
 
 
-class Transcriber:
+class OpenAIWhisperTranscriber:
     _models_cache: dict[str, whisper.Whisper] = {}
 
     def __init__(
@@ -32,7 +32,9 @@ class Transcriber:
             if cache_folder:
                 cache_folder.mkdir(exist_ok=True, parents=True)
 
-            logger.debug(f"Loading ASR {model_size.value=} on {settings.WHISPER.DEVICE=}")
+            logger.debug(
+                f"Loading ASR {model_size.value=} on {settings.WHISPER.DEVICE=}",
+            )
             cls._models_cache[cache_key] = whisper.load_model(
                 model_size.value,
                 device=settings.WHISPER.DEVICE,
@@ -48,15 +50,10 @@ class Transcriber:
         language: WhisperModelLanguage,
         audio_path: Path,
     ) -> dict[str, Any]:
-        """
-        Transcribe audio file using Whisper.
-
-        Returns:
-            Dictionary with transcription results
-        """
+        """Transcribe audio file using OpenAI Whisper."""
         if not audio_path.exists():
             raise FileNotFoundError(f"Audio file not found: {audio_path}")
-        logger.info(f"Transcribing {audio_path} with model {model_size.value}")
+        logger.info(f"Transcribing {audio_path} with {model_size.value=}")
 
         try:
             model = self._get_asr_model(model_size)
@@ -64,9 +61,7 @@ class Transcriber:
             start_time = time.time()
             result = model.transcribe(
                 audio=str(audio_path),
-                language=language.value,
-                task="transcribe",
-                fp16=settings.WHISPER.DEVICE == "cuda",
+                language=language.value if language != WhisperModelLanguage.auto else None,
                 **self._model_custom_config(),
             )
             processing_time = time.time() - start_time
@@ -85,21 +80,25 @@ class Transcriber:
 
             self._save_result(result, file_name=f"{audio_path.stem}_{model_size.value}")
 
-            logger.debug(f"Transcription completed in {processing_time:.2f} seconds")
+            logger.info(f"OpenAI Whisper transcription completed in {processing_time:.2f} seconds")
             return result
 
         except Exception as e:
-            logger.error(f"Transcription failed: {e}")
+            logger.error(f"OpenAI Whisper transcription failed: {e}")
             raise
 
     def _save_result(self, result: dict[str, Any], file_name: str) -> None:
-        course_code = file_name.split("_")[0].lower()
-        course_output_dir = self.output_dir / course_code
+        parts = file_name.lower().split("_")
+        course_code, model_size = parts[0], parts[2]
+        course_output_dir = self.output_dir / model_size / course_code
 
         course_output_dir.mkdir(parents=True, exist_ok=True)
 
-        output_path = course_output_dir / f"{file_name}.json"
-        output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+        output_path = course_output_dir / f"{file_name}_openai.json"
+        output_path.write_text(
+            json.dumps(result, indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
 
         logger.info(f"Saved transcription result to {output_path}")
 
@@ -119,6 +118,8 @@ class Transcriber:
     def _model_custom_config(cls) -> dict[str, Any]:
         """Get custom Whisper configuration for educational content."""
         return {
+            "fp16": settings.WHISPER.DEVICE == "cuda",
+            "task": "transcribe",
             # Better context awareness
             "condition_on_previous_text": True,
             # Robustness - progressive temperature fallback
@@ -132,10 +133,9 @@ class Transcriber:
         }
 
     def model_info(self) -> dict[str, Any]:
-        package_name = getattr(whisper, "__name__", "unknown")
         return {
             "package": {
-                "name": package_name,
+                "name": getattr(whisper, "__name__", "unknown"),
                 "version": importlib.metadata.version("openai-whisper"),
             },
             "model": {

@@ -26,7 +26,7 @@ class LoggingSettings(BaseModel):
         default="INFO",
         description="Logging level",
     )
-    DIR: Path = Field(default="logs", description="Path to log files directory")
+    DIR: Path = Field(default=Path("logs"), description="Path to log files directory")
 
 
 class DatabaseSettings(BaseModel):
@@ -41,12 +41,14 @@ class DatabaseSettings(BaseModel):
 
     @property
     def URL(self) -> PostgresDsn:
-        """Construct Datbase Connection String."""
         return f"postgresql+psycopg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DB}"
 
 
 class DownloaderSettings(BaseModel):
-    OUTPUT_DIR: Path = Field(default=Path("./audios"), description="Base directory for downloaded media files")
+    OUTPUT_DIR: Path = Field(
+        default=Path("audios"),
+        description="Base directory for downloaded media files",
+    )
     WORKERS: int = Field(default=4, description="Number of concurrent workers", ge=1)
     CODEC: str = Field(default="best", description="Audio codec (best, mp3, m4a, etc.)")
     QUALITY: str = Field(default="0", description="Audio quality (0-10, 0=best)")
@@ -63,10 +65,13 @@ class ScraperSettings(BaseModel):
 class TranscriberSettings(BaseModel):
     PORT: int = Field(default=8001, description="Server port")
     INPUT_DIR: Path = Field(
-        default=Path("./audios"),
+        default=Path("audios"),
         description="Base path to look for audio files",
     )
-    OUTPUT_DIR: Path = Field(default=Path("./transcriptions"), description="Directory to save transcription JSON files")
+    OUTPUT_DIR: Path = Field(
+        default=Path("transcriptions"),
+        description="Directory to save transcription JSON files",
+    )
 
 
 class EmbeddingsSettings(BaseModel):
@@ -75,7 +80,7 @@ class EmbeddingsSettings(BaseModel):
         description="Embeddings model name",
     )
     DIMENSION: int = Field(default=384, description="Embeddings dimensions")
-    CACHE_DIR: Path | None = Field(default=None, description="Model cache directory")
+    CACHE_DIR: Path | None = Field(default=Path("models_cache"), description="Model cache directory")
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
         default="auto",
         description="Device to run embeddings on",
@@ -89,7 +94,7 @@ class EmbeddingsSettings(BaseModel):
 
 class WhisperSettings(BaseModel):
     MODEL: str = Field(default="tiny", description="Whisper model name")
-    CACHE_DIR: Path | None = Field(default=None, description="Model cache directory")
+    CACHE_DIR: Path | None = Field(default=Path("models_cache"), description="Model cache directory")
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
         default="auto",
         description="Device to run whisper on",
@@ -172,7 +177,7 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         frozen=True,
-        extra="ignore",
+        extra="forbid",
         env_nested_delimiter="_",
     )
 
@@ -181,9 +186,10 @@ class Settings(BaseSettings):
     def validate_env_file(cls, values: dict[str, Any]) -> dict[str, Any]:
         env_file = Path(".env")
         if not env_file.is_file():
-            msg = f"""{env_file.absolute()} file not found!
-            Please create one based on '.env.example'"""
-            raise ValueError(msg)
+            raise ValueError(
+                f"""{env_file.absolute()} file not found!
+            Please create one based on '.env.example'""",
+            )
         return values
 
 

@@ -30,8 +30,14 @@ def transcribe(
         None,
         help="Lesson number (optional - if not provided, transcribes all lessons)",
     ),
-    model_size: WhisperModelSize = typer.Option(WhisperModelSize.base, help="Whisper model size"),
-    language: WhisperModelLanguage = typer.Option(WhisperModelLanguage.spanish, help="Language"),
+    model_size: WhisperModelSize = typer.Option(
+        settings.WHISPER.MODEL,
+        help="Whisper model size",
+    ),
+    language: WhisperModelLanguage = typer.Option(
+        WhisperModelLanguage.spanish,
+        help="Language",
+    ),
     retranscribe: bool = typer.Option(
         False,
         "--retranscribe",
@@ -54,7 +60,10 @@ def transcribe(
         service = create_transcription_service(db)
 
         if lesson_number is not None:
-            console.print(f"🎤 Transcribing {course_code} lesson {lesson_number}...", style="blue")
+            console.print(
+                f"🎤 Transcribing {course_code} lesson {lesson_number}...",
+                style="blue",
+            )
 
             result = service.transcribe_lesson(
                 course_code=course_code,
@@ -68,7 +77,10 @@ def transcribe(
             if result.success:
                 console.print(f"✅ {result.message}", style="green")
                 if result.transcription_id:
-                    console.print(f"📝 Transcription ID: {result.transcription_id}", style="cyan")
+                    console.print(
+                        f"📝 Transcription ID: {result.transcription_id}",
+                        style="cyan",
+                    )
 
                 # Show action details if available
                 if result.data:
@@ -83,16 +95,28 @@ def transcribe(
                 raise typer.Exit(1)
 
         else:
-            console.print(f"🎤 Batch transcribing all lessons for {course_code}...", style="blue")
+            console.print(
+                f"🎤 Batch transcribing all lessons for {course_code}...",
+                style="blue",
+            )
             lesson_scan_result = service.find_available_lessons(course_code)
 
             if not lesson_scan_result.success or not lesson_scan_result.lessons:
-                console.print(f"❌ No lesson files found for course {course_code}", style="red")
-                console.print(f"📁 Looking in: {service.media_base_path / course_code}", style="dim")
+                console.print(
+                    f"❌ No lesson files found for course {course_code}",
+                    style="red",
+                )
+                console.print(
+                    f"📁 Looking in: {service.media_base_path / course_code}",
+                    style="dim",
+                )
                 return
 
             lessons = lesson_scan_result.lessons
-            console.print(f"📋 Found {len(lessons)} lessons to transcribe", style="green")
+            console.print(
+                f"📋 Found {len(lessons)} lessons to transcribe",
+                style="green",
+            )
 
             success_count = 0
             for lesson in lessons:
@@ -114,7 +138,10 @@ def transcribe(
                 else:
                     console.print(f"❌ Failed: {result.message}", style="red")
 
-            console.print(f"🎉 Completed: {success_count}/{len(lessons)} lessons transcribed", style="bold green")
+            console.print(
+                f"🎉 Completed: {success_count}/{len(lessons)} lessons transcribed",
+                style="bold green",
+            )
 
 
 @app.command(name="list")
@@ -175,12 +202,21 @@ def scan_available_lessons(
 
         if not result.success:
             console.print(f"❌ Error: {result.message}", style="red")
-            console.print(f"📁 Looking in: {service.media_base_path / course_code}", style="dim")
+            console.print(
+                f"📁 Looking in: {service.media_base_path / course_code}",
+                style="dim",
+            )
             return
 
         if not result.lessons:
-            console.print(f"❌ No lesson files found for course {course_code}", style="red")
-            console.print(f"📁 Looking in: {service.media_base_path / course_code}", style="dim")
+            console.print(
+                f"❌ No lesson files found for course {course_code}",
+                style="red",
+            )
+            console.print(
+                f"📁 Looking in: {service.media_base_path / course_code}",
+                style="dim",
+            )
             return
 
         console.print(f"📋 Found {len(result.lessons)} lesson files:", style="green")
@@ -202,7 +238,11 @@ def get_transcription(
         WhisperModelSize | None,
         typer.Option(case_sensitive=False, help="Filter by model size"),
     ] = None,
-    show_content: bool = typer.Option(False, "--content", help="Show transcription content"),
+    show_content: bool = typer.Option(
+        False,
+        "--content",
+        help="Show transcription content",
+    ),
 ) -> None:
     with get_db_session() as db:
         service = create_transcription_service(db)
@@ -230,7 +270,13 @@ def get_transcription(
 
         if show_content:
             console.print("\n📄 Content:", style="bold")
-            console.print(data["content"][:500] + "..." if len(data["content"]) > 500 else data["content"])
+            console.print(
+                (
+                    data["content"][:500] + "..."
+                    if len(data["content"]) > 500
+                    else data["content"]
+                ),
+            )
 
 
 @app.command(name="vectorize")
@@ -248,7 +294,10 @@ def vectorize_transcription(
         if result.success:
             console.print(f"✅ {result.message}", style="green")
             if result.data and "vector_chunks" in result.data:
-                console.print(f"🔍 Created {result.data['vector_chunks']} vector chunks", style="cyan")
+                console.print(
+                    f"🔍 Created {result.data['vector_chunks']} vector chunks",
+                    style="cyan",
+                )
         else:
             console.print(f"❌ {result.message}", style="red")
             raise typer.Exit(1)

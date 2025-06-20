@@ -38,11 +38,17 @@ class ChatService:
             if not chunks:
                 return ChatResult.failure_result(
                     error="No relevant information found",
-                    data={"query": search_context.query, "lesson_id": search_context.lesson_id},
+                    data={
+                        "query": search_context.query,
+                        "lesson_id": search_context.lesson_id,
+                    },
                 )
 
             # Step 2: Generate response using LLM
-            llm_result = self.llm_service.generate_response(chunks=chunks, query=search_context.query)
+            llm_result = self.llm_service.generate_response(
+                chunks=chunks,
+                query=search_context.query,
+            )
 
             if not llm_result.success:
                 return ChatResult.failure_result(
@@ -67,7 +73,6 @@ class ChatService:
         except Exception as e:
             logger.error(f"Error processing chat message: {e}")
             raise
-            # return ChatResult.failure_result(error=str(e), data={"query": search_context.query})
 
     def _retrieve_relevant_chunks(self, context: SearchContext) -> list[RetrievedChunk]:
         """Retrieve relevant chunks from vector store."""
@@ -81,21 +86,27 @@ class ChatService:
                 course_codes=course_codes,
                 lesson_ids=lesson_ids,
             )
-            logger.debug("Resultados de la busqueda vectorial", search_results)
+            logger.debug(f"Resultados de la busqueda vectorial {search_results}")
 
-            return [RetrievedChunk.from_search_result(result) for result in search_results]
+            return [
+                RetrievedChunk.from_search_result(result) for result in search_results
+            ]
 
         except Exception as e:
             logger.error(f"Error retrieving chunks: {e}")
             raise
 
     def _format_sources(self, chunks: list[RetrievedChunk]) -> list[str]:
-        """Format source information for chunks."""
         sources = []
         for chunk in chunks:
             if chunk.course_code and chunk.lesson_id:
-                source = f"{chunk.course_code} - Lesson {chunk.lesson_id}"
+                base_source = f"{chunk.course_code} - Lesson {chunk.lesson_id}"
+
                 if chunk.chunk_index is not None:
-                    source += f" (Part {chunk.chunk_index + 1})"
+                    part_info = f" (Part {chunk.chunk_index + 1})"
+                else:
+                    part_info = ""
+
+                source = f"{base_source}{part_info}\n{chunk.content}"
                 sources.append(source)
         return sources

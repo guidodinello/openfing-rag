@@ -168,3 +168,20 @@ services/
 │   ├── services/                 # Service layer (optional)
 │   └── README.md
 ```
+
+
+## Troubleshooting
+
+When using Faster Whisper or WhisperX with CUDA, you may encounter issues related to missing libraries. To resolve this, ensure that the `LD_LIBRARY_PATH` is set correctly to include the paths for the NVIDIA cuBLAS and cuDNN libraries.
+
+using cuda, aoviding missing libraries
+
+```bash
+❯ export LD_LIBRARY_PATH=`python3 -c 'import os; import nvidia.cublas.lib; import nvidia.cudnn.lib; print(os.path.dirname(nvidia.cublas.lib.__file__) + ":" + os.path.dirname(nvidia.cudnn.lib.__file__))'`
+
+❯ echo $LD_LIBRARY_PATH
+/home/guido/Desktop/fac/2024/proyecto-grado/tesis/backend/.venv/lib/python3.12/site-packages/nvidia/cublas/lib:/home/guido/Desktop/fac/2024/proyecto-grado/tesis/backend/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib
+```
+
+https://github.com/SYSTRAN/faster-whisper?tab=readme-ov-file#gpu
+https://github.com/SYSTRAN/faster-whisper/issues/516

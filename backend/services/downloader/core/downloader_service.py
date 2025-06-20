@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -41,6 +42,24 @@ class DownloaderService:
         self.course_repo = course_repo
         self.lesson_repo = lesson_repo
 
+        # Setup yt-dlp plugin path BEFORE any yt-dlp operations
+        self._setup_ytdlp_plugins()
+
+    def _setup_ytdlp_plugins(self):
+        """Setup yt-dlp plugin directory in Python path."""
+        project_root = Path(__file__).resolve().parent.parent.parent.parent.parent
+
+        if str(project_root) not in sys.path:
+            sys.path.insert(0, str(project_root))
+            logger.info(f"Added yt-dlp plugin path: {project_root}")
+
+            # Verify plugin exists
+            plugin_path = project_root / "yt_dlp_plugins" / "extractor" / "openfing.py"
+            if plugin_path.exists():
+                logger.info(f"✅ OpenFing extractor plugin found: {plugin_path}")
+            else:
+                logger.warning(f"⚠️  OpenFing extractor plugin not found: {plugin_path}")
+
     def download_course_lessons(
         self,
         course_code: str,
@@ -60,7 +79,12 @@ class DownloaderService:
         course_dir = output_dir / course_code
         course_dir.mkdir(parents=True, exist_ok=True)
 
-        stats = DownloadStats(total_lessons=len(lessons), downloaded=0, skipped=0, failed=0)
+        stats = DownloadStats(
+            total_lessons=len(lessons),
+            downloaded=0,
+            skipped=0,
+            failed=0,
+        )
         for lesson in lessons:
             result = self.__download_lesson(
                 course_code=course_code,
@@ -104,7 +128,9 @@ class DownloaderService:
         existing_files = list(course_dir.glob(f"{expected_filename}.*"))
         existing_files = [f for f in existing_files if f.suffix != ".part"]
         if existing_files:
-            logger.info(f"File already exists for lesson {lesson_number}: {existing_files[0].name}")
+            logger.info(
+                f"File already exists for lesson {lesson_number}: {existing_files[0].name}",
+            )
             return "skipped"
 
         ydl_opts = {
@@ -124,7 +150,7 @@ class DownloaderService:
             "quiet": True,
             "no_warnings": True,
             "ignoreerrors": False,
-            # "http_headers": get_rotating_headers(),
+            # "logger": logger,
         }
 
         try:
@@ -138,5 +164,12 @@ class DownloaderService:
             logger.error(f"Failed to download {lesson_number=}: {e}")
             return "failed"
 
-    def _get_course_lessons(self, course_code: str, lesson_numbers: list[int] | None) -> list[Lesson]:
-        return self.lesson_repo.get_downloadable_lessons_by_course_code(course_code, lesson_numbers)
+    def _get_course_lessons(
+        self,
+        course_code: str,
+        lesson_numbers: list[int] | None,
+    ) -> list[Lesson]:
+        return self.lesson_repo.get_downloadable_lessons_by_course_code(
+            course_code,
+            lesson_numbers,
+        )
