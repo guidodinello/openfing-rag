@@ -1,8 +1,8 @@
+import re
 from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from services.transcriber.core.transcriber import Transcriber
 from services.transcriber.schemas.domain import LessonScanResult, TranscriptionListResult, TranscriptionResult
 from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
 from shared.config.config import get_settings
@@ -13,6 +13,7 @@ from shared.database.repositories.transcription_repository import TranscriptionR
 from shared.database.repositories.vector_repository import VectorRepository
 from shared.logging.logger import get_logger
 from shared.utils import normalize_json
+from transcriber.core.asr.transcriber_protocol import TranscriberProtocol
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -26,16 +27,14 @@ class TranscriptionService:
         lesson_repo: LessonRepository,
         transcription_repo: TranscriptionRepository,
         vector_repo: VectorRepository,
+        transcriber: TranscriberProtocol,
     ):
         self.db = db
         self.course_repo = course_repo
         self.lesson_repo = lesson_repo
         self.transcription_repo = transcription_repo
         self.vector_repo = vector_repo
-
-        self._transcriber = Transcriber(
-            output_dir=str(settings.TRANSCRIBER.OUTPUT_DIR),
-        )
+        self._transcriber = transcriber
 
         self.media_base_path = settings.TRANSCRIBER.INPUT_DIR
 
@@ -47,8 +46,6 @@ class TranscriptionService:
         lesson_number: int,
         model_size: WhisperModelSize = WhisperModelSize.base,
         language: WhisperModelLanguage = WhisperModelLanguage.spanish,
-        ## TODO: usar este parametro para poder cambiar el model de embedding dinamicamente
-        embedding_model: str = settings.EMBEDDINGS.MODEL,
         force_retranscribe: bool = False,
         force_revectorize: bool = False,
     ) -> TranscriptionResult:
@@ -247,7 +244,7 @@ class TranscriptionService:
     def _scan_course_folder(self, course_folder: Path, course_code: str) -> list[dict]:
         """Scan folder for lesson files and return lesson data."""
         lessons = []
-        extensions = [".mp3", ".m4a", ".wav", ".flac", ".mp4", ".mkv", ".avi"]
+        extensions = [".mp3", ".m4a", ".wav", ".flac", ".mp4", ".mkv", ".avi", ".opus"]
 
         for file_path in course_folder.iterdir():
             if not file_path.is_file() or file_path.suffix.lower() not in extensions:
@@ -269,8 +266,6 @@ class TranscriptionService:
 
     def _extract_lesson_number(self, filename: str, course_code: str) -> int | None:
         """Extract lesson number from filename."""
-        import re
-
         filename = filename.lower()
         course_code = course_code.lower()
 
@@ -354,6 +349,7 @@ class TranscriptionService:
         language: WhisperModelLanguage,
     ) -> int:
         result = self._transcriber.transcribe(model_size=model_size, language=language, audio_path=media_file)
+
         metadata = self._build_transcription_metadata(result, media_file)
 
         ## TODO: we should consider, only update if it matches another one with the same
@@ -380,7 +376,7 @@ class TranscriptionService:
             "language": transcription_result.get("language"),
             # Content Metrics
             "duration_seconds": segments[-1].get("end", 0.0) if segments else 0.0,
-            "segments_count": len(segments),
+            "segments_count": transcription_result.get("segments_count", 0),
             "content_length": len(transcription_result.get("text", "")),
             # Processing Info
             "processing_time": transcription_result.get("processing_time", 0.0),
