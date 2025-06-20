@@ -13,9 +13,7 @@ from sqlalchemy.orm import Session
 from services.transcriber.core.chunker import Chunker
 from services.transcriber.core.embedder import Embedder
 from shared.config.config import Settings, get_settings
-from shared.database.repositories.transcription_repository import (
-    TranscriptionRepository,
-)
+from shared.database.repositories.transcription_repository import TranscriptionRepository
 from shared.logging.logger import get_logger
 from shared.utils import normalize_json
 
@@ -39,7 +37,7 @@ def generate_chunk_uuid(transcription_id: int, chunk_index: int) -> str:
     return str(uuid.uuid5(TRANSCRIPTION_NAMESPACE, seed))
 
 
-## TODO: should i call ChunkRepository?
+## TODO: should i call it ChunkRepository?
 class VectorRepository:
     """
     Repository for vector store operations using deterministic UUIDs.
@@ -56,9 +54,7 @@ class VectorRepository:
         self.db = db
         self.transcription_repo = TranscriptionRepository(db)
 
-        self._embedder = (
-            embedder or Embedder()
-        )  # TODO: the service should inject these params?
+        self._embedder = embedder or Embedder()  # TODO: the service should inject these params?
         self._chunker = chunker or Chunker()
 
         logger.info("Vector repository initialized successfully")
@@ -75,6 +71,9 @@ class VectorRepository:
             self._engine.init_vectorstore_table(
                 table_name=table_name,
                 vector_size=self.config.EMBEDDINGS.DIMENSION,
+                schema_name="rag",
+                id_column="uuid",
+                metadata_json_column="metadata",
             )
             logger.info(f"Created new vector store table: {table_name}")
         except sqlalchemy.exc.ProgrammingError as e:
@@ -89,6 +88,9 @@ class VectorRepository:
             engine=self._engine,
             table_name=table_name,
             embedding_service=self._embedder.model,
+            schema_name="rag",
+            id_column="uuid",
+            metadata_json_column="metadata",
         )
 
         logger.info(f"Initialized PGVectorStore with {table_name=}")
