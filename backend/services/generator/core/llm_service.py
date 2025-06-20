@@ -31,11 +31,12 @@ class LLMService:
     def __init__(self):
         settings = get_settings()
         self.client = InferenceClient(
-            provider="hf-inference",
+            provider="auto",
             api_key=settings.HUGGINGFACE_API_KEY,
         )
         self.model_name = (
-            "Qwen/Qwen2.5-72B-Instruct"  # Using a good Spanish-capable model
+            "mistralai/Mistral-7B-Instruct-v0.3"
+            # "Qwen/Qwen2.5-72B-Instruct"
         )
 
     def generate_response(self, chunks: list[RetrievedChunk], query: str) -> LLMResult:
@@ -46,8 +47,8 @@ class LLMService:
                 model=self.model_name,
                 messages=messages,
                 max_tokens=512,
-                temperature=0.7,
-                top_p=0.95,
+                temperature=0.3,
+                top_p=0.9,
                 stream=False,
             )
 
@@ -78,9 +79,7 @@ class LLMService:
         query: str,
     ) -> list[dict]:
         """Build messages for chat completion."""
-        context = "\n\n".join(
-            f"Fragmento {i + 1}:\n{chunk.content}" for i, chunk in enumerate(chunks)
-        )
+        context = "\n\n".join(f"Fragmento {i + 1}:\n{chunk.content}" for i, chunk in enumerate(chunks))
 
         return [
             {
