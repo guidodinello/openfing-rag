@@ -1,6 +1,5 @@
 import importlib.metadata
 import json
-import os
 import time
 from pathlib import Path
 from typing import Any
@@ -21,7 +20,6 @@ class FasterWhisperTranscriber:
 
     def __init__(self, output_dir: str):
         self.output_dir = Path(output_dir)
-        self._setup_cuda()
 
     @classmethod
     def _get_asr_model(cls, model_size: WhisperModelSize) -> WhisperModel:
@@ -38,6 +36,7 @@ class FasterWhisperTranscriber:
                 model_size.value,
                 device=settings.WHISPER.DEVICE,
                 download_root=cache_folder,
+                local_files_only=True,
             )
 
         return cls._models_cache[cache_key]
@@ -179,41 +178,3 @@ class FasterWhisperTranscriber:
             "duration": duration,
             "duration_after_vad": getattr(info, "duration_after_vad", duration),
         }
-
-    @classmethod
-    def _setup_cuda(cls) -> None:
-        """
-        Ensure CUDA is set up correctly for faster-whisper.
-        This sets the LD_LIBRARY_PATH environment variable for the current process.
-        """
-        if settings.WHISPER.DEVICE == "cuda":
-            try:
-                import nvidia.cublas.lib
-                import nvidia.cudnn.lib
-
-                cublas_path = os.path.dirname(nvidia.cublas.lib.__file__)
-                cudnn_path = os.path.dirname(nvidia.cudnn.lib.__file__)
-
-                new_lib_path = f"{cublas_path}:{cudnn_path}"
-
-                existing_path = os.environ.get("LD_LIBRARY_PATH", "")
-
-                if existing_path:
-                    # Check if our paths are already in LD_LIBRARY_PATH
-                    if cublas_path not in existing_path or cudnn_path not in existing_path:
-                        os.environ["LD_LIBRARY_PATH"] = f"{new_lib_path}:{existing_path}"
-                    else:
-                        logger.debug("CUDA library paths already in LD_LIBRARY_PATH")
-                else:
-                    os.environ["LD_LIBRARY_PATH"] = new_lib_path
-
-                logger.info("✅ Successfully set LD_LIBRARY_PATH for CUDA libraries")
-                logger.debug(f"CUDA paths: cuBLAS={cublas_path}, cuDNN={cudnn_path}")
-
-            except ImportError as e:
-                logger.warning(f"NVIDIA CUDA libraries not found: {e}")
-                logger.info("💡 Install with: uv add nvidia-cublas-cu11 nvidia-cudnn-cu11")
-                logger.info("🔄 Falling back to CPU or hoping system libraries work")
-            except Exception as e:
-                logger.error(f"Error setting up CUDA libraries: {e}")
-                logger.info("🔄 Continuing without explicit CUDA setup")

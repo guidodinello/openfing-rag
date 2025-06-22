@@ -38,7 +38,7 @@ class Embedder:
             cls._models_cache[cache_key] = langchain_huggingface.HuggingFaceEmbeddings(
                 model_name=model_name,
                 model_kwargs={"device": settings.EMBEDDINGS.DEVICE},
-                cache_folder=cache_folder,
+                cache_folder=str(cache_folder),
                 encode_kwargs=cls._model_custom_config(),
             )
 
