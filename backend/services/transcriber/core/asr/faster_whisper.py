@@ -36,7 +36,6 @@ class FasterWhisperTranscriber:
                 model_size.value,
                 device=settings.WHISPER.DEVICE,
                 download_root=cache_folder,
-                local_files_only=True,
             )
 
         return cls._models_cache[cache_key]

@@ -1,11 +1,12 @@
-from typing import Annotated
-
 import typer
 import uvicorn
 from rich.console import Console
 from rich.table import Table
 
-from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
+from services.transcriber.schemas.enums import (
+    WhisperModelLanguage,
+    WhisperModelSize,
+)
 from shared.config.config import get_settings
 from shared.database.service_dependencies import create_transcription_service
 from shared.database.session import get_db_session
@@ -170,7 +171,8 @@ def list_transcriptions(
         table.add_column("Course", width=8)
         table.add_column("Lesson", width=6)
         table.add_column("Title", width=30, overflow="ellipsis", no_wrap=True)
-        table.add_column("Model", width=8)
+        table.add_column("ASR Model Size", width=8)
+        table.add_column("ASR Model Package", width=15)
         table.add_column("Created", width=10)
         table.add_column("ID", width=6, style="dim", justify="right")
 
@@ -180,127 +182,12 @@ def list_transcriptions(
                 t["course_code"],
                 str(t["lesson_number"]),
                 t["lesson_title"],
-                str(t["model_size"]),
+                t["model_size"],
+                t["package"],
                 t["created_at"][:10] if t["created_at"] else "N/A",
                 str(t["id"]),
             )
         console.print(table)
-
-
-@app.command(name="scan")
-@handle_cli_errors(operation_name="Scan available lessons")
-def scan_available_lessons(
-    course_code: str = typer.Argument(..., help="Course code to scan"),
-) -> None:
-    """Scan for available lesson files in course directory."""
-    console.print(f"🔍 Scanning for {course_code} lesson files...", style="blue")
-
-    with get_db_session() as db:
-        service = create_transcription_service(db)
-
-        result = service.find_available_lessons(course_code)
-
-        if not result.success:
-            console.print(f"❌ Error: {result.message}", style="red")
-            console.print(
-                f"📁 Looking in: {service.media_base_path / course_code}",
-                style="dim",
-            )
-            return
-
-        if not result.lessons:
-            console.print(
-                f"❌ No lesson files found for course {course_code}",
-                style="red",
-            )
-            console.print(
-                f"📁 Looking in: {service.media_base_path / course_code}",
-                style="dim",
-            )
-            return
-
-        console.print(f"📋 Found {len(result.lessons)} lesson files:", style="green")
-
-        for lesson in result.lessons:
-            size_mb = lesson["file_size"] / (1024 * 1024)
-            console.print(
-                f"  📄 Lesson {lesson['lesson_number']:2d}: {lesson['filename']} ({size_mb:.1f} MB)",
-                style="cyan",
-            )
-
-
-@app.command(name="get")
-@handle_cli_errors(operation_name="Get transcription")
-def get_transcription(
-    course_code: str = typer.Argument(..., help="Course code"),
-    lesson_number: int = typer.Argument(..., help="Lesson number"),
-    model_size: Annotated[
-        WhisperModelSize | None,
-        typer.Option(case_sensitive=False, help="Filter by model size"),
-    ] = None,
-    show_content: bool = typer.Option(
-        False,
-        "--content",
-        help="Show transcription content",
-    ),
-) -> None:
-    with get_db_session() as db:
-        service = create_transcription_service(db)
-
-        result = service.get_transcription(course_code, lesson_number, model_size)
-
-        if not result.success:
-            console.print(f"❌ {result.message}", style="red")
-            raise typer.Exit(1)
-
-        data = result.data
-        lesson_info = data["lesson"]
-        metadata = data["metadata"]
-
-        console.print(f"📝 Transcription ID: {data['id']}", style="cyan")
-        console.print(f"📚 Course: {lesson_info['course_code']}")
-        console.print(f"📖 Lesson: {lesson_info['number']} - {lesson_info['title']}")
-        console.print(f"🎤 Model: {metadata.get('model_size', 'unknown')}")
-        console.print(f"🌍 Language: {metadata.get('language', 'unknown')}")
-        console.print(f"📏 Content length: {len(data['content'])} characters")
-
-        is_vectorized = metadata.get("vectorized", False)
-        vectorized_status = "✅ Vectorized" if is_vectorized else "⏳ Not vectorized"
-        console.print(f"🔍 Status: {vectorized_status}")
-
-        if show_content:
-            console.print("\n📄 Content:", style="bold")
-            console.print(
-                (
-                    data["content"][:500] + "..."
-                    if len(data["content"]) > 500
-                    else data["content"]
-                ),
-            )
-
-
-@app.command(name="vectorize")
-@handle_cli_errors(operation_name="Vectorize transcription")
-def vectorize_transcription(
-    transcription_id: int = typer.Argument(..., help="Transcription ID to vectorize"),
-) -> None:
-    """Vectorize a specific transcription."""
-    ## TODO: change to accept lesson list like transcribe
-    with get_db_session() as db:
-        service = create_transcription_service(db)
-
-        result = service.vectorize_transcription(transcription_id)
-
-        if result.success:
-            console.print(f"✅ {result.message}", style="green")
-            if result.data and "vector_chunks" in result.data:
-                console.print(
-                    f"🔍 Created {result.data['vector_chunks']} vector chunks",
-                    style="cyan",
-                )
-        else:
-            console.print(f"❌ {result.message}", style="red")
-            raise typer.Exit(1)
 
 
 @app.command(name="start")

@@ -27,3 +27,29 @@ def normalize_json(data: dict[str, Any], separator: str = "_", prefix: str = "")
             result[new_key] = value
 
     return result
+
+
+def parse_cli_list_param(param: str) -> list[int]:
+    """
+    Parse a string into list of integers.
+
+    Examples:
+    uv run openchat-downloader agpi --lessons=1,3,5
+        "1,3,5" -> [1, 3, 5]
+        "1-5" -> [1, 2, 3, 4, 5]
+        "1,3-5,7" -> [1, 3, 4, 5, 7]
+    """
+    if not param:
+        return []
+
+    elements: set[int] = set()
+
+    for part in param.split(","):
+        part = part.strip()
+        if "-" in part:
+            start, end = map(int, part.split("-"))
+            elements.update(range(start, end + 1))
+        else:
+            elements.add(int(part))
+
+    return sorted(elements)

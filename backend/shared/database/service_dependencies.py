@@ -35,7 +35,6 @@ http_client = get_http_client()
 def create_transcription_service(db: Session) -> TranscriptionService:
     return TranscriptionService(
         db=db,
-        course_repo=CourseRepository(db),
         lesson_repo=LessonRepository(db),
         transcription_repo=TranscriptionRepository(db),
         vector_repo=VectorRepository(settings, db),
@@ -76,7 +75,6 @@ def create_chat_service(db: Session) -> ChatService:
 
 
 def get_transcription_service(
-    course_repo: CourseRepositoryDep,
     lesson_repo: LessonRepositoryDep,
     transcription_repo: TranscriptionRepositoryDep,
     vector_repo: VectorRepositoryDep,
@@ -84,7 +82,6 @@ def get_transcription_service(
 ) -> TranscriptionService:
     return TranscriptionService(
         db=db,
-        course_repo=course_repo,
         lesson_repo=lesson_repo,
         transcription_repo=transcription_repo,
         vector_repo=vector_repo,

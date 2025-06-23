@@ -4,7 +4,6 @@ import typer
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from sqlalchemy import text
 
 from shared.config.config import get_settings
 from shared.database.repository_dependencies import get_course_repository
@@ -180,71 +179,6 @@ def database_info() -> None:
     console.print(table)
 
 
-@app.command("check")
-@handle_cli_errors(operation_name="Database connection check")
-def check_connection() -> None:
-    console.print("🔌 Testing database connection...", style="blue")
-
-    try:
-        with get_db_session() as db:
-            result = db.execute(text("SELECT 1 as test")).fetchone()
-            if not result or result[0] != 1:
-                console.print("❌ Database connection test failed!", style="red")
-                raise typer.Exit(1)
-            else:
-                console.print("✅ Database connection successful!", style="green")
-
-    except Exception as e:
-        console.print(f"❌ Database connection failed: {e}", style="red")
-        raise typer.Exit(1) from e
-
-
-@app.command("test-vector")
-@handle_cli_errors(operation_name="Vector store test")
-def test_vector_store() -> None:
-    """Test vector store connection and functionality."""
-    console.print("🔍 Testing vector store...", style="blue")
-
-    try:
-        from shared.database.vectorstore import VectorStore
-
-        vector_store = VectorStore(settings)
-        info = vector_store.get_collection_info()
-
-        table = Table(title="Vector Store Information")
-        table.add_column("Property", style="cyan")
-        table.add_column("Value", style="magenta")
-
-        for key, value in info.items():
-            table.add_row(key.replace("_", " ").title(), str(value))
-
-        console.print(table)
-
-        test_docs = [
-            {
-                "text": "This is a test document about machine learning.",
-                "metadata": {"test": True, "topic": "ml"},
-            },
-        ]
-        doc_ids = vector_store.ingest_chunks(test_docs)
-        console.print(f"✅ Added test document with ID: {doc_ids[0]}", style="green")
-
-        results = vector_store.similarity_search("machine learning", k=1)
-        if results and len(results) > 0:
-            console.print("✅ Vector search working!", style="green")
-
-            vector_store.delete_by_ids(doc_ids)
-            console.print("✅ Test document cleaned up", style="green")
-        else:
-            console.print("❌ Vector search failed!", style="red")
-
-    except ImportError as e:
-        console.print(f"❌ Vector store import failed: {e}", style="red")
-        console.print("💡 Make sure langchain-postgres is installed", style="yellow")
-    except Exception as e:
-        console.print(f"❌ Vector store test failed: {e}", style="red")
-
-
 @app.command("courses-codes")
 # @handle_cli_errors(operation_name="List course codes")
 def list_course_codes(
@@ -253,45 +187,22 @@ def list_course_codes(
         help="Output format: 'space', 'comma', 'newline', 'table'",
         case_sensitive=False,
     ),
-    active_only: bool = typer.Option(
-        False,
-        "--active-only",
-        help="Only show courses with lessons that have video URLs",
-    ),
 ) -> None:
     """List all course codes in various formats for use with other commands."""
 
     with get_db_session() as db:
         course_repo = get_course_repository(db)
-        courses = course_repo.get_all(limit=1000)  # Get all courses
+        courses = course_repo.get_all(limit=500)
 
         if not courses:
             console.print("❌ No courses found in database", style="red")
             raise typer.Exit(1)
 
-        # Filter active courses if requested
-        if active_only:
-            # This would require a join or additional method
-            # For now, just show all courses
-            console.print(
-                "ℹ️ Note: --active-only filtering not yet implemented",
-                style="yellow",
-            )
-
         codes = [course.code for course in courses]
 
         if format.lower() == "space":
-            # Perfect for command substitution: $(uv run db courses list-codes)
             output = " ".join(codes)
             console.print(output, highlight=False)
-
-        elif format.lower() == "comma":
-            output = ",".join(codes)
-            console.print(output, highlight=False)
-
-        elif format.lower() == "newline":
-            for code in codes:
-                console.print(code, highlight=False)
 
         elif format.lower() == "table":
             table = Table(title=f"📚 Course Codes ({len(codes)} total)")
