@@ -13,54 +13,28 @@ services:
             - scrapping
             - database
 
-    generative:
+    backend:
         build:
-            context: ../backend/generative/
+            context: ../backend
             dockerfile: Dockerfile
         ports:
             - "8001:8000"
         networks:
             - app-network
         volumes:
-            - ../backend/generative/.env:/app/.env:ro
+            - ../backend/.env:/app/.env:ro
         depends_on:
             database:
                 condition: service_healthy
 
-    transcriptions:
-        build:
-            context: ../backend/transcriptions
-            dockerfile: Dockerfile
-        ports:
-            - "8002:8000"
-        networks:
-            - app-network
-        environment:
-            - DATABASE_URL=postgres://user:password@database:5432/mydb
-        depends_on:
-            - database
-
-    scrapping:
-        build:
-            context: ../backend/scraping
-            dockerfile: Dockerfile
-        ports:
-            - "8003:8000"
-        networks:
-            - app-network
-        environment:
-            - DATABASE_URL=postgres://user:password@database:5432/mydb
-        depends_on:
-            - database
-
     database:
         image: pgvector/pgvector:pg17
         ports:
-            - "5432:5432"
+            - "${DATABASE__PORT:-5432}:5432"
         environment:
-            POSTGRES_USER: ${DATABASE_USER}
-            POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-            POSTGRES_DB: ${DATABASE_DB}
+            POSTGRES_USER: ${DATABASE__USER}
+            POSTGRES_PASSWORD: ${DATABASE__PASSWORD}
+            POSTGRES_DB: ${DATABASE__DB}
 
             # Optimizations for pgvector
             POSTGRES_MAX_CONNECTIONS: 100
@@ -70,7 +44,7 @@ services:
             # - All-MiniLM-L6-v2: 384
             # - text-embedding-3-small: 1536
             # - intfloat/multilingual-e5-base: 768
-            PG_VECTOR_DIMENSION: ${EMBEDDINGS_DIMENSION}
+            PG_VECTOR_DIMENSION: ${EMBEDDINGS__DIMENSION}
 
         volumes:
             - postgres_data:/var/lib/postgresql/data

@@ -10,39 +10,12 @@ ENV PYTHONUNBUFFERED=1 \
 # Instalar UV
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Stage de desarrollo
-FROM base AS development
-
-WORKDIR /app
-
-# Instalar dependencias del sistema
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    curl \
-    git \
-    libpq-dev \
-    postgresql-client \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copiar archivos de configuración UV
-COPY pyproject.toml ./
-
-# Instalar dependencias incluyendo dev
-RUN uv sync --all-extras
-
-# Copiar código fuente
-COPY . .
-
-# Comando por defecto para desarrollo
-CMD ["uv", "run", "openchat", "generator", "dev"]
-
 # Stage de producción
 FROM base AS production
 
 WORKDIR /app
 
-# Instalar solo dependencias de runtime necesarias
+# Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     postgresql-client \
@@ -50,14 +23,20 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar archivos de configuración
-COPY pyproject.toml ./
+# Copiar archivos de configuración primero
+COPY pyproject.toml uv.lock README.md ./
 
-# Instalar solo dependencias de producción
-RUN uv sync --frozen --no-dev
+# Crear estructura mínima requerida para que Hatchling funcione
+RUN mkdir -p services shared
 
-# Copiar código fuente
+# Instalar dependencias sin instalar el paquete local aún
+RUN uv sync --frozen --no-dev --no-install-project
+
+# Ahora copiar todo el código fuente
 COPY . .
+
+# Instalar el paquete local
+RUN uv pip install --no-deps .
 
 # Crear usuario no-root
 RUN useradd --create-home --shell /bin/bash appuser \
