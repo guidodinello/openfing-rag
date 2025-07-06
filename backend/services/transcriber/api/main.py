@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.middleware import setup_middlewares
 from transcriber.api.router import api_router
 

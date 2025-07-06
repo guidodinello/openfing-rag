@@ -5,7 +5,7 @@ from typing import Any
 import langchain_huggingface
 from langchain_core.embeddings import Embeddings
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)

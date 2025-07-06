@@ -1,7 +1,6 @@
 from shared.database.factories.lesson import LessonFactory
 from shared.database.models.rag.course import Course
-from shared.database.repositories.course_repository import CourseRepository
-from shared.database.repositories.lesson_repository import LessonRepository
+from shared.database.repositories import CourseRepository, LessonRepository
 from shared.database.seeders.base import BaseSeeder
 
 

@@ -3,15 +3,14 @@ import uvicorn
 from rich.console import Console
 from rich.table import Table
 
-from services.transcriber.schemas.enums import (
-    WhisperModelLanguage,
-    WhisperModelSize,
-)
+from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
 from shared.config.config import get_settings
 from shared.database.service_dependencies import create_transcription_service
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
 from shared.logging.logger import get_logger
+from transcriber.core.asr.faster_whisper import FasterWhisperTranscriber
+from transcriber.core.transcription_service import TranscriptionService
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -219,3 +218,62 @@ def start_dev_server() -> None:
         reload=True,
         log_level="debug",
     )
+
+
+@app.command(name="transcribe-only")
+@handle_cli_errors(operation_name="File-only transcription")
+def transcribe_only(
+    course_code: str = typer.Argument(..., help="Course code"),
+    lesson_number: int | None = typer.Argument(
+        None,
+        help="Lesson number (optional - if not provided, transcribes all lessons)",
+    ),
+    model_size: WhisperModelSize = typer.Option(
+        settings.WHISPER.MODEL,
+        help="Whisper model size",
+    ),
+    language: WhisperModelLanguage = typer.Option(
+        WhisperModelLanguage.spanish,
+        help="Language",
+    ),
+) -> None:
+    """Transcribe course lesson(s) without database - just generate JSON files."""
+
+    # Create transcriber directly without DB dependencies
+    transcriber = FasterWhisperTranscriber(settings.TRANSCRIBER.OUTPUT_DIR)
+
+    # Create a minimal service instance
+    service = TranscriptionService(
+        db=None,
+        lesson_repo=None,
+        transcription_repo=None,
+        vector_repo=None,
+        transcriber=transcriber,
+    )
+
+    if lesson_number is not None:
+        console.print(f"🎤 Transcribing {course_code} lesson {lesson_number}...", style="blue")
+        result = service.only_transcribe(course_code, lesson_number, model_size, language)
+
+        if result.success:
+            console.print(f"✅ {result.message}", style="green")
+        else:
+            console.print(f"❌ {result.message}", style="red")
+    else:
+        scan_result = service.find_available_lessons(course_code)
+        if not scan_result.success or not scan_result.lessons:
+            console.print(f"❌ No lesson files found for course {course_code}", style="red")
+            return
+
+        lessons = scan_result.lessons
+        console.print(f"📋 Found {len(lessons)} lessons to transcribe", style="green")
+
+        for lesson in lessons:
+            lesson_num = lesson["lesson_number"]
+            console.print(f"🎤 Transcribing lesson {lesson_num}...", style="blue")
+
+            result = service.only_transcribe(course_code, lesson_num, model_size, language)
+            if result.success:
+                console.print(f"✅ Success: {result.message}", style="green")
+            else:
+                console.print(f"❌ Failed: {result.message}", style="red")

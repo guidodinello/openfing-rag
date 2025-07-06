@@ -3,7 +3,7 @@ import uvicorn
 from rich.console import Console
 from rich.table import Table
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.database.service_dependencies import create_scraping_service
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors

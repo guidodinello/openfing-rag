@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from huggingface_hub import InferenceClient
 
 from services.generator.schemas.domain import RetrievedChunk
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)

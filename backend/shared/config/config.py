@@ -26,7 +26,7 @@ class LoggingSettings(BaseModel):
         default="INFO",
         description="Logging level",
     )
-    DIR: Path = Field(default=Path("logs"), description="Path to log files directory")
+    DIR: Path = Field(default=Path("./default_logs"), description="Path to log files directory")
 
 
 class DatabaseSettings(BaseModel):
@@ -46,7 +46,7 @@ class DatabaseSettings(BaseModel):
 
 class DownloaderSettings(BaseModel):
     OUTPUT_DIR: Path = Field(
-        default=Path("audios"),
+        default=Path("./default_audios"),
         description="Base directory for downloaded media files",
     )
     WORKERS: int = Field(default=4, description="Number of concurrent workers", ge=1)
@@ -65,11 +65,11 @@ class ScraperSettings(BaseModel):
 class TranscriberSettings(BaseModel):
     PORT: int = Field(default=8001, description="Server port")
     INPUT_DIR: Path = Field(
-        default=Path("audios"),
+        default=Path("./default_audios"),
         description="Base path to look for audio files",
     )
     OUTPUT_DIR: Path = Field(
-        default=Path("transcriptions"),
+        default=Path("./default_transcriptions"),
         description="Directory to save transcription JSON files",
     )
 
@@ -80,7 +80,7 @@ class EmbeddingsSettings(BaseModel):
         description="Embeddings model name",
     )
     DIMENSION: int = Field(default=384, description="Embeddings dimensions")
-    CACHE_DIR: Path | None = Field(default=Path("models_cache"), description="Model cache directory")
+    CACHE_DIR: Path | None = Field(default=Path("./default_models_cache"), description="Model cache directory")
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
         default="auto",
         description="Device to run embeddings on",
@@ -94,7 +94,7 @@ class EmbeddingsSettings(BaseModel):
 
 class WhisperSettings(BaseModel):
     MODEL: str = Field(default="tiny", description="Whisper model name")
-    CACHE_DIR: Path | None = Field(default=Path("models_cache"), description="Model cache directory")
+    CACHE_DIR: Path | None = Field(default=Path("./default_models_cache"), description="Model cache directory")
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
         default="auto",
         description="Device to run whisper on",
@@ -178,7 +178,7 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         frozen=True,
         extra="forbid",
-        env_nested_delimiter="_",
+        env_nested_delimiter="__",
     )
 
     @model_validator(mode="before")

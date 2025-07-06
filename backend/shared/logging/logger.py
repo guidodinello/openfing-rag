@@ -4,7 +4,7 @@ from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 
 CONSOLE_FORMAT = "%(levelname)s | %(name)s | %(message)s"
 FILE_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(funcName)s:%(lineno)d | %(message)s"

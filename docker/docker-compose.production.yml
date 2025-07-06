@@ -1,0 +1,144 @@
+version: "3.8"
+
+services:
+    # Base de datos con pgvector
+    database:
+        image: pgvector/pgvector:pg17
+        restart: unless-stopped
+        # 🔒 NO exponer puerto exterior en producción
+        # ports: - "${DATABASE__PORT:-5432}:5432"  # Solo para desarrollo
+        environment:
+            POSTGRES_USER: ${DATABASE__USER}
+            POSTGRES_PASSWORD: ${DATABASE__PASSWORD}
+            POSTGRES_DB: ${DATABASE__DB}
+            # Optimizaciones pgvector
+            POSTGRES_MAX_CONNECTIONS: 100
+            PGDATA: /var/lib/postgresql/data/pgdata
+            POSTGRES_SHARED_PRELOAD_LIBRARIES: vector
+            PG_VECTOR_DIMENSION: ${EMBEDDINGS__DIMENSION}
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - backend
+        healthcheck:
+            test:
+                [
+                    "CMD-SHELL",
+                    "pg_isready -U ${DATABASE__USER} -d ${DATABASE__DB}",
+                ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 30s
+
+    # Backend FastAPI
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+            target: production
+        restart: unless-stopped
+        ports:
+            # 🔒 CRÍTICO: Solo bind a localhost
+            - "127.0.0.1:8000:8000"
+        environment:
+            # Database
+            - DATABASE__USER=${DATABASE__USER}
+            - DATABASE__PASSWORD=${DATABASE__PASSWORD}
+            - DATABASE__DB=${DATABASE__DB}
+            - DATABASE__HOST=database
+            - DATABASE__PORT=5432
+
+            # App settings
+            - DEBUG=false
+            - LOG__LEVEL=info
+            - HOST=0.0.0.0
+            - PORT=8000
+
+            # Models
+            - EMBEDDINGS__DIMENSION=${EMBEDDINGS__DIMENSION}
+            - WHISPER__MODEL=${WHISPER__MODEL}
+            - WHISPER__DEVICE=${WHISPER__DEVICE}
+
+            # External services
+            - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY}
+            - LANGSMITH_API_KEY=${LANGSMITH_API_KEY}
+        volumes:
+            - ./backend/logs:/app/logs
+            - ./audios:/app/audios
+            - ./transcriptions:/app/transcriptions
+            - ./models_cache:/app/models_cache
+            - /tmp:/tmp # Para archivos temporales
+        depends_on:
+            database:
+                condition: service_healthy
+        networks:
+            - backend
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 60s
+
+    # Frontend React
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+            target: production
+        restart: unless-stopped
+        # 🔒 NO exponer directamente, usar nginx
+        environment:
+            - REACT_APP_API_URL=http://localhost/api
+        networks:
+            - frontend
+        depends_on:
+            - backend
+
+    # Nginx como proxy reverso y servidor estático
+    nginx:
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+            - ./docker/ssl:/etc/ssl/private:ro
+            - nginx_cache:/var/cache/nginx
+        depends_on:
+            - backend
+            - frontend
+        networks:
+            - frontend
+            - backend
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "wget",
+                    "--quiet",
+                    "--tries=1",
+                    "--spider",
+                    "http://localhost/health",
+                ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+
+volumes:
+    postgres_data:
+        driver: local
+    redis_data:
+        driver: local
+    nginx_cache:
+        driver: local
+
+networks:
+    backend:
+        driver: bridge
+        internal: true # 🔒 Red interna para servicios de backend
+    frontend:
+        driver: bridge
