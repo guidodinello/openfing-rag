@@ -7,8 +7,7 @@ from sqlalchemy.orm import Session
 
 from downloader.schemas.domain import DownloadResult, DownloadStats
 from shared.database.models.rag.lesson import Lesson
-from shared.database.repositories.course_repository import CourseRepository
-from shared.database.repositories.lesson_repository import LessonRepository
+from shared.database.repositories import CourseRepository, LessonRepository
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)

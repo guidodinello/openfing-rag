@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from generator.api.router import api_router
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.middleware import setup_middlewares
 
 settings = get_settings()

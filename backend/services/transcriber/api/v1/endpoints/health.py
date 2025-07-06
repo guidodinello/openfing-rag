@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 
 settings = get_settings()
 

@@ -10,11 +10,8 @@ from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
 from services.scraper.core.scraping_service import ScrapingService
 from services.transcriber.core.asr.faster_whisper import FasterWhisperTranscriber
 from services.transcriber.core.transcription_service import TranscriptionService
-from shared.config.config import get_settings
-from shared.database.repositories.course_repository import CourseRepository
-from shared.database.repositories.lesson_repository import LessonRepository
-from shared.database.repositories.transcription_repository import TranscriptionRepository
-from shared.database.repositories.vector_repository import VectorRepository
+from shared.config import get_settings
+from shared.database.repositories import CourseRepository, LessonRepository, TranscriptionRepository, VectorRepository
 from shared.database.repository_dependencies import (
     CourseRepositoryDep,
     LessonRepositoryDep,
@@ -23,6 +20,7 @@ from shared.database.repository_dependencies import (
 )
 from shared.database.session import get_db
 from shared.http.client import get_http_client
+from transcriber.core.base_transcriber import BaseTranscriptionService
 
 settings = get_settings()
 http_client = get_http_client()
@@ -30,6 +28,14 @@ http_client = get_http_client()
 # ============================================================================
 # SERVICE FACTORY FUNCTIONS (CLI/Script contexts)
 # ============================================================================
+
+
+def create_no_db_transcription_service() -> BaseTranscriptionService:
+    return BaseTranscriptionService(
+        FasterWhisperTranscriber(
+            output_dir=str(settings.TRANSCRIBER.OUTPUT_DIR),
+        ),
+    )
 
 
 def create_transcription_service(db: Session) -> TranscriptionService:

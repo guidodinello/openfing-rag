@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 
 from .logging import RequestLoggingMiddleware
 from .timing import TimingMiddleware

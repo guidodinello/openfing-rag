@@ -1,10 +1,8 @@
 from sqlalchemy import and_, update
 from sqlalchemy.orm import Session, joinedload
 
-from shared.database.models.rag.course import Course
-from shared.database.models.rag.lesson import Lesson
-from shared.database.models.rag.transcription import Transcription
-from shared.database.repositories.base_repository import BaseRepository
+from shared.database.models import Course, Lesson, Transcription
+from shared.database.repositories import BaseRepository
 from transcriber.schemas.enums import WhisperModelSize
 
 
@@ -39,8 +37,7 @@ class TranscriptionRepository(BaseRepository[Transcription]):
 
         if model_size:
             query = query.filter(
-                self.model.transcription_metadata["model_size"].astext
-                == model_size.value,
+                self.model.transcription_metadata["transcriber_model_size"].astext == model_size.value,
             )
 
         return query.order_by(self.model.created_at.desc()).first()
@@ -65,10 +62,8 @@ class TranscriptionRepository(BaseRepository[Transcription]):
         )
 
         if model_size:
-            query = query.filter(
-                self.model.transcription_metadata["model_size"].astext
-                == model_size.value,
-            )
+            # maybe define a pydantic model for metadata
+            query = query.filter(self.model.transcription_metadata["transcriber_model_size"].astext == model_size.value)
 
         return query.order_by(self.model.created_at.desc()).first()
 

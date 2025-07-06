@@ -3,12 +3,14 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from shared.config.config import get_settings
-from shared.database.repositories.course_repository import CourseRepository
-from shared.database.repositories.lesson_repository import LessonRepository
-from shared.database.repositories.transcription_repository import TranscriptionRepository
-from shared.database.repositories.user_repository import UserRepository
-from shared.database.repositories.vector_repository import VectorRepository
+from shared.config import get_settings
+from shared.database.repositories import (
+    CourseRepository,
+    LessonRepository,
+    TranscriptionRepository,
+    UserRepository,
+    VectorRepository,
+)
 from shared.database.session import get_db
 
 settings = get_settings()

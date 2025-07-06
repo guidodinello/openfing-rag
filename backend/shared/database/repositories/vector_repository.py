@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 from services.transcriber.core.chunker import Chunker
 from services.transcriber.core.embedder import Embedder
 from shared.config.config import Settings, get_settings
-from shared.database.repositories.transcription_repository import TranscriptionRepository
+from shared.database.repositories import TranscriptionRepository
 from shared.logging.logger import get_logger
 from shared.utils import normalize_json
 
@@ -221,7 +221,7 @@ class VectorRepository:
                 logger.debug(f"Transcription {transcription_id} not found")
                 return True
 
-            # TODO: improve this, dont guess, query DB
+            # TODO: improve this, dont guess, query DB. probably storing the transcription id in the chunk metadata
             # Calculate all possible chunk UUIDs for this transcription
             # We need to estimate max chunks or query the vector store
             max_chunks = 100  # Reasonable upper bound

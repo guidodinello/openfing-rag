@@ -10,7 +10,7 @@ from collections.abc import Sequence
 import sqlalchemy as sa
 from alembic import op
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.database.migrations.helpers import (
     add_id_column,
     add_jsonb_metadata_column,

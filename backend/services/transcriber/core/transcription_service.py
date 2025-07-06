@@ -3,15 +3,8 @@ from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from services.transcriber.schemas.domain import (
-    LessonScanResult,
-    TranscriptionListResult,
-    TranscriptionResult,
-)
-from services.transcriber.schemas.enums import (
-    WhisperModelLanguage,
-    WhisperModelSize,
-)
+from services.transcriber.schemas.domain import LessonScanResult, TranscriptionListResult, TranscriptionResult
+from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
 from shared.config.config import get_settings
 from shared.database.models.rag.lesson import Lesson
 from shared.database.models.rag.transcription import Transcription
@@ -43,6 +36,53 @@ class TranscriptionService:
         self.media_base_path = settings.TRANSCRIBER.INPUT_DIR
 
     # ==== PRIMARY WORKFLOWS ====
+
+    def only_transcribe(
+        self,
+        course_code: str,
+        lesson_number: int,
+        model_size: WhisperModelSize = WhisperModelSize.base,
+        language: WhisperModelLanguage = WhisperModelLanguage.spanish,
+    ) -> TranscriptionResult:
+        """Transcribe audio file without database operations - just generate JSON files."""
+        try:
+            media_file = self._find_media_file(course_code, lesson_number)
+            if not media_file:
+                logger.error(f"No media file found for {course_code} lesson {lesson_number}")
+                return TranscriptionResult.failure_result(
+                    f"No media file found for {course_code} lesson {lesson_number}",
+                    data={"course_code": course_code, "lesson_number": lesson_number},
+                )
+
+            # Perform transcription
+            result = self._transcriber.transcribe(model_size=model_size, language=language, audio_path=media_file)
+
+            # Build metadata (but don't save to DB)
+            _ = self._build_transcription_metadata(result, media_file)
+
+            logger.info(f"Transcription completed for {course_code} lesson {lesson_number}")
+            logger.info(f"Text length: {len(result['text'])} characters")
+            logger.info(f"Processing time: {result.get('processing_time', 0):.2f}s")
+
+            return TranscriptionResult.success_result(
+                message="Transcription completed (file-only mode)",
+                transcription_id=None,  # No DB ID
+                data={
+                    "course_code": course_code,
+                    "lesson_number": lesson_number,
+                    "transcribed": True,
+                    "vectorized": False,
+                    "text_length": len(result["text"]),
+                    "processing_time": result.get("processing_time", 0),
+                },
+            )
+
+        except Exception as e:
+            logger.error(f"Transcription failed: {e}")
+            return TranscriptionResult.failure_result(
+                f"Transcription failed: {str(e)}",
+                data={"course_code": course_code, "lesson_number": lesson_number},
+            )
 
     def transcribe_lesson(
         self,
@@ -352,6 +392,7 @@ class TranscriptionService:
         lessons = []
         extensions = [".mp3", ".m4a", ".wav", ".flac", ".mp4", ".mkv", ".avi", ".opus"]
 
+        logger.debug(f"Scanning folder {course_folder}")
         for file_path in course_folder.iterdir():
             if not file_path.is_file() or file_path.suffix.lower() not in extensions:
                 continue
@@ -367,6 +408,7 @@ class TranscriptionService:
                         "extension": file_path.suffix,
                     },
                 )
+                logger.debug(f"Found lesson {lesson_number} in {file_path}")
 
         return sorted(lessons, key=lambda x: x["lesson_number"])
 

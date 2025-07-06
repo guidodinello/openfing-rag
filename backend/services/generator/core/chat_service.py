@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from services.generator.core.llm_service import LLMService
 from services.generator.schemas.domain import ChatResult, RetrievedChunk, SearchContext
-from shared.database.repositories.vector_repository import VectorRepository
+from shared.database.repositories import VectorRepository
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)
@@ -88,9 +88,7 @@ class ChatService:
             )
             logger.debug(f"Resultados de la busqueda vectorial {search_results}")
 
-            return [
-                RetrievedChunk.from_search_result(result) for result in search_results
-            ]
+            return [RetrievedChunk.from_search_result(result) for result in search_results]
 
         except Exception as e:
             logger.error(f"Error retrieving chunks: {e}")

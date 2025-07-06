@@ -5,7 +5,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.database.repository_dependencies import get_course_repository
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from shared.database.models.rag.course import Course
 from shared.database.models.rag.lesson import Lesson
-from shared.database.repositories.base_repository import BaseRepository
+from shared.database.repositories import BaseRepository
 
 
 class LessonRepository(BaseRepository[Lesson]):
