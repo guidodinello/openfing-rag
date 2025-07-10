@@ -182,16 +182,19 @@ class Settings(BaseSettings):
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
 
     # API Documentation URLs
-    API_V1_URL: str = Field(default="/api/v1", description="API v1 prefix path")
     DOCS_URL: str | None = Field(default="/docs", description="Swagger UI documentation endpoint")
     REDOC_URL: str | None = Field(default="/redoc", description="ReDoc documentation endpoint")
     OPENAPI_URL: str | None = Field(default="/openapi.json", description="OpenAPI JSON schema endpoint")
     HEALTH_URL: str = Field(default="/health", description="Healthcheck endpoint")
 
+    API_URL: str = Field(default="/api", description="API prefix path")
     FRONTEND_URL: HttpUrl = Field(
         default="http://localhost:3000",
         description="Frontend URL for CORS",
     )
+
+    DOMAIN_NAME: str | None = Field(default="tu-dominio.com", description="Domain Name")
+    SSL_EMAIL: str | None = Field(default="tu-email@example.com", description="Email used for SSL certificates")
 
     model_config = SettingsConfigDict(
         env_file=".env",

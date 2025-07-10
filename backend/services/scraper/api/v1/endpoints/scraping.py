@@ -1,16 +1,14 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import HTTPException, status
 
 from services.scraper.schemas.api import CourseResponse, CourseWithLessonsResponse, SyncResponse
-from shared.auth.api_key import require_admin_permission, require_read_permission, require_write_permission
+from shared.api.router import create_auth_routers
 from shared.database.repository_dependencies import CourseRepositoryDep, LessonRepositoryDep
 from shared.database.service_dependencies import ScrapingServiceDep
 
-read_router = APIRouter(dependencies=[Depends(require_read_permission)])
-write_router = APIRouter(dependencies=[Depends(require_write_permission)])
-admin_router = APIRouter(dependencies=[Depends(require_admin_permission)])
+routers = create_auth_routers()
 
 
-@admin_router.post(
+@routers.admin.post(
     "/sync-all",
     status_code=status.HTTP_200_OK,
     summary="Sync all OpenFing data",
@@ -34,7 +32,7 @@ async def sync_all_data(service: ScrapingServiceDep) -> SyncResponse:
         ) from e
 
 
-@write_router.post(
+@routers.write.post(
     "/sync-course/{course_acronym}",
     status_code=status.HTTP_200_OK,
     summary="Sync specific course",
@@ -64,7 +62,7 @@ async def sync_course(
         ) from e
 
 
-@read_router.get(
+@routers.read.get(
     "/courses/{course_code}",
     summary="Get course by code",
     description="Retrieve course information by code",
@@ -87,7 +85,7 @@ async def get_course(
     )
 
 
-@read_router.get(
+@routers.read.get(
     "/courses/{course_code}/lessons",
     summary="Get course lessons",
     description="Retrieve all lessons for a specific course",

@@ -1,5 +1,4 @@
 import typer
-import uvicorn
 from rich.console import Console
 from rich.table import Table
 
@@ -96,15 +95,3 @@ def scrape_course(course_acronym: str = typer.Argument(..., help="Course acronym
         else:
             console.print(f"❌ Course scraping failed: {result.message}", style="red")
             raise typer.Exit(1)
-
-
-@app.command(name="dev")
-@handle_cli_errors(operation_name="Scraper development server")
-def start_dev_server() -> None:
-    uvicorn.run(
-        "services.scraper.api.main:app",
-        host="0.0.0.0",
-        port=8002,
-        reload=True,
-        log_level="debug",
-    )

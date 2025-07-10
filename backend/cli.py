@@ -69,8 +69,8 @@ def generate_api_keys():
 
 
 @handle_cli_errors
-@app.command(name="start")
-def start_server(
+@app.command(name="serve")
+def start_prod_server(
     host: str = "0.0.0.0",
     port: int = settings.SERVER.PORT,
     workers: int = settings.SERVER.WORKERS_COUNT,

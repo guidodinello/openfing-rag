@@ -20,11 +20,10 @@ class HealthStatus(BaseModel):
 @public_router.get(
     settings.HEALTH_URL,
     summary="Health check",
-    description="Returns the health status of the transcriber service",
 )
 async def health_check() -> HealthStatus:
     return HealthStatus(
-        service="transcriber",
+        service=settings.APP.NAME,
         version=settings.APP.VERSION,
         environment=settings.APP.ENV,
         timestamp=datetime.now(timezone.utc).isoformat(),
