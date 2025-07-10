@@ -5,6 +5,7 @@ from services.downloader.cli import app as downloader_app
 from services.generator.cli import app as generator_app
 from services.scraper.cli import app as scraper_app
 from services.transcriber.cli import app as transcriber_app
+from shared.config.config import get_settings
 
 console = Console()
 app = typer.Typer(
@@ -44,6 +45,13 @@ def version():
     """Show the current version of OpenFing Chat."""
     console.print("🎓 [bold]OpenFing Chat[/bold] v0.1.0")
     console.print("RAG system backend with video transcription and processing")
+
+
+@app.command()
+def settings():
+    """Print all current settings for debugging."""
+    settings = get_settings()
+    print(settings)
 
 
 if __name__ == "__main__":

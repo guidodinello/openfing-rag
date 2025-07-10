@@ -185,3 +185,19 @@ using cuda, aoviding missing libraries
 
 https://github.com/SYSTRAN/faster-whisper?tab=readme-ov-file#gpu
 https://github.com/SYSTRAN/faster-whisper/issues/516
+
+## TODO
+- [] ssl certificates in prod. SSL/HTTPS con Let's Encrypt
+- [] basic frontend
+
+VPS compose commands
+```
+# Rebuild when code change
+docker compose -f docker-compose.production.yml build
+
+# Recreate when env vars are updated
+docker compose -f docker-compose.production.yml up -d --force-recreate
+
+# Check status
+docker compose -f docker-compose.production.yml ps
+```

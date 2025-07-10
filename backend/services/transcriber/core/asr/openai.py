@@ -7,7 +7,7 @@ from typing import Any
 import whisper
 
 from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)
@@ -16,6 +16,8 @@ settings = get_settings()
 
 class OpenAIWhisperTranscriber:
     _models_cache: dict[str, whisper.Whisper] = {}
+
+    suffix = "openai"
 
     def __init__(
         self,
@@ -78,7 +80,7 @@ class OpenAIWhisperTranscriber:
                 },
             )
 
-            self._save_result(result, file_name=f"{audio_path.stem}_{model_size.value}")
+            self._save_result(result, file_name=f"{audio_path.stem}_{model_size.value}_{self.suffix}")
 
             logger.info(f"OpenAI Whisper transcription completed in {processing_time:.2f} seconds")
             return result
@@ -94,7 +96,7 @@ class OpenAIWhisperTranscriber:
 
         course_output_dir.mkdir(parents=True, exist_ok=True)
 
-        output_path = course_output_dir / f"{file_name}_openai.json"
+        output_path = course_output_dir / f"{file_name}.json"
         output_path.write_text(
             json.dumps(result, indent=2, ensure_ascii=False),
             encoding="utf-8",
