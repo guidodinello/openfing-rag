@@ -1,8 +1,8 @@
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Literal
+from typing import Literal
 
-from pydantic import BaseModel, Field, HttpUrl, PostgresDsn, field_validator, model_validator
+from pydantic import BaseModel, Field, HttpUrl, PostgresDsn, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -169,9 +169,8 @@ class Settings(BaseSettings):
     LANGSMITH_TRACING: bool = Field(
         default=False,
         description="Enable LangSmith tracing",
-        env="langsmith_tracing",
     )
-    LANGSMITH_API_KEY: str = Field(description="LangSmith API key")
+    LANGSMITH_API_KEY: str = Field(default="", description="LangSmith API key")
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -180,17 +179,6 @@ class Settings(BaseSettings):
         extra="forbid",
         env_nested_delimiter="__",
     )
-
-    @model_validator(mode="before")
-    @classmethod
-    def validate_env_file(cls, values: dict[str, Any]) -> dict[str, Any]:
-        env_file = Path(".env")
-        if not env_file.is_file():
-            raise ValueError(
-                f"""{env_file.absolute()} file not found!
-            Please create one based on '.env.example'""",
-            )
-        return values
 
 
 @lru_cache

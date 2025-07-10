@@ -20,9 +20,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY pyproject.toml uv.lock README.md ./
 
-# Crear estructura mínima requerida para que Hatchling funcione
-RUN mkdir -p services shared
-
 # Instalar dependencias sin instalar el paquete local aún
 RUN uv sync --frozen --no-dev --no-install-project
 
@@ -36,11 +33,6 @@ RUN uv pip install --no-deps .
 RUN useradd --create-home --shell /bin/bash appuser \
     && chown -R appuser:appuser /app
 
-RUN chown -R appuser:appuser /app
-
 USER appuser
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
-
-CMD ["uv", "run", "openchat", "generator", "start"]
+CMD ["bash", "-c", "source .venv/bin/activate && python -m uvicorn services.generator.api.main:app --host 0.0.0.0 --port 8000"]

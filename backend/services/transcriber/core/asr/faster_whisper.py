@@ -8,7 +8,7 @@ import faster_whisper
 from faster_whisper import WhisperModel
 
 from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)
@@ -17,6 +17,8 @@ settings = get_settings()
 
 class FasterWhisperTranscriber:
     _models_cache: dict[str, WhisperModel] = {}
+
+    suffix = "fasterwhisper"
 
     def __init__(self, output_dir: str):
         self.output_dir = Path(output_dir)
@@ -75,7 +77,7 @@ class FasterWhisperTranscriber:
                 },
             )
 
-            self._save_result(result, file_name=f"{audio_path.stem}_{model_size.value}")
+            self._save_result(result, file_name=f"{audio_path.stem}_{model_size.value}_{self.suffix}")
 
             logger.info(f"faster-whisper transcription completed in {processing_time:.2f} seconds")
 
@@ -93,7 +95,7 @@ class FasterWhisperTranscriber:
 
         course_output_dir.mkdir(parents=True, exist_ok=True)
 
-        output_path = course_output_dir / f"{file_name}_fasterwhisper.json"
+        output_path = course_output_dir / f"{file_name}.json"
         output_path.write_text(
             json.dumps(result, indent=2, ensure_ascii=False),
             encoding="utf-8",

@@ -8,7 +8,8 @@ from services.generator.core.chat_service import ChatService
 from services.generator.core.llm_service import LLMService
 from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
 from services.scraper.core.scraping_service import ScrapingService
-from services.transcriber.core.asr.faster_whisper import FasterWhisperTranscriber
+from services.transcriber.core.asr.transcriber_protocol import TranscriberProtocol, create_transcriber, get_transcriber
+from services.transcriber.core.base_transcriber import BaseTranscriptionService
 from services.transcriber.core.transcription_service import TranscriptionService
 from shared.config import get_settings
 from shared.database.repositories import CourseRepository, LessonRepository, TranscriptionRepository, VectorRepository
@@ -20,7 +21,6 @@ from shared.database.repository_dependencies import (
 )
 from shared.database.session import get_db
 from shared.http.client import get_http_client
-from transcriber.core.base_transcriber import BaseTranscriptionService
 
 settings = get_settings()
 http_client = get_http_client()
@@ -31,22 +31,20 @@ http_client = get_http_client()
 
 
 def create_no_db_transcription_service() -> BaseTranscriptionService:
-    return BaseTranscriptionService(
-        FasterWhisperTranscriber(
-            output_dir=str(settings.TRANSCRIBER.OUTPUT_DIR),
-        ),
-    )
+    """Create file-only transcription service (no database dependencies)."""
+    transcriber = create_transcriber()
+    return BaseTranscriptionService(transcriber)
 
 
 def create_transcription_service(db: Session) -> TranscriptionService:
+    """Create full transcription service with database support."""
+    transcriber = create_transcriber()
     return TranscriptionService(
         db=db,
         lesson_repo=LessonRepository(db),
         transcription_repo=TranscriptionRepository(db),
         vector_repo=VectorRepository(settings, db),
-        transcriber=FasterWhisperTranscriber(
-            output_dir=str(settings.TRANSCRIBER.OUTPUT_DIR),
-        ),
+        transcriber=transcriber,
     )
 
 
@@ -84,6 +82,7 @@ def get_transcription_service(
     lesson_repo: LessonRepositoryDep,
     transcription_repo: TranscriptionRepositoryDep,
     vector_repo: VectorRepositoryDep,
+    transcriber: TranscriberProtocol = Depends(get_transcriber),
     db: Session = Depends(get_db),
 ) -> TranscriptionService:
     return TranscriptionService(
@@ -91,10 +90,7 @@ def get_transcription_service(
         lesson_repo=lesson_repo,
         transcription_repo=transcription_repo,
         vector_repo=vector_repo,
-        ## TODO: im not sure if this is the best way to handle this dependency
-        transcriber=FasterWhisperTranscriber(
-            output_dir=str(settings.TRANSCRIBER.OUTPUT_DIR),
-        ),
+        transcriber=transcriber,
     )
 
 

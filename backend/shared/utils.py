@@ -53,3 +53,14 @@ def parse_cli_list_param(param: str) -> list[int]:
             elements.add(int(part))
 
     return sorted(elements)
+
+
+BYTES_IN_MEGABYTES = 1024 * 1024
+
+
+def bytes_to_megabytes(bytes: float) -> float:
+    return bytes / BYTES_IN_MEGABYTES
+
+
+def megabytes_to_bytes(mb: float) -> float:
+    return mb * BYTES_IN_MEGABYTES

@@ -32,7 +32,7 @@ class HealthStatus(BaseModel):
 )
 async def health_check():
     return HealthStatus(
-        service="transcriber",
+        service="generator",
         version="1.0.0",
         environment="development" if settings.DEBUG else "production",
         timestamp=datetime.now(timezone.utc).isoformat(),
