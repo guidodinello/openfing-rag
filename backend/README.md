@@ -198,6 +198,9 @@ docker compose -f docker-compose.production.yml build
 # Recreate when env vars are updated
 docker compose -f docker-compose.production.yml up -d --force-recreate
 
-# Check status
-docker compose -f docker-compose.production.yml ps
+# Both together
+docker compose -f docker-compose.production.yml up -d --build --force-recreate
+
+# Sync a local file/folder to the remote
+rsync -avz --progress -e "ssh -p 2222" ./../docker/.env.prod guido@179.27.96.212:~/tesis/docker/.env
 ```

@@ -341,46 +341,6 @@ def vectorize_transcription(
             raise typer.Exit(1)
 
 
-# === SERVER COMMANDS ===
-
-
-@app.command(name="start")
-@handle_cli_errors(operation_name="Transcriber server")
-def start_server(
-    host: str = "0.0.0.0",
-    port: int = settings.TRANSCRIBER.PORT,
-    workers: int = settings.WORKERS_COUNT,
-    log_level: str = settings.LOG.LEVEL.lower(),
-) -> None:
-    """Start production server."""
-    import uvicorn
-
-    uvicorn.run(
-        "services.transcriber.api.main:app",
-        host=host,
-        port=port,
-        workers=workers,
-        log_level=log_level,
-        proxy_headers=True,
-        forwarded_allow_ips="*",
-    )
-
-
-@app.command(name="dev")
-@handle_cli_errors(operation_name="Development server")
-def start_dev_server() -> None:
-    """Start development server with auto-reload."""
-    import uvicorn
-
-    uvicorn.run(
-        "services.transcriber.api.main:app",
-        host="0.0.0.0",
-        port=settings.TRANSCRIBER.PORT,
-        reload=True,
-        log_level="debug",
-    )
-
-
 ## TODO
 # check i can generate a transcription file without db access
 # check i can save a transcription (nd its chunks) based on a file

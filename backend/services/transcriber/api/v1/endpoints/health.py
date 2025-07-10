@@ -7,15 +7,7 @@ from shared.config import get_settings
 
 settings = get_settings()
 
-router = APIRouter(
-    prefix="/health",
-    tags=["health"],
-    responses={
-        404: {"description": "Not found"},
-        500: {"description": "Internal server error"},
-        503: {"description": "Service unavailable"},
-    },
-)
+public_router = APIRouter()
 
 
 class HealthStatus(BaseModel):
@@ -25,15 +17,15 @@ class HealthStatus(BaseModel):
     timestamp: str
 
 
-@router.get(
-    "",
+@public_router.get(
+    settings.HEALTH_URL,
     summary="Health check",
-    description="Returns the health status of the transcriber service and its dependencies",
+    description="Returns the health status of the transcriber service",
 )
 async def health_check() -> HealthStatus:
     return HealthStatus(
         service="transcriber",
-        version="1.0.0",
-        environment="development" if settings.DEBUG else "production",
+        version=settings.APP.VERSION,
+        environment=settings.APP.ENV,
         timestamp=datetime.now(timezone.utc).isoformat(),
     )

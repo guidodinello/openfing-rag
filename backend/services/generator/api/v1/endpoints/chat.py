@@ -1,19 +1,21 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 
 from services.generator.schemas.api import ChatMessage, ChatResponse
 from services.generator.schemas.domain import SearchContext
+from shared.auth.api_key import require_read_permission
 from shared.database.service_dependencies import ChatServiceDep
 
-router = APIRouter(prefix="/chat", tags=["chat"])
+read_router = APIRouter(dependencies=[Depends(require_read_permission)])
 
 
-@router.post(
-    "",
+@read_router.post(
+    "/chat",
     summary="Process chat message",
     description="Process a chat message using RAG to provide contextual responses",
     status_code=status.HTTP_200_OK,
 )
 async def chat(
+    # user: ReadUser,
     message: ChatMessage,
     chat_service: ChatServiceDep,
 ) -> ChatResponse:
