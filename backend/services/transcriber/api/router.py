@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 
-from transcriber.api.v1.endpoints import health, transcription
+from services.transcriber.api.v1.endpoints import transcription
 
-api_router = APIRouter()
+transcriber_router = APIRouter(prefix="/transcriber", tags=["transcriber"])
 
-api_router.include_router(transcription.router, tags=["transcription"])
-api_router.include_router(health.router, tags=["health"])
+transcription.routers.include_in(transcriber_router)

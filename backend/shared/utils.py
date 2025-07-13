@@ -55,7 +55,11 @@ def parse_cli_list_param(param: str) -> list[int]:
     return sorted(elements)
 
 
-BYTES_IN_MEGABYTES = 1024 * 1024
+def parse_comma_separated_list(v: str) -> list[str]:
+    return [key.strip() for key in v.split(",") if key.strip()]
+
+
+BYTES_IN_MEGABYTES = 1_000_000
 
 
 def bytes_to_megabytes(bytes: float) -> float:
@@ -64,3 +68,18 @@ def bytes_to_megabytes(bytes: float) -> float:
 
 def megabytes_to_bytes(mb: float) -> float:
     return mb * BYTES_IN_MEGABYTES
+
+
+def detect_device(device: str) -> str:
+    """Auto-detect device if set to 'auto'."""
+    if device != "auto":
+        return device
+
+    import torch
+
+    if torch.cuda.is_available():
+        return "cuda"
+    elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+        return "mps"
+    else:
+        return "cpu"

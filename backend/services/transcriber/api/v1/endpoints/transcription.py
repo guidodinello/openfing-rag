@@ -1,15 +1,16 @@
 from typing import Annotated
 
-from fastapi import APIRouter, HTTPException, Path, Query, status
+from fastapi import HTTPException, Path, Query, status
 
+from shared.api.router import create_auth_routers
 from shared.database.service_dependencies import TranscriptionServiceDep
 from transcriber.schemas.api import TranscriptionCreateRequest, TranscriptionListResponse, TranscriptionResponse
 from transcriber.schemas.enums import WhisperModelSize
 
-router = APIRouter()
+routers = create_auth_routers()
 
 
-@router.get(
+@routers.read.get(
     "/transcribe/{course_code}/{lesson_number}",
     status_code=status.HTTP_200_OK,
     summary="Get transcription",
@@ -29,7 +30,7 @@ async def get_transcription(
     return result.to_api_response()
 
 
-@router.post(
+@routers.write.post(
     "/transcribe/{course_code}/{lesson_number}",
     status_code=status.HTTP_201_CREATED,
     summary="Create transcription",
@@ -63,7 +64,7 @@ async def create_transcription(
     return result.to_api_response()
 
 
-@router.get(
+@routers.read.get(
     "/transcriptions",
     summary="List transcriptions",
     description="List all transcriptions with optional filtering",
@@ -81,7 +82,7 @@ async def list_transcriptions(
     return result.to_api_response()
 
 
-@router.post(
+@routers.write.post(
     "/transcriptions/{transcription_id}/vectorize",
     summary="Vectorize transcription",
     description="Add transcription to vector store for RAG",

@@ -20,19 +20,15 @@ RUN apt-get update && apt-get install -y \
 
 COPY pyproject.toml uv.lock README.md ./
 
-# Instalar dependencias sin instalar el paquete local aún
 RUN uv sync --frozen --no-dev --no-install-project
 
-# Ahora copiar todo el código fuente
 COPY . .
 
-# Instalar el paquete local
 RUN uv pip install --no-deps .
 
-# Crear usuario no-root
 RUN useradd --create-home --shell /bin/bash appuser \
     && chown -R appuser:appuser /app
 
 USER appuser
 
-CMD ["bash", "-c", "source .venv/bin/activate && python -m uvicorn services.generator.api.main:app --host 0.0.0.0 --port 8000"]
+CMD ["uv", "run", "openchat", "serve"]

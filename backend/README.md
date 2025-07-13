@@ -198,6 +198,30 @@ docker compose -f docker-compose.production.yml build
 # Recreate when env vars are updated
 docker compose -f docker-compose.production.yml up -d --force-recreate
 
-# Check status
-docker compose -f docker-compose.production.yml ps
+# Both together
+docker compose -f docker-compose.production.yml up -d --build --force-recreate
+
+# Sync a local file/folder to the remote
+rsync -avz --progress -e "ssh -p 2222" ./../docker/.env.prod guido@179.27.96.212:~/tesis/docker/.env
+```
+Deploy
+```
+# En la VPS
+cd ~/tesis/docker
+
+# 1. Verificar tu IP actual
+curl -s https://ipv4.icanhazip.com
+
+# 2. Verificar que DuckDNS esté actualizado
+nslookup openfingchat.duckdns.org
+
+# 3. Si coinciden, ejecutar SSL
+./ssl-setup.sh
+
+# 4. Recrear contenedores
+docker compose up -d --force-recreate
+
+# open a terminal inside a container
+docker compose exec backend bash
+
 ```

@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 
-from generator.api.v1.endpoints import chat, health
+from services.generator.api.v1.endpoints import chat
 
-api_router = APIRouter()
+generator_router = APIRouter(prefix="/generator", tags=["generator"])
 
-api_router.include_router(chat.router, tags=["chat"])
-api_router.include_router(health.router, tags=["health"])
+chat.routers.include_in(generator_router)

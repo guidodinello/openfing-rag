@@ -1,14 +1,15 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import HTTPException, status
 
 from services.generator.schemas.api import ChatMessage, ChatResponse
 from services.generator.schemas.domain import SearchContext
+from shared.api.router import create_auth_routers
 from shared.database.service_dependencies import ChatServiceDep
 
-router = APIRouter(prefix="/chat", tags=["chat"])
+routers = create_auth_routers()
 
 
-@router.post(
-    "",
+@routers.read.post(
+    "/chat",
     summary="Process chat message",
     description="Process a chat message using RAG to provide contextual responses",
     status_code=status.HTTP_200_OK,
