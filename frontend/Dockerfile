@@ -1,29 +1,24 @@
-# Build stage
 FROM node:22-alpine AS builder
+
+RUN npm install -g pnpm@latest
 
 WORKDIR /app
 
-# Install dependencies
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY package.json pnpm-lock.yaml ./
 
-# Copy source code
+RUN pnpm install --frozen-lockfile
+
 COPY . .
 
-# Build the application
-RUN yarn build
+RUN pnpm build
 
-# Production stage
-FROM nginx:alpine
+FROM nginx:alpine AS production
 
-# Copy built assets from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration if you have custom config
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80
-EXPOSE 80
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod -R 755 /usr/share/nginx/html
 
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]

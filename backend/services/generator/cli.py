@@ -1,5 +1,4 @@
 import typer
-import uvicorn
 from rich.console import Console
 
 from services.generator.schemas.domain import SearchContext
@@ -41,15 +40,3 @@ def test_chat(
             console.print(f"🔧 Model: {result.model_used}")
         else:
             console.print(f"❌ Error: {result.error}", style="red")
-
-
-@app.command(name="dev")
-@handle_cli_errors(operation_name="Generator development server")
-def start_dev_server() -> None:
-    uvicorn.run(
-        "services.generator.api.main:app",
-        host="0.0.0.0",
-        port=8002,
-        reload=True,
-        log_level="debug",
-    )
