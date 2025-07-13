@@ -1,4 +1,5 @@
 repos:
+    # Backend hooks
     - repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v5.0.0
       hooks:
@@ -42,44 +43,19 @@ repos:
             args: [--ignore-missing-imports]
             exclude: ^tests/
 
-    - repo: https://github.com/pre-commit/mirrors-prettier
-      rev: v4.0.0-alpha.8
-      hooks:
-          - id: prettier
-            files: ^frontend/.*\.(js|jsx|ts|tsx|json|css|md|yml|yaml)$
-            args: [--write]
-
-    - repo: https://github.com/pre-commit/mirrors-eslint
-      rev: v9.31.0
-      hooks:
-          - id: eslint
-            files: ^frontend/.*\.(js|jsx|ts|tsx)$
-            additional_dependencies:
-                - eslint@^9.8.0
-                - "@typescript-eslint/eslint-plugin@^8.0.1"
-                - "@typescript-eslint/parser@^8.0.1"
-                - "eslint-plugin-react-hooks@^5.1.0-rc.0"
-                - "eslint-plugin-react-refresh@^0.4.9"
-                - "globals@^16.3.0"
-                - "typescript-eslint@^8.35.1"
-            args: [--fix]
-
+    # Frontend hooks
     - repo: local
       hooks:
-          - id: typescript-check
+          - id: frontend-lint-staged
+            name: Frontend lint-staged
+            entry: bash -c 'cd frontend && npx lint-staged'
+            language: system
+            files: ^frontend/.*\.(js|jsx|ts|tsx|json|css|md|yml|yaml)$
+            pass_filenames: false
+
+          - id: frontend-typecheck
             name: TypeScript type check
-            entry: bash -c 'cd frontend && pnpm type-check'
+            entry: bash -c 'cd frontend && npm run type-check'
             language: system
             files: ^frontend/.*\.(ts|tsx)$
             pass_filenames: false
-            stages: [pre-commit]
-
-    - repo: local
-      hooks:
-          - id: frontend-lint-check
-            name: Frontend lint check (no auto-fix)
-            entry: bash -c 'cd frontend && pnpm lint:check'
-            language: system
-            files: ^frontend/.*\.(js|jsx|ts|tsx)$
-            pass_filenames: false
-            stages: [pre-push]
