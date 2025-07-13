@@ -57,19 +57,37 @@ services:
             retries: 3
             start_period: 60s
 
-    # Por ahora omitimos frontend hasta que esté listo
-    # frontend:
-    #   build:
-    #     context: ../frontend
-    #     dockerfile: Dockerfile
-    #     target: production
-    #   restart: unless-stopped
-    #   environment:
-    #     - REACT_APP_API_URL=http://localhost/api
-    #   networks:
-    #     - frontend
-    #   depends_on:
-    #     - backend
+    frontend:
+        build:
+            context: ../frontend
+            dockerfile: Dockerfile
+            target: production
+        restart: unless-stopped
+        environment:
+            # Build-time environment variables for Vite
+            - VITE_API_URL=/api/v1
+            - VITE_APP_TITLE=OpenFing RAG Chat
+            - VITE_APP_VERSION=${APP_VERSION:-1.0.0}
+        networks:
+            - frontend
+        expose:
+            - "80"
+        depends_on:
+            - backend
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "wget",
+                    "--quiet",
+                    "--tries=1",
+                    "--spider",
+                    "http://localhost/health",
+                ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 30s
 
     nginx:
         image: nginx:alpine
@@ -86,9 +104,10 @@ services:
             - certbot_www:/var/www/certbot
         depends_on:
             - backend
-            # - frontend  # Comentar hasta que frontend esté listo
+            - frontend
         networks:
             - backend
+            - frontend
         healthcheck:
             test:
                 [
@@ -122,7 +141,7 @@ services:
         depends_on:
             - nginx
         restart: unless-stopped
-        # is using sleep like this appropiate? or should this be a proper cron job?
+        # Using sleep like this is fine for simple setups, but you could also use a proper cron container
         entrypoint: >
             sh -c "
             while :; do
@@ -142,4 +161,6 @@ volumes:
 
 networks:
     backend:
+        driver: bridge
+    frontend:
         driver: bridge
