@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, relationship
 from shared.database.models import TimestampedModel
 
 if TYPE_CHECKING:
-    from shared.database.models.rag.lesson import Lesson
+    from shared.database.models import Lesson
 
 
 class Course(TimestampedModel):
@@ -35,8 +35,16 @@ class Course(TimestampedModel):
         unique=True,
         comment="Unique course code (e.g., 'CS101')",
     )
-    name: Mapped[str] = Column(String(255), nullable=False, comment="Name of the course (i.e. Actividad Introductoria)")
-    subtitle: Mapped[str] = Column(String(255), nullable=True, comment="Course edition name (i.e. Charlas 2025)")
+    name: Mapped[str] = Column(
+        String(255),
+        nullable=False,
+        comment="Name of the course (i.e. Actividad Introductoria)",
+    )
+    subtitle: Mapped[str] = Column(
+        String(255),
+        nullable=True,
+        comment="Course edition name (i.e. Charlas 2025)",
+    )
     course_metadata: dict = Column(
         JSONB,
         server_default="{}",

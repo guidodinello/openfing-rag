@@ -1,8 +1,13 @@
-from typing import Any
+from typing import Any, Self
 
 from pydantic import BaseModel, Field
 
-from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
+from services.transcriber.schemas import (
+    TranscriptionListResult,
+    TranscriptionResult,
+    WhisperModelLanguage,
+    WhisperModelSize,
+)
 
 
 class TranscriptionCreateRequest(BaseModel):
@@ -18,38 +23,34 @@ class TranscriptionResponse(BaseModel):
     transcription_id: int | None = None
     data: dict[str, Any] | None = None
 
+    @classmethod
+    def from_transcription_result(cls, result: TranscriptionResult) -> Self:
+        return cls(
+            success=result.success,
+            message=result.message,
+            transcription_id=result.transcription_id,
+            data=result.data,
+        )
+
 
 class TranscriptionListResponse(BaseModel):
     success: bool
     message: str
     data: dict[str, Any]
 
+    @classmethod
+    def from_transcription_list_result(cls, result: TranscriptionListResult) -> Self:
+        return cls(
+            success=result.success,
+            message=result.message,
+            data=result.data,
+        )
+
 
 class AvailableLessonsResponse(BaseModel):
     success: bool
     message: str
     lessons: list[dict[str, Any]]
-
-
-class TranscriptionDetail(BaseModel):
-    id: int
-    content: str
-    metadata: dict[str, Any]
-    lesson: dict[str, Any]
-
-
-class TranscriptionSummary(BaseModel):
-    id: int
-    lesson_id: int
-    course_code: str
-    lesson_number: int
-    lesson_title: str
-    content_length: int
-    model_size: str | None = None
-    package: str | None = None
-    language: str | None = None
-    is_vectorized: bool = False
-    created_at: str | None = None
 
 
 class LessonFile(BaseModel):

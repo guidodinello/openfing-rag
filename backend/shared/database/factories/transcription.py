@@ -1,6 +1,6 @@
+from services.transcriber.schemas import WhisperModelLanguage, WhisperModelSize
 from shared.database.factories.base import BaseFactory
-from shared.database.models.rag.transcription import Transcription
-from transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
+from shared.database.models import Transcription
 
 
 class TranscriptionFactory(BaseFactory[Transcription]):
@@ -11,9 +11,14 @@ class TranscriptionFactory(BaseFactory[Transcription]):
         model_size = self.faker.random_element(elements=list(WhisperModelSize))
         language = self.faker.random_element(elements=list(WhisperModelLanguage))
 
-        course_code = self.faker.lexify(text="????", letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        course_code = self.faker.lexify(
+            text="????",
+            letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        )
         lesson_number = self.faker.random_int(min=1, max=20)
-        file_extension = self.faker.random_element(elements=[".mp3", ".m4a", ".wav", ".mp4"])
+        file_extension = self.faker.random_element(
+            elements=[".mp3", ".m4a", ".wav", ".mp4"],
+        )
 
         duration_seconds = self.faker.random.uniform(1800, 7200)
 
@@ -28,7 +33,9 @@ class TranscriptionFactory(BaseFactory[Transcription]):
             "content_length": len(content_text),
             "processing_time": duration_seconds * self.faker.random.uniform(0.1, 0.3),
             "source_file": f"./audios/{course_code}/{course_code}_{lesson_number:02d}{file_extension}",
-            "file_size_bytes": int((duration_seconds / 60) * self.faker.random.uniform(100000, 500000)),
+            "file_size_bytes": int(
+                (duration_seconds / 60) * self.faker.random.uniform(100000, 500000),
+            ),
             "vectorized": False,
             "embedding_model": None,
             "created_by": __name__,

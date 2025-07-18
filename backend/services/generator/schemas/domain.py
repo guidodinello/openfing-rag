@@ -1,7 +1,5 @@
 from dataclasses import dataclass
-from typing import Any
-
-from services.generator.schemas.api import ChatResponse
+from typing import Any, Self
 
 
 @dataclass(frozen=True, slots=True)
@@ -20,7 +18,7 @@ class ChatResult:
         sources: list[str],
         model_used: str,
         data: dict | None = None,
-    ) -> "ChatResult":
+    ) -> Self:
         return cls(
             success=True,
             response=response,
@@ -30,19 +28,13 @@ class ChatResult:
         )
 
     @classmethod
-    def failure_result(cls, error: str, data: dict | None = None) -> "ChatResult":
+    def failure_result(cls, error: str, data: dict | None = None) -> Self:
         return cls(
             success=False,
             response="I couldn't process your request at this time.",
             sources=[],
             error=error,
             data=data,
-        )
-
-    def to_api_response(self) -> ChatResponse:
-        return ChatResponse(
-            response=self.response,
-            sources=self.sources,
         )
 
 
@@ -60,6 +52,7 @@ class SearchContext:
 class RetrievedChunk:
     """Represents a chunk retrieved from vector store."""
 
+    id: str
     content: str
     metadata: dict[str, Any]
     score: float
@@ -67,10 +60,12 @@ class RetrievedChunk:
     course_code: str | None = None
     chunk_index: int | None = None
 
+    ## TODO: this should probably be some Schema and not a dict
     @classmethod
-    def from_search_result(cls, search_result: dict[str, Any]) -> "RetrievedChunk":
+    def from_search_result(cls, search_result: dict[str, Any]) -> Self:
         """Convert from vector repository search result format."""
         return cls(
+            id=search_result["id"],
             content=search_result["content"],
             metadata=search_result["metadata"],
             score=search_result["score"],

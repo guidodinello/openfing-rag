@@ -5,7 +5,7 @@ from typing import Concatenate, ParamSpec, TypeVar
 import typer
 from sqlalchemy.exc import SQLAlchemyError
 
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 

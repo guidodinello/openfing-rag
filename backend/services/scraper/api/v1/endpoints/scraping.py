@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
 
-from services.scraper.schemas.api import CourseResponse, CourseWithLessonsResponse, SyncResponse
+from services.scraper.schemas import CourseResponse, CourseWithLessonsResponse, SyncResponse
 from shared.api.router import create_auth_routers
 from shared.database.repository_dependencies import CourseRepositoryDep, LessonRepositoryDep
 from shared.database.service_dependencies import ScrapingServiceDep
@@ -19,9 +19,12 @@ async def sync_all_data(service: ScrapingServiceDep) -> SyncResponse:
         result = service.sync_openfing_data()
 
         if not result.success:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=result.message)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=result.message,
+            )
 
-        return result.to_api_response()
+        return SyncResponse.from_sync_result(result)
 
     except HTTPException:
         raise
@@ -43,15 +46,7 @@ async def sync_course(
     service: ScrapingServiceDep,
 ) -> SyncResponse:
     try:
-        result = service.sync_course_only(course_acronym)
-
-        if not result.success:
-            if "not found" in result.message.lower():
-                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=result.message)
-            else:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=result.message)
-
-        return result.to_api_response()
+        return SyncResponse.from_sync_result(service.sync_course_only(course_acronym))
 
     except HTTPException:
         raise
@@ -64,6 +59,7 @@ async def sync_course(
 
 @routers.read.get(
     "/courses/{course_code}",
+    status=status.HTTP_200_OK,
     summary="Get course by code",
     description="Retrieve course information by code",
 )
@@ -73,20 +69,17 @@ async def get_course(
 ) -> CourseResponse:
     course = course_repo.get_by_code(course_code)
     if not course:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Course '{course_code}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Course '{course_code}' not found",
+        )
 
-    return CourseResponse(
-        id=course.id,
-        code=course.code,
-        name=course.name,
-        subtitle=course.subtitle,
-        created_at=course.created_at.isoformat() if course.created_at else "",
-        updated_at=course.updated_at.isoformat() if course.updated_at else "",
-    )
+    return CourseResponse.from_model(course)
 
 
 @routers.read.get(
     "/courses/{course_code}/lessons",
+    status=status.HTTP_200_OK,
     summary="Get course lessons",
     description="Retrieve all lessons for a specific course",
 )
@@ -95,11 +88,14 @@ async def get_course_lessons(
     course_repo: CourseRepositoryDep,
     lesson_repo: LessonRepositoryDep,
 ) -> CourseWithLessonsResponse:
-    """Get a course with all its lessons."""
     course = course_repo.get_by_code(course_code)
     if not course:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Course '{course_code}' not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Course '{course_code}' not found",
+        )
 
-    lessons = lesson_repo.get_by_course(course.id)
-
-    return CourseWithLessonsResponse.from_domain(course, lessons)
+    return CourseWithLessonsResponse.from_models(
+        course,
+        lessons=lesson_repo.get_by_course(course.id),
+    )

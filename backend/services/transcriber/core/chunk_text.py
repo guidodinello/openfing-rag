@@ -53,10 +53,7 @@ def testCollection():
     except Exception as e:
         print(f"Error checking collection: {e}")
 
-<<<<<<< HEAD:backend/transcriptions/Logic/chunk_text.py
-=======
 
->>>>>>> refs/remotes/origin/main:backend/services/transcriber/core/chunk_text.py
 def testSetUp():
     testConnection()
     testDatabase()

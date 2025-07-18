@@ -46,7 +46,12 @@ def upgrade() -> None:
             unique=True,
             nullable=False,
         ),
-        sa.Column("hashed_password", sa.String(), nullable=False, comment="Bcrypt hashed password"),
+        sa.Column(
+            "hashed_password",
+            sa.String(),
+            nullable=False,
+            comment="Bcrypt hashed password",
+        ),
         *add_timestamps(),
         comment="User accounts for authentication and authorization",
     )

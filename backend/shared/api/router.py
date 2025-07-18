@@ -3,7 +3,11 @@ from dataclasses import dataclass
 
 from fastapi import APIRouter, Depends
 
-from shared.auth.api_key import require_admin_permission, require_read_permission, require_write_permission
+from shared.auth.api_key import (
+    require_admin_permission,
+    require_read_permission,
+    require_write_permission,
+)
 
 
 @dataclass(frozen=True, slots=True)

@@ -13,7 +13,10 @@ class LoggingSettings(BaseModel):
         default="INFO",
         description="Logging level",
     )
-    DIR: Path = Field(default=Path("./default_logs"), description="Path to log files directory")
+    DIR: Path = Field(
+        default=Path("./default_logs"),
+        description="Path to log files directory",
+    )
 
 
 class DatabaseSettings(BaseModel):
@@ -22,9 +25,12 @@ class DatabaseSettings(BaseModel):
     HOST: str = Field(default="localhost", description="Database host")
     PORT: int = Field(default=5432, description="Database port")
     DB: str = Field(default="openfing_chat", description="Database name")
-    VECTOR_STORE_COLLECTION: str = "chunks"
-    POOL_SIZE: int = 5
-    MAX_OVERFLOW: int = 10
+    VECTOR_STORE_COLLECTION: str = Field(
+        default="chunks",
+        description="Vector Store collection name",
+    )
+    POOL_SIZE: int = Field(default=5, description="")
+    MAX_OVERFLOW: int = Field(default=10, description="")
 
     @property
     def URL(self) -> PostgresDsn:
@@ -66,7 +72,10 @@ class EmbeddingsSettings(BaseModel):
         description="Embeddings model name",
     )
     DIMENSION: int = Field(default=384, description="Embeddings dimensions")
-    CACHE_DIR: Path | None = Field(default=Path("./default_models_cache"), description="Model cache directory")
+    CACHE_DIR: Path | None = Field(
+        default=Path("./default_models_cache"),
+        description="Model cache directory",
+    )
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
         default="auto",
         description="Device to run embeddings on",
@@ -80,7 +89,10 @@ class EmbeddingsSettings(BaseModel):
 
 class WhisperSettings(BaseModel):
     MODEL: str = Field(default="tiny", description="Whisper model name")
-    CACHE_DIR: Path | None = Field(default=Path("./default_models_cache"), description="Model cache directory")
+    CACHE_DIR: Path | None = Field(
+        default=Path("./default_models_cache"),
+        description="Model cache directory",
+    )
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
         default="auto",
         description="Device to run whisper on",
@@ -114,9 +126,18 @@ class PrefectSettings(BaseModel):
 
 
 class ApiKeys(BaseModel):
-    ADMIN: Annotated[list[str], NoDecode] = Field(default_factory=list, description="Comma-separated admin API keys")
-    READ: Annotated[list[str], NoDecode] = Field(default_factory=list, description="Comma-separated read-only API keys")
-    WRITE: Annotated[list[str], NoDecode] = Field(default_factory=list, description="Comma-separated write API keys")
+    ADMIN: Annotated[list[str], NoDecode] = Field(
+        default_factory=list,
+        description="Comma-separated admin API keys",
+    )
+    READ: Annotated[list[str], NoDecode] = Field(
+        default_factory=list,
+        description="Comma-separated read-only API keys",
+    )
+    WRITE: Annotated[list[str], NoDecode] = Field(
+        default_factory=list,
+        description="Comma-separated write API keys",
+    )
 
     @field_validator("ADMIN", "READ", "WRITE", mode="before")
     @classmethod
@@ -131,7 +152,6 @@ class ApiKeys(BaseModel):
 
 
 class ServerSettings(BaseModel):
-    # Server settings
     HOST: str = Field(default="0.0.0.0", description="Server host")
     PORT: int = Field(default=8000, description="Server port")
     WORKERS_COUNT: int = Field(
@@ -154,11 +174,16 @@ class LangsmithSettings(BaseModel):
 
 
 class AppSettings(BaseModel):
-    # Basic app config
     NAME: str = Field(default="Educational RAG", description="Application name")
-    DESCRIPTION: str = Field(default="RAG-powered educational content assistant", description="Application description")
+    DESCRIPTION: str = Field(
+        default="RAG-powered educational content assistant",
+        description="Application description",
+    )
     VERSION: str = Field(description="Application version")
-    ENV: Literal["local", "production"] = Field(..., descriptions="Environment in which the app is running")
+    ENV: Literal["local", "production"] = Field(
+        ...,
+        descriptions="Environment in which the app is running",
+    )
 
 
 class Settings(BaseSettings):
@@ -182,9 +207,18 @@ class Settings(BaseSettings):
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
 
     # API Documentation URLs
-    DOCS_URL: str | None = Field(default="/docs", description="Swagger UI documentation endpoint")
-    REDOC_URL: str | None = Field(default="/redoc", description="ReDoc documentation endpoint")
-    OPENAPI_URL: str | None = Field(default="/openapi.json", description="OpenAPI JSON schema endpoint")
+    DOCS_URL: str | None = Field(
+        default="/docs",
+        description="Swagger UI documentation endpoint",
+    )
+    REDOC_URL: str | None = Field(
+        default="/redoc",
+        description="ReDoc documentation endpoint",
+    )
+    OPENAPI_URL: str | None = Field(
+        default="/openapi.json",
+        description="OpenAPI JSON schema endpoint",
+    )
     HEALTH_URL: str = Field(default="/health", description="Healthcheck endpoint")
 
     API_URL: str = Field(default="/api", description="API prefix path")
@@ -194,13 +228,16 @@ class Settings(BaseSettings):
     )
 
     DOMAIN_NAME: str | None = Field(default="tu-dominio.com", description="Domain Name")
-    SSL_EMAIL: str | None = Field(default="tu-email@example.com", description="Email used for SSL certificates")
+    SSL_EMAIL: str | None = Field(
+        default="tu-email@example.com",
+        description="Email used for SSL certificates",
+    )
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file="../.env",
         env_file_encoding="utf-8",
         frozen=True,
-        extra="forbid",
+        extra="ignore",
         env_nested_delimiter="__",
     )
 

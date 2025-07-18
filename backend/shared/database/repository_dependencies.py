@@ -28,7 +28,9 @@ def get_lesson_repository(db: Session = Depends(get_db)) -> LessonRepository:
     return LessonRepository(db)
 
 
-def get_transcription_repository(db: Session = Depends(get_db)) -> TranscriptionRepository:
+def get_transcription_repository(
+    db: Session = Depends(get_db),
+) -> TranscriptionRepository:
     return TranscriptionRepository(db)
 
 

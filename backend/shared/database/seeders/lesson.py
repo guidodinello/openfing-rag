@@ -1,11 +1,16 @@
 from shared.database.factories.lesson import LessonFactory
-from shared.database.models.rag.course import Course
+from shared.database.models import Course
 from shared.database.repositories import CourseRepository, LessonRepository
 from shared.database.seeders.base import BaseSeeder
 
 
 class LessonSeeder(BaseSeeder):
-    def __init__(self, db, lesson_repo: LessonRepository, course_repo: CourseRepository):
+    def __init__(
+        self,
+        db,
+        lesson_repo: LessonRepository,
+        course_repo: CourseRepository,
+    ):
         super().__init__(db)
         self.lesson_repo = lesson_repo
         self.course_repo = course_repo

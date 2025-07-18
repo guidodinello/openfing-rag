@@ -7,7 +7,7 @@ from collections.abc import Awaitable, Callable
 from pathlib import Path
 from typing import Any, Concatenate, ParamSpec, TypeVar, cast
 
-from backend.shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 

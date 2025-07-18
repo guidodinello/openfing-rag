@@ -1,10 +1,11 @@
+from collections.abc import Iterable
 from dataclasses import dataclass
 
 from huggingface_hub import InferenceClient
 
-from services.generator.schemas.domain import RetrievedChunk
+from services.generator.schemas import RetrievedChunk
 from shared.config import get_settings
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -32,14 +33,18 @@ class LLMService:
         settings = get_settings()
         self.client = InferenceClient(
             provider="auto",
-            api_key=settings.HUGGINGFACE_API_KEY,
+            api_key=settings.HUGGINGFACE.API_KEY,
         )
         self.model_name = (
             "mistralai/Mistral-7B-Instruct-v0.3"
             # "Qwen/Qwen2.5-72B-Instruct"
         )
 
-    def generate_response(self, chunks: list[RetrievedChunk], query: str) -> LLMResult:
+    def generate_response(
+        self,
+        chunks: Iterable[RetrievedChunk],
+        query: str,
+    ) -> LLMResult:
         try:
             messages = self._build_chat_messages(chunks, query)
 
@@ -75,7 +80,7 @@ class LLMService:
 
     def _build_chat_messages(
         self,
-        chunks: list[RetrievedChunk],
+        chunks: Iterable[RetrievedChunk],
         query: str,
     ) -> list[dict]:
         """Build messages for chat completion."""

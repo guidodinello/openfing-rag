@@ -1,7 +1,7 @@
 import typer
 from rich.console import Console
 
-from services.generator.schemas.domain import SearchContext
+from services.generator.schemas import SearchContext
 from shared.database.service_dependencies import create_chat_service
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
@@ -13,8 +13,8 @@ app = typer.Typer(
 console = Console()
 
 
+@handle_cli_errors
 @app.command(name="test-chat")
-@handle_cli_errors(operation_name="Test chat")
 def test_chat(
     query: str = typer.Argument(..., help="Test query"),
     lesson_id: int = typer.Option(None, help="Optional lesson ID filter"),

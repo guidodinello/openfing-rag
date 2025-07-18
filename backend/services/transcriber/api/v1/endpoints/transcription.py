@@ -2,10 +2,14 @@ from typing import Annotated
 
 from fastapi import HTTPException, Path, Query, status
 
+from services.transcriber.schemas import (
+    TranscriptionCreateRequest,
+    TranscriptionListResponse,
+    TranscriptionResponse,
+    WhisperModelSize,
+)
 from shared.api.router import create_auth_routers
 from shared.database.service_dependencies import TranscriptionServiceDep
-from transcriber.schemas.api import TranscriptionCreateRequest, TranscriptionListResponse, TranscriptionResponse
-from transcriber.schemas.enums import WhisperModelSize
 
 routers = create_auth_routers()
 
@@ -20,14 +24,20 @@ async def get_transcription(
     service: TranscriptionServiceDep,
     course_code: str = Path(..., description="Course code", example="agpi"),
     lesson_number: int = Path(..., description="Lesson number", ge=1, example=1),
-    model_size: Annotated[WhisperModelSize | None, Query(description="Filter by model size")] = None,
+    model_size: Annotated[
+        WhisperModelSize | None,
+        Query(description="Filter by model size"),
+    ] = None,
 ) -> TranscriptionResponse:
     result = service.get_transcription(course_code, lesson_number, model_size)
 
     if not result.success:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=result.message)
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=result.message,
+        )
 
-    return result.to_api_response()
+    return TranscriptionResponse.from_transcription_result(result)
 
 
 @routers.write.post(
@@ -61,7 +71,7 @@ async def create_transcription(
 
         raise HTTPException(status_code=status_code, detail=result.message)
 
-    return result.to_api_response()
+    return TranscriptionResponse.from_transcription_result(result)
 
 
 @routers.read.get(
@@ -71,15 +81,25 @@ async def create_transcription(
 )
 async def list_transcriptions(
     service: TranscriptionServiceDep,
-    course_code: str | None = Query(None, description="Filter by course code", example="agpi"),
-    unvectorized_only: bool = Query(False, description="Only show unvectorized transcriptions"),
+    course_code: str | None = Query(
+        None,
+        description="Filter by course code",
+        example="agpi",
+    ),
+    unvectorized_only: bool = Query(
+        False,
+        description="Only show unvectorized transcriptions",
+    ),
 ) -> TranscriptionListResponse:
     result = service.list_transcriptions(course_code, unvectorized_only)
 
     if not result.success:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=result.message)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=result.message,
+        )
 
-    return result.to_api_response()
+    return TranscriptionListResponse.from_transcription_list_result(result)
 
 
 @routers.write.post(
@@ -94,6 +114,9 @@ async def vectorize_transcription(
     result = service.vectorize_transcription(transcription_id)
 
     if not result.success:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=result.message)
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=result.message,
+        )
 
-    return result.to_api_response()
+    return TranscriptionResponse.from_transcription_result(result)

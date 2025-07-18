@@ -48,34 +48,23 @@ class SyncResult:
         )
 
     @classmethod
-    def failure_result(cls, message: str, course_code: str | None = None, stats: SyncStats | None = None) -> Self:
-        if stats is None:
-            stats = SyncStats(
+    def failure_result(
+        cls,
+        message: str,
+        course_code: str | None = None,
+        stats: SyncStats | None = None,
+    ) -> Self:
+        return cls(
+            success=False,
+            message=message,
+            stats=stats
+            or SyncStats(
                 courses_created=0,
                 courses_updated=0,
                 lessons_created=0,
                 lessons_updated=0,
                 total_courses=0,
                 total_lessons=0,
-            )
-
-        return cls(
-            success=False,
-            message=message,
-            stats=stats,
+            ),
             course_code=course_code,
-        )
-
-    def to_api_response(self):
-        from services.scraper.schemas.api import SyncResponse
-
-        return SyncResponse(
-            success=self.success,
-            message=self.message,
-            courses_created=self.stats.courses_created,
-            courses_updated=self.stats.courses_updated,
-            lessons_created=self.stats.lessons_created,
-            lessons_updated=self.stats.lessons_updated,
-            total_courses=self.stats.total_courses,
-            total_lessons=self.stats.total_lessons,
         )

@@ -51,7 +51,6 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.3.3",
-    "black>=24.10.0",
     "ruff>=0.8.0",
     "mypy>=1.13.0",
     "pre-commit>=4.0.1",
@@ -67,11 +66,6 @@ openchat-transcriber = "services.transcriber.cli:app"
 
 openchat-db = "shared.database.cli:app"
 
-[tool.black]
-line-length = 120
-target-version = ['py312']
-include = '\.pyi?$'
-
 [tool.ruff]
 line-length = 120
 target-version = "py312"
@@ -85,7 +79,13 @@ select = [
     "C",  # flake8-comprehensions
     "B",  # flake8-bugbear
 ]
-ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = false
 
 [tool.ruff.lint.isort]
 known-first-party = ["generator", "scraper", "transcriber", "downloader", "shared"]
@@ -109,11 +109,38 @@ ignore_missing_imports = true
 explicit_package_bases = true
 
 [tool.vulture]
-paths = ["*.py"]
-make_whitelist = true
-min_confidence = 80
+paths = ["."]
+exclude = [
+    ".git/",
+    ".venv/",
+    "**/__pycache__/",
+    "backend/shared/database/migrations/",
+    "tests/",
+    ".pytest_cache/",
+    "**/schemas/enums.py",
+    # diegote files
+    "backend/transcriptions/Logic"
+]
+ignore_decorators = [
+    "@app.route",               # FastAPI routes
+    "@router.get",              # FastAPI router methods
+    "@router.post",
+    "@router.put",
+    "@router.delete",
+    "@router.patch",
+    "@typer.command",           # Typer CLI commands
+    "@task",                    # Prefect tasks
+    "@flow",                    # Prefect flows\
+    "@property",                # Python properties
+    "@staticmethod",            # Static methods
+    "@classmethod",             # Class methods
+]
+# 100 = only report guaranteed dead code
+# 90 = include likely unused imports
+# 60 = include all potentially unused code (classes, functions, variables)
+min_confidence = 60
 sort_by_size = true
-verbose = true
+make_whitelist = false
 
 
 [build-system]
@@ -123,7 +150,9 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
     "mypy>=1.16.0",
+    "ruff>=0.11.13",
     "types-requests>=2.32.0.20250602",
+    "vulture>=2.14",
 ]
 
 [tool.hatch.build.targets.wheel]

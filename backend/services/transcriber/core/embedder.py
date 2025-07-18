@@ -6,7 +6,7 @@ import langchain_huggingface
 from langchain_core.embeddings import Embeddings
 
 from shared.config import get_settings
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -34,7 +34,9 @@ class Embedder:
             if cache_folder:
                 cache_folder.mkdir(exist_ok=True, parents=True)
 
-            logger.debug(f"Loading Embeddings {model_name=} on {settings.EMBEDDINGS.DEVICE}")
+            logger.debug(
+                f"Loading Embeddings {model_name=} on {settings.EMBEDDINGS.DEVICE}",
+            )
             cls._models_cache[cache_key] = langchain_huggingface.HuggingFaceEmbeddings(
                 model_name=model_name,
                 model_kwargs={"device": settings.EMBEDDINGS.DEVICE},

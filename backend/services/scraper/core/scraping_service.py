@@ -1,12 +1,14 @@
+from collections.abc import Collection, Iterable
+
 from sqlalchemy.orm import Session
 
-from scraper.schemas.domain import SyncResult, SyncStats
 from services.scraper.core.scrapers.course_scraper import Course as CourseSchema
 from services.scraper.core.scrapers.lesson_scraper import Lesson as LessonSchema
 from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
-from shared.database.models.rag.course import Course
+from services.scraper.schemas import SyncResult, SyncStats
+from shared.database.models import Course
 from shared.database.repositories import CourseRepository, LessonRepository
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -33,7 +35,7 @@ class ScrapingService:
         logger.info("Starting full OpenFing data synchronization")
 
         scraping_result = self.scraper.scrape()
-        stats = self.__sync_data(scraping_result.courses, scraping_result.lessons)
+        stats = self._sync_data(scraping_result.courses, scraping_result.lessons)
 
         return SyncResult.success_result(stats)
 
@@ -53,18 +55,22 @@ class ScrapingService:
                 course_code=course_acronym,
             )
 
-        stats = self.__sync_data(target_course, target_lessons)
+        stats = self._sync_data(target_course, target_lessons)
 
         return SyncResult.success_result(stats, course_code=course_acronym)
 
-    def __sync_data(self, courses: list[CourseSchema], lessons: list[LessonSchema]) -> SyncStats:
+    def _sync_data(
+        self,
+        courses: Collection[CourseSchema],
+        lessons: Collection[LessonSchema],
+    ) -> SyncStats:
         try:
-            # Step 1: Sync courses
-            courses_stats = self.__sync_courses(courses)
+            courses_stats = self._sync_courses(courses)
 
-            # Step 2: Sync lessons
-            course_mapping = self.course_repo.get_by_codes([course.acronym for course in courses])
-            lessons_stats = self.__sync_lessons(lessons, course_mapping)
+            lessons_stats = self._sync_lessons(
+                lessons,
+                course_mapping=self.course_repo.get_by_codes(course.acronym for course in courses),
+            )
 
             self.db.commit()
 
@@ -82,13 +88,19 @@ class ScrapingService:
             self.db.rollback()
             raise
 
-    def __sync_lessons(self, scraped_lessons: list[LessonSchema], course_mapping: dict[str, Course]) -> dict[str, int]:
+    def _sync_lessons(
+        self,
+        scraped_lessons: Iterable[LessonSchema],
+        course_mapping: dict[str, Course],
+    ) -> dict[str, int]:
         lessons_data = []
 
         for lesson in scraped_lessons:
             course = course_mapping.get(lesson.course_acronym)
             if not course:
-                logger.warning(f"Course {lesson.course_acronym} not found for lesson {lesson.number}")
+                logger.warning(
+                    f"Course {lesson.course_acronym} not found for lesson {lesson.number}",
+                )
                 continue
 
             lessons_data.append(
@@ -102,7 +114,7 @@ class ScrapingService:
 
         return self.lesson_repo.bulk_sync_lessons(lessons_data)
 
-    def __sync_courses(self, scraped_courses: list[CourseSchema]) -> dict[str, int]:
+    def _sync_courses(self, scraped_courses: Iterable[CourseSchema]) -> dict[str, int]:
         return self.course_repo.bulk_sync_courses(
             [
                 {

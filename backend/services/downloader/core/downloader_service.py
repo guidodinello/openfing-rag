@@ -5,21 +5,22 @@ from urllib.parse import urlparse
 import yt_dlp
 from sqlalchemy.orm import Session
 
-from downloader.schemas.domain import DownloadResult, DownloadStats
-from shared.database.models.rag.lesson import Lesson
+from services.downloader.schemas import DownloadResult, DownloadStats
+from shared.config import get_settings
+from shared.database.models import Lesson
 from shared.database.repositories import CourseRepository, LessonRepository
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
+settings = get_settings()
 
 
 def extract_filename_from_url(url: str) -> str:
-    parsed = urlparse(url)
-    return Path(parsed.path).name or "video"
+    return Path(urlparse(url).path).name or "video"
 
 
 def make_filter(course_dir: Path, expected_filename: str):
-    """Create filter function to check if file already exists."""
+    """Filter function to check if file already exists."""
 
     def audio_file_already_downloaded(info, *, incomplete) -> str | None:
         for file in course_dir.glob(f"{expected_filename}.*"):
@@ -41,18 +42,16 @@ class DownloaderService:
         self.course_repo = course_repo
         self.lesson_repo = lesson_repo
 
-        # Setup yt-dlp plugin path BEFORE any yt-dlp operations
         self._setup_ytdlp_plugins()
 
     def _setup_ytdlp_plugins(self):
         """Setup yt-dlp plugin directory in Python path."""
-        project_root = Path(__file__).resolve().parent.parent.parent.parent.parent
+        project_root = settings.BASE_DIR
 
         if str(project_root) not in sys.path:
             sys.path.insert(0, str(project_root))
             logger.info(f"Added yt-dlp plugin path: {project_root}")
 
-            # Verify plugin exists
             plugin_path = project_root / "yt_dlp_plugins" / "extractor" / "openfing.py"
             if plugin_path.exists():
                 logger.info(f"✅ OpenFing extractor plugin found: {plugin_path}")
@@ -85,7 +84,7 @@ class DownloaderService:
             failed=0,
         )
         for lesson in lessons:
-            result = self.__download_lesson(
+            result = self._download_lesson(
                 course_code=course_code,
                 lesson_number=lesson.number,
                 video_url=lesson.video_url,
@@ -111,7 +110,7 @@ class DownloaderService:
                 stats=stats,
             )
 
-    def __download_lesson(
+    def _download_lesson(
         self,
         course_code: str,
         lesson_number: int,

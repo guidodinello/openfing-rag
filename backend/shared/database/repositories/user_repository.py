@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from shared.database.models.user import User
+from shared.database.models import User
 from shared.database.repositories import BaseRepository
 
 

@@ -1,9 +1,9 @@
 from sqlalchemy import and_, update
 from sqlalchemy.orm import Session, joinedload
 
+from services.transcriber.schemas import WhisperModelSize
 from shared.database.models import Course, Lesson, Transcription
 from shared.database.repositories import BaseRepository
-from transcriber.schemas.enums import WhisperModelSize
 
 
 class TranscriptionRepository(BaseRepository[Transcription]):
@@ -132,12 +132,14 @@ class TranscriptionRepository(BaseRepository[Transcription]):
                 lesson_id=lesson_id,
             )
 
-    def is_vectorized(self, transcription_id: int) -> bool:
+    def is_vectorized(self, transcription_id: int) -> Transcription | None:
         """Check if a transcription has been vectorized."""
+        ## TODO: in the future we should retrieve the chunks or something
         transcription = self.get_by_id(transcription_id)
         if not transcription:
-            return False
-        return transcription.transcription_metadata.get("vectorized", False)
+            return None
+        vectorized = transcription.transcription_metadata.get("vectorized", False)
+        return transcription if vectorized else None
 
     def mark_as_vectorized(self, transcription_id: int) -> bool:
         """Mark transcription as vectorized."""

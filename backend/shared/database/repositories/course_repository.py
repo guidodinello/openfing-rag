@@ -3,7 +3,7 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from shared.database.models.rag.course import Course
+from shared.database.models import Course
 from shared.database.repositories import BaseRepository
 
 
@@ -15,9 +15,6 @@ class CourseRepository(BaseRepository[Course]):
         return self.get_by(code=code)
 
     def get_by_codes(self, codes: list[str]) -> dict[str, Course]:
-        if not codes:
-            return {}
-
         courses = self.db.execute(select(self.model).where(self.model.code.in_(codes))).scalars().all()
         return {course.code: course for course in courses}
 
@@ -26,3 +23,7 @@ class CourseRepository(BaseRepository[Course]):
 
     def bulk_sync_courses(self, courses_data: list[dict[str, Any]]) -> dict[str, int]:
         return self.bulk_update_or_create(courses_data, unique_fields=["code"])
+
+    def get_courses_by_codes_list(self, codes: list[str]) -> list[Course]:
+        """Get courses by codes, returning a list instead of dict."""
+        return self.db.execute(select(self.model).where(self.model.code.in_(codes))).scalars().all()

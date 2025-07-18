@@ -1,14 +1,21 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, ForeignKey, Identity, Index, Integer, String, UniqueConstraint
+from sqlalchemy import (
+    Column,
+    ForeignKey,
+    Identity,
+    Index,
+    Integer,
+    String,
+    UniqueConstraint,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, relationship
 
 from shared.database.models import TimestampedModel
 
 if TYPE_CHECKING:
-    from shared.database.models.rag.course import Course
-    from shared.database.models.rag.transcription import Transcription
+    from shared.database.models import Course, Transcription
 
 
 class Lesson(TimestampedModel):
@@ -41,7 +48,11 @@ class Lesson(TimestampedModel):
         comment="Lesson number within the course (unique per course)",
     )
 
-    title: Mapped[str] = Column(String(255), nullable=False, comment="Title of the lesson")
+    title: Mapped[str] = Column(
+        String(255),
+        nullable=False,
+        comment="Title of the lesson",
+    )
     video_url: Mapped[str] = Column(
         String(255),
         nullable=True,

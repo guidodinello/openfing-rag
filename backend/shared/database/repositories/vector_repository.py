@@ -8,23 +8,28 @@ import sqlalchemy
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 from langchain_postgres import PGEngine, PGVectorStore
+from pydantic import UUID5
 from sqlalchemy.orm import Session
 
 from services.transcriber.core.chunker import Chunker
 from services.transcriber.core.embedder import Embedder
-from shared.config.config import Settings, get_settings
+from services.transcriber.core.file_utils import TranscriptionFileUtils
+from services.transcriber.schemas import WhisperModelSize
+from shared.config import get_settings
 from shared.database.repositories import TranscriptionRepository
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 from shared.utils import normalize_json
 
 logger = get_logger(__name__)
 settings = get_settings()
 
+type ChunkId = UUID5
+
 # Application namespace for deterministic UUIDs
-TRANSCRIPTION_NAMESPACE = uuid.uuid5(uuid.NAMESPACE_DNS, "openfing.transcription")
+TRANSCRIPTION_NAMESPACE = uuid.uuid5(uuid.NAMESPACE_DNS, "openchat.rag")
 
 
-def generate_chunk_uuid(transcription_id: int, chunk_index: int) -> str:
+def generate_chunk_uuid(transcription_id: int, chunk_index: int) -> ChunkId:
     """
     Generate a deterministic UUID for a transcription chunk.
 
@@ -45,12 +50,10 @@ class VectorRepository:
 
     def __init__(
         self,
-        config: Settings,
         db: Session,
         chunker: Chunker | None = None,
         embedder: Embedder | None = None,
     ):
-        self.config = config
         self.db = db
         self.transcription_repo = TranscriptionRepository(db)
 
@@ -61,16 +64,16 @@ class VectorRepository:
 
     @functools.cached_property
     def _engine(self):
-        return PGEngine.from_connection_string(url=self.config.DATABASE.URL)
+        return PGEngine.from_connection_string(url=settings.DATABASE.URL)
 
     @functools.cached_property
     def _vector_store(self) -> PGVectorStore:
-        table_name = self.config.DATABASE.VECTOR_STORE_COLLECTION
+        table_name = settings.DATABASE.VECTOR_STORE_COLLECTION
 
         try:
             self._engine.init_vectorstore_table(
                 table_name=table_name,
-                vector_size=self.config.EMBEDDINGS.DIMENSION,
+                vector_size=settings.EMBEDDINGS.DIMENSION,
                 schema_name="rag",
                 id_column="uuid",
                 metadata_json_column="metadata",
@@ -96,7 +99,7 @@ class VectorRepository:
         logger.info(f"Initialized PGVectorStore with {table_name=}")
         return vector_store
 
-    def upsert_transcription(self, transcription_id: int) -> list[str]:
+    def upsert_transcription(self, transcription_id: int) -> list[ChunkId]:
         """
         Re-transcribing the same lesson will replace existing chunks.
         """
@@ -106,18 +109,11 @@ class VectorRepository:
         if not transcription:
             raise ValueError(f"Transcription {transcription_id} not found")
 
+        enhanced_metadata = self._get_enhanced_transcription_metadata(transcription)
+
         chunks = self._chunker.chunk(
             content=transcription.content,
-            # TODO:
-            # - start timestamp in lesson audio (should be calculated after chunking
-            #  using transcription object metadata)
-            # - end timestamp in lesson audio
-            transcription_metadata=transcription.transcription_metadata
-            | {
-                "transcription_id": transcription.id,
-                "course_code": transcription.lesson.course.code,
-                "lesson_id": transcription.lesson.id,
-            },
+            transcription_metadata=enhanced_metadata,
         )
 
         documents, ids = [], []
@@ -127,6 +123,8 @@ class VectorRepository:
                 transcription_id,
                 chunk["metadata"]["chunk_index"],
             )
+
+            del chunk["metadata"]["segments"]
 
             documents.append(
                 Document(page_content=chunk["text"], metadata=chunk["metadata"]),
@@ -145,8 +143,82 @@ class VectorRepository:
             },
         )
 
-        logger.info(f"Ingested {transcription_id=} as {len(added_ids)} chunks")
+        timing_accuracy = chunks[0]["metadata"]["timing_accuracy"] if chunks else "unknown"
+        logger.info(
+            f"Ingested {transcription_id=} as {len(added_ids)} chunks with {timing_accuracy} timing",
+        )
         return added_ids
+
+    def _get_enhanced_transcription_metadata(self, transcription) -> dict[str, Any]:
+        """
+        Get transcription metadata enhanced with segments from original file.
+
+        This provides the best of both worlds:
+        - Database metadata for basic info
+        - Original file segments for accurate timestamps
+        """
+        base_metadata = {
+            **transcription.transcription_metadata,
+            "transcription_id": transcription.id,
+            "course_code": transcription.lesson.course.code,
+            "lesson_id": transcription.lesson.id,
+        }
+
+        # Try to load segments from the original transcription file
+        segments = self._load_segments_from_file(transcription)
+
+        if segments:
+            base_metadata["segments"] = segments
+            logger.debug(
+                f"Loaded {len(segments)} segments from original file for transcription {transcription.id}",
+            )
+        else:
+            logger.warning(
+                f"No segments found for transcription {transcription.id} - will use proportional timing",
+            )
+
+        return base_metadata
+
+    def _load_segments_from_file(self, transcription) -> list[dict] | None:
+        """
+        Load segments from the original transcription JSON file.
+
+        This allows us to get precise timing without storing large segment data in the database.
+        """
+        try:
+            # Extract info needed to find the original file
+            course_code = transcription.lesson.course.code
+            lesson_number = transcription.lesson.number
+
+            model_size_str = transcription.transcription_metadata.get(
+                "transcriber_model_size",
+            )
+            if not model_size_str:
+                logger.warning(
+                    f"No model size found in transcription {transcription.id} metadata",
+                )
+                return None
+            model_size = WhisperModelSize(model_size_str)
+
+            transcription_data = TranscriptionFileUtils.load_transcription_from_file(
+                course_code,
+                lesson_number,
+                model_size,
+            )
+
+            if transcription_data and "segments" in transcription_data:
+                return transcription_data["segments"]
+            else:
+                logger.debug(
+                    f"No segments in original file for {course_code} lesson {lesson_number}",
+                )
+                return None
+
+        except Exception as e:
+            logger.error(
+                f"Error loading segments from file for transcription {transcription.id}: {e}",
+            )
+            return None
 
     def similarity_search(
         self,
@@ -174,6 +246,7 @@ class VectorRepository:
         for doc, score in docs_with_scores:
             results.append(
                 {
+                    "id": doc.id,
                     "content": doc.page_content,
                     "metadata": doc.metadata,
                     "score": float(score),
@@ -203,11 +276,11 @@ class VectorRepository:
 
     def get_collection_info(self) -> dict[str, Any]:
         """Get information about the vector store collection."""
-        conn_parts = self.config.DATABASE.URL.split("@")
+        conn_parts = settings.DATABASE.URL.split("@")
         host_info = conn_parts[1].split("/")[0] if len(conn_parts) > 1 else "unknown"
 
         return {
-            "collection_name": self.config.VECTOR_STORE_COLLECTION,
+            "collection_name": settings.VECTOR_STORE_COLLECTION,
             "connection_host": host_info,
             "engine_type": type(self._vector_store).__name__,
             "uuid_strategy": f"{__name__}.generate_chunk_uuid",

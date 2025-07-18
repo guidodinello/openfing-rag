@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=transcribe-course-direct
+#SBATCH --job-name=transcribe
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=16384
@@ -12,80 +12,37 @@
 
 source /etc/profile.d/modules.sh
 
-# Get course code from command line argument
-COURSE_CODE=${1:-"ac"}
-
-echo "=== Transcribing Course: $COURSE_CODE (Direct Bind) ==="
+echo "=== Transcribing Files By Size ==="
 echo "Job ID: $SLURM_JOB_ID"
 echo "Node: $HOSTNAME"
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 echo "Started: $(date)"
+echo "=================================="
+
+
 
 # Ensure container exists
-CONTAINER_PATH="~/transcriber-workspace/uv-container.sif"
+CONTAINER_PATH="$HOME/transcriber-workspace/uv-container.sif"
 if [ ! -f "$CONTAINER_PATH" ]; then
     echo "❌ Container not found at $CONTAINER_PATH"
     echo "Creating workspace and pulling container..."
-    mkdir -p ~/transcriber-workspace
-    cd ~/transcriber-workspace
+    mkdir -p "$HOME/transcriber-workspace"
+    cd "$HOME/transcriber-workspace" || exit
     singularity pull uv-container.sif docker://ghcr.io/astral-sh/uv:python3.12-bookworm
     echo "✅ Container downloaded"
 else
     echo "✅ Container found at $CONTAINER_PATH"
 fi
 
-# Setup environment file in the tesis backend directory
-cat >~/tesis/backend/.env <<'ENVEOF'
-DATABASE__USER="dummy"
-DATABASE__PASSWORD="dummy"
-DATABASE__DB="dummy"
-DATABASE__HOST="dummy"
-DATABASE__PORT=5432
-HUGGINGFACE_API_KEY="dummy"
-LANGSMITH_API_KEY="dummy"
-LANGSMITH_TRACING=false
+cat "$HOME/tesis/backend/.env"
 
-DEBUG=true
-LOG__LEVEL="DEBUG"
+mkdir -p "/scratch/$USER/audio_files" "/scratch/$USER/models_cache" "/scratch/$USER/transcriptions"
 
-TRANSCRIBER__INPUT_DIR="/scratch/guido.dinello/audio_files"
-TRANSCRIBER__OUTPUT_DIR="/scratch/guido.dinello/transcriptions"
-WHISPER__CACHE_DIR="/scratch/guido.dinello/models_cache"
-WHISPER__MODEL="medium"
-WHISPER__DEVICE="cuda"
-EMBEDDINGS__MODEL="intfloat/multilingual-e5-base"
-EMBEDDINGS__DIMENSION=768
-EMBEDDINGS__CACHE_DIR="/scratch/guido.dinello/models_cache"
-EMBEDDINGS__DEVICE="cuda"
+cp -r "$HOME/audio_files_upload/." "/scratch/$USER/audio_files/" 2>/dev/null && {
+    echo "✅ Copied files"
+}
 
-ENVEOF
-
-mkdir -p /scratch/$USER/audio_files/$COURSE_CODE /scratch/$USER/models_cache /scratch/$USER/transcriptions
-
-# Copy audio files if not already there
-if [ ! "$(ls -A /scratch/$USER/audio_files/$COURSE_CODE 2>/dev/null)" ]; then
-    echo "Copying audio files for course $COURSE_CODE..."
-
-    if [ -d "$HOME/audio_files_upload/$COURSE_CODE" ]; then
-        echo "Found subdirectory: $HOME/audio_files_upload/$COURSE_CODE"
-        cp $HOME/audio_files_upload/${COURSE_CODE}/* /scratch/$USER/audio_files/$COURSE_CODE/ 2>/dev/null && {
-            echo "✅ Copied files from subdirectory"
-        }
-    else
-        echo "❌ No audio files found for course $COURSE_CODE"
-        echo "Checked:"
-        echo "  - $HOME/audio_files_upload/$COURSE_CODE/"
-        echo ""
-        echo "Available courses in $HOME/audio_files_upload/:"
-        ls -la $HOME/audio_files_upload/ | grep "^d" | awk '{print $9}' | grep -v "^\.$\|^\..$" | head -10
-        exit 1
-    fi
-else
-    echo "Audio files already in place for $COURSE_CODE"
-fi
-
-echo "Audio files to transcribe:"
-ls -la /scratch/$USER/audio_files/$COURSE_CODE/
+ls -la "$HOME/audio_files_upload/**/*"
 
 echo "=== GPU Information ==="
 nvidia-smi
@@ -93,8 +50,8 @@ echo ""
 
 echo "=== Running Transcription ==="
 singularity exec --nv --writable-tmpfs \
-    --bind ~/tesis/backend:/workspace \
-    --bind /scratch/$USER:/scratch/$USER \
+    --bind "$HOME/tesis/backend:/workspace" \
+    --bind "/scratch/$USER:/scratch/$USER" \
     ~/transcriber-workspace/uv-container.sif bash -c "
 cd /workspace
 
@@ -130,30 +87,35 @@ print(f'faster-whisper imported successfully')
 \"
 
 echo 'Starting transcription:'
-uv run openchat-transcriber transcribe-only $COURSE_CODE
+uv run openchat-transcriber transcribe-by-size --largest-first --max-size 10_000
 "
 
 echo "=== Results Summary ==="
 echo "Transcription files created:"
-find /scratch/$USER/transcriptions -name "*.json" -exec ls -la {} \;
+find "/scratch/$USER/transcriptions" -name "*.json" -exec ls -la {} \;
 
 echo ""
 echo "Total transcription files:"
-find /scratch/$USER/transcriptions -name "*.json" | wc -l
+find "/scratch/$USER/transcriptions" -name "*.json" | wc -l
 
-# ==== MOVE FILES TO HOME DIRECTORY ====
+
 echo ""
-echo "=== Moving transcription files to ~/transcriptions/ ==="
+echo "=== Moving transcription files to HOME ==="
 
 if [ -d "/scratch/$USER/transcriptions" ]; then
-    mkdir -p ~/transcriptions/
-    mv /scratch/$USER/transcriptions/* ~/transcriptions/ 2>/dev/null
-
-    echo "✅ Moved all transcription files to ~/transcriptions/"
-    echo "Final directory structure:"
-    ls -la ~/transcriptions/
+    mkdir -p "$HOME/transcriptions/"
+    rsync -av "/scratch/$USER/transcriptions/" "$HOME/transcriptions/"
+    echo "✅ Moved all transcription files to HOME"
+    ls -la "$HOME/transcriptions/"
 else
     echo "❌ No transcription directory found at /scratch/$USER/transcriptions"
 fi
+
+echo "=== Moved Summary ==="
+echo "Transcription files moved:"
+find "$HOME/transcriptions/" -name "*.json" -exec ls -la {} \;
+echo ""
+echo "Total transcription files:"
+find "$HOME/transcriptions/" -name "*.json" | wc -l
 
 echo "Finished: $(date)"

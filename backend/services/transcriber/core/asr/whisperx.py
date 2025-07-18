@@ -6,9 +6,9 @@ from typing import Any
 
 import whisperx
 
-from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
+from services.transcriber.schemas import WhisperModelLanguage, WhisperModelSize
 from shared.config import get_settings
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -74,7 +74,7 @@ class WhisperXTranscriber:
             result = asr_model.transcribe(
                 audio=audio,
                 batch_size=16 if settings.WHISPER.DEVICE == "cuda" else 4,
-                language=language.value if language != WhisperModelLanguage.auto else None,
+                language=(language.value if language != WhisperModelLanguage.auto else None),
                 task="transcribe",
             )
             result = whisperx.align(
@@ -89,18 +89,19 @@ class WhisperXTranscriber:
             # Enhanced result with WhisperX features
             result.update(
                 {
-                    "model_size": model_size.value,
-                    "language": language.value,
-                    "source_file": str(audio_path),
-                    "file_size_bytes": audio_path.stat().st_size,
                     "processing_time": processing_time,
                     "device_used": settings.WHISPER.DEVICE,
                     "segments_count": len(result.get("segments", [])),
                 },
             )
 
-            self._save_result(result, file_name=f"{audio_path.stem}_{model_size.value}_{self.suffix}")
-            logger.info(f"WhisperX transcription completed in {processing_time:.2f} seconds")
+            self._save_result(
+                result,
+                file_name=f"{audio_path.stem}_{model_size.value}_{self.suffix}",
+            )
+            logger.info(
+                f"WhisperX transcription completed in {processing_time:.2f} seconds",
+            )
             return result
 
         except Exception as e:
