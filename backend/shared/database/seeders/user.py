@@ -1,5 +1,5 @@
 from shared.database.factories import UserFactory
-from shared.database.repositories.user_repository import UserRepository
+from shared.database.repositories import UserRepository
 from shared.database.seeders.base import BaseSeeder
 
 

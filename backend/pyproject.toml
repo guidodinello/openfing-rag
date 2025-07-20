@@ -3,7 +3,7 @@ name = "openfing-chat-backend"
 version = "0.1.0"
 description = "RAG system backend with video transcription and processing"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.13"
 authors = [
     {name = "Guido Dinello", email = "guido.dinello@gmail.com"},
     {name = "Diego Amorena", email = "diegoamorenag@gmail.com"}
@@ -32,6 +32,7 @@ dependencies = [
     # Video/Audio processing
     "yt-dlp>=2024.3.10",
     "openai-whisper>=20240930",
+    "faster-whisper>=1.1.0",
     # Web framework
     "fastapi>=0.115.11",
     "uvicorn>=0.34.0",
@@ -42,6 +43,8 @@ dependencies = [
     "prefect>=3.4.1",
     "bcrypt>=4.3.0",
     "ratelimit>=2.2.1",
+    "nvidia-cudnn-cu11>=8.6.0,<9.0.0",
+    "ctranslate2==4.4.0",
 ]
 
 [project.optional-dependencies]
@@ -62,7 +65,6 @@ openchat-scraper = "services.scraper.cli:app"
 openchat-transcriber = "services.transcriber.cli:app"
 
 openchat-db = "shared.database.cli:app"
-
 
 [tool.black]
 line-length = 120

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import requests
 from bs4 import BeautifulSoup, Tag
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.http.client import HTTPClient
 from shared.logging.logger import get_logger
 

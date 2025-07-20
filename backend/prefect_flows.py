@@ -7,8 +7,8 @@ from prefect.schedules import IntervalSchedule
 from services.downloader.core.downloader_service import DownloaderService
 from services.transcriber.core.transcription_service import TranscriptionService
 from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
-from shared.config.config import get_settings
-from shared.database.repositories.course_repository import CourseRepository
+from shared.config import get_settings
+from shared.database.repositories import CourseRepository
 from shared.database.session import get_db_session
 from shared.logging.logger import get_logger
 
@@ -168,7 +168,7 @@ def transcribe_course_task(
 
 @flow(name="full-download-pipeline")
 def full_download_pipeline_flow(
-    output_dir: Path = None,
+    output_dir: Path | None = None,
     workers: int = 5,
     codec: str = "mp3",
     quality: str = "0",
@@ -298,8 +298,8 @@ def full_transcription_pipeline_flow(
 
 @flow(name="complete-openfing-pipeline")
 def complete_openfing_pipeline_flow(
-    download_settings: dict = None,
-    transcription_settings: dict = None,
+    download_settings: dict | None = None,
+    transcription_settings: dict | None = None,
 ) -> dict:
     """
     Complete pipeline: download → transcribe (with auto-vectorization) for all OpenFing courses.

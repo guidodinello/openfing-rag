@@ -1,5 +1,5 @@
 from shared.database.factories import CourseFactory
-from shared.database.repositories.course_repository import CourseRepository
+from shared.database.repositories import CourseRepository
 from shared.database.seeders.base import BaseSeeder
 
 

@@ -1,24 +1,11 @@
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Literal
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, Field, HttpUrl, PostgresDsn, field_validator, model_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import BaseModel, Field, HttpUrl, PostgresDsn, field_validator
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
-
-def detect_device(device: str) -> str:
-    """Auto-detect device if set to 'auto'."""
-    if device != "auto":
-        return device
-
-    import torch
-
-    if torch.cuda.is_available():
-        return "cuda"
-    elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
-        return "mps"
-    else:
-        return "cpu"
+from shared.utils import detect_device, parse_comma_separated_list
 
 
 class LoggingSettings(BaseModel):
@@ -26,7 +13,7 @@ class LoggingSettings(BaseModel):
         default="INFO",
         description="Logging level",
     )
-    DIR: Path = Field(default="logs", description="Path to log files directory")
+    DIR: Path = Field(default=Path("./default_logs"), description="Path to log files directory")
 
 
 class DatabaseSettings(BaseModel):
@@ -41,12 +28,14 @@ class DatabaseSettings(BaseModel):
 
     @property
     def URL(self) -> PostgresDsn:
-        """Construct Datbase Connection String."""
         return f"postgresql+psycopg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DB}"
 
 
 class DownloaderSettings(BaseModel):
-    OUTPUT_DIR: Path = Field(default=Path("./audios"), description="Base directory for downloaded media files")
+    OUTPUT_DIR: Path = Field(
+        default=Path("./default_audios"),
+        description="Base directory for downloaded media files",
+    )
     WORKERS: int = Field(default=4, description="Number of concurrent workers", ge=1)
     CODEC: str = Field(default="best", description="Audio codec (best, mp3, m4a, etc.)")
     QUALITY: str = Field(default="0", description="Audio quality (0-10, 0=best)")
@@ -61,12 +50,14 @@ class ScraperSettings(BaseModel):
 
 
 class TranscriberSettings(BaseModel):
-    PORT: int = Field(default=8001, description="Server port")
     INPUT_DIR: Path = Field(
-        default=Path("./audios"),
+        default=Path("./default_audios"),
         description="Base path to look for audio files",
     )
-    OUTPUT_DIR: Path = Field(default=Path("./transcriptions"), description="Directory to save transcription JSON files")
+    OUTPUT_DIR: Path = Field(
+        default=Path("./default_transcriptions"),
+        description="Directory to save transcription JSON files",
+    )
 
 
 class EmbeddingsSettings(BaseModel):
@@ -75,7 +66,7 @@ class EmbeddingsSettings(BaseModel):
         description="Embeddings model name",
     )
     DIMENSION: int = Field(default=384, description="Embeddings dimensions")
-    CACHE_DIR: Path | None = Field(default=None, description="Model cache directory")
+    CACHE_DIR: Path | None = Field(default=Path("./default_models_cache"), description="Model cache directory")
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
         default="auto",
         description="Device to run embeddings on",
@@ -89,7 +80,7 @@ class EmbeddingsSettings(BaseModel):
 
 class WhisperSettings(BaseModel):
     MODEL: str = Field(default="tiny", description="Whisper model name")
-    CACHE_DIR: Path | None = Field(default=None, description="Model cache directory")
+    CACHE_DIR: Path | None = Field(default=Path("./default_models_cache"), description="Model cache directory")
     DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
         default="auto",
         description="Device to run whisper on",
@@ -122,28 +113,24 @@ class PrefectSettings(BaseModel):
     DB: str = Field(default="prefect", description="Prefect database name")
 
 
-class Settings(BaseSettings):
-    DATABASE: DatabaseSettings = Field(default_factory=DatabaseSettings)
-    LOG: LoggingSettings = Field(default_factory=LoggingSettings)
-    WHISPER: WhisperSettings = Field(default_factory=WhisperSettings)
-    EMBEDDINGS: EmbeddingsSettings = Field(default_factory=EmbeddingsSettings)
-    DOWNLOADER: DownloaderSettings = Field(default_factory=DownloaderSettings)
-    TRANSCRIBER: TranscriberSettings = Field(default_factory=TranscriberSettings)
-    SCRAPER: ScraperSettings = Field(default_factory=ScraperSettings)
-    PREFECT: PrefectSettings = Field(default_factory=PrefectSettings)
+class ApiKeys(BaseModel):
+    ADMIN: Annotated[list[str], NoDecode] = Field(default_factory=list, description="Comma-separated admin API keys")
+    READ: Annotated[list[str], NoDecode] = Field(default_factory=list, description="Comma-separated read-only API keys")
+    WRITE: Annotated[list[str], NoDecode] = Field(default_factory=list, description="Comma-separated write API keys")
 
-    # Project paths
-    BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
+    @field_validator("ADMIN", "READ", "WRITE", mode="before")
+    @classmethod
+    def parse_comma_separated(cls, v: str | list[str]) -> list[str]:
+        if not isinstance(v, str):
+            return []
+        return parse_comma_separated_list(v)
 
-    # Basic app config
-    APP_NAME: str = "Educational RAG"
-    APP_DESCRIPTION: str = "RAG-powered educational content assistant"
-    APP_VERSION: str = "v1.0.0"
-    API_V1_STR: str = "/api/v1"
+    @property
+    def all(self) -> set[str]:
+        return set(self.ADMIN + self.READ + self.WRITE)
 
-    # Environment settings
-    DEBUG: bool = Field(default=False, description="Debug mode")
 
+class ServerSettings(BaseModel):
     # Server settings
     HOST: str = Field(default="0.0.0.0", description="Server host")
     PORT: int = Field(default=8000, description="Server port")
@@ -153,38 +140,69 @@ class Settings(BaseSettings):
         ge=1,
     )
 
+
+class HuggingFaceSettings(BaseModel):
+    API_KEY: str = Field(default="NOT_SET", description="Huggingface API key")
+
+
+class LangsmithSettings(BaseModel):
+    API_KEY: str = Field(default="NOT_SET", description="LangSmith API key")
+    TRACING: bool = Field(
+        default=False,
+        description="Enable LangSmith tracing",
+    )
+
+
+class AppSettings(BaseModel):
+    # Basic app config
+    NAME: str = Field(default="Educational RAG", description="Application name")
+    DESCRIPTION: str = Field(default="RAG-powered educational content assistant", description="Application description")
+    VERSION: str = Field(description="Application version")
+    ENV: Literal["local", "production"] = Field(..., descriptions="Environment in which the app is running")
+
+
+class Settings(BaseSettings):
+    APP: AppSettings = Field(default_factory=AppSettings)
+    API_KEYS: ApiKeys = Field(default_factory=ApiKeys)
+    DATABASE: DatabaseSettings = Field(default_factory=DatabaseSettings)
+    LOG: LoggingSettings = Field(default_factory=LoggingSettings)
+    SERVER: ServerSettings = Field(default_factory=ServerSettings)
+
+    WHISPER: WhisperSettings = Field(default_factory=WhisperSettings)
+    EMBEDDINGS: EmbeddingsSettings = Field(default_factory=EmbeddingsSettings)
+
+    PREFECT: PrefectSettings = Field(default_factory=PrefectSettings)
+    HUGGINGFACE: HuggingFaceSettings = Field(default_factory=HuggingFaceSettings)
+    LANGSMITH: LangsmithSettings = Field(default_factory=LangsmithSettings)
+
+    DOWNLOADER: DownloaderSettings = Field(default_factory=DownloaderSettings)
+    TRANSCRIBER: TranscriberSettings = Field(default_factory=TranscriberSettings)
+    SCRAPER: ScraperSettings = Field(default_factory=ScraperSettings)
+
+    BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
+
+    # API Documentation URLs
+    DOCS_URL: str | None = Field(default="/docs", description="Swagger UI documentation endpoint")
+    REDOC_URL: str | None = Field(default="/redoc", description="ReDoc documentation endpoint")
+    OPENAPI_URL: str | None = Field(default="/openapi.json", description="OpenAPI JSON schema endpoint")
+    HEALTH_URL: str = Field(default="/health", description="Healthcheck endpoint")
+
+    API_URL: str = Field(default="/api", description="API prefix path")
     FRONTEND_URL: HttpUrl = Field(
         default="http://localhost:3000",
         description="Frontend URL for CORS",
     )
 
-    # External services
-    HUGGINGFACE_API_KEY: str = Field(default="", description="Huggingface API key")
-
-    LANGSMITH_TRACING: bool = Field(
-        default=False,
-        description="Enable LangSmith tracing",
-        env="langsmith_tracing",
-    )
-    LANGSMITH_API_KEY: str = Field(description="LangSmith API key")
+    DOMAIN_NAME: str | None = Field(default="tu-dominio.com", description="Domain Name")
+    SSL_EMAIL: str | None = Field(default="tu-email@example.com", description="Email used for SSL certificates")
 
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
         frozen=True,
-        extra="ignore",
-        env_nested_delimiter="_",
+        extra="forbid",
+        env_nested_delimiter="__",
     )
-
-    @model_validator(mode="before")
-    @classmethod
-    def validate_env_file(cls, values: dict[str, Any]) -> dict[str, Any]:
-        env_file = Path(".env")
-        if not env_file.is_file():
-            msg = f"""{env_file.absolute()} file not found!
-            Please create one based on '.env.example'"""
-            raise ValueError(msg)
-        return values
 
 
 @lru_cache

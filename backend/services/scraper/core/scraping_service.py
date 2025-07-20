@@ -5,8 +5,7 @@ from services.scraper.core.scrapers.course_scraper import Course as CourseSchema
 from services.scraper.core.scrapers.lesson_scraper import Lesson as LessonSchema
 from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
 from shared.database.models.rag.course import Course
-from shared.database.repositories.course_repository import CourseRepository
-from shared.database.repositories.lesson_repository import LessonRepository
+from shared.database.repositories import CourseRepository, LessonRepository
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)

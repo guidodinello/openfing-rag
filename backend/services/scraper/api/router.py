@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 
-from .v1.endpoints import health, scraping
+from services.scraper.api.v1.endpoints import scraping
 
-api_router = APIRouter()
+scraper_router = APIRouter(prefix="/scraper", tags=["scraper"])
 
-api_router.include_router(scraping.router, tags=["scraping"])
-api_router.include_router(health.router, tags=["health"])
+scraping.routers.include_in(scraper_router)

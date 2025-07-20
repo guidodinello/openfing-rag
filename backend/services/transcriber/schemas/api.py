@@ -29,3 +29,32 @@ class AvailableLessonsResponse(BaseModel):
     success: bool
     message: str
     lessons: list[dict[str, Any]]
+
+
+class TranscriptionDetail(BaseModel):
+    id: int
+    content: str
+    metadata: dict[str, Any]
+    lesson: dict[str, Any]
+
+
+class TranscriptionSummary(BaseModel):
+    id: int
+    lesson_id: int
+    course_code: str
+    lesson_number: int
+    lesson_title: str
+    content_length: int
+    model_size: str | None = None
+    package: str | None = None
+    language: str | None = None
+    is_vectorized: bool = False
+    created_at: str | None = None
+
+
+class LessonFile(BaseModel):
+    lesson_number: int
+    filename: str
+    file_size: int
+    file_path: str
+    extension: str

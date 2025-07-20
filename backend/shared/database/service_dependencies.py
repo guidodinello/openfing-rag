@@ -3,17 +3,16 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from generator.core.chat_service import ChatService
-from generator.core.llm_service import LLMService
 from services.downloader.core.downloader_service import DownloaderService
+from services.generator.core.chat_service import ChatService
+from services.generator.core.llm_service import LLMService
 from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
 from services.scraper.core.scraping_service import ScrapingService
+from services.transcriber.core.asr.transcriber_protocol import TranscriberProtocol, create_transcriber, get_transcriber
+from services.transcriber.core.base_transcriber import BaseTranscriptionService
 from services.transcriber.core.transcription_service import TranscriptionService
-from shared.config.config import get_settings
-from shared.database.repositories.course_repository import CourseRepository
-from shared.database.repositories.lesson_repository import LessonRepository
-from shared.database.repositories.transcription_repository import TranscriptionRepository
-from shared.database.repositories.vector_repository import VectorRepository
+from shared.config import get_settings
+from shared.database.repositories import CourseRepository, LessonRepository, TranscriptionRepository, VectorRepository
 from shared.database.repository_dependencies import (
     CourseRepositoryDep,
     LessonRepositoryDep,
@@ -31,13 +30,21 @@ http_client = get_http_client()
 # ============================================================================
 
 
+def create_no_db_transcription_service() -> BaseTranscriptionService:
+    """Create file-only transcription service (no database dependencies)."""
+    transcriber = create_transcriber()
+    return BaseTranscriptionService(transcriber)
+
+
 def create_transcription_service(db: Session) -> TranscriptionService:
+    """Create full transcription service with database support."""
+    transcriber = create_transcriber()
     return TranscriptionService(
         db=db,
-        course_repo=CourseRepository(db),
         lesson_repo=LessonRepository(db),
         transcription_repo=TranscriptionRepository(db),
         vector_repo=VectorRepository(settings, db),
+        transcriber=transcriber,
     )
 
 
@@ -72,18 +79,18 @@ def create_chat_service(db: Session) -> ChatService:
 
 
 def get_transcription_service(
-    course_repo: CourseRepositoryDep,
     lesson_repo: LessonRepositoryDep,
     transcription_repo: TranscriptionRepositoryDep,
     vector_repo: VectorRepositoryDep,
+    transcriber: TranscriberProtocol = Depends(get_transcriber),
     db: Session = Depends(get_db),
 ) -> TranscriptionService:
     return TranscriptionService(
         db=db,
-        course_repo=course_repo,
         lesson_repo=lesson_repo,
         transcription_repo=transcription_repo,
         vector_repo=vector_repo,
+        transcriber=transcriber,
     )
 
 

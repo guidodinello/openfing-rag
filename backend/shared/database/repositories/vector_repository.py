@@ -10,9 +10,10 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_postgres import PGEngine, PGVectorStore
 from sqlalchemy.orm import Session
 
+from services.transcriber.core.chunker import Chunker
 from services.transcriber.core.embedder import Embedder
 from shared.config.config import Settings, get_settings
-from shared.database.repositories.transcription_repository import TranscriptionRepository
+from shared.database.repositories import TranscriptionRepository
 from shared.logging.logger import get_logger
 from shared.utils import normalize_json
 
@@ -36,17 +37,25 @@ def generate_chunk_uuid(transcription_id: int, chunk_index: int) -> str:
     return str(uuid.uuid5(TRANSCRIPTION_NAMESPACE, seed))
 
 
+## TODO: should i call it ChunkRepository?
 class VectorRepository:
     """
     Repository for vector store operations using deterministic UUIDs.
     """
 
-    def __init__(self, config: Settings, db: Session, embedder: Embedder | None = None):
+    def __init__(
+        self,
+        config: Settings,
+        db: Session,
+        chunker: Chunker | None = None,
+        embedder: Embedder | None = None,
+    ):
         self.config = config
         self.db = db
         self.transcription_repo = TranscriptionRepository(db)
 
-        self._embedder = embedder or Embedder()  # TODO: the service should inject   theparams
+        self._embedder = embedder or Embedder()  # TODO: the service should inject these params?
+        self._chunker = chunker or Chunker()
 
         logger.info("Vector repository initialized successfully")
 
@@ -58,16 +67,20 @@ class VectorRepository:
     def _vector_store(self) -> PGVectorStore:
         table_name = self.config.DATABASE.VECTOR_STORE_COLLECTION
 
-        # Handle error if table already exists
         try:
             self._engine.init_vectorstore_table(
                 table_name=table_name,
                 vector_size=self.config.EMBEDDINGS.DIMENSION,
+                schema_name="rag",
+                id_column="uuid",
+                metadata_json_column="metadata",
             )
             logger.info(f"Created new vector store table: {table_name}")
         except sqlalchemy.exc.ProgrammingError as e:
             if isinstance(e.orig, psycopg.errors.DuplicateTable):
-                logger.debug(f"Skipping init_vectorstore_table {table_name=} already exists")
+                logger.debug(
+                    f"Skipping init_vectorstore_table {table_name=} already exists",
+                )
             else:
                 raise
 
@@ -75,6 +88,9 @@ class VectorRepository:
             engine=self._engine,
             table_name=table_name,
             embedding_service=self._embedder.model,
+            schema_name="rag",
+            id_column="uuid",
+            metadata_json_column="metadata",
         )
 
         logger.info(f"Initialized PGVectorStore with {table_name=}")
@@ -84,25 +100,37 @@ class VectorRepository:
         """
         Re-transcribing the same lesson will replace existing chunks.
         """
-        transcription = self.transcription_repo.get_by_id(transcription_id)
+        transcription = self.transcription_repo.get_by_id_with_course_and_lesson(
+            transcription_id,
+        )
         if not transcription:
             raise ValueError(f"Transcription {transcription_id} not found")
 
-        chunks = self._chunk_content(
+        chunks = self._chunker.chunk(
             content=transcription.content,
             # TODO:
             # - start timestamp in lesson audio (should be calculated after chunking
             #  using transcription object metadata)
             # - end timestamp in lesson audio
-            transcription_metadata=transcription.transcription_metadata | {"transcription_id": transcription.id},
+            transcription_metadata=transcription.transcription_metadata
+            | {
+                "transcription_id": transcription.id,
+                "course_code": transcription.lesson.course.code,
+                "lesson_id": transcription.lesson.id,
+            },
         )
 
         documents, ids = [], []
 
         for chunk in chunks:
-            chunk_uuid = generate_chunk_uuid(transcription_id, chunk["metadata"]["chunk_index"])
+            chunk_uuid = generate_chunk_uuid(
+                transcription_id,
+                chunk["metadata"]["chunk_index"],
+            )
 
-            documents.append(Document(page_content=chunk["text"], metadata=chunk["metadata"]))
+            documents.append(
+                Document(page_content=chunk["text"], metadata=chunk["metadata"]),
+            )
             ids.append(chunk_uuid)
 
         # Add to vector store (will upsert if UUIDs already exist)
@@ -185,50 +213,6 @@ class VectorRepository:
             "uuid_strategy": f"{__name__}.generate_chunk_uuid",
         }
 
-    def _chunk_content(
-        self,
-        content: str,
-        transcription_metadata: dict[str, Any],
-    ) -> list[dict[str, Any]]:
-        chunk_size = 1000
-        overlap = 200
-        start = 0
-        chunk_index = 0
-        chunks = []
-
-        while start < len(content):
-            end = start + chunk_size
-            chunk_text = content[start:end]
-
-            # Ensure we don't cut off mid-word
-            if end < len(content):
-                last_space = chunk_text.rfind(" ")
-                if last_space > chunk_size - 100:
-                    end = start + last_space
-                    chunk_text = content[start:end]
-
-            chunk_metadata = {
-                **transcription_metadata,
-                "chunk_index": chunk_index,
-                "start_pos": start,
-                "end_pos": end,
-                "chunk_strategy": "simple_overlap",
-                "chunk_size": chunk_size,
-                "overlap": overlap,
-            }
-
-            chunks.append(
-                {
-                    "text": chunk_text.strip(),
-                    "metadata": chunk_metadata,
-                },
-            )
-
-            start = end - overlap
-            chunk_index += 1
-
-        return chunks
-
     def delete_by_transcription(self, transcription_id: int) -> bool:
         """Delete all chunks for a transcription"""
         try:
@@ -237,7 +221,7 @@ class VectorRepository:
                 logger.debug(f"Transcription {transcription_id} not found")
                 return True
 
-            # TODO: improve this, dont guess, query DB
+            # TODO: improve this, dont guess, query DB. probably storing the transcription id in the chunk metadata
             # Calculate all possible chunk UUIDs for this transcription
             # We need to estimate max chunks or query the vector store
             max_chunks = 100  # Reasonable upper bound
@@ -255,7 +239,9 @@ class VectorRepository:
             return True
 
         except Exception as e:
-            logger.error(f"Error deleting vectors for transcription {transcription_id}: {e}")
+            logger.error(
+                f"Error deleting vectors for transcription {transcription_id}: {e}",
+            )
             return False
 
     def delete_by_lesson(self, lesson_id: int) -> bool:

@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from shared.database.models.rag.course import Course
-from shared.database.repositories.base_repository import BaseRepository
+from shared.database.repositories import BaseRepository
 
 
 class CourseRepository(BaseRepository[Course]):

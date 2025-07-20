@@ -1,6 +1,6 @@
 from shared.database.factories import TranscriptionFactory
 from shared.database.models.rag.lesson import Lesson
-from shared.database.repositories.lesson_repository import LessonRepository
+from shared.database.repositories import LessonRepository
 from shared.database.seeders.base import BaseSeeder
 
 

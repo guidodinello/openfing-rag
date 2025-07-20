@@ -168,3 +168,60 @@ services/
 │   ├── services/                 # Service layer (optional)
 │   └── README.md
 ```
+
+
+## Troubleshooting
+
+When using Faster Whisper or WhisperX with CUDA, you may encounter issues related to missing libraries. To resolve this, ensure that the `LD_LIBRARY_PATH` is set correctly to include the paths for the NVIDIA cuBLAS and cuDNN libraries.
+
+using cuda, aoviding missing libraries
+
+```bash
+❯ export LD_LIBRARY_PATH=`python3 -c 'import os; import nvidia.cublas.lib; import nvidia.cudnn.lib; print(os.path.dirname(nvidia.cublas.lib.__file__) + ":" + os.path.dirname(nvidia.cudnn.lib.__file__))'`
+
+❯ echo $LD_LIBRARY_PATH
+/home/guido/Desktop/fac/2024/proyecto-grado/tesis/backend/.venv/lib/python3.12/site-packages/nvidia/cublas/lib:/home/guido/Desktop/fac/2024/proyecto-grado/tesis/backend/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib
+```
+
+https://github.com/SYSTRAN/faster-whisper?tab=readme-ov-file#gpu
+https://github.com/SYSTRAN/faster-whisper/issues/516
+
+## TODO
+- [] ssl certificates in prod. SSL/HTTPS con Let's Encrypt
+- [] basic frontend
+
+VPS compose commands
+```
+# Rebuild when code change
+docker compose -f docker-compose.production.yml build
+
+# Recreate when env vars are updated
+docker compose -f docker-compose.production.yml up -d --force-recreate
+
+# Both together
+docker compose -f docker-compose.production.yml up -d --build --force-recreate
+
+# Sync a local file/folder to the remote
+rsync -avz --progress -e "ssh -p 2222" ./../docker/.env.prod guido@179.27.96.212:~/tesis/docker/.env
+```
+Deploy
+```
+# En la VPS
+cd ~/tesis/docker
+
+# 1. Verificar tu IP actual
+curl -s https://ipv4.icanhazip.com
+
+# 2. Verificar que DuckDNS esté actualizado
+nslookup openfingchat.duckdns.org
+
+# 3. Si coinciden, ejecutar SSL
+./ssl-setup.sh
+
+# 4. Recrear contenedores
+docker compose up -d --force-recreate
+
+# open a terminal inside a container
+docker compose exec backend bash
+
+```

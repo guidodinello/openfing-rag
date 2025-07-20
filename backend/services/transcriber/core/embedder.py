@@ -5,7 +5,7 @@ from typing import Any
 import langchain_huggingface
 from langchain_core.embeddings import Embeddings
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.logging.logger import get_logger
 
 logger = get_logger(__name__)
@@ -38,7 +38,7 @@ class Embedder:
             cls._models_cache[cache_key] = langchain_huggingface.HuggingFaceEmbeddings(
                 model_name=model_name,
                 model_kwargs={"device": settings.EMBEDDINGS.DEVICE},
-                cache_folder=cache_folder,
+                cache_folder=str(cache_folder),
                 encode_kwargs=cls._model_custom_config(),
             )
 
