@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup, Tag
 
 from shared.config import get_settings
 from shared.http.client import HTTPClient
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -21,37 +21,38 @@ class Lesson:
 
 class LessonScraper:
     def __init__(self, http_client: HTTPClient):
-        self.__logger = logger
-        self.__http_client = http_client
+        self._http_client = http_client
 
     def get_lessons(self, course_acronym: str) -> list[Lesson]:
-        soup = self.__get_html(f"{settings.SCRAPER.OPENFING_URL}/courses/{course_acronym}/")
+        soup = self._get_html(
+            f"{settings.SCRAPER.OPENFING_URL}/courses/{course_acronym}/",
+        )
 
         return [
             Lesson(
                 course_acronym=course_acronym,
-                number=self.__get_lesson_number(lesson_tag),
-                title=self.__get_lesson_title(lesson_tag),
+                number=self._get_lesson_number(lesson_tag),
+                title=self._get_lesson_title(lesson_tag),
                 url=lesson_tag.get("href"),
             )
-            for lesson_tag in self.__get_lessons_tags(soup)
+            for lesson_tag in self._get_lessons_tags(soup)
         ]
 
-    def __get_lessons_tags(self, soup: BeautifulSoup) -> list[Tag]:
+    def _get_lessons_tags(self, soup: BeautifulSoup) -> list[Tag]:
         return soup.find_all("a", class_="class-list__item")
 
-    def __get_lesson_number(self, soup: BeautifulSoup) -> int:
+    def _get_lesson_number(self, soup: BeautifulSoup) -> int:
         return int(soup.find("span", class_="class-list__item-number").text.strip())
 
-    def __get_lesson_title(self, soup: BeautifulSoup) -> str:
+    def _get_lesson_title(self, soup: BeautifulSoup) -> str:
         return soup.find("div", class_="class-list__item-name").text.strip()
 
-    def __get_html(self, url: str) -> BeautifulSoup | None:
+    def _get_html(self, url: str) -> BeautifulSoup | None:
         try:
-            response = self.__http_client.get(url, timeout=10)
+            response = self._http_client.get(url, timeout=10)
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
-            self.__logger.error(f"Failed to scrape {url=}: {e}")
+            logger.error(f"Failed to scrape {url=}: {e}")
             return None
 
         try:
@@ -59,5 +60,5 @@ class LessonScraper:
             return soup
 
         except Exception as e:
-            self.__logger.error(f"Failed to parse response from {url=}: {e}")
+            logger.error(f"Failed to parse response from {url=}: {e}")
             return None

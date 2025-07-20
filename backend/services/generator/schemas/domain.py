@@ -1,49 +1,7 @@
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Self
 
-from services.generator.schemas.api import ChatResponse
-
-
-@dataclass(frozen=True, slots=True)
-class ChatResult:
-    success: bool
-    response: str
-    sources: list[str]
-    model_used: str | None = None
-    error: str | None = None
-    data: dict[str, Any] | None = None
-
-    @classmethod
-    def success_result(
-        cls,
-        response: str,
-        sources: list[str],
-        model_used: str,
-        data: dict | None = None,
-    ) -> "ChatResult":
-        return cls(
-            success=True,
-            response=response,
-            sources=sources,
-            model_used=model_used,
-            data=data,
-        )
-
-    @classmethod
-    def failure_result(cls, error: str, data: dict | None = None) -> "ChatResult":
-        return cls(
-            success=False,
-            response="I couldn't process your request at this time.",
-            sources=[],
-            error=error,
-            data=data,
-        )
-
-    def to_api_response(self) -> ChatResponse:
-        return ChatResponse(
-            response=self.response,
-            sources=self.sources,
-        )
+from shared.domain import Result
 
 
 @dataclass(frozen=True, slots=True)
@@ -51,30 +9,69 @@ class SearchContext:
     """Represents search context for vector retrieval."""
 
     query: str
-    lesson_id: int | None = None
-    course_codes: list[str] | None = None
+    lessons_ids: list[int]
+    courses_ids: list[int]
     max_results: int = 4
 
 
+## ESTO LO DEBERIA DEVOLVER EL SIMILARITY SEARCH DEL VECTOR REPO
 @dataclass(frozen=True, slots=True)
 class RetrievedChunk:
     """Represents a chunk retrieved from vector store."""
 
+    id: str
     content: str
-    metadata: dict[str, Any]
     score: float
-    lesson_id: int | None = None
-    course_code: str | None = None
-    chunk_index: int | None = None
+    transcription_id: int
+    lesson_id: int
+    course_id: int
+    metadata: dict[str, Any]
 
+    ## TODO: this should probably be some Schema and not a dict
     @classmethod
-    def from_search_result(cls, search_result: dict[str, Any]) -> "RetrievedChunk":
+    def from_search_result(cls, search_result: dict[str, Any]) -> Self:
         """Convert from vector repository search result format."""
         return cls(
+            id=search_result["id"],
             content=search_result["content"],
-            metadata=search_result["metadata"],
             score=search_result["score"],
-            lesson_id=search_result.get("lesson_id"),
-            course_code=search_result.get("course_code"),
-            chunk_index=search_result.get("chunk_index"),
+            transcription_id=search_result["metadata"]["transcription_id"],
+            lesson_id=search_result["metadata"]["lesson_id"],
+            course_id=search_result["metadata"]["course_id"],
+            metadata=search_result["metadata"],
         )
+
+
+@dataclass(frozen=True, slots=True)
+class LLMAnswer:
+    answer: str
+    model_used: str
+    role: str = "assistant"
+
+
+class LLMAnswerResult(Result[LLMAnswer]): ...
+
+
+@dataclass(frozen=True, slots=True)
+class SourceTimestamp:
+    start: int
+    end: int
+
+
+@dataclass(frozen=True, slots=True)
+class Source:
+    id: str
+    title: str
+    content: str
+    timestamp: SourceTimestamp
+    confidence: float
+    url: str
+
+
+@dataclass(frozen=True, slots=True)
+class Chat:
+    result: LLMAnswer
+    sources: list[Source]
+
+
+class ChatResult(Result[Chat]): ...

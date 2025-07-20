@@ -11,8 +11,6 @@ class HTTPClient(Protocol):
 
 
 class RateLimitedHTTPClient:
-    """Wrapper with rate limiting."""
-
     def __init__(self, session: requests.Session):
         self._session = session
 
@@ -22,14 +20,17 @@ class RateLimitedHTTPClient:
 
 @sleep_and_retry
 @limits(calls=100, period=1)
-def _rate_limited_get(session: requests.Session, url: str, **kwargs) -> requests.Response:
+def _rate_limited_get(
+    session: requests.Session,
+    url: str,
+    **kwargs,
+) -> requests.Response:
     return session.get(url, **kwargs)
 
 
 def get_http_client() -> HTTPClient:
     session = requests.Session()
 
-    # Global Headers
     session.headers.update(
         {
             "User-Agent": "Mozilla/5.0 (compatible; OpenFing-Scraper/1.0)",

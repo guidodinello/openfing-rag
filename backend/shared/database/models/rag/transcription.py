@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, relationship
 from shared.database.models import TimestampedModel
 
 if TYPE_CHECKING:
-    from shared.database.models.rag.lesson import Lesson
+    from shared.database.models import Lesson
 
 
 class Transcription(TimestampedModel):

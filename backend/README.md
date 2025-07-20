@@ -76,7 +76,7 @@ Services can import from the shared utilities:
 
 ```python
 from shared.config.settings import settings
-from shared.database.models.rag.course import Course
+from shared.database.models import Course
 from shared.utils.logger import get_logger
 ```
 
@@ -193,16 +193,19 @@ https://github.com/SYSTRAN/faster-whisper/issues/516
 VPS compose commands
 ```
 # Rebuild when code change
-docker compose -f docker-compose.production.yml build
+docker compose --env-file ../.env build
 
 # Recreate when env vars are updated
-docker compose -f docker-compose.production.yml up -d --force-recreate
+docker compose --env-file ../.env up -d --force-recreate
 
 # Both together
-docker compose -f docker-compose.production.yml up -d --build --force-recreate
+docker compose --env-file ../.env up -d --build --force-recreate backend
 
-# Sync a local file/folder to the remote
+# Send .env to the remote
 rsync -avz --progress -e "ssh -p 2222" ./../docker/.env.prod guido@179.27.96.212:~/tesis/docker/.env
+
+# Sync transcriptions folder
+rsync -avz --progress -e "ssh -p 2222" ./backend/transcriptions/medium/ guido@179.27.96.212:~/tesis/transcriptions/medium/
 ```
 Deploy
 ```

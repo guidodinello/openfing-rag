@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from fastapi.security import APIKeyHeader
 
-from shared.config.config import get_settings
+from shared.config import get_settings
 
 settings = get_settings()
 
@@ -69,21 +69,36 @@ def get_api_key_user(api_key: str = Depends(api_key_header)) -> UserAuthInfo:
     return APIKeyAuth.verify_api_key(api_key)
 
 
-def require_read_permission(user: UserAuthInfo = Depends(get_api_key_user)) -> UserAuthInfo:
+def require_read_permission(
+    user: UserAuthInfo = Depends(get_api_key_user),
+) -> UserAuthInfo:
     if not user.permissions.read:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Read permission required")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Read permission required",
+        )
     return user
 
 
-def require_write_permission(user: UserAuthInfo = Depends(get_api_key_user)) -> UserAuthInfo:
+def require_write_permission(
+    user: UserAuthInfo = Depends(get_api_key_user),
+) -> UserAuthInfo:
     if not user.permissions.write:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Write permission required")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Write permission required",
+        )
     return user
 
 
-def require_admin_permission(user: UserAuthInfo = Depends(get_api_key_user)) -> UserAuthInfo:
+def require_admin_permission(
+    user: UserAuthInfo = Depends(get_api_key_user),
+) -> UserAuthInfo:
     if not user.permissions.admin:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin permission required")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin permission required",
+        )
     return user
 
 

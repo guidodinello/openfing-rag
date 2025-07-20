@@ -1,23 +1,31 @@
+import itertools
 from collections.abc import Callable
 
 import typer
 from rich.console import Console
 from rich.table import Table
 
-from services.transcriber.core.base_transcriber import BaseTranscriptionService
-from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
 from shared.config import get_settings
-from shared.database.service_dependencies import create_no_db_transcription_service, create_transcription_service
+from shared.database.service_dependencies import create_transcription_service
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
-from shared.logging.logger import get_logger
-from shared.utils import bytes_to_megabytes, parse_cli_list_param
+from shared.enums import WhisperModelLanguage, WhisperModelSize
+from shared.file_utils import TranscriptionFileUtils
+from shared.logging import get_logger
+from shared.utils import bytes_to_megabytes, color_by_megabytes, parse_cli_list_param
 
 logger = get_logger(__name__)
 settings = get_settings()
 console = Console()
 
 app = typer.Typer(help="🎤 OpenFing Transcriber CLI", no_args_is_help=True)
+
+MAX_TABLE_SIZE = 50
+
+COURSE_PARAM_HELP = "Course codes (e.g., 'agpi gal1')"
+LESSON_PARAM_HELP = "Lesson numbers (e.g., '1,3,5' or '1-5' or omit for all)"
+MODEL_SIZE_PARAM_HELP = "Whisper model size"
+LANGUAGE_PARAM_HELP = "Language"
 
 
 def process_single_lesson(
@@ -28,7 +36,10 @@ def process_single_lesson(
     **kwargs,
 ) -> bool:
     """Process a single lesson with consistent error handling and output."""
-    console.print(f"🎤 {operation_name} {course_code} lesson {lesson_number}...", style="blue")
+    console.print(
+        f"🎤 {operation_name} {course_code} lesson {lesson_number}...",
+        style="blue",
+    )
 
     result = operation_func(course_code, lesson_number, **kwargs)
 
@@ -48,250 +59,184 @@ def process_multiple_lessons(
     **kwargs,
 ) -> None:
     """Process multiple lessons with batch progress reporting."""
-    console.print(f"🎤 Batch {operation_name.lower()} for {course_code}...", style="blue")
-    console.print(f"📋 Found {len(lesson_numbers)} lessons to process", style="green")
-
     success_count = 0
+    console.print(
+        f"🎤 Batch {operation_name.lower()} for {course_code}...",
+        style="blue",
+    )
+    lessons_amount = len(lesson_numbers)
+    console.print(f"📋 {lessons_amount} lessons to process", style="green")
+
     for lesson_number in lesson_numbers:
-        if process_single_lesson(operation_func, course_code, lesson_number, operation_name, **kwargs):
+        if process_single_lesson(
+            operation_func,
+            course_code,
+            lesson_number,
+            operation_name,
+            **kwargs,
+        ):
             success_count += 1
 
-    console.print(f"🎉 Completed: {success_count}/{len(lesson_numbers)} lessons", style="bold green")
+    console.print(
+        f"🎉 Completed: {success_count}/{lessons_amount} lessons",
+        style="bold green",
+    )
 
 
-# === FILE-ONLY COMMANDS ===
-
-
-@app.command(name="files-info")
-@handle_cli_errors(operation_name="File scanning")
-def files_info(
-    course_code: str = typer.Argument(..., help="Course code"),
-    max_size_mb: float = typer.Option(None, "--max-size", help="Max file size in MB"),
+@handle_cli_errors
+@app.command(name="transcribe")
+def transcribe(
+    course_code: str = typer.Argument(..., help=COURSE_PARAM_HELP),
+    lessons: str | None = typer.Option(
+        None,
+        "--lessons",
+        help=LESSON_PARAM_HELP,
+    ),
+    model_size: WhisperModelSize = typer.Option(
+        settings.WHISPER.MODEL,
+        help=MODEL_SIZE_PARAM_HELP,
+    ),
+    language: WhisperModelLanguage = typer.Option(
+        WhisperModelLanguage.spanish,
+        help=LANGUAGE_PARAM_HELP,
+    ),
 ) -> None:
-    """Scan available lesson files for a course, optionally filtered by max size"""
-    result = BaseTranscriptionService.find_available_lessons_by_size(course_code, max_size_mb)
+    """
+    Process a media file and generates a transcription file
+    """
+    lesson_numbers = parse_cli_list_param(lessons)
+
+    service = create_transcription_service()
+
+    process_multiple_lessons(
+        service.transcribe_lesson,
+        [course_code],
+        lesson_numbers,
+        "Transcribing",
+        model_size=model_size,
+        language=language,
+    )
+
+
+@handle_cli_errors
+@app.command(name="save-to-db")
+def save_to_db(
+    courses: list[str] = typer.Argument(..., help=COURSE_PARAM_HELP),
+    lessons: str | None = typer.Option(
+        None,
+        "--lessons",
+        help=LESSON_PARAM_HELP,
+    ),
+    model_size: WhisperModelSize = typer.Option(
+        settings.WHISPER.MODEL,
+        help=MODEL_SIZE_PARAM_HELP,
+    ),
+    transcriber_id: str | None = typer.Option(
+        "fasterwhisper",
+        help="Transcriber identifier used as the transcription file suffix",
+    ),
+) -> None:
+    """Save transcription files to database"""
+    parsed_lesson_numbers = parse_cli_list_param(lessons)
+
+    with get_db_session() as db:
+        service = create_transcription_service(db)
+
+        for course_code in courses:
+            if not parsed_lesson_numbers:
+                lesson_numbers = TranscriptionFileUtils.find_transcribed_course_lessons(
+                    model_size,
+                    course_code,
+                    transcriber_id,
+                )
+                if not lesson_numbers:
+                    console.print(
+                        f"❌ No transcription files found for {course_code} ({model_size.value})",
+                        style="red",
+                    )
+                    continue
+
+            process_multiple_lessons(
+                service.save_transcription_from_file_to_db,
+                course_code,
+                lesson_numbers,
+                operation_name="Saving to db",
+                model_size=model_size,
+                transcriber_identifier=transcriber_id,
+            )
+
+
+# === QUERY AND INFO COMMANDS ===
+
+
+@handle_cli_errors
+@app.command(name="info")
+def files_info(
+    course_code: str = typer.Argument(None, help="Course code"),
+    max_size_mb: float | None = typer.Option(None, "--max-size", help="Max file size in MB"),
+    limit: int = typer.Option(
+        MAX_TABLE_SIZE,
+        "--limit",
+        help=f"Maximum number of items to display (default: {MAX_TABLE_SIZE})",
+    ),
+) -> None:
+    """Show available lesson files for a course."""
+    result = create_transcription_service().find_available_lessons_by_size(course_code, max_size_mb)
+
     if not result.success:
         console.print(f"❌ {result.message}", style="red")
         return
 
     console.print(f"📁 {result.message}", style="blue")
 
-    if result.lessons:
-        table = Table(show_header=True, header_style="bold blue")
-        table.add_column("Lesson", width=6, justify="right")
-        table.add_column("Filename", width=30)
-        table.add_column("Size (MB)", width=10, justify="right")
-        table.add_column("Extension", width=8)
-
-        total_size_mb = 0
-        for lesson in result.lessons:
-            size_mb = bytes_to_megabytes(lesson["file_size"])
-            total_size_mb += size_mb
-
-            # Color code by size
-            if size_mb < 50:
-                size_style = "green"
-            elif size_mb < 200:
-                size_style = "yellow"
-            else:
-                size_style = "red"
-
-            table.add_row(
-                str(lesson["lesson_number"]),
-                lesson["filename"],
-                f"[{size_style}]{size_mb:.1f}[/{size_style}]",
-                lesson["extension"],
-            )
-
-        console.print(table)
-        console.print(f"\n📊 Total: {len(result.lessons)} files, {total_size_mb:.1f} MB", style="cyan")
-
-        if max_size_mb:
-            # TODO: raro este filtro
-            remaining = [
-                le
-                for le in BaseTranscriptionService.find_available_lessons_by_size(course_code).lessons
-                if le not in result.lessons
-            ]
-            if remaining:
-                console.print(f"🔍 {len(remaining)} files filtered out (>{max_size_mb}MB)", style="dim")
-    else:
+    if not result.items:
         console.print("No lesson files found.", style="yellow")
-
-
-@app.command(name="transcribe-by-size")
-@handle_cli_errors(operation_name="Size-based transcription")
-def transcribe_by_size(
-    course_code: str = typer.Argument(..., help="Course code"),
-    max_size_mb: float = typer.Option(200, "--max-size", help="Max file size in MB"),
-    model_size: WhisperModelSize = typer.Option(settings.WHISPER.MODEL, help="Whisper model size"),
-    language: WhisperModelLanguage = typer.Option(WhisperModelLanguage.spanish, help="Language"),
-    force: bool = typer.Option(False, "--force", help="Force retranscription"),
-    database: bool = typer.Option(False, "--database", help="Also save to database (requires DB access)"),
-) -> None:
-    """
-    Transcribe lessons sorted by file size (smallest first).
-    Perfect for local processing with VRAM limitations.
-    """
-    scan_result = BaseTranscriptionService.find_available_lessons_by_size(course_code, max_size_mb)
-    if not scan_result.success or not scan_result.lessons:
-        console.print(f"❌ No suitable files found for {course_code}", style="red")
         return
 
-    console.print(f"🎯 Processing {len(scan_result.lessons)} lessons (≤{max_size_mb}MB each)", style="blue")
+    total_items = len(result.items)
+    if total_items > limit:
+        console.print(f"⚠️  Showing first {limit} of {total_items} items (use --limit to show more)", style="yellow")
+
+    table = Table(show_header=True, header_style="bold blue")
+    table.add_column("Lesson", width=6, justify="right")
+    table.add_column("File Path", width=50)
+    table.add_column("Size (MB)", width=10, justify="right")
+
+    displayed_size_mb = 0
+    total_size_mb = sum(bytes_to_megabytes(lesson.file_bytes) for lesson in result.items)
+
+    for lesson in itertools.islice(result.items, limit):
+        size_mb = bytes_to_megabytes(lesson.file_bytes)
+        displayed_size_mb += size_mb
+        size_style = color_by_megabytes(size_mb)
+
+        table.add_row(
+            str(lesson.lesson_number),
+            lesson.file_path,
+            f"[{size_style}]{size_mb:.1f}[/{size_style}]",
+        )
+
+    console.print(table)
 
     console.print(
-        f"📊 Total size: {bytes_to_megabytes(sum(le['file_size'] for le in scan_result.lessons)):.1f} MB",
+        f"\n📊 Displayed: {limit} files, {displayed_size_mb:.1f} MB",
+        style="cyan",
+    )
+    console.print(
+        f"📊 Total: {total_items} files, {total_size_mb:.1f} MB",
         style="cyan",
     )
 
-    # Choose service based on database flag
-    if database:
-        with get_db_session() as db:
-            service = create_transcription_service(db)
-            operation_func = service.transcribe_lesson
-            operation_name = "Full transcription"
-    else:
-        service = create_no_db_transcription_service()
-        operation_func = service.transcribe_to_file_only
-        operation_name = "File transcription"
 
-    # Process lessons
-    success_count = 0
-    for i, lesson_data in enumerate(scan_result.lessons, 1):
-        lesson_number = lesson_data["lesson_number"]
-        size_mb = bytes_to_megabytes(lesson_data["file_size"])
-
-        console.print(
-            f"\n[{i}/{len(scan_result.lessons)}] Processing lesson {lesson_number} ({size_mb:.1f}MB)",
-            style="blue",
-        )
-
-        success_count += process_single_lesson(
-            operation_func,
-            course_code,
-            lesson_number,
-            operation_name,
-            **{
-                "model_size": model_size,
-                "language": language,
-                "force_retranscribe": force,
-                "force_revectorize": not database,
-            },
-        )
-
-    console.print(f"\n🎉 Completed: {success_count}/{len(scan_result.lessons)} lessons", style="bold green")
-
-
-@app.command(name="transcribe-only")
-@handle_cli_errors(operation_name="File-only transcription")
-def transcribe_only(
-    course_code: str = typer.Argument(..., help="Course code"),
-    lessons: str = typer.Option(None, "--lessons", help="Lesson numbers (e.g., '1,3,5' or '1-5' or omit for all)"),
-    max_size_mb: float = typer.Option(None, "--max-size", help="Max file size in MB"),
-    model_size: WhisperModelSize = typer.Option(settings.WHISPER.MODEL, help="Whisper model size"),
-    language: WhisperModelLanguage = typer.Option(WhisperModelLanguage.spanish, help="Language"),
-    force: bool = typer.Option(False, "--force", help="Force retranscription"),
-) -> None:
-    """
-    Transcribe to JSON files only (no database operations).
-    Perfect for cluster environments.
-    """
-    service = create_no_db_transcription_service()
-
-    lesson_numbers = parse_cli_list_param(lessons)
-
-    process_multiple_lessons(
-        service.transcribe_to_file_only,
-        course_code,
-        lesson_numbers,
-        "Transcribing",
-        model_size=model_size,
-        language=language,
-        force_retranscribe=force,
-    )
-
-
-# === DATABASE OPERATIONS ===
-
-
-@app.command(name="save-to-db")
-@handle_cli_errors(operation_name="Save to database")
-def save_to_db(
-    course_code: str = typer.Argument(..., help="Course code"),
-    lessons: str = typer.Option(None, "--lessons", help="Lesson numbers (e.g., '1,3,5' or omit for all files)"),
-    model_size: WhisperModelSize = typer.Option(settings.WHISPER.MODEL, help="Model size"),
-    force_update: bool = typer.Option(False, "--force-update", help="Force database update"),
-    force_revectorize: bool = typer.Option(False, "--force-revectorize", help="Force revectorization"),
-) -> None:
-    """Save existing transcription files to database and vectorize."""
-    lesson_numbers = parse_cli_list_param(lessons)
-
-    with get_db_session() as db:
-        service = create_transcription_service(db)
-
-        process_multiple_lessons(
-            service.save_transcription_from_file_to_db,
-            course_code,
-            lesson_numbers,
-            "Saving to database",
-            model_size=model_size,
-            force_update=force_update,
-            force_revectorize=force_revectorize,
-        )
-
-
-# === UNIFIED COMMANDS ===
-
-
-@app.command(name="transcribe")
-@handle_cli_errors(operation_name="Full transcription")
-def transcribe(
-    course_code: str = typer.Argument(..., help="Course code"),
-    lessons: str = typer.Option(None, "--lessons", help="Lesson numbers (e.g., '1,3,5' or omit for all)"),
-    model_size: WhisperModelSize = typer.Option(settings.WHISPER.MODEL, help="Whisper model size"),
-    language: WhisperModelLanguage = typer.Option(WhisperModelLanguage.spanish, help="Language"),
-    retranscribe: bool = typer.Option(False, "--retranscribe", help="Force retranscription"),
-    revectorize: bool = typer.Option(False, "--revectorize", help="Force revectorization"),
-) -> None:
-    """
-    Full transcription workflow: audio → file → database → vectors.
-    Requires database access.
-    """
-    lesson_numbers = parse_cli_list_param(param=lessons)
-
-    with get_db_session() as db:
-        service = create_transcription_service(db)
-
-        process_multiple_lessons(
-            service.transcribe_lesson,
-            course_code,
-            lesson_numbers,
-            "Full transcription",
-            model_size=model_size,
-            language=language,
-            force_retranscribe=retranscribe,
-            force_revectorize=revectorize,
-        )
-
-
-# === QUERY COMMANDS ===
-
-
+@handle_cli_errors
 @app.command(name="list")
-@handle_cli_errors(operation_name="List transcriptions")
-def list_transcriptions(
-    course_code: str = typer.Option(None, help="Filter by course code"),
-    unvectorized_only: bool = typer.Option(False, "--unvectorized-only", help="Show only unvectorized"),
-) -> None:
-    """List transcriptions in database."""
+def list_transcriptions(course_code: str | None = typer.Option(None, help="Filter by course code")) -> None:
+    """📋 List transcriptions in database."""
     with get_db_session() as db:
-        service = create_transcription_service(db)
-
-        result = service.list_transcriptions(course_code, unvectorized_only)
+        result = create_transcription_service(db).list_transcriptions(course_code)
         if not result.success:
             console.print(f"❌ {result.message}", style="red")
-            raise typer.Exit(1)
+            return
 
         console.print(f"📋 {result.message}", style="blue")
         console.print(f"✅ Vectorized: {result.data['vectorized_count']}")
@@ -323,16 +268,14 @@ def list_transcriptions(
         console.print(table)
 
 
-## TODO: maybe not needed if
+@handle_cli_errors
 @app.command(name="vectorize")
-@handle_cli_errors(operation_name="Vectorize transcription")
-def vectorize_transcription(
-    transcription_id: int = typer.Argument(..., help="Transcription ID"),
+def vectorize_transcriptions(
+    transcription_ids: list[int] = typer.Argument(..., help="Transcription ID"),
 ) -> None:
-    """Vectorize existing transcription by ID."""
+    """🔢 Vectorize existing transcriptions by ID."""
     with get_db_session() as db:
-        service = create_transcription_service(db)
-        result = service.vectorize_transcription(transcription_id)
+        result = create_transcription_service(db).vectorize_transcriptions(transcription_ids)
 
         if result.success:
             console.print(f"✅ {result.message}", style="green")
@@ -341,8 +284,68 @@ def vectorize_transcription(
             raise typer.Exit(1)
 
 
-## TODO
-# check i can generate a transcription file without db access
-# check i can save a transcription (nd its chunks) based on a file
-# check i can vectorize a transcription file bixe size
-# dont repeat functionality, DRY4
+@handle_cli_errors
+@app.command(name="transcribe-by-size")
+def transcribe_by_size(
+    course_code: str | None = typer.Option(None, help="Course code if None is provided then all"),
+    max_size_mb: float = typer.Option(200, "--max-size", help="Max file size in MB"),
+    model_size: WhisperModelSize = typer.Option(
+        settings.WHISPER.MODEL,
+        help="Whisper model size",
+    ),
+    language: WhisperModelLanguage = typer.Option(
+        WhisperModelLanguage.spanish,
+        help="Language",
+    ),
+    largest_first: bool = typer.Option(False, help="Process largest files first (default: smallest first)"),
+) -> None:
+    """
+    🎯 Transcribe lessons by file size (smallest first).
+    Perfect for VRAM-limited environments.
+    """
+    service = create_transcription_service()
+
+    result = service.find_available_lessons_by_size(course_code, max_size_mb, largest_first)
+    if not result.success or not result.items:
+        console.print(f"❌ No suitable files found for {course_code=}", style="red")
+        return
+
+    console.print(
+        f"🎯 Processing {len(result.items)} lessons (≤{max_size_mb}MB each)",
+        style="blue",
+    )
+
+    total_size_mb = bytes_to_megabytes(sum(lesson.file_bytes for lesson in result.items))
+    console.print(f"📊 Total size: {total_size_mb:.1f} MB", style="cyan")
+
+    # Process lessons by size order
+    success_count = 0
+    for i, lesson in enumerate(result.items):
+        console.print(
+            f"\n[{i}/{len(result.items)}] Processing lesson {lesson.file_path} "
+            f"({bytes_to_megabytes(lesson.file_bytes):.1f}MB)",
+            style="blue",
+        )
+
+        if process_single_lesson(
+            service.transcribe_lesson,
+            lesson.course_code,
+            lesson.lesson_number,
+            "Transcribing",
+            model_size=model_size,
+            language=language,
+        ):
+            success_count += 1
+
+        if success_count >= 20 and settings.APP.ENV == "cluster":
+            logger.debug("BREAK FOR CLUSTER")
+            break
+
+    console.print(
+        f"\n🎉 Completed: {success_count}/{len(result.items)} lessons",
+        style="bold green",
+    )
+
+
+if __name__ == "__main__":
+    app()

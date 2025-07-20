@@ -1,7 +1,7 @@
 import typer
 from rich.console import Console
 
-from services.generator.schemas.domain import SearchContext
+from services.generator.schemas import SearchContext
 from shared.database.service_dependencies import create_chat_service
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
@@ -13,21 +13,23 @@ app = typer.Typer(
 console = Console()
 
 
-@app.command(name="test-chat")
-@handle_cli_errors(operation_name="Test chat")
-def test_chat(
+@handle_cli_errors
+@app.command(name="chat")
+def chat(
     query: str = typer.Argument(..., help="Test query"),
-    lesson_id: int = typer.Option(None, help="Optional lesson ID filter"),
+    lessons_ids: int = typer.Option(None, help="Optional lessons IDs filter"),
+    courses_ids: int = typer.Option(None, help="Optional couses IDs filter"),
 ) -> None:
     """Test the chat functionality."""
-    console.print(f"🤖 Testing chat with query: {query}", style="blue")
+    console.print(f"🤖 Chat with query: {query}", style="blue")
 
     with get_db_session() as db:
         service = create_chat_service(db)
 
         search_context = SearchContext(
             query=query,
-            lesson_id=lesson_id,
+            lessons_ids=lessons_ids,
+            courses_ids=courses_ids,
             max_results=3,
         )
 
