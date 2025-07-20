@@ -23,7 +23,7 @@ class TestConfiguration:
     index_suffix: int
     question:str
 
-result_path = "/home/diego/_Modulos/Facu/tesis/backend/transcriptions/Logic/results_lunes.json"
+result_path = "/home/diego/_Modulos/Facu/tesis/backend/transcriptions/Logic/testing_parameters.json"
 parametes_path = "/home/diego/_Modulos/Facu/tesis/backend/transcriptions/Logic/parameters_lunes.json"
 
 PARAMETERS={
@@ -56,10 +56,10 @@ PARAMETERS={
       "option3": "llama3:8b-instruct"
     },    
     "metadata": {
-    #   "option1": "no",
-    #   "option2": "related_course",
-    #   "option3": "course",
-      "option4": "course_and_class"
+        "option1": "no",
+        "option2": "related_course",
+        "option3": "course",
+        "option4": "course_and_class"
     },
     "prompts": [
         {
@@ -225,6 +225,25 @@ class ParametrizedMongoElasticsearchSync:
         else:
             return {"query": {"match_all": {}}}
     
+    def _build_query_filters(self, query_metadata: dict) -> dict:
+        """Build query filters based on metadata option"""
+        if self.test_config.metadata_option == "no":
+            return {}
+        must_clauses = []
+        if self.test_config.metadata_option == "related_course":
+            must_clauses.append({"match": {"metadata.related_course": query_metadata["related_course"]}})
+        elif self.test_config.metadata_option == "course":
+            must_clauses.append({"match": {"metadata.course": query_metadata["course"]}})
+        elif self.test_config.metadata_option == "course_and_class":
+            must_clauses.append({"match": {"metadata.course": query_metadata["course"],"metadata.class": query_metadata["class"]}})
+        if not must_clauses:
+            return {}
+        return {
+            "bool": {
+                "must": must_clauses
+            }
+        }    
+
     def initialize_vectorstore(self) -> ElasticsearchStore:
         """Initialize the Elasticsearch vector store with parametrized distance strategy"""
         if not self.es_client.indices.exists(index=self.index_name):
@@ -292,25 +311,6 @@ class ParametrizedMongoElasticsearchSync:
                 "sources": []
             }
     
-    def _build_query_filters(self, query_metadata: dict) -> dict:
-        """Build query filters based on metadata option"""
-        if self.test_config.metadata_option == "no":
-            return {}
-        must_clauses = []
-        if self.test_config.metadata_option == "related_course":
-            must_clauses.append({"match": {"metadata.related_course": query_metadata["related_course"]}})
-        elif self.test_config.metadata_option == "course":
-            must_clauses.append({"match": {"metadata.course": query_metadata["course"]}})
-        elif self.test_config.metadata_option == "course_and_class":
-            must_clauses.append({"match": {"metadata.course": query_metadata["course"],"metadata.class": query_metadata["class"]}})
-        if not must_clauses:
-            return {}
-        return {
-            "bool": {
-                "must": must_clauses
-            }
-        }    
-    
     def create_qa_chain(self, k: int = 4) -> RetrievalQA:
         """Create QA chain with retriever."""
         if self.es_vectorstore is None:
@@ -334,31 +334,55 @@ class ParameterTester:
         params = self.config['parameters']
         prompts = params["prompts"] 
 
-        # Extract parameter values
         chunks = list(params['chunks'].values())
         distances = list(params['distance'].values())
         embeddings = list(params['embeddings'].values())
         llms = list(params['llms'].values())
         metadata_options = list(params['metadata'].values())
 
-        combinations = []
-        combo_id = 0
+        base = {
+            'chunk': chunks[0],
+            'distance': distances[0],
+            'embedding': embeddings[0],
+            'llm': llms[0],
+            'metadata': metadata_options[0]
+        }
 
-        for chunk, distance, embedding, llm, metadata in itertools.product(
-            chunks, distances, embeddings, llms, metadata_options
-        ):
-            for question in prompts:
-                config = TestConfiguration(
+        combo_id = 0
+        combinations = []
+
+        for question in prompts:
+            config = TestConfiguration(
                 index_suffix=f"{combo_id}",
-                chunk_field=chunk,
-                distance_strategy=distance,
-                embedding_model=embedding,
-                llm_model=llm,
-                metadata_option=metadata,
-                question=question 
+                chunk_field=base['chunk'],
+                distance_strategy=base['distance'],
+                embedding_model=base['embedding'],
+                llm_model=base['llm'],
+                metadata_option=base['metadata'],
+                question=question
             )
+            combinations.append(config)
+            combo_id += 1
+    
+        for i, param_list in enumerate([chunks, distances, embeddings, llms, metadata_options]):
+            param_name = ['chunk', 'distance', 'embedding', 'llm', 'metadata'][i]
+            for value in param_list[1:]:  # Skip the base value
+                config_kwargs = base.copy()
+                config_kwargs[param_name] = value
+                for question in prompts:
+                    config = TestConfiguration(
+                        index_suffix=f"{combo_id}",
+                        chunk_field=config_kwargs['chunk'],
+                        distance_strategy=config_kwargs['distance'],
+                        embedding_model=config_kwargs['embedding'],
+                        llm_model=config_kwargs['llm'],
+                    metadata_option=config_kwargs['metadata'],
+                    question=question
+                )
                 combinations.append(config)
                 combo_id += 1
+
+
         return combinations
     
     def save_results(self, test:TestConfiguration,results: List[Dict[str, Any]]) -> None:
