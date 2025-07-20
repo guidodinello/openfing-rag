@@ -1,5 +1,4 @@
 import importlib.metadata
-import json
 import time
 from pathlib import Path
 from typing import Any
@@ -7,9 +6,9 @@ from typing import Any
 import faster_whisper
 from faster_whisper import WhisperModel
 
-from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
 from shared.config import get_settings
-from shared.logging.logger import get_logger
+from shared.enums import WhisperModelLanguage, WhisperModelSize
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -18,13 +17,13 @@ settings = get_settings()
 class FasterWhisperTranscriber:
     _models_cache: dict[str, WhisperModel] = {}
 
-    suffix = "fasterwhisper"
-
-    def __init__(self, output_dir: str):
-        self.output_dir = Path(output_dir)
+    @property
+    def identifier(self) -> str:
+        return "fasterwhisper"
 
     @classmethod
     def _get_asr_model(cls, model_size: WhisperModelSize) -> WhisperModel:
+        """Get cached model instance."""
         cache_key = f"{model_size.value}_{settings.WHISPER.DEVICE}"
 
         if cache_key not in cls._models_cache:
@@ -32,7 +31,9 @@ class FasterWhisperTranscriber:
             if cache_folder:
                 cache_folder.mkdir(exist_ok=True, parents=True)
 
-            logger.debug(f"Loading faster-whisper {model_size.value=} on {settings.WHISPER.DEVICE=}")
+            logger.debug(
+                f"Loading faster-whisper {model_size.value=} on {settings.WHISPER.DEVICE=}",
+            )
 
             cls._models_cache[cache_key] = WhisperModel(
                 model_size.value,
@@ -51,6 +52,7 @@ class FasterWhisperTranscriber:
         """Transcribe audio file using faster-whisper."""
         if not audio_path.exists():
             raise FileNotFoundError(f"Audio file not found: {audio_path}")
+
         logger.info(f"Transcribing {audio_path} with faster-whisper {model_size.value=}")
 
         try:
@@ -59,7 +61,7 @@ class FasterWhisperTranscriber:
             start_time = time.time()
             segments, info = model.transcribe(
                 audio=str(audio_path),
-                language=language.value if language != WhisperModelLanguage.auto else None,
+                language=(language.value if language != WhisperModelLanguage.auto else None),
                 **self._model_custom_config(),
             )
             result = self._format_result(segments, info)
@@ -67,41 +69,18 @@ class FasterWhisperTranscriber:
 
             result.update(
                 {
-                    "model_size": model_size,
-                    "language": language.value,
-                    "source_file": str(audio_path),
-                    "file_size_bytes": audio_path.stat().st_size,
                     "processing_time": processing_time,
                     "device_used": settings.WHISPER.DEVICE,
                     "segments_count": len(result.get("segments", [])),
                 },
             )
 
-            self._save_result(result, file_name=f"{audio_path.stem}_{model_size.value}_{self.suffix}")
-
-            logger.info(f"faster-whisper transcription completed in {processing_time:.2f} seconds")
-
+            logger.info(f"Transcription completed in {processing_time:.2f} seconds")
             return result
 
         except Exception as e:
             logger.error(f"faster-whisper transcription failed: {e}")
             raise
-
-    def _save_result(self, result: dict[str, Any], file_name: str) -> None:
-        """Save result following the same pattern as other transcribers."""
-        parts = file_name.lower().split("_")
-        course_code, model_size = parts[0], parts[2]
-        course_output_dir = self.output_dir / model_size / course_code
-
-        course_output_dir.mkdir(parents=True, exist_ok=True)
-
-        output_path = course_output_dir / f"{file_name}.json"
-        output_path.write_text(
-            json.dumps(result, indent=2, ensure_ascii=False),
-            encoding="utf-8",
-        )
-
-        logger.info(f"Saved faster-whisper transcription result to {output_path}")
 
     @classmethod
     def _get_educational_prompt(cls) -> str:
@@ -125,6 +104,7 @@ class FasterWhisperTranscriber:
 
     def model_info(self) -> dict[str, Any]:
         return {
+            "identifier": self.identifier,
             "package": {
                 "name": getattr(faster_whisper, "__name__", "unknown"),
                 "version": importlib.metadata.version("faster-whisper"),
@@ -134,11 +114,8 @@ class FasterWhisperTranscriber:
             },
         }
 
-    def _format_result(
-        self,
-        segments,
-        info,
-    ) -> dict[str, Any]:
+    def _format_result(self, segments, info) -> dict[str, Any]:
+        """Format FasterWhisper result to standard format."""
         segments_list, full_text_parts = [], []
 
         for segment in segments:
@@ -174,7 +151,6 @@ class FasterWhisperTranscriber:
         return {
             "text": " ".join(full_text_parts),
             "segments": segments_list,
-            # faster-whisper specific metadata
             "language_probability": getattr(info, "language_probability", 1.0),
             "duration": duration,
             "duration_after_vad": getattr(info, "duration_after_vad", duration),

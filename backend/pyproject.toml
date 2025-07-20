@@ -1,5 +1,5 @@
 [project]
-name = "openfing-chat-backend"
+name = "openchat-backend"
 version = "0.1.0"
 description = "RAG system backend with video transcription and processing"
 readme = "README.md"
@@ -45,15 +45,17 @@ dependencies = [
     "ratelimit>=2.2.1",
     "nvidia-cudnn-cu11>=8.6.0,<9.0.0",
     "ctranslate2==4.4.0",
+    "langchain-text-splitters>=0.3.8",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "pytest>=8.3.3",
-    "black>=24.10.0",
-    "ruff>=0.8.0",
-    "mypy>=1.13.0",
     "pre-commit>=4.0.1",
+    "mypy>=1.16.0",
+    "ruff>=0.11.13",
+    "types-requests>=2.32.0.20250602",
+    "vulture>=2.14",
 ]
 
 [project.scripts]
@@ -65,11 +67,6 @@ openchat-scraper = "services.scraper.cli:app"
 openchat-transcriber = "services.transcriber.cli:app"
 
 openchat-db = "shared.database.cli:app"
-
-[tool.black]
-line-length = 120
-target-version = ['py312']
-include = '\.pyi?$'
 
 [tool.ruff]
 line-length = 120
@@ -84,7 +81,13 @@ select = [
     "C",  # flake8-comprehensions
     "B",  # flake8-bugbear
 ]
-ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = false
 
 [tool.ruff.lint.isort]
 known-first-party = ["generator", "scraper", "transcriber", "downloader", "shared"]
@@ -107,15 +110,48 @@ strict_equality = true
 ignore_missing_imports = true
 explicit_package_bases = true
 
+[tool.vulture]
+paths = ["."]
+exclude = [
+    ".git/",
+    ".venv/",
+    "**/__pycache__/",
+    "backend/shared/database/migrations/",
+    "tests/",
+    ".pytest_cache/",
+    "**/enums/*.py",
+    # diegote files
+    "backend/transcriptions/Logic"
+]
+ignore_decorators = [
+    "@routers.read.get",
+    "@routers.admin.post",
+    "@routers.write.post",
+    "@public_router.get",
+    "@app.command",           # Typer CLI commands
+    "@task",                    # Prefect tasks
+    "@flow",                    # Prefect flows\
+    "@property",                # Python properties
+    "@staticmethod",            # Static methods
+    "@classmethod",             # Class methods
+]
+ignore_names = [
+    "dispatch",
+    "__tablename__",
+    "incomplete"
+]
+# 100 = only report guaranteed dead code
+# 90 = include likely unused imports
+# 60 = include all potentially unused code (classes, functions, variables)
+min_confidence = 70
+sort_by_size = true
+make_whitelist = false
+
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[dependency-groups]
-dev = [
-    "mypy>=1.16.0",
-    "types-requests>=2.32.0.20250602",
-]
 
 [tool.hatch.build.targets.wheel]
 packages = [

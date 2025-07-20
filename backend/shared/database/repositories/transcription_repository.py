@@ -1,9 +1,11 @@
+from collections.abc import Iterable
+
 from sqlalchemy import and_, update
 from sqlalchemy.orm import Session, joinedload
 
 from shared.database.models import Course, Lesson, Transcription
 from shared.database.repositories import BaseRepository
-from transcriber.schemas.enums import WhisperModelSize
+from shared.enums import WhisperModelSize
 
 
 class TranscriptionRepository(BaseRepository[Transcription]):
@@ -13,10 +15,6 @@ class TranscriptionRepository(BaseRepository[Transcription]):
     def get_by_lesson_id(self, lesson_id: int) -> list[Transcription]:
         """Get all transcriptions for a lesson."""
         return self.db.query(self.model).filter(self.model.lesson_id == lesson_id).all()
-
-    def get_by_lesson(self, lesson_id: int) -> list[Transcription]:
-        """Alias for get_by_lesson_id for backward compatibility."""
-        return self.get_by_lesson_id(lesson_id)
 
     def get_latest_by_lesson_id(self, lesson_id: int) -> Transcription | None:
         """Get the most recent transcription for a lesson."""
@@ -67,15 +65,6 @@ class TranscriptionRepository(BaseRepository[Transcription]):
 
         return query.order_by(self.model.created_at.desc()).first()
 
-    def get_unvectorized_transcriptions(self) -> list[Transcription]:
-        """Get all transcriptions that haven't been vectorized."""
-        return (
-            self.db.query(self.model)
-            .options(joinedload(Transcription.lesson).joinedload(Lesson.course))
-            .filter(~self.model.transcription_metadata.op("?")("vectorized"))
-            .all()
-        )
-
     def get_filtered_transcriptions(
         self,
         course_code: str | None = None,
@@ -95,14 +84,6 @@ class TranscriptionRepository(BaseRepository[Transcription]):
             query = query.join(Lesson).join(Course).filter(Course.code == course_code)
 
         return query.all()
-
-    def get_transcriptions_with_filters(
-        self,
-        course_code: str | None = None,
-        unvectorized_only: bool = False,
-    ) -> list[Transcription]:
-        """Alias for get_filtered_transcriptions."""
-        return self.get_filtered_transcriptions(course_code, unvectorized_only)
 
     def create_or_update_for_lesson(
         self,
@@ -132,19 +113,21 @@ class TranscriptionRepository(BaseRepository[Transcription]):
                 lesson_id=lesson_id,
             )
 
-    def is_vectorized(self, transcription_id: int) -> bool:
+    def is_vectorized(self, transcription_id: int) -> Transcription | None:
         """Check if a transcription has been vectorized."""
+        ## TODO: in the future we should retrieve the chunks or something
         transcription = self.get_by_id(transcription_id)
         if not transcription:
-            return False
-        return transcription.transcription_metadata.get("vectorized", False)
+            return None
+        vectorized = transcription.transcription_metadata.get("vectorized", False)
+        return transcription if vectorized else None
 
-    def mark_as_vectorized(self, transcription_id: int) -> bool:
-        """Mark transcription as vectorized."""
+    def mark_as_vectorized(self, transcription_ids: Iterable[int]) -> bool:
+        """Mark transcriptions as vectorized."""
         try:
             self.db.execute(
                 update(self.model)
-                .where(self.model.id == transcription_id)
+                .where(self.model.id.in_(transcription_ids))
                 .values(
                     transcription_metadata=self.model.transcription_metadata.op("||")(
                         {"vectorized": True},
@@ -155,12 +138,12 @@ class TranscriptionRepository(BaseRepository[Transcription]):
         except Exception:
             return False
 
-    def mark_as_not_vectorized(self, transcription_id: int) -> bool:
-        """Mark transcription as not vectorized."""
+    def mark_as_not_vectorized(self, transcription_ids: Iterable[int]) -> bool:
+        """Mark transcriptions as not vectorized."""
         try:
             self.db.execute(
                 update(self.model)
-                .where(self.model.id == transcription_id)
+                .where(self.model.id.in_(transcription_ids))
                 .values(
                     transcription_metadata=self.model.transcription_metadata.op("||")(
                         {"vectorized": False},

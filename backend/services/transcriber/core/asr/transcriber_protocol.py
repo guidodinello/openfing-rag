@@ -1,14 +1,16 @@
 from pathlib import Path
 from typing import Any, Protocol
 
-from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
-from shared.config import get_settings
-
-settings = get_settings()
+from shared.enums import WhisperModelLanguage, WhisperModelSize
 
 
 class TranscriberProtocol(Protocol):
     """Protocol for different transcriber implementations."""
+
+    @property
+    def identifier(self) -> str:
+        """Unique identifier for this transcriber implementation."""
+        ...
 
     def transcribe(
         self,
@@ -25,6 +27,7 @@ class TranscriberProtocol(Protocol):
             - segments: List of segment dictionaries
             - language: Detected/specified language
             - duration: Audio duration
+            - processing_time: Time taken for transcription
             - Other implementation-specific metadata
         """
         ...
@@ -32,27 +35,3 @@ class TranscriberProtocol(Protocol):
     def model_info(self) -> dict[str, Any]:
         """Return model and package information for metadata."""
         ...
-
-
-# Factory function for dependency injection
-def create_transcriber(implementation: str = "faster_whisper") -> TranscriberProtocol:
-    """Factory to create transcriber instances."""
-    match implementation:
-        case "faster_whisper":
-            from services.transcriber.core.asr.faster_whisper import FasterWhisperTranscriber
-
-            return FasterWhisperTranscriber(output_dir=settings.TRANSCRIBER.OUTPUT_DIR)
-        case "openai":
-            from services.transcriber.core.asr.openai import OpenAIWhisperTranscriber
-
-            return OpenAIWhisperTranscriber(output_dir=settings.TRANSCRIBER.OUTPUT_DIR)
-        case _:
-            raise ValueError(f"Unknown transcriber implementation: {implementation}")
-
-
-# Dependency for FastAPI
-def get_transcriber() -> TranscriberProtocol:
-    """FastAPI dependency for transcriber."""
-    # Could be configurable via environment variable
-    implementation = getattr(settings, "TRANSCRIBER_IMPLEMENTATION", "faster_whisper")
-    return create_transcriber(implementation)

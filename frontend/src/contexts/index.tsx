@@ -1,1 +1,0 @@
-export { ConfigContext, ConfigProvider } from "./configContext";

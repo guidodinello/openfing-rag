@@ -5,7 +5,7 @@ from typing import Any, TypeVar
 from sqlalchemy import Select, func, select
 from sqlalchemy.orm import InstrumentedAttribute, Session
 
-from shared.database.models.base import Base
+from shared.database.models import Base
 
 ModelType = TypeVar("ModelType", bound="Base")
 

@@ -6,7 +6,8 @@ from rich.panel import Panel
 from rich.table import Table
 
 from shared.config import get_settings
-from shared.database.repository_dependencies import get_course_repository
+from shared.database.repository_dependencies import get_course_repository, get_transcription_repository
+from shared.database.seeders.seeder import DatabaseSeeder
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
 
@@ -38,8 +39,8 @@ def run_alembic_command(command: str, *args) -> bool:
         return False
 
 
+@handle_cli_errors
 @app.command("migrate")
-@handle_cli_errors(operation_name="Database migration")
 def migrate() -> None:
     console.print("🚀 Running database migrations...", style="blue")
 
@@ -50,8 +51,8 @@ def migrate() -> None:
         raise typer.Exit(1)
 
 
+@handle_cli_errors
 @app.command("rollback")
-@handle_cli_errors(operation_name="Database rollback")
 def rollback(
     steps: int = typer.Option(
         1,
@@ -69,8 +70,8 @@ def rollback(
         raise typer.Exit(1)
 
 
+@handle_cli_errors
 @app.command("status")
-@handle_cli_errors(operation_name="Database status check")
 def status() -> None:
     """Show current database migration status."""
     console.print("📊 Checking database status...", style="blue")
@@ -104,8 +105,8 @@ def create_migration(
         raise typer.Exit(1)
 
 
+@handle_cli_errors
 @app.command("reset")
-@handle_cli_errors(operation_name="Database reset")
 def reset_database(
     confirm: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation prompt"),
 ) -> None:
@@ -139,17 +140,14 @@ def reset_database(
     console.print("✅ Database reset completed!", style="green")
 
 
+@handle_cli_errors
 @app.command("seed")
-@handle_cli_errors(operation_name="Database seeding")
 def seed_database() -> None:
     console.print("🌱 Seeding database with sample data...", style="blue")
 
     try:
         with get_db_session() as db:
-            from shared.database.seeders.seeder import DatabaseSeeder
-
-            seeder = DatabaseSeeder(db)
-            seeder.run()
+            DatabaseSeeder(db).run()
 
         console.print("✅ Database seeded successfully!", style="green")
 
@@ -179,57 +177,74 @@ def database_info() -> None:
     console.print(table)
 
 
+@handle_cli_errors
 @app.command("courses-codes")
-# @handle_cli_errors(operation_name="List course codes")
 def list_course_codes(
     format: str = typer.Option(
         "space",
-        help="Output format: 'space', 'comma', 'newline', 'table'",
+        help="Output format: 'space', 'table'",
         case_sensitive=False,
     ),
+    limit: int | None = typer.Option(
+        None,
+        help="Limit the amount of values returned",
+    ),
 ) -> None:
-    """List all course codes in various formats for use with other commands."""
-
     with get_db_session() as db:
-        course_repo = get_course_repository(db)
-        courses = course_repo.get_all(limit=500)
+        courses = get_course_repository(db).get_all(limit=limit)
 
         if not courses:
             console.print("❌ No courses found in database", style="red")
             raise typer.Exit(1)
 
-        codes = [course.code for course in courses]
+        match format.lower():
+            case "space":
+                output = " ".join(course.code for course in courses)
+                console.print(output, highlight=False)
 
-        if format.lower() == "space":
-            output = " ".join(codes)
-            console.print(output, highlight=False)
+            case "table":
+                table = Table(title=f"📚 Course Codes ({len(courses)} total)")
+                table.add_column("Code", style="cyan")
+                table.add_column("Name", style="magenta")
+                table.add_column("Subtitle", style="dim")
 
-        elif format.lower() == "table":
-            table = Table(title=f"📚 Course Codes ({len(codes)} total)")
-            table.add_column("Code", style="cyan")
-            table.add_column("Name", style="magenta")
-            table.add_column("Subtitle", style="dim")
+                for course in courses:
+                    table.add_row(
+                        course.code,
+                        (course.name[:50] + "..." if len(course.name) > 50 else course.name),
+                        (
+                            course.subtitle[:30] + "..."
+                            if course.subtitle and len(course.subtitle) > 30
+                            else course.subtitle or ""
+                        ),
+                    )
 
-            for course in courses:
-                table.add_row(
-                    course.code,
-                    course.name[:50] + "..." if len(course.name) > 50 else course.name,
-                    (
-                        course.subtitle[:30] + "..."
-                        if course.subtitle and len(course.subtitle) > 30
-                        else course.subtitle or ""
-                    ),
+                console.print(table)
+
+            case _:
+                console.print(f"❌ Unknown format: {format}", style="red")
+                console.print(
+                    "Available formats: space, table",
+                    style="yellow",
                 )
+                raise typer.Exit(1)
 
-            console.print(table)
 
-        else:
-            console.print(f"❌ Unknown format: {format}", style="red")
-            console.print(
-                "Available formats: space, comma, newline, table",
-                style="yellow",
-            )
+@handle_cli_errors
+@app.command("transcription-ids")
+def transcription_ids(
+    limit: int | None = typer.Option(
+        None,
+        help="Limit the amount of values returned",
+    ),
+) -> None:
+    with get_db_session() as db:
+        transcriptions = get_transcription_repository(db).get_all(limit=limit)
+        if not transcriptions:
+            console.print("❌ No transcriptions found in database", style="red")
             raise typer.Exit(1)
+
+        console.print(" ".join(str(tr.id) for tr in transcriptions), highlight=False)
 
 
 if __name__ == "__main__":

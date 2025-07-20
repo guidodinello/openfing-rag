@@ -1,0 +1,23 @@
+services:
+    database:
+        image: pgvector/pgvector:pg17
+        restart: unless-stopped
+        env_file:
+            - ../.env
+        environment:
+            POSTGRES_USER: ${DATABASE__USER}
+            POSTGRES_PASSWORD: ${DATABASE__PASSWORD}
+            POSTGRES_DB: ${DATABASE__DB}
+
+            PG_VECTOR_DIMENSION: ${EMBEDDINGS__DIMENSION}
+            POSTGRES_MAX_CONNECTIONS: 100
+            PGDATA: /var/lib/postgresql/data/pgdata
+            POSTGRES_SHARED_PRELOAD_LIBRARIES: vector
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+volumes:
+    postgres_data:
+        driver: local

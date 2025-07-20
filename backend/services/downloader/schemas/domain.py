@@ -34,7 +34,12 @@ class DownloadResult:
         )
 
     @classmethod
-    def failure_result(cls, course_code: str, message: str, stats: DownloadStats | None = None) -> Self:
+    def failure_result(
+        cls,
+        course_code: str,
+        message: str,
+        stats: DownloadStats | None = None,
+    ) -> Self:
         if stats is None:
             stats = DownloadStats(0, 0, 0, 0)
 

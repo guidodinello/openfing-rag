@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 
-from services.generator.schemas.api import ChatMessage, ChatResponse
-from services.generator.schemas.domain import SearchContext
+from services.generator.api.v1.schemas import ChatAnswer, ChatAnswerResponse, ChatQuery
+from services.generator.schemas import SearchContext
 from shared.api.router import create_auth_routers
 from shared.database.service_dependencies import ChatServiceDep
 
@@ -15,34 +15,30 @@ routers = create_auth_routers()
     status_code=status.HTTP_200_OK,
 )
 async def chat(
-    message: ChatMessage,
+    query: ChatQuery,
     chat_service: ChatServiceDep,
-) -> ChatResponse:
+) -> ChatAnswerResponse:
     """Process chat message and return response with sources."""
     try:
-        # Convert API request to domain object
-        search_context = SearchContext(
-            query=message.message,
-            lesson_id=message.lesson_id,
-            max_results=4,
+        result = chat_service.process_message(
+            SearchContext(
+                query=query.message,
+                lessons_ids=query.lessons_ids or [],
+                courses_ids=query.courses_ids or [],
+                max_results=4,
+            ),
         )
 
-        # Process through service layer
-        result = chat_service.process_message(search_context)
-
         if not result.success:
-            if "No relevant information found" in result.error:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="No relevant information found for your query",
-                )
-            else:
-                raise HTTPException(
-                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail="Failed to process your message",
-                )
+            return ChatAnswerResponse.error_response(
+                message="Successfully retrieved Chat Answer",
+                data=ChatAnswer.from_chat_result(result),
+            )
 
-        return result.to_api_response()
+        return ChatAnswerResponse.success_response(
+            message="Successfully retrieved Chat Answer",
+            data=ChatAnswer.from_chat_result(result),
+        )
 
     except HTTPException:
         raise

@@ -1,9 +1,15 @@
-from typing import Any, Generic, TypeVar
+from collections.abc import Iterable
+from typing import Any, Generic, Protocol, TypeVar
 
-from sqlalchemy import and_, or_, select
+from sqlalchemy import ColumnElement, and_, or_, select
 from sqlalchemy.orm import Session
 
-T = TypeVar("T")
+
+class HasId(Protocol):
+    id: ColumnElement[int]
+
+
+T = TypeVar("T", bound=HasId)
 
 
 class BaseRepository(Generic[T]):
@@ -16,13 +22,23 @@ class BaseRepository(Generic[T]):
     def get_by_id(self, id: int) -> T | None:
         return self.db.get(self.model, id)
 
-    def get_by(self, **criteria) -> T | None:
-        """Get single record by criteria."""
-        conditions = [getattr(self.model, key) == value for key, value in criteria.items()]
-        return self.db.execute(select(self.model).where(*conditions)).scalar_one_or_none()
+    def get_by_ids(self, ids: list[int]) -> dict[int, T]:
+        return {
+            record.id: record
+            for record in self.db.execute(
+                select(self.model).where(self.model.id.in_(ids)),
+            )
+            .scalars()
+            .all()
+        }
 
-    def get_all(self, limit: int = 100, offset: int = 0) -> list[T]:
-        """Get all records with pagination."""
+    def get_by(self, **criteria) -> T | None:
+        conditions = [getattr(self.model, key) == value for key, value in criteria.items()]
+        return self.db.execute(
+            select(self.model).where(*conditions),
+        ).scalar_one_or_none()
+
+    def get_all(self, limit: int | None = 100, offset: int = 0) -> list[T]:
         return self.db.execute(select(self.model).limit(limit).offset(offset)).scalars().all()
 
     def create(self, **data) -> T:
@@ -46,55 +62,75 @@ class BaseRepository(Generic[T]):
         Update existing record or create new one.
         Returns (instance, created_flag)
         """
-        instance = self.get_by(**criteria)
-
-        if instance:
-            for key, value in defaults.items():
-                if hasattr(instance, key):
-                    # Handle metadata fields specially
-                    if key.endswith("_metadata") and hasattr(instance, key):
-                        existing_metadata = getattr(instance, key) or {}
-                        new_metadata = value or {}
-                        setattr(instance, key, {**existing_metadata, **new_metadata})
-                    else:
-                        setattr(instance, key, value)
-            self.db.flush()
-            return instance, False
-        else:
+        if not (instance := self.get_by(**criteria)):
             instance_data = {**criteria, **defaults}
             return self.create(**instance_data), True
 
-    def bulk_update_or_create(self, records_data: list[dict[str, Any]], unique_fields: list[str]) -> dict[str, int]:
-        """
-        True bulk upsert - fetch all existing records in one query, then process.
-        """
+        for key, value in defaults.items():
+            if hasattr(instance, key):
+                # Handle metadata fields specially
+                if key.endswith("_metadata") and hasattr(instance, key):
+                    existing_metadata = getattr(instance, key) or {}
+                    new_metadata = value or {}
+                    setattr(instance, key, {**existing_metadata, **new_metadata})
+                else:
+                    setattr(instance, key, value)
+        self.db.flush()
+        return instance, False
+
+    def bulk_update_or_create(
+        self,
+        records_data: list[dict[str, Any]],
+        unique_fields: list[str],
+    ) -> dict[str, int]:
         if not records_data:
             return {"created": 0, "updated": 0}
 
-        existing_records = self._fetch_existing_records(records_data, unique_fields)
-        return self._process_bulk_records(records_data, unique_fields, existing_records)
+        return self._process_bulk_records(
+            records_data,
+            unique_fields,
+            self._fetch_existing_records(records_data, unique_fields),
+        )
 
-    def _extract_unique_combinations(self, records_data: list[dict[str, Any]], unique_fields: list[str]) -> list[tuple]:
+    def _extract_unique_combinations(
+        self,
+        records_data: list[dict[str, Any]],
+        unique_fields: list[str],
+    ) -> list[tuple]:
         """Extract unique field combinations from records data."""
         return [tuple(record.get(field) for field in unique_fields) for record in records_data]
 
-    def _build_lookup_conditions(self, unique_combinations: list[tuple], unique_fields: list[str]) -> list:
+    def _build_lookup_conditions(
+        self,
+        unique_combinations: list[tuple],
+        unique_fields: list[str],
+    ) -> list:
         """Build SQLAlchemy conditions for fetching existing records."""
         conditions = []
         for unique_combo in unique_combinations:
             record_conditions = [
                 getattr(self.model, field) == value
-                for _, (field, value) in enumerate(zip(unique_fields, unique_combo, strict=False))
+                for _, (field, value) in enumerate(
+                    zip(unique_fields, unique_combo, strict=False),
+                )
                 if value is not None
             ]
             if record_conditions:
-                conditions.append(and_(*record_conditions) if len(record_conditions) > 1 else record_conditions[0])
+                conditions.append(
+                    (and_(*record_conditions) if len(record_conditions) > 1 else record_conditions[0]),
+                )
         return conditions
 
-    def _fetch_existing_records(self, records_data: list[dict[str, Any]], unique_fields: list[str]) -> dict[tuple, T]:
+    def _fetch_existing_records(
+        self,
+        records_data: list[dict[str, Any]],
+        unique_fields: list[str],
+    ) -> dict[tuple, T]:
         """Fetch all existing records that match the unique field combinations."""
-        unique_combinations = self._extract_unique_combinations(records_data, unique_fields)
-        conditions = self._build_lookup_conditions(unique_combinations, unique_fields)
+        conditions = self._build_lookup_conditions(
+            self._extract_unique_combinations(records_data, unique_fields),
+            unique_fields,
+        )
 
         if not conditions:
             return {}
@@ -105,7 +141,12 @@ class BaseRepository(Generic[T]):
         # Create lookup dict: (field1_value, field2_value, ...) -> record
         return {tuple(getattr(record, field) for field in unique_fields): record for record in results}
 
-    def _update_existing_record(self, record: T, record_data: dict[str, Any], unique_fields: list[str]) -> None:
+    def _update_existing_record(
+        self,
+        record: T,
+        record_data: dict[str, Any],
+        unique_fields: list[str],
+    ) -> None:
         """Update an existing record with new data."""
         for field, value in record_data.items():
             if field not in unique_fields and hasattr(record, field):
@@ -118,20 +159,23 @@ class BaseRepository(Generic[T]):
 
     def _process_bulk_records(
         self,
-        records_data: list[dict[str, Any]],
+        records_data: Iterable[dict[str, Any]],
         unique_fields: list[str],
         existing_records: dict[tuple, T],
     ) -> dict[str, int]:
         """Process all records for bulk update or create."""
-        created_count = 0
-        updated_count = 0
+        created_count, updated_count = 0, 0
         new_records = []
 
         for record_data in records_data:
             key = tuple(record_data.get(field) for field in unique_fields)
 
             if key in existing_records:
-                self._update_existing_record(existing_records[key], record_data, unique_fields)
+                self._update_existing_record(
+                    existing_records[key],
+                    record_data,
+                    unique_fields,
+                )
                 updated_count += 1
             else:
                 new_records.append(self.model(**record_data))

@@ -2,7 +2,7 @@ from sqlalchemy import func, select
 
 from shared.database.factories.base import BaseFactory
 from shared.database.factories.course import CourseFactory
-from shared.database.models.rag.lesson import Lesson
+from shared.database.models import Lesson
 
 
 class LessonFactory(BaseFactory[Lesson]):
@@ -37,7 +37,10 @@ class LessonFactory(BaseFactory[Lesson]):
             "course_id": self._course_id,
             "video_url": f"https://example.com/courses/{self.faker.word()}/{number}/",
             "lesson_metadata": {
-                "duration_seconds": self.faker.random_int(min=1800, max=7200),  # 30min to 2h
+                "duration_seconds": self.faker.random_int(
+                    min=1800,
+                    max=7200,
+                ),  # 30min to 2h
                 "topics": [self.faker.word() for _ in range(self.faker.random_int(min=2, max=5))],
                 "created_by": __name__,
             },

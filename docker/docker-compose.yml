@@ -3,12 +3,15 @@ services:
         image: pgvector/pgvector:pg17
         restart: unless-stopped
         env_file:
-            - .env
+            - ../.env
         environment:
             POSTGRES_USER: ${DATABASE__USER}
             POSTGRES_PASSWORD: ${DATABASE__PASSWORD}
             POSTGRES_DB: ${DATABASE__DB}
             PG_VECTOR_DIMENSION: ${EMBEDDINGS__DIMENSION}
+            POSTGRES_SSL_MODE: require
+            POSTGRES_HOST_AUTH_METHOD: md5
+
             POSTGRES_MAX_CONNECTIONS: 100
             PGDATA: /var/lib/postgresql/data/pgdata
             POSTGRES_SHARED_PRELOAD_LIBRARIES: vector
@@ -36,7 +39,7 @@ services:
             target: production
         restart: unless-stopped
         env_file:
-            - .env
+            - ../.env
         volumes:
             - ../backend/logs:${LOG__DIR}
             - ../audios:${DOWNLOADER__OUTPUT_DIR}
@@ -64,10 +67,9 @@ services:
             target: production
         restart: unless-stopped
         environment:
-            # Build-time environment variables for Vite
-            - VITE_API_URL=/api/v1
-            - VITE_APP_TITLE=OpenFing RAG Chat
-            - VITE_APP_VERSION=${APP_VERSION:-1.0.0}
+            - VITE_API_URL=${VITE_API_URL}
+            - VITE_APP_TITLE=${VITE_APP_TITLE}
+            - VITE_APP_VERSION=${APP__VERSION}
         networks:
             - frontend
         expose:
@@ -162,5 +164,6 @@ volumes:
 networks:
     backend:
         driver: bridge
+        internal: true
     frontend:
         driver: bridge

@@ -1,0 +1,64 @@
+repos:
+    # Backend hooks
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: check-yaml
+          - id: check-toml
+          - id: debug-statements
+          - id: check-added-large-files
+          - id: name-tests-test
+            args: [--pytest-test-first]
+
+    - repo: https://github.com/asottile/pyupgrade
+      rev: v3.20.0
+      hooks:
+          - id: pyupgrade
+            args: [--py312-plus]
+
+    - repo: https://github.com/asottile/add-trailing-comma
+      rev: v3.2.0
+      hooks:
+          - id: add-trailing-comma
+
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      rev: v0.12.4
+      hooks:
+          - id: ruff-check
+            args: [--fix]
+          - id: ruff-format
+
+    - repo: https://github.com/jendrikseipp/vulture
+      rev: v2.14
+      hooks:
+          - id: vulture
+            files: ^backend/
+            pass_filenames: false
+            args: [--config, backend/pyproject.toml, backend/]
+
+    - repo: https://github.com/pre-commit/mirrors-mypy
+      rev: v1.17.0
+      hooks:
+          - id: mypy
+            additional_dependencies: [types-requests, types-PyYAML]
+            args: [--ignore-missing-imports]
+            exclude: ^tests/
+
+    # Frontend hooks
+    - repo: local
+      hooks:
+          - id: frontend-lint-staged
+            name: Frontend lint-staged
+            entry: bash -c 'cd frontend && npx lint-staged'
+            language: system
+            files: ^frontend/.*\.(js|jsx|ts|tsx|json|css|md|yml|yaml)$
+            pass_filenames: false
+
+          - id: frontend-typecheck
+            name: TypeScript type check
+            entry: bash -c 'cd frontend && pnpm run type-check'
+            language: system
+            files: ^frontend/.*\.(ts|tsx)$
+            pass_filenames: false

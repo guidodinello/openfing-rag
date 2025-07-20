@@ -8,13 +8,11 @@ from sqlalchemy.orm import DeclarativeBase
 class Base(DeclarativeBase):
     """Base class for all models"""
 
-    # Allow models to override tablename if needed
     @declared_attr.directive
     def __tablename__(cls) -> str:
         return cls.__name__.lower()
 
     def as_dict(self) -> dict[str, Any]:
-        """Convert model instance to dictionary."""
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
