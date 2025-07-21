@@ -9,6 +9,8 @@ from services.transcriber.schemas import (
     Lesson,
     LessonListResult,
     Transcription,
+    TranscriptionFile,
+    TranscriptionFileResult,
     TranscriptionListResult,
     TranscriptionResult,
 )
@@ -18,7 +20,6 @@ from shared.enums import WhisperModelLanguage, WhisperModelSize
 from shared.file_utils import TranscriptionFileUtils
 from shared.logging import get_logger
 from shared.utils import megabytes_to_bytes, normalize_json
-from transcriber.schemas.domain import ChunkListResult, TranscriptionFile, TranscriptionFileResult
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -206,7 +207,6 @@ class TranscriptionService:
         if transcription:
             return TranscriptionResult.success_result(
                 message="Transcription retrieved from database",
-                transcription_id=transcription.id,
                 item=Transcription.from_model(transcription),
             )
 
@@ -256,7 +256,10 @@ class TranscriptionService:
             self.repos.db.commit()
 
             return ChunkListResult.success_result(
-                message=f"Bulk vectorization completed: {len(transcription_ids)} transcriptions processed, {len(chunk_results)} chunks created",
+                message=(
+                    f"Bulk vectorization completed: {len(transcription_ids)} transcriptions processed, "
+                    f"{len(chunk_results)} chunks created"
+                ),
                 items=chunk_results,
             )
         except Exception as e:
