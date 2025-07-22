@@ -1,0 +1,7492 @@
+{
+  "text": "Buenas, en este ejercicio voy a hacer una resolución de la cuarta parte del ejercicio 4b del práctico 3. Este ejercicio pide implementar una función removeAll, que da un elemento x y una lista L. Remueve de esta lista L todos los novos con el elemento x. Entonces, voy a implementar la función. Estamos usando la misma definición de lista doblemente enlazada que en el ejercicio anterior, la parte 2 del ejercicio 4b. Vamos entonces a empezar a partir de esta representación de una lista. Esta lista a la derecha puede o no tener más elementos y vamos a tratar de remover este elemento de x. Queremos que a lo que lleguemos sea esta situación. Una situación donde el anterior del elemento siguiente al que queremos remover apunta al elemento anterior del que queremos remover y donde el puntero siguiente al anterior que queremos remover apunta al siguiente del que removimos. Vamos entonces a estar en esta situación. Tenemos el puntero L que apunta la lista y la lista. Vamos entonces a recorrer la lista. Vamos a partir del principio y a ver cuáles son los elementos que cumplen la condición que tienen x. Cuando lleguemos a ese elemento vamos a removerlo. Pero no es tan simple. Vamos a tener un problema. Si removemos este puntero auxiliar Lpos una vez que llegamos hasta el lugar, vamos a perder la dirección de memoria a la que apunta Lpos una vez que la removimos. Por lo tanto, para seguir borrando las instancias de x que aparecen en la lista, si es las hay, tendríamos que empezar de nuevo porque perdimos la posición en que vamos a empezar con otro puntero. Uno que se encarga de borrar la instancia de x y liberar la memoria y otro que se encarga de marcar la posición que vamos en la lista. Bueno, ahora vamos a pasar a código estas ideas que ya tenemos. Empezamos con los punteros auxiliares. Lpos y a borrar van a ser iguales a L al principio, de tipo lista. Después, como tenemos que recorrer la lista hasta el final para ver que no nos saltemos de borrar ningún elemento, vamos a tener que usar un while. While Lpos sea distinto de null porque eso significaría que llegamos hasta el final. Si encontramos un elemento que queremos borrar, es decir, el elemento de la memoria a la que apunta Lpos es igual a x, entonces acá vamos a tener que borrar a lo que apunta Lpos, sino simplemente avanzamos Lpos una posición. Bueno, ahora tenemos que borrar el null que apunte Lpos. Entonces, a borrar va a ser el puntero que vamos a borrar, así que a borrar es igual Lpos. Y ahora vamos a igualar el siguiente del anterior del Lpos al siguiente del Lpos. ¿Qué estamos haciendo con esto? Estamos haciendo que el null anterior del Lpos se conecte con el null siguiente del Lpos. Ahora hacemos el análogo para que el siguiente se conecte con el anterior, es decir, el anterior del siguiente es igual al anterior del Lpos. Ahora simplemente tenemos que avanzar Lpos. Lpos es igual a su siguiente y borramos lo que queremos borrar. Ahora, una pregunta que pueden tener es, ¿por qué si avanzamos Lpos, tanto como si borramos el elemento o no, por qué no simplemente lo ponemos afuera del if y ignoramos este else? Es decir, borramos esto, borramos esto y hacemos esto. El problema es, si hacemos esto, una vez que liberamos la memoria acá, ya perdemos dónde está almacenado este puntero. No podemos acceder a esto, por lo tanto, no podemos obtener el siguiente del Lpos. ¿Por qué Lpos no va a estar apuntando a nada? Ya que Lpos apuntaba lo mismo que borrar y liberamos la memoria a la que apuntaba a borrar. Entonces, vamos a nuestra emulación original y ya está. Una cosa que se podría hacer es tener acá alguna forma de saber si se entró al if y afuera del if poner otro if, que si se entró al if, pero es ya complicar más las cosas. Complica más de lo que aclara. Pero esta solución tiene un problema, que es, estos accesos a la memoria de acá solo los podemos hacer si, este acceso solo lo podemos hacer si esta dirección existe. Si es null esto, null no tiene siguiente. Lo mismo para esta, null no tiene anterior. Si esto es null, no podemos hacer este acceso. Entonces, primero vamos a chequear si efectivamente pasa eso. Sabemos que Lpos no va a ser null porque es la condición del while. Así que no necesitamos chequear eso. Acá estamos chequeando que el siguiente no sea null, es decir, que lo que queremos borrar no esté al final de la lista, y acá estamos chequeando que el anterior dado de lo que queremos borrar no esté, no sea null, es decir, lo que queremos borrar no esté al principio de la lista. Pero además, tenemos otro problema en este caso. Si lo que queremos borrar está al principio de la lista y lo borramos, entonces perdimos a lo que apunta L. Entonces acá tenemos que hacer otra cosa además, que es igualar L a algo nuevo, en este caso al siguiente. Y esto solo lo hacemos cuando el elemento que removimos está al principio de la lista. Entonces ponemos acá un L y quedó pronto el ejercicio.",
+  "segments": [
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 0.56,
+      "end": 7.94,
+      "text": " Buenas, en este ejercicio voy a hacer una resolución de la cuarta parte del ejercicio 4b del práctico 3.",
+      "tokens": [
+        50364,
+        4078,
+        11581,
+        11,
+        465,
+        4065,
+        39151,
+        18322,
+        7552,
+        257,
+        6720,
+        2002,
+        7923,
+        30813,
+        368,
+        635,
+        2702,
+        19061,
+        6975,
+        1103,
+        39151,
+        18322,
+        1017,
+        65,
+        1103,
+        27300,
+        349,
+        2789,
+        805,
+        13,
+        50721
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2745807854140677,
+      "compression_ratio": 1.565217391304348,
+      "no_speech_prob": 0.4287109375,
+      "words": [
+        {
+          "word": " Buenas,",
+          "start": 0.56,
+          "end": 1.36,
+          "probability": 0.6646728515625
+        },
+        {
+          "word": " en",
+          "start": 1.76,
+          "end": 1.86,
+          "probability": 0.94873046875
+        },
+        {
+          "word": " este",
+          "start": 1.86,
+          "end": 2.0,
+          "probability": 0.97509765625
+        },
+        {
+          "word": " ejercicio",
+          "start": 2.0,
+          "end": 2.56,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " voy",
+          "start": 2.56,
+          "end": 2.72,
+          "probability": 0.9423828125
+        },
+        {
+          "word": " a",
+          "start": 2.72,
+          "end": 2.94,
+          "probability": 0.95654296875
+        },
+        {
+          "word": " hacer",
+          "start": 2.94,
+          "end": 2.98,
+          "probability": 0.9755859375
+        },
+        {
+          "word": " una",
+          "start": 2.98,
+          "end": 3.28,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " resolución",
+          "start": 3.28,
+          "end": 3.98,
+          "probability": 0.9921875
+        },
+        {
+          "word": " de",
+          "start": 3.98,
+          "end": 4.18,
+          "probability": 0.955078125
+        },
+        {
+          "word": " la",
+          "start": 4.18,
+          "end": 4.36,
+          "probability": 0.9921875
+        },
+        {
+          "word": " cuarta",
+          "start": 4.36,
+          "end": 4.68,
+          "probability": 0.9541015625
+        },
+        {
+          "word": " parte",
+          "start": 4.68,
+          "end": 5.2,
+          "probability": 0.99609375
+        },
+        {
+          "word": " del",
+          "start": 5.2,
+          "end": 5.54,
+          "probability": 0.94091796875
+        },
+        {
+          "word": " ejercicio",
+          "start": 5.54,
+          "end": 6.16,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " 4b",
+          "start": 6.16,
+          "end": 6.94,
+          "probability": 0.75244140625
+        },
+        {
+          "word": " del",
+          "start": 6.94,
+          "end": 7.18,
+          "probability": 0.84814453125
+        },
+        {
+          "word": " práctico",
+          "start": 7.18,
+          "end": 7.58,
+          "probability": 0.89208984375
+        },
+        {
+          "word": " 3.",
+          "start": 7.58,
+          "end": 7.94,
+          "probability": 0.93359375
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "seek": 0,
+      "start": 9.82,
+      "end": 18.76,
+      "text": " Este ejercicio pide implementar una función removeAll, que da un elemento x y una lista L.",
+      "tokens": [
+        50790,
+        16105,
+        39151,
+        18322,
+        280,
+        482,
+        4445,
+        289,
+        2002,
+        43735,
+        4159,
+        7868,
+        11,
+        631,
+        1120,
+        517,
+        47961,
+        2031,
+        288,
+        2002,
+        27764,
+        441,
+        13,
+        51268
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2745807854140677,
+      "compression_ratio": 1.565217391304348,
+      "no_speech_prob": 0.4287109375,
+      "words": [
+        {
+          "word": " Este",
+          "start": 9.82,
+          "end": 10.54,
+          "probability": 0.947265625
+        },
+        {
+          "word": " ejercicio",
+          "start": 10.54,
+          "end": 11.26,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " pide",
+          "start": 11.26,
+          "end": 11.9,
+          "probability": 0.876220703125
+        },
+        {
+          "word": " implementar",
+          "start": 11.9,
+          "end": 12.82,
+          "probability": 0.699951171875
+        },
+        {
+          "word": " una",
+          "start": 12.82,
+          "end": 13.0,
+          "probability": 0.94287109375
+        },
+        {
+          "word": " función",
+          "start": 13.0,
+          "end": 13.48,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " removeAll,",
+          "start": 13.48,
+          "end": 14.32,
+          "probability": 0.31329345703125
+        },
+        {
+          "word": " que",
+          "start": 15.14,
+          "end": 15.32,
+          "probability": 0.97412109375
+        },
+        {
+          "word": " da",
+          "start": 15.32,
+          "end": 15.44,
+          "probability": 0.95068359375
+        },
+        {
+          "word": " un",
+          "start": 15.44,
+          "end": 15.6,
+          "probability": 0.97998046875
+        },
+        {
+          "word": " elemento",
+          "start": 15.6,
+          "end": 15.96,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " x",
+          "start": 15.96,
+          "end": 16.76,
+          "probability": 0.330810546875
+        },
+        {
+          "word": " y",
+          "start": 16.76,
+          "end": 17.86,
+          "probability": 0.5419921875
+        },
+        {
+          "word": " una",
+          "start": 17.86,
+          "end": 18.04,
+          "probability": 0.95361328125
+        },
+        {
+          "word": " lista",
+          "start": 18.04,
+          "end": 18.4,
+          "probability": 0.994140625
+        },
+        {
+          "word": " L.",
+          "start": 18.4,
+          "end": 18.76,
+          "probability": 0.470458984375
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "seek": 0,
+      "start": 19.24,
+      "end": 26.74,
+      "text": " Remueve de esta lista L todos los novos con el elemento x. Entonces, voy a implementar la",
+      "tokens": [
+        51268,
+        4080,
+        622,
+        303,
+        368,
+        5283,
+        27764,
+        441,
+        6321,
+        1750,
+        572,
+        19140,
+        416,
+        806,
+        47961,
+        2031,
+        13,
+        15097,
+        11,
+        7552,
+        257,
+        4445,
+        289,
+        635,
+        51658
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2745807854140677,
+      "compression_ratio": 1.565217391304348,
+      "no_speech_prob": 0.4287109375,
+      "words": [
+        {
+          "word": " Remueve",
+          "start": 19.24,
+          "end": 19.86,
+          "probability": 0.8898111979166666
+        },
+        {
+          "word": " de",
+          "start": 19.86,
+          "end": 19.98,
+          "probability": 0.94873046875
+        },
+        {
+          "word": " esta",
+          "start": 19.98,
+          "end": 20.12,
+          "probability": 0.90478515625
+        },
+        {
+          "word": " lista",
+          "start": 20.12,
+          "end": 20.44,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " L",
+          "start": 20.44,
+          "end": 21.36,
+          "probability": 0.93701171875
+        },
+        {
+          "word": " todos",
+          "start": 21.36,
+          "end": 21.66,
+          "probability": 0.9072265625
+        },
+        {
+          "word": " los",
+          "start": 21.66,
+          "end": 21.9,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " novos",
+          "start": 21.9,
+          "end": 22.36,
+          "probability": 0.886474609375
+        },
+        {
+          "word": " con",
+          "start": 22.36,
+          "end": 22.86,
+          "probability": 0.96923828125
+        },
+        {
+          "word": " el",
+          "start": 22.86,
+          "end": 23.04,
+          "probability": 0.56298828125
+        },
+        {
+          "word": " elemento",
+          "start": 23.04,
+          "end": 23.32,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " x.",
+          "start": 23.32,
+          "end": 24.1,
+          "probability": 0.95703125
+        },
+        {
+          "word": " Entonces,",
+          "start": 24.74,
+          "end": 25.18,
+          "probability": 0.94580078125
+        },
+        {
+          "word": " voy",
+          "start": 25.22,
+          "end": 25.46,
+          "probability": 0.9794921875
+        },
+        {
+          "word": " a",
+          "start": 25.46,
+          "end": 25.6,
+          "probability": 0.97607421875
+        },
+        {
+          "word": " implementar",
+          "start": 25.6,
+          "end": 26.38,
+          "probability": 0.995849609375
+        },
+        {
+          "word": " la",
+          "start": 26.38,
+          "end": 26.74,
+          "probability": 0.990234375
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "seek": 2618,
+      "start": 26.74,
+      "end": 48.98,
+      "text": " función. Estamos usando la misma definición de lista doblemente enlazada que en el ejercicio",
+      "tokens": [
+        50364,
+        43735,
+        13,
+        34563,
+        29798,
+        635,
+        24946,
+        1561,
+        15534,
+        368,
+        27764,
+        360,
+        638,
+        4082,
+        465,
+        875,
+        89,
+        1538,
+        631,
+        465,
+        806,
+        39151,
+        18322,
+        50658
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2328558967759212,
+      "compression_ratio": 1.53551912568306,
+      "no_speech_prob": 0.53759765625,
+      "words": [
+        {
+          "word": " función.",
+          "start": 26.74,
+          "end": 26.86,
+          "probability": 7.152557373046875e-07
+        },
+        {
+          "word": " Estamos",
+          "start": 44.2,
+          "end": 44.6,
+          "probability": 0.89453125
+        },
+        {
+          "word": " usando",
+          "start": 44.6,
+          "end": 45.08,
+          "probability": 0.9609375
+        },
+        {
+          "word": " la",
+          "start": 45.08,
+          "end": 45.28,
+          "probability": 0.97607421875
+        },
+        {
+          "word": " misma",
+          "start": 45.28,
+          "end": 45.54,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " definición",
+          "start": 45.54,
+          "end": 46.32,
+          "probability": 0.989013671875
+        },
+        {
+          "word": " de",
+          "start": 46.32,
+          "end": 46.52,
+          "probability": 0.7646484375
+        },
+        {
+          "word": " lista",
+          "start": 46.52,
+          "end": 46.8,
+          "probability": 0.9208984375
+        },
+        {
+          "word": " doblemente",
+          "start": 46.8,
+          "end": 47.3,
+          "probability": 0.8359375
+        },
+        {
+          "word": " enlazada",
+          "start": 47.3,
+          "end": 48.1,
+          "probability": 0.983154296875
+        },
+        {
+          "word": " que",
+          "start": 48.1,
+          "end": 48.32,
+          "probability": 0.89599609375
+        },
+        {
+          "word": " en",
+          "start": 48.32,
+          "end": 48.44,
+          "probability": 0.9072265625
+        },
+        {
+          "word": " el",
+          "start": 48.44,
+          "end": 48.52,
+          "probability": 0.96044921875
+        },
+        {
+          "word": " ejercicio",
+          "start": 48.52,
+          "end": 48.98,
+          "probability": 0.998779296875
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "seek": 2618,
+      "start": 48.98,
+      "end": 58.14,
+      "text": " anterior, la parte 2 del ejercicio 4b. Vamos entonces a empezar a partir de esta representación",
+      "tokens": [
+        50658,
+        22272,
+        11,
+        635,
+        6975,
+        568,
+        1103,
+        39151,
+        18322,
+        1017,
+        65,
+        13,
+        10894,
+        13003,
+        257,
+        31168,
+        257,
+        13906,
+        368,
+        5283,
+        2906,
+        3482,
+        51116
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2328558967759212,
+      "compression_ratio": 1.53551912568306,
+      "no_speech_prob": 0.53759765625,
+      "words": [
+        {
+          "word": " anterior,",
+          "start": 48.98,
+          "end": 49.7,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " la",
+          "start": 49.76,
+          "end": 50.12,
+          "probability": 0.76806640625
+        },
+        {
+          "word": " parte",
+          "start": 50.12,
+          "end": 50.34,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " 2",
+          "start": 50.34,
+          "end": 51.16,
+          "probability": 0.697265625
+        },
+        {
+          "word": " del",
+          "start": 51.16,
+          "end": 52.8,
+          "probability": 0.87939453125
+        },
+        {
+          "word": " ejercicio",
+          "start": 52.8,
+          "end": 53.36,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " 4b.",
+          "start": 53.36,
+          "end": 54.94,
+          "probability": 0.731201171875
+        },
+        {
+          "word": " Vamos",
+          "start": 55.54,
+          "end": 55.7,
+          "probability": 0.9443359375
+        },
+        {
+          "word": " entonces",
+          "start": 55.7,
+          "end": 56.36,
+          "probability": 0.93701171875
+        },
+        {
+          "word": " a",
+          "start": 56.36,
+          "end": 56.74,
+          "probability": 0.93798828125
+        },
+        {
+          "word": " empezar",
+          "start": 56.74,
+          "end": 56.84,
+          "probability": 0.939453125
+        },
+        {
+          "word": " a",
+          "start": 56.84,
+          "end": 56.96,
+          "probability": 0.9736328125
+        },
+        {
+          "word": " partir",
+          "start": 56.96,
+          "end": 57.2,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " de",
+          "start": 57.2,
+          "end": 57.34,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " esta",
+          "start": 57.34,
+          "end": 57.48,
+          "probability": 0.84326171875
+        },
+        {
+          "word": " representación",
+          "start": 57.48,
+          "end": 58.14,
+          "probability": 0.9921875
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "seek": 2618,
+      "start": 58.14,
+      "end": 67.24,
+      "text": " de una lista. Esta lista a la derecha puede o no tener más elementos y vamos a tratar de",
+      "tokens": [
+        51116,
+        368,
+        2002,
+        27764,
+        13,
+        20547,
+        27764,
+        257,
+        635,
+        15969,
+        4413,
+        8919,
+        277,
+        572,
+        11640,
+        3573,
+        35797,
+        288,
+        5295,
+        257,
+        42549,
+        368,
+        51562
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2328558967759212,
+      "compression_ratio": 1.53551912568306,
+      "no_speech_prob": 0.53759765625,
+      "words": [
+        {
+          "word": " de",
+          "start": 58.14,
+          "end": 58.28,
+          "probability": 0.951171875
+        },
+        {
+          "word": " una",
+          "start": 58.28,
+          "end": 58.42,
+          "probability": 0.9716796875
+        },
+        {
+          "word": " lista.",
+          "start": 58.42,
+          "end": 58.78,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " Esta",
+          "start": 60.12,
+          "end": 60.24,
+          "probability": 0.9248046875
+        },
+        {
+          "word": " lista",
+          "start": 60.24,
+          "end": 60.74,
+          "probability": 0.986328125
+        },
+        {
+          "word": " a",
+          "start": 60.74,
+          "end": 61.44,
+          "probability": 0.76318359375
+        },
+        {
+          "word": " la",
+          "start": 61.44,
+          "end": 61.64,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " derecha",
+          "start": 61.64,
+          "end": 62.02,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " puede",
+          "start": 62.02,
+          "end": 62.36,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " o",
+          "start": 62.36,
+          "end": 62.48,
+          "probability": 0.9365234375
+        },
+        {
+          "word": " no",
+          "start": 62.48,
+          "end": 62.6,
+          "probability": 0.994140625
+        },
+        {
+          "word": " tener",
+          "start": 62.6,
+          "end": 62.88,
+          "probability": 0.9560546875
+        },
+        {
+          "word": " más",
+          "start": 62.88,
+          "end": 63.16,
+          "probability": 0.95556640625
+        },
+        {
+          "word": " elementos",
+          "start": 63.16,
+          "end": 63.7,
+          "probability": 0.994140625
+        },
+        {
+          "word": " y",
+          "start": 63.7,
+          "end": 65.82,
+          "probability": 0.441650390625
+        },
+        {
+          "word": " vamos",
+          "start": 65.82,
+          "end": 66.12,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " a",
+          "start": 66.12,
+          "end": 66.68,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " tratar",
+          "start": 66.68,
+          "end": 66.9,
+          "probability": 0.943359375
+        },
+        {
+          "word": " de",
+          "start": 66.9,
+          "end": 67.24,
+          "probability": 0.99658203125
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "seek": 5036,
+      "start": 67.24,
+      "end": 76.99,
+      "text": " remover este elemento de x. Queremos que a lo que lleguemos sea esta situación. Una situación donde",
+      "tokens": [
+        50364,
+        890,
+        3570,
+        4065,
+        47961,
+        368,
+        2031,
+        13,
+        2326,
+        19065,
+        631,
+        257,
+        450,
+        631,
+        11234,
+        84,
+        4485,
+        4158,
+        5283,
+        29343,
+        13,
+        15491,
+        29343,
+        10488,
+        50772
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19852940760114612,
+      "compression_ratio": 2.13768115942029,
+      "no_speech_prob": 0.82080078125,
+      "words": [
+        {
+          "word": " remover",
+          "start": 67.24,
+          "end": 67.5,
+          "probability": 0.4950370788574219
+        },
+        {
+          "word": " este",
+          "start": 67.5,
+          "end": 67.8,
+          "probability": 0.775390625
+        },
+        {
+          "word": " elemento",
+          "start": 67.8,
+          "end": 68.18,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " de",
+          "start": 68.18,
+          "end": 68.5,
+          "probability": 0.8720703125
+        },
+        {
+          "word": " x.",
+          "start": 68.5,
+          "end": 69.32,
+          "probability": 0.28515625
+        },
+        {
+          "word": " Queremos",
+          "start": 70.77,
+          "end": 71.01,
+          "probability": 0.88720703125
+        },
+        {
+          "word": " que",
+          "start": 71.01,
+          "end": 71.83,
+          "probability": 0.9462890625
+        },
+        {
+          "word": " a",
+          "start": 71.83,
+          "end": 71.93,
+          "probability": 0.685546875
+        },
+        {
+          "word": " lo",
+          "start": 71.93,
+          "end": 72.05,
+          "probability": 0.9921875
+        },
+        {
+          "word": " que",
+          "start": 72.05,
+          "end": 72.25,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " lleguemos",
+          "start": 72.25,
+          "end": 73.39,
+          "probability": 0.9718424479166666
+        },
+        {
+          "word": " sea",
+          "start": 73.39,
+          "end": 73.63,
+          "probability": 0.865234375
+        },
+        {
+          "word": " esta",
+          "start": 73.63,
+          "end": 73.93,
+          "probability": 0.92529296875
+        },
+        {
+          "word": " situación.",
+          "start": 73.93,
+          "end": 74.63,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " Una",
+          "start": 75.49,
+          "end": 75.69,
+          "probability": 0.94677734375
+        },
+        {
+          "word": " situación",
+          "start": 75.69,
+          "end": 76.29,
+          "probability": 0.9921875
+        },
+        {
+          "word": " donde",
+          "start": 76.29,
+          "end": 76.99,
+          "probability": 0.951171875
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "seek": 5036,
+      "start": 76.99,
+      "end": 84.95,
+      "text": " el anterior del elemento siguiente al que queremos remover apunta al elemento anterior del que",
+      "tokens": [
+        50772,
+        806,
+        22272,
+        1103,
+        47961,
+        25666,
+        419,
+        631,
+        26813,
+        890,
+        3570,
+        1882,
+        46380,
+        419,
+        47961,
+        22272,
+        1103,
+        631,
+        51180
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19852940760114612,
+      "compression_ratio": 2.13768115942029,
+      "no_speech_prob": 0.82080078125,
+      "words": [
+        {
+          "word": " el",
+          "start": 76.99,
+          "end": 78.25,
+          "probability": 0.90869140625
+        },
+        {
+          "word": " anterior",
+          "start": 78.25,
+          "end": 78.97,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " del",
+          "start": 78.97,
+          "end": 79.75,
+          "probability": 0.5078125
+        },
+        {
+          "word": " elemento",
+          "start": 79.75,
+          "end": 80.01,
+          "probability": 0.927734375
+        },
+        {
+          "word": " siguiente",
+          "start": 80.01,
+          "end": 81.19,
+          "probability": 0.681640625
+        },
+        {
+          "word": " al",
+          "start": 81.19,
+          "end": 81.81,
+          "probability": 0.91796875
+        },
+        {
+          "word": " que",
+          "start": 81.81,
+          "end": 81.87,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " queremos",
+          "start": 81.87,
+          "end": 82.13,
+          "probability": 0.98583984375
+        },
+        {
+          "word": " remover",
+          "start": 82.13,
+          "end": 83.13,
+          "probability": 0.993408203125
+        },
+        {
+          "word": " apunta",
+          "start": 83.13,
+          "end": 83.63,
+          "probability": 0.823486328125
+        },
+        {
+          "word": " al",
+          "start": 83.63,
+          "end": 83.79,
+          "probability": 0.9638671875
+        },
+        {
+          "word": " elemento",
+          "start": 83.79,
+          "end": 84.19,
+          "probability": 0.97216796875
+        },
+        {
+          "word": " anterior",
+          "start": 84.19,
+          "end": 84.63,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " del",
+          "start": 84.63,
+          "end": 84.81,
+          "probability": 0.90234375
+        },
+        {
+          "word": " que",
+          "start": 84.81,
+          "end": 84.95,
+          "probability": 0.98388671875
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "seek": 5036,
+      "start": 84.95,
+      "end": 94.49,
+      "text": " queremos remover y donde el puntero siguiente al anterior que queremos remover apunta al siguiente",
+      "tokens": [
+        51180,
+        26813,
+        890,
+        3570,
+        288,
+        10488,
+        806,
+        4468,
+        391,
+        78,
+        25666,
+        419,
+        22272,
+        631,
+        26813,
+        890,
+        3570,
+        1882,
+        46380,
+        419,
+        25666,
+        51660
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19852940760114612,
+      "compression_ratio": 2.13768115942029,
+      "no_speech_prob": 0.82080078125,
+      "words": [
+        {
+          "word": " queremos",
+          "start": 84.95,
+          "end": 85.19,
+          "probability": 0.99609375
+        },
+        {
+          "word": " remover",
+          "start": 85.19,
+          "end": 86.47,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " y",
+          "start": 86.47,
+          "end": 87.65,
+          "probability": 0.7041015625
+        },
+        {
+          "word": " donde",
+          "start": 87.65,
+          "end": 87.89,
+          "probability": 0.9580078125
+        },
+        {
+          "word": " el",
+          "start": 87.89,
+          "end": 88.05,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " puntero",
+          "start": 88.05,
+          "end": 88.51,
+          "probability": 0.9786783854166666
+        },
+        {
+          "word": " siguiente",
+          "start": 88.51,
+          "end": 89.29,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " al",
+          "start": 89.29,
+          "end": 89.75,
+          "probability": 0.90576171875
+        },
+        {
+          "word": " anterior",
+          "start": 89.75,
+          "end": 90.15,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " que",
+          "start": 90.15,
+          "end": 90.33,
+          "probability": 0.90966796875
+        },
+        {
+          "word": " queremos",
+          "start": 90.33,
+          "end": 90.51,
+          "probability": 0.998046875
+        },
+        {
+          "word": " remover",
+          "start": 90.51,
+          "end": 92.07,
+          "probability": 0.997314453125
+        },
+        {
+          "word": " apunta",
+          "start": 92.07,
+          "end": 92.91,
+          "probability": 0.974365234375
+        },
+        {
+          "word": " al",
+          "start": 92.91,
+          "end": 93.95,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " siguiente",
+          "start": 93.95,
+          "end": 94.49,
+          "probability": 0.9990234375
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "seek": 7636,
+      "start": 94.49,
+      "end": 103.68,
+      "text": " del que removimos. Vamos entonces a estar en esta situación. Tenemos el puntero L que apunta la",
+      "tokens": [
+        50364,
+        1103,
+        631,
+        4595,
+        85,
+        8372,
+        13,
+        10894,
+        13003,
+        257,
+        8755,
+        465,
+        5283,
+        29343,
+        13,
+        44903,
+        806,
+        4468,
+        391,
+        78,
+        441,
+        631,
+        1882,
+        46380,
+        635,
+        50740
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.15594952075909346,
+      "compression_ratio": 1.6628571428571428,
+      "no_speech_prob": 0.16650390625,
+      "words": [
+        {
+          "word": " del",
+          "start": 94.49,
+          "end": 94.63,
+          "probability": 0.08123779296875
+        },
+        {
+          "word": " que",
+          "start": 94.63,
+          "end": 94.87,
+          "probability": 0.91845703125
+        },
+        {
+          "word": " removimos.",
+          "start": 94.87,
+          "end": 96.05,
+          "probability": 0.9677734375
+        },
+        {
+          "word": " Vamos",
+          "start": 98.02,
+          "end": 98.1,
+          "probability": 0.94287109375
+        },
+        {
+          "word": " entonces",
+          "start": 98.1,
+          "end": 98.92,
+          "probability": 0.94189453125
+        },
+        {
+          "word": " a",
+          "start": 98.92,
+          "end": 99.74,
+          "probability": 0.80908203125
+        },
+        {
+          "word": " estar",
+          "start": 99.74,
+          "end": 100.04,
+          "probability": 0.97607421875
+        },
+        {
+          "word": " en",
+          "start": 100.04,
+          "end": 100.36,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " esta",
+          "start": 100.36,
+          "end": 100.52,
+          "probability": 0.9814453125
+        },
+        {
+          "word": " situación.",
+          "start": 100.52,
+          "end": 101.26,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " Tenemos",
+          "start": 101.98,
+          "end": 102.14,
+          "probability": 0.96044921875
+        },
+        {
+          "word": " el",
+          "start": 102.14,
+          "end": 102.5,
+          "probability": 0.9833984375
+        },
+        {
+          "word": " puntero",
+          "start": 102.5,
+          "end": 102.96,
+          "probability": 0.9803059895833334
+        },
+        {
+          "word": " L",
+          "start": 102.96,
+          "end": 103.1,
+          "probability": 0.52392578125
+        },
+        {
+          "word": " que",
+          "start": 103.1,
+          "end": 103.28,
+          "probability": 0.428466796875
+        },
+        {
+          "word": " apunta",
+          "start": 103.28,
+          "end": 103.48,
+          "probability": 0.980224609375
+        },
+        {
+          "word": " la",
+          "start": 103.48,
+          "end": 103.68,
+          "probability": 0.81689453125
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "seek": 7636,
+      "start": 103.68,
+      "end": 112.95,
+      "text": " lista y la lista. Vamos entonces a recorrer la lista. Vamos a partir del principio y a ver",
+      "tokens": [
+        50740,
+        27764,
+        288,
+        635,
+        27764,
+        13,
+        10894,
+        13003,
+        257,
+        850,
+        284,
+        9797,
+        635,
+        27764,
+        13,
+        10894,
+        257,
+        13906,
+        1103,
+        34308,
+        288,
+        257,
+        1306,
+        51198
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.15594952075909346,
+      "compression_ratio": 1.6628571428571428,
+      "no_speech_prob": 0.16650390625,
+      "words": [
+        {
+          "word": " lista",
+          "start": 103.68,
+          "end": 104.02,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " y",
+          "start": 104.02,
+          "end": 104.86,
+          "probability": 0.5009765625
+        },
+        {
+          "word": " la",
+          "start": 104.86,
+          "end": 105.04,
+          "probability": 0.974609375
+        },
+        {
+          "word": " lista.",
+          "start": 105.04,
+          "end": 105.82,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " Vamos",
+          "start": 106.82,
+          "end": 106.96,
+          "probability": 0.958984375
+        },
+        {
+          "word": " entonces",
+          "start": 106.96,
+          "end": 107.24,
+          "probability": 0.90625
+        },
+        {
+          "word": " a",
+          "start": 107.24,
+          "end": 107.42,
+          "probability": 0.88525390625
+        },
+        {
+          "word": " recorrer",
+          "start": 107.42,
+          "end": 107.94,
+          "probability": 0.8606770833333334
+        },
+        {
+          "word": " la",
+          "start": 107.94,
+          "end": 109.56,
+          "probability": 0.970703125
+        },
+        {
+          "word": " lista.",
+          "start": 109.56,
+          "end": 109.56,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " Vamos",
+          "start": 109.94,
+          "end": 110.1,
+          "probability": 0.88525390625
+        },
+        {
+          "word": " a",
+          "start": 110.1,
+          "end": 110.18,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " partir",
+          "start": 110.18,
+          "end": 110.4,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " del",
+          "start": 110.4,
+          "end": 110.62,
+          "probability": 0.83935546875
+        },
+        {
+          "word": " principio",
+          "start": 110.62,
+          "end": 111.16,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " y",
+          "start": 111.16,
+          "end": 112.42,
+          "probability": 0.7939453125
+        },
+        {
+          "word": " a",
+          "start": 112.42,
+          "end": 112.62,
+          "probability": 0.958984375
+        },
+        {
+          "word": " ver",
+          "start": 112.62,
+          "end": 112.95,
+          "probability": 0.98193359375
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "seek": 7636,
+      "start": 113.42,
+      "end": 124.18,
+      "text": " cuáles son los elementos que cumplen la condición que tienen x. Cuando lleguemos a ese elemento vamos",
+      "tokens": [
+        51198,
+        2702,
+        842,
+        904,
+        1872,
+        1750,
+        35797,
+        631,
+        37483,
+        268,
+        635,
+        2224,
+        15534,
+        631,
+        12536,
+        2031,
+        13,
+        21907,
+        11234,
+        84,
+        4485,
+        257,
+        10167,
+        47961,
+        5295,
+        51630
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.15594952075909346,
+      "compression_ratio": 1.6628571428571428,
+      "no_speech_prob": 0.16650390625,
+      "words": [
+        {
+          "word": " cuáles",
+          "start": 113.42,
+          "end": 113.84,
+          "probability": 0.87109375
+        },
+        {
+          "word": " son",
+          "start": 113.84,
+          "end": 114.32,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " los",
+          "start": 114.32,
+          "end": 114.72,
+          "probability": 0.9912109375
+        },
+        {
+          "word": " elementos",
+          "start": 114.72,
+          "end": 115.02,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " que",
+          "start": 115.02,
+          "end": 115.2,
+          "probability": 0.91015625
+        },
+        {
+          "word": " cumplen",
+          "start": 115.2,
+          "end": 115.38,
+          "probability": 0.9365234375
+        },
+        {
+          "word": " la",
+          "start": 115.38,
+          "end": 115.56,
+          "probability": 0.9755859375
+        },
+        {
+          "word": " condición",
+          "start": 115.56,
+          "end": 116.82,
+          "probability": 0.99609375
+        },
+        {
+          "word": " que",
+          "start": 116.82,
+          "end": 117.76,
+          "probability": 0.74462890625
+        },
+        {
+          "word": " tienen",
+          "start": 117.76,
+          "end": 118.04,
+          "probability": 0.83984375
+        },
+        {
+          "word": " x.",
+          "start": 118.04,
+          "end": 118.6,
+          "probability": 0.2169189453125
+        },
+        {
+          "word": " Cuando",
+          "start": 122.04,
+          "end": 122.34,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " lleguemos",
+          "start": 122.34,
+          "end": 122.78,
+          "probability": 0.9788411458333334
+        },
+        {
+          "word": " a",
+          "start": 122.78,
+          "end": 122.94,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " ese",
+          "start": 122.94,
+          "end": 123.08,
+          "probability": 0.89111328125
+        },
+        {
+          "word": " elemento",
+          "start": 123.08,
+          "end": 123.56,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " vamos",
+          "start": 123.56,
+          "end": 124.18,
+          "probability": 0.4150390625
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "seek": 10170,
+      "start": 124.18,
+      "end": 132.86,
+      "text": " a removerlo. Pero no es tan simple. Vamos a tener un problema. Si removemos este puntero auxiliar Lpos",
+      "tokens": [
+        50364,
+        257,
+        890,
+        3570,
+        752,
+        13,
+        9377,
+        572,
+        785,
+        7603,
+        2199,
+        13,
+        10894,
+        257,
+        11640,
+        517,
+        12395,
+        13,
+        4909,
+        4159,
+        3415,
+        4065,
+        4468,
+        391,
+        78,
+        7865,
+        4600,
+        441,
+        30010,
+        50788
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.15610924040949023,
+      "compression_ratio": 1.6224066390041494,
+      "no_speech_prob": 0.2447509765625,
+      "words": [
+        {
+          "word": " a",
+          "start": 124.18,
+          "end": 124.46,
+          "probability": 0.09771728515625
+        },
+        {
+          "word": " removerlo.",
+          "start": 124.46,
+          "end": 126.2,
+          "probability": 0.8111979166666666
+        },
+        {
+          "word": " Pero",
+          "start": 126.8,
+          "end": 127.02,
+          "probability": 0.94482421875
+        },
+        {
+          "word": " no",
+          "start": 127.02,
+          "end": 127.18,
+          "probability": 0.978515625
+        },
+        {
+          "word": " es",
+          "start": 127.18,
+          "end": 127.3,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " tan",
+          "start": 127.3,
+          "end": 127.52,
+          "probability": 0.990234375
+        },
+        {
+          "word": " simple.",
+          "start": 127.52,
+          "end": 127.84,
+          "probability": 0.98486328125
+        },
+        {
+          "word": " Vamos",
+          "start": 127.98,
+          "end": 128.16,
+          "probability": 0.94482421875
+        },
+        {
+          "word": " a",
+          "start": 128.16,
+          "end": 128.3,
+          "probability": 0.99609375
+        },
+        {
+          "word": " tener",
+          "start": 128.3,
+          "end": 128.38,
+          "probability": 0.98193359375
+        },
+        {
+          "word": " un",
+          "start": 128.38,
+          "end": 128.58,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " problema.",
+          "start": 128.58,
+          "end": 128.98,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " Si",
+          "start": 129.86,
+          "end": 130.08,
+          "probability": 0.96630859375
+        },
+        {
+          "word": " removemos",
+          "start": 130.08,
+          "end": 130.92,
+          "probability": 0.935791015625
+        },
+        {
+          "word": " este",
+          "start": 130.92,
+          "end": 131.18,
+          "probability": 0.93212890625
+        },
+        {
+          "word": " puntero",
+          "start": 131.18,
+          "end": 131.66,
+          "probability": 0.87646484375
+        },
+        {
+          "word": " auxiliar",
+          "start": 131.66,
+          "end": 132.2,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " Lpos",
+          "start": 132.2,
+          "end": 132.86,
+          "probability": 0.4639892578125
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "seek": 10170,
+      "start": 132.86,
+      "end": 142.28,
+      "text": " una vez que llegamos hasta el lugar, vamos a perder la dirección de memoria a la que apunta Lpos una",
+      "tokens": [
+        50788,
+        2002,
+        5715,
+        631,
+        11234,
+        2151,
+        10764,
+        806,
+        11467,
+        11,
+        5295,
+        257,
+        26971,
+        635,
+        1264,
+        14735,
+        368,
+        1334,
+        8172,
+        257,
+        635,
+        631,
+        1882,
+        46380,
+        441,
+        30010,
+        2002,
+        51200
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.15610924040949023,
+      "compression_ratio": 1.6224066390041494,
+      "no_speech_prob": 0.2447509765625,
+      "words": [
+        {
+          "word": " una",
+          "start": 132.86,
+          "end": 133.14,
+          "probability": 0.426513671875
+        },
+        {
+          "word": " vez",
+          "start": 133.14,
+          "end": 133.3,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " que",
+          "start": 133.3,
+          "end": 133.46,
+          "probability": 0.98681640625
+        },
+        {
+          "word": " llegamos",
+          "start": 133.46,
+          "end": 133.76,
+          "probability": 0.98193359375
+        },
+        {
+          "word": " hasta",
+          "start": 133.76,
+          "end": 133.96,
+          "probability": 0.7822265625
+        },
+        {
+          "word": " el",
+          "start": 133.96,
+          "end": 134.08,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " lugar,",
+          "start": 134.08,
+          "end": 134.46,
+          "probability": 0.998046875
+        },
+        {
+          "word": " vamos",
+          "start": 136.64,
+          "end": 136.96,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " a",
+          "start": 136.96,
+          "end": 137.18,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " perder",
+          "start": 137.18,
+          "end": 137.6,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " la",
+          "start": 137.6,
+          "end": 138.44,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " dirección",
+          "start": 138.44,
+          "end": 138.92,
+          "probability": 0.992431640625
+        },
+        {
+          "word": " de",
+          "start": 138.92,
+          "end": 139.14,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " memoria",
+          "start": 139.14,
+          "end": 140.34,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " a",
+          "start": 140.34,
+          "end": 140.7,
+          "probability": 0.95703125
+        },
+        {
+          "word": " la",
+          "start": 140.7,
+          "end": 140.8,
+          "probability": 0.99609375
+        },
+        {
+          "word": " que",
+          "start": 140.8,
+          "end": 141.0,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " apunta",
+          "start": 141.0,
+          "end": 141.24,
+          "probability": 0.989501953125
+        },
+        {
+          "word": " Lpos",
+          "start": 141.24,
+          "end": 141.82,
+          "probability": 0.930419921875
+        },
+        {
+          "word": " una",
+          "start": 141.82,
+          "end": 142.28,
+          "probability": 0.6494140625
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "seek": 10170,
+      "start": 142.28,
+      "end": 147.68,
+      "text": " vez que la removimos. Por lo tanto, para seguir borrando las instancias de x que aparecen en la",
+      "tokens": [
+        51200,
+        5715,
+        631,
+        635,
+        4595,
+        85,
+        8372,
+        13,
+        5269,
+        450,
+        10331,
+        11,
+        1690,
+        18584,
+        14828,
+        19845,
+        2439,
+        1058,
+        282,
+        12046,
+        368,
+        2031,
+        631,
+        15004,
+        13037,
+        465,
+        635,
+        51466
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.15610924040949023,
+      "compression_ratio": 1.6224066390041494,
+      "no_speech_prob": 0.2447509765625,
+      "words": [
+        {
+          "word": " vez",
+          "start": 142.28,
+          "end": 142.42,
+          "probability": 0.99951171875
+        },
+        {
+          "word": " que",
+          "start": 142.42,
+          "end": 142.5,
+          "probability": 0.998046875
+        },
+        {
+          "word": " la",
+          "start": 142.5,
+          "end": 142.72,
+          "probability": 0.91162109375
+        },
+        {
+          "word": " removimos.",
+          "start": 142.72,
+          "end": 143.3,
+          "probability": 0.98583984375
+        },
+        {
+          "word": " Por",
+          "start": 144.3,
+          "end": 144.46,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " lo",
+          "start": 144.46,
+          "end": 144.66,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " tanto,",
+          "start": 144.66,
+          "end": 144.9,
+          "probability": 0.99951171875
+        },
+        {
+          "word": " para",
+          "start": 145.1,
+          "end": 145.18,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " seguir",
+          "start": 145.18,
+          "end": 145.44,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " borrando",
+          "start": 145.44,
+          "end": 145.8,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " las",
+          "start": 145.8,
+          "end": 146.04,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " instancias",
+          "start": 146.04,
+          "end": 146.52,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " de",
+          "start": 146.52,
+          "end": 146.74,
+          "probability": 0.94921875
+        },
+        {
+          "word": " x",
+          "start": 146.74,
+          "end": 146.88,
+          "probability": 0.266845703125
+        },
+        {
+          "word": " que",
+          "start": 146.88,
+          "end": 147.08,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " aparecen",
+          "start": 147.08,
+          "end": 147.38,
+          "probability": 0.890380859375
+        },
+        {
+          "word": " en",
+          "start": 147.38,
+          "end": 147.54,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " la",
+          "start": 147.54,
+          "end": 147.68,
+          "probability": 0.91796875
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "seek": 10170,
+      "start": 147.68,
+      "end": 155.5,
+      "text": " lista, si es las hay, tendríamos que empezar de nuevo porque perdimos la posición en que",
+      "tokens": [
+        51466,
+        27764,
+        11,
+        1511,
+        785,
+        2439,
+        4842,
+        11,
+        3928,
+        81,
+        16275,
+        631,
+        31168,
+        368,
+        18591,
+        4021,
+        12611,
+        8372,
+        635,
+        46595,
+        465,
+        631,
+        51728
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.15610924040949023,
+      "compression_ratio": 1.6224066390041494,
+      "no_speech_prob": 0.2447509765625,
+      "words": [
+        {
+          "word": " lista,",
+          "start": 147.68,
+          "end": 147.96,
+          "probability": 0.61962890625
+        },
+        {
+          "word": " si",
+          "start": 148.34,
+          "end": 148.4,
+          "probability": 0.9404296875
+        },
+        {
+          "word": " es",
+          "start": 148.4,
+          "end": 148.54,
+          "probability": 0.69287109375
+        },
+        {
+          "word": " las",
+          "start": 148.54,
+          "end": 148.72,
+          "probability": 0.448974609375
+        },
+        {
+          "word": " hay,",
+          "start": 148.72,
+          "end": 149.1,
+          "probability": 0.79736328125
+        },
+        {
+          "word": " tendríamos",
+          "start": 149.76,
+          "end": 150.1,
+          "probability": 0.95361328125
+        },
+        {
+          "word": " que",
+          "start": 150.1,
+          "end": 150.24,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " empezar",
+          "start": 150.24,
+          "end": 150.56,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " de",
+          "start": 150.56,
+          "end": 150.8,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " nuevo",
+          "start": 150.8,
+          "end": 151.18,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " porque",
+          "start": 151.18,
+          "end": 151.72,
+          "probability": 0.45263671875
+        },
+        {
+          "word": " perdimos",
+          "start": 151.72,
+          "end": 152.16,
+          "probability": 0.972412109375
+        },
+        {
+          "word": " la",
+          "start": 152.16,
+          "end": 152.34,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " posición",
+          "start": 152.34,
+          "end": 152.66,
+          "probability": 0.98828125
+        },
+        {
+          "word": " en",
+          "start": 152.66,
+          "end": 152.82,
+          "probability": 0.97216796875
+        },
+        {
+          "word": " que",
+          "start": 152.82,
+          "end": 155.5,
+          "probability": 0.96142578125
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "seek": 13168,
+      "start": 155.5,
+      "end": 163.12,
+      "text": " vamos a empezar con otro puntero. Uno que se encarga de borrar la instancia de x y liberar la memoria y",
+      "tokens": [
+        50372,
+        5295,
+        257,
+        31168,
+        416,
+        11921,
+        4468,
+        391,
+        78,
+        13,
+        37468,
+        631,
+        369,
+        2058,
+        289,
+        3680,
+        368,
+        14828,
+        5352,
+        635,
+        1058,
+        22862,
+        368,
+        2031,
+        288,
+        6774,
+        289,
+        635,
+        1334,
+        8172,
+        288,
+        50736
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19253472420904372,
+      "compression_ratio": 1.5989304812834224,
+      "no_speech_prob": 0.0185394287109375,
+      "words": [
+        {
+          "word": " vamos",
+          "start": 155.5,
+          "end": 156.24,
+          "probability": 0.01114654541015625
+        },
+        {
+          "word": " a",
+          "start": 156.24,
+          "end": 156.24,
+          "probability": 0.94091796875
+        },
+        {
+          "word": " empezar",
+          "start": 156.24,
+          "end": 156.24,
+          "probability": 0.44384765625
+        },
+        {
+          "word": " con",
+          "start": 156.24,
+          "end": 156.24,
+          "probability": 0.923828125
+        },
+        {
+          "word": " otro",
+          "start": 156.24,
+          "end": 156.48,
+          "probability": 0.9453125
+        },
+        {
+          "word": " puntero.",
+          "start": 156.48,
+          "end": 157.62,
+          "probability": 0.97900390625
+        },
+        {
+          "word": " Uno",
+          "start": 157.76,
+          "end": 157.84,
+          "probability": 0.90087890625
+        },
+        {
+          "word": " que",
+          "start": 157.84,
+          "end": 157.98,
+          "probability": 0.96484375
+        },
+        {
+          "word": " se",
+          "start": 157.98,
+          "end": 158.12,
+          "probability": 0.998046875
+        },
+        {
+          "word": " encarga",
+          "start": 158.12,
+          "end": 158.52,
+          "probability": 0.9944661458333334
+        },
+        {
+          "word": " de",
+          "start": 158.52,
+          "end": 158.92,
+          "probability": 0.9912109375
+        },
+        {
+          "word": " borrar",
+          "start": 158.92,
+          "end": 159.86,
+          "probability": 0.994384765625
+        },
+        {
+          "word": " la",
+          "start": 159.86,
+          "end": 160.08,
+          "probability": 0.9521484375
+        },
+        {
+          "word": " instancia",
+          "start": 160.08,
+          "end": 160.58,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " de",
+          "start": 160.58,
+          "end": 160.84,
+          "probability": 0.70068359375
+        },
+        {
+          "word": " x",
+          "start": 160.84,
+          "end": 161.16,
+          "probability": 0.2159423828125
+        },
+        {
+          "word": " y",
+          "start": 161.16,
+          "end": 161.3,
+          "probability": 0.8505859375
+        },
+        {
+          "word": " liberar",
+          "start": 161.3,
+          "end": 161.52,
+          "probability": 0.736572265625
+        },
+        {
+          "word": " la",
+          "start": 161.52,
+          "end": 161.74,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " memoria",
+          "start": 161.74,
+          "end": 162.66,
+          "probability": 0.997802734375
+        },
+        {
+          "word": " y",
+          "start": 162.66,
+          "end": 163.12,
+          "probability": 0.6484375
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "seek": 13168,
+      "start": 163.12,
+      "end": 169.72,
+      "text": " otro que se encarga de marcar la posición que vamos en la lista. Bueno, ahora vamos a pasar a código",
+      "tokens": [
+        50736,
+        11921,
+        631,
+        369,
+        2058,
+        289,
+        3680,
+        368,
+        1849,
+        6166,
+        635,
+        46595,
+        631,
+        5295,
+        465,
+        635,
+        27764,
+        13,
+        16046,
+        11,
+        9923,
+        5295,
+        257,
+        25344,
+        257,
+        44195,
+        51072
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19253472420904372,
+      "compression_ratio": 1.5989304812834224,
+      "no_speech_prob": 0.0185394287109375,
+      "words": [
+        {
+          "word": " otro",
+          "start": 163.12,
+          "end": 163.4,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " que",
+          "start": 163.4,
+          "end": 163.58,
+          "probability": 0.978515625
+        },
+        {
+          "word": " se",
+          "start": 163.58,
+          "end": 163.76,
+          "probability": 0.99609375
+        },
+        {
+          "word": " encarga",
+          "start": 163.76,
+          "end": 164.38,
+          "probability": 0.9967447916666666
+        },
+        {
+          "word": " de",
+          "start": 164.38,
+          "end": 164.74,
+          "probability": 0.990234375
+        },
+        {
+          "word": " marcar",
+          "start": 164.74,
+          "end": 165.04,
+          "probability": 0.994140625
+        },
+        {
+          "word": " la",
+          "start": 165.04,
+          "end": 165.16,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " posición",
+          "start": 165.16,
+          "end": 165.76,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " que",
+          "start": 165.76,
+          "end": 166.12,
+          "probability": 0.96044921875
+        },
+        {
+          "word": " vamos",
+          "start": 166.12,
+          "end": 166.3,
+          "probability": 0.966796875
+        },
+        {
+          "word": " en",
+          "start": 166.3,
+          "end": 166.46,
+          "probability": 0.85693359375
+        },
+        {
+          "word": " la",
+          "start": 166.46,
+          "end": 167.2,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " lista.",
+          "start": 167.2,
+          "end": 167.2,
+          "probability": 0.99609375
+        },
+        {
+          "word": " Bueno,",
+          "start": 168.36,
+          "end": 168.46,
+          "probability": 0.92431640625
+        },
+        {
+          "word": " ahora",
+          "start": 168.52,
+          "end": 168.64,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " vamos",
+          "start": 168.64,
+          "end": 168.88,
+          "probability": 0.984375
+        },
+        {
+          "word": " a",
+          "start": 168.88,
+          "end": 168.96,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " pasar",
+          "start": 168.96,
+          "end": 169.28,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " a",
+          "start": 169.28,
+          "end": 169.44,
+          "probability": 0.96240234375
+        },
+        {
+          "word": " código",
+          "start": 169.44,
+          "end": 169.72,
+          "probability": 0.9814453125
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "seek": 13168,
+      "start": 169.72,
+      "end": 181.7,
+      "text": " estas ideas que ya tenemos. Empezamos con los punteros auxiliares. Lpos y a borrar van a ser",
+      "tokens": [
+        51072,
+        13897,
+        3487,
+        631,
+        2478,
+        9914,
+        13,
+        3968,
+        15144,
+        2151,
+        416,
+        1750,
+        4468,
+        391,
+        329,
+        7865,
+        24169,
+        495,
+        13,
+        441,
+        30010,
+        288,
+        257,
+        14828,
+        5352,
+        3161,
+        257,
+        816,
+        51528
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19253472420904372,
+      "compression_ratio": 1.5989304812834224,
+      "no_speech_prob": 0.0185394287109375,
+      "words": [
+        {
+          "word": " estas",
+          "start": 169.72,
+          "end": 170.12,
+          "probability": 0.9365234375
+        },
+        {
+          "word": " ideas",
+          "start": 170.12,
+          "end": 170.42,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " que",
+          "start": 170.42,
+          "end": 170.56,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " ya",
+          "start": 170.56,
+          "end": 170.74,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " tenemos.",
+          "start": 170.74,
+          "end": 171.74,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " Empezamos",
+          "start": 172.1,
+          "end": 172.36,
+          "probability": 0.9879557291666666
+        },
+        {
+          "word": " con",
+          "start": 172.36,
+          "end": 172.48,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " los",
+          "start": 172.48,
+          "end": 172.64,
+          "probability": 0.98193359375
+        },
+        {
+          "word": " punteros",
+          "start": 172.64,
+          "end": 173.02,
+          "probability": 0.9820963541666666
+        },
+        {
+          "word": " auxiliares.",
+          "start": 173.02,
+          "end": 174.4,
+          "probability": 0.9778645833333334
+        },
+        {
+          "word": " Lpos",
+          "start": 176.78,
+          "end": 177.34,
+          "probability": 0.156005859375
+        },
+        {
+          "word": " y",
+          "start": 177.34,
+          "end": 177.86,
+          "probability": 0.87646484375
+        },
+        {
+          "word": " a",
+          "start": 177.86,
+          "end": 178.06,
+          "probability": 0.6328125
+        },
+        {
+          "word": " borrar",
+          "start": 178.06,
+          "end": 180.02,
+          "probability": 0.806396484375
+        },
+        {
+          "word": " van",
+          "start": 180.02,
+          "end": 180.42,
+          "probability": 0.748046875
+        },
+        {
+          "word": " a",
+          "start": 180.42,
+          "end": 180.62,
+          "probability": 0.9921875
+        },
+        {
+          "word": " ser",
+          "start": 180.62,
+          "end": 181.7,
+          "probability": 0.9931640625
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "seek": 15608,
+      "start": 181.7,
+      "end": 194.41,
+      "text": " iguales a L al principio, de tipo lista. Después, como tenemos que recorrer la lista hasta el final",
+      "tokens": [
+        50364,
+        10953,
+        279,
+        257,
+        441,
+        419,
+        34308,
+        11,
+        368,
+        9746,
+        27764,
+        13,
+        40995,
+        11,
+        2617,
+        9914,
+        631,
+        850,
+        284,
+        9797,
+        635,
+        27764,
+        10764,
+        806,
+        2572,
+        50762
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20479166865348816,
+      "compression_ratio": 1.5154639175257731,
+      "no_speech_prob": 0.1065673828125,
+      "words": [
+        {
+          "word": " iguales",
+          "start": 181.7,
+          "end": 182.56,
+          "probability": 0.81396484375
+        },
+        {
+          "word": " a",
+          "start": 182.56,
+          "end": 182.78,
+          "probability": 0.87109375
+        },
+        {
+          "word": " L",
+          "start": 182.78,
+          "end": 182.88,
+          "probability": 0.299072265625
+        },
+        {
+          "word": " al",
+          "start": 182.88,
+          "end": 183.1,
+          "probability": 0.95849609375
+        },
+        {
+          "word": " principio,",
+          "start": 183.1,
+          "end": 184.02,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " de",
+          "start": 186.68,
+          "end": 186.94,
+          "probability": 0.76904296875
+        },
+        {
+          "word": " tipo",
+          "start": 186.94,
+          "end": 187.14,
+          "probability": 0.994140625
+        },
+        {
+          "word": " lista.",
+          "start": 187.14,
+          "end": 187.6,
+          "probability": 0.497314453125
+        },
+        {
+          "word": " Después,",
+          "start": 190.71,
+          "end": 190.91,
+          "probability": 0.95556640625
+        },
+        {
+          "word": " como",
+          "start": 190.99,
+          "end": 191.13,
+          "probability": 0.9423828125
+        },
+        {
+          "word": " tenemos",
+          "start": 191.13,
+          "end": 191.39,
+          "probability": 0.962890625
+        },
+        {
+          "word": " que",
+          "start": 191.39,
+          "end": 192.63,
+          "probability": 0.873046875
+        },
+        {
+          "word": " recorrer",
+          "start": 192.63,
+          "end": 193.07,
+          "probability": 0.9934895833333334
+        },
+        {
+          "word": " la",
+          "start": 193.07,
+          "end": 193.25,
+          "probability": 0.9501953125
+        },
+        {
+          "word": " lista",
+          "start": 193.25,
+          "end": 193.55,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " hasta",
+          "start": 193.55,
+          "end": 193.95,
+          "probability": 0.9794921875
+        },
+        {
+          "word": " el",
+          "start": 193.95,
+          "end": 194.13,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " final",
+          "start": 194.13,
+          "end": 194.41,
+          "probability": 0.99755859375
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "seek": 15608,
+      "start": 194.41,
+      "end": 203.84,
+      "text": " para ver que no nos saltemos de borrar ningún elemento, vamos a tener que usar un while. While",
+      "tokens": [
+        50762,
+        1690,
+        1306,
+        631,
+        572,
+        3269,
+        5139,
+        4485,
+        368,
+        14828,
+        5352,
+        30394,
+        47961,
+        11,
+        5295,
+        257,
+        11640,
+        631,
+        14745,
+        517,
+        1339,
+        13,
+        3987,
+        51092
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20479166865348816,
+      "compression_ratio": 1.5154639175257731,
+      "no_speech_prob": 0.1065673828125,
+      "words": [
+        {
+          "word": " para",
+          "start": 194.41,
+          "end": 194.69,
+          "probability": 0.47802734375
+        },
+        {
+          "word": " ver",
+          "start": 194.69,
+          "end": 194.87,
+          "probability": 0.50048828125
+        },
+        {
+          "word": " que",
+          "start": 194.87,
+          "end": 194.97,
+          "probability": 0.984375
+        },
+        {
+          "word": " no",
+          "start": 194.97,
+          "end": 195.07,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " nos",
+          "start": 195.07,
+          "end": 195.25,
+          "probability": 0.951171875
+        },
+        {
+          "word": " saltemos",
+          "start": 195.25,
+          "end": 195.65,
+          "probability": 0.400390625
+        },
+        {
+          "word": " de",
+          "start": 195.65,
+          "end": 195.85,
+          "probability": 0.94091796875
+        },
+        {
+          "word": " borrar",
+          "start": 195.85,
+          "end": 196.15,
+          "probability": 0.990234375
+        },
+        {
+          "word": " ningún",
+          "start": 196.15,
+          "end": 196.45,
+          "probability": 0.91943359375
+        },
+        {
+          "word": " elemento,",
+          "start": 196.45,
+          "end": 196.99,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " vamos",
+          "start": 198.63,
+          "end": 198.77,
+          "probability": 0.947265625
+        },
+        {
+          "word": " a",
+          "start": 198.77,
+          "end": 198.85,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " tener",
+          "start": 198.85,
+          "end": 198.97,
+          "probability": 0.861328125
+        },
+        {
+          "word": " que",
+          "start": 198.97,
+          "end": 199.03,
+          "probability": 0.998046875
+        },
+        {
+          "word": " usar",
+          "start": 199.03,
+          "end": 199.23,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " un",
+          "start": 199.23,
+          "end": 200.31,
+          "probability": 0.97216796875
+        },
+        {
+          "word": " while.",
+          "start": 203.0,
+          "end": 203.0,
+          "probability": 0.68896484375
+        },
+        {
+          "word": " While",
+          "start": 203.4,
+          "end": 203.84,
+          "probability": 0.77001953125
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "seek": 15608,
+      "start": 204.42,
+      "end": 216.04,
+      "text": " Lpos sea distinto de null porque eso significaría que llegamos hasta el final. Si encontramos un",
+      "tokens": [
+        51092,
+        441,
+        30010,
+        4158,
+        1483,
+        17246,
+        368,
+        18184,
+        4021,
+        7287,
+        3350,
+        21178,
+        631,
+        11234,
+        2151,
+        10764,
+        806,
+        2572,
+        13,
+        4909,
+        45049,
+        517,
+        51520
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20479166865348816,
+      "compression_ratio": 1.5154639175257731,
+      "no_speech_prob": 0.1065673828125,
+      "words": [
+        {
+          "word": " Lpos",
+          "start": 204.42,
+          "end": 204.98,
+          "probability": 0.4771728515625
+        },
+        {
+          "word": " sea",
+          "start": 204.98,
+          "end": 205.54,
+          "probability": 0.873046875
+        },
+        {
+          "word": " distinto",
+          "start": 205.54,
+          "end": 206.14,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " de",
+          "start": 206.14,
+          "end": 206.34,
+          "probability": 0.982421875
+        },
+        {
+          "word": " null",
+          "start": 206.34,
+          "end": 206.74,
+          "probability": 0.55126953125
+        },
+        {
+          "word": " porque",
+          "start": 206.74,
+          "end": 207.74,
+          "probability": 0.415771484375
+        },
+        {
+          "word": " eso",
+          "start": 209.21,
+          "end": 209.47,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " significaría",
+          "start": 209.47,
+          "end": 210.19,
+          "probability": 0.9794921875
+        },
+        {
+          "word": " que",
+          "start": 210.19,
+          "end": 210.47,
+          "probability": 0.994140625
+        },
+        {
+          "word": " llegamos",
+          "start": 210.47,
+          "end": 210.77,
+          "probability": 0.97021484375
+        },
+        {
+          "word": " hasta",
+          "start": 210.77,
+          "end": 210.99,
+          "probability": 0.97900390625
+        },
+        {
+          "word": " el",
+          "start": 210.99,
+          "end": 211.17,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " final.",
+          "start": 211.17,
+          "end": 211.61,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " Si",
+          "start": 214.64,
+          "end": 215.1,
+          "probability": 0.93701171875
+        },
+        {
+          "word": " encontramos",
+          "start": 215.1,
+          "end": 215.76,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " un",
+          "start": 215.76,
+          "end": 216.04,
+          "probability": 0.99365234375
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "seek": 17932,
+      "start": 216.04,
+      "end": 231.12,
+      "text": " elemento que queremos borrar, es decir, el elemento de la memoria a la que apunta Lpos es igual a x,",
+      "tokens": [
+        50364,
+        47961,
+        631,
+        26813,
+        14828,
+        5352,
+        11,
+        785,
+        10235,
+        11,
+        806,
+        47961,
+        368,
+        635,
+        1334,
+        8172,
+        257,
+        635,
+        631,
+        1882,
+        46380,
+        441,
+        30010,
+        785,
+        10953,
+        257,
+        2031,
+        11,
+        50788
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2121930755674839,
+      "compression_ratio": 1.5271317829457365,
+      "no_speech_prob": 0.12744140625,
+      "words": [
+        {
+          "word": " elemento",
+          "start": 216.04,
+          "end": 216.42,
+          "probability": 0.1165771484375
+        },
+        {
+          "word": " que",
+          "start": 216.42,
+          "end": 216.62,
+          "probability": 0.98046875
+        },
+        {
+          "word": " queremos",
+          "start": 216.62,
+          "end": 216.86,
+          "probability": 0.9306640625
+        },
+        {
+          "word": " borrar,",
+          "start": 216.86,
+          "end": 217.72,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " es",
+          "start": 217.92,
+          "end": 218.16,
+          "probability": 0.97021484375
+        },
+        {
+          "word": " decir,",
+          "start": 218.16,
+          "end": 218.98,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " el",
+          "start": 222.76,
+          "end": 222.86,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " elemento",
+          "start": 222.86,
+          "end": 223.9,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " de",
+          "start": 223.9,
+          "end": 224.64,
+          "probability": 0.97412109375
+        },
+        {
+          "word": " la",
+          "start": 224.64,
+          "end": 224.8,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " memoria",
+          "start": 224.8,
+          "end": 225.0,
+          "probability": 0.998291015625
+        },
+        {
+          "word": " a",
+          "start": 225.0,
+          "end": 225.14,
+          "probability": 0.275390625
+        },
+        {
+          "word": " la",
+          "start": 225.14,
+          "end": 225.14,
+          "probability": 0.9794921875
+        },
+        {
+          "word": " que",
+          "start": 225.14,
+          "end": 225.34,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " apunta",
+          "start": 225.34,
+          "end": 225.54,
+          "probability": 0.9609375
+        },
+        {
+          "word": " Lpos",
+          "start": 225.54,
+          "end": 226.1,
+          "probability": 0.03975033760070801
+        },
+        {
+          "word": " es",
+          "start": 228.98,
+          "end": 230.14,
+          "probability": 0.77783203125
+        },
+        {
+          "word": " igual",
+          "start": 230.14,
+          "end": 230.46,
+          "probability": 0.994140625
+        },
+        {
+          "word": " a",
+          "start": 230.46,
+          "end": 230.72,
+          "probability": 0.982421875
+        },
+        {
+          "word": " x,",
+          "start": 230.72,
+          "end": 231.12,
+          "probability": 0.430419921875
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "seek": 17932,
+      "start": 236.07,
+      "end": 256.96,
+      "text": " entonces acá vamos a tener que borrar a lo que apunta Lpos, sino simplemente avanzamos Lpos una",
+      "tokens": [
+        50788,
+        13003,
+        23496,
+        5295,
+        257,
+        11640,
+        631,
+        14828,
+        5352,
+        257,
+        450,
+        631,
+        1882,
+        46380,
+        441,
+        30010,
+        11,
+        18108,
+        33190,
+        42444,
+        2151,
+        441,
+        30010,
+        2002,
+        51488
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.2121930755674839,
+      "compression_ratio": 1.5271317829457365,
+      "no_speech_prob": 0.12744140625,
+      "words": [
+        {
+          "word": " entonces",
+          "start": 236.07,
+          "end": 236.87,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " acá",
+          "start": 236.87,
+          "end": 237.67,
+          "probability": 0.80078125
+        },
+        {
+          "word": " vamos",
+          "start": 237.67,
+          "end": 238.11,
+          "probability": 0.96435546875
+        },
+        {
+          "word": " a",
+          "start": 238.11,
+          "end": 238.33,
+          "probability": 0.99951171875
+        },
+        {
+          "word": " tener",
+          "start": 238.33,
+          "end": 238.67,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " que",
+          "start": 238.67,
+          "end": 239.67,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " borrar",
+          "start": 242.07,
+          "end": 244.19,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " a",
+          "start": 244.19,
+          "end": 244.49,
+          "probability": 0.7607421875
+        },
+        {
+          "word": " lo",
+          "start": 244.49,
+          "end": 244.59,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " que",
+          "start": 244.59,
+          "end": 244.81,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " apunta",
+          "start": 244.81,
+          "end": 244.99,
+          "probability": 0.95849609375
+        },
+        {
+          "word": " Lpos,",
+          "start": 244.99,
+          "end": 245.95,
+          "probability": 0.88232421875
+        },
+        {
+          "word": " sino",
+          "start": 253.3,
+          "end": 253.94,
+          "probability": 0.6533203125
+        },
+        {
+          "word": " simplemente",
+          "start": 253.94,
+          "end": 255.22,
+          "probability": 0.9443359375
+        },
+        {
+          "word": " avanzamos",
+          "start": 255.22,
+          "end": 256.3,
+          "probability": 0.989501953125
+        },
+        {
+          "word": " Lpos",
+          "start": 256.3,
+          "end": 256.72,
+          "probability": 0.858642578125
+        },
+        {
+          "word": " una",
+          "start": 256.72,
+          "end": 256.96,
+          "probability": 0.375732421875
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "seek": 20190,
+      "start": 256.96,
+      "end": 280.16,
+      "text": " posición. Bueno, ahora tenemos que borrar el null que apunte Lpos. Entonces, a borrar va a ser el puntero",
+      "tokens": [
+        50364,
+        46595,
+        13,
+        16046,
+        11,
+        9923,
+        9914,
+        631,
+        14828,
+        5352,
+        806,
+        18184,
+        631,
+        1882,
+        7070,
+        441,
+        30010,
+        13,
+        15097,
+        11,
+        257,
+        14828,
+        5352,
+        2773,
+        257,
+        816,
+        806,
+        4468,
+        391,
+        78,
+        50848
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.32095286689820834,
+      "compression_ratio": 1.536764705882353,
+      "no_speech_prob": 0.2332763671875,
+      "words": [
+        {
+          "word": " posición.",
+          "start": 256.96,
+          "end": 257.98,
+          "probability": 0.00588226318359375
+        },
+        {
+          "word": " Bueno,",
+          "start": 269.92,
+          "end": 270.12,
+          "probability": 0.92578125
+        },
+        {
+          "word": " ahora",
+          "start": 270.24,
+          "end": 270.38,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " tenemos",
+          "start": 270.38,
+          "end": 270.64,
+          "probability": 0.9833984375
+        },
+        {
+          "word": " que",
+          "start": 270.64,
+          "end": 271.06,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " borrar",
+          "start": 271.06,
+          "end": 272.92,
+          "probability": 0.62066650390625
+        },
+        {
+          "word": " el",
+          "start": 272.92,
+          "end": 273.16,
+          "probability": 0.90478515625
+        },
+        {
+          "word": " null",
+          "start": 273.16,
+          "end": 273.32,
+          "probability": 0.01267242431640625
+        },
+        {
+          "word": " que",
+          "start": 273.32,
+          "end": 273.6,
+          "probability": 0.77294921875
+        },
+        {
+          "word": " apunte",
+          "start": 273.6,
+          "end": 273.84,
+          "probability": 0.9619140625
+        },
+        {
+          "word": " Lpos.",
+          "start": 273.84,
+          "end": 274.32,
+          "probability": 0.05501079559326172
+        },
+        {
+          "word": " Entonces,",
+          "start": 275.62,
+          "end": 276.24,
+          "probability": 0.74755859375
+        },
+        {
+          "word": " a",
+          "start": 278.64,
+          "end": 278.8,
+          "probability": 0.7744140625
+        },
+        {
+          "word": " borrar",
+          "start": 278.8,
+          "end": 279.14,
+          "probability": 0.913818359375
+        },
+        {
+          "word": " va",
+          "start": 279.14,
+          "end": 279.32,
+          "probability": 0.2332763671875
+        },
+        {
+          "word": " a",
+          "start": 279.32,
+          "end": 279.5,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " ser",
+          "start": 279.5,
+          "end": 279.5,
+          "probability": 0.9482421875
+        },
+        {
+          "word": " el",
+          "start": 279.5,
+          "end": 279.68,
+          "probability": 0.943359375
+        },
+        {
+          "word": " puntero",
+          "start": 279.68,
+          "end": 280.16,
+          "probability": 0.4253285725911458
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "seek": 20190,
+      "start": 280.16,
+      "end": 299.79,
+      "text": " que vamos a borrar, así que a borrar es igual Lpos. Y ahora vamos a igualar el siguiente del anterior",
+      "tokens": [
+        50848,
+        631,
+        5295,
+        257,
+        14828,
+        5352,
+        11,
+        8582,
+        631,
+        257,
+        14828,
+        5352,
+        785,
+        10953,
+        441,
+        30010,
+        13,
+        398,
+        9923,
+        5295,
+        257,
+        10953,
+        289,
+        806,
+        25666,
+        1103,
+        22272,
+        51336
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.32095286689820834,
+      "compression_ratio": 1.536764705882353,
+      "no_speech_prob": 0.2332763671875,
+      "words": [
+        {
+          "word": " que",
+          "start": 280.16,
+          "end": 280.2,
+          "probability": 0.4130859375
+        },
+        {
+          "word": " vamos",
+          "start": 280.2,
+          "end": 280.5,
+          "probability": 0.91552734375
+        },
+        {
+          "word": " a",
+          "start": 280.5,
+          "end": 280.58,
+          "probability": 0.98828125
+        },
+        {
+          "word": " borrar,",
+          "start": 280.58,
+          "end": 281.06,
+          "probability": 0.88623046875
+        },
+        {
+          "word": " así",
+          "start": 281.32,
+          "end": 281.32,
+          "probability": 0.9189453125
+        },
+        {
+          "word": " que",
+          "start": 281.32,
+          "end": 281.7,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " a",
+          "start": 281.7,
+          "end": 282.06,
+          "probability": 0.111328125
+        },
+        {
+          "word": " borrar",
+          "start": 282.06,
+          "end": 282.14,
+          "probability": 0.9267578125
+        },
+        {
+          "word": " es",
+          "start": 282.14,
+          "end": 282.4,
+          "probability": 0.830078125
+        },
+        {
+          "word": " igual",
+          "start": 282.4,
+          "end": 282.72,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " Lpos.",
+          "start": 282.72,
+          "end": 283.36,
+          "probability": 0.94873046875
+        },
+        {
+          "word": " Y",
+          "start": 286.21,
+          "end": 286.51,
+          "probability": 0.92626953125
+        },
+        {
+          "word": " ahora",
+          "start": 286.51,
+          "end": 287.43,
+          "probability": 0.9853515625
+        },
+        {
+          "word": " vamos",
+          "start": 289.86,
+          "end": 290.38,
+          "probability": 0.70703125
+        },
+        {
+          "word": " a",
+          "start": 290.38,
+          "end": 290.6,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " igualar",
+          "start": 290.6,
+          "end": 291.76,
+          "probability": 0.99609375
+        },
+        {
+          "word": " el",
+          "start": 297.17,
+          "end": 297.53,
+          "probability": 0.93115234375
+        },
+        {
+          "word": " siguiente",
+          "start": 297.53,
+          "end": 298.21,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " del",
+          "start": 298.21,
+          "end": 299.17,
+          "probability": 0.7373046875
+        },
+        {
+          "word": " anterior",
+          "start": 299.17,
+          "end": 299.79,
+          "probability": 0.9990234375
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "seek": 22144,
+      "start": 299.79,
+      "end": 325.98,
+      "text": " del Lpos al siguiente del Lpos. ¿Qué estamos haciendo con esto? Estamos haciendo que el null anterior",
+      "tokens": [
+        50364,
+        1103,
+        441,
+        30010,
+        419,
+        25666,
+        1103,
+        441,
+        30010,
+        13,
+        3841,
+        15137,
+        10382,
+        20509,
+        416,
+        7433,
+        30,
+        34563,
+        20509,
+        631,
+        806,
+        18184,
+        22272,
+        50956
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17451298314255553,
+      "compression_ratio": 1.974025974025974,
+      "no_speech_prob": 0.52978515625,
+      "words": [
+        {
+          "word": " del",
+          "start": 299.79,
+          "end": 300.01,
+          "probability": 0.01486968994140625
+        },
+        {
+          "word": " Lpos",
+          "start": 300.01,
+          "end": 300.55,
+          "probability": 0.10383415222167969
+        },
+        {
+          "word": " al",
+          "start": 306.38,
+          "end": 307.44,
+          "probability": 0.787109375
+        },
+        {
+          "word": " siguiente",
+          "start": 307.44,
+          "end": 308.06,
+          "probability": 0.98828125
+        },
+        {
+          "word": " del",
+          "start": 308.06,
+          "end": 308.3,
+          "probability": 0.10308837890625
+        },
+        {
+          "word": " Lpos.",
+          "start": 308.3,
+          "end": 309.12,
+          "probability": 0.987060546875
+        },
+        {
+          "word": " ¿Qué",
+          "start": 316.47,
+          "end": 316.75,
+          "probability": 0.865966796875
+        },
+        {
+          "word": " estamos",
+          "start": 316.75,
+          "end": 317.05,
+          "probability": 0.982421875
+        },
+        {
+          "word": " haciendo",
+          "start": 317.05,
+          "end": 317.41,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " con",
+          "start": 317.41,
+          "end": 317.63,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " esto?",
+          "start": 317.63,
+          "end": 318.17,
+          "probability": 0.986328125
+        },
+        {
+          "word": " Estamos",
+          "start": 319.65,
+          "end": 320.49,
+          "probability": 0.87548828125
+        },
+        {
+          "word": " haciendo",
+          "start": 321.86,
+          "end": 322.98,
+          "probability": 0.970703125
+        },
+        {
+          "word": " que",
+          "start": 322.98,
+          "end": 324.76,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " el",
+          "start": 324.76,
+          "end": 325.34,
+          "probability": 0.81689453125
+        },
+        {
+          "word": " null",
+          "start": 325.34,
+          "end": 325.5,
+          "probability": 0.0006351470947265625
+        },
+        {
+          "word": " anterior",
+          "start": 325.5,
+          "end": 325.98,
+          "probability": 0.96826171875
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "seek": 22144,
+      "start": 325.98,
+      "end": 334.13,
+      "text": " del Lpos se conecte con el null siguiente del Lpos. Ahora hacemos el análogo para que el siguiente se",
+      "tokens": [
+        50956,
+        1103,
+        441,
+        30010,
+        369,
+        30458,
+        68,
+        416,
+        806,
+        18184,
+        25666,
+        1103,
+        441,
+        30010,
+        13,
+        18840,
+        33839,
+        806,
+        364,
+        842,
+        38212,
+        1690,
+        631,
+        806,
+        25666,
+        369,
+        51294
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17451298314255553,
+      "compression_ratio": 1.974025974025974,
+      "no_speech_prob": 0.52978515625,
+      "words": [
+        {
+          "word": " del",
+          "start": 325.98,
+          "end": 326.12,
+          "probability": 0.76806640625
+        },
+        {
+          "word": " Lpos",
+          "start": 326.12,
+          "end": 326.66,
+          "probability": 0.988525390625
+        },
+        {
+          "word": " se",
+          "start": 326.66,
+          "end": 327.16,
+          "probability": 0.95849609375
+        },
+        {
+          "word": " conecte",
+          "start": 327.16,
+          "end": 327.46,
+          "probability": 0.989013671875
+        },
+        {
+          "word": " con",
+          "start": 327.46,
+          "end": 327.62,
+          "probability": 0.98828125
+        },
+        {
+          "word": " el",
+          "start": 327.62,
+          "end": 327.78,
+          "probability": 0.98681640625
+        },
+        {
+          "word": " null",
+          "start": 327.78,
+          "end": 327.98,
+          "probability": 0.67431640625
+        },
+        {
+          "word": " siguiente",
+          "start": 327.98,
+          "end": 328.56,
+          "probability": 0.970703125
+        },
+        {
+          "word": " del",
+          "start": 328.56,
+          "end": 328.76,
+          "probability": 0.5693359375
+        },
+        {
+          "word": " Lpos.",
+          "start": 328.76,
+          "end": 329.48,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " Ahora",
+          "start": 331.33,
+          "end": 331.61,
+          "probability": 0.97314453125
+        },
+        {
+          "word": " hacemos",
+          "start": 331.61,
+          "end": 331.87,
+          "probability": 0.96240234375
+        },
+        {
+          "word": " el",
+          "start": 331.87,
+          "end": 332.17,
+          "probability": 0.99609375
+        },
+        {
+          "word": " análogo",
+          "start": 332.17,
+          "end": 332.59,
+          "probability": 0.9552408854166666
+        },
+        {
+          "word": " para",
+          "start": 332.59,
+          "end": 332.91,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " que",
+          "start": 332.91,
+          "end": 332.97,
+          "probability": 0.990234375
+        },
+        {
+          "word": " el",
+          "start": 332.97,
+          "end": 333.23,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " siguiente",
+          "start": 333.23,
+          "end": 333.75,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " se",
+          "start": 333.75,
+          "end": 334.13,
+          "probability": 0.98486328125
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "seek": 22144,
+      "start": 334.13,
+      "end": 355.83,
+      "text": " conecte con el anterior, es decir, el anterior del siguiente es igual al anterior del Lpos. Ahora",
+      "tokens": [
+        51294,
+        30458,
+        68,
+        416,
+        806,
+        22272,
+        11,
+        785,
+        10235,
+        11,
+        806,
+        22272,
+        1103,
+        25666,
+        785,
+        10953,
+        419,
+        22272,
+        1103,
+        441,
+        30010,
+        13,
+        18840,
+        51796
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17451298314255553,
+      "compression_ratio": 1.974025974025974,
+      "no_speech_prob": 0.52978515625,
+      "words": [
+        {
+          "word": " conecte",
+          "start": 334.13,
+          "end": 334.39,
+          "probability": 0.982421875
+        },
+        {
+          "word": " con",
+          "start": 334.39,
+          "end": 334.51,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " el",
+          "start": 334.51,
+          "end": 334.73,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " anterior,",
+          "start": 334.73,
+          "end": 335.15,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " es",
+          "start": 335.51,
+          "end": 335.79,
+          "probability": 0.9619140625
+        },
+        {
+          "word": " decir,",
+          "start": 335.79,
+          "end": 336.39,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " el",
+          "start": 340.5,
+          "end": 340.76,
+          "probability": 0.9443359375
+        },
+        {
+          "word": " anterior",
+          "start": 340.76,
+          "end": 341.54,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " del",
+          "start": 341.54,
+          "end": 342.04,
+          "probability": 0.990234375
+        },
+        {
+          "word": " siguiente",
+          "start": 342.04,
+          "end": 342.78,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " es",
+          "start": 346.04,
+          "end": 347.06,
+          "probability": 0.96142578125
+        },
+        {
+          "word": " igual",
+          "start": 347.06,
+          "end": 347.86,
+          "probability": 0.99609375
+        },
+        {
+          "word": " al",
+          "start": 347.86,
+          "end": 348.72,
+          "probability": 0.96630859375
+        },
+        {
+          "word": " anterior",
+          "start": 348.72,
+          "end": 349.28,
+          "probability": 0.99951171875
+        },
+        {
+          "word": " del",
+          "start": 349.28,
+          "end": 349.48,
+          "probability": 0.9521484375
+        },
+        {
+          "word": " Lpos.",
+          "start": 349.48,
+          "end": 349.96,
+          "probability": 0.9921875
+        },
+        {
+          "word": " Ahora",
+          "start": 355.47,
+          "end": 355.83,
+          "probability": 0.978515625
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "seek": 25018,
+      "start": 355.83,
+      "end": 368.05,
+      "text": " simplemente tenemos que avanzar Lpos. Lpos es igual a su siguiente y borramos lo que queremos borrar.",
+      "tokens": [
+        50388,
+        33190,
+        9914,
+        631,
+        42444,
+        289,
+        441,
+        30010,
+        13,
+        441,
+        30010,
+        785,
+        10953,
+        257,
+        459,
+        25666,
+        288,
+        14828,
+        30227,
+        450,
+        631,
+        26813,
+        14828,
+        5352,
+        13,
+        50748
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.23566176400465125,
+      "compression_ratio": 1.6402116402116402,
+      "no_speech_prob": 0.01242828369140625,
+      "words": [
+        {
+          "word": " simplemente",
+          "start": 355.83,
+          "end": 356.53,
+          "probability": 0.229248046875
+        },
+        {
+          "word": " tenemos",
+          "start": 356.53,
+          "end": 357.05,
+          "probability": 0.6484375
+        },
+        {
+          "word": " que",
+          "start": 357.05,
+          "end": 357.27,
+          "probability": 0.99609375
+        },
+        {
+          "word": " avanzar",
+          "start": 357.27,
+          "end": 357.71,
+          "probability": 0.994140625
+        },
+        {
+          "word": " Lpos.",
+          "start": 357.71,
+          "end": 358.35,
+          "probability": 0.24077987670898438
+        },
+        {
+          "word": " Lpos",
+          "start": 363.61,
+          "end": 364.09,
+          "probability": 0.78076171875
+        },
+        {
+          "word": " es",
+          "start": 364.09,
+          "end": 364.33,
+          "probability": 0.810546875
+        },
+        {
+          "word": " igual",
+          "start": 364.33,
+          "end": 364.55,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " a",
+          "start": 364.55,
+          "end": 364.71,
+          "probability": 0.97265625
+        },
+        {
+          "word": " su",
+          "start": 364.71,
+          "end": 364.87,
+          "probability": 0.919921875
+        },
+        {
+          "word": " siguiente",
+          "start": 364.87,
+          "end": 365.47,
+          "probability": 0.998046875
+        },
+        {
+          "word": " y",
+          "start": 365.47,
+          "end": 366.57,
+          "probability": 0.493896484375
+        },
+        {
+          "word": " borramos",
+          "start": 366.57,
+          "end": 366.91,
+          "probability": 0.952392578125
+        },
+        {
+          "word": " lo",
+          "start": 366.91,
+          "end": 367.07,
+          "probability": 0.9853515625
+        },
+        {
+          "word": " que",
+          "start": 367.07,
+          "end": 367.13,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " queremos",
+          "start": 367.13,
+          "end": 367.35,
+          "probability": 0.96875
+        },
+        {
+          "word": " borrar.",
+          "start": 367.35,
+          "end": 368.05,
+          "probability": 0.776123046875
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "seek": 25018,
+      "start": 373.97,
+      "end": 384.26,
+      "text": " Ahora, una pregunta que pueden tener es, ¿por qué si avanzamos Lpos, tanto como si borramos el elemento",
+      "tokens": [
+        50748,
+        18840,
+        11,
+        2002,
+        24252,
+        631,
+        14714,
+        11640,
+        785,
+        11,
+        3841,
+        2816,
+        8057,
+        1511,
+        42444,
+        2151,
+        441,
+        30010,
+        11,
+        10331,
+        2617,
+        1511,
+        14828,
+        30227,
+        806,
+        47961,
+        51224
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.23566176400465125,
+      "compression_ratio": 1.6402116402116402,
+      "no_speech_prob": 0.01242828369140625,
+      "words": [
+        {
+          "word": " Ahora,",
+          "start": 373.97,
+          "end": 374.17,
+          "probability": 0.81201171875
+        },
+        {
+          "word": " una",
+          "start": 375.86,
+          "end": 376.66,
+          "probability": 0.9853515625
+        },
+        {
+          "word": " pregunta",
+          "start": 376.66,
+          "end": 377.14,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " que",
+          "start": 377.14,
+          "end": 377.74,
+          "probability": 0.98681640625
+        },
+        {
+          "word": " pueden",
+          "start": 377.74,
+          "end": 378.14,
+          "probability": 0.9580078125
+        },
+        {
+          "word": " tener",
+          "start": 378.14,
+          "end": 378.5,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " es,",
+          "start": 378.5,
+          "end": 379.12,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " ¿por",
+          "start": 379.4,
+          "end": 379.54,
+          "probability": 0.728759765625
+        },
+        {
+          "word": " qué",
+          "start": 379.54,
+          "end": 380.12,
+          "probability": 0.853515625
+        },
+        {
+          "word": " si",
+          "start": 380.12,
+          "end": 380.6,
+          "probability": 0.85595703125
+        },
+        {
+          "word": " avanzamos",
+          "start": 380.6,
+          "end": 381.22,
+          "probability": 0.996826171875
+        },
+        {
+          "word": " Lpos,",
+          "start": 381.22,
+          "end": 382.16,
+          "probability": 0.929931640625
+        },
+        {
+          "word": " tanto",
+          "start": 382.58,
+          "end": 382.92,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " como",
+          "start": 382.92,
+          "end": 383.22,
+          "probability": 0.97607421875
+        },
+        {
+          "word": " si",
+          "start": 383.22,
+          "end": 383.44,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " borramos",
+          "start": 383.44,
+          "end": 383.78,
+          "probability": 0.962890625
+        },
+        {
+          "word": " el",
+          "start": 383.78,
+          "end": 383.96,
+          "probability": 0.92041015625
+        },
+        {
+          "word": " elemento",
+          "start": 383.96,
+          "end": 384.26,
+          "probability": 0.99755859375
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "seek": 25018,
+      "start": 384.26,
+      "end": 392.06,
+      "text": " o no, por qué no simplemente lo ponemos afuera del if y ignoramos este else? Es decir, borramos esto,",
+      "tokens": [
+        51224,
+        277,
+        572,
+        11,
+        1515,
+        8057,
+        572,
+        33190,
+        450,
+        9224,
+        4485,
+        3238,
+        84,
+        1663,
+        1103,
+        498,
+        288,
+        14698,
+        2151,
+        4065,
+        1646,
+        30,
+        2313,
+        10235,
+        11,
+        14828,
+        30227,
+        7433,
+        11,
+        51620
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.23566176400465125,
+      "compression_ratio": 1.6402116402116402,
+      "no_speech_prob": 0.01242828369140625,
+      "words": [
+        {
+          "word": " o",
+          "start": 384.26,
+          "end": 384.54,
+          "probability": 0.30810546875
+        },
+        {
+          "word": " no,",
+          "start": 384.54,
+          "end": 384.96,
+          "probability": 0.998046875
+        },
+        {
+          "word": " por",
+          "start": 385.16,
+          "end": 385.4,
+          "probability": 0.70703125
+        },
+        {
+          "word": " qué",
+          "start": 385.4,
+          "end": 385.66,
+          "probability": 0.95458984375
+        },
+        {
+          "word": " no",
+          "start": 385.66,
+          "end": 385.92,
+          "probability": 0.96044921875
+        },
+        {
+          "word": " simplemente",
+          "start": 385.92,
+          "end": 386.38,
+          "probability": 0.98291015625
+        },
+        {
+          "word": " lo",
+          "start": 386.38,
+          "end": 386.54,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " ponemos",
+          "start": 386.54,
+          "end": 386.8,
+          "probability": 0.963134765625
+        },
+        {
+          "word": " afuera",
+          "start": 386.8,
+          "end": 387.12,
+          "probability": 0.90234375
+        },
+        {
+          "word": " del",
+          "start": 387.12,
+          "end": 387.3,
+          "probability": 0.623046875
+        },
+        {
+          "word": " if",
+          "start": 387.3,
+          "end": 387.5,
+          "probability": 0.4384765625
+        },
+        {
+          "word": " y",
+          "start": 387.5,
+          "end": 389.32,
+          "probability": 0.216064453125
+        },
+        {
+          "word": " ignoramos",
+          "start": 389.32,
+          "end": 389.8,
+          "probability": 0.984375
+        },
+        {
+          "word": " este",
+          "start": 389.8,
+          "end": 390.08,
+          "probability": 0.9580078125
+        },
+        {
+          "word": " else?",
+          "start": 390.08,
+          "end": 390.42,
+          "probability": 0.9404296875
+        },
+        {
+          "word": " Es",
+          "start": 390.66,
+          "end": 390.76,
+          "probability": 0.83447265625
+        },
+        {
+          "word": " decir,",
+          "start": 390.76,
+          "end": 391.04,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " borramos",
+          "start": 391.24,
+          "end": 391.52,
+          "probability": 0.990478515625
+        },
+        {
+          "word": " esto,",
+          "start": 391.52,
+          "end": 392.06,
+          "probability": 0.97998046875
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "seek": 27492,
+      "start": 393.37,
+      "end": 407.07,
+      "text": " borramos esto y hacemos esto. El problema es, si hacemos esto, una vez que liberamos la memoria",
+      "tokens": [
+        50372,
+        14828,
+        30227,
+        7433,
+        288,
+        33839,
+        7433,
+        13,
+        2699,
+        12395,
+        785,
+        11,
+        1511,
+        33839,
+        7433,
+        11,
+        2002,
+        5715,
+        631,
+        6774,
+        2151,
+        635,
+        1334,
+        8172,
+        50900
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1462572743726331,
+      "compression_ratio": 1.513089005235602,
+      "no_speech_prob": 0.00070953369140625,
+      "words": [
+        {
+          "word": " borramos",
+          "start": 393.37,
+          "end": 394.43,
+          "probability": 0.5693359375
+        },
+        {
+          "word": " esto",
+          "start": 394.43,
+          "end": 394.97,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " y",
+          "start": 397.85,
+          "end": 398.65,
+          "probability": 0.74853515625
+        },
+        {
+          "word": " hacemos",
+          "start": 398.65,
+          "end": 398.95,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " esto.",
+          "start": 398.95,
+          "end": 399.81,
+          "probability": 0.98291015625
+        },
+        {
+          "word": " El",
+          "start": 401.37,
+          "end": 401.41,
+          "probability": 0.9130859375
+        },
+        {
+          "word": " problema",
+          "start": 401.41,
+          "end": 401.83,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " es,",
+          "start": 401.83,
+          "end": 403.03,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " si",
+          "start": 403.35,
+          "end": 403.55,
+          "probability": 0.96728515625
+        },
+        {
+          "word": " hacemos",
+          "start": 403.55,
+          "end": 403.95,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " esto,",
+          "start": 403.95,
+          "end": 404.73,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " una",
+          "start": 405.93,
+          "end": 406.03,
+          "probability": 0.947265625
+        },
+        {
+          "word": " vez",
+          "start": 406.03,
+          "end": 406.17,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " que",
+          "start": 406.17,
+          "end": 406.35,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " liberamos",
+          "start": 406.35,
+          "end": 406.65,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " la",
+          "start": 406.65,
+          "end": 406.79,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " memoria",
+          "start": 406.79,
+          "end": 407.07,
+          "probability": 0.998046875
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "seek": 27492,
+      "start": 407.07,
+      "end": 416.59,
+      "text": " acá, ya perdemos dónde está almacenado este puntero. No podemos acceder a esto, por lo tanto,",
+      "tokens": [
+        50900,
+        23496,
+        11,
+        2478,
+        12611,
+        4485,
+        34264,
+        3192,
+        18667,
+        326,
+        268,
+        1573,
+        4065,
+        4468,
+        391,
+        78,
+        13,
+        883,
+        12234,
+        696,
+        1232,
+        260,
+        257,
+        7433,
+        11,
+        1515,
+        450,
+        10331,
+        11,
+        51378
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1462572743726331,
+      "compression_ratio": 1.513089005235602,
+      "no_speech_prob": 0.00070953369140625,
+      "words": [
+        {
+          "word": " acá,",
+          "start": 407.07,
+          "end": 407.81,
+          "probability": 0.95703125
+        },
+        {
+          "word": " ya",
+          "start": 408.89,
+          "end": 409.05,
+          "probability": 0.9326171875
+        },
+        {
+          "word": " perdemos",
+          "start": 409.05,
+          "end": 410.55,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " dónde",
+          "start": 410.55,
+          "end": 411.15,
+          "probability": 0.30029296875
+        },
+        {
+          "word": " está",
+          "start": 411.15,
+          "end": 411.37,
+          "probability": 0.9716796875
+        },
+        {
+          "word": " almacenado",
+          "start": 411.37,
+          "end": 411.89,
+          "probability": 0.986083984375
+        },
+        {
+          "word": " este",
+          "start": 411.89,
+          "end": 412.09,
+          "probability": 0.95654296875
+        },
+        {
+          "word": " puntero.",
+          "start": 412.09,
+          "end": 412.69,
+          "probability": 0.9930013020833334
+        },
+        {
+          "word": " No",
+          "start": 413.01,
+          "end": 413.33,
+          "probability": 0.970703125
+        },
+        {
+          "word": " podemos",
+          "start": 413.33,
+          "end": 413.75,
+          "probability": 0.970703125
+        },
+        {
+          "word": " acceder",
+          "start": 413.75,
+          "end": 414.85,
+          "probability": 0.994140625
+        },
+        {
+          "word": " a",
+          "start": 414.85,
+          "end": 415.01,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " esto,",
+          "start": 415.01,
+          "end": 415.47,
+          "probability": 0.97607421875
+        },
+        {
+          "word": " por",
+          "start": 416.05,
+          "end": 416.25,
+          "probability": 0.9833984375
+        },
+        {
+          "word": " lo",
+          "start": 416.25,
+          "end": 416.41,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " tanto,",
+          "start": 416.41,
+          "end": 416.59,
+          "probability": 0.99951171875
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "seek": 27492,
+      "start": 416.61,
+      "end": 421.79,
+      "text": " no podemos obtener el siguiente del Lpos. ¿Por qué Lpos no va a estar apuntando a nada? Ya que",
+      "tokens": [
+        51378,
+        572,
+        12234,
+        28326,
+        260,
+        806,
+        25666,
+        1103,
+        441,
+        30010,
+        13,
+        3841,
+        24907,
+        8057,
+        441,
+        30010,
+        572,
+        2773,
+        257,
+        8755,
+        1882,
+        2760,
+        1806,
+        257,
+        8096,
+        30,
+        6080,
+        631,
+        51634
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1462572743726331,
+      "compression_ratio": 1.513089005235602,
+      "no_speech_prob": 0.00070953369140625,
+      "words": [
+        {
+          "word": " no",
+          "start": 416.61,
+          "end": 416.79,
+          "probability": 0.99609375
+        },
+        {
+          "word": " podemos",
+          "start": 416.79,
+          "end": 417.13,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " obtener",
+          "start": 417.13,
+          "end": 417.53,
+          "probability": 0.99609375
+        },
+        {
+          "word": " el",
+          "start": 417.53,
+          "end": 417.71,
+          "probability": 0.97509765625
+        },
+        {
+          "word": " siguiente",
+          "start": 417.71,
+          "end": 418.11,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " del",
+          "start": 418.11,
+          "end": 418.37,
+          "probability": 0.1881103515625
+        },
+        {
+          "word": " Lpos.",
+          "start": 418.37,
+          "end": 418.69,
+          "probability": 0.013057708740234375
+        },
+        {
+          "word": " ¿Por",
+          "start": 418.91,
+          "end": 419.15,
+          "probability": 0.551788330078125
+        },
+        {
+          "word": " qué",
+          "start": 419.15,
+          "end": 419.19,
+          "probability": 0.92724609375
+        },
+        {
+          "word": " Lpos",
+          "start": 419.19,
+          "end": 419.69,
+          "probability": 0.78759765625
+        },
+        {
+          "word": " no",
+          "start": 419.69,
+          "end": 419.95,
+          "probability": 0.953125
+        },
+        {
+          "word": " va",
+          "start": 419.95,
+          "end": 420.11,
+          "probability": 0.97314453125
+        },
+        {
+          "word": " a",
+          "start": 420.11,
+          "end": 420.17,
+          "probability": 0.97216796875
+        },
+        {
+          "word": " estar",
+          "start": 420.17,
+          "end": 420.29,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " apuntando",
+          "start": 420.29,
+          "end": 420.73,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " a",
+          "start": 420.73,
+          "end": 420.87,
+          "probability": 0.97021484375
+        },
+        {
+          "word": " nada?",
+          "start": 420.87,
+          "end": 421.09,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " Ya",
+          "start": 421.43,
+          "end": 421.63,
+          "probability": 0.60986328125
+        },
+        {
+          "word": " que",
+          "start": 421.63,
+          "end": 421.79,
+          "probability": 0.99365234375
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "seek": 30046,
+      "start": 421.79,
+      "end": 429.0,
+      "text": " Lpos apuntaba lo mismo que borrar y liberamos la memoria a la que apuntaba a borrar. Entonces,",
+      "tokens": [
+        50364,
+        441,
+        30010,
+        1882,
+        2760,
+        5509,
+        450,
+        12461,
+        631,
+        14828,
+        5352,
+        288,
+        6774,
+        2151,
+        635,
+        1334,
+        8172,
+        257,
+        635,
+        631,
+        1882,
+        2760,
+        5509,
+        257,
+        14828,
+        5352,
+        13,
+        15097,
+        11,
+        50640
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1999446881555878,
+      "compression_ratio": 1.6115702479338843,
+      "no_speech_prob": 0.0665283203125,
+      "words": [
+        {
+          "word": " Lpos",
+          "start": 421.79,
+          "end": 422.17,
+          "probability": 0.001062631607055664
+        },
+        {
+          "word": " apuntaba",
+          "start": 422.17,
+          "end": 422.61,
+          "probability": 0.9192708333333334
+        },
+        {
+          "word": " lo",
+          "start": 422.61,
+          "end": 422.77,
+          "probability": 0.86376953125
+        },
+        {
+          "word": " mismo",
+          "start": 422.77,
+          "end": 422.93,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " que",
+          "start": 422.93,
+          "end": 423.13,
+          "probability": 0.9814453125
+        },
+        {
+          "word": " borrar",
+          "start": 423.13,
+          "end": 423.85,
+          "probability": 0.906494140625
+        },
+        {
+          "word": " y",
+          "start": 423.85,
+          "end": 424.33,
+          "probability": 0.4365234375
+        },
+        {
+          "word": " liberamos",
+          "start": 424.33,
+          "end": 424.59,
+          "probability": 0.912109375
+        },
+        {
+          "word": " la",
+          "start": 424.59,
+          "end": 424.75,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " memoria",
+          "start": 424.75,
+          "end": 425.03,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " a",
+          "start": 425.03,
+          "end": 425.15,
+          "probability": 0.461181640625
+        },
+        {
+          "word": " la",
+          "start": 425.15,
+          "end": 425.17,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " que",
+          "start": 425.17,
+          "end": 425.25,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " apuntaba",
+          "start": 425.25,
+          "end": 425.73,
+          "probability": 0.9791666666666666
+        },
+        {
+          "word": " a",
+          "start": 425.73,
+          "end": 425.89,
+          "probability": 0.2330322265625
+        },
+        {
+          "word": " borrar.",
+          "start": 425.89,
+          "end": 426.91,
+          "probability": 0.981201171875
+        },
+        {
+          "word": " Entonces,",
+          "start": 428.64,
+          "end": 429.0,
+          "probability": 0.82177734375
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "seek": 30046,
+      "start": 429.96,
+      "end": 436.42,
+      "text": " vamos a nuestra emulación original y ya está. Una cosa que se podría hacer es tener acá alguna",
+      "tokens": [
+        50640,
+        5295,
+        257,
+        16825,
+        846,
+        425,
+        3482,
+        3380,
+        288,
+        2478,
+        3192,
+        13,
+        15491,
+        10163,
+        631,
+        369,
+        27246,
+        6720,
+        785,
+        11640,
+        23496,
+        20651,
+        51016
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1999446881555878,
+      "compression_ratio": 1.6115702479338843,
+      "no_speech_prob": 0.0665283203125,
+      "words": [
+        {
+          "word": " vamos",
+          "start": 429.96,
+          "end": 430.04,
+          "probability": 0.266845703125
+        },
+        {
+          "word": " a",
+          "start": 430.04,
+          "end": 430.18,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " nuestra",
+          "start": 430.18,
+          "end": 430.6,
+          "probability": 0.98583984375
+        },
+        {
+          "word": " emulación",
+          "start": 430.6,
+          "end": 431.02,
+          "probability": 0.82666015625
+        },
+        {
+          "word": " original",
+          "start": 431.02,
+          "end": 431.58,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " y",
+          "start": 431.58,
+          "end": 432.36,
+          "probability": 0.5595703125
+        },
+        {
+          "word": " ya",
+          "start": 432.36,
+          "end": 432.64,
+          "probability": 0.9677734375
+        },
+        {
+          "word": " está.",
+          "start": 432.64,
+          "end": 432.92,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " Una",
+          "start": 433.86,
+          "end": 433.98,
+          "probability": 0.9814453125
+        },
+        {
+          "word": " cosa",
+          "start": 433.98,
+          "end": 434.16,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " que",
+          "start": 434.16,
+          "end": 434.28,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " se",
+          "start": 434.28,
+          "end": 434.44,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " podría",
+          "start": 434.44,
+          "end": 434.7,
+          "probability": 0.97509765625
+        },
+        {
+          "word": " hacer",
+          "start": 434.7,
+          "end": 435.18,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " es",
+          "start": 435.18,
+          "end": 435.62,
+          "probability": 0.88330078125
+        },
+        {
+          "word": " tener",
+          "start": 435.62,
+          "end": 435.96,
+          "probability": 0.95703125
+        },
+        {
+          "word": " acá",
+          "start": 435.96,
+          "end": 436.16,
+          "probability": 0.4169921875
+        },
+        {
+          "word": " alguna",
+          "start": 436.16,
+          "end": 436.42,
+          "probability": 0.80615234375
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "seek": 30046,
+      "start": 436.42,
+      "end": 443.92,
+      "text": " forma de saber si se entró al if y afuera del if poner otro if, que si se entró al if, pero",
+      "tokens": [
+        51016,
+        8366,
+        368,
+        12489,
+        1511,
+        369,
+        8041,
+        812,
+        419,
+        498,
+        288,
+        3238,
+        84,
+        1663,
+        1103,
+        498,
+        19149,
+        11921,
+        498,
+        11,
+        631,
+        1511,
+        369,
+        8041,
+        812,
+        419,
+        498,
+        11,
+        4768,
+        51370
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1999446881555878,
+      "compression_ratio": 1.6115702479338843,
+      "no_speech_prob": 0.0665283203125,
+      "words": [
+        {
+          "word": " forma",
+          "start": 436.42,
+          "end": 436.72,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " de",
+          "start": 436.72,
+          "end": 436.96,
+          "probability": 0.99609375
+        },
+        {
+          "word": " saber",
+          "start": 436.96,
+          "end": 437.2,
+          "probability": 0.98828125
+        },
+        {
+          "word": " si",
+          "start": 437.2,
+          "end": 437.46,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " se",
+          "start": 437.46,
+          "end": 437.78,
+          "probability": 0.9697265625
+        },
+        {
+          "word": " entró",
+          "start": 437.78,
+          "end": 438.0,
+          "probability": 0.906982421875
+        },
+        {
+          "word": " al",
+          "start": 438.0,
+          "end": 438.22,
+          "probability": 0.8701171875
+        },
+        {
+          "word": " if",
+          "start": 438.22,
+          "end": 438.44,
+          "probability": 0.368896484375
+        },
+        {
+          "word": " y",
+          "start": 438.44,
+          "end": 440.04,
+          "probability": 0.65234375
+        },
+        {
+          "word": " afuera",
+          "start": 440.04,
+          "end": 440.42,
+          "probability": 0.9381510416666666
+        },
+        {
+          "word": " del",
+          "start": 440.42,
+          "end": 440.6,
+          "probability": 0.98828125
+        },
+        {
+          "word": " if",
+          "start": 440.6,
+          "end": 440.78,
+          "probability": 0.96240234375
+        },
+        {
+          "word": " poner",
+          "start": 440.78,
+          "end": 441.06,
+          "probability": 0.70263671875
+        },
+        {
+          "word": " otro",
+          "start": 441.06,
+          "end": 441.46,
+          "probability": 0.9755859375
+        },
+        {
+          "word": " if,",
+          "start": 441.46,
+          "end": 441.92,
+          "probability": 0.884765625
+        },
+        {
+          "word": " que",
+          "start": 442.06,
+          "end": 442.22,
+          "probability": 0.95556640625
+        },
+        {
+          "word": " si",
+          "start": 442.22,
+          "end": 442.34,
+          "probability": 0.408935546875
+        },
+        {
+          "word": " se",
+          "start": 442.34,
+          "end": 442.64,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " entró",
+          "start": 442.64,
+          "end": 442.82,
+          "probability": 0.993896484375
+        },
+        {
+          "word": " al",
+          "start": 442.82,
+          "end": 442.94,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " if,",
+          "start": 442.94,
+          "end": 443.22,
+          "probability": 0.9755859375
+        },
+        {
+          "word": " pero",
+          "start": 443.86,
+          "end": 443.92,
+          "probability": 0.974609375
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "seek": 30046,
+      "start": 443.92,
+      "end": 452.93,
+      "text": " es ya complicar más las cosas. Complica más de lo que aclara. Pero esta solución tiene un problema,",
+      "tokens": [
+        51370,
+        785,
+        2478,
+        1209,
+        7953,
+        3573,
+        2439,
+        12218,
+        13,
+        2432,
+        564,
+        2262,
+        3573,
+        368,
+        450,
+        631,
+        696,
+        17736,
+        13,
+        9377,
+        5283,
+        24807,
+        5687,
+        7066,
+        517,
+        12395,
+        11,
+        51760
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1999446881555878,
+      "compression_ratio": 1.6115702479338843,
+      "no_speech_prob": 0.0665283203125,
+      "words": [
+        {
+          "word": " es",
+          "start": 443.92,
+          "end": 444.34,
+          "probability": 0.441162109375
+        },
+        {
+          "word": " ya",
+          "start": 444.34,
+          "end": 444.64,
+          "probability": 0.9853515625
+        },
+        {
+          "word": " complicar",
+          "start": 444.64,
+          "end": 445.2,
+          "probability": 0.920654296875
+        },
+        {
+          "word": " más",
+          "start": 445.2,
+          "end": 445.36,
+          "probability": 0.95068359375
+        },
+        {
+          "word": " las",
+          "start": 445.36,
+          "end": 445.6,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " cosas.",
+          "start": 445.6,
+          "end": 446.08,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " Complica",
+          "start": 448.11,
+          "end": 448.43,
+          "probability": 0.88134765625
+        },
+        {
+          "word": " más",
+          "start": 448.43,
+          "end": 448.63,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " de",
+          "start": 448.63,
+          "end": 448.73,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " lo",
+          "start": 448.73,
+          "end": 448.85,
+          "probability": 0.998046875
+        },
+        {
+          "word": " que",
+          "start": 448.85,
+          "end": 449.05,
+          "probability": 0.998046875
+        },
+        {
+          "word": " aclara.",
+          "start": 449.05,
+          "end": 449.57,
+          "probability": 0.747314453125
+        },
+        {
+          "word": " Pero",
+          "start": 450.89,
+          "end": 451.11,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " esta",
+          "start": 451.11,
+          "end": 451.29,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " solución",
+          "start": 451.29,
+          "end": 451.93,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " tiene",
+          "start": 451.93,
+          "end": 452.21,
+          "probability": 0.9619140625
+        },
+        {
+          "word": " un",
+          "start": 452.21,
+          "end": 452.41,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " problema,",
+          "start": 452.41,
+          "end": 452.93,
+          "probability": 0.9990234375
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "seek": 32882,
+      "start": 452.93,
+      "end": 462.09,
+      "text": " que es, estos accesos a la memoria de acá solo los podemos hacer si, este acceso solo lo podemos",
+      "tokens": [
+        50376,
+        631,
+        785,
+        11,
+        12585,
+        35707,
+        329,
+        257,
+        635,
+        1334,
+        8172,
+        368,
+        23496,
+        6944,
+        1750,
+        12234,
+        6720,
+        1511,
+        11,
+        4065,
+        49284,
+        6944,
+        450,
+        12234,
+        50820
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.25440141348771644,
+      "compression_ratio": 1.75,
+      "no_speech_prob": 0.009552001953125,
+      "words": [
+        {
+          "word": " que",
+          "start": 452.93,
+          "end": 453.81,
+          "probability": 0.10284423828125
+        },
+        {
+          "word": " es,",
+          "start": 453.81,
+          "end": 454.77,
+          "probability": 0.73583984375
+        },
+        {
+          "word": " estos",
+          "start": 454.79,
+          "end": 455.21,
+          "probability": 0.81689453125
+        },
+        {
+          "word": " accesos",
+          "start": 455.21,
+          "end": 455.71,
+          "probability": 0.989990234375
+        },
+        {
+          "word": " a",
+          "start": 455.71,
+          "end": 455.79,
+          "probability": 0.92529296875
+        },
+        {
+          "word": " la",
+          "start": 455.79,
+          "end": 455.93,
+          "probability": 0.19580078125
+        },
+        {
+          "word": " memoria",
+          "start": 455.93,
+          "end": 456.13,
+          "probability": 0.992919921875
+        },
+        {
+          "word": " de",
+          "start": 456.13,
+          "end": 456.31,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " acá",
+          "start": 456.31,
+          "end": 457.63,
+          "probability": 0.91357421875
+        },
+        {
+          "word": " solo",
+          "start": 457.63,
+          "end": 458.21,
+          "probability": 0.471923828125
+        },
+        {
+          "word": " los",
+          "start": 458.21,
+          "end": 458.45,
+          "probability": 0.94921875
+        },
+        {
+          "word": " podemos",
+          "start": 458.45,
+          "end": 458.77,
+          "probability": 0.9833984375
+        },
+        {
+          "word": " hacer",
+          "start": 458.77,
+          "end": 459.45,
+          "probability": 0.9814453125
+        },
+        {
+          "word": " si,",
+          "start": 459.45,
+          "end": 460.75,
+          "probability": 0.8271484375
+        },
+        {
+          "word": " este",
+          "start": 460.75,
+          "end": 461.15,
+          "probability": 0.92626953125
+        },
+        {
+          "word": " acceso",
+          "start": 461.15,
+          "end": 461.55,
+          "probability": 0.982421875
+        },
+        {
+          "word": " solo",
+          "start": 461.55,
+          "end": 461.75,
+          "probability": 0.94970703125
+        },
+        {
+          "word": " lo",
+          "start": 461.75,
+          "end": 461.93,
+          "probability": 0.51611328125
+        },
+        {
+          "word": " podemos",
+          "start": 461.93,
+          "end": 462.09,
+          "probability": 0.97509765625
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "seek": 32882,
+      "start": 462.09,
+      "end": 472.97,
+      "text": " hacer si esta dirección existe. Si es null esto, null no tiene siguiente. Lo mismo para esta,",
+      "tokens": [
+        50820,
+        6720,
+        1511,
+        5283,
+        1264,
+        14735,
+        16304,
+        13,
+        4909,
+        785,
+        18184,
+        7433,
+        11,
+        18184,
+        572,
+        7066,
+        25666,
+        13,
+        6130,
+        12461,
+        1690,
+        5283,
+        11,
+        51346
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.25440141348771644,
+      "compression_ratio": 1.75,
+      "no_speech_prob": 0.009552001953125,
+      "words": [
+        {
+          "word": " hacer",
+          "start": 462.09,
+          "end": 463.31,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " si",
+          "start": 463.31,
+          "end": 464.35,
+          "probability": 0.90087890625
+        },
+        {
+          "word": " esta",
+          "start": 464.35,
+          "end": 464.61,
+          "probability": 0.9609375
+        },
+        {
+          "word": " dirección",
+          "start": 464.61,
+          "end": 465.97,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " existe.",
+          "start": 465.97,
+          "end": 466.73,
+          "probability": 0.95361328125
+        },
+        {
+          "word": " Si",
+          "start": 467.79,
+          "end": 467.85,
+          "probability": 0.78857421875
+        },
+        {
+          "word": " es",
+          "start": 467.85,
+          "end": 468.09,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " null",
+          "start": 468.09,
+          "end": 468.29,
+          "probability": 0.720703125
+        },
+        {
+          "word": " esto,",
+          "start": 468.29,
+          "end": 468.91,
+          "probability": 0.95654296875
+        },
+        {
+          "word": " null",
+          "start": 469.29,
+          "end": 469.55,
+          "probability": 0.90771484375
+        },
+        {
+          "word": " no",
+          "start": 469.55,
+          "end": 469.73,
+          "probability": 0.9765625
+        },
+        {
+          "word": " tiene",
+          "start": 469.73,
+          "end": 469.95,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " siguiente.",
+          "start": 469.95,
+          "end": 470.49,
+          "probability": 0.9267578125
+        },
+        {
+          "word": " Lo",
+          "start": 471.75,
+          "end": 471.89,
+          "probability": 0.9443359375
+        },
+        {
+          "word": " mismo",
+          "start": 471.89,
+          "end": 472.07,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " para",
+          "start": 472.07,
+          "end": 472.33,
+          "probability": 0.994140625
+        },
+        {
+          "word": " esta,",
+          "start": 472.33,
+          "end": 472.97,
+          "probability": 0.77978515625
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "seek": 32882,
+      "start": 474.21,
+      "end": 481.31,
+      "text": " null no tiene anterior. Si esto es null, no podemos hacer este acceso. Entonces,",
+      "tokens": [
+        51400,
+        18184,
+        572,
+        7066,
+        22272,
+        13,
+        4909,
+        7433,
+        785,
+        18184,
+        11,
+        572,
+        12234,
+        6720,
+        4065,
+        49284,
+        13,
+        15097,
+        11,
+        51768
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.25440141348771644,
+      "compression_ratio": 1.75,
+      "no_speech_prob": 0.009552001953125,
+      "words": [
+        {
+          "word": " null",
+          "start": 474.21,
+          "end": 474.43,
+          "probability": 0.92724609375
+        },
+        {
+          "word": " no",
+          "start": 474.43,
+          "end": 474.63,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " tiene",
+          "start": 474.63,
+          "end": 474.77,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " anterior.",
+          "start": 474.77,
+          "end": 475.21,
+          "probability": 0.97998046875
+        },
+        {
+          "word": " Si",
+          "start": 475.45,
+          "end": 475.49,
+          "probability": 0.94775390625
+        },
+        {
+          "word": " esto",
+          "start": 475.49,
+          "end": 475.69,
+          "probability": 0.97412109375
+        },
+        {
+          "word": " es",
+          "start": 475.69,
+          "end": 475.81,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " null,",
+          "start": 475.81,
+          "end": 476.35,
+          "probability": 0.98193359375
+        },
+        {
+          "word": " no",
+          "start": 476.87,
+          "end": 477.01,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " podemos",
+          "start": 477.01,
+          "end": 477.31,
+          "probability": 0.9853515625
+        },
+        {
+          "word": " hacer",
+          "start": 477.31,
+          "end": 478.01,
+          "probability": 0.9921875
+        },
+        {
+          "word": " este",
+          "start": 478.01,
+          "end": 478.57,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " acceso.",
+          "start": 478.57,
+          "end": 479.21,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " Entonces,",
+          "start": 480.63,
+          "end": 481.31,
+          "probability": 0.921875
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "seek": 35720,
+      "start": 482.15,
+      "end": 499.15,
+      "text": " primero vamos a chequear si efectivamente pasa eso. Sabemos que Lpos no va a ser null porque es la",
+      "tokens": [
+        50396,
+        21289,
+        5295,
+        257,
+        947,
+        1077,
+        289,
+        1511,
+        22565,
+        23957,
+        20260,
+        7287,
+        13,
+        13915,
+        4485,
+        631,
+        441,
+        30010,
+        572,
+        2773,
+        257,
+        816,
+        18184,
+        4021,
+        785,
+        635,
+        50842
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14551767375734118,
+      "compression_ratio": 1.7881773399014778,
+      "no_speech_prob": 0.00044417381286621094,
+      "words": [
+        {
+          "word": " primero",
+          "start": 482.15,
+          "end": 482.67,
+          "probability": 0.06634521484375
+        },
+        {
+          "word": " vamos",
+          "start": 482.67,
+          "end": 483.07,
+          "probability": 0.90625
+        },
+        {
+          "word": " a",
+          "start": 483.07,
+          "end": 483.43,
+          "probability": 0.9814453125
+        },
+        {
+          "word": " chequear",
+          "start": 483.43,
+          "end": 483.95,
+          "probability": 0.96728515625
+        },
+        {
+          "word": " si",
+          "start": 483.95,
+          "end": 484.19,
+          "probability": 0.9326171875
+        },
+        {
+          "word": " efectivamente",
+          "start": 484.19,
+          "end": 485.67,
+          "probability": 0.982666015625
+        },
+        {
+          "word": " pasa",
+          "start": 485.67,
+          "end": 486.11,
+          "probability": 0.947265625
+        },
+        {
+          "word": " eso.",
+          "start": 486.11,
+          "end": 486.99,
+          "probability": 0.9521484375
+        },
+        {
+          "word": " Sabemos",
+          "start": 495.39,
+          "end": 495.77,
+          "probability": 0.873291015625
+        },
+        {
+          "word": " que",
+          "start": 495.77,
+          "end": 496.25,
+          "probability": 0.99609375
+        },
+        {
+          "word": " Lpos",
+          "start": 496.25,
+          "end": 496.81,
+          "probability": 0.18121337890625
+        },
+        {
+          "word": " no",
+          "start": 496.81,
+          "end": 497.27,
+          "probability": 0.966796875
+        },
+        {
+          "word": " va",
+          "start": 497.27,
+          "end": 497.49,
+          "probability": 0.970703125
+        },
+        {
+          "word": " a",
+          "start": 497.49,
+          "end": 497.61,
+          "probability": 0.97314453125
+        },
+        {
+          "word": " ser",
+          "start": 497.61,
+          "end": 497.73,
+          "probability": 0.712890625
+        },
+        {
+          "word": " null",
+          "start": 497.73,
+          "end": 498.09,
+          "probability": 0.60693359375
+        },
+        {
+          "word": " porque",
+          "start": 498.09,
+          "end": 498.93,
+          "probability": 0.73974609375
+        },
+        {
+          "word": " es",
+          "start": 498.93,
+          "end": 499.05,
+          "probability": 0.9765625
+        },
+        {
+          "word": " la",
+          "start": 499.05,
+          "end": 499.15,
+          "probability": 0.99365234375
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "seek": 35720,
+      "start": 499.15,
+      "end": 525.49,
+      "text": " condición del while. Así que no necesitamos chequear eso. Acá estamos chequeando que el",
+      "tokens": [
+        50842,
+        2224,
+        15534,
+        1103,
+        1339,
+        13,
+        17419,
+        631,
+        572,
+        38661,
+        2151,
+        947,
+        1077,
+        289,
+        7287,
+        13,
+        5097,
+        842,
+        10382,
+        947,
+        1077,
+        1806,
+        631,
+        806,
+        51158
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14551767375734118,
+      "compression_ratio": 1.7881773399014778,
+      "no_speech_prob": 0.00044417381286621094,
+      "words": [
+        {
+          "word": " condición",
+          "start": 499.15,
+          "end": 499.47,
+          "probability": 0.984619140625
+        },
+        {
+          "word": " del",
+          "start": 499.47,
+          "end": 499.71,
+          "probability": 0.92333984375
+        },
+        {
+          "word": " while.",
+          "start": 499.71,
+          "end": 500.11,
+          "probability": 0.2486572265625
+        },
+        {
+          "word": " Así",
+          "start": 501.21,
+          "end": 501.33,
+          "probability": 0.734375
+        },
+        {
+          "word": " que",
+          "start": 501.33,
+          "end": 501.45,
+          "probability": 0.9111328125
+        },
+        {
+          "word": " no",
+          "start": 501.45,
+          "end": 501.63,
+          "probability": 0.76171875
+        },
+        {
+          "word": " necesitamos",
+          "start": 501.63,
+          "end": 502.05,
+          "probability": 0.9697265625
+        },
+        {
+          "word": " chequear",
+          "start": 502.05,
+          "end": 502.43,
+          "probability": 0.9853515625
+        },
+        {
+          "word": " eso.",
+          "start": 502.43,
+          "end": 503.03,
+          "probability": 0.96484375
+        },
+        {
+          "word": " Acá",
+          "start": 523.43,
+          "end": 523.57,
+          "probability": 0.871826171875
+        },
+        {
+          "word": " estamos",
+          "start": 523.57,
+          "end": 523.83,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " chequeando",
+          "start": 523.83,
+          "end": 524.81,
+          "probability": 0.9962565104166666
+        },
+        {
+          "word": " que",
+          "start": 524.81,
+          "end": 525.27,
+          "probability": 0.9443359375
+        },
+        {
+          "word": " el",
+          "start": 525.27,
+          "end": 525.49,
+          "probability": 0.9755859375
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "seek": 35720,
+      "start": 525.49,
+      "end": 529.31,
+      "text": " siguiente no sea null, es decir, que lo que queremos borrar no esté al final de la lista,",
+      "tokens": [
+        51158,
+        25666,
+        572,
+        4158,
+        18184,
+        11,
+        785,
+        10235,
+        11,
+        631,
+        450,
+        631,
+        26813,
+        14828,
+        5352,
+        572,
+        34584,
+        419,
+        2572,
+        368,
+        635,
+        27764,
+        11,
+        51352
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14551767375734118,
+      "compression_ratio": 1.7881773399014778,
+      "no_speech_prob": 0.00044417381286621094,
+      "words": [
+        {
+          "word": " siguiente",
+          "start": 525.49,
+          "end": 525.81,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " no",
+          "start": 525.81,
+          "end": 525.97,
+          "probability": 0.98291015625
+        },
+        {
+          "word": " sea",
+          "start": 525.97,
+          "end": 526.13,
+          "probability": 0.9765625
+        },
+        {
+          "word": " null,",
+          "start": 526.13,
+          "end": 526.47,
+          "probability": 0.9521484375
+        },
+        {
+          "word": " es",
+          "start": 526.61,
+          "end": 526.75,
+          "probability": 0.96533203125
+        },
+        {
+          "word": " decir,",
+          "start": 526.75,
+          "end": 527.03,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " que",
+          "start": 527.15,
+          "end": 527.17,
+          "probability": 0.96826171875
+        },
+        {
+          "word": " lo",
+          "start": 527.17,
+          "end": 527.29,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " que",
+          "start": 527.29,
+          "end": 527.41,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " queremos",
+          "start": 527.41,
+          "end": 527.65,
+          "probability": 0.96875
+        },
+        {
+          "word": " borrar",
+          "start": 527.65,
+          "end": 528.03,
+          "probability": 0.981689453125
+        },
+        {
+          "word": " no",
+          "start": 528.03,
+          "end": 528.19,
+          "probability": 0.9794921875
+        },
+        {
+          "word": " esté",
+          "start": 528.19,
+          "end": 528.27,
+          "probability": 0.931640625
+        },
+        {
+          "word": " al",
+          "start": 528.27,
+          "end": 528.47,
+          "probability": 0.97998046875
+        },
+        {
+          "word": " final",
+          "start": 528.47,
+          "end": 528.69,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " de",
+          "start": 528.69,
+          "end": 528.89,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " la",
+          "start": 528.89,
+          "end": 529.01,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " lista,",
+          "start": 529.01,
+          "end": 529.31,
+          "probability": 0.9990234375
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "seek": 35720,
+      "start": 530.17,
+      "end": 536.03,
+      "text": " y acá estamos chequeando que el anterior dado de lo que queremos borrar no esté,",
+      "tokens": [
+        51352,
+        288,
+        23496,
+        10382,
+        947,
+        1077,
+        1806,
+        631,
+        806,
+        22272,
+        29568,
+        368,
+        450,
+        631,
+        26813,
+        14828,
+        5352,
+        572,
+        34584,
+        11,
+        51682
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14551767375734118,
+      "compression_ratio": 1.7881773399014778,
+      "no_speech_prob": 0.00044417381286621094,
+      "words": [
+        {
+          "word": " y",
+          "start": 530.17,
+          "end": 530.31,
+          "probability": 0.9619140625
+        },
+        {
+          "word": " acá",
+          "start": 530.31,
+          "end": 530.45,
+          "probability": 0.984375
+        },
+        {
+          "word": " estamos",
+          "start": 530.45,
+          "end": 530.69,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " chequeando",
+          "start": 530.69,
+          "end": 531.67,
+          "probability": 0.9983723958333334
+        },
+        {
+          "word": " que",
+          "start": 531.67,
+          "end": 532.47,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " el",
+          "start": 532.47,
+          "end": 532.67,
+          "probability": 0.91064453125
+        },
+        {
+          "word": " anterior",
+          "start": 532.67,
+          "end": 533.41,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " dado",
+          "start": 533.41,
+          "end": 533.91,
+          "probability": 0.53564453125
+        },
+        {
+          "word": " de",
+          "start": 533.91,
+          "end": 534.05,
+          "probability": 0.9384765625
+        },
+        {
+          "word": " lo",
+          "start": 534.05,
+          "end": 534.17,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " que",
+          "start": 534.17,
+          "end": 534.31,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " queremos",
+          "start": 534.31,
+          "end": 534.51,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " borrar",
+          "start": 534.51,
+          "end": 535.43,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " no",
+          "start": 535.43,
+          "end": 535.73,
+          "probability": 0.88671875
+        },
+        {
+          "word": " esté,",
+          "start": 535.73,
+          "end": 536.03,
+          "probability": 0.61328125
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "seek": 38382,
+      "start": 536.95,
+      "end": 542.71,
+      "text": " no sea null, es decir, lo que queremos borrar no esté al principio de la lista. Pero además,",
+      "tokens": [
+        50406,
+        572,
+        4158,
+        18184,
+        11,
+        785,
+        10235,
+        11,
+        450,
+        631,
+        26813,
+        14828,
+        5352,
+        572,
+        34584,
+        419,
+        34308,
+        368,
+        635,
+        27764,
+        13,
+        9377,
+        21251,
+        11,
+        50682
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14210304235284393,
+      "compression_ratio": 1.7261904761904763,
+      "no_speech_prob": 0.0031223297119140625,
+      "words": [
+        {
+          "word": " no",
+          "start": 536.95,
+          "end": 537.49,
+          "probability": 0.0699462890625
+        },
+        {
+          "word": " sea",
+          "start": 537.49,
+          "end": 537.69,
+          "probability": 0.728515625
+        },
+        {
+          "word": " null,",
+          "start": 537.69,
+          "end": 537.95,
+          "probability": 0.388916015625
+        },
+        {
+          "word": " es",
+          "start": 538.01,
+          "end": 538.25,
+          "probability": 0.95361328125
+        },
+        {
+          "word": " decir,",
+          "start": 538.25,
+          "end": 538.53,
+          "probability": 0.998046875
+        },
+        {
+          "word": " lo",
+          "start": 538.71,
+          "end": 538.71,
+          "probability": 0.876953125
+        },
+        {
+          "word": " que",
+          "start": 538.71,
+          "end": 538.81,
+          "probability": 0.982421875
+        },
+        {
+          "word": " queremos",
+          "start": 538.81,
+          "end": 539.01,
+          "probability": 0.9306640625
+        },
+        {
+          "word": " borrar",
+          "start": 539.01,
+          "end": 539.39,
+          "probability": 0.982666015625
+        },
+        {
+          "word": " no",
+          "start": 539.39,
+          "end": 539.57,
+          "probability": 0.98291015625
+        },
+        {
+          "word": " esté",
+          "start": 539.57,
+          "end": 539.73,
+          "probability": 0.78857421875
+        },
+        {
+          "word": " al",
+          "start": 539.73,
+          "end": 539.95,
+          "probability": 0.97021484375
+        },
+        {
+          "word": " principio",
+          "start": 539.95,
+          "end": 540.35,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " de",
+          "start": 540.35,
+          "end": 540.51,
+          "probability": 0.974609375
+        },
+        {
+          "word": " la",
+          "start": 540.51,
+          "end": 540.63,
+          "probability": 0.9921875
+        },
+        {
+          "word": " lista.",
+          "start": 540.63,
+          "end": 541.25,
+          "probability": 0.998046875
+        },
+        {
+          "word": " Pero",
+          "start": 542.15,
+          "end": 542.25,
+          "probability": 0.9267578125
+        },
+        {
+          "word": " además,",
+          "start": 542.25,
+          "end": 542.71,
+          "probability": 0.9501953125
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "seek": 38382,
+      "start": 543.33,
+      "end": 548.83,
+      "text": " tenemos otro problema en este caso. Si lo que queremos borrar está al principio de la lista y",
+      "tokens": [
+        50682,
+        9914,
+        11921,
+        12395,
+        465,
+        4065,
+        9666,
+        13,
+        4909,
+        450,
+        631,
+        26813,
+        14828,
+        5352,
+        3192,
+        419,
+        34308,
+        368,
+        635,
+        27764,
+        288,
+        51000
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14210304235284393,
+      "compression_ratio": 1.7261904761904763,
+      "no_speech_prob": 0.0031223297119140625,
+      "words": [
+        {
+          "word": " tenemos",
+          "start": 543.33,
+          "end": 543.35,
+          "probability": 0.98486328125
+        },
+        {
+          "word": " otro",
+          "start": 543.35,
+          "end": 543.63,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " problema",
+          "start": 543.63,
+          "end": 544.01,
+          "probability": 0.998046875
+        },
+        {
+          "word": " en",
+          "start": 544.01,
+          "end": 544.21,
+          "probability": 0.921875
+        },
+        {
+          "word": " este",
+          "start": 544.21,
+          "end": 544.33,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " caso.",
+          "start": 544.33,
+          "end": 544.81,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " Si",
+          "start": 545.37,
+          "end": 545.49,
+          "probability": 0.97314453125
+        },
+        {
+          "word": " lo",
+          "start": 545.49,
+          "end": 545.63,
+          "probability": 0.98193359375
+        },
+        {
+          "word": " que",
+          "start": 545.63,
+          "end": 545.69,
+          "probability": 0.87109375
+        },
+        {
+          "word": " queremos",
+          "start": 545.69,
+          "end": 545.91,
+          "probability": 0.9853515625
+        },
+        {
+          "word": " borrar",
+          "start": 545.91,
+          "end": 546.43,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " está",
+          "start": 546.43,
+          "end": 546.65,
+          "probability": 0.9111328125
+        },
+        {
+          "word": " al",
+          "start": 546.65,
+          "end": 546.85,
+          "probability": 0.9833984375
+        },
+        {
+          "word": " principio",
+          "start": 546.85,
+          "end": 547.27,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " de",
+          "start": 547.27,
+          "end": 547.45,
+          "probability": 0.98681640625
+        },
+        {
+          "word": " la",
+          "start": 547.45,
+          "end": 547.61,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " lista",
+          "start": 547.61,
+          "end": 547.97,
+          "probability": 0.99951171875
+        },
+        {
+          "word": " y",
+          "start": 547.97,
+          "end": 548.83,
+          "probability": 0.45458984375
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "seek": 38382,
+      "start": 548.83,
+      "end": 557.22,
+      "text": " lo borramos, entonces perdimos a lo que apunta L. Entonces acá tenemos que hacer otra cosa además,",
+      "tokens": [
+        51000,
+        450,
+        14828,
+        30227,
+        11,
+        13003,
+        12611,
+        8372,
+        257,
+        450,
+        631,
+        1882,
+        46380,
+        441,
+        13,
+        15097,
+        23496,
+        9914,
+        631,
+        6720,
+        13623,
+        10163,
+        21251,
+        11,
+        51348
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14210304235284393,
+      "compression_ratio": 1.7261904761904763,
+      "no_speech_prob": 0.0031223297119140625,
+      "words": [
+        {
+          "word": " lo",
+          "start": 548.83,
+          "end": 549.11,
+          "probability": 0.98486328125
+        },
+        {
+          "word": " borramos,",
+          "start": 549.11,
+          "end": 549.65,
+          "probability": 0.990478515625
+        },
+        {
+          "word": " entonces",
+          "start": 550.63,
+          "end": 551.01,
+          "probability": 0.94189453125
+        },
+        {
+          "word": " perdimos",
+          "start": 551.01,
+          "end": 551.45,
+          "probability": 0.9541015625
+        },
+        {
+          "word": " a",
+          "start": 551.45,
+          "end": 551.55,
+          "probability": 0.86865234375
+        },
+        {
+          "word": " lo",
+          "start": 551.55,
+          "end": 551.61,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " que",
+          "start": 551.61,
+          "end": 551.77,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " apunta",
+          "start": 551.77,
+          "end": 552.03,
+          "probability": 0.990478515625
+        },
+        {
+          "word": " L.",
+          "start": 552.03,
+          "end": 552.69,
+          "probability": 0.302978515625
+        },
+        {
+          "word": " Entonces",
+          "start": 554.73,
+          "end": 555.07,
+          "probability": 0.90869140625
+        },
+        {
+          "word": " acá",
+          "start": 555.07,
+          "end": 555.49,
+          "probability": 0.9560546875
+        },
+        {
+          "word": " tenemos",
+          "start": 555.49,
+          "end": 555.79,
+          "probability": 0.90673828125
+        },
+        {
+          "word": " que",
+          "start": 555.79,
+          "end": 556.01,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " hacer",
+          "start": 556.01,
+          "end": 556.27,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " otra",
+          "start": 556.27,
+          "end": 556.61,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " cosa",
+          "start": 556.61,
+          "end": 556.95,
+          "probability": 0.998046875
+        },
+        {
+          "word": " además,",
+          "start": 556.95,
+          "end": 557.22,
+          "probability": 0.6396484375
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "seek": 40357,
+      "start": 559.76,
+      "end": 575.81,
+      "text": " que es igualar L a algo nuevo, en este caso al siguiente. Y esto solo lo hacemos cuando",
+      "tokens": [
+        50400,
+        631,
+        785,
+        10953,
+        289,
+        441,
+        257,
+        8655,
+        18591,
+        11,
+        465,
+        4065,
+        9666,
+        419,
+        25666,
+        13,
+        398,
+        7433,
+        6944,
+        450,
+        33839,
+        7767,
+        50904
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.22007664981878028,
+      "compression_ratio": 1.364864864864865,
+      "no_speech_prob": 0.015899658203125,
+      "words": [
+        {
+          "word": " que",
+          "start": 559.76,
+          "end": 560.28,
+          "probability": 0.66650390625
+        },
+        {
+          "word": " es",
+          "start": 560.28,
+          "end": 560.8,
+          "probability": 0.982421875
+        },
+        {
+          "word": " igualar",
+          "start": 560.8,
+          "end": 561.32,
+          "probability": 0.85693359375
+        },
+        {
+          "word": " L",
+          "start": 561.32,
+          "end": 561.56,
+          "probability": 0.324462890625
+        },
+        {
+          "word": " a",
+          "start": 561.56,
+          "end": 561.82,
+          "probability": 0.943359375
+        },
+        {
+          "word": " algo",
+          "start": 561.82,
+          "end": 562.04,
+          "probability": 0.98681640625
+        },
+        {
+          "word": " nuevo,",
+          "start": 562.04,
+          "end": 562.52,
+          "probability": 0.99609375
+        },
+        {
+          "word": " en",
+          "start": 564.1,
+          "end": 564.14,
+          "probability": 0.98583984375
+        },
+        {
+          "word": " este",
+          "start": 564.14,
+          "end": 564.32,
+          "probability": 0.98681640625
+        },
+        {
+          "word": " caso",
+          "start": 564.32,
+          "end": 564.88,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " al",
+          "start": 564.88,
+          "end": 565.38,
+          "probability": 0.68701171875
+        },
+        {
+          "word": " siguiente.",
+          "start": 565.38,
+          "end": 565.82,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " Y",
+          "start": 574.37,
+          "end": 574.57,
+          "probability": 0.8798828125
+        },
+        {
+          "word": " esto",
+          "start": 574.57,
+          "end": 574.71,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " solo",
+          "start": 574.71,
+          "end": 574.93,
+          "probability": 0.70068359375
+        },
+        {
+          "word": " lo",
+          "start": 574.93,
+          "end": 575.19,
+          "probability": 0.947265625
+        },
+        {
+          "word": " hacemos",
+          "start": 575.19,
+          "end": 575.45,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " cuando",
+          "start": 575.45,
+          "end": 575.81,
+          "probability": 0.9716796875
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "seek": 40357,
+      "start": 575.81,
+      "end": 585.81,
+      "text": " el elemento que removimos está al principio de la lista. Entonces ponemos acá un L y quedó pronto el ejercicio.",
+      "tokens": [
+        50904,
+        806,
+        47961,
+        631,
+        4595,
+        85,
+        8372,
+        3192,
+        419,
+        34308,
+        368,
+        635,
+        27764,
+        13,
+        15097,
+        9224,
+        4485,
+        23496,
+        517,
+        441,
+        288,
+        13617,
+        812,
+        26194,
+        806,
+        39151,
+        18322,
+        13,
+        51306
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.22007664981878028,
+      "compression_ratio": 1.364864864864865,
+      "no_speech_prob": 0.015899658203125,
+      "words": [
+        {
+          "word": " el",
+          "start": 575.81,
+          "end": 575.95,
+          "probability": 0.9833984375
+        },
+        {
+          "word": " elemento",
+          "start": 575.95,
+          "end": 576.25,
+          "probability": 0.99951171875
+        },
+        {
+          "word": " que",
+          "start": 576.25,
+          "end": 576.55,
+          "probability": 0.96630859375
+        },
+        {
+          "word": " removimos",
+          "start": 576.55,
+          "end": 577.53,
+          "probability": 0.9871419270833334
+        },
+        {
+          "word": " está",
+          "start": 577.53,
+          "end": 578.03,
+          "probability": 0.916015625
+        },
+        {
+          "word": " al",
+          "start": 578.03,
+          "end": 578.57,
+          "probability": 0.9912109375
+        },
+        {
+          "word": " principio",
+          "start": 578.57,
+          "end": 578.97,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " de",
+          "start": 578.97,
+          "end": 579.13,
+          "probability": 0.8232421875
+        },
+        {
+          "word": " la",
+          "start": 579.13,
+          "end": 579.29,
+          "probability": 0.83349609375
+        },
+        {
+          "word": " lista.",
+          "start": 579.29,
+          "end": 579.47,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " Entonces",
+          "start": 580.59,
+          "end": 580.59,
+          "probability": 0.9375
+        },
+        {
+          "word": " ponemos",
+          "start": 580.59,
+          "end": 581.11,
+          "probability": 0.764892578125
+        },
+        {
+          "word": " acá",
+          "start": 581.11,
+          "end": 581.31,
+          "probability": 0.76806640625
+        },
+        {
+          "word": " un",
+          "start": 581.31,
+          "end": 581.53,
+          "probability": 0.931640625
+        },
+        {
+          "word": " L",
+          "start": 581.53,
+          "end": 581.69,
+          "probability": 0.3330078125
+        },
+        {
+          "word": " y",
+          "start": 581.69,
+          "end": 582.73,
+          "probability": 0.77197265625
+        },
+        {
+          "word": " quedó",
+          "start": 584.59,
+          "end": 584.85,
+          "probability": 0.949462890625
+        },
+        {
+          "word": " pronto",
+          "start": 584.85,
+          "end": 585.09,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " el",
+          "start": 585.09,
+          "end": 585.27,
+          "probability": 0.9619140625
+        },
+        {
+          "word": " ejercicio.",
+          "start": 585.27,
+          "end": 585.81,
+          "probability": 0.99951171875
+        }
+      ]
+    }
+  ],
+  "language_probability": 1,
+  "duration": 586.048,
+  "duration_after_vad": 422.768,
+  "model_size": "medium",
+  "language": "es",
+  "source_file": "audios/p2p/p2p_09.m4a",
+  "file_size_bytes": 9524925,
+  "processing_time": 20.6347975730896,
+  "device_used": "cuda",
+  "segments_count": 51
+}

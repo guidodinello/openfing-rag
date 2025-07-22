@@ -9,7 +9,7 @@ This extractor handles OpenFing course lesson pages which can contain:
 import re
 from urllib.parse import urljoin, urlparse
 
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 from yt_dlp.extractor.common import InfoExtractor
 from yt_dlp.extractor.youtube import YoutubeIE
 from yt_dlp.utils import ExtractorError

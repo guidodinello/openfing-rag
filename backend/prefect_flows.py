@@ -4,13 +4,16 @@ from pathlib import Path
 from prefect import flow, task
 from prefect.schedules import IntervalSchedule
 
-from services.downloader.core.downloader_service import DownloaderService
-from services.transcriber.core.transcription_service import TranscriptionService
-from services.transcriber.schemas.enums import WhisperModelLanguage, WhisperModelSize
+from services.downloader import DownloaderService
+from services.transcriber import (
+    TranscriptionService,
+    WhisperModelLanguage,
+    WhisperModelSize,
+)
 from shared.config import get_settings
 from shared.database.repositories import CourseRepository
 from shared.database.session import get_db_session
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -89,7 +92,13 @@ def download_course_task(
             "course_code": course_code,
             "success": False,
             "message": str(e),
-            "stats": {"total_lessons": 0, "downloaded": 0, "skipped": 0, "failed": 0, "success_rate": 0.0},
+            "stats": {
+                "total_lessons": 0,
+                "downloaded": 0,
+                "skipped": 0,
+                "failed": 0,
+                "success_rate": 0.0,
+            },
         }
 
 
@@ -116,17 +125,30 @@ def transcribe_course_task(
         with get_db_session() as db:
             transcription_service = TranscriptionService(db)
 
-            available_lessons = transcription_service.find_available_lessons(course_code)
+            available_lessons = transcription_service.find_available_lessons(
+                course_code,
+            )
             if not available_lessons:
                 return {
                     "course_code": course_code,
                     "success": True,  # Not an error, just no files to process
                     "message": f"No lesson files found for course {course_code}",
-                    "stats": {"total_lessons": 0, "transcribed": 0, "skipped": 0, "failed": 0, "success_rate": 100.0},
+                    "stats": {
+                        "total_lessons": 0,
+                        "transcribed": 0,
+                        "skipped": 0,
+                        "failed": 0,
+                        "success_rate": 100.0,
+                    },
                 }
 
             lesson_numbers = [lesson["lesson_number"] for lesson in available_lessons]
-            stats = {"total_lessons": len(lesson_numbers), "transcribed": 0, "skipped": 0, "failed": 0}
+            stats = {
+                "total_lessons": len(lesson_numbers),
+                "transcribed": 0,
+                "skipped": 0,
+                "failed": 0,
+            }
 
             for lesson_number in lesson_numbers:
                 success, message, _ = transcription_service.transcribe_lesson(
@@ -142,10 +164,14 @@ def transcribe_course_task(
                         stats["skipped"] += 1
                     else:
                         stats["transcribed"] += 1
-                    logger.info(f"Transcription success for {course_code} lesson {lesson_number}: {message}")
+                    logger.info(
+                        f"Transcription success for {course_code} lesson {lesson_number}: {message}",
+                    )
                 else:
                     stats["failed"] += 1
-                    logger.error(f"Transcription failed for {course_code} lesson {lesson_number}: {message}")
+                    logger.error(
+                        f"Transcription failed for {course_code} lesson {lesson_number}: {message}",
+                    )
 
             success_rate = ((stats["transcribed"] + stats["skipped"]) / stats["total_lessons"]) * 100
 
@@ -162,7 +188,13 @@ def transcribe_course_task(
             "course_code": course_code,
             "success": False,
             "message": str(e),
-            "stats": {"total_lessons": 0, "transcribed": 0, "skipped": 0, "failed": 0, "success_rate": 0.0},
+            "stats": {
+                "total_lessons": 0,
+                "transcribed": 0,
+                "skipped": 0,
+                "failed": 0,
+                "success_rate": 0.0,
+            },
         }
 
 
@@ -195,7 +227,11 @@ def full_download_pipeline_flow(
         return {
             "success": False,
             "message": "No courses found in database",
-            "overall_stats": {"total_courses": 0, "successful_courses": 0, "failed_courses": 0},
+            "overall_stats": {
+                "total_courses": 0,
+                "successful_courses": 0,
+                "failed_courses": 0,
+            },
             "course_results": [],
         }
 
@@ -213,7 +249,11 @@ def full_download_pipeline_flow(
         download_futures.append(future)
 
     results = []
-    overall_stats = {"total_courses": len(course_codes), "successful_courses": 0, "failed_courses": 0}
+    overall_stats = {
+        "total_courses": len(course_codes),
+        "successful_courses": 0,
+        "failed_courses": 0,
+    }
 
     for future in download_futures:
         result = future.result()
@@ -259,7 +299,11 @@ def full_transcription_pipeline_flow(
         return {
             "success": False,
             "message": "No courses found in database",
-            "overall_stats": {"total_courses": 0, "successful_courses": 0, "failed_courses": 0},
+            "overall_stats": {
+                "total_courses": 0,
+                "successful_courses": 0,
+                "failed_courses": 0,
+            },
             "course_results": [],
         }
 
@@ -276,7 +320,11 @@ def full_transcription_pipeline_flow(
         transcription_futures.append(future)
 
     results = []
-    overall_stats = {"total_courses": len(course_codes), "successful_courses": 0, "failed_courses": 0}
+    overall_stats = {
+        "total_courses": len(course_codes),
+        "successful_courses": 0,
+        "failed_courses": 0,
+    }
 
     for future in transcription_futures:
         result = future.result()

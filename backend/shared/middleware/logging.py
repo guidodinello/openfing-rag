@@ -6,7 +6,7 @@ from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 
 from shared.auth.api_key import APIKeyAuth, UserAuthInfo, UserPermissions
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 
 logger = get_logger(__name__)
 
@@ -39,7 +39,9 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
             "user_agent": request.headers.get("user-agent"),
             **user_context,
         }
-        logger.info(f"Request {request_id} started {json.dumps(request_data, default=str)}")
+        logger.info(
+            f"Request {request_id} started {json.dumps(request_data, default=str)}",
+        )
 
         try:
             response = await call_next(request)
@@ -51,7 +53,9 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 "status_code": response.status_code,
                 **user_context,
             }
-            logger.info(f"Request {request_id} completed {json.dumps(response_data, default=str)}")
+            logger.info(
+                f"Request {request_id} completed {json.dumps(response_data, default=str)}",
+            )
 
             response.headers["X-Request-ID"] = request_id
 
@@ -66,7 +70,10 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 "error_type": type(e).__name__,
                 **user_context,
             }
-            logger.error(f"Request {request_id} failed {json.dumps(error_data, default=str)}", exc_info=True)
+            logger.error(
+                f"Request {request_id} failed {json.dumps(error_data, default=str)}",
+                exc_info=True,
+            )
             raise
 
     def _extract_user_context(self, request: Request) -> dict:

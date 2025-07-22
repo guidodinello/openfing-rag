@@ -1,0 +1,7089 @@
+{
+  "text": "Hola, hoy voy a hacer una resolución guiada del ejercicio 8 del práctico 5. Este ejercicio pide que dada una lista simplemente encadenada, que está implementada usando memoria dinámica, si es posible imprimir los elementos de atrás hacia adelante y además hacerlo en tiempo o n, siendo n el largo de la lista. Si decimos que sí se puede, tenemos que implementar el código y calcular el orden. Esta es la definición de lista que vamos a usar para el ejercicio. Ahora, antes de ponernos a preocuparnos por el orden, vamos a pensar cómo haríamos esta función. Para imprimir de atrás hacia adelante, lo que me parece más natural es vamos recorriendo recursivamente la lista, hasta que llegamos al final que nuestro paso hace, y ahí cuando salimos de la recursión, imprimimos cada elemento. Entonces nos van a quedar impresos de atrás para adelante. Vamos a implementar ahora el código para esto. Bueno, a la función lo voy a llamar imprimirListaReverso y va a retornar void, porque eso lo va a imprimir. Va a tomar un puntero de tipo telenat. Ahora, yo quiero recorrer la lista hasta que llegue al final, y para eso voy a hacer una llamada recursiva a la función cada vez que avanzo una. Entonces, si L es distinto de null, yo lo que voy a hacer va a ser una llamada recursiva a la función con el siguiente de L. Esto me va a garantizar la condición del if, que cuando yo llegue al paso base que va a ser, llego al puntero siguiente a punta null, no siga con la recursión. Y ahora, el último que queda por hacer es printf y imprimir un dígito y un espacio para que queden todos separados el elemento que quiero imprimir. Ahora, es importante que este print esté adentro del if, porque yo no voy a poder printear si llegué al final de la lista, porque no voy a tener un elemento para imprimir. Ahora, vamos a tratar de ver cuál es el orden de esta función, intuitivamente. Después lo calculamos más formalmente. Yo lo que estoy haciendo es, me voy metiendo hasta el final de la lista. O sea, voy a tener que hacer n llamadas recursivas, sea lo que eso signifique en cuanto a costos, van a tener que hacer n de esas llamadas. Y después, una vez que están resueltas las llamadas, voy a imprimir n veces. Así que, intuitivamente, antes de calcular nada, yo diría que esta función es de orden n. Ahora, vamos a ver que efectivamente es de orden n. Vamos entonces a tratar de plantear una ecuación de recurrencia. Para esto vemos que, cuando él es igual a null, lo único que se va a hacer va a ser, se va a chequear esta condición y se va a terminar la ejecución de la función. Si él es distinto de null, entonces se va a hacer la llamada recursiva y se va a tener la comparación y el print. Esto lo podemos formalizar así. t0 menor o igual a una constante c1, si él es distinto de null, donde esa constante c1 lo que está haciendo es acotando la comparación del if. Ahora, si todavía no llegamos al final de la lista, si él es distinto de null, tn es menor o igual tn-1 más c0. Donde esta constante c0 lo que está acotando es la comparación del if, el costo de hacer una llamada recursiva y el costo del print. Ahora que tenemos nuestra ecuación de recurrencia planteada, podemos usar el método que vino en el teórico de expansión de recurrencia. Entonces, tomamos solo la segunda parte de la ecuación y vemos tn menor o igual tn-1 más c0. Entonces, si nosotros consideramos como tn-1 más c0 y le aplicamos esta ecuación, vemos que tn-1 más c0 es menor o igual a tn-2 más c0 más c0. Se suman los dos c0 y queda tn-2 más 2c0. Y así podemos seguir y obtenemos esta expresión. Entonces vemos que se va formando un patrón que es lo que el resto a n multiplica c0, que es lo que expresa este término acá. Entonces, qué es lo que pasa cuando k es igual a n. Se anula. Esta expresión queda cero acá y queda n acá. Como queda cero acá, llegamos al paso base. Entonces tenemos que cuando n es igual a k, tn es menor o igual a t0 más n por c0. Que aplicando esta parte de la ecuación acotamos como c1 más nc0. Entonces, el tiempo de ejecución de la función está acotado por esta expresión. Por lo tanto, el programa que nosotros hicimos y modelamos con esta ecuación de recurrencia tiene el tiempo acotado por c1 más nc0. Entonces, el programa es de orden n. Con esto terminamos el ejercicio. Vemos entonces que la función imprimir lista de reverso efectivamente imprime los elementos de la lista de atrás para adelante. Y además, con lo que calculamos, podemos ver que lo calcula en tiempo n.",
+  "segments": [
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 0.21,
+      "end": 5.77,
+      "text": " Hola, hoy voy a hacer una resolución guiada del ejercicio 8 del práctico 5.",
+      "tokens": [
+        50364,
+        22637,
+        11,
+        13775,
+        7552,
+        257,
+        6720,
+        2002,
+        7923,
+        30813,
+        695,
+        39018,
+        1103,
+        39151,
+        18322,
+        1649,
+        1103,
+        27300,
+        349,
+        2789,
+        1025,
+        13,
+        50628
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20140624478459357,
+      "compression_ratio": 1.6212765957446809,
+      "no_speech_prob": 0.47509765625,
+      "words": [
+        {
+          "word": " Hola,",
+          "start": 0.21,
+          "end": 0.97,
+          "probability": 0.7763671875
+        },
+        {
+          "word": " hoy",
+          "start": 1.83,
+          "end": 1.93,
+          "probability": 0.88623046875
+        },
+        {
+          "word": " voy",
+          "start": 1.93,
+          "end": 2.09,
+          "probability": 0.96142578125
+        },
+        {
+          "word": " a",
+          "start": 2.09,
+          "end": 2.23,
+          "probability": 0.9453125
+        },
+        {
+          "word": " hacer",
+          "start": 2.23,
+          "end": 2.29,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " una",
+          "start": 2.29,
+          "end": 2.53,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " resolución",
+          "start": 2.53,
+          "end": 3.13,
+          "probability": 0.98291015625
+        },
+        {
+          "word": " guiada",
+          "start": 3.13,
+          "end": 3.57,
+          "probability": 0.94921875
+        },
+        {
+          "word": " del",
+          "start": 3.57,
+          "end": 3.83,
+          "probability": 0.9697265625
+        },
+        {
+          "word": " ejercicio",
+          "start": 3.83,
+          "end": 4.29,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " 8",
+          "start": 4.29,
+          "end": 4.55,
+          "probability": 0.91650390625
+        },
+        {
+          "word": " del",
+          "start": 4.55,
+          "end": 4.73,
+          "probability": 0.77734375
+        },
+        {
+          "word": " práctico",
+          "start": 4.73,
+          "end": 5.09,
+          "probability": 0.8421223958333334
+        },
+        {
+          "word": " 5.",
+          "start": 5.09,
+          "end": 5.77,
+          "probability": 0.96923828125
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "seek": 0,
+      "start": 6.85,
+      "end": 11.61,
+      "text": " Este ejercicio pide que dada una lista simplemente encadenada, que está implementada usando memoria",
+      "tokens": [
+        50628,
+        16105,
+        39151,
+        18322,
+        280,
+        482,
+        631,
+        274,
+        1538,
+        2002,
+        27764,
+        33190,
+        2058,
+        14771,
+        1538,
+        11,
+        631,
+        3192,
+        4445,
+        1538,
+        29798,
+        1334,
+        8172,
+        50930
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20140624478459357,
+      "compression_ratio": 1.6212765957446809,
+      "no_speech_prob": 0.47509765625,
+      "words": [
+        {
+          "word": " Este",
+          "start": 6.85,
+          "end": 6.89,
+          "probability": 0.93310546875
+        },
+        {
+          "word": " ejercicio",
+          "start": 6.89,
+          "end": 7.43,
+          "probability": 0.999267578125
+        },
+        {
+          "word": " pide",
+          "start": 7.43,
+          "end": 7.69,
+          "probability": 0.977294921875
+        },
+        {
+          "word": " que",
+          "start": 7.69,
+          "end": 7.83,
+          "probability": 0.73291015625
+        },
+        {
+          "word": " dada",
+          "start": 7.83,
+          "end": 7.95,
+          "probability": 0.4951171875
+        },
+        {
+          "word": " una",
+          "start": 7.95,
+          "end": 8.15,
+          "probability": 0.97314453125
+        },
+        {
+          "word": " lista",
+          "start": 8.15,
+          "end": 8.37,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " simplemente",
+          "start": 8.37,
+          "end": 8.97,
+          "probability": 0.86279296875
+        },
+        {
+          "word": " encadenada,",
+          "start": 8.97,
+          "end": 9.97,
+          "probability": 0.9716796875
+        },
+        {
+          "word": " que",
+          "start": 10.29,
+          "end": 10.31,
+          "probability": 0.87646484375
+        },
+        {
+          "word": " está",
+          "start": 10.31,
+          "end": 10.47,
+          "probability": 0.5068359375
+        },
+        {
+          "word": " implementada",
+          "start": 10.47,
+          "end": 10.95,
+          "probability": 0.776611328125
+        },
+        {
+          "word": " usando",
+          "start": 10.95,
+          "end": 11.21,
+          "probability": 0.984375
+        },
+        {
+          "word": " memoria",
+          "start": 11.21,
+          "end": 11.61,
+          "probability": 0.864990234375
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "seek": 0,
+      "start": 11.61,
+      "end": 18.83,
+      "text": " dinámica, si es posible imprimir los elementos de atrás hacia adelante y además hacerlo en tiempo",
+      "tokens": [
+        50930,
+        3791,
+        19524,
+        2262,
+        11,
+        1511,
+        785,
+        26644,
+        704,
+        5565,
+        347,
+        1750,
+        35797,
+        368,
+        22906,
+        21365,
+        40214,
+        288,
+        21251,
+        32039,
+        465,
+        11772,
+        51290
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20140624478459357,
+      "compression_ratio": 1.6212765957446809,
+      "no_speech_prob": 0.47509765625,
+      "words": [
+        {
+          "word": " dinámica,",
+          "start": 11.61,
+          "end": 12.63,
+          "probability": 0.9925130208333334
+        },
+        {
+          "word": " si",
+          "start": 13.07,
+          "end": 13.19,
+          "probability": 0.7626953125
+        },
+        {
+          "word": " es",
+          "start": 13.19,
+          "end": 13.35,
+          "probability": 0.99609375
+        },
+        {
+          "word": " posible",
+          "start": 13.35,
+          "end": 13.91,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " imprimir",
+          "start": 13.91,
+          "end": 14.53,
+          "probability": 0.9752604166666666
+        },
+        {
+          "word": " los",
+          "start": 14.53,
+          "end": 14.73,
+          "probability": 0.990234375
+        },
+        {
+          "word": " elementos",
+          "start": 14.73,
+          "end": 15.19,
+          "probability": 0.998046875
+        },
+        {
+          "word": " de",
+          "start": 15.19,
+          "end": 15.47,
+          "probability": 0.9814453125
+        },
+        {
+          "word": " atrás",
+          "start": 15.47,
+          "end": 15.65,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " hacia",
+          "start": 15.65,
+          "end": 15.95,
+          "probability": 0.98828125
+        },
+        {
+          "word": " adelante",
+          "start": 15.95,
+          "end": 16.37,
+          "probability": 0.76123046875
+        },
+        {
+          "word": " y",
+          "start": 16.37,
+          "end": 17.19,
+          "probability": 0.6806640625
+        },
+        {
+          "word": " además",
+          "start": 17.19,
+          "end": 17.57,
+          "probability": 0.86669921875
+        },
+        {
+          "word": " hacerlo",
+          "start": 17.57,
+          "end": 18.17,
+          "probability": 0.837890625
+        },
+        {
+          "word": " en",
+          "start": 18.17,
+          "end": 18.45,
+          "probability": 0.9912109375
+        },
+        {
+          "word": " tiempo",
+          "start": 18.45,
+          "end": 18.83,
+          "probability": 0.994140625
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "seek": 0,
+      "start": 18.83,
+      "end": 28.82,
+      "text": " o n, siendo n el largo de la lista. Si decimos que sí se puede, tenemos que implementar el código y",
+      "tokens": [
+        51290,
+        277,
+        297,
+        11,
+        31423,
+        297,
+        806,
+        31245,
+        368,
+        635,
+        27764,
+        13,
+        4909,
+        979,
+        8372,
+        631,
+        8600,
+        369,
+        8919,
+        11,
+        9914,
+        631,
+        4445,
+        289,
+        806,
+        44195,
+        288,
+        51670
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20140624478459357,
+      "compression_ratio": 1.6212765957446809,
+      "no_speech_prob": 0.47509765625,
+      "words": [
+        {
+          "word": " o",
+          "start": 18.83,
+          "end": 19.11,
+          "probability": 0.404541015625
+        },
+        {
+          "word": " n,",
+          "start": 19.11,
+          "end": 19.51,
+          "probability": 0.1214599609375
+        },
+        {
+          "word": " siendo",
+          "start": 19.85,
+          "end": 20.03,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " n",
+          "start": 20.03,
+          "end": 20.45,
+          "probability": 0.95166015625
+        },
+        {
+          "word": " el",
+          "start": 20.45,
+          "end": 20.57,
+          "probability": 0.9072265625
+        },
+        {
+          "word": " largo",
+          "start": 20.57,
+          "end": 20.77,
+          "probability": 0.998046875
+        },
+        {
+          "word": " de",
+          "start": 20.77,
+          "end": 20.93,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " la",
+          "start": 20.93,
+          "end": 21.07,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " lista.",
+          "start": 21.07,
+          "end": 21.35,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " Si",
+          "start": 24.46,
+          "end": 24.74,
+          "probability": 0.9697265625
+        },
+        {
+          "word": " decimos",
+          "start": 24.74,
+          "end": 25.12,
+          "probability": 0.981201171875
+        },
+        {
+          "word": " que",
+          "start": 25.12,
+          "end": 25.28,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " sí",
+          "start": 25.28,
+          "end": 25.4,
+          "probability": 0.794921875
+        },
+        {
+          "word": " se",
+          "start": 25.4,
+          "end": 25.66,
+          "probability": 0.97412109375
+        },
+        {
+          "word": " puede,",
+          "start": 25.66,
+          "end": 26.02,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " tenemos",
+          "start": 26.4,
+          "end": 26.46,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " que",
+          "start": 26.46,
+          "end": 26.72,
+          "probability": 0.96923828125
+        },
+        {
+          "word": " implementar",
+          "start": 26.72,
+          "end": 27.04,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " el",
+          "start": 27.04,
+          "end": 27.22,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " código",
+          "start": 27.22,
+          "end": 27.58,
+          "probability": 0.98291015625
+        },
+        {
+          "word": " y",
+          "start": 27.58,
+          "end": 28.82,
+          "probability": 0.8681640625
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "seek": 2628,
+      "start": 28.82,
+      "end": 33.02,
+      "text": " calcular el orden. Esta es la definición de lista que vamos a usar para el ejercicio.",
+      "tokens": [
+        50364,
+        2104,
+        17792,
+        806,
+        28615,
+        13,
+        20547,
+        785,
+        635,
+        1561,
+        15534,
+        368,
+        27764,
+        631,
+        5295,
+        257,
+        14745,
+        1690,
+        806,
+        39151,
+        18322,
+        13,
+        50574
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18818682039177026,
+      "compression_ratio": 1.6192660550458715,
+      "no_speech_prob": 0.490966796875,
+      "words": [
+        {
+          "word": " calcular",
+          "start": 28.82,
+          "end": 29.18,
+          "probability": 0.514434814453125
+        },
+        {
+          "word": " el",
+          "start": 29.18,
+          "end": 29.4,
+          "probability": 0.97412109375
+        },
+        {
+          "word": " orden.",
+          "start": 29.4,
+          "end": 29.8,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " Esta",
+          "start": 30.58,
+          "end": 30.62,
+          "probability": 0.8857421875
+        },
+        {
+          "word": " es",
+          "start": 30.62,
+          "end": 30.74,
+          "probability": 0.9765625
+        },
+        {
+          "word": " la",
+          "start": 30.74,
+          "end": 30.86,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " definición",
+          "start": 30.86,
+          "end": 31.3,
+          "probability": 0.995849609375
+        },
+        {
+          "word": " de",
+          "start": 31.3,
+          "end": 31.46,
+          "probability": 0.68310546875
+        },
+        {
+          "word": " lista",
+          "start": 31.46,
+          "end": 31.62,
+          "probability": 0.81005859375
+        },
+        {
+          "word": " que",
+          "start": 31.62,
+          "end": 31.74,
+          "probability": 0.9833984375
+        },
+        {
+          "word": " vamos",
+          "start": 31.74,
+          "end": 31.92,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " a",
+          "start": 31.92,
+          "end": 32.16,
+          "probability": 0.9541015625
+        },
+        {
+          "word": " usar",
+          "start": 32.16,
+          "end": 32.16,
+          "probability": 0.95751953125
+        },
+        {
+          "word": " para",
+          "start": 32.16,
+          "end": 32.34,
+          "probability": 0.98583984375
+        },
+        {
+          "word": " el",
+          "start": 32.34,
+          "end": 32.52,
+          "probability": 0.97900390625
+        },
+        {
+          "word": " ejercicio.",
+          "start": 32.52,
+          "end": 33.02,
+          "probability": 0.999267578125
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "seek": 2628,
+      "start": 35.39,
+      "end": 43.45,
+      "text": " Ahora, antes de ponernos a preocuparnos por el orden, vamos a pensar cómo haríamos esta función.",
+      "tokens": [
+        50574,
+        18840,
+        11,
+        11014,
+        368,
+        9224,
+        1248,
+        329,
+        257,
+        23080,
+        24979,
+        1515,
+        806,
+        28615,
+        11,
+        5295,
+        257,
+        18321,
+        12826,
+        2233,
+        16275,
+        5283,
+        43735,
+        13,
+        51012
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18818682039177026,
+      "compression_ratio": 1.6192660550458715,
+      "no_speech_prob": 0.490966796875,
+      "words": [
+        {
+          "word": " Ahora,",
+          "start": 35.39,
+          "end": 35.95,
+          "probability": 0.89453125
+        },
+        {
+          "word": " antes",
+          "start": 36.59,
+          "end": 36.87,
+          "probability": 0.9697265625
+        },
+        {
+          "word": " de",
+          "start": 36.87,
+          "end": 37.17,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " ponernos",
+          "start": 37.17,
+          "end": 37.85,
+          "probability": 0.96484375
+        },
+        {
+          "word": " a",
+          "start": 37.85,
+          "end": 38.13,
+          "probability": 0.9384765625
+        },
+        {
+          "word": " preocuparnos",
+          "start": 38.13,
+          "end": 38.45,
+          "probability": 0.997314453125
+        },
+        {
+          "word": " por",
+          "start": 38.45,
+          "end": 38.63,
+          "probability": 0.83251953125
+        },
+        {
+          "word": " el",
+          "start": 38.63,
+          "end": 38.81,
+          "probability": 0.99609375
+        },
+        {
+          "word": " orden,",
+          "start": 38.81,
+          "end": 39.31,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " vamos",
+          "start": 40.15,
+          "end": 40.23,
+          "probability": 0.97216796875
+        },
+        {
+          "word": " a",
+          "start": 40.23,
+          "end": 40.37,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " pensar",
+          "start": 40.37,
+          "end": 40.71,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " cómo",
+          "start": 40.71,
+          "end": 40.99,
+          "probability": 0.7958984375
+        },
+        {
+          "word": " haríamos",
+          "start": 40.99,
+          "end": 41.47,
+          "probability": 0.977783203125
+        },
+        {
+          "word": " esta",
+          "start": 41.47,
+          "end": 42.89,
+          "probability": 0.92431640625
+        },
+        {
+          "word": " función.",
+          "start": 42.89,
+          "end": 43.45,
+          "probability": 0.99560546875
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "seek": 2628,
+      "start": 45.37,
+      "end": 50.07,
+      "text": " Para imprimir de atrás hacia adelante, lo que me parece más natural es",
+      "tokens": [
+        51094,
+        11107,
+        704,
+        5565,
+        347,
+        368,
+        22906,
+        21365,
+        40214,
+        11,
+        450,
+        631,
+        385,
+        14120,
+        3573,
+        3303,
+        785,
+        51350
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18818682039177026,
+      "compression_ratio": 1.6192660550458715,
+      "no_speech_prob": 0.490966796875,
+      "words": [
+        {
+          "word": " Para",
+          "start": 45.37,
+          "end": 45.61,
+          "probability": 0.9833984375
+        },
+        {
+          "word": " imprimir",
+          "start": 45.61,
+          "end": 46.23,
+          "probability": 0.9991861979166666
+        },
+        {
+          "word": " de",
+          "start": 46.23,
+          "end": 46.49,
+          "probability": 0.90185546875
+        },
+        {
+          "word": " atrás",
+          "start": 46.49,
+          "end": 46.67,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " hacia",
+          "start": 46.67,
+          "end": 46.93,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " adelante,",
+          "start": 46.93,
+          "end": 47.49,
+          "probability": 0.76806640625
+        },
+        {
+          "word": " lo",
+          "start": 48.25,
+          "end": 48.35,
+          "probability": 0.994140625
+        },
+        {
+          "word": " que",
+          "start": 48.35,
+          "end": 48.43,
+          "probability": 0.998046875
+        },
+        {
+          "word": " me",
+          "start": 48.43,
+          "end": 48.63,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " parece",
+          "start": 48.63,
+          "end": 48.85,
+          "probability": 0.98681640625
+        },
+        {
+          "word": " más",
+          "start": 48.85,
+          "end": 49.25,
+          "probability": 0.9638671875
+        },
+        {
+          "word": " natural",
+          "start": 49.25,
+          "end": 49.79,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " es",
+          "start": 49.79,
+          "end": 50.07,
+          "probability": 0.94970703125
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "seek": 2628,
+      "start": 51.57,
+      "end": 56.75,
+      "text": " vamos recorriendo recursivamente la lista, hasta que llegamos al final que nuestro paso hace,",
+      "tokens": [
+        51414,
+        5295,
+        850,
+        284,
+        470,
+        3999,
+        20560,
+        23957,
+        635,
+        27764,
+        11,
+        10764,
+        631,
+        11234,
+        2151,
+        419,
+        2572,
+        631,
+        14726,
+        29212,
+        10032,
+        11,
+        51680
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18818682039177026,
+      "compression_ratio": 1.6192660550458715,
+      "no_speech_prob": 0.490966796875,
+      "words": [
+        {
+          "word": " vamos",
+          "start": 51.57,
+          "end": 52.13,
+          "probability": 0.27734375
+        },
+        {
+          "word": " recorriendo",
+          "start": 52.13,
+          "end": 52.69,
+          "probability": 0.9903564453125
+        },
+        {
+          "word": " recursivamente",
+          "start": 52.69,
+          "end": 53.37,
+          "probability": 0.943603515625
+        },
+        {
+          "word": " la",
+          "start": 53.37,
+          "end": 53.63,
+          "probability": 0.978515625
+        },
+        {
+          "word": " lista,",
+          "start": 53.63,
+          "end": 54.05,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " hasta",
+          "start": 54.57,
+          "end": 54.71,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " que",
+          "start": 54.71,
+          "end": 54.89,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " llegamos",
+          "start": 54.89,
+          "end": 55.13,
+          "probability": 0.971435546875
+        },
+        {
+          "word": " al",
+          "start": 55.13,
+          "end": 55.33,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " final",
+          "start": 55.33,
+          "end": 55.61,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " que",
+          "start": 55.61,
+          "end": 55.77,
+          "probability": 0.8212890625
+        },
+        {
+          "word": " nuestro",
+          "start": 55.77,
+          "end": 56.01,
+          "probability": 0.9697265625
+        },
+        {
+          "word": " paso",
+          "start": 56.01,
+          "end": 56.33,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " hace,",
+          "start": 56.33,
+          "end": 56.75,
+          "probability": 0.9013671875
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "seek": 5270,
+      "start": 57.37,
+      "end": 65.67,
+      "text": " y ahí cuando salimos de la recursión, imprimimos cada elemento. Entonces nos van a quedar impresos",
+      "tokens": [
+        50392,
+        288,
+        12571,
+        7767,
+        1845,
+        8372,
+        368,
+        635,
+        20560,
+        2560,
+        11,
+        704,
+        5565,
+        8372,
+        8411,
+        47961,
+        13,
+        15097,
+        3269,
+        3161,
+        257,
+        39244,
+        35672,
+        329,
+        50806
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20814043504220467,
+      "compression_ratio": 1.461139896373057,
+      "no_speech_prob": 0.006900787353515625,
+      "words": [
+        {
+          "word": " y",
+          "start": 57.37,
+          "end": 57.89,
+          "probability": 0.22509765625
+        },
+        {
+          "word": " ahí",
+          "start": 57.89,
+          "end": 58.37,
+          "probability": 0.341796875
+        },
+        {
+          "word": " cuando",
+          "start": 58.37,
+          "end": 58.73,
+          "probability": 0.7578125
+        },
+        {
+          "word": " salimos",
+          "start": 58.73,
+          "end": 59.05,
+          "probability": 0.992919921875
+        },
+        {
+          "word": " de",
+          "start": 59.05,
+          "end": 59.17,
+          "probability": 0.97900390625
+        },
+        {
+          "word": " la",
+          "start": 59.17,
+          "end": 59.35,
+          "probability": 0.9921875
+        },
+        {
+          "word": " recursión,",
+          "start": 59.35,
+          "end": 60.33,
+          "probability": 0.85791015625
+        },
+        {
+          "word": " imprimimos",
+          "start": 60.71,
+          "end": 61.09,
+          "probability": 0.994140625
+        },
+        {
+          "word": " cada",
+          "start": 61.09,
+          "end": 61.35,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " elemento.",
+          "start": 61.35,
+          "end": 61.97,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " Entonces",
+          "start": 62.99,
+          "end": 63.47,
+          "probability": 0.77392578125
+        },
+        {
+          "word": " nos",
+          "start": 63.47,
+          "end": 64.03,
+          "probability": 0.60009765625
+        },
+        {
+          "word": " van",
+          "start": 64.03,
+          "end": 64.23,
+          "probability": 0.9716796875
+        },
+        {
+          "word": " a",
+          "start": 64.23,
+          "end": 64.31,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " quedar",
+          "start": 64.31,
+          "end": 65.09,
+          "probability": 0.998046875
+        },
+        {
+          "word": " impresos",
+          "start": 65.09,
+          "end": 65.67,
+          "probability": 0.987548828125
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "seek": 5270,
+      "start": 65.67,
+      "end": 72.55,
+      "text": " de atrás para adelante. Vamos a implementar ahora el código para esto. Bueno, a la función",
+      "tokens": [
+        50806,
+        368,
+        22906,
+        1690,
+        40214,
+        13,
+        10894,
+        257,
+        4445,
+        289,
+        9923,
+        806,
+        44195,
+        1690,
+        7433,
+        13,
+        16046,
+        11,
+        257,
+        635,
+        43735,
+        51152
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20814043504220467,
+      "compression_ratio": 1.461139896373057,
+      "no_speech_prob": 0.006900787353515625,
+      "words": [
+        {
+          "word": " de",
+          "start": 65.67,
+          "end": 65.87,
+          "probability": 0.978515625
+        },
+        {
+          "word": " atrás",
+          "start": 65.87,
+          "end": 66.07,
+          "probability": 0.98486328125
+        },
+        {
+          "word": " para",
+          "start": 66.07,
+          "end": 66.29,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " adelante.",
+          "start": 66.29,
+          "end": 66.91,
+          "probability": 0.84375
+        },
+        {
+          "word": " Vamos",
+          "start": 68.79,
+          "end": 68.93,
+          "probability": 0.8349609375
+        },
+        {
+          "word": " a",
+          "start": 68.93,
+          "end": 69.11,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " implementar",
+          "start": 69.11,
+          "end": 69.53,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " ahora",
+          "start": 69.53,
+          "end": 69.71,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " el",
+          "start": 69.71,
+          "end": 69.87,
+          "probability": 0.974609375
+        },
+        {
+          "word": " código",
+          "start": 69.87,
+          "end": 70.07,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " para",
+          "start": 70.07,
+          "end": 70.35,
+          "probability": 0.8388671875
+        },
+        {
+          "word": " esto.",
+          "start": 70.35,
+          "end": 71.29,
+          "probability": 0.95068359375
+        },
+        {
+          "word": " Bueno,",
+          "start": 71.59,
+          "end": 71.89,
+          "probability": 0.86865234375
+        },
+        {
+          "word": " a",
+          "start": 72.05,
+          "end": 72.15,
+          "probability": 0.9375
+        },
+        {
+          "word": " la",
+          "start": 72.15,
+          "end": 72.31,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " función",
+          "start": 72.31,
+          "end": 72.55,
+          "probability": 0.98974609375
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "seek": 5270,
+      "start": 72.55,
+      "end": 81.75,
+      "text": " lo voy a llamar imprimirListaReverso y va a retornar void, porque eso lo va a imprimir.",
+      "tokens": [
+        51152,
+        450,
+        7552,
+        257,
+        16848,
+        289,
+        704,
+        5565,
+        347,
+        43,
+        5236,
+        49,
+        1054,
+        539,
+        288,
+        2773,
+        257,
+        1533,
+        1865,
+        289,
+        22009,
+        11,
+        4021,
+        7287,
+        450,
+        2773,
+        257,
+        704,
+        5565,
+        347,
+        13,
+        51612
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20814043504220467,
+      "compression_ratio": 1.461139896373057,
+      "no_speech_prob": 0.006900787353515625,
+      "words": [
+        {
+          "word": " lo",
+          "start": 72.55,
+          "end": 72.71,
+          "probability": 0.85546875
+        },
+        {
+          "word": " voy",
+          "start": 72.71,
+          "end": 72.83,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " a",
+          "start": 72.83,
+          "end": 72.87,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " llamar",
+          "start": 72.87,
+          "end": 74.01,
+          "probability": 0.99609375
+        },
+        {
+          "word": " imprimirListaReverso",
+          "start": 74.01,
+          "end": 78.69,
+          "probability": 0.6719284057617188
+        },
+        {
+          "word": " y",
+          "start": 78.69,
+          "end": 79.17,
+          "probability": 0.63427734375
+        },
+        {
+          "word": " va",
+          "start": 79.17,
+          "end": 79.35,
+          "probability": 0.90283203125
+        },
+        {
+          "word": " a",
+          "start": 79.35,
+          "end": 79.47,
+          "probability": 0.98828125
+        },
+        {
+          "word": " retornar",
+          "start": 79.47,
+          "end": 80.07,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " void,",
+          "start": 80.07,
+          "end": 80.43,
+          "probability": 0.78125
+        },
+        {
+          "word": " porque",
+          "start": 80.55,
+          "end": 80.89,
+          "probability": 0.91650390625
+        },
+        {
+          "word": " eso",
+          "start": 80.89,
+          "end": 81.01,
+          "probability": 0.76708984375
+        },
+        {
+          "word": " lo",
+          "start": 81.01,
+          "end": 81.15,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " va",
+          "start": 81.15,
+          "end": 81.33,
+          "probability": 0.9912109375
+        },
+        {
+          "word": " a",
+          "start": 81.33,
+          "end": 81.49,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " imprimir.",
+          "start": 81.49,
+          "end": 81.75,
+          "probability": 0.99853515625
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "seek": 7770,
+      "start": 81.75,
+      "end": 98.54,
+      "text": " Va a tomar un puntero de tipo telenat. Ahora, yo quiero recorrer la lista hasta que llegue al final,",
+      "tokens": [
+        50388,
+        16822,
+        257,
+        22048,
+        517,
+        4468,
+        391,
+        78,
+        368,
+        9746,
+        15284,
+        268,
+        267,
+        13,
+        18840,
+        11,
+        5290,
+        16811,
+        850,
+        284,
+        9797,
+        635,
+        27764,
+        10764,
+        631,
+        11234,
+        622,
+        419,
+        2572,
+        11,
+        50796
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17460029225709828,
+      "compression_ratio": 1.6534090909090908,
+      "no_speech_prob": 0.015655517578125,
+      "words": [
+        {
+          "word": " Va",
+          "start": 81.75,
+          "end": 82.85,
+          "probability": 0.35595703125
+        },
+        {
+          "word": " a",
+          "start": 85.41,
+          "end": 85.43,
+          "probability": 0.986328125
+        },
+        {
+          "word": " tomar",
+          "start": 85.43,
+          "end": 85.71,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " un",
+          "start": 85.71,
+          "end": 86.03,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " puntero",
+          "start": 86.03,
+          "end": 86.53,
+          "probability": 0.9739583333333334
+        },
+        {
+          "word": " de",
+          "start": 86.53,
+          "end": 86.63,
+          "probability": 0.80810546875
+        },
+        {
+          "word": " tipo",
+          "start": 86.63,
+          "end": 87.63,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " telenat.",
+          "start": 87.63,
+          "end": 88.93,
+          "probability": 0.6160481770833334
+        },
+        {
+          "word": " Ahora,",
+          "start": 94.66,
+          "end": 94.98,
+          "probability": 0.90625
+        },
+        {
+          "word": " yo",
+          "start": 95.14,
+          "end": 95.34,
+          "probability": 0.982421875
+        },
+        {
+          "word": " quiero",
+          "start": 95.34,
+          "end": 95.56,
+          "probability": 0.96533203125
+        },
+        {
+          "word": " recorrer",
+          "start": 95.56,
+          "end": 96.02,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " la",
+          "start": 96.02,
+          "end": 96.18,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " lista",
+          "start": 96.18,
+          "end": 96.56,
+          "probability": 0.998046875
+        },
+        {
+          "word": " hasta",
+          "start": 96.56,
+          "end": 97.56,
+          "probability": 0.8701171875
+        },
+        {
+          "word": " que",
+          "start": 97.56,
+          "end": 97.78,
+          "probability": 0.984375
+        },
+        {
+          "word": " llegue",
+          "start": 97.78,
+          "end": 97.92,
+          "probability": 0.877197265625
+        },
+        {
+          "word": " al",
+          "start": 97.92,
+          "end": 98.14,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " final,",
+          "start": 98.14,
+          "end": 98.54,
+          "probability": 0.99853515625
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "seek": 7770,
+      "start": 100.3,
+      "end": 106.6,
+      "text": " y para eso voy a hacer una llamada recursiva a la función cada vez que avanzo una. Entonces,",
+      "tokens": [
+        50870,
+        288,
+        1690,
+        7287,
+        7552,
+        257,
+        6720,
+        2002,
+        16848,
+        1538,
+        20560,
+        5931,
+        257,
+        635,
+        43735,
+        8411,
+        5715,
+        631,
+        42444,
+        78,
+        2002,
+        13,
+        15097,
+        11,
+        51202
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17460029225709828,
+      "compression_ratio": 1.6534090909090908,
+      "no_speech_prob": 0.015655517578125,
+      "words": [
+        {
+          "word": " y",
+          "start": 100.3,
+          "end": 100.38,
+          "probability": 0.92529296875
+        },
+        {
+          "word": " para",
+          "start": 100.38,
+          "end": 100.62,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " eso",
+          "start": 100.62,
+          "end": 100.8,
+          "probability": 0.98046875
+        },
+        {
+          "word": " voy",
+          "start": 100.8,
+          "end": 101.0,
+          "probability": 0.96533203125
+        },
+        {
+          "word": " a",
+          "start": 101.0,
+          "end": 101.2,
+          "probability": 0.96337890625
+        },
+        {
+          "word": " hacer",
+          "start": 101.2,
+          "end": 101.28,
+          "probability": 0.98828125
+        },
+        {
+          "word": " una",
+          "start": 101.28,
+          "end": 101.54,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " llamada",
+          "start": 101.54,
+          "end": 101.96,
+          "probability": 0.996826171875
+        },
+        {
+          "word": " recursiva",
+          "start": 101.96,
+          "end": 102.44,
+          "probability": 0.990478515625
+        },
+        {
+          "word": " a",
+          "start": 102.44,
+          "end": 102.52,
+          "probability": 0.95556640625
+        },
+        {
+          "word": " la",
+          "start": 102.52,
+          "end": 102.66,
+          "probability": 0.9921875
+        },
+        {
+          "word": " función",
+          "start": 102.66,
+          "end": 103.04,
+          "probability": 0.98681640625
+        },
+        {
+          "word": " cada",
+          "start": 103.04,
+          "end": 103.42,
+          "probability": 0.955078125
+        },
+        {
+          "word": " vez",
+          "start": 103.42,
+          "end": 103.58,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " que",
+          "start": 103.58,
+          "end": 103.74,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " avanzo",
+          "start": 103.74,
+          "end": 104.2,
+          "probability": 0.732177734375
+        },
+        {
+          "word": " una.",
+          "start": 104.2,
+          "end": 104.56,
+          "probability": 0.8232421875
+        },
+        {
+          "word": " Entonces,",
+          "start": 106.04,
+          "end": 106.6,
+          "probability": 0.9326171875
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "seek": 7770,
+      "start": 113.31,
+      "end": 129.03,
+      "text": " si L es distinto de null, yo lo que voy a hacer va a ser una llamada recursiva a la función con",
+      "tokens": [
+        51202,
+        1511,
+        441,
+        785,
+        1483,
+        17246,
+        368,
+        18184,
+        11,
+        5290,
+        450,
+        631,
+        7552,
+        257,
+        6720,
+        2773,
+        257,
+        816,
+        2002,
+        16848,
+        1538,
+        20560,
+        5931,
+        257,
+        635,
+        43735,
+        416,
+        51710
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17460029225709828,
+      "compression_ratio": 1.6534090909090908,
+      "no_speech_prob": 0.015655517578125,
+      "words": [
+        {
+          "word": " si",
+          "start": 113.31,
+          "end": 113.53,
+          "probability": 0.9736328125
+        },
+        {
+          "word": " L",
+          "start": 113.53,
+          "end": 113.71,
+          "probability": 0.387939453125
+        },
+        {
+          "word": " es",
+          "start": 113.71,
+          "end": 114.03,
+          "probability": 0.982421875
+        },
+        {
+          "word": " distinto",
+          "start": 114.03,
+          "end": 114.47,
+          "probability": 0.995849609375
+        },
+        {
+          "word": " de",
+          "start": 114.47,
+          "end": 114.67,
+          "probability": 0.9521484375
+        },
+        {
+          "word": " null,",
+          "start": 114.67,
+          "end": 115.01,
+          "probability": 0.4404296875
+        },
+        {
+          "word": " yo",
+          "start": 117.37,
+          "end": 117.47,
+          "probability": 0.8544921875
+        },
+        {
+          "word": " lo",
+          "start": 117.47,
+          "end": 117.57,
+          "probability": 0.9609375
+        },
+        {
+          "word": " que",
+          "start": 117.57,
+          "end": 117.63,
+          "probability": 0.96630859375
+        },
+        {
+          "word": " voy",
+          "start": 117.63,
+          "end": 117.81,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " a",
+          "start": 117.81,
+          "end": 117.99,
+          "probability": 0.9619140625
+        },
+        {
+          "word": " hacer",
+          "start": 117.99,
+          "end": 118.21,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " va",
+          "start": 118.21,
+          "end": 118.47,
+          "probability": 0.80908203125
+        },
+        {
+          "word": " a",
+          "start": 118.47,
+          "end": 118.69,
+          "probability": 0.9658203125
+        },
+        {
+          "word": " ser",
+          "start": 118.69,
+          "end": 119.73,
+          "probability": 0.95947265625
+        },
+        {
+          "word": " una",
+          "start": 119.73,
+          "end": 120.27,
+          "probability": 0.84619140625
+        },
+        {
+          "word": " llamada",
+          "start": 120.27,
+          "end": 120.67,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " recursiva",
+          "start": 120.67,
+          "end": 121.85,
+          "probability": 0.998291015625
+        },
+        {
+          "word": " a",
+          "start": 123.93,
+          "end": 124.43,
+          "probability": 0.84375
+        },
+        {
+          "word": " la",
+          "start": 124.43,
+          "end": 124.61,
+          "probability": 0.99609375
+        },
+        {
+          "word": " función",
+          "start": 124.61,
+          "end": 125.35,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " con",
+          "start": 128.07,
+          "end": 129.03,
+          "probability": 0.86572265625
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "seek": 10492,
+      "start": 129.03,
+      "end": 141.98,
+      "text": " el siguiente de L. Esto me va a garantizar la condición del if, que cuando yo llegue al paso base",
+      "tokens": [
+        50364,
+        806,
+        25666,
+        368,
+        441,
+        13,
+        20880,
+        385,
+        2773,
+        257,
+        22251,
+        9736,
+        635,
+        2224,
+        15534,
+        1103,
+        498,
+        11,
+        631,
+        7767,
+        5290,
+        11234,
+        622,
+        419,
+        29212,
+        3096,
+        50796
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1936773306062055,
+      "compression_ratio": 1.4867724867724867,
+      "no_speech_prob": 0.00475311279296875,
+      "words": [
+        {
+          "word": " el",
+          "start": 129.03,
+          "end": 129.31,
+          "probability": 0.326416015625
+        },
+        {
+          "word": " siguiente",
+          "start": 129.31,
+          "end": 130.31,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " de",
+          "start": 130.31,
+          "end": 132.29,
+          "probability": 0.43896484375
+        },
+        {
+          "word": " L.",
+          "start": 132.29,
+          "end": 132.63,
+          "probability": 0.255615234375
+        },
+        {
+          "word": " Esto",
+          "start": 137.58,
+          "end": 137.82,
+          "probability": 0.96044921875
+        },
+        {
+          "word": " me",
+          "start": 137.82,
+          "end": 137.98,
+          "probability": 0.98486328125
+        },
+        {
+          "word": " va",
+          "start": 137.98,
+          "end": 138.14,
+          "probability": 0.95751953125
+        },
+        {
+          "word": " a",
+          "start": 138.14,
+          "end": 138.22,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " garantizar",
+          "start": 138.22,
+          "end": 138.94,
+          "probability": 0.991943359375
+        },
+        {
+          "word": " la",
+          "start": 138.94,
+          "end": 139.24,
+          "probability": 0.9765625
+        },
+        {
+          "word": " condición",
+          "start": 139.24,
+          "end": 139.62,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " del",
+          "start": 139.62,
+          "end": 139.86,
+          "probability": 0.83349609375
+        },
+        {
+          "word": " if,",
+          "start": 139.86,
+          "end": 140.06,
+          "probability": 0.1470947265625
+        },
+        {
+          "word": " que",
+          "start": 140.28,
+          "end": 140.5,
+          "probability": 0.92919921875
+        },
+        {
+          "word": " cuando",
+          "start": 140.5,
+          "end": 140.86,
+          "probability": 0.8720703125
+        },
+        {
+          "word": " yo",
+          "start": 140.86,
+          "end": 141.12,
+          "probability": 0.92578125
+        },
+        {
+          "word": " llegue",
+          "start": 141.12,
+          "end": 141.24,
+          "probability": 0.938720703125
+        },
+        {
+          "word": " al",
+          "start": 141.24,
+          "end": 141.34,
+          "probability": 0.96484375
+        },
+        {
+          "word": " paso",
+          "start": 141.34,
+          "end": 141.68,
+          "probability": 0.97265625
+        },
+        {
+          "word": " base",
+          "start": 141.68,
+          "end": 141.98,
+          "probability": 0.939453125
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "seek": 10492,
+      "start": 141.98,
+      "end": 151.28,
+      "text": " que va a ser, llego al puntero siguiente a punta null, no siga con la recursión. Y ahora,",
+      "tokens": [
+        50796,
+        631,
+        2773,
+        257,
+        816,
+        11,
+        4849,
+        6308,
+        419,
+        4468,
+        391,
+        78,
+        25666,
+        257,
+        4468,
+        1328,
+        18184,
+        11,
+        572,
+        4556,
+        64,
+        416,
+        635,
+        20560,
+        2560,
+        13,
+        398,
+        9923,
+        11,
+        51258
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1936773306062055,
+      "compression_ratio": 1.4867724867724867,
+      "no_speech_prob": 0.00475311279296875,
+      "words": [
+        {
+          "word": " que",
+          "start": 141.98,
+          "end": 142.1,
+          "probability": 0.449462890625
+        },
+        {
+          "word": " va",
+          "start": 142.1,
+          "end": 142.26,
+          "probability": 0.966796875
+        },
+        {
+          "word": " a",
+          "start": 142.26,
+          "end": 142.5,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " ser,",
+          "start": 142.5,
+          "end": 142.88,
+          "probability": 0.94580078125
+        },
+        {
+          "word": " llego",
+          "start": 143.16,
+          "end": 143.3,
+          "probability": 0.8544921875
+        },
+        {
+          "word": " al",
+          "start": 143.3,
+          "end": 143.52,
+          "probability": 0.9638671875
+        },
+        {
+          "word": " puntero",
+          "start": 143.52,
+          "end": 144.78,
+          "probability": 0.9871419270833334
+        },
+        {
+          "word": " siguiente",
+          "start": 144.78,
+          "end": 145.22,
+          "probability": 0.87353515625
+        },
+        {
+          "word": " a",
+          "start": 145.22,
+          "end": 145.4,
+          "probability": 0.671875
+        },
+        {
+          "word": " punta",
+          "start": 145.4,
+          "end": 145.68,
+          "probability": 0.87841796875
+        },
+        {
+          "word": " null,",
+          "start": 145.68,
+          "end": 146.0,
+          "probability": 0.3466796875
+        },
+        {
+          "word": " no",
+          "start": 146.74,
+          "end": 147.12,
+          "probability": 0.96728515625
+        },
+        {
+          "word": " siga",
+          "start": 147.12,
+          "end": 148.54,
+          "probability": 0.989013671875
+        },
+        {
+          "word": " con",
+          "start": 148.54,
+          "end": 148.94,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " la",
+          "start": 148.94,
+          "end": 149.14,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " recursión.",
+          "start": 149.14,
+          "end": 149.8,
+          "probability": 0.907470703125
+        },
+        {
+          "word": " Y",
+          "start": 150.8,
+          "end": 151.08,
+          "probability": 0.95263671875
+        },
+        {
+          "word": " ahora,",
+          "start": 151.08,
+          "end": 151.28,
+          "probability": 0.99267578125
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "seek": 10492,
+      "start": 151.3,
+      "end": 163.91,
+      "text": " el último que queda por hacer es printf y imprimir un dígito y un espacio para que queden",
+      "tokens": [
+        51258,
+        806,
+        21013,
+        631,
+        23314,
+        1515,
+        6720,
+        785,
+        4482,
+        69,
+        288,
+        704,
+        5565,
+        347,
+        517,
+        274,
+        870,
+        70,
+        3528,
+        288,
+        517,
+        33845,
+        1690,
+        631,
+        421,
+        6876,
+        51810
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1936773306062055,
+      "compression_ratio": 1.4867724867724867,
+      "no_speech_prob": 0.00475311279296875,
+      "words": [
+        {
+          "word": " el",
+          "start": 151.3,
+          "end": 151.46,
+          "probability": 0.83544921875
+        },
+        {
+          "word": " último",
+          "start": 151.46,
+          "end": 151.66,
+          "probability": 0.921875
+        },
+        {
+          "word": " que",
+          "start": 151.66,
+          "end": 151.84,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " queda",
+          "start": 151.84,
+          "end": 152.08,
+          "probability": 0.38134765625
+        },
+        {
+          "word": " por",
+          "start": 152.08,
+          "end": 152.32,
+          "probability": 0.98291015625
+        },
+        {
+          "word": " hacer",
+          "start": 152.32,
+          "end": 153.0,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " es",
+          "start": 153.0,
+          "end": 154.36,
+          "probability": 0.7841796875
+        },
+        {
+          "word": " printf",
+          "start": 155.93,
+          "end": 157.59,
+          "probability": 0.600341796875
+        },
+        {
+          "word": " y",
+          "start": 157.59,
+          "end": 158.13,
+          "probability": 0.264404296875
+        },
+        {
+          "word": " imprimir",
+          "start": 158.13,
+          "end": 159.39,
+          "probability": 0.9461263020833334
+        },
+        {
+          "word": " un",
+          "start": 159.39,
+          "end": 159.69,
+          "probability": 0.9423828125
+        },
+        {
+          "word": " dígito",
+          "start": 159.69,
+          "end": 161.73,
+          "probability": 0.9716796875
+        },
+        {
+          "word": " y",
+          "start": 161.73,
+          "end": 162.25,
+          "probability": 0.89404296875
+        },
+        {
+          "word": " un",
+          "start": 162.25,
+          "end": 162.47,
+          "probability": 0.994140625
+        },
+        {
+          "word": " espacio",
+          "start": 162.47,
+          "end": 162.93,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " para",
+          "start": 162.93,
+          "end": 163.49,
+          "probability": 0.89697265625
+        },
+        {
+          "word": " que",
+          "start": 163.49,
+          "end": 163.71,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " queden",
+          "start": 163.71,
+          "end": 163.91,
+          "probability": 0.9765625
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "seek": 13394,
+      "start": 163.91,
+      "end": 178.35,
+      "text": " todos separados el elemento que quiero imprimir. Ahora, es importante que este print esté adentro",
+      "tokens": [
+        50364,
+        6321,
+        3128,
+        4181,
+        806,
+        47961,
+        631,
+        16811,
+        704,
+        5565,
+        347,
+        13,
+        18840,
+        11,
+        785,
+        9416,
+        631,
+        4065,
+        4482,
+        34584,
+        614,
+        317,
+        340,
+        50690
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18524485027667173,
+      "compression_ratio": 1.6431718061674008,
+      "no_speech_prob": 0.00638580322265625,
+      "words": [
+        {
+          "word": " todos",
+          "start": 163.91,
+          "end": 164.01,
+          "probability": 0.0015687942504882812
+        },
+        {
+          "word": " separados",
+          "start": 164.01,
+          "end": 165.33,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " el",
+          "start": 169.94,
+          "end": 170.34,
+          "probability": 0.33642578125
+        },
+        {
+          "word": " elemento",
+          "start": 170.34,
+          "end": 170.88,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " que",
+          "start": 170.88,
+          "end": 171.3,
+          "probability": 0.962890625
+        },
+        {
+          "word": " quiero",
+          "start": 171.3,
+          "end": 171.52,
+          "probability": 0.67578125
+        },
+        {
+          "word": " imprimir.",
+          "start": 171.52,
+          "end": 172.64,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " Ahora,",
+          "start": 175.97,
+          "end": 176.29,
+          "probability": 0.91943359375
+        },
+        {
+          "word": " es",
+          "start": 176.37,
+          "end": 176.51,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " importante",
+          "start": 176.51,
+          "end": 176.89,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " que",
+          "start": 176.89,
+          "end": 177.05,
+          "probability": 0.9736328125
+        },
+        {
+          "word": " este",
+          "start": 177.05,
+          "end": 177.21,
+          "probability": 0.9765625
+        },
+        {
+          "word": " print",
+          "start": 177.21,
+          "end": 177.55,
+          "probability": 0.84765625
+        },
+        {
+          "word": " esté",
+          "start": 177.55,
+          "end": 177.83,
+          "probability": 0.83203125
+        },
+        {
+          "word": " adentro",
+          "start": 177.83,
+          "end": 178.35,
+          "probability": 0.97216796875
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "seek": 13394,
+      "start": 178.35,
+      "end": 183.45,
+      "text": " del if, porque yo no voy a poder printear si llegué al final de la lista, porque no voy a tener",
+      "tokens": [
+        50690,
+        1103,
+        498,
+        11,
+        4021,
+        5290,
+        572,
+        7552,
+        257,
+        8152,
+        4482,
+        14881,
+        1511,
+        11234,
+        42423,
+        419,
+        2572,
+        368,
+        635,
+        27764,
+        11,
+        4021,
+        572,
+        7552,
+        257,
+        11640,
+        50948
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18524485027667173,
+      "compression_ratio": 1.6431718061674008,
+      "no_speech_prob": 0.00638580322265625,
+      "words": [
+        {
+          "word": " del",
+          "start": 178.35,
+          "end": 178.53,
+          "probability": 0.9560546875
+        },
+        {
+          "word": " if,",
+          "start": 178.53,
+          "end": 178.79,
+          "probability": 0.62744140625
+        },
+        {
+          "word": " porque",
+          "start": 179.21,
+          "end": 179.53,
+          "probability": 0.9697265625
+        },
+        {
+          "word": " yo",
+          "start": 179.53,
+          "end": 179.75,
+          "probability": 0.955078125
+        },
+        {
+          "word": " no",
+          "start": 179.75,
+          "end": 179.91,
+          "probability": 0.998046875
+        },
+        {
+          "word": " voy",
+          "start": 179.91,
+          "end": 180.09,
+          "probability": 0.994140625
+        },
+        {
+          "word": " a",
+          "start": 180.09,
+          "end": 180.25,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " poder",
+          "start": 180.25,
+          "end": 180.57,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " printear",
+          "start": 180.57,
+          "end": 181.31,
+          "probability": 0.7130126953125
+        },
+        {
+          "word": " si",
+          "start": 181.31,
+          "end": 181.65,
+          "probability": 0.89794921875
+        },
+        {
+          "word": " llegué",
+          "start": 181.65,
+          "end": 181.89,
+          "probability": 0.866943359375
+        },
+        {
+          "word": " al",
+          "start": 181.89,
+          "end": 182.07,
+          "probability": 0.98828125
+        },
+        {
+          "word": " final",
+          "start": 182.07,
+          "end": 182.23,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " de",
+          "start": 182.23,
+          "end": 182.43,
+          "probability": 0.99609375
+        },
+        {
+          "word": " la",
+          "start": 182.43,
+          "end": 182.55,
+          "probability": 0.9912109375
+        },
+        {
+          "word": " lista,",
+          "start": 182.55,
+          "end": 182.77,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " porque",
+          "start": 182.81,
+          "end": 182.99,
+          "probability": 0.95166015625
+        },
+        {
+          "word": " no",
+          "start": 182.99,
+          "end": 183.15,
+          "probability": 0.9921875
+        },
+        {
+          "word": " voy",
+          "start": 183.15,
+          "end": 183.27,
+          "probability": 0.98681640625
+        },
+        {
+          "word": " a",
+          "start": 183.27,
+          "end": 183.31,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " tener",
+          "start": 183.31,
+          "end": 183.45,
+          "probability": 0.9931640625
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "seek": 13394,
+      "start": 183.45,
+      "end": 189.17,
+      "text": " un elemento para imprimir. Ahora, vamos a tratar de ver cuál es el orden de esta función,",
+      "tokens": [
+        50948,
+        517,
+        47961,
+        1690,
+        704,
+        5565,
+        347,
+        13,
+        18840,
+        11,
+        5295,
+        257,
+        42549,
+        368,
+        1306,
+        44318,
+        785,
+        806,
+        28615,
+        368,
+        5283,
+        43735,
+        11,
+        51220
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18524485027667173,
+      "compression_ratio": 1.6431718061674008,
+      "no_speech_prob": 0.00638580322265625,
+      "words": [
+        {
+          "word": " un",
+          "start": 183.45,
+          "end": 183.65,
+          "probability": 0.90576171875
+        },
+        {
+          "word": " elemento",
+          "start": 183.65,
+          "end": 183.93,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " para",
+          "start": 183.93,
+          "end": 184.15,
+          "probability": 0.990234375
+        },
+        {
+          "word": " imprimir.",
+          "start": 184.15,
+          "end": 185.09,
+          "probability": 0.9842122395833334
+        },
+        {
+          "word": " Ahora,",
+          "start": 185.55,
+          "end": 185.83,
+          "probability": 0.96435546875
+        },
+        {
+          "word": " vamos",
+          "start": 185.99,
+          "end": 186.17,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " a",
+          "start": 186.17,
+          "end": 186.31,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " tratar",
+          "start": 186.31,
+          "end": 186.55,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " de",
+          "start": 186.55,
+          "end": 186.75,
+          "probability": 0.998046875
+        },
+        {
+          "word": " ver",
+          "start": 186.75,
+          "end": 187.21,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " cuál",
+          "start": 187.21,
+          "end": 187.45,
+          "probability": 0.83544921875
+        },
+        {
+          "word": " es",
+          "start": 187.45,
+          "end": 187.69,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " el",
+          "start": 187.69,
+          "end": 187.89,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " orden",
+          "start": 187.89,
+          "end": 188.11,
+          "probability": 0.994140625
+        },
+        {
+          "word": " de",
+          "start": 188.11,
+          "end": 188.35,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " esta",
+          "start": 188.35,
+          "end": 188.45,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " función,",
+          "start": 188.45,
+          "end": 189.17,
+          "probability": 0.99658203125
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "seek": 13394,
+      "start": 191.29,
+      "end": 196.47,
+      "text": " intuitivamente. Después lo calculamos más formalmente. Yo lo que estoy haciendo es,",
+      "tokens": [
+        51300,
+        16224,
+        23957,
+        13,
+        40995,
+        450,
+        4322,
+        2151,
+        3573,
+        9860,
+        4082,
+        13,
+        7616,
+        450,
+        631,
+        15796,
+        20509,
+        785,
+        11,
+        51596
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18524485027667173,
+      "compression_ratio": 1.6431718061674008,
+      "no_speech_prob": 0.00638580322265625,
+      "words": [
+        {
+          "word": " intuitivamente.",
+          "start": 191.29,
+          "end": 191.73,
+          "probability": 0.935791015625
+        },
+        {
+          "word": " Después",
+          "start": 192.67,
+          "end": 192.89,
+          "probability": 0.986328125
+        },
+        {
+          "word": " lo",
+          "start": 192.89,
+          "end": 193.15,
+          "probability": 0.89404296875
+        },
+        {
+          "word": " calculamos",
+          "start": 193.15,
+          "end": 193.55,
+          "probability": 0.989013671875
+        },
+        {
+          "word": " más",
+          "start": 193.55,
+          "end": 193.73,
+          "probability": 0.96728515625
+        },
+        {
+          "word": " formalmente.",
+          "start": 193.73,
+          "end": 194.51,
+          "probability": 0.997802734375
+        },
+        {
+          "word": " Yo",
+          "start": 195.47,
+          "end": 195.57,
+          "probability": 0.89404296875
+        },
+        {
+          "word": " lo",
+          "start": 195.57,
+          "end": 195.63,
+          "probability": 0.96484375
+        },
+        {
+          "word": " que",
+          "start": 195.63,
+          "end": 195.69,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " estoy",
+          "start": 195.69,
+          "end": 195.83,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " haciendo",
+          "start": 195.83,
+          "end": 196.25,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " es,",
+          "start": 196.25,
+          "end": 196.47,
+          "probability": 0.96728515625
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "seek": 15866,
+      "start": 196.47,
+      "end": 202.87,
+      "text": " me voy metiendo hasta el final de la lista. O sea, voy a tener que hacer n llamadas recursivas,",
+      "tokens": [
+        50380,
+        385,
+        7552,
+        1131,
+        7304,
+        10764,
+        806,
+        2572,
+        368,
+        635,
+        27764,
+        13,
+        422,
+        4158,
+        11,
+        7552,
+        257,
+        11640,
+        631,
+        6720,
+        297,
+        16848,
+        6872,
+        20560,
+        24759,
+        11,
+        50684
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1577240601181984,
+      "compression_ratio": 1.6233183856502242,
+      "no_speech_prob": 0.029296875,
+      "words": [
+        {
+          "word": " me",
+          "start": 196.47,
+          "end": 197.33,
+          "probability": 0.018707275390625
+        },
+        {
+          "word": " voy",
+          "start": 197.33,
+          "end": 197.57,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " metiendo",
+          "start": 197.57,
+          "end": 198.81,
+          "probability": 0.969482421875
+        },
+        {
+          "word": " hasta",
+          "start": 198.81,
+          "end": 199.23,
+          "probability": 0.85693359375
+        },
+        {
+          "word": " el",
+          "start": 199.23,
+          "end": 199.39,
+          "probability": 0.9794921875
+        },
+        {
+          "word": " final",
+          "start": 199.39,
+          "end": 199.59,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " de",
+          "start": 199.59,
+          "end": 199.73,
+          "probability": 0.9716796875
+        },
+        {
+          "word": " la",
+          "start": 199.73,
+          "end": 199.89,
+          "probability": 0.970703125
+        },
+        {
+          "word": " lista.",
+          "start": 199.89,
+          "end": 200.15,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " O",
+          "start": 200.25,
+          "end": 200.25,
+          "probability": 0.6650390625
+        },
+        {
+          "word": " sea,",
+          "start": 200.25,
+          "end": 200.39,
+          "probability": 0.4140625
+        },
+        {
+          "word": " voy",
+          "start": 200.53,
+          "end": 200.55,
+          "probability": 0.986328125
+        },
+        {
+          "word": " a",
+          "start": 200.55,
+          "end": 200.63,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " tener",
+          "start": 200.63,
+          "end": 200.75,
+          "probability": 0.98291015625
+        },
+        {
+          "word": " que",
+          "start": 200.75,
+          "end": 200.95,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " hacer",
+          "start": 200.95,
+          "end": 201.61,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " n",
+          "start": 201.61,
+          "end": 201.93,
+          "probability": 0.335693359375
+        },
+        {
+          "word": " llamadas",
+          "start": 201.93,
+          "end": 202.31,
+          "probability": 0.992431640625
+        },
+        {
+          "word": " recursivas,",
+          "start": 202.31,
+          "end": 202.87,
+          "probability": 0.900146484375
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "seek": 15866,
+      "start": 206.01,
+      "end": 210.51,
+      "text": " sea lo que eso signifique en cuanto a costos, van a tener que hacer n de esas llamadas.",
+      "tokens": [
+        50684,
+        4158,
+        450,
+        631,
+        7287,
+        1465,
+        28134,
+        465,
+        36685,
+        257,
+        2063,
+        329,
+        11,
+        3161,
+        257,
+        11640,
+        631,
+        6720,
+        297,
+        368,
+        23388,
+        16848,
+        6872,
+        13,
+        50962
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1577240601181984,
+      "compression_ratio": 1.6233183856502242,
+      "no_speech_prob": 0.029296875,
+      "words": [
+        {
+          "word": " sea",
+          "start": 206.01,
+          "end": 206.11,
+          "probability": 0.489501953125
+        },
+        {
+          "word": " lo",
+          "start": 206.11,
+          "end": 206.21,
+          "probability": 0.95947265625
+        },
+        {
+          "word": " que",
+          "start": 206.21,
+          "end": 206.31,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " eso",
+          "start": 206.31,
+          "end": 206.49,
+          "probability": 0.94921875
+        },
+        {
+          "word": " signifique",
+          "start": 206.49,
+          "end": 207.03,
+          "probability": 0.701171875
+        },
+        {
+          "word": " en",
+          "start": 207.03,
+          "end": 207.95,
+          "probability": 0.90673828125
+        },
+        {
+          "word": " cuanto",
+          "start": 207.95,
+          "end": 208.15,
+          "probability": 0.97216796875
+        },
+        {
+          "word": " a",
+          "start": 208.15,
+          "end": 208.35,
+          "probability": 0.9921875
+        },
+        {
+          "word": " costos,",
+          "start": 208.35,
+          "end": 208.81,
+          "probability": 0.989013671875
+        },
+        {
+          "word": " van",
+          "start": 208.93,
+          "end": 209.03,
+          "probability": 0.96142578125
+        },
+        {
+          "word": " a",
+          "start": 209.03,
+          "end": 209.11,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " tener",
+          "start": 209.11,
+          "end": 209.23,
+          "probability": 0.984375
+        },
+        {
+          "word": " que",
+          "start": 209.23,
+          "end": 209.39,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " hacer",
+          "start": 209.39,
+          "end": 209.67,
+          "probability": 0.83349609375
+        },
+        {
+          "word": " n",
+          "start": 209.67,
+          "end": 209.99,
+          "probability": 0.947265625
+        },
+        {
+          "word": " de",
+          "start": 209.99,
+          "end": 210.19,
+          "probability": 0.81298828125
+        },
+        {
+          "word": " esas",
+          "start": 210.19,
+          "end": 210.23,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " llamadas.",
+          "start": 210.23,
+          "end": 210.51,
+          "probability": 0.990966796875
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "seek": 15866,
+      "start": 212.09,
+      "end": 218.71,
+      "text": " Y después, una vez que están resueltas las llamadas, voy a imprimir n veces. Así que,",
+      "tokens": [
+        51014,
+        398,
+        15283,
+        11,
+        2002,
+        5715,
+        631,
+        10368,
+        725,
+        84,
+        2018,
+        296,
+        2439,
+        16848,
+        6872,
+        11,
+        7552,
+        257,
+        704,
+        5565,
+        347,
+        297,
+        17054,
+        13,
+        17419,
+        631,
+        11,
+        51364
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1577240601181984,
+      "compression_ratio": 1.6233183856502242,
+      "no_speech_prob": 0.029296875,
+      "words": [
+        {
+          "word": " Y",
+          "start": 212.09,
+          "end": 212.21,
+          "probability": 0.88818359375
+        },
+        {
+          "word": " después,",
+          "start": 212.21,
+          "end": 212.71,
+          "probability": 0.96240234375
+        },
+        {
+          "word": " una",
+          "start": 213.23,
+          "end": 213.35,
+          "probability": 0.990234375
+        },
+        {
+          "word": " vez",
+          "start": 213.35,
+          "end": 213.53,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " que",
+          "start": 213.53,
+          "end": 214.03,
+          "probability": 0.9853515625
+        },
+        {
+          "word": " están",
+          "start": 214.03,
+          "end": 214.15,
+          "probability": 0.38623046875
+        },
+        {
+          "word": " resueltas",
+          "start": 214.15,
+          "end": 214.61,
+          "probability": 0.9188232421875
+        },
+        {
+          "word": " las",
+          "start": 214.61,
+          "end": 214.83,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " llamadas,",
+          "start": 214.83,
+          "end": 215.93,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " voy",
+          "start": 216.19,
+          "end": 216.27,
+          "probability": 0.98046875
+        },
+        {
+          "word": " a",
+          "start": 216.27,
+          "end": 216.41,
+          "probability": 0.93798828125
+        },
+        {
+          "word": " imprimir",
+          "start": 216.41,
+          "end": 216.93,
+          "probability": 0.9978841145833334
+        },
+        {
+          "word": " n",
+          "start": 216.93,
+          "end": 217.21,
+          "probability": 0.90087890625
+        },
+        {
+          "word": " veces.",
+          "start": 217.21,
+          "end": 217.69,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " Así",
+          "start": 218.35,
+          "end": 218.49,
+          "probability": 0.73193359375
+        },
+        {
+          "word": " que,",
+          "start": 218.49,
+          "end": 218.71,
+          "probability": 0.9912109375
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "seek": 15866,
+      "start": 219.65,
+      "end": 227.21,
+      "text": " intuitivamente, antes de calcular nada, yo diría que esta función es de orden n. Ahora,",
+      "tokens": [
+        51364,
+        16224,
+        23957,
+        11,
+        11014,
+        368,
+        2104,
+        17792,
+        8096,
+        11,
+        5290,
+        4746,
+        2686,
+        631,
+        5283,
+        43735,
+        785,
+        368,
+        28615,
+        297,
+        13,
+        18840,
+        11,
+        51724
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1577240601181984,
+      "compression_ratio": 1.6233183856502242,
+      "no_speech_prob": 0.029296875,
+      "words": [
+        {
+          "word": " intuitivamente,",
+          "start": 219.65,
+          "end": 220.09,
+          "probability": 0.989013671875
+        },
+        {
+          "word": " antes",
+          "start": 220.61,
+          "end": 220.83,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " de",
+          "start": 220.83,
+          "end": 220.93,
+          "probability": 0.9921875
+        },
+        {
+          "word": " calcular",
+          "start": 220.93,
+          "end": 221.25,
+          "probability": 0.995361328125
+        },
+        {
+          "word": " nada,",
+          "start": 221.25,
+          "end": 221.79,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " yo",
+          "start": 222.99,
+          "end": 223.13,
+          "probability": 0.96484375
+        },
+        {
+          "word": " diría",
+          "start": 223.13,
+          "end": 223.35,
+          "probability": 0.98828125
+        },
+        {
+          "word": " que",
+          "start": 223.35,
+          "end": 223.47,
+          "probability": 0.9912109375
+        },
+        {
+          "word": " esta",
+          "start": 223.47,
+          "end": 223.55,
+          "probability": 0.97607421875
+        },
+        {
+          "word": " función",
+          "start": 223.55,
+          "end": 224.01,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " es",
+          "start": 224.01,
+          "end": 224.21,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " de",
+          "start": 224.21,
+          "end": 224.31,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " orden",
+          "start": 224.31,
+          "end": 224.55,
+          "probability": 0.99609375
+        },
+        {
+          "word": " n.",
+          "start": 224.55,
+          "end": 224.81,
+          "probability": 0.78955078125
+        },
+        {
+          "word": " Ahora,",
+          "start": 226.77,
+          "end": 227.21,
+          "probability": 0.98095703125
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "seek": 18604,
+      "start": 227.21,
+      "end": 234.33,
+      "text": " vamos a ver que efectivamente es de orden n. Vamos entonces a tratar de plantear una ecuación de",
+      "tokens": [
+        50364,
+        5295,
+        257,
+        1306,
+        631,
+        22565,
+        23957,
+        785,
+        368,
+        28615,
+        297,
+        13,
+        10894,
+        13003,
+        257,
+        42549,
+        368,
+        36829,
+        289,
+        2002,
+        11437,
+        84,
+        3482,
+        368,
+        50712
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16351103151545804,
+      "compression_ratio": 1.5767195767195767,
+      "no_speech_prob": 0.001224517822265625,
+      "words": [
+        {
+          "word": " vamos",
+          "start": 227.21,
+          "end": 227.71,
+          "probability": 0.1866455078125
+        },
+        {
+          "word": " a",
+          "start": 227.71,
+          "end": 228.47,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " ver",
+          "start": 228.47,
+          "end": 228.63,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " que",
+          "start": 228.63,
+          "end": 228.85,
+          "probability": 0.91357421875
+        },
+        {
+          "word": " efectivamente",
+          "start": 228.85,
+          "end": 229.63,
+          "probability": 0.9658203125
+        },
+        {
+          "word": " es",
+          "start": 229.63,
+          "end": 229.95,
+          "probability": 0.92236328125
+        },
+        {
+          "word": " de",
+          "start": 229.95,
+          "end": 230.11,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " orden",
+          "start": 230.11,
+          "end": 230.31,
+          "probability": 0.2113037109375
+        },
+        {
+          "word": " n.",
+          "start": 230.31,
+          "end": 230.51,
+          "probability": 0.0195465087890625
+        },
+        {
+          "word": " Vamos",
+          "start": 231.19,
+          "end": 231.49,
+          "probability": 0.94189453125
+        },
+        {
+          "word": " entonces",
+          "start": 231.49,
+          "end": 232.09,
+          "probability": 0.94091796875
+        },
+        {
+          "word": " a",
+          "start": 232.09,
+          "end": 232.37,
+          "probability": 0.9794921875
+        },
+        {
+          "word": " tratar",
+          "start": 232.37,
+          "end": 232.57,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " de",
+          "start": 232.57,
+          "end": 232.83,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " plantear",
+          "start": 232.83,
+          "end": 233.59,
+          "probability": 0.993896484375
+        },
+        {
+          "word": " una",
+          "start": 233.59,
+          "end": 233.77,
+          "probability": 0.9482421875
+        },
+        {
+          "word": " ecuación",
+          "start": 233.77,
+          "end": 234.11,
+          "probability": 0.9127604166666666
+        },
+        {
+          "word": " de",
+          "start": 234.11,
+          "end": 234.33,
+          "probability": 0.97998046875
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "seek": 18604,
+      "start": 235.21,
+      "end": 241.45,
+      "text": " recurrencia. Para esto vemos que, cuando él es igual a null, lo único que se va a hacer va a",
+      "tokens": [
+        50712,
+        18680,
+        1095,
+        2755,
+        13,
+        11107,
+        7433,
+        20909,
+        631,
+        11,
+        7767,
+        11810,
+        785,
+        10953,
+        257,
+        18184,
+        11,
+        450,
+        26113,
+        631,
+        369,
+        2773,
+        257,
+        6720,
+        2773,
+        257,
+        51062
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16351103151545804,
+      "compression_ratio": 1.5767195767195767,
+      "no_speech_prob": 0.001224517822265625,
+      "words": [
+        {
+          "word": " recurrencia.",
+          "start": 235.21,
+          "end": 235.61,
+          "probability": 0.9576822916666666
+        },
+        {
+          "word": " Para",
+          "start": 236.35,
+          "end": 236.43,
+          "probability": 0.93212890625
+        },
+        {
+          "word": " esto",
+          "start": 236.43,
+          "end": 236.69,
+          "probability": 0.97998046875
+        },
+        {
+          "word": " vemos",
+          "start": 236.69,
+          "end": 237.01,
+          "probability": 0.9267578125
+        },
+        {
+          "word": " que,",
+          "start": 237.01,
+          "end": 237.99,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " cuando",
+          "start": 238.17,
+          "end": 238.39,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " él",
+          "start": 238.39,
+          "end": 238.53,
+          "probability": 0.49951171875
+        },
+        {
+          "word": " es",
+          "start": 238.53,
+          "end": 238.73,
+          "probability": 0.99609375
+        },
+        {
+          "word": " igual",
+          "start": 238.73,
+          "end": 238.97,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " a",
+          "start": 238.97,
+          "end": 239.11,
+          "probability": 0.986328125
+        },
+        {
+          "word": " null,",
+          "start": 239.11,
+          "end": 239.43,
+          "probability": 0.6865234375
+        },
+        {
+          "word": " lo",
+          "start": 240.21,
+          "end": 240.29,
+          "probability": 0.978515625
+        },
+        {
+          "word": " único",
+          "start": 240.29,
+          "end": 240.45,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " que",
+          "start": 240.45,
+          "end": 240.59,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " se",
+          "start": 240.59,
+          "end": 240.75,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " va",
+          "start": 240.75,
+          "end": 240.89,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " a",
+          "start": 240.89,
+          "end": 240.95,
+          "probability": 0.9716796875
+        },
+        {
+          "word": " hacer",
+          "start": 240.95,
+          "end": 241.09,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " va",
+          "start": 241.09,
+          "end": 241.29,
+          "probability": 0.61962890625
+        },
+        {
+          "word": " a",
+          "start": 241.29,
+          "end": 241.45,
+          "probability": 0.97216796875
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "seek": 18604,
+      "start": 241.45,
+      "end": 247.89,
+      "text": " ser, se va a chequear esta condición y se va a terminar la ejecución de la función. Si él es distinto",
+      "tokens": [
+        51062,
+        816,
+        11,
+        369,
+        2773,
+        257,
+        947,
+        1077,
+        289,
+        5283,
+        2224,
+        15534,
+        288,
+        369,
+        2773,
+        257,
+        36246,
+        635,
+        39564,
+        12032,
+        5687,
+        368,
+        635,
+        43735,
+        13,
+        4909,
+        11810,
+        785,
+        1483,
+        17246,
+        51396
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16351103151545804,
+      "compression_ratio": 1.5767195767195767,
+      "no_speech_prob": 0.001224517822265625,
+      "words": [
+        {
+          "word": " ser,",
+          "start": 241.45,
+          "end": 241.53,
+          "probability": 0.77197265625
+        },
+        {
+          "word": " se",
+          "start": 241.57,
+          "end": 241.69,
+          "probability": 0.912109375
+        },
+        {
+          "word": " va",
+          "start": 241.69,
+          "end": 241.81,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " a",
+          "start": 241.81,
+          "end": 241.87,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " chequear",
+          "start": 241.87,
+          "end": 242.05,
+          "probability": 0.97265625
+        },
+        {
+          "word": " esta",
+          "start": 242.05,
+          "end": 242.21,
+          "probability": 0.9296875
+        },
+        {
+          "word": " condición",
+          "start": 242.21,
+          "end": 243.43,
+          "probability": 0.995849609375
+        },
+        {
+          "word": " y",
+          "start": 243.43,
+          "end": 243.93,
+          "probability": 0.74853515625
+        },
+        {
+          "word": " se",
+          "start": 243.93,
+          "end": 244.09,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " va",
+          "start": 244.09,
+          "end": 244.19,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " a",
+          "start": 244.19,
+          "end": 244.19,
+          "probability": 0.9794921875
+        },
+        {
+          "word": " terminar",
+          "start": 244.19,
+          "end": 244.49,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " la",
+          "start": 244.49,
+          "end": 244.65,
+          "probability": 0.994140625
+        },
+        {
+          "word": " ejecución",
+          "start": 244.65,
+          "end": 245.01,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " de",
+          "start": 245.01,
+          "end": 245.13,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " la",
+          "start": 245.13,
+          "end": 245.25,
+          "probability": 0.94970703125
+        },
+        {
+          "word": " función.",
+          "start": 245.25,
+          "end": 245.71,
+          "probability": 0.9921875
+        },
+        {
+          "word": " Si",
+          "start": 246.77,
+          "end": 246.99,
+          "probability": 0.95751953125
+        },
+        {
+          "word": " él",
+          "start": 246.99,
+          "end": 247.17,
+          "probability": 0.97216796875
+        },
+        {
+          "word": " es",
+          "start": 247.17,
+          "end": 247.53,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " distinto",
+          "start": 247.53,
+          "end": 247.89,
+          "probability": 0.9990234375
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "seek": 20672,
+      "start": 247.89,
+      "end": 258.63,
+      "text": " de null, entonces se va a hacer la llamada recursiva y se va a tener la comparación y",
+      "tokens": [
+        50364,
+        368,
+        18184,
+        11,
+        13003,
+        369,
+        2773,
+        257,
+        6720,
+        635,
+        16848,
+        1538,
+        20560,
+        5931,
+        288,
+        369,
+        2773,
+        257,
+        11640,
+        635,
+        6311,
+        3482,
+        288,
+        50880
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14023437798023225,
+      "compression_ratio": 1.5080213903743316,
+      "no_speech_prob": 0.1419677734375,
+      "words": [
+        {
+          "word": " de",
+          "start": 247.89,
+          "end": 247.95,
+          "probability": 0.038818359375
+        },
+        {
+          "word": " null,",
+          "start": 247.95,
+          "end": 248.35,
+          "probability": 0.10919189453125
+        },
+        {
+          "word": " entonces",
+          "start": 248.75,
+          "end": 249.61,
+          "probability": 0.9072265625
+        },
+        {
+          "word": " se",
+          "start": 249.61,
+          "end": 250.25,
+          "probability": 0.8251953125
+        },
+        {
+          "word": " va",
+          "start": 250.25,
+          "end": 250.45,
+          "probability": 0.9599609375
+        },
+        {
+          "word": " a",
+          "start": 250.45,
+          "end": 250.55,
+          "probability": 0.95361328125
+        },
+        {
+          "word": " hacer",
+          "start": 250.55,
+          "end": 250.57,
+          "probability": 0.96533203125
+        },
+        {
+          "word": " la",
+          "start": 250.57,
+          "end": 250.79,
+          "probability": 0.984375
+        },
+        {
+          "word": " llamada",
+          "start": 250.79,
+          "end": 251.07,
+          "probability": 0.998291015625
+        },
+        {
+          "word": " recursiva",
+          "start": 251.07,
+          "end": 252.13,
+          "probability": 0.979248046875
+        },
+        {
+          "word": " y",
+          "start": 252.13,
+          "end": 253.57,
+          "probability": 0.6328125
+        },
+        {
+          "word": " se",
+          "start": 253.57,
+          "end": 253.77,
+          "probability": 0.982421875
+        },
+        {
+          "word": " va",
+          "start": 253.77,
+          "end": 254.03,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " a",
+          "start": 254.03,
+          "end": 254.21,
+          "probability": 0.994140625
+        },
+        {
+          "word": " tener",
+          "start": 254.21,
+          "end": 255.53,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " la",
+          "start": 255.53,
+          "end": 256.47,
+          "probability": 0.91162109375
+        },
+        {
+          "word": " comparación",
+          "start": 256.47,
+          "end": 257.87,
+          "probability": 0.993896484375
+        },
+        {
+          "word": " y",
+          "start": 257.87,
+          "end": 258.63,
+          "probability": 0.93212890625
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "seek": 20672,
+      "start": 258.63,
+      "end": 267.47,
+      "text": " el print. Esto lo podemos formalizar así. t0 menor o igual a una constante c1, si él es distinto",
+      "tokens": [
+        50880,
+        806,
+        4482,
+        13,
+        20880,
+        450,
+        12234,
+        9860,
+        9736,
+        8582,
+        13,
+        256,
+        15,
+        26343,
+        277,
+        10953,
+        257,
+        2002,
+        47343,
+        269,
+        16,
+        11,
+        1511,
+        11810,
+        785,
+        1483,
+        17246,
+        51342
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14023437798023225,
+      "compression_ratio": 1.5080213903743316,
+      "no_speech_prob": 0.1419677734375,
+      "words": [
+        {
+          "word": " el",
+          "start": 258.63,
+          "end": 258.87,
+          "probability": 0.9921875
+        },
+        {
+          "word": " print.",
+          "start": 258.87,
+          "end": 259.57,
+          "probability": 0.92578125
+        },
+        {
+          "word": " Esto",
+          "start": 260.25,
+          "end": 260.45,
+          "probability": 0.96875
+        },
+        {
+          "word": " lo",
+          "start": 260.45,
+          "end": 260.63,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " podemos",
+          "start": 260.63,
+          "end": 260.83,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " formalizar",
+          "start": 260.83,
+          "end": 261.45,
+          "probability": 0.994384765625
+        },
+        {
+          "word": " así.",
+          "start": 261.45,
+          "end": 262.39,
+          "probability": 0.9736328125
+        },
+        {
+          "word": " t0",
+          "start": 262.91,
+          "end": 263.35,
+          "probability": 0.46099853515625
+        },
+        {
+          "word": " menor",
+          "start": 263.35,
+          "end": 263.65,
+          "probability": 0.97216796875
+        },
+        {
+          "word": " o",
+          "start": 263.65,
+          "end": 263.83,
+          "probability": 0.83740234375
+        },
+        {
+          "word": " igual",
+          "start": 263.83,
+          "end": 264.01,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " a",
+          "start": 264.01,
+          "end": 264.23,
+          "probability": 0.92333984375
+        },
+        {
+          "word": " una",
+          "start": 264.23,
+          "end": 264.39,
+          "probability": 0.9755859375
+        },
+        {
+          "word": " constante",
+          "start": 264.39,
+          "end": 264.77,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " c1,",
+          "start": 264.77,
+          "end": 266.27,
+          "probability": 0.9013671875
+        },
+        {
+          "word": " si",
+          "start": 266.69,
+          "end": 266.79,
+          "probability": 0.9384765625
+        },
+        {
+          "word": " él",
+          "start": 266.79,
+          "end": 266.97,
+          "probability": 0.875
+        },
+        {
+          "word": " es",
+          "start": 266.97,
+          "end": 267.17,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " distinto",
+          "start": 267.17,
+          "end": 267.47,
+          "probability": 0.995361328125
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "seek": 20672,
+      "start": 267.47,
+      "end": 277.01,
+      "text": " de null, donde esa constante c1 lo que está haciendo es acotando la comparación del if. Ahora,",
+      "tokens": [
+        51342,
+        368,
+        18184,
+        11,
+        10488,
+        11342,
+        47343,
+        269,
+        16,
+        450,
+        631,
+        3192,
+        20509,
+        785,
+        696,
+        310,
+        1806,
+        635,
+        6311,
+        3482,
+        1103,
+        498,
+        13,
+        18840,
+        11,
+        51692
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.14023437798023225,
+      "compression_ratio": 1.5080213903743316,
+      "no_speech_prob": 0.1419677734375,
+      "words": [
+        {
+          "word": " de",
+          "start": 267.47,
+          "end": 267.63,
+          "probability": 0.9580078125
+        },
+        {
+          "word": " null,",
+          "start": 267.63,
+          "end": 268.09,
+          "probability": 0.96240234375
+        },
+        {
+          "word": " donde",
+          "start": 268.39,
+          "end": 268.53,
+          "probability": 0.86474609375
+        },
+        {
+          "word": " esa",
+          "start": 268.53,
+          "end": 268.73,
+          "probability": 0.8310546875
+        },
+        {
+          "word": " constante",
+          "start": 268.73,
+          "end": 269.17,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " c1",
+          "start": 269.17,
+          "end": 269.65,
+          "probability": 0.9736328125
+        },
+        {
+          "word": " lo",
+          "start": 269.65,
+          "end": 269.79,
+          "probability": 0.9189453125
+        },
+        {
+          "word": " que",
+          "start": 269.79,
+          "end": 269.95,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " está",
+          "start": 269.95,
+          "end": 270.09,
+          "probability": 0.96875
+        },
+        {
+          "word": " haciendo",
+          "start": 270.09,
+          "end": 270.53,
+          "probability": 0.984375
+        },
+        {
+          "word": " es",
+          "start": 270.53,
+          "end": 271.45,
+          "probability": 0.9912109375
+        },
+        {
+          "word": " acotando",
+          "start": 271.45,
+          "end": 272.17,
+          "probability": 0.98486328125
+        },
+        {
+          "word": " la",
+          "start": 272.17,
+          "end": 272.49,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " comparación",
+          "start": 272.49,
+          "end": 272.95,
+          "probability": 0.998291015625
+        },
+        {
+          "word": " del",
+          "start": 272.95,
+          "end": 273.17,
+          "probability": 0.95556640625
+        },
+        {
+          "word": " if.",
+          "start": 273.17,
+          "end": 273.43,
+          "probability": 0.55224609375
+        },
+        {
+          "word": " Ahora,",
+          "start": 276.41,
+          "end": 277.01,
+          "probability": 0.95751953125
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "seek": 23354,
+      "start": 277.01,
+      "end": 284.83,
+      "text": " si todavía no llegamos al final de la lista, si él es distinto de null, tn es menor o igual tn-1",
+      "tokens": [
+        50364,
+        1511,
+        28388,
+        572,
+        11234,
+        2151,
+        419,
+        2572,
+        368,
+        635,
+        27764,
+        11,
+        1511,
+        11810,
+        785,
+        1483,
+        17246,
+        368,
+        18184,
+        11,
+        256,
+        77,
+        785,
+        26343,
+        277,
+        10953,
+        256,
+        77,
+        12,
+        16,
+        50744
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13944966603169398,
+      "compression_ratio": 1.6050420168067228,
+      "no_speech_prob": 0.00490570068359375,
+      "words": [
+        {
+          "word": " si",
+          "start": 277.01,
+          "end": 277.33,
+          "probability": 0.07916259765625
+        },
+        {
+          "word": " todavía",
+          "start": 277.33,
+          "end": 277.61,
+          "probability": 0.367919921875
+        },
+        {
+          "word": " no",
+          "start": 277.61,
+          "end": 277.81,
+          "probability": 0.8828125
+        },
+        {
+          "word": " llegamos",
+          "start": 277.81,
+          "end": 278.13,
+          "probability": 0.981201171875
+        },
+        {
+          "word": " al",
+          "start": 278.13,
+          "end": 278.29,
+          "probability": 0.986328125
+        },
+        {
+          "word": " final",
+          "start": 278.29,
+          "end": 278.47,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " de",
+          "start": 278.47,
+          "end": 278.65,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " la",
+          "start": 278.65,
+          "end": 278.79,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " lista,",
+          "start": 278.79,
+          "end": 279.27,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " si",
+          "start": 279.53,
+          "end": 279.65,
+          "probability": 0.84521484375
+        },
+        {
+          "word": " él",
+          "start": 279.65,
+          "end": 279.81,
+          "probability": 0.52001953125
+        },
+        {
+          "word": " es",
+          "start": 279.81,
+          "end": 280.03,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " distinto",
+          "start": 280.03,
+          "end": 280.33,
+          "probability": 0.992431640625
+        },
+        {
+          "word": " de",
+          "start": 280.33,
+          "end": 280.47,
+          "probability": 0.927734375
+        },
+        {
+          "word": " null,",
+          "start": 280.47,
+          "end": 280.93,
+          "probability": 0.48974609375
+        },
+        {
+          "word": " tn",
+          "start": 282.51,
+          "end": 282.73,
+          "probability": 0.5634765625
+        },
+        {
+          "word": " es",
+          "start": 282.73,
+          "end": 282.91,
+          "probability": 0.896484375
+        },
+        {
+          "word": " menor",
+          "start": 282.91,
+          "end": 283.15,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " o",
+          "start": 283.15,
+          "end": 283.29,
+          "probability": 0.8623046875
+        },
+        {
+          "word": " igual",
+          "start": 283.29,
+          "end": 283.61,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " tn",
+          "start": 283.61,
+          "end": 284.11,
+          "probability": 0.8232421875
+        },
+        {
+          "word": "-1",
+          "start": 284.11,
+          "end": 284.83,
+          "probability": 0.824951171875
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "seek": 23354,
+      "start": 284.83,
+      "end": 292.65,
+      "text": " más c0. Donde esta constante c0 lo que está acotando es la comparación del if, el costo",
+      "tokens": [
+        50744,
+        3573,
+        269,
+        15,
+        13,
+        413,
+        7259,
+        5283,
+        47343,
+        269,
+        15,
+        450,
+        631,
+        3192,
+        696,
+        310,
+        1806,
+        785,
+        635,
+        6311,
+        3482,
+        1103,
+        498,
+        11,
+        806,
+        2063,
+        78,
+        51144
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13944966603169398,
+      "compression_ratio": 1.6050420168067228,
+      "no_speech_prob": 0.00490570068359375,
+      "words": [
+        {
+          "word": " más",
+          "start": 284.83,
+          "end": 285.27,
+          "probability": 0.257568359375
+        },
+        {
+          "word": " c0.",
+          "start": 285.27,
+          "end": 286.25,
+          "probability": 0.822265625
+        },
+        {
+          "word": " Donde",
+          "start": 286.61,
+          "end": 286.77,
+          "probability": 0.947998046875
+        },
+        {
+          "word": " esta",
+          "start": 286.77,
+          "end": 286.95,
+          "probability": 0.12890625
+        },
+        {
+          "word": " constante",
+          "start": 286.95,
+          "end": 287.37,
+          "probability": 0.998046875
+        },
+        {
+          "word": " c0",
+          "start": 287.37,
+          "end": 288.21,
+          "probability": 0.6558837890625
+        },
+        {
+          "word": " lo",
+          "start": 288.21,
+          "end": 288.59,
+          "probability": 0.454833984375
+        },
+        {
+          "word": " que",
+          "start": 288.59,
+          "end": 288.71,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " está",
+          "start": 288.71,
+          "end": 288.87,
+          "probability": 0.9755859375
+        },
+        {
+          "word": " acotando",
+          "start": 288.87,
+          "end": 289.47,
+          "probability": 0.698974609375
+        },
+        {
+          "word": " es",
+          "start": 289.47,
+          "end": 290.47,
+          "probability": 0.990234375
+        },
+        {
+          "word": " la",
+          "start": 290.47,
+          "end": 290.83,
+          "probability": 0.8876953125
+        },
+        {
+          "word": " comparación",
+          "start": 290.83,
+          "end": 291.35,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " del",
+          "start": 291.35,
+          "end": 291.55,
+          "probability": 0.92578125
+        },
+        {
+          "word": " if,",
+          "start": 291.55,
+          "end": 291.77,
+          "probability": 0.481689453125
+        },
+        {
+          "word": " el",
+          "start": 292.21,
+          "end": 292.41,
+          "probability": 0.990234375
+        },
+        {
+          "word": " costo",
+          "start": 292.41,
+          "end": 292.65,
+          "probability": 0.9970703125
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "seek": 23354,
+      "start": 292.65,
+      "end": 299.63,
+      "text": " de hacer una llamada recursiva y el costo del print. Ahora que tenemos nuestra ecuación de",
+      "tokens": [
+        51144,
+        368,
+        6720,
+        2002,
+        16848,
+        1538,
+        20560,
+        5931,
+        288,
+        806,
+        2063,
+        78,
+        1103,
+        4482,
+        13,
+        18840,
+        631,
+        9914,
+        16825,
+        11437,
+        84,
+        3482,
+        368,
+        51486
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13944966603169398,
+      "compression_ratio": 1.6050420168067228,
+      "no_speech_prob": 0.00490570068359375,
+      "words": [
+        {
+          "word": " de",
+          "start": 292.65,
+          "end": 292.81,
+          "probability": 0.79052734375
+        },
+        {
+          "word": " hacer",
+          "start": 292.81,
+          "end": 292.97,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " una",
+          "start": 292.97,
+          "end": 293.17,
+          "probability": 0.9599609375
+        },
+        {
+          "word": " llamada",
+          "start": 293.17,
+          "end": 293.49,
+          "probability": 0.998779296875
+        },
+        {
+          "word": " recursiva",
+          "start": 293.49,
+          "end": 294.23,
+          "probability": 0.96484375
+        },
+        {
+          "word": " y",
+          "start": 294.23,
+          "end": 295.65,
+          "probability": 0.60302734375
+        },
+        {
+          "word": " el",
+          "start": 295.65,
+          "end": 296.15,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " costo",
+          "start": 296.15,
+          "end": 296.43,
+          "probability": 0.996337890625
+        },
+        {
+          "word": " del",
+          "start": 296.43,
+          "end": 296.61,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " print.",
+          "start": 296.61,
+          "end": 297.05,
+          "probability": 0.9716796875
+        },
+        {
+          "word": " Ahora",
+          "start": 297.99,
+          "end": 298.29,
+          "probability": 0.9775390625
+        },
+        {
+          "word": " que",
+          "start": 298.29,
+          "end": 298.47,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " tenemos",
+          "start": 298.47,
+          "end": 298.73,
+          "probability": 0.99609375
+        },
+        {
+          "word": " nuestra",
+          "start": 298.73,
+          "end": 299.03,
+          "probability": 0.9765625
+        },
+        {
+          "word": " ecuación",
+          "start": 299.03,
+          "end": 299.41,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " de",
+          "start": 299.41,
+          "end": 299.63,
+          "probability": 0.9970703125
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "seek": 23354,
+      "start": 299.63,
+      "end": 304.63,
+      "text": " recurrencia planteada, podemos usar el método que vino en el teórico de expansión de recurrencia.",
+      "tokens": [
+        51486,
+        18680,
+        1095,
+        2755,
+        36829,
+        1538,
+        11,
+        12234,
+        14745,
+        806,
+        20275,
+        17423,
+        631,
+        48841,
+        465,
+        806,
+        535,
+        812,
+        23776,
+        368,
+        9672,
+        2560,
+        368,
+        18680,
+        1095,
+        2755,
+        13,
+        51734
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13944966603169398,
+      "compression_ratio": 1.6050420168067228,
+      "no_speech_prob": 0.00490570068359375,
+      "words": [
+        {
+          "word": " recurrencia",
+          "start": 299.63,
+          "end": 300.07,
+          "probability": 0.9910481770833334
+        },
+        {
+          "word": " planteada,",
+          "start": 300.07,
+          "end": 300.97,
+          "probability": 0.93896484375
+        },
+        {
+          "word": " podemos",
+          "start": 301.09,
+          "end": 301.37,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " usar",
+          "start": 301.37,
+          "end": 301.71,
+          "probability": 0.98193359375
+        },
+        {
+          "word": " el",
+          "start": 301.71,
+          "end": 301.89,
+          "probability": 0.98583984375
+        },
+        {
+          "word": " método",
+          "start": 301.89,
+          "end": 302.17,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " que",
+          "start": 302.17,
+          "end": 302.39,
+          "probability": 0.95849609375
+        },
+        {
+          "word": " vino",
+          "start": 302.39,
+          "end": 302.51,
+          "probability": 0.833984375
+        },
+        {
+          "word": " en",
+          "start": 302.51,
+          "end": 302.67,
+          "probability": 0.70556640625
+        },
+        {
+          "word": " el",
+          "start": 302.67,
+          "end": 302.87,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " teórico",
+          "start": 302.87,
+          "end": 303.13,
+          "probability": 0.94921875
+        },
+        {
+          "word": " de",
+          "start": 303.13,
+          "end": 303.29,
+          "probability": 0.93701171875
+        },
+        {
+          "word": " expansión",
+          "start": 303.29,
+          "end": 303.69,
+          "probability": 0.990234375
+        },
+        {
+          "word": " de",
+          "start": 303.69,
+          "end": 303.93,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " recurrencia.",
+          "start": 303.93,
+          "end": 304.63,
+          "probability": 0.9788411458333334
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "seek": 26116,
+      "start": 306.23,
+      "end": 315.01,
+      "text": " Entonces, tomamos solo la segunda parte de la ecuación y vemos tn menor o igual tn-1 más c0.",
+      "tokens": [
+        50364,
+        15097,
+        11,
+        2916,
+        2151,
+        6944,
+        635,
+        21978,
+        6975,
+        368,
+        635,
+        11437,
+        84,
+        3482,
+        288,
+        20909,
+        256,
+        77,
+        26343,
+        277,
+        10953,
+        256,
+        77,
+        12,
+        16,
+        3573,
+        269,
+        15,
+        13,
+        50882
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20349121210165322,
+      "compression_ratio": 1.4887218045112782,
+      "no_speech_prob": 0.00394439697265625,
+      "words": [
+        {
+          "word": " Entonces,",
+          "start": 306.23,
+          "end": 306.95,
+          "probability": 0.7216796875
+        },
+        {
+          "word": " tomamos",
+          "start": 307.19,
+          "end": 307.37,
+          "probability": 0.991943359375
+        },
+        {
+          "word": " solo",
+          "start": 307.37,
+          "end": 308.37,
+          "probability": 0.58544921875
+        },
+        {
+          "word": " la",
+          "start": 308.37,
+          "end": 308.77,
+          "probability": 0.92236328125
+        },
+        {
+          "word": " segunda",
+          "start": 308.77,
+          "end": 309.15,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " parte",
+          "start": 309.15,
+          "end": 309.43,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " de",
+          "start": 309.43,
+          "end": 309.53,
+          "probability": 0.98095703125
+        },
+        {
+          "word": " la",
+          "start": 309.53,
+          "end": 309.67,
+          "probability": 0.99609375
+        },
+        {
+          "word": " ecuación",
+          "start": 309.67,
+          "end": 310.11,
+          "probability": 0.9801432291666666
+        },
+        {
+          "word": " y",
+          "start": 310.11,
+          "end": 310.23,
+          "probability": 0.8642578125
+        },
+        {
+          "word": " vemos",
+          "start": 310.23,
+          "end": 311.15,
+          "probability": 0.97607421875
+        },
+        {
+          "word": " tn",
+          "start": 311.15,
+          "end": 312.49,
+          "probability": 0.200653076171875
+        },
+        {
+          "word": " menor",
+          "start": 312.49,
+          "end": 312.95,
+          "probability": 0.81689453125
+        },
+        {
+          "word": " o",
+          "start": 312.95,
+          "end": 313.09,
+          "probability": 0.8388671875
+        },
+        {
+          "word": " igual",
+          "start": 313.09,
+          "end": 313.35,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " tn",
+          "start": 313.35,
+          "end": 313.89,
+          "probability": 0.859375
+        },
+        {
+          "word": "-1",
+          "start": 313.89,
+          "end": 314.37,
+          "probability": 0.8017578125
+        },
+        {
+          "word": " más",
+          "start": 314.37,
+          "end": 314.65,
+          "probability": 0.1688232421875
+        },
+        {
+          "word": " c0.",
+          "start": 314.65,
+          "end": 315.01,
+          "probability": 0.656494140625
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "seek": 26116,
+      "start": 316.41,
+      "end": 325.55,
+      "text": " Entonces, si nosotros consideramos como tn-1 más c0 y le aplicamos esta ecuación, vemos que tn-1 más",
+      "tokens": [
+        50882,
+        15097,
+        11,
+        1511,
+        13863,
+        1949,
+        2151,
+        2617,
+        256,
+        77,
+        12,
+        16,
+        3573,
+        269,
+        15,
+        288,
+        476,
+        18221,
+        2151,
+        5283,
+        11437,
+        84,
+        3482,
+        11,
+        20909,
+        631,
+        256,
+        77,
+        12,
+        16,
+        3573,
+        51404
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20349121210165322,
+      "compression_ratio": 1.4887218045112782,
+      "no_speech_prob": 0.00394439697265625,
+      "words": [
+        {
+          "word": " Entonces,",
+          "start": 316.41,
+          "end": 316.55,
+          "probability": 0.91796875
+        },
+        {
+          "word": " si",
+          "start": 316.63,
+          "end": 316.75,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " nosotros",
+          "start": 316.75,
+          "end": 317.09,
+          "probability": 0.9814453125
+        },
+        {
+          "word": " consideramos",
+          "start": 317.09,
+          "end": 317.65,
+          "probability": 0.94287109375
+        },
+        {
+          "word": " como",
+          "start": 317.65,
+          "end": 317.97,
+          "probability": 0.958984375
+        },
+        {
+          "word": " tn",
+          "start": 317.97,
+          "end": 318.97,
+          "probability": 0.9833984375
+        },
+        {
+          "word": "-1",
+          "start": 318.97,
+          "end": 320.05,
+          "probability": 0.50762939453125
+        },
+        {
+          "word": " más",
+          "start": 320.05,
+          "end": 320.23,
+          "probability": 0.5810546875
+        },
+        {
+          "word": " c0",
+          "start": 320.23,
+          "end": 321.31,
+          "probability": 0.990966796875
+        },
+        {
+          "word": " y",
+          "start": 321.31,
+          "end": 321.71,
+          "probability": 0.58837890625
+        },
+        {
+          "word": " le",
+          "start": 321.71,
+          "end": 321.89,
+          "probability": 0.79443359375
+        },
+        {
+          "word": " aplicamos",
+          "start": 321.89,
+          "end": 322.19,
+          "probability": 0.998046875
+        },
+        {
+          "word": " esta",
+          "start": 322.19,
+          "end": 322.33,
+          "probability": 0.87744140625
+        },
+        {
+          "word": " ecuación,",
+          "start": 322.33,
+          "end": 323.17,
+          "probability": 0.9982096354166666
+        },
+        {
+          "word": " vemos",
+          "start": 323.41,
+          "end": 323.51,
+          "probability": 0.9599609375
+        },
+        {
+          "word": " que",
+          "start": 323.51,
+          "end": 324.43,
+          "probability": 0.994140625
+        },
+        {
+          "word": " tn",
+          "start": 324.43,
+          "end": 324.95,
+          "probability": 0.96728515625
+        },
+        {
+          "word": "-1",
+          "start": 324.95,
+          "end": 325.39,
+          "probability": 0.987548828125
+        },
+        {
+          "word": " más",
+          "start": 325.39,
+          "end": 325.55,
+          "probability": 0.814453125
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "seek": 28208,
+      "start": 325.55,
+      "end": 337.53,
+      "text": " c0 es menor o igual a tn-2 más c0 más c0. Se suman los dos c0 y queda tn-2 más 2c0. Y así",
+      "tokens": [
+        50364,
+        269,
+        15,
+        785,
+        26343,
+        277,
+        10953,
+        257,
+        256,
+        77,
+        12,
+        17,
+        3573,
+        269,
+        15,
+        3573,
+        269,
+        15,
+        13,
+        1100,
+        2408,
+        282,
+        1750,
+        4491,
+        269,
+        15,
+        288,
+        23314,
+        256,
+        77,
+        12,
+        17,
+        3573,
+        568,
+        66,
+        15,
+        13,
+        398,
+        8582,
+        50958
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1504120918420645,
+      "compression_ratio": 1.5248618784530388,
+      "no_speech_prob": 0.27490234375,
+      "words": [
+        {
+          "word": " c0",
+          "start": 325.55,
+          "end": 326.19,
+          "probability": 0.28290557861328125
+        },
+        {
+          "word": " es",
+          "start": 326.19,
+          "end": 326.73,
+          "probability": 0.85986328125
+        },
+        {
+          "word": " menor",
+          "start": 326.73,
+          "end": 327.01,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " o",
+          "start": 327.01,
+          "end": 327.27,
+          "probability": 0.912109375
+        },
+        {
+          "word": " igual",
+          "start": 327.27,
+          "end": 327.49,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " a",
+          "start": 327.49,
+          "end": 327.91,
+          "probability": 0.9716796875
+        },
+        {
+          "word": " tn",
+          "start": 327.91,
+          "end": 328.23,
+          "probability": 0.670654296875
+        },
+        {
+          "word": "-2",
+          "start": 328.23,
+          "end": 329.11,
+          "probability": 0.88525390625
+        },
+        {
+          "word": " más",
+          "start": 329.11,
+          "end": 329.55,
+          "probability": 0.149658203125
+        },
+        {
+          "word": " c0",
+          "start": 329.55,
+          "end": 330.51,
+          "probability": 0.973388671875
+        },
+        {
+          "word": " más",
+          "start": 330.51,
+          "end": 330.83,
+          "probability": 0.568359375
+        },
+        {
+          "word": " c0.",
+          "start": 330.83,
+          "end": 331.61,
+          "probability": 0.97314453125
+        },
+        {
+          "word": " Se",
+          "start": 332.03,
+          "end": 332.09,
+          "probability": 0.90234375
+        },
+        {
+          "word": " suman",
+          "start": 332.09,
+          "end": 332.35,
+          "probability": 0.967041015625
+        },
+        {
+          "word": " los",
+          "start": 332.35,
+          "end": 332.51,
+          "probability": 0.97705078125
+        },
+        {
+          "word": " dos",
+          "start": 332.51,
+          "end": 332.67,
+          "probability": 0.88037109375
+        },
+        {
+          "word": " c0",
+          "start": 332.67,
+          "end": 333.01,
+          "probability": 0.820068359375
+        },
+        {
+          "word": " y",
+          "start": 333.01,
+          "end": 333.19,
+          "probability": 0.6201171875
+        },
+        {
+          "word": " queda",
+          "start": 333.19,
+          "end": 333.41,
+          "probability": 0.98486328125
+        },
+        {
+          "word": " tn",
+          "start": 333.41,
+          "end": 333.85,
+          "probability": 0.979736328125
+        },
+        {
+          "word": "-2",
+          "start": 333.85,
+          "end": 334.99,
+          "probability": 0.975341796875
+        },
+        {
+          "word": " más",
+          "start": 334.99,
+          "end": 335.61,
+          "probability": 0.708984375
+        },
+        {
+          "word": " 2c0.",
+          "start": 335.61,
+          "end": 336.71,
+          "probability": 0.8274739583333334
+        },
+        {
+          "word": " Y",
+          "start": 337.25,
+          "end": 337.39,
+          "probability": 0.90576171875
+        },
+        {
+          "word": " así",
+          "start": 337.39,
+          "end": 337.53,
+          "probability": 0.99462890625
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "seek": 28208,
+      "start": 337.53,
+      "end": 346.91,
+      "text": " podemos seguir y obtenemos esta expresión. Entonces vemos que se va formando un patrón que es",
+      "tokens": [
+        50958,
+        12234,
+        18584,
+        288,
+        28326,
+        4485,
+        5283,
+        33397,
+        2560,
+        13,
+        15097,
+        20909,
+        631,
+        369,
+        2773,
+        1254,
+        1806,
+        517,
+        1947,
+        81,
+        1801,
+        631,
+        785,
+        51354
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1504120918420645,
+      "compression_ratio": 1.5248618784530388,
+      "no_speech_prob": 0.27490234375,
+      "words": [
+        {
+          "word": " podemos",
+          "start": 337.53,
+          "end": 337.79,
+          "probability": 0.95654296875
+        },
+        {
+          "word": " seguir",
+          "start": 337.79,
+          "end": 338.35,
+          "probability": 0.994140625
+        },
+        {
+          "word": " y",
+          "start": 338.35,
+          "end": 338.93,
+          "probability": 0.7998046875
+        },
+        {
+          "word": " obtenemos",
+          "start": 338.93,
+          "end": 339.33,
+          "probability": 0.995849609375
+        },
+        {
+          "word": " esta",
+          "start": 339.33,
+          "end": 339.53,
+          "probability": 0.95947265625
+        },
+        {
+          "word": " expresión.",
+          "start": 339.53,
+          "end": 341.69,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " Entonces",
+          "start": 342.03,
+          "end": 342.27,
+          "probability": 0.90283203125
+        },
+        {
+          "word": " vemos",
+          "start": 342.27,
+          "end": 342.55,
+          "probability": 0.89990234375
+        },
+        {
+          "word": " que",
+          "start": 342.55,
+          "end": 343.75,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " se",
+          "start": 343.75,
+          "end": 344.07,
+          "probability": 0.84814453125
+        },
+        {
+          "word": " va",
+          "start": 344.07,
+          "end": 344.27,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " formando",
+          "start": 344.27,
+          "end": 344.55,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " un",
+          "start": 344.55,
+          "end": 344.75,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " patrón",
+          "start": 344.75,
+          "end": 345.09,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " que",
+          "start": 345.09,
+          "end": 345.39,
+          "probability": 0.94775390625
+        },
+        {
+          "word": " es",
+          "start": 345.39,
+          "end": 346.91,
+          "probability": 0.9951171875
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "seek": 28208,
+      "start": 346.91,
+      "end": 354.51,
+      "text": " lo que el resto a n multiplica c0, que es lo que expresa este término acá. Entonces,",
+      "tokens": [
+        51420,
+        450,
+        631,
+        806,
+        28247,
+        257,
+        297,
+        12788,
+        2262,
+        269,
+        15,
+        11,
+        631,
+        785,
+        450,
+        631,
+        33397,
+        64,
+        4065,
+        45198,
+        78,
+        23496,
+        13,
+        15097,
+        11,
+        51800
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1504120918420645,
+      "compression_ratio": 1.5248618784530388,
+      "no_speech_prob": 0.27490234375,
+      "words": [
+        {
+          "word": " lo",
+          "start": 346.91,
+          "end": 347.31,
+          "probability": 0.7353515625
+        },
+        {
+          "word": " que",
+          "start": 347.31,
+          "end": 347.37,
+          "probability": 0.994140625
+        },
+        {
+          "word": " el",
+          "start": 347.37,
+          "end": 347.49,
+          "probability": 0.84228515625
+        },
+        {
+          "word": " resto",
+          "start": 347.49,
+          "end": 347.81,
+          "probability": 0.72314453125
+        },
+        {
+          "word": " a",
+          "start": 347.81,
+          "end": 348.09,
+          "probability": 0.416015625
+        },
+        {
+          "word": " n",
+          "start": 348.09,
+          "end": 348.69,
+          "probability": 0.339599609375
+        },
+        {
+          "word": " multiplica",
+          "start": 348.69,
+          "end": 349.47,
+          "probability": 0.986572265625
+        },
+        {
+          "word": " c0,",
+          "start": 349.47,
+          "end": 350.25,
+          "probability": 0.78857421875
+        },
+        {
+          "word": " que",
+          "start": 350.53,
+          "end": 350.67,
+          "probability": 0.91552734375
+        },
+        {
+          "word": " es",
+          "start": 350.67,
+          "end": 350.71,
+          "probability": 0.98486328125
+        },
+        {
+          "word": " lo",
+          "start": 350.71,
+          "end": 350.87,
+          "probability": 0.998046875
+        },
+        {
+          "word": " que",
+          "start": 350.87,
+          "end": 351.09,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " expresa",
+          "start": 351.09,
+          "end": 351.51,
+          "probability": 0.986572265625
+        },
+        {
+          "word": " este",
+          "start": 351.51,
+          "end": 351.73,
+          "probability": 0.97265625
+        },
+        {
+          "word": " término",
+          "start": 351.73,
+          "end": 352.13,
+          "probability": 0.981201171875
+        },
+        {
+          "word": " acá.",
+          "start": 352.13,
+          "end": 352.87,
+          "probability": 0.7998046875
+        },
+        {
+          "word": " Entonces,",
+          "start": 353.85,
+          "end": 354.51,
+          "probability": 0.9755859375
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "seek": 31208,
+      "start": 355.73,
+      "end": 364.69,
+      "text": " qué es lo que pasa cuando k es igual a n. Se anula. Esta expresión queda cero acá y queda n acá.",
+      "tokens": [
+        50372,
+        8057,
+        785,
+        450,
+        631,
+        20260,
+        7767,
+        350,
+        785,
+        10953,
+        257,
+        297,
+        13,
+        1100,
+        364,
+        3780,
+        13,
+        20547,
+        33397,
+        2560,
+        23314,
+        269,
+        2032,
+        23496,
+        288,
+        23314,
+        297,
+        23496,
+        13,
+        50812
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17641715445490772,
+      "compression_ratio": 1.5414364640883977,
+      "no_speech_prob": 0.0009694099426269531,
+      "words": [
+        {
+          "word": " qué",
+          "start": 355.73,
+          "end": 356.33,
+          "probability": 0.0085296630859375
+        },
+        {
+          "word": " es",
+          "start": 356.33,
+          "end": 356.35,
+          "probability": 0.98046875
+        },
+        {
+          "word": " lo",
+          "start": 356.35,
+          "end": 356.51,
+          "probability": 0.998046875
+        },
+        {
+          "word": " que",
+          "start": 356.51,
+          "end": 356.67,
+          "probability": 0.9921875
+        },
+        {
+          "word": " pasa",
+          "start": 356.67,
+          "end": 356.97,
+          "probability": 0.9853515625
+        },
+        {
+          "word": " cuando",
+          "start": 356.97,
+          "end": 357.55,
+          "probability": 0.9248046875
+        },
+        {
+          "word": " k",
+          "start": 357.55,
+          "end": 357.87,
+          "probability": 0.463134765625
+        },
+        {
+          "word": " es",
+          "start": 357.87,
+          "end": 358.07,
+          "probability": 0.424560546875
+        },
+        {
+          "word": " igual",
+          "start": 358.07,
+          "end": 358.35,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " a",
+          "start": 358.35,
+          "end": 358.55,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " n.",
+          "start": 358.55,
+          "end": 359.19,
+          "probability": 0.888671875
+        },
+        {
+          "word": " Se",
+          "start": 359.73,
+          "end": 359.93,
+          "probability": 0.62548828125
+        },
+        {
+          "word": " anula.",
+          "start": 359.93,
+          "end": 360.75,
+          "probability": 0.993896484375
+        },
+        {
+          "word": " Esta",
+          "start": 361.07,
+          "end": 361.11,
+          "probability": 0.8505859375
+        },
+        {
+          "word": " expresión",
+          "start": 361.11,
+          "end": 361.77,
+          "probability": 0.996337890625
+        },
+        {
+          "word": " queda",
+          "start": 361.77,
+          "end": 362.01,
+          "probability": 0.89501953125
+        },
+        {
+          "word": " cero",
+          "start": 362.01,
+          "end": 362.29,
+          "probability": 0.59375
+        },
+        {
+          "word": " acá",
+          "start": 362.29,
+          "end": 362.73,
+          "probability": 0.97265625
+        },
+        {
+          "word": " y",
+          "start": 362.73,
+          "end": 363.93,
+          "probability": 0.57568359375
+        },
+        {
+          "word": " queda",
+          "start": 363.93,
+          "end": 364.15,
+          "probability": 0.98876953125
+        },
+        {
+          "word": " n",
+          "start": 364.15,
+          "end": 364.39,
+          "probability": 0.9599609375
+        },
+        {
+          "word": " acá.",
+          "start": 364.39,
+          "end": 364.69,
+          "probability": 0.98486328125
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "seek": 31208,
+      "start": 366.09,
+      "end": 372.87,
+      "text": " Como queda cero acá, llegamos al paso base. Entonces tenemos que cuando n es igual a k,",
+      "tokens": [
+        50862,
+        11913,
+        23314,
+        269,
+        2032,
+        23496,
+        11,
+        11234,
+        2151,
+        419,
+        29212,
+        3096,
+        13,
+        15097,
+        9914,
+        631,
+        7767,
+        297,
+        785,
+        10953,
+        257,
+        350,
+        11,
+        51198
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17641715445490772,
+      "compression_ratio": 1.5414364640883977,
+      "no_speech_prob": 0.0009694099426269531,
+      "words": [
+        {
+          "word": " Como",
+          "start": 366.09,
+          "end": 366.21,
+          "probability": 0.8330078125
+        },
+        {
+          "word": " queda",
+          "start": 366.21,
+          "end": 366.41,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " cero",
+          "start": 366.41,
+          "end": 366.77,
+          "probability": 0.946044921875
+        },
+        {
+          "word": " acá,",
+          "start": 366.77,
+          "end": 367.13,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " llegamos",
+          "start": 367.21,
+          "end": 367.59,
+          "probability": 0.9912109375
+        },
+        {
+          "word": " al",
+          "start": 367.59,
+          "end": 367.75,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " paso",
+          "start": 367.75,
+          "end": 368.07,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " base.",
+          "start": 368.07,
+          "end": 368.59,
+          "probability": 0.97607421875
+        },
+        {
+          "word": " Entonces",
+          "start": 369.85,
+          "end": 370.45,
+          "probability": 0.94482421875
+        },
+        {
+          "word": " tenemos",
+          "start": 370.45,
+          "end": 371.07,
+          "probability": 0.58984375
+        },
+        {
+          "word": " que",
+          "start": 371.07,
+          "end": 371.27,
+          "probability": 0.98974609375
+        },
+        {
+          "word": " cuando",
+          "start": 371.27,
+          "end": 371.53,
+          "probability": 0.98046875
+        },
+        {
+          "word": " n",
+          "start": 371.53,
+          "end": 371.73,
+          "probability": 0.96337890625
+        },
+        {
+          "word": " es",
+          "start": 371.73,
+          "end": 371.93,
+          "probability": 0.9658203125
+        },
+        {
+          "word": " igual",
+          "start": 371.93,
+          "end": 372.07,
+          "probability": 0.99951171875
+        },
+        {
+          "word": " a",
+          "start": 372.07,
+          "end": 372.25,
+          "probability": 0.78076171875
+        },
+        {
+          "word": " k,",
+          "start": 372.25,
+          "end": 372.87,
+          "probability": 0.9755859375
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "seek": 31208,
+      "start": 373.17,
+      "end": 382.45,
+      "text": " tn es menor o igual a t0 más n por c0. Que aplicando esta parte de la ecuación acotamos",
+      "tokens": [
+        51198,
+        256,
+        77,
+        785,
+        26343,
+        277,
+        10953,
+        257,
+        256,
+        15,
+        3573,
+        297,
+        1515,
+        269,
+        15,
+        13,
+        4493,
+        18221,
+        1806,
+        5283,
+        6975,
+        368,
+        635,
+        11437,
+        84,
+        3482,
+        696,
+        310,
+        2151,
+        51696
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17641715445490772,
+      "compression_ratio": 1.5414364640883977,
+      "no_speech_prob": 0.0009694099426269531,
+      "words": [
+        {
+          "word": " tn",
+          "start": 373.17,
+          "end": 373.43,
+          "probability": 0.466064453125
+        },
+        {
+          "word": " es",
+          "start": 373.43,
+          "end": 373.63,
+          "probability": 0.8935546875
+        },
+        {
+          "word": " menor",
+          "start": 373.63,
+          "end": 373.85,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " o",
+          "start": 373.85,
+          "end": 374.03,
+          "probability": 0.9140625
+        },
+        {
+          "word": " igual",
+          "start": 374.03,
+          "end": 374.31,
+          "probability": 0.99560546875
+        },
+        {
+          "word": " a",
+          "start": 374.31,
+          "end": 374.69,
+          "probability": 0.986328125
+        },
+        {
+          "word": " t0",
+          "start": 374.69,
+          "end": 375.33,
+          "probability": 0.796630859375
+        },
+        {
+          "word": " más",
+          "start": 375.33,
+          "end": 376.19,
+          "probability": 0.68701171875
+        },
+        {
+          "word": " n",
+          "start": 376.19,
+          "end": 376.57,
+          "probability": 0.9599609375
+        },
+        {
+          "word": " por",
+          "start": 376.57,
+          "end": 376.83,
+          "probability": 0.5263671875
+        },
+        {
+          "word": " c0.",
+          "start": 376.83,
+          "end": 377.71,
+          "probability": 0.960205078125
+        },
+        {
+          "word": " Que",
+          "start": 378.75,
+          "end": 379.13,
+          "probability": 0.78466796875
+        },
+        {
+          "word": " aplicando",
+          "start": 379.13,
+          "end": 379.95,
+          "probability": 0.8798828125
+        },
+        {
+          "word": " esta",
+          "start": 379.95,
+          "end": 380.21,
+          "probability": 0.96875
+        },
+        {
+          "word": " parte",
+          "start": 380.21,
+          "end": 380.49,
+          "probability": 0.998046875
+        },
+        {
+          "word": " de",
+          "start": 380.49,
+          "end": 380.61,
+          "probability": 0.990234375
+        },
+        {
+          "word": " la",
+          "start": 380.61,
+          "end": 380.73,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " ecuación",
+          "start": 380.73,
+          "end": 381.77,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " acotamos",
+          "start": 381.77,
+          "end": 382.45,
+          "probability": 0.8318684895833334
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "seek": 33898,
+      "start": 382.45,
+      "end": 389.73,
+      "text": " como c1 más nc0. Entonces, el tiempo de ejecución de la función está acotado por esta expresión.",
+      "tokens": [
+        50364,
+        2617,
+        269,
+        16,
+        3573,
+        297,
+        66,
+        15,
+        13,
+        15097,
+        11,
+        806,
+        11772,
+        368,
+        39564,
+        12032,
+        5687,
+        368,
+        635,
+        43735,
+        3192,
+        696,
+        310,
+        1573,
+        1515,
+        5283,
+        33397,
+        2560,
+        13,
+        50728
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16176470728481518,
+      "compression_ratio": 1.6685714285714286,
+      "no_speech_prob": 0.12237548828125,
+      "words": [
+        {
+          "word": " como",
+          "start": 382.45,
+          "end": 382.85,
+          "probability": 0.256103515625
+        },
+        {
+          "word": " c1",
+          "start": 382.85,
+          "end": 383.43,
+          "probability": 0.5931396484375
+        },
+        {
+          "word": " más",
+          "start": 383.43,
+          "end": 384.15,
+          "probability": 0.36767578125
+        },
+        {
+          "word": " nc0.",
+          "start": 384.15,
+          "end": 385.63,
+          "probability": 0.5652872721354166
+        },
+        {
+          "word": " Entonces,",
+          "start": 386.03,
+          "end": 386.47,
+          "probability": 0.931640625
+        },
+        {
+          "word": " el",
+          "start": 387.07,
+          "end": 387.15,
+          "probability": 0.984375
+        },
+        {
+          "word": " tiempo",
+          "start": 387.15,
+          "end": 387.43,
+          "probability": 0.9990234375
+        },
+        {
+          "word": " de",
+          "start": 387.43,
+          "end": 387.51,
+          "probability": 0.94384765625
+        },
+        {
+          "word": " ejecución",
+          "start": 387.51,
+          "end": 387.83,
+          "probability": 0.9947916666666666
+        },
+        {
+          "word": " de",
+          "start": 387.83,
+          "end": 387.93,
+          "probability": 0.97802734375
+        },
+        {
+          "word": " la",
+          "start": 387.93,
+          "end": 388.07,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " función",
+          "start": 388.07,
+          "end": 388.39,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " está",
+          "start": 388.39,
+          "end": 388.67,
+          "probability": 0.91064453125
+        },
+        {
+          "word": " acotado",
+          "start": 388.67,
+          "end": 388.99,
+          "probability": 0.7058919270833334
+        },
+        {
+          "word": " por",
+          "start": 388.99,
+          "end": 389.23,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " esta",
+          "start": 389.23,
+          "end": 389.35,
+          "probability": 0.94677734375
+        },
+        {
+          "word": " expresión.",
+          "start": 389.35,
+          "end": 389.73,
+          "probability": 0.9794921875
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "seek": 33898,
+      "start": 390.79,
+      "end": 398.55,
+      "text": " Por lo tanto, el programa que nosotros hicimos y modelamos con esta ecuación de recurrencia tiene",
+      "tokens": [
+        50728,
+        5269,
+        450,
+        10331,
+        11,
+        806,
+        21846,
+        631,
+        13863,
+        23697,
+        8372,
+        288,
+        2316,
+        2151,
+        416,
+        5283,
+        11437,
+        84,
+        3482,
+        368,
+        18680,
+        1095,
+        2755,
+        7066,
+        51168
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16176470728481518,
+      "compression_ratio": 1.6685714285714286,
+      "no_speech_prob": 0.12237548828125,
+      "words": [
+        {
+          "word": " Por",
+          "start": 390.79,
+          "end": 390.93,
+          "probability": 0.96484375
+        },
+        {
+          "word": " lo",
+          "start": 390.93,
+          "end": 391.09,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " tanto,",
+          "start": 391.09,
+          "end": 391.67,
+          "probability": 0.99951171875
+        },
+        {
+          "word": " el",
+          "start": 393.47,
+          "end": 393.53,
+          "probability": 0.92041015625
+        },
+        {
+          "word": " programa",
+          "start": 393.53,
+          "end": 393.83,
+          "probability": 0.99658203125
+        },
+        {
+          "word": " que",
+          "start": 393.83,
+          "end": 394.01,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " nosotros",
+          "start": 394.01,
+          "end": 394.37,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " hicimos",
+          "start": 394.37,
+          "end": 395.03,
+          "probability": 0.997802734375
+        },
+        {
+          "word": " y",
+          "start": 395.03,
+          "end": 395.53,
+          "probability": 0.576171875
+        },
+        {
+          "word": " modelamos",
+          "start": 395.53,
+          "end": 395.89,
+          "probability": 0.992919921875
+        },
+        {
+          "word": " con",
+          "start": 395.89,
+          "end": 396.17,
+          "probability": 0.9931640625
+        },
+        {
+          "word": " esta",
+          "start": 396.17,
+          "end": 396.49,
+          "probability": 0.974609375
+        },
+        {
+          "word": " ecuación",
+          "start": 396.49,
+          "end": 396.87,
+          "probability": 0.9944661458333334
+        },
+        {
+          "word": " de",
+          "start": 396.87,
+          "end": 397.11,
+          "probability": 0.998046875
+        },
+        {
+          "word": " recurrencia",
+          "start": 397.11,
+          "end": 398.19,
+          "probability": 0.9806315104166666
+        },
+        {
+          "word": " tiene",
+          "start": 398.19,
+          "end": 398.55,
+          "probability": 0.50830078125
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "seek": 33898,
+      "start": 398.55,
+      "end": 407.63,
+      "text": " el tiempo acotado por c1 más nc0. Entonces, el programa es de orden n. Con esto terminamos",
+      "tokens": [
+        51168,
+        806,
+        11772,
+        696,
+        310,
+        1573,
+        1515,
+        269,
+        16,
+        3573,
+        297,
+        66,
+        15,
+        13,
+        15097,
+        11,
+        806,
+        21846,
+        785,
+        368,
+        28615,
+        297,
+        13,
+        2656,
+        7433,
+        10761,
+        2151,
+        51624
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16176470728481518,
+      "compression_ratio": 1.6685714285714286,
+      "no_speech_prob": 0.12237548828125,
+      "words": [
+        {
+          "word": " el",
+          "start": 398.55,
+          "end": 398.71,
+          "probability": 0.958984375
+        },
+        {
+          "word": " tiempo",
+          "start": 398.71,
+          "end": 398.91,
+          "probability": 0.99951171875
+        },
+        {
+          "word": " acotado",
+          "start": 398.91,
+          "end": 399.39,
+          "probability": 0.98193359375
+        },
+        {
+          "word": " por",
+          "start": 399.39,
+          "end": 399.77,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " c1",
+          "start": 399.77,
+          "end": 400.29,
+          "probability": 0.978271484375
+        },
+        {
+          "word": " más",
+          "start": 400.29,
+          "end": 400.83,
+          "probability": 0.916015625
+        },
+        {
+          "word": " nc0.",
+          "start": 400.83,
+          "end": 402.29,
+          "probability": 0.9934895833333334
+        },
+        {
+          "word": " Entonces,",
+          "start": 402.51,
+          "end": 402.95,
+          "probability": 0.98046875
+        },
+        {
+          "word": " el",
+          "start": 403.31,
+          "end": 403.45,
+          "probability": 0.99609375
+        },
+        {
+          "word": " programa",
+          "start": 403.45,
+          "end": 403.79,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " es",
+          "start": 403.79,
+          "end": 403.97,
+          "probability": 0.99169921875
+        },
+        {
+          "word": " de",
+          "start": 403.97,
+          "end": 404.11,
+          "probability": 0.98779296875
+        },
+        {
+          "word": " orden",
+          "start": 404.11,
+          "end": 404.29,
+          "probability": 0.982421875
+        },
+        {
+          "word": " n.",
+          "start": 404.29,
+          "end": 404.61,
+          "probability": 0.7841796875
+        },
+        {
+          "word": " Con",
+          "start": 406.47,
+          "end": 406.71,
+          "probability": 0.9736328125
+        },
+        {
+          "word": " esto",
+          "start": 406.71,
+          "end": 407.11,
+          "probability": 0.9892578125
+        },
+        {
+          "word": " terminamos",
+          "start": 407.11,
+          "end": 407.63,
+          "probability": 0.78955078125
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "seek": 36416,
+      "start": 407.63,
+      "end": 413.93,
+      "text": " el ejercicio. Vemos entonces que la función imprimir lista de reverso efectivamente imprime",
+      "tokens": [
+        50364,
+        806,
+        39151,
+        18322,
+        13,
+        691,
+        4485,
+        13003,
+        631,
+        635,
+        43735,
+        704,
+        5565,
+        347,
+        27764,
+        368,
+        18438,
+        539,
+        22565,
+        23957,
+        704,
+        81,
+        1312,
+        50676
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20218211695038038,
+      "compression_ratio": 1.4563758389261745,
+      "no_speech_prob": 0.420654296875,
+      "words": [
+        {
+          "word": " el",
+          "start": 407.63,
+          "end": 407.63,
+          "probability": 0.053314208984375
+        },
+        {
+          "word": " ejercicio.",
+          "start": 407.63,
+          "end": 408.95,
+          "probability": 0.997802734375
+        },
+        {
+          "word": " Vemos",
+          "start": 409.25,
+          "end": 409.51,
+          "probability": 0.985107421875
+        },
+        {
+          "word": " entonces",
+          "start": 409.51,
+          "end": 409.99,
+          "probability": 0.92822265625
+        },
+        {
+          "word": " que",
+          "start": 409.99,
+          "end": 410.25,
+          "probability": 0.93212890625
+        },
+        {
+          "word": " la",
+          "start": 410.25,
+          "end": 410.39,
+          "probability": 0.98583984375
+        },
+        {
+          "word": " función",
+          "start": 410.39,
+          "end": 410.71,
+          "probability": 0.9921875
+        },
+        {
+          "word": " imprimir",
+          "start": 410.71,
+          "end": 411.21,
+          "probability": 0.78125
+        },
+        {
+          "word": " lista",
+          "start": 411.21,
+          "end": 411.43,
+          "probability": 0.5498046875
+        },
+        {
+          "word": " de",
+          "start": 411.43,
+          "end": 411.77,
+          "probability": 0.97119140625
+        },
+        {
+          "word": " reverso",
+          "start": 411.77,
+          "end": 412.77,
+          "probability": 0.89404296875
+        },
+        {
+          "word": " efectivamente",
+          "start": 412.77,
+          "end": 413.57,
+          "probability": 0.901123046875
+        },
+        {
+          "word": " imprime",
+          "start": 413.57,
+          "end": 413.93,
+          "probability": 0.9392903645833334
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "seek": 36416,
+      "start": 413.93,
+      "end": 418.19,
+      "text": " los elementos de la lista de atrás para adelante. Y además, con lo que calculamos,",
+      "tokens": [
+        50676,
+        1750,
+        35797,
+        368,
+        635,
+        27764,
+        368,
+        22906,
+        1690,
+        40214,
+        13,
+        398,
+        21251,
+        11,
+        416,
+        450,
+        631,
+        4322,
+        2151,
+        11,
+        50892
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20218211695038038,
+      "compression_ratio": 1.4563758389261745,
+      "no_speech_prob": 0.420654296875,
+      "words": [
+        {
+          "word": " los",
+          "start": 413.93,
+          "end": 414.07,
+          "probability": 0.99365234375
+        },
+        {
+          "word": " elementos",
+          "start": 414.07,
+          "end": 414.39,
+          "probability": 0.99853515625
+        },
+        {
+          "word": " de",
+          "start": 414.39,
+          "end": 414.57,
+          "probability": 0.9951171875
+        },
+        {
+          "word": " la",
+          "start": 414.57,
+          "end": 414.73,
+          "probability": 0.990234375
+        },
+        {
+          "word": " lista",
+          "start": 414.73,
+          "end": 414.91,
+          "probability": 0.99755859375
+        },
+        {
+          "word": " de",
+          "start": 414.91,
+          "end": 415.07,
+          "probability": 0.55810546875
+        },
+        {
+          "word": " atrás",
+          "start": 415.07,
+          "end": 415.23,
+          "probability": 0.9833984375
+        },
+        {
+          "word": " para",
+          "start": 415.23,
+          "end": 415.47,
+          "probability": 0.990234375
+        },
+        {
+          "word": " adelante.",
+          "start": 415.47,
+          "end": 415.83,
+          "probability": 0.7841796875
+        },
+        {
+          "word": " Y",
+          "start": 416.67,
+          "end": 416.79,
+          "probability": 0.79443359375
+        },
+        {
+          "word": " además,",
+          "start": 416.79,
+          "end": 417.21,
+          "probability": 0.89013671875
+        },
+        {
+          "word": " con",
+          "start": 417.41,
+          "end": 417.49,
+          "probability": 0.9873046875
+        },
+        {
+          "word": " lo",
+          "start": 417.49,
+          "end": 417.61,
+          "probability": 0.994140625
+        },
+        {
+          "word": " que",
+          "start": 417.61,
+          "end": 417.81,
+          "probability": 0.990234375
+        },
+        {
+          "word": " calculamos,",
+          "start": 417.81,
+          "end": 418.19,
+          "probability": 0.994140625
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "seek": 36416,
+      "start": 419.11,
+      "end": 421.19,
+      "text": " podemos ver que lo calcula en tiempo n.",
+      "tokens": [
+        50892,
+        12234,
+        1306,
+        631,
+        450,
+        4322,
+        64,
+        465,
+        11772,
+        297,
+        13,
+        51040
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.20218211695038038,
+      "compression_ratio": 1.4563758389261745,
+      "no_speech_prob": 0.420654296875,
+      "words": [
+        {
+          "word": " podemos",
+          "start": 419.11,
+          "end": 419.19,
+          "probability": 0.990234375
+        },
+        {
+          "word": " ver",
+          "start": 419.19,
+          "end": 419.47,
+          "probability": 0.9970703125
+        },
+        {
+          "word": " que",
+          "start": 419.47,
+          "end": 419.69,
+          "probability": 0.99462890625
+        },
+        {
+          "word": " lo",
+          "start": 419.69,
+          "end": 419.95,
+          "probability": 0.91064453125
+        },
+        {
+          "word": " calcula",
+          "start": 419.95,
+          "end": 420.33,
+          "probability": 0.98388671875
+        },
+        {
+          "word": " en",
+          "start": 420.33,
+          "end": 420.51,
+          "probability": 0.99267578125
+        },
+        {
+          "word": " tiempo",
+          "start": 420.51,
+          "end": 420.83,
+          "probability": 0.99072265625
+        },
+        {
+          "word": " n.",
+          "start": 420.83,
+          "end": 421.19,
+          "probability": 0.07110595703125
+        }
+      ]
+    }
+  ],
+  "language_probability": 1,
+  "duration": 421.504,
+  "duration_after_vad": 378.032,
+  "model_size": "medium",
+  "language": "es",
+  "source_file": "audios/p2p/p2p_18.m4a",
+  "file_size_bytes": 6856081,
+  "processing_time": 19.261226654052734,
+  "device_used": "cuda",
+  "segments_count": 49
+}

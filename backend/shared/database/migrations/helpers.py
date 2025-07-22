@@ -1,3 +1,5 @@
+from collections.abc import Iterable
+
 import sqlalchemy as sa
 from alembic import op
 from sqlalchemy.dialects import postgresql
@@ -37,7 +39,7 @@ def setup_timestamp_triggers() -> None:
     )
 
 
-def add_timestamp_trigger(table_name: str, schema: str = None) -> None:
+def add_timestamp_trigger(table_name: str, schema: str | None = None) -> None:
     """Add timestamp trigger to a specific table."""
     table_ref = f"{schema}.{table_name}" if schema else table_name
     op.execute(
@@ -69,7 +71,11 @@ def add_jsonb_metadata_column(column_name: str) -> sa.Column:
     )
 
 
-def create_gin_index(table_name: str, column_name: str, schema: str = None) -> None:
+def create_gin_index(
+    table_name: str,
+    column_name: str,
+    schema: str | None = None,
+) -> None:
     """Create a GIN index for JSONB columns."""
     op.create_index(
         f"idx_{table_name}_{column_name}",
@@ -81,7 +87,12 @@ def create_gin_index(table_name: str, column_name: str, schema: str = None) -> N
     )
 
 
-def create_btree_index(table_name: str, columns: list[str], schema: str = None, unique: bool = False) -> None:
+def create_btree_index(
+    table_name: str,
+    columns: Iterable[str],
+    schema: str | None = None,
+    unique: bool = False,
+) -> None:
     """Create a B-tree index."""
     index_name = f"idx_{table_name}_{'_'.join(columns)}"
     op.create_index(
@@ -94,18 +105,30 @@ def create_btree_index(table_name: str, columns: list[str], schema: str = None, 
     )
 
 
-def drop_btree_index(table_name: str, columns: list[str], schema: str = None) -> None:
+def drop_btree_index(
+    table_name: str,
+    columns: Iterable[str],
+    schema: str | None = None,
+) -> None:
     """Drop a B-tree index (matching the create_btree_index naming)."""
     index_name = f"idx_{table_name}_{'_'.join(columns)}"
     op.drop_index(index_name, table_name=table_name, schema=schema)
 
 
-def drop_gin_index(table_name: str, column_name: str, schema: str = None) -> None:
+def drop_gin_index(
+    table_name: str,
+    column_name: str,
+    schema: str | None = None,
+) -> None:
     """Drop a GIN index (matching the create_gin_index naming)."""
-    op.drop_index(f"idx_{table_name}_{column_name}", table_name=table_name, schema=schema)
+    op.drop_index(
+        f"idx_{table_name}_{column_name}",
+        table_name=table_name,
+        schema=schema,
+    )
 
 
-def drop_timestamp_trigger(table_name: str, schema: str = None) -> None:
+def drop_timestamp_trigger(table_name: str, schema: str | None = None) -> None:
     """Drop timestamp trigger from a specific table."""
     table_ref = f"{schema}.{table_name}" if schema else table_name
     op.execute(f"DROP TRIGGER IF EXISTS update_{table_name}_timestamp ON {table_ref}")

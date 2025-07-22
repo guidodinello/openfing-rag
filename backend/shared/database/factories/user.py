@@ -1,7 +1,7 @@
 from sqlalchemy import func, select
 
 from shared.database.factories.base import BaseFactory
-from shared.database.models.user import User
+from shared.database.models import User
 
 
 class UserFactory(BaseFactory[User]):

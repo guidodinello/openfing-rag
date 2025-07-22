@@ -3,8 +3,7 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
-from shared.database.models.rag.course import Course
-from shared.database.models.rag.lesson import Lesson
+from shared.database.models import Course, Lesson
 from shared.database.repositories import BaseRepository
 
 
@@ -12,12 +11,11 @@ class LessonRepository(BaseRepository[Lesson]):
     def __init__(self, db: Session):
         super().__init__(Lesson, db)
 
-    def get_by_course_and_number(self, course_id: int, number: int) -> Lesson | None:
-        return self.get_by(course_id=course_id, number=number)
-
     def get_by_course(self, course_id: int) -> list[Lesson]:
         return (
-            self.db.execute(select(self.model).where(self.model.course_id == course_id).order_by(self.model.number))
+            self.db.execute(
+                select(self.model).where(self.model.course_id == course_id).order_by(self.model.number),
+            )
             .scalars()
             .all()
         )
@@ -33,16 +31,11 @@ class LessonRepository(BaseRepository[Lesson]):
             .first()
         )
 
-    def update_or_create_by_course_and_number(self, course_id: int, number: int, **data) -> tuple[Lesson, bool]:
-        return self.update_or_create(data, course_id=course_id, number=number)
-
     def get_downloadable_lessons_by_course_code(
         self,
         course_code: str,
         lesson_numbers: list[int] | None = None,
     ) -> list[Lesson]:
-        from shared.database.models.rag.course import Course
-
         query = (
             select(self.model)
             .join(Course, self.model.course_id == Course.id)
@@ -60,4 +53,7 @@ class LessonRepository(BaseRepository[Lesson]):
         return self.db.execute(query).scalars().all()
 
     def bulk_sync_lessons(self, lessons_data: list[dict[str, Any]]) -> dict[str, int]:
-        return self.bulk_update_or_create(lessons_data, unique_fields=["course_id", "number"])
+        return self.bulk_update_or_create(
+            lessons_data,
+            unique_fields=["course_id", "number"],
+        )

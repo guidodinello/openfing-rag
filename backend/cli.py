@@ -5,7 +5,7 @@ from services.downloader.cli import app as downloader_app
 from services.generator.cli import app as generator_app
 from services.scraper.cli import app as scraper_app
 from services.transcriber.cli import app as transcriber_app
-from shared.config.config import get_settings
+from shared.config import get_settings
 from shared.decorators.cli_error_handlers import handle_cli_errors
 
 settings = get_settings()
@@ -16,31 +16,18 @@ app = typer.Typer(
     no_args_is_help=True,
 )
 
-app.add_typer(downloader_app, name="downloader", help="📥 Download videos from OpenFing")
+app.add_typer(
+    downloader_app,
+    name="downloader",
+    help="📥 Download videos from OpenFing",
+)
 app.add_typer(generator_app, name="generator", help="🤖 RAG and AI generation services")
-app.add_typer(transcriber_app, name="transcriber", help="🎤 Audio transcription services")
+app.add_typer(
+    transcriber_app,
+    name="transcriber",
+    help="🎤 Audio transcription services",
+)
 app.add_typer(scraper_app, name="scraper", help="🕷️  Web scraping services")
-
-
-@app.command()
-def status():
-    """Show system status and available services."""
-    console.print("\n🚀 [bold green]OpenFing Chat Backend Services[/bold green]\n")
-
-    services = [
-        ("downloader", "📥 Video downloading", downloader_app is not None),
-        ("generator", "🤖 RAG & AI generation", generator_app is not None),
-        ("scraper", "🕷️ Web scraping", scraper_app is not None),
-        ("transcriber", "🎤 Audio transcription", transcriber_app is not None),
-    ]
-
-    for _, description, available in services:
-        status_icon = "✅" if available else "❌"
-        console.print(f"{status_icon} {description}")
-
-    console.print(
-        "\n💡 [dim]Run [bold]openchat <service> --help[/bold] for service-specific commands[/dim]",
-    )
 
 
 @app.command()

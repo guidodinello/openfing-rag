@@ -1,6 +1,6 @@
 import functools
-import uuid
 from datetime import datetime
+from enum import StrEnum
 from typing import Any
 
 import psycopg
@@ -10,31 +10,27 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_postgres import PGEngine, PGVectorStore
 from sqlalchemy.orm import Session
 
-from services.transcriber.core.chunker import Chunker
-from services.transcriber.core.embedder import Embedder
-from shared.config.config import Settings, get_settings
+from shared.config import get_settings
 from shared.database.repositories import TranscriptionRepository
-from shared.logging.logger import get_logger
+from shared.enums import WhisperModelSize
+from shared.file_utils import TranscriptionFileUtils
+from shared.logging import get_logger
 from shared.utils import normalize_json
+from shared.vectors import ChunkId
+from shared.vectors.chunking import generate_chunk_uuid
+from shared.vectors.chunking.protocol import ChunkerProtocol
+from shared.vectors.embedding.protocol import EmbedderProtocol
 
 logger = get_logger(__name__)
 settings = get_settings()
 
-# Application namespace for deterministic UUIDs
-TRANSCRIPTION_NAMESPACE = uuid.uuid5(uuid.NAMESPACE_DNS, "openfing.transcription")
 
+class MetadataColumn(StrEnum):
+    """Enum for metadata column names to ensure type safety."""
 
-def generate_chunk_uuid(transcription_id: int, chunk_index: int) -> str:
-    """
-    Generate a deterministic UUID for a transcription chunk.
-
-    This ensures:
-    - Same transcription + chunk always gets same UUID
-    - Clean upserts when re-transcribing
-    - Easy calculation for deletion/updates
-    """
-    seed = f"transcription_{transcription_id}_chunk_{chunk_index}"
-    return str(uuid.uuid5(TRANSCRIPTION_NAMESPACE, seed))
+    LESSON_ID = "lesson_id"
+    COURSE_ID = "course_id"
+    TRANSCRIPTION_ID = "transcription_id"
 
 
 ## TODO: should i call it ChunkRepository?
@@ -45,34 +41,37 @@ class VectorRepository:
 
     def __init__(
         self,
-        config: Settings,
         db: Session,
-        chunker: Chunker | None = None,
-        embedder: Embedder | None = None,
+        chunker: ChunkerProtocol,
+        embedder: EmbedderProtocol,
+        transcription_repo: TranscriptionRepository,
     ):
-        self.config = config
         self.db = db
-        self.transcription_repo = TranscriptionRepository(db)
-
-        self._embedder = embedder or Embedder()  # TODO: the service should inject these params?
-        self._chunker = chunker or Chunker()
+        self.transcription_repo = transcription_repo
+        self._embedder = embedder
+        self._chunker = chunker
 
         logger.info("Vector repository initialized successfully")
 
     @functools.cached_property
     def _engine(self):
-        return PGEngine.from_connection_string(url=self.config.DATABASE.URL)
+        return PGEngine.from_connection_string(url=settings.DATABASE.URL)
 
     @functools.cached_property
     def _vector_store(self) -> PGVectorStore:
-        table_name = self.config.DATABASE.VECTOR_STORE_COLLECTION
+        table_name = settings.DATABASE.VECTOR_STORE_COLLECTION
 
         try:
             self._engine.init_vectorstore_table(
                 table_name=table_name,
-                vector_size=self.config.EMBEDDINGS.DIMENSION,
+                vector_size=settings.EMBEDDINGS.DIMENSION,
                 schema_name="rag",
                 id_column="uuid",
+                metadata_columns=[
+                    {"name": MetadataColumn.LESSON_ID.value, "data_type": "INTEGER", "nullable": False},
+                    {"name": MetadataColumn.COURSE_ID.value, "data_type": "INTEGER", "nullable": False},
+                    {"name": MetadataColumn.TRANSCRIPTION_ID.value, "data_type": "INTEGER", "nullable": False},
+                ],
                 metadata_json_column="metadata",
             )
             logger.info(f"Created new vector store table: {table_name}")
@@ -90,13 +89,18 @@ class VectorRepository:
             embedding_service=self._embedder.model,
             schema_name="rag",
             id_column="uuid",
+            metadata_columns=[
+                MetadataColumn.LESSON_ID.value,
+                MetadataColumn.COURSE_ID.value,
+                MetadataColumn.TRANSCRIPTION_ID.value,
+            ],
             metadata_json_column="metadata",
         )
 
         logger.info(f"Initialized PGVectorStore with {table_name=}")
         return vector_store
 
-    def upsert_transcription(self, transcription_id: int) -> list[str]:
+    def upsert_transcription(self, transcription_id: int) -> list[ChunkId]:
         """
         Re-transcribing the same lesson will replace existing chunks.
         """
@@ -108,16 +112,8 @@ class VectorRepository:
 
         chunks = self._chunker.chunk(
             content=transcription.content,
-            # TODO:
-            # - start timestamp in lesson audio (should be calculated after chunking
-            #  using transcription object metadata)
-            # - end timestamp in lesson audio
-            transcription_metadata=transcription.transcription_metadata
-            | {
-                "transcription_id": transcription.id,
-                "course_code": transcription.lesson.course.code,
-                "lesson_id": transcription.lesson.id,
-            },
+            ## agrega los segments que dsps son usados por el chunker
+            transcription_metadata=self._get_enhanced_transcription_metadata(transcription),
         )
 
         documents, ids = [], []
@@ -128,8 +124,18 @@ class VectorRepository:
                 chunk["metadata"]["chunk_index"],
             )
 
+            del chunk["metadata"]["segments"]
+
             documents.append(
-                Document(page_content=chunk["text"], metadata=chunk["metadata"]),
+                Document(
+                    page_content=chunk["text"],
+                    metadata={
+                        **chunk["metadata"],
+                        MetadataColumn.TRANSCRIPTION_ID.value: transcription.id,
+                        MetadataColumn.LESSON_ID.value: transcription.lesson.id,
+                        MetadataColumn.COURSE_ID.value: transcription.lesson.course.id,
+                    },
+                ),
             )
             ids.append(chunk_uuid)
 
@@ -141,28 +147,98 @@ class VectorRepository:
             {
                 "vectorized": True,
                 "vectorized_at": datetime.now().isoformat(),
-                **normalize_json(self._embedder._model_info(), prefix="embedder"),
+                **normalize_json(self._embedder.model_info(), prefix="embedder"),
             },
         )
 
-        logger.info(f"Ingested {transcription_id=} as {len(added_ids)} chunks")
+        timing_accuracy = chunks[0]["metadata"]["timing_accuracy"] if chunks else "unknown"
+        logger.info(
+            f"Ingested {transcription_id=} as {len(added_ids)} chunks with {timing_accuracy} timing",
+        )
         return added_ids
+
+    def _get_enhanced_transcription_metadata(self, transcription) -> dict[str, Any]:
+        """
+        Get transcription metadata enhanced with segments from original file.
+
+        This provides the best of both worlds:
+        - Database metadata for basic info
+        - Original file segments for accurate timestamps
+        """
+        base_metadata = transcription.transcription_metadata
+
+        # Try to load segments from the original transcription file
+        segments = self._load_segments_from_file(transcription)
+
+        if segments:
+            base_metadata["segments"] = segments
+            logger.debug(
+                f"Loaded {len(segments)} segments from original file for transcription {transcription.id}",
+            )
+        else:
+            logger.warning(
+                f"No segments found for transcription {transcription.id} - will use proportional timing",
+            )
+
+        return base_metadata
+
+    def _load_segments_from_file(self, transcription) -> list[dict] | None:
+        """
+        Load segments from the original transcription JSON file.
+
+        This allows us to get precise timing without storing large segment data in the database.
+        """
+        try:
+            model_size_str = transcription.transcription_metadata.get(
+                "transcriber_model_size",
+            )
+            if not model_size_str:
+                logger.warning(
+                    f"No model size found in transcription {transcription.id} metadata",
+                )
+                return None
+            model_size = WhisperModelSize(model_size_str)
+
+            course_code = transcription.lesson.course.code
+            lesson_number = transcription.lesson.number
+
+            transcription_data = TranscriptionFileUtils.load_transcription(
+                course_code,
+                lesson_number,
+                model_size,
+                ## TODO: pass suffix?
+            )
+
+            if transcription_data and "segments" in transcription_data:
+                return transcription_data["segments"]
+
+            logger.debug(
+                f"No segments in original file for {course_code} lesson {lesson_number}",
+            )
+            return None
+
+        except Exception as e:
+            logger.error(
+                f"Error loading segments from file for transcription {transcription.id}: {e}",
+            )
+            return None
 
     def similarity_search(
         self,
         query: str,
+        courses_ids: list[int],
+        lessons_ids: list[int],
         k: int = 4,
         filter: dict[str, Any] | None = None,
-        course_codes: list[str] | None = None,
-        lesson_ids: list[int] | None = None,
     ) -> list[dict[str, Any]]:
         """Perform similarity search with optional filters."""
-
         search_filter = filter or {}
-        if course_codes:
-            search_filter["course_code"] = {"$in": course_codes}
-        if lesson_ids:
-            search_filter["lesson_id"] = {"$in": lesson_ids}
+        if courses_ids:
+            search_filter[MetadataColumn.COURSE_ID.value] = {"$in": courses_ids}
+        if lessons_ids:
+            search_filter[MetadataColumn.LESSON_ID.value] = {"$in": lessons_ids}
+
+        logger.debug(f"Similarity Search {search_filter=}")
 
         docs_with_scores = self._vector_store.similarity_search_with_score(
             query,
@@ -174,13 +250,10 @@ class VectorRepository:
         for doc, score in docs_with_scores:
             results.append(
                 {
+                    "id": doc.id,
                     "content": doc.page_content,
-                    "metadata": doc.metadata,
                     "score": float(score),
-                    "lesson_id": doc.metadata.get("lesson_id"),
-                    "course_code": doc.metadata.get("course_code"),
-                    "chunk_index": doc.metadata.get("chunk_index"),
-                    "vector_uuid": doc.metadata.get("vector_uuid"),
+                    "metadata": doc.metadata,
                 },
             )
 
@@ -203,58 +276,38 @@ class VectorRepository:
 
     def get_collection_info(self) -> dict[str, Any]:
         """Get information about the vector store collection."""
-        conn_parts = self.config.DATABASE.URL.split("@")
+        conn_parts = settings.DATABASE.URL.split("@")
         host_info = conn_parts[1].split("/")[0] if len(conn_parts) > 1 else "unknown"
 
         return {
-            "collection_name": self.config.VECTOR_STORE_COLLECTION,
+            "collection_name": settings.VECTOR_STORE_COLLECTION,
             "connection_host": host_info,
             "engine_type": type(self._vector_store).__name__,
             "uuid_strategy": f"{__name__}.generate_chunk_uuid",
         }
 
-    def delete_by_transcription(self, transcription_id: int) -> bool:
+    def delete_by_transcription(self, transcription_id: int) -> int:
         """Delete all chunks for a transcription"""
-        try:
-            transcription = self.transcription_repo.get_by_id(transcription_id)
-            if not transcription:
-                logger.debug(f"Transcription {transcription_id} not found")
-                return True
+        transcription = self.transcription_repo.get_by_id(transcription_id)
+        if not transcription:
+            logger.warning(f"Transcription {transcription_id=} not found")
+            return 0
 
-            # TODO: improve this, dont guess, query DB. probably storing the transcription id in the chunk metadata
-            # Calculate all possible chunk UUIDs for this transcription
-            # We need to estimate max chunks or query the vector store
-            max_chunks = 100  # Reasonable upper bound
-            uuids_to_delete = []
+        deleted_count = self._vector_store.delete(filter={MetadataColumn.TRANSCRIPTION_ID.value: transcription_id})
+        self.transcription_repo.mark_as_not_vectorized([transcription_id])
 
-            for chunk_index in range(max_chunks):
-                chunk_uuid = generate_chunk_uuid(transcription_id, chunk_index)
-                uuids_to_delete.append(chunk_uuid)
+        logger.info(f"Deleted vectors for transcription {transcription_id}")
+        return deleted_count
 
-            # Delete from vector store (non-existent UUIDs are ignored)
-            self._vector_store.delete(ids=uuids_to_delete)
-            self.transcription_repo.mark_as_not_vectorized(transcription_id)
-
-            logger.info(f"Deleted vectors for transcription {transcription_id}")
-            return True
-
-        except Exception as e:
-            logger.error(
-                f"Error deleting vectors for transcription {transcription_id}: {e}",
-            )
-            return False
-
-    def delete_by_lesson(self, lesson_id: int) -> bool:
+    def delete_by_lesson(self, lesson_id: int) -> int:
         """Delete all vectors for a lesson."""
-        try:
-            transcriptions = self.transcription_repo.get_by_lesson(lesson_id)
+        transcriptions = self.transcription_repo.get_by_lesson_id(lesson_id)
+        if not transcriptions:
+            logger.warning(f"Transcriptions not found for {lesson_id=}")
+            return 0
 
-            for transcription in transcriptions:
-                self.delete_by_transcription(transcription.id)
+        deleted_count = self._vector_store.delete(filter={MetadataColumn.LESSON_ID.value: lesson_id})
+        self.transcription_repo.mark_as_not_vectorized(tr.id for tr in transcriptions)
 
-            logger.info(f"Deleted vectors for lesson {lesson_id}")
-            return True
-
-        except Exception as e:
-            logger.error(f"Error deleting vectors for lesson {lesson_id}: {e}")
-            return False
+        logger.info(f"Deleted vectors for lesson {lesson_id}")
+        return deleted_count

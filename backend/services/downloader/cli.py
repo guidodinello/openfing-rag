@@ -4,12 +4,12 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from downloader.schemas.domain import DownloadStats
+from services.downloader.schemas import DownloadStats
 from shared.config import get_settings
 from shared.database.service_dependencies import create_downloader_service
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
-from shared.logging.logger import get_logger
+from shared.logging import get_logger
 from shared.utils import parse_cli_list_param
 
 logger = get_logger(__name__)
@@ -38,7 +38,11 @@ def _display_download_progress(course_code: str, result, overall_stats: Download
     console.print(f"[cyan]📊 {result.stats}")
 
 
-def _display_summary_table(overall_stats: DownloadStats, successful_courses: int, total_courses: int):
+def _display_summary_table(
+    overall_stats: DownloadStats,
+    successful_courses: int,
+    total_courses: int,
+):
     """Display final download summary table."""
     summary_table = Table(title="\n📊 Download Summary")
     summary_table.add_column("Metric", style="cyan")
@@ -93,7 +97,10 @@ def download(
             console.print("📋 Will download all available lessons", style="blue")
     except ValueError as e:
         console.print(f"❌ {e}", style="red")
-        console.print("💡 Use format like '1,3,5' or '1-10' or '1,3-5,7'", style="yellow")
+        console.print(
+            "💡 Use format like '1,3,5' or '1-10' or '1,3-5,7'",
+            style="yellow",
+        )
         raise typer.Exit(1) from e
 
     overall_stats = DownloadStats(total_lessons=0, downloaded=0, skipped=0, failed=0)
@@ -121,7 +128,9 @@ def download(
                 _display_download_progress(course_code, result, overall_stats)
 
             except Exception as e:
-                console.print(f"[bold red]❌ Error processing course {course_code}: {e}")
+                console.print(
+                    f"[bold red]❌ Error processing course {course_code}: {e}",
+                )
                 logger.exception(f"Error processing course {course_code}")
 
     # Display final summary

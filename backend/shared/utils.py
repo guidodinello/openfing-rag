@@ -70,6 +70,15 @@ def megabytes_to_bytes(mb: float) -> float:
     return mb * BYTES_IN_MEGABYTES
 
 
+def color_by_megabytes(mb: float) -> str:
+    if mb < 50:
+        return "green"
+    elif mb < 200:
+        return "yellow"
+    else:
+        return "red"
+
+
 def detect_device(device: str) -> str:
     """Auto-detect device if set to 'auto'."""
     if device != "auto":

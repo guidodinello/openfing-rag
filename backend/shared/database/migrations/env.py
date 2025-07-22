@@ -4,7 +4,9 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 from shared.config import get_settings
-from shared.database.models import Base, Course, Lesson, Transcription, User  # noqa: F401
+from shared.database.models import (
+    Base,
+)  # noqa: F401
 
 settings = get_settings()
 
