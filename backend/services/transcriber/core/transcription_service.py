@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-from sqlalchemy.orm import Session
-
 from services.transcriber.core import TranscriberProtocol
 from services.transcriber.schemas import (
     Chunk,
@@ -20,6 +18,7 @@ from shared.enums import WhisperModelLanguage, WhisperModelSize
 from shared.file_utils import TranscriptionFileUtils
 from shared.logging import get_logger
 from shared.utils import megabytes_to_bytes, normalize_json
+from sqlalchemy.orm import Session
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -210,7 +209,7 @@ class TranscriptionService:
                 item=Transcription.from_model(transcription),
             )
 
-        return TranscriptionResult.failure_result(f"No transcription found for {course_code} lesson {lesson_number}")
+        return TranscriptionResult.failure_result(f"No transcription found for {course_code=} {lesson_number=}")
 
     def list_transcriptions(
         self,

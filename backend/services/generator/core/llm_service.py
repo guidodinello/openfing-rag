@@ -7,11 +7,11 @@ from shared.config import get_settings
 from shared.logging import get_logger
 
 logger = get_logger(__name__)
+settings = get_settings()
 
 
 class LLMService:
     def __init__(self):
-        settings = get_settings()
         self.client = InferenceClient(
             provider="auto",
             api_key=settings.HUGGINGFACE.API_KEY,
