@@ -65,11 +65,11 @@ services:
             context: ../frontend
             dockerfile: Dockerfile
             target: production
+            args:
+                - VITE_API_URL=${VITE_API_URL}
+                - VITE_APP_TITLE=${VITE_APP_TITLE}
+                - VITE_APP_VERSION=${APP__VERSION}
         restart: unless-stopped
-        environment:
-            - VITE_API_URL=${VITE_API_URL}
-            - VITE_APP_TITLE=${VITE_APP_TITLE}
-            - VITE_APP_VERSION=${APP__VERSION}
         networks:
             - frontend
         expose:
