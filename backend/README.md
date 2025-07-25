@@ -201,11 +201,16 @@ docker compose --env-file ../.env up -d --force-recreate
 # Both together
 docker compose --env-file ../.env up -d --build --force-recreate backend
 
+# If for whatever reason you need a clean build
+docker compose --env-file=../.env build --no-cache backend
+
 # Send .env to the remote
-rsync -avz --progress -e "ssh -p 2222" ./../docker/.env.prod guido@179.27.96.212:~/tesis/docker/.env
+rsync -avz --progress -e "ssh -p 2222" ./.env.prod guido@179.27.96.212:~/tesis/.env
 
 # Sync transcriptions folder
-rsync -avz --progress -e "ssh -p 2222" ./backend/transcriptions/medium/ guido@179.27.96.212:~/tesis/transcriptions/medium/
+SOURCE_FOLDER="./backend/transcriptions/medium/"
+DEST_FOLDER="~/tesis/transcriptions/medium/"
+rsync -avz --progress -e "ssh -p 2222" "${SOURCE_FOLDER}" guido@179.27.96.212:"${DEST_FOLDER}"
 ```
 Deploy
 ```
