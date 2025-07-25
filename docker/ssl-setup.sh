@@ -6,15 +6,22 @@ set -e
 DOMAIN="openfingchat.duckdns.org"
 EMAIL="guido.dinello+openfing-chat@gmail.com"
 
+cleanup() {
+    echo "🧹 Performing cleanup..."
+    docker compose -f docker/docker-compose.ssl-only.yml down 2>/dev/null || true
+    rm -f docker/nginx/conf.d/ssl-only.conf
+    rm -f docker/docker-compose.ssl-only.yml
+}
+trap cleanup EXIT
+
 echo "🚀 Simple SSL setup for $DOMAIN"
 
-# Step 1: Create minimal nginx config if it doesn't exist
 echo "📝 Creating minimal nginx config..."
 mkdir -p docker/nginx/conf.d
-cat > docker/nginx/conf.d/ssl-only.conf << 'EOF'
+cat > docker/nginx/conf.d/ssl-only.conf << EOF
 server {
     listen 80;
-    server_name openfingchat.duckdns.org;
+    server_name $DOMAIN;
 
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
@@ -32,9 +39,8 @@ server {
 }
 EOF
 
-# Step 2: Create minimal docker-compose
 echo "📝 Creating minimal docker-compose..."
-cat > docker/docker-compose.ssl-only.yml << 'EOF'
+cat > docker/docker-compose.ssl-only.yml << EOF
 services:
     nginx-ssl:
         image: nginx:alpine
@@ -51,7 +57,7 @@ services:
         volumes:
             - certbot_conf:/etc/letsencrypt
             - certbot_www:/var/www/certbot
-        command: certonly --webroot --webroot-path=/var/www/certbot --email guido.dinello+openfing-chat@gmail.com --agree-tos --no-eff-email -d openfingchat.duckdns.org
+        command: certonly --webroot --webroot-path=/var/www/certbot --email $EMAIL --agree-tos --no-eff-email -d $DOMAIN
 
 volumes:
     certbot_conf:
@@ -75,16 +81,13 @@ else
     exit 1
 fi
 
-# Step 5: Generate certificate
 echo "🔐 Generating SSL certificate..."
 docker compose -f docker/docker-compose.ssl-only.yml run --rm certbot
 
-# Step 6: Verify certificate was created
 echo "🔍 Checking if certificates exist..."
 if docker compose -f docker/docker-compose.ssl-only.yml exec nginx-ssl test -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem"; then
     echo "✅ SSL certificates generated successfully!"
 
-    # Copy certificates to main docker-compose volumes (if they exist)
     echo "📋 Certificate files created:"
     docker compose -f docker/docker-compose.ssl-only.yml exec nginx-ssl ls -la /etc/letsencrypt/live/$DOMAIN/
 
@@ -93,10 +96,6 @@ else
     echo "Check the logs above for details."
     exit 1
 fi
-
-# Step 7: Cleanup
-echo "🧹 Cleaning up minimal setup..."
-docker compose -f docker/docker-compose.ssl-only.yml down
 
 echo ""
 echo "🎉 SSL certificates generated!"
