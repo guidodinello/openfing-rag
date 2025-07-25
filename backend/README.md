@@ -204,6 +204,12 @@ docker compose --env-file ../.env up -d --build --force-recreate backend
 # If for whatever reason you need a clean build
 docker compose --env-file=../.env build --no-cache backend
 
+# Run a specific profile, for instance, migrations
+docker compose --env-file=../.env --profile migration up -d
+
+# Run commands
+docker compose --env-file=../.env exec backend openchat
+
 # Send .env to the remote
 rsync -avz --progress -e "ssh -p 2222" ./.env.prod guido@179.27.96.212:~/tesis/.env
 
