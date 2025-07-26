@@ -1,13 +1,14 @@
 from datetime import datetime, timezone
 
-from fastapi import APIRouter
+from fastapi import status
 from pydantic import BaseModel
 
+from shared.api.router import AuthRouters
 from shared.config import get_settings
 
 settings = get_settings()
 
-public_router = APIRouter()
+routers = AuthRouters.create()
 
 
 class HealthStatus(BaseModel):
@@ -17,10 +18,7 @@ class HealthStatus(BaseModel):
     timestamp: str
 
 
-@public_router.get(
-    settings.HEALTH_URL,
-    summary="Health check",
-)
+@routers.public.get(settings.HEALTH_URL, summary="Health check", status_code=status.HTTP_200_OK)
 async def health_check() -> HealthStatus:
     return HealthStatus(
         service=settings.APP.NAME,

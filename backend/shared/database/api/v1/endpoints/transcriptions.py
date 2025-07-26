@@ -41,6 +41,7 @@ async def get_transcription(
 
 @routers.mixed.api_key_or_jwt_read.get(
     "/transcriptions",
+    status_code=status.HTTP_200_OK,
     summary="List transcriptions",
     description="List all transcriptions with optional filtering",
 )
