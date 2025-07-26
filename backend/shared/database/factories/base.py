@@ -7,8 +7,6 @@ ModelType = TypeVar("ModelType")
 
 
 class BaseFactory(Generic[ModelType]):
-    """Base factory class for generating test data using sync pattern."""
-
     def __init__(self, model: type[ModelType], db: Session):
         self.model = model
         self.db = db
@@ -25,11 +23,15 @@ class BaseFactory(Generic[ModelType]):
 
     def create_batch(self, count: int, **kwargs) -> list[ModelType]:
         """Create multiple instances with override values."""
-        instances = []
-        for _ in range(count):
-            instance = self.create(**kwargs)
-            instances.append(instance)
-        return instances
+        return [self.create(**kwargs) for _ in range(count)]
+
+    def build(self, **kwargs: dict[str, Any]) -> ModelType:
+        """Build instance without saving to database."""
+        return self.model(**self.get_default_attributes(), **kwargs)
+
+    def build_batch(self, count: int, **kwargs) -> list[ModelType]:
+        """Build multiple instances without saving."""
+        return [self.build(**kwargs) for _ in range(count)]
 
     def get_default_attributes(self) -> dict[str, Any]:
         """Override this method to provide default attributes."""

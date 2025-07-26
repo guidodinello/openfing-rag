@@ -10,13 +10,13 @@ class LessonFactory(BaseFactory[Lesson]):
         super().__init__(model=Lesson, db=db)
         self._course_id = None
 
-    def get_next_number(self, course_id: int) -> int:
+    def _get_next_number(self, course_id: int) -> int:
         """Get the next available lesson number for a course."""
-        query = select(func.coalesce(func.max(Lesson.number), 0)).where(
-            Lesson.course_id == course_id,
-        )
-        result = self.db.execute(query)
-        max_number = result.scalar()
+        max_number = self.db.execute(
+            select(func.coalesce(func.max(Lesson.number), 0)).where(
+                Lesson.course_id == course_id,
+            ),
+        ).scalar()
         return max_number + 1
 
     def get_default_attributes(self) -> dict:
@@ -29,7 +29,7 @@ class LessonFactory(BaseFactory[Lesson]):
             course = course_factory.create()
             self._course_id = course.id
 
-        number = self.get_next_number(self._course_id)
+        number = self._get_next_number(self._course_id)
 
         return {
             "title": self.faker.sentence(nb_words=6).rstrip("."),
@@ -40,7 +40,7 @@ class LessonFactory(BaseFactory[Lesson]):
                 "duration_seconds": self.faker.random_int(
                     min=1800,
                     max=7200,
-                ),  # 30min to 2h
+                ),
                 "topics": [self.faker.word() for _ in range(self.faker.random_int(min=2, max=5))],
                 "created_by": __name__,
             },
@@ -68,9 +68,4 @@ class LessonFactory(BaseFactory[Lesson]):
         if "course_id" in kwargs:
             self._course_id = kwargs["course_id"]
 
-        lessons = []
-        for _ in range(count):
-            lesson = self.create(**kwargs)
-            lessons.append(lesson)
-
-        return lessons
+        return super().create_batch(count, **kwargs)

@@ -1,7 +1,7 @@
-from shared.database.factories.lesson import LessonFactory
+from shared.database.factories import LessonFactory
 from shared.database.models import Course
 from shared.database.repositories import CourseRepository, LessonRepository
-from shared.database.seeders.base import BaseSeeder
+from shared.database.seeders import BaseSeeder
 
 
 class LessonSeeder(BaseSeeder):

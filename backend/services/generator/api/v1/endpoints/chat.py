@@ -2,13 +2,13 @@ from fastapi import HTTPException, status
 
 from services.generator.api.v1.schemas import ChatAnswer, ChatAnswerResponse, ChatQuery
 from services.generator.schemas import SearchContext
-from shared.api.router import create_auth_routers
+from shared.api.router import AuthRouters
 from shared.database.service_dependencies import ChatServiceDep
 
-routers = create_auth_routers()
+routers = AuthRouters.create()
 
 
-@routers.read.post(
+@routers.mixed.api_key_or_jwt_read.post(
     "/chat",
     summary="Process chat message",
     description="Process a chat message using RAG to provide contextual responses",
