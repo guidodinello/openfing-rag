@@ -1,7 +1,7 @@
 from shared.database.factories import TranscriptionFactory
 from shared.database.models import Lesson
 from shared.database.repositories import LessonRepository
-from shared.database.seeders.base import BaseSeeder
+from shared.database.seeders import BaseSeeder
 
 
 class TranscriptionSeeder(BaseSeeder):
