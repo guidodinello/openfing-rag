@@ -56,9 +56,3 @@ class Transcription(TimestampedModel):
         "Lesson",
         back_populates="transcriptions",
     )
-
-    def __repr__(self) -> str:
-        return f"Transcription({self.id=} {self.lesson_id=} content_length={len(self.content) if self.content else 0})"
-
-    def __str__(self) -> str:
-        return f"Transcription for Lesson {self.lesson_id}"

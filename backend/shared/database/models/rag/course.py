@@ -59,9 +59,3 @@ class Course(TimestampedModel):
         order_by="Lesson.created_at",
         passive_deletes=True,
     )
-
-    def __repr__(self) -> str:
-        return f"Course({self.id=} {self.code=} {self.name=} {self.subtitle=})"
-
-    def __str__(self) -> str:
-        return f"{self.code} - {self.name}"
