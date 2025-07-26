@@ -2,6 +2,7 @@ from typing import Self
 
 from pydantic import BaseModel
 
+from services.transcriber.schemas import Transcription as TranscriptionSchema
 from services.transcriber.schemas import TranscriptionFileResult, TranscriptionResult
 from shared.api.v1.schemas import ApiListResponse, ApiResponse
 from shared.enums.whisper import WhisperModelSize
@@ -26,6 +27,18 @@ class Transcription(BaseModel):
             lesson_title=result.item.lesson_title,
             content_length=result.item.content_length,
             vectorized=result.item.vectorized,
+        )
+
+    @classmethod
+    def from_schema(cls, schema: TranscriptionSchema) -> Self:
+        return cls(
+            id=schema.id,
+            lesson_id=schema.lesson_id,
+            course_code=schema.course_code,
+            lesson_number=schema.lesson_number,
+            lesson_title=schema.lesson_title,
+            content_length=schema.content_length,
+            vectorized=schema.vectorized,
         )
 
 
