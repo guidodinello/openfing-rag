@@ -8,6 +8,10 @@ from shared.logging import get_logger
 logger = get_logger(__name__)
 
 
+# TODO: update middlwares to new format
+# https://fastapi.tiangolo.com/tutorial/middleware/
+
+
 class TimingMiddleware(BaseHTTPMiddleware):
     """Middleware for tracking request processing time."""
 
