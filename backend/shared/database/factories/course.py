@@ -16,19 +16,7 @@ class CourseFactory(BaseFactory[Course]):
             "name": self.faker.sentence(nb_words=4).rstrip("."),
             "subtitle": f"{self.faker.random_element(['Spring', 'Fall', 'Summer'])} {self.faker.year()}",
             "course_metadata": {
-                "department": self.faker.random_element(
-                    [
-                        "Computer Science",
-                        "Mathematics",
-                        "Physics",
-                        "Engineering",
-                        "Biology",
-                    ],
-                ),
                 "credits": self.faker.random_int(min=3, max=12),
-                "difficulty": self.faker.random_element(
-                    ["beginner", "intermediate", "advanced"],
-                ),
                 "created_by": __name__,
             },
         }

@@ -2,7 +2,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, Field, HttpUrl, PostgresDsn, field_validator
+from pydantic import BaseModel, EmailStr, Field, HttpUrl, PostgresDsn, field_validator
+from pydantic_core import Url
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 from shared.utils import detect_device, parse_comma_separated_list
@@ -173,6 +174,17 @@ class LangsmithSettings(BaseModel):
     )
 
 
+class JwtSettings(BaseModel):
+    SECRET_KEY: str = Field(
+        default="secret_key",
+        description="Secret key for JWT token signing. Run openssl rand -hex 32",
+    )
+    ALGORITHM: str = Field(default="HS256", description="JWT algorithm")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=30, description="Access token expiration time in minutes")
+    REFRESH_TOKEN_EXPIRE_DAYS: int = Field(default=7, description="Refresh token expiration time in days")
+    TOKEN_URL: Url = Field(default="/token", description="")
+
+
 class AppSettings(BaseModel):
     NAME: str = Field(default="Educational RAG", description="Application name")
     DESCRIPTION: str = Field(
@@ -189,6 +201,7 @@ class AppSettings(BaseModel):
 class Settings(BaseSettings):
     APP: AppSettings = Field(default_factory=AppSettings)
     API_KEYS: ApiKeys = Field(default_factory=ApiKeys)
+    JWT: JwtSettings = Field(default_factory=JwtSettings)
     DATABASE: DatabaseSettings = Field(default_factory=DatabaseSettings)
     LOG: LoggingSettings = Field(default_factory=LoggingSettings)
     SERVER: ServerSettings = Field(default_factory=ServerSettings)
@@ -228,7 +241,7 @@ class Settings(BaseSettings):
     )
 
     DOMAIN_NAME: str | None = Field(default="tu-dominio.com", description="Domain Name")
-    SSL_EMAIL: str | None = Field(
+    SSL_EMAIL: EmailStr | None = Field(
         default="tu-email@example.com",
         description="Email used for SSL certificates",
     )

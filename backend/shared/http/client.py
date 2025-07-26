@@ -10,14 +10,6 @@ class HTTPClient(Protocol):
     def get(self, url: str, **kwargs) -> requests.Response: ...
 
 
-class RateLimitedHTTPClient:
-    def __init__(self, session: requests.Session):
-        self._session = session
-
-    def get(self, url: str, **kwargs) -> requests.Response:
-        return _rate_limited_get(self._session, url, **kwargs)
-
-
 @sleep_and_retry
 @limits(calls=100, period=1)
 def _rate_limited_get(
@@ -26,6 +18,14 @@ def _rate_limited_get(
     **kwargs,
 ) -> requests.Response:
     return session.get(url, **kwargs)
+
+
+class RateLimitedHTTPClient:
+    def __init__(self, session: requests.Session):
+        self._session = session
+
+    def get(self, url: str, **kwargs) -> requests.Response:
+        return _rate_limited_get(self._session, url, **kwargs)
 
 
 def get_http_client() -> HTTPClient:

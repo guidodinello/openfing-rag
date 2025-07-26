@@ -203,7 +203,6 @@ class TranscriptionService:
             lesson_number,
             model_size,
         )
-
         if transcription:
             return TranscriptionResult.success_result(
                 message="Transcription retrieved from database",

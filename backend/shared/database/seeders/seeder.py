@@ -1,11 +1,7 @@
 from sqlalchemy.orm import Session
 
-from shared.database.repositories import (
-    CourseRepository,
-    LessonRepository,
-    UserRepository,
-)
-from shared.database.seeders.user import UserSeeder
+from shared.database.repositories import CourseRepository, LessonRepository, UserRepository
+from shared.database.seeders import UserSeeder
 from shared.logging import get_logger
 
 logger = get_logger(__name__)

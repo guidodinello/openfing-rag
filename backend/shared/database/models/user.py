@@ -15,6 +15,3 @@ class User(TimestampedModel):
     email = Column(String, unique=True, nullable=False, index=True)
     username = Column(String(50), unique=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-
-    def __repr__(self):
-        return f"User({self.id=} {self.username=} {self.email=})"
