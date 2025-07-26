@@ -14,14 +14,17 @@ class ChatQuery(BaseModel):
         min_length=1,
         max_length=1000,
         description="The user's message to the chatbot",
+        examples=["¿Qué es una función en programación?"],
     )
     lessons_ids: list[int] | None = Field(
         default=None,
         description="Optional Lesson IDs to filter results",
+        examples=[None],
     )
     courses_ids: list[int] | None = Field(
         default=None,
         description="Optional Courses IDs to filter results",
+        examples=[None],
     )
 
 
