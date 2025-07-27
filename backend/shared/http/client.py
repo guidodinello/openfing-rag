@@ -5,6 +5,8 @@ from ratelimit import limits, sleep_and_retry
 from requests.adapters import HTTPAdapter
 from urllib3 import Retry
 
+from shared.enums import CustomHeaders
+
 
 class HTTPClient(Protocol):
     def get(self, url: str, **kwargs) -> requests.Response: ...
@@ -33,7 +35,7 @@ def get_http_client() -> HTTPClient:
 
     session.headers.update(
         {
-            "User-Agent": "Mozilla/5.0 (compatible; OpenFing-Scraper/1.0)",
+            CustomHeaders.USER_AGENT: "Mozilla/5.0 (compatible; OpenFing-Scraper/1.0)",
         },
     )
 
