@@ -2,15 +2,17 @@ import secrets
 from dataclasses import dataclass
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
 from fastapi.security import APIKeyHeader
 
 from shared.config import get_settings
+from shared.enums import AuthErrorCodes, CustomHeaders
+from shared.exceptions.authentication_exception import AuthenticationException
 
 settings = get_settings()
 
 api_key_header = APIKeyHeader(
-    name="X-API-Key",
+    name=CustomHeaders.API_KEY,
     description="API key for authentication. Contact admin for access.",
     auto_error=False,
 )
@@ -37,9 +39,10 @@ class APIKeyAuth:
     def api_key_user(api_key: str) -> ApiKeyUserInfo:
         """Verify API key and return user info with permissions."""
         if not api_key:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Missing API key",
+            raise AuthenticationException(
+                message="API key is required",
+                error_code=AuthErrorCodes.MISSING_API_KEY,
+                status_code=401,
                 headers={"WWW-Authenticate": "ApiKey"},
             )
 
@@ -50,11 +53,7 @@ class APIKeyAuth:
                 break
 
         if not valid_key:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid API key",
-                headers={"WWW-Authenticate": "ApiKey"},
-            )
+            raise AuthenticationException.invalid_api_key()
 
         return ApiKeyUserInfo(
             api_key=api_key,
@@ -83,28 +82,19 @@ APIKeyUser = Annotated[ApiKeyUserInfo, Depends(get_api_key_user)]
 
 def require_read_permission(user: APIKeyUser) -> ApiKeyUserInfo:
     if not user.permissions.read:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Read permission required",
-        )
+        raise AuthenticationException.insufficient_permissions("read")
     return user
 
 
 def require_write_permission(user: APIKeyUser) -> ApiKeyUserInfo:
     if not user.permissions.write:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Write permission required",
-        )
+        raise AuthenticationException.insufficient_permissions("write")
     return user
 
 
 def require_admin_permission(user: APIKeyUser) -> ApiKeyUserInfo:
     if not user.permissions.admin:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Admin permission required",
-        )
+        raise AuthenticationException.insufficient_permissions("admin")
     return user
 
 

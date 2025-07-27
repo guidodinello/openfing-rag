@@ -1,16 +1,18 @@
-# backend/shared/auth/auth_service.py
 import logging as stdLogging
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 
 from shared.config import get_settings
 from shared.database.models import User
 from shared.database.repository_dependencies import UserRepositoryDep
+from shared.enums.auth_error_codes import AuthErrorCodes
+from shared.exceptions.authentication_exception import AuthenticationException
+from shared.exceptions.validation_exception import ValidationException
 from shared.logging import get_logger
 
 settings = get_settings()
@@ -39,13 +41,11 @@ class JwtAuthService:
         """Hash a password for storing."""
         return cls.pwd_context.hash(password)
 
-    def authenticate_user(self, username: str, password: str) -> User | None:
+    def authenticate_user(self, username: str, password: str) -> User:
         """Authenticate a user by username and password."""
         user = self.user_repo.get_by(username=username)
-        if not user:
-            return None
-        if not self.verify_password(password, user.hashed_password):
-            return None
+        if not user or not self.verify_password(password, user.hashed_password):
+            raise AuthenticationException.invalid_credentials()
 
         return user
 
@@ -64,33 +64,49 @@ class JwtAuthService:
 
     def get_current_user_from_token(self, token: str) -> User:
         """Extract and validate user from JWT token."""
-        credentials_exception = HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
         try:
             payload = jwt.decode(token, settings.JWT.SECRET_KEY, algorithms=[settings.JWT.ALGORITHM])
             username: str = payload.get("sub")
             if username is None:
-                raise credentials_exception
-        except jwt.InvalidTokenError as err:
-            raise credentials_exception from err
+                raise AuthenticationException.invalid_token()
+        except jwt.ExpiredSignatureError as e:
+            raise AuthenticationException.token_expired() from e
+        except jwt.InvalidTokenError as e:
+            raise AuthenticationException.invalid_token() from e
 
         user = self.user_repo.get_by(username=username)
         if user is None:
-            raise credentials_exception
+            raise AuthenticationException(
+                message="User no longer exists",
+                error_code=AuthErrorCodes.USER_NOT_FOUND,
+                status_code=401,
+                headers={"WWW-Authenticate": "Bearer"},
+            )
 
         return user
 
     def register_user(self, email: str, username: str, password: str) -> User:
         if self.user_repo.get_by(email=email):
-            raise ValueError("Email already registered")
-        if self.user_repo.get_by(username=username):
-            raise ValueError("Username already taken")
+            raise ValidationException(
+                message="Registration failed",
+                field_errors={"email": ["This email is already registered"]},
+                error_code="duplicate_email",
+            )
 
-        JwtAuthService.validate_password(password)
+        if self.user_repo.get_by(username=username):
+            raise ValidationException(
+                message="Registration failed",
+                field_errors={"username": ["This username is already taken"]},
+                error_code="duplicate_username",
+            )
+
+        password_errors = JwtAuthService.validate_password(password)
+        if password_errors:
+            raise ValidationException(
+                message="Password validation failed",
+                field_errors={"password": password_errors},
+                error_code="invalid_password",
+            )
 
         return self.user_repo.create(
             email=email,
@@ -99,7 +115,8 @@ class JwtAuthService:
         )
 
     @staticmethod
-    def validate_password(password: str) -> bool:
+    def validate_password(password: str) -> list[str]:
+        """Validate password and return list of error messages."""
         validation_rules = [
             (lambda pwd: len(pwd) >= 8, "Password must be at least 8 characters long"),
             (lambda pwd: any(c.isupper() for c in pwd), "Password must contain an uppercase letter"),
@@ -108,10 +125,7 @@ class JwtAuthService:
         ]
 
         failed_rules = [msg for rule, msg in validation_rules if not rule(password)]
-        if failed_rules:
-            raise ValueError("; ".join(failed_rules))
-
-        return True
+        return failed_rules
 
 
 # Dependency functions
@@ -123,13 +137,7 @@ JwtAuthServiceDep = Annotated[JwtAuthService, Depends(get_jwt_auth_service)]
 
 
 def require_jwt_user(auth_service: JwtAuthServiceDep, token: BearerToken) -> User:
-    if not token:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="JWT token required",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    auth_service.get_current_user_from_token(token)
+    return auth_service.get_current_user_from_token(token)
 
 
 BearerTokenUser = Annotated[User, Depends(require_jwt_user)]

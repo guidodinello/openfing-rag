@@ -6,7 +6,8 @@ from services.transcriber.api.router import transcriber_router
 from shared.api.v1.endpoints import auth, health
 from shared.config import get_settings
 from shared.database.api.router import crud_router
-from shared.middleware import setup_middlewares
+from shared.exceptions import setup_exception_handlers
+from shared.middlewares import setup_middlewares
 
 settings = get_settings()
 
@@ -26,6 +27,7 @@ def create_app() -> FastAPI:
         },
     )
 
+    setup_exception_handlers(app)
     setup_middlewares(app)
 
     app.include_router(health.routers.include_in(APIRouter()), tags=["health"])
