@@ -22,7 +22,6 @@ export const ApiKeyDisplay = ({
                 <code className="text-xs font-mono flex-1 truncate">
                     {isVisible ? apiKey : maskApiKey(apiKey)}
                 </code>
-
                 <Button
                     variant="ghost"
                     size="icon"

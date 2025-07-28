@@ -8,6 +8,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
+import { FilterButton } from "./filter-button";
 
 const messageSchema = z.object({
     message: z
@@ -83,6 +84,7 @@ export function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
             <div className="relative flex items-center justify-center">
+                <FilterButton />
                 <Controller
                     name="message"
                     control={control}
@@ -121,8 +123,8 @@ export function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
                         </span>
                     ) : (
                         <span className="hidden sm:inline">
-                            Presiona Enter para enviar, Shift+Enter para nueva
-                            línea
+                            holas Presiona Enter para enviar, Shift+Enter para
+                            nueva línea
                         </span>
                     )}
                 </div>
