@@ -7,11 +7,11 @@ from shared.config import get_settings
 from shared.logging import get_logger
 
 logger = get_logger(__name__)
+settings = get_settings()
 
 
 class LLMService:
     def __init__(self):
-        settings = get_settings()
         self.client = InferenceClient(
             provider="auto",
             api_key=settings.HUGGINGFACE.API_KEY,
@@ -33,10 +33,7 @@ class LLMService:
             messages = self._build_chat_messages(sources, query)
 
             completion = self.client.chat.completions.create(
-                model=(
-                    "mistralai/Mistral-7B-Instruct-v0.3"
-                    # "Qwen/Qwen2.5-72B-Instruct"
-                ),
+                model=settings.HUGGINGFACE.MODEL,
                 messages=messages,
                 max_tokens=1024,
                 temperature=0.3,

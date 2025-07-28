@@ -164,6 +164,10 @@ class ServerSettings(BaseModel):
 
 class HuggingFaceSettings(BaseModel):
     API_KEY: str = Field(default="NOT_SET", description="Huggingface API key")
+    MODEL: str = Field(
+        default="mistralai/Mistral-7B-Instruct-v0.3",
+        description="Huggingface LLM used for chat completion",
+    )
 
 
 class LangsmithSettings(BaseModel):
