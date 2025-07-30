@@ -24,8 +24,8 @@ def get_mp4_url(course_key, class_id):
         iframe = soup.find("iframe", src=lambda x: x and "youtube" in x)
         if iframe:
             youtube_url = iframe.get("src")
-            print(f"YouTube URL found: {youtube_url}")
-            return youtube_url  # Podés retornar esto o manejarlo distinto
+            return youtube_url  
+            # Podés retornar esto o manejarlo distinto
         print(f"No video found for {url}")
         return None
     except Exception as e:
@@ -47,21 +47,23 @@ def format_size(bytes):
 def main():
     with open(JSON_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
-
+    total_number_of_classes=0
     total_bytes = 0
     for course_key, value in data.items():
         classes = value.get("classes", [])
         for class_id in classes:
             mp4_url = get_mp4_url(course_key, class_id)
             if mp4_url:
-                print(f"Processing: {mp4_url}")
+                print(f"Processing: {mp4_url} from course:{course_key},class: {class_id}")
                 size = get_video_size(mp4_url)
                 total_bytes += size
+                total_number_of_classes+=1
             else:
                 print(f"No MP4 found for {course_key} - Class {class_id}")
 
     print("\n--- Summary ---")
     print(f"Total Size: {format_size(total_bytes)}")
+    print(f"Numero Total de Clases: {total_number_of_classes}")
 
 if __name__ == "__main__":
     main()
