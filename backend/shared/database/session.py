@@ -1,8 +1,10 @@
 from collections.abc import Generator, Iterator
 from contextlib import contextmanager
+from typing import Annotated
 
 import psycopg
 import sqlalchemy
+from fastapi import Depends
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
@@ -23,18 +25,6 @@ engine = create_engine(
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-def get_db() -> Generator[Session, None, None]:
-    """
-    FastAPI dependency for database session.
-    This is the standard way to handle sessions in FastAPI.
-    """
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @contextmanager
@@ -62,3 +52,19 @@ def get_db_session() -> Iterator[Session]:
         raise
     finally:
         session.close()
+
+
+def get_db() -> Generator[Session, None, None]:
+    """
+    FastAPI dependency for database session.
+    This is the standard way to handle sessions in FastAPI.
+    """
+    db = SessionLocal()
+    try:
+        yield db
+        db.commit()
+    finally:
+        db.close()
+
+
+DatabaseSession = Annotated[Session, Depends(get_db)]

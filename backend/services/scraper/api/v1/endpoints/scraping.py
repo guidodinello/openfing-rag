@@ -1,13 +1,13 @@
 from fastapi import HTTPException, status
 
 from services.scraper.api.v1.schemas import Sync, SyncResponse
-from shared.api.router import create_auth_routers
+from shared.api.router import AuthRouters
 from shared.database.service_dependencies import ScrapingServiceDep
 
-routers = create_auth_routers()
+routers = AuthRouters.create()
 
 
-@routers.admin.post(
+@routers.api_key.admin.post(
     "/sync-all",
     status_code=status.HTTP_200_OK,
     summary="Sync all OpenFing data",
@@ -30,7 +30,7 @@ async def sync_all_data(service: ScrapingServiceDep) -> SyncResponse:
         ) from e
 
 
-@routers.write.post(
+@routers.api_key.write.post(
     "/sync-course/{course_code}",
     status_code=status.HTTP_200_OK,
     summary="Sync specific course",

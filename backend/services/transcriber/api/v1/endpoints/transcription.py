@@ -1,14 +1,14 @@
 from fastapi import status
 
 from services.transcriber.api.v1.schemas import TranscribeRequest
-from shared.api.router import create_auth_routers
+from shared.api.router import AuthRouters
 from shared.database.api.v1.schemas import TranscriptionFile, TranscriptionFileResponse
 from shared.database.service_dependencies import TranscriptionServiceDep
 
-routers = create_auth_routers()
+routers = AuthRouters.create()
 
 
-@routers.write.post(
+@routers.api_key.write.post(
     "/transcribe",
     status_code=status.HTTP_201_CREATED,
     summary="Transcribe a Lesson",

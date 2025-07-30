@@ -5,17 +5,11 @@ from ratelimit import limits, sleep_and_retry
 from requests.adapters import HTTPAdapter
 from urllib3 import Retry
 
+from shared.enums import CustomHeaders
+
 
 class HTTPClient(Protocol):
     def get(self, url: str, **kwargs) -> requests.Response: ...
-
-
-class RateLimitedHTTPClient:
-    def __init__(self, session: requests.Session):
-        self._session = session
-
-    def get(self, url: str, **kwargs) -> requests.Response:
-        return _rate_limited_get(self._session, url, **kwargs)
 
 
 @sleep_and_retry
@@ -28,12 +22,20 @@ def _rate_limited_get(
     return session.get(url, **kwargs)
 
 
+class RateLimitedHTTPClient:
+    def __init__(self, session: requests.Session):
+        self._session = session
+
+    def get(self, url: str, **kwargs) -> requests.Response:
+        return _rate_limited_get(self._session, url, **kwargs)
+
+
 def get_http_client() -> HTTPClient:
     session = requests.Session()
 
     session.headers.update(
         {
-            "User-Agent": "Mozilla/5.0 (compatible; OpenFing-Scraper/1.0)",
+            CustomHeaders.USER_AGENT: "Mozilla/5.0 (compatible; OpenFing-Scraper/1.0)",
         },
     )
 

@@ -21,8 +21,8 @@ from shared.database.repository_dependencies import (
     get_chunker,
     get_embedder,
 )
-from shared.database.session import get_db
-from shared.http.client import get_http_client
+from shared.database.session import DatabaseSession
+from shared.http.client import HTTPClient, get_http_client
 
 settings = get_settings()
 
@@ -30,21 +30,18 @@ settings = get_settings()
 # COMPONENT DEPENDENCIES
 # ============================================================================
 
-HttpClientDep = Annotated[TranscriberProtocol, Depends(get_http_client)]
+HttpClientDep = Annotated[HTTPClient, Depends(get_http_client)]
 
 
 def get_transcriber() -> TranscriberProtocol:
-    """Get configured transcriber instance."""
     return FasterWhisperTranscriber()
 
 
 def get_llm_service() -> LLMService:
-    """Get configured LLM service."""
     return LLMService()
 
 
 def get_openfing_scraper(http_client: HttpClientDep) -> OpenFingScraper:
-    """Get configured OpenFing scraper."""
     return OpenFingScraper(http_client)
 
 
@@ -62,7 +59,7 @@ def get_transcription_service(
     transcription_repo: TranscriptionRepositoryDep,
     vector_repo: VectorRepositoryDep,
     transcriber: TranscriberDep,
-    db: Session = Depends(get_db),
+    db: DatabaseSession,
 ) -> TranscriptionService:
     """Get transcription service with all dependencies injected."""
     return TranscriptionService(
@@ -80,7 +77,7 @@ def get_scraping_service(
     course_repo: CourseRepositoryDep,
     lesson_repo: LessonRepositoryDep,
     scraper: OpenFingScraperDep,
-    db: Session = Depends(get_db),
+    db: DatabaseSession,
 ) -> ScrapingService:
     """Get scraping service with all dependencies injected."""
     return ScrapingService(
@@ -96,7 +93,7 @@ def get_chat_service(
     course_repo: CourseRepositoryDep,
     vector_repo: VectorRepositoryDep,
     llm_service: LLMServiceDep,
-    db: Session = Depends(get_db),
+    db: DatabaseSession,
 ) -> ChatService:
     """Get chat service with all dependencies injected."""
     return ChatService(

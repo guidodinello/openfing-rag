@@ -1,12 +1,13 @@
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 
 from services.generator.api.router import generator_router
 from services.scraper.api.router import scraper_router
 from services.transcriber.api.router import transcriber_router
-from shared.api.v1.endpoints import health
+from shared.api.v1.endpoints import auth, health
 from shared.config import get_settings
 from shared.database.api.router import crud_router
-from shared.middleware import setup_middlewares
+from shared.exceptions import setup_exception_handlers
+from shared.middlewares import setup_middlewares
 
 settings = get_settings()
 
@@ -26,13 +27,16 @@ def create_app() -> FastAPI:
         },
     )
 
+    setup_exception_handlers(app)
     setup_middlewares(app)
+
+    app.include_router(health.routers.include_in(APIRouter()), tags=["health"])
+    app.include_router(auth.routers.include_in(APIRouter()), tags=["authentication"])
 
     for service_router in (scraper_router, generator_router, transcriber_router):
         app.include_router(service_router, prefix="/v1/services")
 
     app.include_router(crud_router)
-    app.include_router(health.public_router, tags=["health"])
     return app
 
 

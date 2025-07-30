@@ -1,6 +1,6 @@
 from shared.database.factories import UserFactory
 from shared.database.repositories import UserRepository
-from shared.database.seeders.base import BaseSeeder
+from shared.database.seeders import BaseSeeder
 
 
 class UserSeeder(BaseSeeder):
@@ -10,11 +10,11 @@ class UserSeeder(BaseSeeder):
         super().__init__(db)
         self.user_repo = user_repo
 
-    def run(self, count: int = 10) -> None:
+    def run(self, count: int = 1) -> None:
         _ = self.user_repo.update_or_create_by_email(
             email="special@example.com",
             username="special_user",
-            hashed_password="$2b$12$special_hashed_password_here",
+            hashed_password="$2b$12$TkEywHxBEyEKI8G2.1Sc4.yLlrL4ueZtQYGzVamaB1Te15aOJRRLW",
         )
 
         _ = UserFactory(db=self.db).create_batch(count=count)

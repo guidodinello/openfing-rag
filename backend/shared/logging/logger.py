@@ -6,6 +6,8 @@ from pathlib import Path
 
 from shared.config import get_settings
 
+settings = get_settings()
+
 CONSOLE_FORMAT = "%(levelname)s | %(name)s | %(message)s"
 FILE_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(funcName)s:%(lineno)d | %(message)s"
 
@@ -45,7 +47,6 @@ def get_logger(name: str) -> logging.Logger:
     Returns:
         logging.Logger: Configured logger instance
     """
-    settings = get_settings()
 
     logger = logging.getLogger(name)
 

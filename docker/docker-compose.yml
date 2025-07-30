@@ -18,7 +18,7 @@ services:
         volumes:
             - postgres_data:/var/lib/postgresql/data
         networks:
-            - backend
+            - database
         expose:
             - "5432"
         healthcheck:
@@ -41,7 +41,7 @@ services:
         env_file:
             - ../.env
         volumes:
-            - ../backend/logs:${LOG__DIR}
+            - ../logs:${LOG__DIR}
             - ../audios:${DOWNLOADER__OUTPUT_DIR}
             - ../transcriptions:${TRANSCRIBER__OUTPUT_DIR}
             - ../models_cache:${EMBEDDINGS__CACHE_DIR}
@@ -50,6 +50,7 @@ services:
                 condition: service_healthy
         networks:
             - backend
+            - database
         expose:
             - "8000"
         healthcheck:
@@ -65,11 +66,11 @@ services:
             context: ../frontend
             dockerfile: Dockerfile
             target: production
+            args:
+                - VITE_API_URL=${VITE_API_URL}
+                - VITE_APP_TITLE=${VITE_APP_TITLE}
+                - VITE_APP_VERSION=${APP__VERSION}
         restart: unless-stopped
-        environment:
-            - VITE_API_URL=${VITE_API_URL}
-            - VITE_APP_TITLE=${VITE_APP_TITLE}
-            - VITE_APP_VERSION=${APP__VERSION}
         networks:
             - frontend
         expose:
@@ -126,15 +127,6 @@ services:
             retries: 3
             start_period: 30s
 
-    certbot:
-        image: certbot/certbot:latest
-        volumes:
-            - certbot_conf:/etc/letsencrypt
-            - certbot_www:/var/www/certbot
-        command: certonly --webroot --webroot-path=/var/www/certbot --email ${SSL_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN_NAME}
-        depends_on:
-            - nginx
-
     certbot-renewal:
         image: certbot/certbot:latest
         volumes:
@@ -151,6 +143,32 @@ services:
                 certbot renew --webroot --webroot-path=/var/www/certbot;
             done"
 
+    certbot:
+        image: certbot/certbot:latest
+        volumes:
+            - certbot_conf:/etc/letsencrypt
+            - certbot_www:/var/www/certbot
+        command: certonly --webroot --webroot-path=/var/www/certbot --email ${SSL_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN_NAME}
+        depends_on:
+            - nginx
+
+    migration:
+        build:
+            context: ../backend
+            dockerfile: Dockerfile
+            target: production
+        env_file:
+            - ../.env
+        depends_on:
+            database:
+                condition: service_healthy
+        networks:
+            - database
+        command: ["openchat-db", "migrate"]
+        restart: "no"
+        profiles:
+            - migration
+
 volumes:
     postgres_data:
         driver: local
@@ -162,8 +180,10 @@ volumes:
         driver: local
 
 networks:
-    backend:
+    database:
         driver: bridge
         internal: true
+    backend:
+        driver: bridge
     frontend:
         driver: bridge

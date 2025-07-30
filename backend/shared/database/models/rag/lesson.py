@@ -1,14 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import (
-    Column,
-    ForeignKey,
-    Identity,
-    Index,
-    Integer,
-    String,
-    UniqueConstraint,
-)
+from sqlalchemy import Column, ForeignKey, Identity, Index, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, relationship
 
@@ -80,12 +72,6 @@ class Lesson(TimestampedModel):
         passive_deletes=True,
         order_by="Transcription.created_at",
     )
-
-    def __repr__(self) -> str:
-        return f"""Lesson({self.id=} {self.number=} {self.title=} {self.course_id=})"""
-
-    def __str__(self) -> str:
-        return f"Lesson {self.number}: {self.title}"
 
     @property
     def has_transcription(self) -> bool:

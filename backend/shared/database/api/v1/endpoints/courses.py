@@ -1,13 +1,13 @@
 from fastapi import HTTPException, status
 
-from shared.api.router import create_auth_routers
+from shared.api.router import AuthRouters
 from shared.database.api.v1.schemas import Course, CourseResponse, Lesson, ListLessonsResponse
 from shared.database.repository_dependencies import CourseRepositoryDep, LessonRepositoryDep
 
-routers = create_auth_routers(prefix="/courses")
+routers = AuthRouters.create(prefix="/courses")
 
 
-@routers.read.get(
+@routers.mixed.api_key_or_jwt_read.get(
     "/{course_code}",
     status_code=status.HTTP_200_OK,
     summary="Get course by code",
@@ -24,7 +24,7 @@ async def get_course(
     return CourseResponse.success_response(message="Course retrieved successfully", data=Course.from_model(course))
 
 
-@routers.read.get(
+@routers.mixed.api_key_or_jwt_read.get(
     "/{course_code}/lessons",
     status_code=status.HTTP_200_OK,
     summary="Get course lessons",
