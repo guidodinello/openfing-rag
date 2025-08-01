@@ -2845,7 +2845,7 @@ const execAsync = promisify(exec);
 const CONFIG = {
   LOG_FILE: 'video_durations.json',
   REQUEST_TIMEOUT: 15000,
-  REQUEST_DELAY: 200,
+  REQUEST_DELAY: 5,
   BITRATE_ESTIMATE: 1000000, // 1 Mbps for duration estimation
   USER_AGENT: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
 };
