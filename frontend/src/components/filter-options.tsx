@@ -14,32 +14,32 @@ const classes = _classes as Record<
 export const FilterOptions = () => {
     const [course, setCourse] = useState<string>("");
     const [subCourse, setSubCourse] = useState<string>("");
-    const [selectedClass, setSelectedClass] = useState<number>(0); // Changed from 'class' to avoid keyword conflict
+    const [selectedClass, setSelectedClass] = useState<number>(0);
     const [subCourseOptions, setSubCourseOptions] = useState<string[]>([]);
     const [classOptions, setClassOptions] = useState<number[]>([]);
 
     const onSelectCourse = useCallback((course: string) => {
-        setCourse(course.toString());
+        setCourse(course);
         setSubCourse("");
         setSelectedClass(0);
         setSubCourseOptions(subCourses[course] || []);
     }, []);
 
     const onSelectSubCourse = useCallback((subCourse: string) => {
-        setSubCourse(subCourse.toString());
+        setSubCourse(subCourse);
         setSelectedClass(0);
         if (course && subCourse) {
             const classData = classes[course]?.[subCourse];
-            setClassOptions(classData?.classes || []);
+            setClassOptions(classData.classes || []);
         }
     }, []);
 
     const onSelectClass = useCallback((cls: number) => {
-        setSelectedClass(parseInt(cls.toString(), 10));
+        setSelectedClass(cls);
     }, []);
-
     return (
-        <div>
+        <div className="flex w-full justify-between">
+            <h2>Filtrado</h2>
             <DropDownList
                 options={courses}
                 onSelect={onSelectCourse}
@@ -50,13 +50,13 @@ export const FilterOptions = () => {
                 options={subCourseOptions}
                 onSelect={onSelectSubCourse}
                 selectedValue={subCourse}
-                disabled={course !== ""}
+                disabled={course === ""}
             />
             <DropDownList
                 options={classOptions}
                 onSelect={onSelectClass}
                 selectedValue={selectedClass}
-                disabled={subCourse !== ""}
+                disabled={subCourse === ""}
             />
         </div>
     );

@@ -49,25 +49,12 @@ export const DropDownList = <T extends string | number>({
                 {selectedValue} ▼
             </button>
             {isOpen && (
-                <ul
-                    style={{
-                        position: "absolute",
-                        margin: 0,
-                        padding: "0.5rem",
-                        listStyle: "none",
-                        border: "1px solid #ccc",
-                        backgroundColor: "#fff",
-                        zIndex: 1000,
-                    }}
-                >
+                <ul className="absolute z-50 mt-1 overflow-y-auto bg-white border border-gray-200 rounded-md shadow-lg max-h-60 ">
                     {options.map((option) => (
                         <li
                             key={option}
                             onClick={() => handleSelect(option)}
-                            style={{
-                                padding: "0.25rem 0.5rem",
-                                cursor: "pointer",
-                            }}
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-100 whitespace-nowrap"
                         >
                             {option}
                         </li>
