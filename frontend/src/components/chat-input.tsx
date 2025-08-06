@@ -82,24 +82,25 @@ export function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-            <div className="relative flex items-center justify-center">
-                <Controller
-                    name="message"
-                    control={control}
-                    render={({ field: { value, ...rest } }) => (
-                        <ForwardedTextarea
-                            {...rest}
-                            ref={textareaRef}
-                            value={value || ""}
-                            placeholder="Pregunta sobre las clases de OpenFIng..."
-                            className="resize-none pr-24 py-3 flex-grow w-full overflow-hidden leading-tight min-h-[44px]"
-                            disabled={disabled}
-                            onKeyDown={handleKeyDown}
-                            rows={1}
-                        />
-                    )}
-                />
-
+            <div className="relative flex  ">
+                <div className="flex flex-col items-center justify-center w-full">
+                    <Controller
+                        name="message"
+                        control={control}
+                        render={({ field: { value, ...rest } }) => (
+                            <ForwardedTextarea
+                                {...rest}
+                                ref={textareaRef}
+                                value={value || ""}
+                                placeholder="Pregunta sobre las clases de OpenFIng..."
+                                className="resize-none pr-24 py-3 flex-grow w-full overflow-hidden leading-tight min-h-[44px]"
+                                disabled={disabled}
+                                onKeyDown={handleKeyDown}
+                                rows={1}
+                            />
+                        )}
+                    />
+                </div>
                 <div className="absolute right-2">
                     <Button
                         type="submit"
@@ -121,8 +122,8 @@ export function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
                         </span>
                     ) : (
                         <span className="hidden sm:inline">
-                            Presiona Enter para enviar, Shift+Enter para nueva
-                            línea
+                            holas Presiona Enter para enviar, Shift+Enter para
+                            nueva línea
                         </span>
                     )}
                 </div>
