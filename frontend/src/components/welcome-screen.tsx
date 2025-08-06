@@ -1,6 +1,7 @@
 import { LuBookOpen } from "react-icons/lu";
 import { Card, CardContent } from "@/components/ui/card";
 import { EXAMPLE_QUESTIONS, type ExampleQuestion } from "@/constants";
+import { FilterOptions } from "./filter-options";
 
 interface WelcomeScreenProps {
     readonly onExampleClick: (question: string) => void;
@@ -9,6 +10,7 @@ interface WelcomeScreenProps {
 export function WelcomeScreen({ onExampleClick }: WelcomeScreenProps) {
     return (
         <div className="flex flex-col items-center justify-center min-h-[60vh] p-4">
+            <FilterOptions />
             <div className="text-center mb-8">
                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <LuBookOpen className="size-8 text-white" />
