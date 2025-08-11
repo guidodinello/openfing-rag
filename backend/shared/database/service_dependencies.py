@@ -11,11 +11,15 @@ from services.scraper.core.scrapers import OpenFingScraper
 from services.transcriber import TranscriptionService
 from services.transcriber.core import FasterWhisperTranscriber, TranscriberProtocol
 from services.transcriber.core.transcription_service import DatabaseDependencies
+from shared.auth.api_key import HMACApiKeyService
 from shared.config import get_settings
 from shared.database.repositories import CourseRepository, LessonRepository, TranscriptionRepository, VectorRepository
+from shared.database.repositories.api_key_repository import ApiKeyRepository
 from shared.database.repository_dependencies import (
+    ConversationRepositoryDep,
     CourseRepositoryDep,
     LessonRepositoryDep,
+    MessageRepositoryDep,
     TranscriptionRepositoryDep,
     VectorRepositoryDep,
     get_chunker,
@@ -92,6 +96,8 @@ def get_chat_service(
     lesson_repo: LessonRepositoryDep,
     course_repo: CourseRepositoryDep,
     vector_repo: VectorRepositoryDep,
+    conversation_repo: ConversationRepositoryDep,
+    message_repo: MessageRepositoryDep,
     llm_service: LLMServiceDep,
     db: DatabaseSession,
 ) -> ChatService:
@@ -101,8 +107,19 @@ def get_chat_service(
         vector_repo=vector_repo,
         lesson_repo=lesson_repo,
         course_repo=course_repo,
+        conversation_repo=conversation_repo,
+        message_repo=message_repo,
         llm_service=llm_service,
     )
+
+
+# ============================================================================
+# SERVICES TYPE ALIASES
+# ============================================================================
+
+TranscriptionServiceDep = Annotated[TranscriptionService, Depends(get_transcription_service)]
+ScrapingServiceDep = Annotated[ScrapingService, Depends(get_scraping_service)]
+ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]
 
 
 # ============================================================================
@@ -161,10 +178,5 @@ def create_chat_service(db: Session) -> ChatService:
     )
 
 
-# ============================================================================
-# SERVICES TYPE ALIASES
-# ============================================================================
-
-TranscriptionServiceDep = Annotated[TranscriptionService, Depends(get_transcription_service)]
-ScrapingServiceDep = Annotated[ScrapingService, Depends(get_scraping_service)]
-ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]
+def create_api_key_service(db: Session) -> HMACApiKeyService:
+    return HMACApiKeyService(ApiKeyRepository(db))

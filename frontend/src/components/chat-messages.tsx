@@ -1,8 +1,8 @@
-import type { Message } from "@/types/chat";
 import { UserMessage } from "./user-message";
 import { AssistantMessage } from "./assistant-message";
 import { LoadingMessage } from "./loading-message";
 import { ErrorMessage } from "./error-message";
+import type { Message } from "@/types/message";
 
 interface ChatMessagesProps {
     readonly messages: Message[];

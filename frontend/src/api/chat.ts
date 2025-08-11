@@ -1,29 +1,21 @@
-import type {
-    AssistantMessageRequest,
-    Message,
-    AssistantMessage,
-} from "@/types/chat";
 import { privateApiClient } from "./axios";
-import type { ApiResponse } from "./types";
+import type { ApiResponse } from "../types/api";
+import type {
+    AssistantMessage,
+    AssistantMessageRequest,
+} from "@/types/message";
 
-export const sendMessage = async (data: AssistantMessageRequest) => {
+interface SendMessageRequest extends AssistantMessageRequest {
+    conversationId: number;
+}
+
+export const sendMessage = async (data: SendMessageRequest) => {
+    const { conversationId, ...requestBody } = data;
+
     const response = await privateApiClient.post<ApiResponse<AssistantMessage>>(
-        "/services/generator/chat",
-        data,
+        "v1/services/generator/chat",
+        requestBody,
+        { headers: { "X-Conversation-ID": conversationId.toString() } },
     );
     return response.data.data;
-};
-
-export const getMessages = async (_: string) => {
-    return [] satisfies Message[];
-
-    // return [
-    //     {
-    //         id: "1",
-    //         role: "assistant",
-    //         content: "Hello! How can I assist you today?",
-    //         timestamp: new Date(),
-    //         sources: [],
-    //     },
-    // ] satisfies Message[];
 };

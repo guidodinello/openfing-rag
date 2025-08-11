@@ -1,7 +1,5 @@
 import z from "zod";
 
-// error responses should be catched in the interceptor
-
 const createApiResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
     z.object({
         success: z.literal(true),

@@ -1,5 +1,3 @@
-"""Database type definitions to avoid circular imports."""
-
 import uuid
 
 from pydantic import UUID5

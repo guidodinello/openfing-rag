@@ -33,7 +33,6 @@ class MetadataColumn(StrEnum):
     TRANSCRIPTION_ID = "transcription_id"
 
 
-## TODO: should i call it ChunkRepository?
 class VectorRepository:
     """
     Repository for vector store operations using deterministic UUIDs.
@@ -121,16 +120,16 @@ class VectorRepository:
         for chunk in chunks:
             chunk_uuid = generate_chunk_uuid(
                 transcription_id,
-                chunk["metadata"]["chunk_index"],
+                chunk.metadata["chunk_index"],
             )
 
-            del chunk["metadata"]["segments"]
+            del chunk.metadata["segments"]
 
             documents.append(
                 Document(
-                    page_content=chunk["text"],
+                    page_content=chunk.text,
                     metadata={
-                        **chunk["metadata"],
+                        **chunk.metadata,
                         MetadataColumn.TRANSCRIPTION_ID.value: transcription.id,
                         MetadataColumn.LESSON_ID.value: transcription.lesson.id,
                         MetadataColumn.COURSE_ID.value: transcription.lesson.course.id,
@@ -151,7 +150,7 @@ class VectorRepository:
             },
         )
 
-        timing_accuracy = chunks[0]["metadata"]["timing_accuracy"] if chunks else "unknown"
+        timing_accuracy = chunks[0].metadata["timing_accuracy"] if chunks else "unknown"
         logger.info(
             f"Ingested {transcription_id=} as {len(added_ids)} chunks with {timing_accuracy} timing",
         )
@@ -283,7 +282,7 @@ class VectorRepository:
             "collection_name": settings.VECTOR_STORE_COLLECTION,
             "connection_host": host_info,
             "engine_type": type(self._vector_store).__name__,
-            "uuid_strategy": f"{__name__}.generate_chunk_uuid",
+            "uuid_strategy": f"{__name__}.{generate_chunk_uuid.__name__}",
         }
 
     def delete_by_transcription(self, transcription_id: int) -> int:

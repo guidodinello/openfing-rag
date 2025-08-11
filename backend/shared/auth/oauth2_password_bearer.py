@@ -10,7 +10,6 @@ from passlib.context import CryptContext
 from shared.config import get_settings
 from shared.database.models import User
 from shared.database.repository_dependencies import UserRepositoryDep
-from shared.enums.auth_error_codes import AuthErrorCodes
 from shared.exceptions.authentication_exception import AuthenticationException
 from shared.exceptions.validation_exception import ValidationException
 from shared.logging import get_logger
@@ -37,17 +36,68 @@ class JwtAuthService:
         return cls.pwd_context.verify(plain_password, hashed_password)
 
     @classmethod
-    def get_password_hash(cls, password: str) -> str:
+    def hash_password(cls, password: str) -> str:
         """Hash a password for storing."""
         return cls.pwd_context.hash(password)
 
-    def authenticate_user(self, username: str, password: str) -> User:
-        """Authenticate a user by username and password."""
+    def login(self, username: str, password: str) -> tuple[User, str, str]:
         user = self.user_repo.get_by(username=username)
         if not user or not self.verify_password(password, user.hashed_password):
             raise AuthenticationException.invalid_credentials()
 
+        return (
+            user,
+            self.create_access_token(data={"sub": user.username, "user_id": user.id}),
+            self.create_refresh_token(data={"sub": user.username, "user_id": user.id}),
+        )
+
+    def authenticated_user(self, token: str) -> User:
+        """Extract and validate user from JWT token."""
+        if not token:
+            raise AuthenticationException.missing_token()
+
+        try:
+            payload = jwt.decode(token, settings.JWT.SECRET_KEY, algorithms=[settings.JWT.ALGORITHM])
+            if payload.get("type") != "access":
+                raise AuthenticationException.invalid_token()
+            username: str = payload.get("sub")
+            if username is None:
+                raise AuthenticationException.invalid_token()
+        except jwt.ExpiredSignatureError as e:
+            raise AuthenticationException.expired_token() from e
+        except jwt.InvalidTokenError as e:
+            raise AuthenticationException.invalid_token() from e
+
+        user = self.user_repo.get_by(username=username)
+        if not user:
+            raise AuthenticationException.invalid_credentials()
+
         return user
+
+    def refresh_access_token(self, refresh_token: str) -> str:
+        """Generate new access token from valid refresh token."""
+        try:
+            payload = jwt.decode(refresh_token, settings.JWT.SECRET_KEY, algorithms=[settings.JWT.ALGORITHM])
+
+            if payload.get("type") != "refresh":
+                raise AuthenticationException.invalid_token()
+
+            username, user_id = payload.get("sub"), payload.get("user_id")
+            if not username or not user_id:
+                raise AuthenticationException.invalid_token()
+
+            user = self.user_repo.get_by(username=username)
+            if not user or user.id != user_id:
+                raise AuthenticationException.invalid_credentials()
+
+            return self.create_access_token(
+                data={"sub": username, "user_id": user_id},
+                expires_delta=timedelta(minutes=settings.JWT.ACCESS_TOKEN_EXPIRE_MINUTES),
+            )
+        except jwt.ExpiredSignatureError as e:
+            raise AuthenticationException.expired_token() from e
+        except jwt.InvalidTokenError as e:
+            raise AuthenticationException.invalid_token() from e
 
     @staticmethod
     def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
@@ -55,35 +105,32 @@ class JwtAuthService:
         expire = (
             datetime.now(timezone.utc) + expires_delta
             if expires_delta
-            else datetime.now(timezone.utc) + timedelta(minutes=15)
+            else datetime.now(timezone.utc) + timedelta(minutes=settings.JWT.ACCESS_TOKEN_EXPIRE_MINUTES)
         )
 
         to_encode = data.copy()
-        to_encode.update({"exp": expire})
+        to_encode.update(
+            {
+                "exp": expire,
+                "type": "access",
+                "iat": datetime.now(timezone.utc),
+            },
+        )
         return jwt.encode(to_encode, settings.JWT.SECRET_KEY, algorithm=settings.JWT.ALGORITHM)
 
-    def get_current_user_from_token(self, token: str) -> User:
-        """Extract and validate user from JWT token."""
-        try:
-            payload = jwt.decode(token, settings.JWT.SECRET_KEY, algorithms=[settings.JWT.ALGORITHM])
-            username: str = payload.get("sub")
-            if username is None:
-                raise AuthenticationException.invalid_token()
-        except jwt.ExpiredSignatureError as e:
-            raise AuthenticationException.token_expired() from e
-        except jwt.InvalidTokenError as e:
-            raise AuthenticationException.invalid_token() from e
+    @staticmethod
+    def create_refresh_token(data: dict) -> str:
+        expire = datetime.now(timezone.utc) + timedelta(days=settings.JWT.REFRESH_TOKEN_EXPIRE_DAYS)
 
-        user = self.user_repo.get_by(username=username)
-        if user is None:
-            raise AuthenticationException(
-                message="User no longer exists",
-                error_code=AuthErrorCodes.USER_NOT_FOUND,
-                status_code=401,
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-
-        return user
+        to_encode = data.copy()
+        to_encode.update(
+            {
+                "exp": expire,
+                "type": "refresh",
+                "iat": datetime.now(timezone.utc),
+            },
+        )
+        return jwt.encode(to_encode, settings.JWT.SECRET_KEY, algorithm=settings.JWT.ALGORITHM)
 
     def register_user(self, email: str, username: str, password: str) -> User:
         if self.user_repo.get_by(email=email):
@@ -100,7 +147,7 @@ class JwtAuthService:
                 error_code="duplicate_username",
             )
 
-        password_errors = JwtAuthService.validate_password(password)
+        password_errors = JwtAuthService._validate_password(password)
         if password_errors:
             raise ValidationException(
                 message="Password validation failed",
@@ -111,11 +158,11 @@ class JwtAuthService:
         return self.user_repo.create(
             email=email,
             username=username,
-            hashed_password=self.get_password_hash(password),
+            hashed_password=self.hash_password(password),
         )
 
     @staticmethod
-    def validate_password(password: str) -> list[str]:
+    def _validate_password(password: str) -> list[str]:
         """Validate password and return list of error messages."""
         validation_rules = [
             (lambda pwd: len(pwd) >= 8, "Password must be at least 8 characters long"),
@@ -128,7 +175,6 @@ class JwtAuthService:
         return failed_rules
 
 
-# Dependency functions
 def get_jwt_auth_service(user_repo: UserRepositoryDep) -> JwtAuthService:
     return JwtAuthService(user_repo)
 
@@ -136,8 +182,8 @@ def get_jwt_auth_service(user_repo: UserRepositoryDep) -> JwtAuthService:
 JwtAuthServiceDep = Annotated[JwtAuthService, Depends(get_jwt_auth_service)]
 
 
-def require_jwt_user(auth_service: JwtAuthServiceDep, token: BearerToken) -> User:
-    return auth_service.get_current_user_from_token(token)
+def get_jwt_user(auth_service: JwtAuthServiceDep, token: BearerToken) -> User:
+    return auth_service.authenticated_user(token)
 
 
-BearerTokenUser = Annotated[User, Depends(require_jwt_user)]
+BearerTokenUser = Annotated[User, Depends(get_jwt_user)]

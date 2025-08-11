@@ -111,6 +111,7 @@ def _create_benchmark_data(
 ) -> dict[str, Any]:
     """Create benchmark data dictionary."""
     benchmark_data = {
+        ## TODO: is this right oe should it be datetime.now(timezone.utc)?
         "timestamp": datetime.datetime.now(datetime.UTC).isoformat(),
         "function": func_name,
         "wall_time_seconds": round(wall_time, 3),

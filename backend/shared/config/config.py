@@ -1,12 +1,11 @@
 from functools import lru_cache
 from pathlib import Path
-from typing import Annotated, Literal
+from typing import Literal
 
 from pydantic import BaseModel, EmailStr, Field, HttpUrl, PostgresDsn, field_validator
-from pydantic_core import Url
-from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from shared.utils import detect_device, parse_comma_separated_list
+from shared.utils import detect_device
 
 
 class LoggingSettings(BaseModel):
@@ -127,29 +126,11 @@ class PrefectSettings(BaseModel):
 
 
 class ApiKeys(BaseModel):
-    ADMIN: Annotated[list[str], NoDecode] = Field(
-        default_factory=list,
-        description="Comma-separated admin API keys",
+    HMAC_SECRET: str = Field(
+        default="NOT_SET",
+        description="HMAC secret for API key hashing",
+        min_length=32,
     )
-    READ: Annotated[list[str], NoDecode] = Field(
-        default_factory=list,
-        description="Comma-separated read-only API keys",
-    )
-    WRITE: Annotated[list[str], NoDecode] = Field(
-        default_factory=list,
-        description="Comma-separated write API keys",
-    )
-
-    @field_validator("ADMIN", "READ", "WRITE", mode="before")
-    @classmethod
-    def parse_comma_separated(cls, v: str | list[str]) -> list[str]:
-        if not isinstance(v, str):
-            return []
-        return parse_comma_separated_list(v)
-
-    @property
-    def all(self) -> set[str]:
-        return set(self.ADMIN + self.READ + self.WRITE)
 
 
 class ServerSettings(BaseModel):
@@ -180,13 +161,14 @@ class LangsmithSettings(BaseModel):
 
 class JwtSettings(BaseModel):
     SECRET_KEY: str = Field(
-        default="secret_key",
-        description="Secret key for JWT token signing. Run openssl rand -hex 32",
+        default="NOT_SET",
+        description="Secret key for JWT token signing",
+        min_length=32,
     )
     ALGORITHM: str = Field(default="HS256", description="JWT algorithm")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(default=30, description="Access token expiration time in minutes")
     REFRESH_TOKEN_EXPIRE_DAYS: int = Field(default=7, description="Refresh token expiration time in days")
-    TOKEN_URL: Url = Field(default="/token", description="")
+    TOKEN_URL: str = Field(default="/token", description="")
 
 
 class AppSettings(BaseModel):

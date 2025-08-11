@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Self
 
+from shared.database.models import MessageRole
 from shared.domain import Result
 
 
@@ -46,7 +47,7 @@ class RetrievedChunk:
 class LLMAnswer:
     answer: str
     model_used: str
-    role: str = "assistant"
+    role: MessageRole = MessageRole.ASSISTANT
 
 
 class LLMAnswerResult(Result[LLMAnswer]): ...
@@ -70,7 +71,8 @@ class Source:
 
 @dataclass(frozen=True, slots=True)
 class Chat:
-    result: LLMAnswer
+    id: int
+    answer: LLMAnswer
     sources: list[Source]
 
 

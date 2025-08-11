@@ -1,5 +1,16 @@
+from .users import User, UserResponse
+from .messages import Message
 from .courses import Course, CourseResponse
 from .lessons import Lesson, ListLessonsResponse
+from .conversations import (
+    Conversation,
+    ConversationResponse,
+    ConversationWithMessagesResponse,
+    ConversationWithMessages,
+    ListConversationsResponse,
+    UpdateConversationRequest,
+    CreateConversationRequest,
+)
 from .transcriptions import (
     ListTranscriptionsResponse,
     Transcription,
@@ -18,4 +29,14 @@ __all__ = [
     "Transcription",
     "Lesson",
     "Course",
+    "User",
+    "UserResponse",
+    "Conversation",
+    "ConversationResponse",
+    "ListConversationsResponse",
+    "Message",
+    "UpdateConversationRequest",
+    "ConversationWithMessagesResponse",
+    "CreateConversationRequest",
+    "ConversationWithMessages",
 ]

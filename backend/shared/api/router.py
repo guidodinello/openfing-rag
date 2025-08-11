@@ -5,8 +5,8 @@ from typing import Self
 from fastapi import APIRouter, Depends
 
 from shared.auth.api_key import require_admin_permission, require_read_permission, require_write_permission
-from shared.auth.mixed_auth import require_api_key_or_jwt_read, require_api_key_or_jwt_write
-from shared.auth.oauth2_password_bearer import require_jwt_user
+from shared.auth.authenticated_user import require_api_key_or_jwt_read, require_api_key_or_jwt_write
+from shared.auth.oauth2_password_bearer import get_jwt_user
 
 
 @dataclass(frozen=True, slots=True)
@@ -64,7 +64,7 @@ class AuthRouters:
                 write=APIRouter(dependencies=[Depends(require_write_permission)], **kwargs),
             ),
             jwt=JwtAuthedRouters(
-                bearer=APIRouter(dependencies=[Depends(require_jwt_user)], **kwargs),
+                bearer=APIRouter(dependencies=[Depends(get_jwt_user)], **kwargs),
             ),
             mixed=MixedAuthedRouters(
                 api_key_or_jwt_read=APIRouter(dependencies=[Depends(require_api_key_or_jwt_read)], **kwargs),

@@ -1,13 +1,13 @@
-from datetime import timedelta
 from typing import Annotated
 
 from fastapi import Depends, status
 from fastapi.security import OAuth2PasswordRequestFormStrict
 
 from shared.api.router import AuthRouters
-from shared.api.v1.schemas.auth import TokenResponse, UserRegister, UserResponse
-from shared.auth.oauth2_password_bearer import BearerTokenUser, JwtAuthService, JwtAuthServiceDep
+from shared.api.v1.schemas.auth import RefreshTokenRequest, TokenResponse, UserRegister
+from shared.auth.oauth2_password_bearer import JwtAuthServiceDep
 from shared.config import get_settings
+from shared.database.api.v1.schemas import User, UserResponse
 
 settings = get_settings()
 
@@ -30,7 +30,7 @@ async def register(auth_service: JwtAuthServiceDep, user_data: UserRegister) -> 
         username=user_data.username,
         password=user_data.password,
     )
-    return UserResponse.from_model(user)
+    return UserResponse.success_response(message="User registered successfully", data=User.from_model(user))
 
 
 @routers.public.post(
@@ -44,35 +44,24 @@ async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestFormStrict, Depends()],
 ) -> TokenResponse:
     """Authenticate user and return access token."""
-    user = auth_service.authenticate_user(form_data.username, form_data.password)
+    _, access_token, refresh_token = auth_service.login(form_data.username, form_data.password)
 
     return TokenResponse(
-        access_token=JwtAuthService.create_access_token(
-            data={"sub": user.username},
-            expires_delta=timedelta(minutes=settings.JWT.ACCESS_TOKEN_EXPIRE_MINUTES),
-        ),
+        access_token=access_token,
+        refresh_token=refresh_token,
         token_type="bearer",
     )
 
 
 @routers.public.post("/refresh", status_code=status.HTTP_200_OK, summary="Refresh access token")
-async def refresh_token(logged_user: BearerTokenUser) -> TokenResponse:
-    """Refresh the access token for an authenticated user."""
+async def refresh_access_token(
+    auth_service: JwtAuthServiceDep,
+    refresh_request: RefreshTokenRequest,
+) -> TokenResponse:
+    """Generate new access token from refresh token."""
+    access_token = auth_service.refresh_access_token(refresh_request.refresh_token)
+
     return TokenResponse(
-        access_token=JwtAuthService.create_access_token(
-            data={"sub": logged_user.username},
-            expires_delta=timedelta(minutes=settings.JWT.ACCESS_TOKEN_EXPIRE_MINUTES),
-        ),
+        access_token=access_token,
         token_type="bearer",
     )
-
-
-@routers.jwt.bearer.get(
-    "/users/me",
-    status_code=status.HTTP_200_OK,
-    summary="Get current user profile",
-    description="Retrieve the profile information of the currently authenticated user",
-)
-async def read_users_me(logged_user: BearerTokenUser) -> UserResponse:
-    """Get the current authenticated user's profile."""
-    return UserResponse.from_model(logged_user)

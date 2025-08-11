@@ -238,4 +238,23 @@ docker compose up -d --force-recreate
 # open a terminal inside a container
 docker compose exec backend bash
 
+
+
+## VECTORIZAR DETACHED
+# Conectarse al VPS
+ssh -p 2222 guido@179.27.96.212
+cd ~/tesis/docker
+
+# Crear sesión screen
+screen -S vectorize
+
+# Dentro de screen, ejecutar:
+TRANSCRIPTION_IDS=$(docker compose --env-file=../.env exec -T backend openchat-db transcription-ids)
+echo "IDs a procesar: $TRANSCRIPTION_IDS"
+
+# Ejecutar vectorización con logs
+docker compose --env-file=../.env exec backend openchat-transcriber vectorize $TRANSCRIPTION_IDS 2>&1 | tee ../logs/vectorize_$(date +%Y%m%d_%H%M%S).log
+
+# Desconectarse: Ctrl+A, luego D
+
 ```

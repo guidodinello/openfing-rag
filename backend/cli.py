@@ -5,6 +5,7 @@ from services.downloader.cli import app as downloader_app
 from services.generator.cli import app as generator_app
 from services.scraper.cli import app as scraper_app
 from services.transcriber.cli import app as transcriber_app
+from shared.auth.cli import app as auth_app
 from shared.config import get_settings
 from shared.decorators.cli_error_handlers import handle_cli_errors
 
@@ -28,6 +29,7 @@ app.add_typer(
     help="🎤 Audio transcription services",
 )
 app.add_typer(scraper_app, name="scraper", help="🕷️  Web scraping services")
+app.add_typer(auth_app, name="secrets", help="🔐 Security and secrets management")
 
 
 @app.command()
@@ -41,18 +43,6 @@ def version():
 def show_settings():
     """Print all current settings for debugging."""
     print(settings)
-
-
-@app.command()
-def generate_api_keys():
-    """Generate a set of API keys for development/production."""
-    import secrets
-
-    console.print("\n[bold green]Generated API Keys:[/bold green]")
-    console.print(f"API_KEYS__ADMIN=admin_{secrets.token_urlsafe(32)}")
-    console.print(f"API_KEYS__READ=ro_{secrets.token_urlsafe(32)}")
-    console.print(f"API_KEYS__WRITE=w_{secrets.token_urlsafe(32)}")
-    console.print("\n[yellow]Add these to your .env file[/yellow]")
 
 
 @handle_cli_errors
