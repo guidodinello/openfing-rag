@@ -7,6 +7,7 @@ import {
 } from "@/constants/example-questions";
 import { useConversationCreation } from "@/hooks/use-conversation";
 import { ChatInput } from "./chat-input";
+import { FilterOptions } from "./filter-options";
 
 export const WelcomeScreen = () => {
     const { createNewConversation, isCreating } = useConversationCreation();
@@ -25,6 +26,7 @@ export const WelcomeScreen = () => {
     return (
         <div className="flex flex-col min-h-[calc(100vh-73px)]">
             <div className="flex-1 flex flex-col items-center justify-center p-4">
+                <FilterOptions />
                 <div className="text-center mb-8">
                     <div className="size-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                         <LuBookOpen className="size-8 text-white" />

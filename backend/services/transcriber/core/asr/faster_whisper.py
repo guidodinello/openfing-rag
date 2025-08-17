@@ -13,7 +13,6 @@ from shared.logging import get_logger
 logger = get_logger(__name__)
 settings = get_settings()
 
-
 class FasterWhisperTranscriber:
     _models_cache: dict[str, WhisperModel] = {}
 
@@ -30,11 +29,9 @@ class FasterWhisperTranscriber:
             cache_folder = settings.WHISPER.CACHE_DIR
             if cache_folder:
                 cache_folder.mkdir(exist_ok=True, parents=True)
-
             logger.debug(
                 f"Loading faster-whisper {model_size.value=} on {settings.WHISPER.DEVICE=}",
             )
-
             cls._models_cache[cache_key] = WhisperModel(
                 model_size.value,
                 device=settings.WHISPER.DEVICE,
