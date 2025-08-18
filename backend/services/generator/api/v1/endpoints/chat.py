@@ -1,49 +1,44 @@
-from fastapi import HTTPException, status
+from fastapi import Request, status
 
 from services.generator.api.v1.schemas import ChatAnswer, ChatAnswerResponse, ChatQuery
 from services.generator.schemas import SearchContext
 from shared.api.router import AuthRouters
+from shared.auth.authenticated_user import MaybeAuthedUser
 from shared.database.service_dependencies import ChatServiceDep
 
 routers = AuthRouters.create()
 
 
-@routers.mixed.api_key_or_jwt_read.post(
+@routers.public.post(
     "/chat",
     summary="Process chat message",
-    description="Process a chat message using RAG to provide contextual responses",
+    description=(
+        "Process a chat message using RAG. Supports anonymous users (ephemeral), JWT users, and API key users."
+    ),
     status_code=status.HTTP_200_OK,
 )
 async def chat(
+    request: Request,
     query: ChatQuery,
     chat_service: ChatServiceDep,
+    user: MaybeAuthedUser,
 ) -> ChatAnswerResponse:
     """Process chat message and return response with sources."""
-    try:
-        result = chat_service.process_message(
-            SearchContext(
-                query=query.message,
-                lessons_ids=query.lessons_ids or [],
-                courses_ids=query.courses_ids or [],
-                max_results=4,
-            ),
-        )
+    result = chat_service.process_message(
+        SearchContext(
+            query=query.message,
+            lessons_ids=query.lessons_ids or [],
+            courses_ids=query.courses_ids or [],
+            max_results=4,
+        ),
+        conversation_id=request.state.chat_context.get("conversation_id"),
+        user_id=user.user.id,  ## TODO: fix if user is None
+    )
 
-        if not result.success:
-            return ChatAnswerResponse.error_response(
-                message="Successfully retrieved Chat Answer",
-                data=ChatAnswer.from_chat_result(result),
-            )
+    if not result.success:
+        return ChatAnswerResponse.error_response(message=f"Error while retrieving Chat Answer {result.message}")
 
-        return ChatAnswerResponse.success_response(
-            message="Successfully retrieved Chat Answer",
-            data=ChatAnswer.from_chat_result(result),
-        )
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred while processing your message",
-        ) from e
+    return ChatAnswerResponse.success_response(
+        message="Successfully retrieved Chat Answer",
+        data=ChatAnswer.from_chat_result(result),
+    )

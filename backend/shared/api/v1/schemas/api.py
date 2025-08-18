@@ -11,11 +11,11 @@ class ApiResponse(BaseModel, Generic[T]):
     data: T | None = Field(default=None, description="Response data")
 
     @classmethod
-    def success_response(cls, message: str, data: T | None = None) -> Self:
+    def success_response(cls, message: str, data: T) -> Self:
         return cls(success=True, message=message, data=data)
 
     @classmethod
-    def error_response(cls, message: str, data: T | None = None) -> Self:
+    def error_response(cls, message: str, data: None = None) -> Self:
         return cls(success=False, message=message, data=data)
 
 

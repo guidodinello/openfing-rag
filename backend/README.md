@@ -114,7 +114,6 @@ uv pip list
 
 ## Docker Development
 
-
 Each service includes a Dockerfile for containerized deployment:
 
 ```bash
@@ -126,22 +125,23 @@ docker-compose -f ../docker/docker-compose.yml up
 ```
 
 - Database:
+
 ```
 cd docker
 ```
+
 ```
 docker compose --env-file ../backend/.env up -d database                                                                           ─╯
 ```
+
 ```
 docker compose --env-file ../backend/.env down -v database                                                                         ─╯
 ```
-
 
 ## Standards
 
 Use consistent service naming, go with action-oriented names (gerunds/verbs) since these are services that do things.
 The preferred approach would be to use agent nouns (things that perform actions).
-
 
 ## Service Structure
 
@@ -169,7 +169,6 @@ services/
 │   └── README.md
 ```
 
-
 ## Troubleshooting
 
 When using Faster Whisper or WhisperX with CUDA, you may encounter issues related to missing libraries. To resolve this, ensure that the `LD_LIBRARY_PATH` is set correctly to include the paths for the NVIDIA cuBLAS and cuDNN libraries.
@@ -187,10 +186,12 @@ https://github.com/SYSTRAN/faster-whisper?tab=readme-ov-file#gpu
 https://github.com/SYSTRAN/faster-whisper/issues/516
 
 ## TODO
+
 - [] ssl certificates in prod. SSL/HTTPS con Let's Encrypt
 - [] basic frontend
 
 VPS compose commands
+
 ```
 # Rebuild when code change
 docker compose --env-file ../.env build
@@ -218,7 +219,9 @@ SOURCE_FOLDER="./backend/transcriptions/medium/"
 DEST_FOLDER="~/tesis/transcriptions/medium/"
 rsync -avz --progress -e "ssh -p 2222" "${SOURCE_FOLDER}" guido@179.27.96.212:"${DEST_FOLDER}"
 ```
+
 Deploy
+
 ```
 # En la VPS
 cd ~/tesis/docker
@@ -237,5 +240,24 @@ docker compose up -d --force-recreate
 
 # open a terminal inside a container
 docker compose exec backend bash
+
+
+
+## VECTORIZAR DETACHED
+# Conectarse al VPS
+ssh -p 2222 guido@179.27.96.212
+cd ~/tesis/docker
+
+# Crear sesión screen
+screen -S vectorize
+
+# Dentro de screen, ejecutar:
+TRANSCRIPTION_IDS=$(docker compose --env-file=../.env exec -T backend openchat-db transcription-ids)
+echo "IDs a procesar: $TRANSCRIPTION_IDS"
+
+# Ejecutar vectorización con logs
+docker compose --env-file=../.env exec backend openchat-transcriber vectorize $TRANSCRIPTION_IDS 2>&1 | tee ../logs/vectorize_$(date +%Y%m%d_%H%M%S).log
+
+# Desconectarse: Ctrl+A, luego D
 
 ```

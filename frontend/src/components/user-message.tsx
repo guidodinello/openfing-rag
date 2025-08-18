@@ -1,14 +1,14 @@
 import { LuCopy, LuCheck } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
-import type { UserMessage } from "@/types/chat";
 import { formatToLocalTime } from "@/utils/dates";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import type { UserMessage as UserMessageType } from "@/types/message";
 
 interface UserMessageProps {
-    readonly message: UserMessage;
+    readonly message: UserMessageType;
 }
 
-export function UserMessage({ message }: UserMessageProps) {
+export const UserMessage = ({ message }: UserMessageProps) => {
     const { copied, handleCopy } = useCopyToClipboard(message.content);
 
     return (
@@ -35,10 +35,10 @@ export function UserMessage({ message }: UserMessageProps) {
 
                 <div className="flex justify-end mt-1">
                     <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                        {formatToLocalTime(message.timestamp)}
+                        {formatToLocalTime(new Date(message.updated_at))}
                     </span>
                 </div>
             </div>
         </div>
     );
-}
+};

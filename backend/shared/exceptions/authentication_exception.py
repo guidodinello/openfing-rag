@@ -1,5 +1,7 @@
 from typing import Self
 
+from fastapi import status
+
 from shared.enums.auth_error_codes import AuthErrorCodes
 
 
@@ -7,8 +9,8 @@ class AuthenticationException(Exception):
     def __init__(
         self,
         message: str,
+        status_code: int,
         error_code: AuthErrorCodes = AuthErrorCodes.INVALID_CREDENTIALS,
-        status_code: int = 401,
         headers: dict[str, str] | None = None,
         details: dict | None = None,
     ):
@@ -20,20 +22,47 @@ class AuthenticationException(Exception):
         super().__init__(message)
 
     @classmethod
-    def invalid_credentials(cls) -> Self:
+    def missing_auth(cls) -> Self:
         return cls(
-            message="Incorrect username or password",
-            error_code=AuthErrorCodes.INVALID_CREDENTIALS,
-            status_code=401,
+            message="Authentication required",
+            error_code=AuthErrorCodes.MISSING_AUTH,
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            headers={"WWW-Authenticate": "ApiKey, Bearer"},
+        )
+
+    @classmethod
+    def missing_api_key(cls) -> Self:
+        return cls(
+            message="API key is required",
+            error_code=AuthErrorCodes.MISSING_API_KEY,
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            headers={"WWW-Authenticate": "ApiKey"},
+        )
+
+    @classmethod
+    def missing_token(cls) -> Self:
+        return cls(
+            message="JWT token is required",
+            error_code=AuthErrorCodes.MISSING_TOKEN,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             headers={"WWW-Authenticate": "Bearer"},
         )
 
     @classmethod
-    def token_expired(cls) -> Self:
+    def invalid_credentials(cls) -> Self:
+        return cls(
+            message="Incorrect username or password",
+            error_code=AuthErrorCodes.INVALID_CREDENTIALS,
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    @classmethod
+    def expired_token(cls) -> Self:
         return cls(
             message="Authentication token has expired",
             error_code=AuthErrorCodes.TOKEN_EXPIRED,
-            status_code=401,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             headers={"WWW-Authenticate": "Bearer"},
         )
 
@@ -42,7 +71,7 @@ class AuthenticationException(Exception):
         return cls(
             message="Invalid authentication token",
             error_code=AuthErrorCodes.INVALID_TOKEN,
-            status_code=401,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             headers={"WWW-Authenticate": "Bearer"},
         )
 
@@ -55,7 +84,7 @@ class AuthenticationException(Exception):
         return cls(
             message=message,
             error_code=AuthErrorCodes.INSUFFICIENT_PERMISSIONS,
-            status_code=403,
+            status_code=status.HTTP_403_FORBIDDEN,
             details={"required_permission": required_permission},
         )
 
@@ -64,6 +93,15 @@ class AuthenticationException(Exception):
         return cls(
             message="Invalid API key",
             error_code=AuthErrorCodes.INVALID_API_KEY,
-            status_code=401,
+            status_code=status.HTTP_403_FORBIDDEN,
+            headers={"WWW-Authenticate": "ApiKey"},
+        )
+
+    @classmethod
+    def expired_api_key(cls) -> Self:
+        return cls(
+            message="API key has expired",
+            error_code=AuthErrorCodes.API_KEY_EXPIRED,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             headers={"WWW-Authenticate": "ApiKey"},
         )

@@ -7,8 +7,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { floatToPercentage } from "@/utils/numbers";
-import type { Source, SourceTimestamp } from "@/types/types";
 import { formatSecondsToTimeWithHours } from "@/utils/dates";
+import type { Source, SourceTimestamp } from "@/types/message";
 
 interface SourceCitationsProps {
     readonly sources: Source[];

@@ -1,12 +1,17 @@
+import hashlib
+import hmac
 import secrets
-from dataclasses import dataclass
+from datetime import datetime
 from typing import Annotated
 
 from fastapi import Depends
 from fastapi.security import APIKeyHeader
 
 from shared.config import get_settings
-from shared.enums import AuthErrorCodes, CustomHeaders
+from shared.database.models import ApiKey as ApiKeyModel
+from shared.database.models import ApiKeyScope, User
+from shared.database.repository_dependencies import ApiKeyRepositoryDep
+from shared.enums import CustomHeaders
 from shared.exceptions.authentication_exception import AuthenticationException
 
 settings = get_settings()
@@ -20,84 +25,99 @@ api_key_header = APIKeyHeader(
 ApiKey = Annotated[str, Depends(api_key_header)]
 
 
-@dataclass(frozen=True, slots=True)
-class UserPermissions:
-    admin: bool
-    write: bool
-    read: bool
+class HMACApiKeyService:
+    """
+    API Key service using HMAC-SHA256 for security and performance.
+    """
 
+    def __init__(self, api_key_repo: ApiKeyRepositoryDep):
+        self.api_key_repo = api_key_repo
 
-@dataclass(frozen=True, slots=True)
-class ApiKeyUserInfo:
-    api_key: str
-    permissions: UserPermissions
-    authenticated: bool
-
-
-class APIKeyAuth:
     @staticmethod
-    def api_key_user(api_key: str) -> ApiKeyUserInfo:
-        """Verify API key and return user info with permissions."""
+    def verify_api_key(self, plain_api_key: str, hashed_api_key: str) -> bool:
+        """Uses constant-time comparison to prevent timing attacks."""
+        expected_hash = HMACApiKeyService.hash_api_key(plain_api_key)
+        return hmac.compare_digest(expected_hash, hashed_api_key)
+
+    @staticmethod
+    def hash_api_key(api_key: str) -> str:
+        """Hash an API key using HMAC-SHA256 with server secret."""
+        return hmac.new(
+            settings.API_KEYS.HMAC_SECRET.encode("utf-8"),
+            api_key.encode("utf-8"),
+            hashlib.sha256,
+        ).hexdigest()
+
+    @staticmethod
+    def _generate_plain_key(scope: ApiKeyScope) -> str:
+        """Generate a new API key with proper entropy."""
+        return f"{scope.value}_{secrets.token_urlsafe(32)}"
+
+    def authenticated_key(self, api_key: str) -> ApiKeyModel:
+        """Authenticate a user by api key"""
         if not api_key:
-            raise AuthenticationException(
-                message="API key is required",
-                error_code=AuthErrorCodes.MISSING_API_KEY,
-                status_code=401,
-                headers={"WWW-Authenticate": "ApiKey"},
-            )
+            raise AuthenticationException.missing_api_key()
 
-        valid_key = False
-        for valid_api_key in settings.API_KEYS.all:
-            if secrets.compare_digest(api_key, valid_api_key):
-                valid_key = True
-                break
+        api_key_model = self.get_api_key(api_key)
 
-        if not valid_key:
+        if not api_key_model:
+            raise AuthenticationException.invalid_api_key()
+        if api_key_model.is_expired:
+            raise AuthenticationException.expired_api_key()
+        if not api_key_model.is_valid:
             raise AuthenticationException.invalid_api_key()
 
-        return ApiKeyUserInfo(
-            api_key=api_key,
-            permissions=APIKeyAuth._get_permissions(api_key),
-            authenticated=True,
+        return api_key_model
+
+    def register_api_key(
+        self,
+        user_id: int,
+        name: str,
+        scope: ApiKeyScope,
+        expires_at: datetime | None = None,
+    ) -> tuple[str, ApiKeyModel]:
+        """Create a new API key for a user."""
+        plain_value = HMACApiKeyService._generate_plain_key(scope)
+
+        return plain_value, self.api_key_repo.create(
+            user_id=user_id,
+            name=name,
+            key_hash=HMACApiKeyService.hash_api_key(plain_value),
+            scope=scope,
+            expires_at=expires_at,
         )
 
-    @staticmethod
-    def _get_permissions(api_key: str) -> UserPermissions:
-        """Determine permissions based on API key type."""
-        return UserPermissions(
-            admin=api_key in settings.API_KEYS.ADMIN,
-            read=api_key in settings.API_KEYS.all,
-            write=api_key in (settings.API_KEYS.ADMIN + settings.API_KEYS.WRITE),
-        )
+    def get_api_key(self, api_key: str) -> ApiKeyModel:
+        return self.api_key_repo.get_by_hash(HMACApiKeyService.hash_api_key(api_key))
 
 
-# Dependency functions
-def get_api_key_user(api_key: ApiKey) -> ApiKeyUserInfo:
-    """Get authenticated user with required API key."""
-    return APIKeyAuth.api_key_user(api_key)
+def get_hmac_api_key_service(api_key_repo: ApiKeyRepositoryDep) -> HMACApiKeyService:
+    return HMACApiKeyService(api_key_repo)
 
 
-APIKeyUser = Annotated[ApiKeyUserInfo, Depends(get_api_key_user)]
+ApiKeyServiceDep = Annotated[HMACApiKeyService, Depends(get_hmac_api_key_service)]
 
 
-def require_read_permission(user: APIKeyUser) -> ApiKeyUserInfo:
-    if not user.permissions.read:
-        raise AuthenticationException.insufficient_permissions("read")
-    return user
+def get_authenticated_api_key(auth_service: ApiKeyServiceDep, api_key: ApiKey) -> User:
+    return auth_service.authenticated_key(api_key)
 
 
-def require_write_permission(user: APIKeyUser) -> ApiKeyUserInfo:
-    if not user.permissions.write:
-        raise AuthenticationException.insufficient_permissions("write")
-    return user
+AuthenticatedApiKey = Annotated[ApiKeyModel, Depends(get_authenticated_api_key)]
 
 
-def require_admin_permission(user: APIKeyUser) -> ApiKeyUserInfo:
-    if not user.permissions.admin:
-        raise AuthenticationException.insufficient_permissions("admin")
-    return user
+def require_read_permission(api_key: AuthenticatedApiKey) -> ApiKeyModel:
+    if not api_key.has_permission(ApiKeyScope.READ):
+        raise AuthenticationException.insufficient_permissions(ApiKeyScope.READ.value)
+    return api_key
 
 
-ReadUser = Annotated[ApiKeyUserInfo, Depends(require_read_permission)]
-WriteUser = Annotated[ApiKeyUserInfo, Depends(require_write_permission)]
-AdminUser = Annotated[ApiKeyUserInfo, Depends(require_admin_permission)]
+def require_write_permission(api_key: AuthenticatedApiKey) -> ApiKeyModel:
+    if not api_key.has_permission(ApiKeyScope.WRITE):
+        raise AuthenticationException.insufficient_permissions(ApiKeyScope.READ.write)
+    return api_key
+
+
+def require_admin_permission(api_key: AuthenticatedApiKey) -> ApiKeyModel:
+    if not api_key.has_permission(ApiKeyScope.ADMIN):
+        raise AuthenticationException.insufficient_permissions(ApiKeyScope.READ.admin)
+    return api_key
