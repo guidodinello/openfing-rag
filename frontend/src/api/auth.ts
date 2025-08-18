@@ -5,6 +5,7 @@ import type {
     BearerTokenResponse,
     RegisterResponse,
     LoginCredentials,
+    RegisterCredentials,
 } from "@/types/auth";
 import type { ApiResponse } from "@/types/api";
 
@@ -27,13 +28,9 @@ export const login = async ({ username, password }: LoginCredentials) => {
     return response.data;
 };
 
-interface RegisterCredentials {
-    email: string;
-    username: string;
-    password: string;
-}
-
-export const register = async (data: RegisterCredentials) => {
+export const register = async (
+    data: Omit<RegisterCredentials, "confirmPassword">,
+) => {
     const response = await publicApiClient.post<ApiResponse<RegisterResponse>>(
         "/register",
         data,
