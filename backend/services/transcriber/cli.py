@@ -110,7 +110,7 @@ def transcribe(
 
     process_multiple_lessons(
         service.transcribe_lesson,
-        [course_code],
+        course_code,
         lesson_numbers,
         "Transcribing",
         model_size=model_size,
@@ -242,7 +242,7 @@ def list_transcriptions(course_code: str | None = typer.Option(None, help="Filte
         console.print(f"✅ Vectorized: {result.data['vectorized_count']}")
         console.print(f"⏳ Unvectorized: {result.data['unvectorized_count']}\n")
 
-        if not result.data["transcriptions"]:
+        if not result.data:
             console.print("No transcriptions found.", style="yellow")
             return
 
@@ -255,7 +255,7 @@ def list_transcriptions(course_code: str | None = typer.Option(None, help="Filte
         table.add_column("Created", width=10)
         table.add_column("ID", width=6, style="dim", justify="right")
 
-        for t in result.data["transcriptions"]:
+        for t in result.data:
             table.add_row(
                 "✅" if t["is_vectorized"] else "⏳",
                 t["course_code"],

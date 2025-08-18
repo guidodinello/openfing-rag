@@ -1,11 +1,11 @@
 from datetime import datetime, timezone
 from typing import Self
-from uuid import uuid1
 
-from pydantic import UUID1, BaseModel, Field
+from pydantic import BaseModel, Field
 
 from services.generator.schemas import ChatResult, Source
 from shared.api.v1.schemas.api import ApiResponse
+from shared.database.models import MessageSource
 
 
 class ChatQuery(BaseModel):
@@ -29,11 +29,11 @@ class ChatQuery(BaseModel):
 
 
 class SourceTimestamp(BaseModel):
-    start: int = Field(
+    start: float = Field(
         ...,
         description="The start position of the video in seconds",
     )
-    end: int = Field(
+    end: float = Field(
         ...,
         description="The end position of the video in seconds",
     )
@@ -61,26 +61,63 @@ class SourceResponse(BaseModel):
             url=source.url,
         )
 
+    @classmethod
+    def from_model(cls, source: MessageSource) -> Self:
+        """
+        Convert from MessageSource model to SourceResponse, extracting timing info from chunk metadata.
+        """
+        ## TODO: move this logic to service
+        chunk = source.chunk
+
+        print("METADATA", chunk.chunk_metadata)
+        timestamp = SourceTimestamp(
+            start=chunk.chunk_metadata.get("start_time"),
+            end=chunk.chunk_metadata.get("end_time"),
+        )
+
+        # Build title from lesson and course information
+        course_name = chunk.course.name if chunk.course else "Unknown Course"
+        lesson_title = chunk.lesson.title if chunk.lesson else f"Lesson {chunk.lesson.number if chunk.lesson else '?'}"
+
+        title = f"{course_name} - {lesson_title}"
+
+        url = chunk.lesson.video_url
+
+        return cls(
+            id=str(source.chunk_id),
+            content=chunk.content,
+            confidence=source.confidence_score,
+            title=title,
+            timestamp=timestamp,
+            url=url,
+        )
+
+
+class LLMAnswerResponse(BaseModel):
+    answer: str = Field(..., description="The generated answer")
+    model_used: str = Field(..., description="Model used for generation")
+    role: str = Field(..., description="Role of the message (assistant/user)")
+
+    @classmethod
+    def from_llm_answer(cls, llm_answer) -> Self:
+        """Convert from LLMAnswer dataclass to Pydantic model."""
+        return cls(answer=llm_answer.answer, model_used=llm_answer.model_used, role=llm_answer.role)
+
 
 class ChatAnswer(BaseModel):
-    id: UUID1 = Field(
-        default_factory=uuid1,
-        description="ID of the message",
-    )
+    id: str
+    answer: LLMAnswerResponse
+    sources: list[SourceResponse] = Field(default_factory=list)
     timestamp: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         description="Message Creation Timestamp",
-    )
-    content: str = Field(..., description="The chatbot's response")
-    sources: list[SourceResponse] = Field(
-        default_factory=list,
-        description="Source references for the response",
     )
 
     @classmethod
     def from_chat_result(cls, result: ChatResult) -> Self:
         return cls(
-            content=result.item.result.answer,
+            id=str(result.item.id),
+            answer=LLMAnswerResponse.from_llm_answer(result.item.answer),
             sources=list(map(SourceResponse.from_source, result.item.sources)),
         )
 

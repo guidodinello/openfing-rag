@@ -1,9 +1,11 @@
 from .base_repository import BaseRepository
+from .api_key_repository import ApiKeyRepository
+from .transcription_repository import TranscriptionRepository
+from .vector_repository import VectorRepository
+from .conversations import ConversationRepository, MessageRepository, MessageSourceRepository
 from .course_repository import CourseRepository
 from .lesson_repository import LessonRepository
-from .transcription_repository import TranscriptionRepository
 from .user_repository import UserRepository
-from .vector_repository import VectorRepository
 
 __all__ = [
     "BaseRepository",
@@ -12,4 +14,8 @@ __all__ = [
     "TranscriptionRepository",
     "UserRepository",
     "VectorRepository",
+    "ConversationRepository",
+    "MessageRepository",
+    "MessageSourceRepository",
+    "ApiKeyRepository",
 ]

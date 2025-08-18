@@ -57,6 +57,11 @@ class BaseRepository(Generic[T]):
         self.db.delete(instance)
         self.db.flush()
 
+    def update(self, instance: T, data: dict[str, Any]) -> T:
+        self._update_existing_record(instance, data, unique_fields=[])
+        self.db.flush()
+        return instance
+
     def update_or_create(self, defaults: dict[str, Any], **criteria) -> tuple[T, bool]:
         """
         Update existing record or create new one.
@@ -66,15 +71,8 @@ class BaseRepository(Generic[T]):
             instance_data = {**criteria, **defaults}
             return self.create(**instance_data), True
 
-        for key, value in defaults.items():
-            if hasattr(instance, key):
-                # Handle metadata fields specially
-                if key.endswith("_metadata") and hasattr(instance, key):
-                    existing_metadata = getattr(instance, key) or {}
-                    new_metadata = value or {}
-                    setattr(instance, key, {**existing_metadata, **new_metadata})
-                else:
-                    setattr(instance, key, value)
+        self._update_existing_record(instance, defaults, unique_fields=[])
+
         self.db.flush()
         return instance, False
 

@@ -34,7 +34,7 @@ const ForwardedTextarea = forwardRef<
 ForwardedTextarea.displayName = "ForwardedTextarea";
 
 // TODO: use shadcn form
-export function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
+export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [charCount, setCharCount] = useState(0);
 
@@ -134,4 +134,4 @@ export function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
             </div>
         </form>
     );
-}
+};

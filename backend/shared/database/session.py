@@ -39,9 +39,9 @@ def get_db_session() -> Iterator[Session]:
         session.commit()
     except sqlalchemy.exc.ProgrammingError as e:
         if isinstance(e.orig, psycopg.errors.UndefinedTable):
-            print("\n❌ Database tables not found")
-            print("📝 Please run migrations first:")
-            print("   uv run openfing-db migrate\n")
+            logger.error("\n❌ Database tables not found")
+            logger.error("📝 Please run migrations first:")
+            logger.error("   uv run openfing-db migrate\n")
             raise SystemExit(1) from e
         else:
             logger.error(f"Database error: {str(e)}")
@@ -63,6 +63,10 @@ def get_db() -> Generator[Session, None, None]:
     try:
         yield db
         db.commit()
+    except SQLAlchemyError as e:
+        db.rollback()
+        logger.error(f"Database error: {e}")
+        raise
     finally:
         db.close()
 

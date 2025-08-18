@@ -8,7 +8,6 @@ from services.transcriber.schemas import (
     ChunkListResult,
     Lesson,
     LessonListResult,
-    Transcription,
     TranscriptionFile,
     TranscriptionFileResult,
     TranscriptionListResult,
@@ -25,7 +24,7 @@ logger = get_logger(__name__)
 settings = get_settings()
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)
 class DatabaseDependencies:
     lesson_repo: LessonRepository
     transcription_repo: TranscriptionRepository
@@ -134,7 +133,7 @@ class TranscriptionService:
                 logger.info(f"Transcription already exists in database: {existing.id}")
                 return TranscriptionResult.success_result(
                     message="Transcription already exists in database",
-                    item=Transcription.from_model(existing),
+                    item=existing,
                 )
 
             transcription = self.repos.transcription_repo.create_or_update_for_lesson(
@@ -148,7 +147,7 @@ class TranscriptionService:
             logger.info(f"Saved transcription to database: {transcription.id}")
             return TranscriptionResult.success_result(
                 message="Transcription saved to database",
-                item=Transcription.from_model(transcription),
+                item=transcription,
             )
 
         except Exception as e:
@@ -203,13 +202,15 @@ class TranscriptionService:
             lesson_number,
             model_size,
         )
-        if transcription:
-            return TranscriptionResult.success_result(
-                message="Transcription retrieved from database",
-                item=Transcription.from_model(transcription),
+        if not transcription:
+            return TranscriptionResult.failure_result(
+                f"No transcription found for {course_code} lesson {lesson_number}",
             )
 
-        return TranscriptionResult.failure_result(f"No transcription found for {course_code} lesson {lesson_number}")
+        return TranscriptionResult.success_result(
+            message="Transcription retrieved from database",
+            item=transcription,
+        )
 
     def list_transcriptions(
         self,
@@ -219,10 +220,7 @@ class TranscriptionService:
         assert self.repos is not None, "Database dependencies are needed for list_transcriptions"
 
         try:
-            transcriptions = [
-                Transcription.from_model(t)
-                for t in self.repos.transcription_repo.get_filtered_transcriptions(course_code=course_code)
-            ]
+            transcriptions = self.repos.transcription_repo.get_filtered_transcriptions(course_code=course_code)
             if not transcriptions:
                 return TranscriptionListResult.failure_result(message="No transcriptions found")
 

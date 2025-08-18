@@ -1,7 +1,7 @@
 import { LuCopy, LuCheck, LuBot } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import { SourceCitations } from "./source-citations";
-import type { AssistantMessage as AssistantMessageType } from "@/types/chat";
+import type { AssistantMessage as AssistantMessageType } from "@/types/message";
 import { formatToLocalTime } from "@/utils/dates";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 
@@ -48,7 +48,7 @@ export const AssistantMessage = ({ message }: AssistantMessageProps) => {
 
                 <div className="mt-1">
                     <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                        {formatToLocalTime(message.timestamp)}
+                        {formatToLocalTime(new Date(message.updated_at))}
                     </span>
                 </div>
             </div>

@@ -4,6 +4,7 @@ from fastapi import HTTPException, Path, Query, status
 
 from shared.api.router import AuthRouters
 from shared.database.api.v1.schemas import ListTranscriptionsResponse, Transcription, TranscriptionResponse
+from shared.database.api.v1.schemas.transcriptions import TranscriptionSummary
 from shared.database.service_dependencies import TranscriptionServiceDep
 from shared.enums import WhisperModelSize
 
@@ -32,10 +33,9 @@ async def get_transcription(
             detail=result.message,
         )
 
-    print("RESULT", result)
     return TranscriptionResponse.success_response(
         message="Transcription retrieved successfully",
-        data=Transcription.from_transcription_result(result),
+        data=Transcription.from_model(result.item),
     )
 
 
@@ -59,5 +59,5 @@ async def list_transcriptions(
 
     return ListTranscriptionsResponse.success_response(
         message="Transcriptions retrieved successfully",
-        data=[Transcription.from_schema(tr) for tr in result.items],
+        data=[TranscriptionSummary.from_model(tr) for tr in result.items],
     )

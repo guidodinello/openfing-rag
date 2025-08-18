@@ -27,6 +27,7 @@ export const SettingsDialog = () => {
 
                 <DropdownMenuSeparator />
 
+                {/* TODO: use proper ui components instead of divs, ther a DropdownMenuItem and stuff */}
                 <div className="p-3 space-y-4">
                     <ApiKeySection />
 

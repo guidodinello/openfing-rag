@@ -1,119 +1,108 @@
-import { useOptimistic, useCallback, startTransition } from "react";
+import { useOptimistic, useCallback, startTransition, useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type {
-    AssistantMessageRequest,
-    AssistantMessage,
-    Message,
-    Optimistic,
-    UserMessage,
-} from "@/types/chat";
-import { getMessages, sendMessage as sendMessageApi } from "@/api/chat";
+import { sendMessage as sendMessageApi } from "@/api/chat";
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
-
-const FIVE_MINUTES = 5 * 60 * 1000;
-const TEN_MINUTES = 10 * 60 * 1000;
+import { MINS_10, MINS_5 } from "@/constants/time";
+import type { Conversation } from "@/types/conversation";
+import { getConversationWithMessages } from "@/api/conversation";
+import type {
+    AssistantMessage,
+    AssistantMessageRequest,
+    Message,
+    UserMessage,
+} from "@/types/message";
+import type { Optimistic } from "@/types/chat";
 
 export const chatQueryKeys = {
-    messages: (sessionId: string) => ["chat", "messages", sessionId] as const,
+    messages: (conversationId: Conversation["id"]) =>
+        ["chat", conversationId, "messages"] as const,
 } as const;
 
-export function useChatMutation(sessionId: string) {
+export const useChatMutation = (conversationId: Conversation["id"]) => {
     const queryClient = useQueryClient();
 
     const {
-        data: messages = [],
+        data: conversation,
         isLoading: isLoadingMessages,
         error: messagesError,
     } = useQuery({
-        queryKey: chatQueryKeys.messages(sessionId),
-        queryFn: () => getMessages(sessionId),
-        staleTime: FIVE_MINUTES,
-        gcTime: TEN_MINUTES,
+        queryKey: chatQueryKeys.messages(conversationId),
+        queryFn: () => getConversationWithMessages(conversationId),
+        staleTime: MINS_5,
+        gcTime: MINS_10,
+        enabled: !!conversationId,
     });
+
+    const messages = useMemo(
+        () => conversation?.messages ?? [],
+        [conversation?.messages],
+    );
 
     const [optimisticMessages, addOptimisticMessage] = useOptimistic(
         messages,
-        (state: Message[], optimisticMessage: Optimistic<Message>) => [
-            ...state.filter((msg) => !("isOptimistic" in msg)),
-            optimisticMessage,
-        ],
+        (state: Message[], optimisticMessage: Optimistic<Message>) => {
+            const nonOptimisticMessages = state.filter(
+                (msg) => !("isOptimistic" in msg),
+            );
+            return [...nonOptimisticMessages, optimisticMessage];
+        },
     );
 
     const sendMessageMutation = useMutation({
-        mutationFn: sendMessageApi,
+        mutationFn: (variables: AssistantMessageRequest) =>
+            sendMessageApi({ ...variables, conversationId }),
         onMutate: async (variables: AssistantMessageRequest) => {
             await queryClient.cancelQueries({
-                queryKey: chatQueryKeys.messages(sessionId),
+                queryKey: chatQueryKeys.messages(conversationId),
             });
 
             const userMessageId = crypto.randomUUID();
             const assistantMessageId = crypto.randomUUID();
 
             startTransition(() => {
-                const optimisticUserMessage = {
+                addOptimisticMessage({
                     id: userMessageId,
                     role: "user",
                     content: variables.message,
-                    timestamp: new Date(),
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString(),
                     isOptimistic: true,
-                } satisfies Optimistic<UserMessage>;
-                addOptimisticMessage(optimisticUserMessage);
+                } satisfies Optimistic<UserMessage>);
             });
 
             setTimeout(() => {
                 startTransition(() => {
-                    const optimisticAssistantMessage = {
+                    addOptimisticMessage({
                         id: assistantMessageId,
                         role: "assistant",
                         content: "",
-                        timestamp: new Date(),
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString(),
                         isOptimistic: true,
                         sources: [],
-                    } satisfies Optimistic<AssistantMessage>;
-                    addOptimisticMessage(optimisticAssistantMessage);
+                    } satisfies Optimistic<AssistantMessage>);
                 });
             }, 100);
 
             return { userMessageId, assistantMessageId };
         },
-        onSuccess: async (data: AssistantMessage, variables, context) => {
-            // min delay
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+        onSuccess: async () => {
+            // Minimum delay for UX
+            await new Promise((resolve) => setTimeout(resolve, 1000));
 
-            queryClient.setQueryData(
-                chatQueryKeys.messages(sessionId),
-                (oldMessages: Message[] = []) => {
-                    return [
-                        ...oldMessages,
-                        {
-                            id: context.userMessageId,
-                            role: "user",
-                            content: variables.message,
-                            timestamp: new Date(),
-                        } satisfies UserMessage,
-                        {
-                            id: data.id,
-                            role: "assistant",
-                            content: data.content,
-                            timestamp: new Date(),
-                            sources: data.sources,
-                        } satisfies AssistantMessage,
-                    ];
-                },
-            );
+            await queryClient.invalidateQueries({
+                queryKey: chatQueryKeys.messages(conversationId),
+            });
         },
         onError: (error: AxiosError, _, context) => {
-            queryClient.setQueryData(
-                chatQueryKeys.messages(sessionId),
-                (oldMessages: Message[] = []) =>
-                    oldMessages.filter(
-                        (msg) =>
-                            !("isOptimistic" in msg) ||
-                            (msg.id !== context?.userMessageId &&
-                                msg.id !== context?.assistantMessageId),
-                    ),
-            );
+            if (context) {
+                startTransition(() => {
+                    queryClient.invalidateQueries({
+                        queryKey: chatQueryKeys.messages(conversationId),
+                    });
+                });
+            }
 
             if (error.response?.status === 401) {
                 toast.error("Please setup an API Key in the settings.");
@@ -124,12 +113,17 @@ export function useChatMutation(sessionId: string) {
     });
 
     const sendMessage = useCallback(
-        (message: string) =>
+        (message: string) => {
+            if (sendMessageMutation.isPending) {
+                return;
+            }
+
             sendMessageMutation.mutate({
                 message: message,
-                sessionId: sessionId,
-            }),
-        [sendMessageMutation, sessionId],
+                sessionId: `${conversationId}`,
+            });
+        },
+        [sendMessageMutation, conversationId],
     );
 
     return {
@@ -142,4 +136,4 @@ export function useChatMutation(sessionId: string) {
             null,
         sendMessage,
     };
-}
+};

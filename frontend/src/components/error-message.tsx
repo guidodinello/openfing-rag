@@ -7,7 +7,7 @@ interface ErrorMessageProps {
     readonly onRetry?: () => void;
 }
 
-export function ErrorMessage({ error, onRetry }: ErrorMessageProps) {
+export const ErrorMessage = ({ error, onRetry }: ErrorMessageProps) => {
     return (
         <Alert variant="destructive" className="max-w-[80%] md:max-w-[70%]">
             <LuCircleAlert className="h-4 w-4" />
@@ -27,4 +27,4 @@ export function ErrorMessage({ error, onRetry }: ErrorMessageProps) {
             </AlertDescription>
         </Alert>
     );
-}
+};
