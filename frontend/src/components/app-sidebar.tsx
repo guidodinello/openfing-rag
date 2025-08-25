@@ -65,12 +65,7 @@ export const AppSidebar = () => {
 
     return (
         <>
-            <Sidebar
-                side="right"
-                // variant="floating" // Se ve más elegante en desktop
-                // collapsible="offcanvas" // En mobile se oculta completamente
-                className="border-l"
-            >
+            <Sidebar side="right" collapsible="offcanvas" className="border-l">
                 <SidebarHeader className="border-b p-4">
                     <Button
                         onClick={handleNewChat}

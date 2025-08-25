@@ -93,8 +93,8 @@ export const ChatInterface = () => {
         <div className="flex flex-col h-screen">
             <ChatHeader conversationTitle={conversation.title} />
 
-            <div className="flex-1 flex flex-col min-h-0 mx-auto w-full max-w-4xl px-6 md:px-12 pt-4 pb-8">
-                <ScrollArea className="flex-1 px-4">
+            <div className="flex-1 flex flex-col min-h-0 mx-auto w-full max-w-4xl px-4 md:px-12 pt-4 pb-8">
+                <ScrollArea className="flex-1">
                     <ChatMessages
                         messages={messages}
                         isLoading={isLoading}
@@ -104,7 +104,7 @@ export const ChatInterface = () => {
                 </ScrollArea>
 
                 <div className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                    <div className="px-4 py-4">
+                    <div className="p-4">
                         <ChatInput
                             onSendMessage={handleSendMessage}
                             disabled={isLoading}
