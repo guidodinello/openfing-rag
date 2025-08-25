@@ -90,7 +90,7 @@ export const ChatInterface = () => {
     }
 
     return (
-        <div className="flex flex-col h-screen mx-auto px-12 pt-4 pb-8">
+        <div className="flex flex-col h-screen mx-auto px-6 md:px-12 pt-4 pb-8">
             <ChatHeader conversationTitle={conversation.title} />
 
             <div className="flex-1 flex flex-col min-h-0">
