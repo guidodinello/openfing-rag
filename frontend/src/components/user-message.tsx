@@ -14,7 +14,7 @@ export const UserMessage = ({ message }: UserMessageProps) => {
     return (
         <div className="flex justify-end group">
             <div className="max-w-[80%] md:max-w-[70%]">
-                <div className="bg-blue-600  rounded-2xl rounded-br-md px-4 py-3 relative">
+                <div className="bg-blue-600  rounded-2xl px-4 py-3 relative">
                     <p className="text-sm text-white leading-relaxed">
                         {message.content}
                     </p>
