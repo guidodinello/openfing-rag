@@ -2,6 +2,7 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { login, logout, register } from "@/api/auth";
+import type { RegisterCredentials } from "@/types/auth";
 
 export const useLogin = () => {
     const { setTokens } = useAuthStore();
@@ -11,7 +12,7 @@ export const useLogin = () => {
         mutationFn: login,
         onSuccess: (data) => {
             setTokens(data.access_token, data.refresh_token!);
-            queryClient.invalidateQueries({ queryKey: ["user"] });
+            void queryClient.invalidateQueries({ queryKey: ["user"] });
             toast.success("Successfully logged in!");
         },
         onError: (error) => {
@@ -22,17 +23,43 @@ export const useLogin = () => {
 };
 
 export const useRegister = () => {
+    const { setTokens } = useAuthStore();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: register,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["user"] });
-            toast.success("Successfully registered!");
+        mutationFn: async (
+            registerData: Omit<RegisterCredentials, "confirmPassword">,
+        ) => {
+            const user = await register(registerData);
+
+            const loginData = await login({
+                username: registerData.username,
+                password: registerData.password,
+            });
+
+            return { user, tokens: loginData };
+        },
+        onSuccess: ({ user, tokens }) => {
+            setTokens(tokens.access_token, tokens.refresh_token!);
+            void queryClient.invalidateQueries({ queryKey: ["user"] });
+            toast.success(
+                `Welcome ${user.username}! Your account has been created successfully.`,
+            );
         },
         onError: (error) => {
             console.error("Register error:", error);
-            toast.error("Oops! There was a problem with the register attempt");
+
+            if (error.message.includes("email")) {
+                toast.error(
+                    "This email is already registered. Try logging in instead.",
+                );
+            } else if (error.message.includes("username")) {
+                toast.error(
+                    "This username is already taken. Please choose another one.",
+                );
+            } else {
+                toast.error("Oops! There was a problem creating your account");
+            }
         },
     });
 };

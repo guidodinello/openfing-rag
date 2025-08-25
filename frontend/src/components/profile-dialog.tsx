@@ -11,19 +11,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useLogout } from "@/hooks/use-auth";
 import { useState } from "react";
-import { LoginDialog } from "./login-dialog";
 import { useAuthStore } from "@/stores/auth-store";
 import { useUserProfileQuery } from "@/hooks/use-user";
+import { AuthDialogManager } from "./auth/auth-dialog";
 
 export const ProfileDialog = () => {
     const { isAuthenticated } = useAuthStore();
     const { data: user, isLoading, error } = useUserProfileQuery();
     const logoutMutation = useLogout();
-    const [showLoginDialog, setShowLoginDialog] = useState(false);
+    const [showAuthDialog, setShowAuthDialog] = useState(false);
 
-    const handleLogout = () => {
-        logoutMutation.mutate();
-    };
+    const handleLogout = () => logoutMutation.mutate();
 
     if (!isAuthenticated) {
         return (
@@ -31,15 +29,16 @@ export const ProfileDialog = () => {
                 <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => setShowLoginDialog(true)}
+                    onClick={() => setShowAuthDialog(true)}
                 >
                     <LuLogIn className="size-4" />
                     <span className="sr-only">Login</span>
                 </Button>
 
-                <LoginDialog
-                    open={showLoginDialog}
-                    onOpenChange={setShowLoginDialog}
+                <AuthDialogManager
+                    open={showAuthDialog}
+                    onOpenChange={setShowAuthDialog}
+                    initialMode="login"
                 />
             </>
         );

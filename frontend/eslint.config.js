@@ -38,6 +38,15 @@ export default tseslint.config([
                 "error",
                 { varsIgnorePattern: "Schema$", argsIgnorePattern: "^_" },
             ],
+            "@typescript-eslint/no-misused-promises": [
+                "error",
+                {
+                    checksVoidReturn: {
+                        attributes: false,
+                        arguments: false,
+                    },
+                },
+            ],
             "@typescript-eslint/explicit-function-return-type": "off",
             "@typescript-eslint/explicit-module-boundary-types": "off",
             "@typescript-eslint/no-explicit-any": "error",
