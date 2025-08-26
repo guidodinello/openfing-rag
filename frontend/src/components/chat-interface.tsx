@@ -8,7 +8,6 @@ import { useChatMutation } from "@/hooks/use-chat";
 import { useConversationQuery } from "@/hooks/use-conversation";
 import { LoadingMessage } from "./loading-message";
 import { useConversationIdParam } from "@/hooks/use-conversation-id-param";
-import { toast } from "sonner";
 import { useScrollToBottom } from "@/hooks/use-scroll";
 
 export const ChatInterface = () => {
@@ -84,7 +83,6 @@ export const ChatInterface = () => {
     }
 
     if (conversationError || !conversation) {
-        toast.error("Oops! There was an error with your conversation");
         navigate("/");
         return null;
     }
