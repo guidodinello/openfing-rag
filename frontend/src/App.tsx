@@ -7,6 +7,7 @@ import { Routes, Route } from "react-router";
 import { Layout } from "./components/layout";
 import { WelcomeScreen } from "./components/welcome-screen";
 import { HttpStatusCode, isAxiosError } from "axios";
+import { Toaster } from "@/components/ui/sonner";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -48,6 +49,7 @@ const App = () => (
             disableTransitionOnChange
         >
             <SidebarProvider>
+                <Toaster position="top-center" />
                 <Layout>
                     <Routes>
                         <Route

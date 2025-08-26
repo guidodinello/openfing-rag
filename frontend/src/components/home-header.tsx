@@ -2,7 +2,6 @@ import { SidebarTrigger } from "./ui/sidebar";
 import { Logo } from "./logo";
 import { useAuthStore } from "@/stores/auth-store";
 import { AppHeader } from "./app-header";
-import { SettingsDialog } from "./settings-dialog";
 import { ThemeToggle } from "./theme-toggle";
 import { ProfileDialog } from "./profile-dialog";
 
@@ -11,7 +10,7 @@ export const HomeHeader = () => {
 
     return (
         <AppHeader>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center">
                 <Logo
                     title="OpenFIng Assistant"
                     description="Asistente inteligente para clases de OpenFIng"
@@ -21,7 +20,7 @@ export const HomeHeader = () => {
             <div className="flex items-center gap-2">
                 <ProfileDialog />
                 <ThemeToggle />
-                <SettingsDialog />
+                {/* <SettingsDialog /> */}
                 {isAuthenticated && <SidebarTrigger />}
             </div>
         </AppHeader>

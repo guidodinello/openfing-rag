@@ -45,13 +45,13 @@ export const LoginDialog = ({
     });
 
     const onSubmit = (data: LoginCredentials) => {
-        loginMutation.mutate(data, {
-            onSuccess: () => {
-                form.reset();
-                onOpenChange(false);
-            },
-        });
+        loginMutation.mutate(data);
     };
+
+    if (loginMutation.isSuccess) {
+        form.reset();
+        onOpenChange(false);
+    }
 
     const isLoading = loginMutation.isPending || form.formState.isSubmitting;
 
@@ -107,13 +107,6 @@ export const LoginDialog = ({
                                 </FormItem>
                             )}
                         />
-
-                        {loginMutation.error && (
-                            <div className="text-sm text-red-500 text-center">
-                                {loginMutation.error.message ||
-                                    "Login failed. Please try again."}
-                            </div>
-                        )}
 
                         <div className="flex flex-col gap-2">
                             <Button
