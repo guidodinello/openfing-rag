@@ -26,6 +26,7 @@ import {
 import { getPasswordStrength } from "@/utils/passwords";
 import { PasswordInput } from "./password/password-input";
 import { PasswordStrengthIndicator } from "./password/password-strength-indicator";
+import { FormMutationErrors } from "../form-errors";
 
 interface RegisterDialogProps {
     open: boolean;
@@ -53,13 +54,14 @@ export const RegisterDialog = ({
     const password = form.watch("password");
     const passwordStrength = getPasswordStrength(password || "");
 
-    const onSubmit = (data: RegisterCredentials) =>
-        registerMutation.mutate(data, {
-            onSuccess: () => {
-                form.reset();
-                onOpenChange(false);
-            },
-        });
+    const onSubmit = (data: RegisterCredentials) => {
+        registerMutation.mutate(data);
+    };
+
+    if (registerMutation.isSuccess) {
+        form.reset();
+        onOpenChange(false);
+    }
 
     const isLoading = registerMutation.isPending || form.formState.isSubmitting;
 
@@ -157,12 +159,7 @@ export const RegisterDialog = ({
                             )}
                         />
 
-                        {registerMutation.error && (
-                            <div className="text-sm text-red-500 text-center">
-                                {registerMutation.error.message ||
-                                    "Registration failed. Please try again."}
-                            </div>
-                        )}
+                        <FormMutationErrors mutation={registerMutation} />
 
                         <div className="flex flex-col gap-2">
                             <Button

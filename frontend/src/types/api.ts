@@ -21,3 +21,12 @@ export type ApiResponse<T = unknown> = z.infer<
 export type ApiListResponse<T = unknown> = z.infer<
     ReturnType<typeof createApiListResponseSchema<z.ZodType<T>>>
 >;
+
+export const validationErrorSchema = z.object({
+    detail: z.string(),
+    message: z.string().optional(),
+    errors: z.record(z.string(), z.array(z.string())).optional(),
+    error_code: z.string(),
+});
+
+export type ValidationErrorResponse = z.infer<typeof validationErrorSchema>;

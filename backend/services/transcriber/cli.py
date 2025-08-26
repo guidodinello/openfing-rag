@@ -230,42 +230,52 @@ def files_info(
 
 @handle_cli_errors
 @app.command(name="list")
-def list_transcriptions(course_code: str | None = typer.Option(None, help="Filter by course code")) -> None:
+def list_transcriptions(
+    course_code: str | None = typer.Option(None, help="Filter by course code"),
+    limit: int = typer.Option(
+        MAX_TABLE_SIZE,
+        "--limit",
+        help=f"Maximum number of items to display (default: {MAX_TABLE_SIZE})",
+    ),
+) -> None:
     """📋 List transcriptions in database."""
     with get_db_session() as db:
         result = create_transcription_service(db).list_transcriptions(course_code)
         if not result.success:
             console.print(f"❌ {result.message}", style="red")
             return
-
         console.print(f"📋 {result.message}", style="blue")
-        console.print(f"✅ Vectorized: {result.data['vectorized_count']}")
-        console.print(f"⏳ Unvectorized: {result.data['unvectorized_count']}\n")
 
-        if not result.data:
-            console.print("No transcriptions found.", style="yellow")
-            return
+        total_items = len(result.items)
+        vectorized = [item for item in result.items if item.transcription_metadata.get("vectorized")]
+        unvectorized_count = total_items - len(vectorized)
+
+        console.print(f"✅ Vectorized: {len(vectorized)}")
+        console.print(f"⏳ Unvectorized: {unvectorized_count}\n")
 
         table = Table(show_header=True, header_style="bold blue")
+        table.add_column("ID", width=5, style="dim")
         table.add_column("Status", width=6, justify="center")
-        table.add_column("Course", width=8)
+        table.add_column("Course", width=10)
         table.add_column("L#", width=3)
-        table.add_column("Title", width=30, overflow="ellipsis")
+        table.add_column("Title", width=50, overflow="ellipsis")
         table.add_column("Model", width=8)
-        table.add_column("Created", width=10)
-        table.add_column("ID", width=6, style="dim", justify="right")
+        table.add_column("Created", width=20)
 
-        for t in result.data:
+        for t in itertools.islice(result.items, limit):
             table.add_row(
-                "✅" if t["is_vectorized"] else "⏳",
-                t["course_code"],
-                str(t["lesson_number"]),
-                t["lesson_title"],
-                t["model_size"] or "N/A",
-                t["created_at"][:10] if t["created_at"] else "N/A",
-                str(t["id"]),
+                str(t.id),
+                "✅" if t.transcription_metadata.get("vectorized") else "⏳",
+                t.lesson.course.code,
+                str(t.lesson.number),
+                t.lesson.title,
+                t.transcription_metadata.get("transcriber_model_size") or "N/A",
+                t.created_at.isoformat(),
             )
-        console.print(table)
+
+    console.print(table)
+    if total_items > limit:
+        console.print(f"⚠️  Showing first {limit} of {total_items} items (use --limit to show more)", style="yellow")
 
 
 @handle_cli_errors

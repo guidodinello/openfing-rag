@@ -3,6 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { login, logout, register } from "@/api/auth";
 import type { RegisterCredentials } from "@/types/auth";
+import { isValidationError } from "@/utils/errors";
+import { type ValidationErrorResponse } from "@/types/api";
 
 export const useLogin = () => {
     const { setTokens } = useAuthStore();
@@ -13,11 +15,21 @@ export const useLogin = () => {
         onSuccess: (data) => {
             setTokens(data.access_token, data.refresh_token!);
             void queryClient.invalidateQueries({ queryKey: ["user"] });
-            toast.success("Successfully logged in!");
+            toast.success(`Welcome back!`);
         },
         onError: (error) => {
             console.error("Login error:", error);
-            toast.error("Oops! There was a problem with the login attempt");
+
+            if (!isValidationError(error)) {
+                toast.error("Oops! There was a problem with the login attempt");
+                return;
+            }
+
+            const response = error.response.data as ValidationErrorResponse;
+
+            toast.error(
+                response.message ?? response.detail ?? "Unexpected error",
+            );
         },
     });
 };
@@ -42,24 +54,21 @@ export const useRegister = () => {
         onSuccess: ({ user, tokens }) => {
             setTokens(tokens.access_token, tokens.refresh_token!);
             void queryClient.invalidateQueries({ queryKey: ["user"] });
-            toast.success(
-                `Welcome ${user.username}! Your account has been created successfully.`,
-            );
+            toast.success(`Welcome ${user.username}!`);
         },
         onError: (error) => {
             console.error("Register error:", error);
 
-            if (error.message.includes("email")) {
-                toast.error(
-                    "This email is already registered. Try logging in instead.",
-                );
-            } else if (error.message.includes("username")) {
-                toast.error(
-                    "This username is already taken. Please choose another one.",
-                );
-            } else {
+            if (!isValidationError(error)) {
                 toast.error("Oops! There was a problem creating your account");
+                return;
             }
+
+            const response = error.response.data as ValidationErrorResponse;
+
+            toast.error(
+                response.message ?? response.detail ?? "Unexpected error",
+            );
         },
     });
 };
