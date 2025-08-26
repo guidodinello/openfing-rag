@@ -25,7 +25,7 @@ export const useLogin = () => {
                 return;
             }
 
-            const response = error.response.data as ValidationErrorResponse;
+            const response = error.response?.data as ValidationErrorResponse;
 
             toast.error(
                 response.message ?? response.detail ?? "Unexpected error",
@@ -64,7 +64,7 @@ export const useRegister = () => {
                 return;
             }
 
-            const response = error.response.data as ValidationErrorResponse;
+            const response = error.response?.data as ValidationErrorResponse;
 
             toast.error(
                 response.message ?? response.detail ?? "Unexpected error",
