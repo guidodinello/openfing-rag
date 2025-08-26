@@ -31,12 +31,12 @@ def create_app() -> FastAPI:
     setup_middlewares(app)
 
     app.include_router(health.routers.include_in(APIRouter()), tags=["health"])
-    app.include_router(auth.routers.include_in(APIRouter()), tags=["authentication"])
+    app.include_router(auth.routers.include_in(APIRouter()), prefix="/v1", tags=["authentication"])
 
     for service_router in (scraper_router, generator_router, transcriber_router):
         app.include_router(service_router, prefix="/v1/services")
 
-    app.include_router(crud_router)
+    app.include_router(crud_router, prefix="/v1")
     return app
 
 
