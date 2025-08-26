@@ -240,14 +240,27 @@ class TranscriptionService:
 
         try:
             chunk_results: list[Chunk] = []
+            skipped_count = 0
+
             for id in transcription_ids:
                 if self.repos.transcription_repo.is_vectorized(id):
                     logger.info(f"Transcription {id} is already vectorized, skipping")
                     continue
 
+                transcription = self.repos.transcription_repo.get_by_id(id)
+                if not transcription:
+                    logger.warning(f"Transcription {id} not found, skipping")
+                    skipped_count += 1
+                    continue
+
+                enhanced_metadata = self.repos.vector_repo._get_enhanced_transcription_metadata(transcription)
+                if "segments" not in enhanced_metadata:
+                    logger.warning(f"Transcription {id} has no segments, skipping vectorization")
+                    skipped_count += 1
+                    continue
+
                 vector_ids = self.repos.vector_repo.upsert_transcription(id)
                 logger.info(f"Created {len(vector_ids)} vector chunks")
-
                 chunk_results.extend(Chunk(v_id) for v_id in vector_ids)
 
             self.repos.db.commit()
@@ -256,6 +269,7 @@ class TranscriptionService:
                 message=(
                     f"Bulk vectorization completed: {len(transcription_ids)} transcriptions processed, "
                     f"{len(chunk_results)} chunks created"
+                    f"{f', {skipped_count} transcriptions skipped (no segments)' if skipped_count > 0 else ''}"
                 ),
                 items=chunk_results,
             )
