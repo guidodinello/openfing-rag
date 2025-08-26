@@ -6,6 +6,6 @@ class ValidationException(Exception):
         error_code: str = "validation_error",
     ):
         self.message = message
-        self.field_errors = field_errors or {}
         self.error_code = error_code
+        self.field_errors = field_errors or {}
         super().__init__(message)
