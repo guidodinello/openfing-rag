@@ -17,6 +17,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarMenuSkeleton,
+    useSidebar,
 } from "@/components/ui/sidebar";
 import {
     DropdownMenu,
@@ -49,11 +50,14 @@ export const AppSidebar = () => {
         open: false,
         conversation: null,
     });
+    const { setOpenMobile } = useSidebar();
 
     const handleNewChat = () => navigate("/conversation/new");
 
-    const handleSelectConversation = (conversationId: Conversation["id"]) =>
-        navigate(`/conversation/${conversationId}`);
+    const handleSelectConversation = (conversationId: Conversation["id"]) => {
+        void navigate(`/conversation/${conversationId}`);
+        setOpenMobile(false);
+    };
 
     const handleDeleteConversation = (conversationId: Conversation["id"]) =>
         deleteConversation.mutate(conversationId);
