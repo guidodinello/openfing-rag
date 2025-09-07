@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from services.generator.core.llm_service import LLMService
 from services.generator.schemas import Chat, ChatResult, RetrievedChunk, SearchContext, Source, SourceTimestamp
+from shared.database.models.rag.conversations.message import Message
 from shared.database.repositories import (
     ConversationRepository,
     CourseRepository,
@@ -135,17 +136,9 @@ class ChatService:
 
         return self.conversation_repo.create_conversation(user_id, title="default convo title")
 
-    def _get_conversation_history(self, conversation_id: int, limit: int = 10) -> list[dict]:
+    def _get_conversation_history(self, conversation_id: int, limit: int = 10) -> list[Message]:
         """Get recent conversation history formatted for LLM."""
-        messages = self.message_repo.get_recent_messages(conversation_id, limit)
-
-        return [
-            {
-                "role": msg.role,
-                "content": msg.content,
-            }
-            for msg in messages
-        ]
+        return self.message_repo.get_recent_messages(conversation_id, limit)
 
     def _retrieve_relevant_chunks(self, context: SearchContext) -> list[RetrievedChunk]:
         """Retrieve relevant chunks using vector search."""
