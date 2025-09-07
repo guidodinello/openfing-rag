@@ -6,7 +6,7 @@ from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 
 from services.generator.schemas import LLMAnswer, LLMAnswerResult, Source
 from shared.config import get_settings
-from shared.database.models.rag.conversations.message import MessageRole
+from shared.database.models.rag.conversations.message import Message, MessageRole
 from shared.logging import get_logger
 
 logger = get_logger(__name__)
@@ -69,7 +69,7 @@ EJEMPLO BUENO:
         self,
         sources: Iterable[Source],
         query: str,
-        conversation_history: list[dict],
+        conversation_history: list[Message],
     ) -> LLMAnswerResult:
         """Generate answer using RAG sources and conversation history."""
         try:
@@ -88,7 +88,6 @@ EJEMPLO BUENO:
             return LLMAnswerResult.success_result(
                 message="Response successfully generated",
                 item=LLMAnswer(
-                    role=MessageRole.ASSISTANT.value,
                     answer=response.content,
                     model_used=response.response_metadata.get("model_name"),
                 ),
@@ -113,7 +112,7 @@ EJEMPLO BUENO:
             sources_by_title[title].append(source.content)
 
         for title, contents in sources_by_title.items():
-            if title and title.strip() and title != "title":
+            if title and title.strip():
                 class_info = f"En la clase '{title}' se menciona: {' '.join(contents)}"
             else:
                 class_info = f"Se explica en clase: {' '.join(contents)}"
@@ -122,14 +121,19 @@ EJEMPLO BUENO:
 
         return "\n\n".join(context_parts)
 
-    def _convert_history_to_messages(self, conversation_history: list[dict]) -> list:
+    def _convert_history_to_messages(self, conversation_history: list[Message]) -> list:
         """Convert conversation history to LangChain messages."""
         messages = []
         for msg in conversation_history:
-            if msg["role"] == MessageRole.USER.value:
-                messages.append(HumanMessage(content=msg["content"]))
-            elif msg["role"] == MessageRole.ASSISTANT.value:
-                messages.append(AIMessage(content=msg["content"]))
+            if msg.role == MessageRole.USER.value:
+                messages.append(HumanMessage(content=msg.content))
+            elif msg.role == MessageRole.ASSISTANT.value:
+                messages.append(AIMessage(content=msg.content))
+            elif msg.role == MessageRole.SYSTEM.value:
+                messages.append(SystemMessage(content=msg.content))
+            else:
+                logger.warning(f"Unknown message role: {msg.role}, skipping message ID {msg.id}")
+
         return messages
 
     def _handle_error(self, error_msg: str) -> LLMAnswerResult:

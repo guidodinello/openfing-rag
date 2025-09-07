@@ -115,7 +115,6 @@ class TranscriptionRepository(BaseRepository[Transcription]):
 
     def is_vectorized(self, transcription_id: int) -> Transcription | None:
         """Check if a transcription has been vectorized."""
-        ## TODO: in the future we should retrieve the chunks or something
         transcription = self.get_by_id(transcription_id)
         if not transcription:
             return None
