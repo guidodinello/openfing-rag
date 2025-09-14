@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { formatToLocalTime } from "@/utils/dates";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import type { UserMessage as UserMessageType } from "@/types/message";
+import { RichText } from "./rich-text";
 
 interface UserMessageProps {
     readonly message: UserMessageType;
@@ -15,9 +16,7 @@ export const UserMessage = ({ message }: UserMessageProps) => {
         <div className="flex justify-end group">
             <div className="max-w-[80%] md:max-w-[70%]">
                 <div className="bg-blue-600  rounded-2xl rounded-tr-md px-4 py-3 relative">
-                    <p className="text-sm text-white leading-relaxed">
-                        {message.content}
-                    </p>
+                    <RichText content={message.content} variant="user" />
 
                     <Button
                         variant="ghost"
