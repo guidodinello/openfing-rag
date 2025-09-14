@@ -35,14 +35,11 @@ class ConversationRepository(BaseRepository[Conversation]):
         query = (
             select(self.model)
             .options(
-                # Load the full chain: conversation -> messages -> sources -> chunk
                 joinedload(self.model.messages).joinedload(Message.sources).joinedload(MessageSource.chunk),
-                # Load lesson data through chunk relationship
                 joinedload(self.model.messages)
                 .joinedload(Message.sources)
                 .joinedload(MessageSource.chunk)
                 .joinedload(Chunk.lesson),
-                # Load course data through chunk relationship
                 joinedload(self.model.messages)
                 .joinedload(Message.sources)
                 .joinedload(MessageSource.chunk)

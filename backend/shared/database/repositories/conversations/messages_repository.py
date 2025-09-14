@@ -93,7 +93,6 @@ class MessageRepository(BaseRepository[Message]):
         """Convenience method to add an assistant message with sources."""
         message = self.add_message(conversation_id, MessageRole.ASSISTANT, content)
 
-        # Add sources if provided
         if sources:
             self._add_message_sources(message.id, sources)
             self.db.flush()
