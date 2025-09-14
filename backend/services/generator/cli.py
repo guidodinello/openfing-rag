@@ -1,10 +1,11 @@
 import typer
 from rich.console import Console
 
-from services.generator.schemas import SearchContext
 from shared.database.service_dependencies import create_chat_service
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
+
+from services.generator.schemas import SearchContext
 
 app = typer.Typer(
     help="🤖 OpenFing Chat Generator CLI",

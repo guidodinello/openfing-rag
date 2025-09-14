@@ -4,16 +4,17 @@ from pathlib import Path
 from prefect import flow, task
 from prefect.schedules import IntervalSchedule
 
+from shared.config import get_settings
+from shared.database.repositories import CourseRepository
+from shared.database.session import get_db_session
+from shared.logging import get_logger
+
 from services.downloader import DownloaderService
 from services.transcriber import (
     TranscriptionService,
     WhisperModelLanguage,
     WhisperModelSize,
 )
-from shared.config import get_settings
-from shared.database.repositories import CourseRepository
-from shared.database.session import get_db_session
-from shared.logging import get_logger
 
 logger = get_logger(__name__)
 settings = get_settings()

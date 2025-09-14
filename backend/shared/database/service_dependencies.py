@@ -3,14 +3,6 @@ from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from services.downloader import DownloaderService
-from services.generator import ChatService
-from services.generator.core.llm_service import LLMService
-from services.scraper import ScrapingService
-from services.scraper.core.scrapers import OpenFingScraper
-from services.transcriber import TranscriptionService
-from services.transcriber.core import FasterWhisperTranscriber, TranscriberProtocol
-from services.transcriber.core.transcription_service import DatabaseDependencies
 from shared.auth.api_key import HMACApiKeyService
 from shared.config import get_settings
 from shared.database.repositories import CourseRepository, LessonRepository, TranscriptionRepository, VectorRepository
@@ -27,6 +19,15 @@ from shared.database.repository_dependencies import (
 )
 from shared.database.session import DatabaseSession
 from shared.http.client import HTTPClient, get_http_client
+
+from services.downloader import DownloaderService
+from services.generator import ChatService
+from services.generator.core.llm_service import LLMService
+from services.scraper import ScrapingService
+from services.scraper.core.scrapers import OpenFingScraper
+from services.transcriber import TranscriptionService
+from services.transcriber.core import FasterWhisperTranscriber, TranscriberProtocol
+from services.transcriber.core.transcription_service import DatabaseDependencies
 
 settings = get_settings()
 
