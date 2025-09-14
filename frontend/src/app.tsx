@@ -8,6 +8,7 @@ import { Layout } from "./components/layout";
 import { WelcomeScreen } from "./components/welcome-screen";
 import { HttpStatusCode, isAxiosError } from "axios";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -34,9 +35,6 @@ const queryClient = new QueryClient({
             retryDelay: (attemptIndex) =>
                 Math.min(SECONDS_2 ** attemptIndex, SECONDS_30),
         },
-        mutations: {
-            retry: false, // (failureCount, error) => failureCount < 2,
-        },
     },
 });
 
@@ -48,18 +46,20 @@ const App = () => (
             enableSystem
             disableTransitionOnChange
         >
-            <SidebarProvider>
-                <Toaster position="top-center" />
-                <Layout>
-                    <Routes>
-                        <Route
-                            path="/conversation/:id"
-                            element={<ChatInterface />}
-                        />
-                        <Route path="*" element={<WelcomeScreen />} />
-                    </Routes>
-                </Layout>
-            </SidebarProvider>
+            <TooltipProvider>
+                <SidebarProvider>
+                    <Toaster position="top-center" />
+                    <Layout>
+                        <Routes>
+                            <Route
+                                path="/conversation/:id"
+                                element={<ChatInterface />}
+                            />
+                            <Route path="*" element={<WelcomeScreen />} />
+                        </Routes>
+                    </Layout>
+                </SidebarProvider>
+            </TooltipProvider>
         </ThemeProvider>
     </QueryClientProvider>
 );

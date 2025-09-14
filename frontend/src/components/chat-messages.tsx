@@ -3,21 +3,22 @@ import { AssistantMessage } from "./assistant-message";
 import { LoadingMessage } from "./loading-message";
 import { ErrorMessage } from "./error-message";
 import type { Message } from "@/types/message";
+import { MESSAGE_ROLES } from "@/constants/message-roles";
 
 interface ChatMessagesProps {
-    readonly messages: Message[];
-    readonly isLoading: boolean;
-    readonly error?: string | null;
+    messages: Message[];
+    isLoading: boolean;
+    error?: string | null;
 }
 
 export const ChatMessages = ({
     messages,
     isLoading,
     error,
-}: ChatMessagesProps) => (
+}: Readonly<ChatMessagesProps>) => (
     <div className="space-y-6 py-6">
         {messages.map((message) =>
-            message.role === "user" ? (
+            message.role === MESSAGE_ROLES.USER ? (
                 <UserMessage key={message.id} message={message} />
             ) : (
                 <AssistantMessage key={message.id} message={message} />

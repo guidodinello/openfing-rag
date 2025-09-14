@@ -14,6 +14,11 @@ import { useState } from "react";
 import { useAuthStore } from "@/stores/auth-store";
 import { useUserProfileQuery } from "@/hooks/use-user";
 import { AuthDialogManager } from "./auth/auth-dialog";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const ProfileDialog = () => {
     const { isAuthenticated } = useAuthStore();
@@ -26,14 +31,21 @@ export const ProfileDialog = () => {
     if (!isAuthenticated) {
         return (
             <>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setShowAuthDialog(true)}
-                >
-                    <LuLogIn className="size-4" />
-                    <span className="sr-only">Login</span>
-                </Button>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setShowAuthDialog(true)}
+                        >
+                            <LuLogIn className="size-4" />
+                            <span className="sr-only">Login</span>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>Login</p>
+                    </TooltipContent>
+                </Tooltip>
 
                 <AuthDialogManager
                     open={showAuthDialog}

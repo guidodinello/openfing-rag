@@ -9,6 +9,7 @@ from pydantic import (
     EmailStr,
     Field,
     HttpUrl,
+    PositiveInt,
     PostgresDsn,
     SecretStr,
     field_validator,
@@ -17,6 +18,7 @@ from pydantic import (
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from shared.enums import LLMProvider
+from shared.enums.devices import Devices
 from shared.utils import detect_device
 
 
@@ -25,7 +27,7 @@ class LoggingSettings(BaseModel):
         default="INFO",
         description="Logging level",
     )
-    DIR: Path = Field(
+    DIR: DirectoryPath = Field(
         default=Path("./default_logs"),
         description="Path to log files directory",
     )
@@ -33,7 +35,7 @@ class LoggingSettings(BaseModel):
 
 class DatabaseSettings(BaseModel):
     USER: str = Field(default="postgres", description="Database username")
-    PASSWORD: str = Field(default="postgres", description="Database password")
+    PASSWORD: SecretStr = Field(default="postgres", description="Database password")
     HOST: str = Field(default="localhost", description="Database host")
     PORT: int = Field(default=5432, description="Database port")
     DB: str = Field(default="openfing_chat", description="Database name")
@@ -46,7 +48,7 @@ class DatabaseSettings(BaseModel):
 
     @property
     def URL(self) -> PostgresDsn:
-        return f"postgresql+psycopg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DB}"
+        return f"postgresql+psycopg://{self.USER}:{self.PASSWORD.get_secret_value()}@{self.HOST}:{self.PORT}/{self.DB}"
 
 
 class PromptsSettings(BaseModel):
@@ -96,29 +98,29 @@ class LLMSettings(BaseModel):
 
 
 class DownloaderSettings(BaseModel):
-    OUTPUT_DIR: Path = Field(
+    OUTPUT_DIR: DirectoryPath = Field(
         default=Path("./default_audios"),
         description="Base directory for downloaded media files",
     )
-    WORKERS: int = Field(default=4, description="Number of concurrent workers", ge=1)
+    WORKERS: PositiveInt = Field(default=4, description="Number of concurrent workers")
     CODEC: str = Field(default="best", description="Audio codec (best, mp3, m4a, etc.)")
     QUALITY: str = Field(default="0", description="Audio quality (0-10, 0=best)")
 
 
 class ScraperSettings(BaseModel):
-    WORKERS: int = Field(default=4, description="Number of concurrent workers", ge=1)
+    WORKERS: PositiveInt = Field(default=4, description="Number of concurrent workers")
     OPENFING_URL: HttpUrl = Field(
-        default="https://open.fing.edu.uy",
+        default=HttpUrl("https://open.fing.edu.uy"),
         description="OpenFIng base url",
     )
 
 
 class TranscriberSettings(BaseModel):
-    INPUT_DIR: Path = Field(
+    INPUT_DIR: DirectoryPath = Field(
         default=Path("./default_audios"),
         description="Base path to look for audio files",
     )
-    OUTPUT_DIR: Path = Field(
+    OUTPUT_DIR: DirectoryPath = Field(
         default=Path("./default_transcriptions"),
         description="Directory to save transcription JSON files",
     )
@@ -130,12 +132,12 @@ class EmbeddingsSettings(BaseModel):
         description="Embeddings model name",
     )
     DIMENSION: int = Field(default=384, description="Embeddings dimensions")
-    CACHE_DIR: Path | None = Field(
+    CACHE_DIR: DirectoryPath | None = Field(
         default=Path("./default_models_cache"),
         description="Model cache directory",
     )
-    DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
-        default="auto",
+    DEVICE: Devices = Field(
+        default=Devices.AUTO,
         description="Device to run embeddings on",
     )
 
@@ -147,12 +149,12 @@ class EmbeddingsSettings(BaseModel):
 
 class WhisperSettings(BaseModel):
     MODEL: str = Field(default="tiny", description="Whisper model name")
-    CACHE_DIR: Path | None = Field(
+    CACHE_DIR: DirectoryPath | None = Field(
         default=Path("./default_models_cache"),
         description="Model cache directory",
     )
-    DEVICE: Literal["cpu", "cuda", "mps", "auto"] = Field(
-        default="auto",
+    DEVICE: Devices = Field(
+        default=Devices.AUTO,
         description="Device to run whisper on",
     )
 
@@ -177,14 +179,14 @@ class WhisperSettings(BaseModel):
 
 class PrefectSettings(BaseModel):
     API_URL: HttpUrl = Field(
-        default="http://127.0.0.1:4200/api",
+        default=HttpUrl("http://127.0.0.1:4200/api"),
         description="Prefect API URL",
     )
     DB: str = Field(default="prefect", description="Prefect database name")
 
 
 class ApiKeys(BaseModel):
-    HMAC_SECRET: str = Field(
+    HMAC_SECRET: SecretStr = Field(
         default="NOT_SET",
         description="HMAC secret for API key hashing",
         min_length=32,
@@ -202,7 +204,7 @@ class ServerSettings(BaseModel):
 
 
 class LangsmithSettings(BaseModel):
-    API_KEY: str = Field(default="NOT_SET", description="LangSmith API key")
+    API_KEY: SecretStr = Field(default="NOT_SET", description="LangSmith API key")
     TRACING: bool = Field(
         default=False,
         description="Enable LangSmith tracing",
@@ -210,7 +212,7 @@ class LangsmithSettings(BaseModel):
 
 
 class JwtSettings(BaseModel):
-    SECRET_KEY: str = Field(
+    SECRET_KEY: SecretStr = Field(
         default="NOT_SET",
         description="Secret key for JWT token signing",
         min_length=32,
@@ -274,7 +276,7 @@ class Settings(BaseSettings):
 
     API_URL: str = Field(default="/api", description="API prefix path")
     FRONTEND_URL: HttpUrl = Field(
-        default="http://localhost:3000",
+        default=HttpUrl("http://localhost:3000"),
         description="Frontend URL for CORS",
     )
 
