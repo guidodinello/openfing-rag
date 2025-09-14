@@ -49,11 +49,9 @@ class ChatService:
         Process a chat message using RAG pipeline with optional conversation memory.
         """
         try:
-            # Get or create conversation
             conversation = self._get_or_create_conversation(user_id, conversation_id)
             history = self._get_conversation_history(conversation.id)
 
-            # Add user message to conversation
             _ = self.message_repo.add_user_message(
                 conversation_id=conversation.id,
                 content=search_context.query,
@@ -64,12 +62,10 @@ class ChatService:
                 sources = []
                 logger.info(f"Follow-up detected, skipping retrieval: {search_context.query}")
             else:
-                # Normal retrieval
                 chunks = self._retrieve_relevant_chunks(search_context)
                 sources = self._format_sources(chunks)
                 logger.info(f"New question, retrieved {len(sources)} sources")
 
-            # Generate response with context and history
             llm_result = self.llm_service.generate_answer(
                 sources=sources,
                 query=search_context.query,
@@ -80,7 +76,6 @@ class ChatService:
                 logger.warning(f"LLM generation failed, rolling back transaction: {llm_result.message}")
                 return ChatResult.failure_result(message=f"LLM generation failed: {llm_result.message}")
 
-            # Add assistant message to conversation with sources
             assistant_message = self.message_repo.add_assistant_message(
                 conversation_id=conversation.id,
                 content=llm_result.item.answer,
