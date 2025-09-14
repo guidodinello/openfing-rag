@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import UUID, Column, Float, ForeignKey, Identity, Index, Integer, UniqueConstraint
+from sqlalchemy import UUID, Column, Float, ForeignKey, Identity, Index, Integer
 from sqlalchemy.orm import Mapped, relationship
 
 from shared.database.models import TimestampedModel
@@ -14,13 +14,7 @@ class MessageSource(TimestampedModel):
     __table_args__ = (
         Index("idx_message_sources_message_id", "message_id"),
         Index("idx_message_sources_chunk_id", "chunk_id"),
-        Index("idx_message_sources_message_order", "message_id", "source_order"),
         Index("idx_message_sources_confidence", "confidence_score"),
-        UniqueConstraint(
-            "message_id",
-            "source_order",
-            name="uq_message_sources_order",
-        ),
         {
             "extend_existing": True,
             "comment": "Relationship between messages and the chunks used as sources",
@@ -51,12 +45,6 @@ class MessageSource(TimestampedModel):
         Float,
         nullable=False,
         comment="Similarity score for this chunk",
-    )
-
-    source_order: Mapped[int] = Column(
-        Integer,
-        nullable=False,
-        comment="Order of this source in the response (for ranking)",
     )
 
     # Relationships

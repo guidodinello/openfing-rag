@@ -80,6 +80,5 @@ class Message(TimestampedModel):
         "MessageSource",
         back_populates="message",
         cascade="all, delete-orphan",
-        order_by="MessageSource.source_order",
         passive_deletes=True,
     )
