@@ -43,7 +43,7 @@ class HMACApiKeyService:
     def hash_api_key(api_key: str) -> str:
         """Hash an API key using HMAC-SHA256 with server secret."""
         return hmac.new(
-            settings.API_KEYS.HMAC_SECRET.encode("utf-8"),
+            settings.API_KEYS.HMAC_SECRET.get_secret_value().encode("utf-8"),
             api_key.encode("utf-8"),
             hashlib.sha256,
         ).hexdigest()

@@ -4,20 +4,55 @@ import { ChatHeader } from "./chat-header";
 import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useChatMutation } from "@/hooks/use-chat";
+import { useChat } from "@/hooks/use-chat";
 import { useConversationQuery } from "@/hooks/use-conversation";
 import { LoadingMessage } from "./loading-message";
 import { useConversationIdParam } from "@/hooks/use-conversation-id-param";
 import { useScrollToBottom } from "@/hooks/use-scroll";
 
+interface LocationState {
+    initialMessage?: string;
+}
+
+const useInitialMessage = () => {
+    const location = useLocation();
+    const [processed, setProcessed] = useState(false);
+
+    const initialMessage = (location.state as LocationState)?.initialMessage;
+
+    const markAsProcessed = useCallback(() => {
+        setProcessed(true);
+        // Clean up the state
+        if (location.state?.initialMessage) {
+            const newState = { ...location.state };
+            delete newState.initialMessage;
+            window.history.replaceState(newState, "");
+        }
+    }, [location.state]);
+
+    const reset = useCallback(() => {
+        setProcessed(false);
+    }, []);
+
+    return {
+        initialMessage,
+        isProcessed: processed,
+        markAsProcessed,
+        reset,
+    };
+};
+
 export const ChatInterface = () => {
     const { id } = useConversationIdParam();
-    const location = useLocation();
     const navigate = useNavigate();
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const [initialMessageProcessed, setInitialMessageProcessed] =
-        useState(false);
+    const {
+        initialMessage,
+        isProcessed: isInitialMessageProcessed,
+        markAsProcessed: markInitialMessageAsProcessed,
+        reset: resetInitialMessage,
+    } = useInitialMessage();
 
     const {
         data: conversation,
@@ -25,11 +60,10 @@ export const ChatInterface = () => {
         error: conversationError,
     } = useConversationQuery(id);
 
-    const { messages, sendMessage, isLoading, error } = useChatMutation(id);
+    const { messages, sendMessage, isLoading, error, isLoadingMessages } =
+        useChat(id);
 
     useScrollToBottom(messagesEndRef, [messages.length, isLoading]);
-
-    const initialMessage = location.state?.initialMessage as string | undefined;
 
     const handleSendMessage = useCallback(
         (content: string) => {
@@ -39,37 +73,37 @@ export const ChatInterface = () => {
         [sendMessage, isLoading],
     );
 
+    // Handle initial message from navigation state
     useEffect(() => {
-        if (
+        const shouldProcessInitialMessage =
             initialMessage &&
-            !initialMessageProcessed &&
+            !isInitialMessageProcessed &&
             conversation &&
             messages.length === 0 &&
             !isLoading &&
-            !isLoadingConversation
-        ) {
-            setInitialMessageProcessed(true);
-            handleSendMessage(initialMessage);
+            !isLoadingConversation &&
+            !isLoadingMessages;
 
-            const newState = { ...location.state };
-            delete newState.initialMessage;
-            window.history.replaceState(newState, "");
+        if (shouldProcessInitialMessage) {
+            markInitialMessageAsProcessed();
+            handleSendMessage(initialMessage);
         }
     }, [
         initialMessage,
-        initialMessageProcessed,
+        isInitialMessageProcessed,
         conversation,
         messages.length,
         isLoading,
         isLoadingConversation,
+        isLoadingMessages,
         handleSendMessage,
-        location.state,
+        markInitialMessageAsProcessed,
     ]);
 
-    // TODO: i dont like this, remove
+    // Reset initial message state when conversation changes
     useEffect(() => {
-        setInitialMessageProcessed(false);
-    }, [id]);
+        resetInitialMessage();
+    }, [id, resetInitialMessage]);
 
     if (isLoadingConversation) {
         return (

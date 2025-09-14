@@ -19,6 +19,7 @@ import {
 } from "@/types/conversation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "@/lib/utils";
 
 interface RenameConversationDialogProps {
     conversation: Conversation | null;
@@ -97,7 +98,9 @@ export const RenameConversationDialog = ({
                             {...register("title")}
                             disabled={isLoading}
                             autoFocus
-                            className={errors.title ? "border-red-500" : ""}
+                            className={cn({
+                                "border-red-500": errors.title,
+                            })}
                         />
                         {errors.title && (
                             <p className="text-sm text-red-500">

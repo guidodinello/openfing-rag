@@ -89,9 +89,13 @@ const SourceCard = ({ source }: SourceCardProps) => (
                             </Badge>
                         </div>
                     </TooltipTrigger>
-                    <TooltipContent side="top" className="max-w-xs">
+                    <TooltipContent
+                        sideOffset={8}
+                        side="top"
+                        className="max-w-xs bg-green-300 text-green-900 dark:bg-green-900 dark:text-green-300"
+                    >
                         <p className="text-sm">
-                            Esta{" "}
+                            La{" "}
                             <Link
                                 to="https://en.wikipedia.org/wiki/Cosine_similarity"
                                 target="_blank"
