@@ -7,7 +7,7 @@ import {
 } from "@/constants/example-questions";
 import { useConversationCreation } from "@/hooks/use-conversation";
 import { ChatInput } from "./chat-input";
-import { FilterOptions } from "./filter-options";
+import { cn } from "@/lib/utils";
 
 export const WelcomeScreen = () => {
     const { createNewConversation, isCreating } = useConversationCreation();
@@ -26,7 +26,7 @@ export const WelcomeScreen = () => {
     return (
         <div className="flex flex-col min-h-[calc(100vh-73px)]">
             <div className="flex-1 flex flex-col items-center justify-center p-4">
-                <FilterOptions />
+                {/* <FilterOptions /> */}
                 <div className="text-center mb-8">
                     <div className="size-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                         <LuBookOpen className="size-8 text-white" />
@@ -82,9 +82,12 @@ const ExampleQuestionCard = ({
 
     return (
         <Card
-            className={`hover:shadow-md hover:border-blue-200 dark:hover:border-blue-800 transition-all duration-200 group cursor-pointer ${
-                disabled ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className={cn(
+                "hover:shadow-md hover:border-blue-200 dark:hover:border-blue-800 transition-all duration-200 group cursor-pointer",
+                {
+                    "opacity-50 cursor-not-allowed": disabled,
+                },
+            )}
             onClick={() => !disabled && onClick(question.text)}
         >
             <CardContent className="p-4">
