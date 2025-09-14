@@ -1,5 +1,7 @@
 from typing import Any
 
+from shared.enums.devices import Devices
+
 
 def normalize_json(data: dict[str, Any], separator: str = "_", prefix: str = "") -> dict[str, Any]:
     """Transform a nested dict into a plain dict"""
@@ -79,16 +81,16 @@ def color_by_megabytes(mb: float) -> str:
         return "red"
 
 
-def detect_device(device: str) -> str:
+def detect_device(device: str) -> Devices:
     """Auto-detect device if set to 'auto'."""
-    if device != "auto":
+    if device != Devices.AUTO:
         return device
 
     import torch
 
     if torch.cuda.is_available():
-        return "cuda"
+        return Devices.CUDA
     elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
-        return "mps"
+        return Devices.MPS
     else:
-        return "cpu"
+        return Devices.CPU
