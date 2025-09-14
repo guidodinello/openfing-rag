@@ -22,6 +22,7 @@ from shared.http.client import HTTPClient, get_http_client
 
 from services.downloader import DownloaderService
 from services.generator import ChatService
+from services.generator.core.llm_factory import LLMFactory
 from services.generator.core.llm_service import LLMService
 from services.scraper import ScrapingService
 from services.scraper.core.scrapers import OpenFingScraper
@@ -43,7 +44,7 @@ def get_transcriber() -> TranscriberProtocol:
 
 
 def get_llm_service() -> LLMService:
-    return LLMService()
+    return LLMService(LLMFactory.create(settings.LLM.PROVIDER))
 
 
 def get_openfing_scraper(http_client: HttpClientDep) -> OpenFingScraper:
