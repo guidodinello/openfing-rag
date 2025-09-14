@@ -17,7 +17,7 @@ from shared.logging import get_logger
 settings = get_settings()
 get_logger("passlib").setLevel(stdLogging.ERROR)
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=settings.JWT.TOKEN_URL, auto_error=False)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"v1{settings.JWT.TOKEN_URL}", auto_error=False)
 
 BearerToken = Annotated[str, Depends(oauth2_scheme)]
 
@@ -57,7 +57,7 @@ class JwtAuthService:
             raise AuthenticationException.missing_token()
 
         try:
-            payload = jwt.decode(token, settings.JWT.SECRET_KEY, algorithms=[settings.JWT.ALGORITHM])
+            payload = jwt.decode(token, settings.JWT.SECRET_KEY.get_secret_value(), algorithms=[settings.JWT.ALGORITHM])
             if payload.get("type") != "access":
                 raise AuthenticationException.invalid_token()
             username: str = payload.get("sub")
@@ -77,7 +77,11 @@ class JwtAuthService:
     def refresh_access_token(self, refresh_token: str) -> str:
         """Generate new access token from valid refresh token."""
         try:
-            payload = jwt.decode(refresh_token, settings.JWT.SECRET_KEY, algorithms=[settings.JWT.ALGORITHM])
+            payload = jwt.decode(
+                refresh_token,
+                settings.JWT.SECRET_KEY.get_secret_value(),
+                algorithms=[settings.JWT.ALGORITHM],
+            )
 
             if payload.get("type") != "refresh":
                 raise AuthenticationException.invalid_token()
@@ -116,7 +120,7 @@ class JwtAuthService:
                 "iat": datetime.now(timezone.utc),
             },
         )
-        return jwt.encode(to_encode, settings.JWT.SECRET_KEY, algorithm=settings.JWT.ALGORITHM)
+        return jwt.encode(to_encode, settings.JWT.SECRET_KEY.get_secret_value(), algorithm=settings.JWT.ALGORITHM)
 
     @staticmethod
     def create_refresh_token(data: dict) -> str:
@@ -130,7 +134,7 @@ class JwtAuthService:
                 "iat": datetime.now(timezone.utc),
             },
         )
-        return jwt.encode(to_encode, settings.JWT.SECRET_KEY, algorithm=settings.JWT.ALGORITHM)
+        return jwt.encode(to_encode, settings.JWT.SECRET_KEY.get_secret_value(), algorithm=settings.JWT.ALGORITHM)
 
     def register_user(self, email: str, username: str, password: str) -> User:
         if self.user_repo.get_by(email=email):
