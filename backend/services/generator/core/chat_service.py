@@ -180,7 +180,7 @@ class ChatService:
                 ),
             )
 
-        sources.sort(key=lambda s: s.confidence, reverse=True)
+        sources.sort(key=lambda s: s.confidence, reverse=False)
         return sources
 
     def _is_follow_up_question(self, query: str, has_history: bool) -> bool:

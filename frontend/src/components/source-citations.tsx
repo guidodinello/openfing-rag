@@ -5,10 +5,16 @@ import {
     LuTrendingUp,
 } from "react-icons/lu";
 import { Badge } from "@/components/ui/badge";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { floatToPercentage } from "@/utils/numbers";
 import { formatSecondsToTimeWithHours } from "@/utils/dates";
 import type { Source, SourceTimestamp } from "@/types/message";
+import { Link } from "react-router";
 
 interface SourceCitationsProps {
     readonly sources: Source[];
@@ -16,7 +22,6 @@ interface SourceCitationsProps {
 
 export const SourceCitations = ({ sources }: SourceCitationsProps) => (
     <div className="space-y-2">
-        {" "}
         <div className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
             <LuBookOpen className="size-3" />
             Fuentes:
@@ -57,7 +62,7 @@ const SourceCard = ({ source }: SourceCardProps) => (
             "group",
         )}
     >
-        <div className="flex items-start justify-between w-full">
+        <div className="flex items-center justify-between w-full">
             <div className="flex-1 min-w-0">
                 <div className="font-medium text-sm truncate group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors">
                     {source.title}
@@ -72,14 +77,36 @@ const SourceCard = ({ source }: SourceCardProps) => (
             </div>
 
             <div className="flex items-center gap-2 ml-2">
-                <Badge
-                    variant="secondary"
-                    className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-                >
-                    <LuTrendingUp className="size-3 mr-1" />
-                    {floatToPercentage(source.confidence)}%
-                </Badge>
-                <LuExternalLink className="size-3 text-muted-foreground group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" />
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <div className="flex items-center gap-1">
+                            <Badge
+                                variant="secondary"
+                                className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                            >
+                                <LuTrendingUp className="size-3 mr-1" />
+                                {floatToPercentage(source.confidence)}%
+                            </Badge>
+                        </div>
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="max-w-xs">
+                        <p className="text-sm">
+                            Esta{" "}
+                            <Link
+                                to="https://en.wikipedia.org/wiki/Cosine_similarity"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline hover:text-foreground"
+                            >
+                                puntuación de similitud
+                            </Link>{" "}
+                            esta basada en la distancia coseno entre vectores.
+                            Por lo que valores más bajos indican mayor
+                            similitud.
+                        </p>
+                    </TooltipContent>
+                </Tooltip>
+                <LuExternalLink className="size-4 text-muted-foreground group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" />
             </div>
         </div>
     </a>

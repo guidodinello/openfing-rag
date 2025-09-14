@@ -17,12 +17,11 @@ class MessageSourceRepository(BaseRepository[MessageSource]):
         """Add multiple sources to a message."""
         message_sources = []
 
-        for i, source_data in enumerate(sources):
+        for source_data in sources:
             message_source = self.create(
                 message_id=message_id,
                 chunk_id=source_data["chunk_id"],
                 confidence_score=source_data["confidence_score"],
-                source_order=i + 1,  # 1-indexed ordering
             )
             message_sources.append(message_source)
 
@@ -30,7 +29,9 @@ class MessageSourceRepository(BaseRepository[MessageSource]):
 
     def get_message_sources(self, message_id: int) -> list[MessageSource]:
         """Get all sources for a specific message ordered by source_order."""
-        query = select(self.model).where(self.model.message_id == message_id).order_by(self.model.source_order)
+        query = (
+            select(self.model).where(self.model.message_id == message_id).order_by(self.model.confidence_score.asc())
+        )
         return self.db.execute(query).scalars().all()
 
     def get_chunk_usage_stats(self, chunk_id: str) -> dict:
@@ -95,7 +96,6 @@ class MessageSourceRepository(BaseRepository[MessageSource]):
                 "message_id": source.message_id,
                 "chunk_id": source.chunk_id,
                 "confidence_score": source.confidence_score,
-                "source_order": source.source_order,
             }
             for source in results
         ]
