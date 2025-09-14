@@ -286,6 +286,16 @@ class Settings(BaseSettings):
         description="Email used for SSL certificates",
     )
 
+    NEVER_SKIP_RETRIEVAL: bool = Field(
+        default=False,
+        description=(
+            "If true, the system will always perform document retrieval, "
+            "never skipping it for follow-up questions. This ensures that "
+            "answers are always based on retrieved documents, but may "
+            "increase latency and cost."
+        ),
+    )
+
     model_config = SettingsConfigDict(
         env_file="../.env",
         env_file_encoding="utf-8",
