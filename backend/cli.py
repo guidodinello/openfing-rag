@@ -46,7 +46,7 @@ def version():
 @app.command(name="settings")
 def show_settings():
     """Print all current settings for debugging."""
-    print(settings)
+    console.print(settings)
 
 
 def _get_route_methods(route):
