@@ -2,9 +2,10 @@ from typing import Self
 
 from pydantic import BaseModel
 
-from services.generator.api.v1.schemas.api import SourceResponse
 from shared.database.models import Message as MessageModel
 from shared.database.models import MessageRole
+
+from services.generator.api.v1.schemas.api import SourceResponse
 
 
 class Message(BaseModel):

@@ -2,8 +2,9 @@ from typing import Self
 
 from pydantic import BaseModel
 
-from services.scraper.schemas import SyncResult
 from shared.api.v1.schemas.api import ApiResponse
+
+from services.scraper.schemas import SyncResult
 
 
 class Sync(BaseModel):

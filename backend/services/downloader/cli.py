@@ -4,13 +4,14 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
-from services.downloader.schemas import DownloadStats
 from shared.config import get_settings
 from shared.database.service_dependencies import create_downloader_service
 from shared.database.session import get_db_session
 from shared.decorators.cli_error_handlers import handle_cli_errors
 from shared.logging import get_logger
 from shared.utils import parse_cli_list_param
+
+from services.downloader.schemas import DownloadStats
 
 logger = get_logger(__name__)
 settings = get_settings()

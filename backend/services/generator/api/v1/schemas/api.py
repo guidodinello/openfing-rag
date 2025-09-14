@@ -3,9 +3,10 @@ from typing import Self
 
 from pydantic import BaseModel, Field
 
-from services.generator.schemas import ChatResult, Source
 from shared.api.v1.schemas.api import ApiResponse
 from shared.database.models import MessageSource
+
+from services.generator.schemas import ChatResult, Source
 
 
 class ChatQuery(BaseModel):

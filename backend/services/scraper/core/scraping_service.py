@@ -2,13 +2,14 @@ from collections.abc import Collection, Iterable
 
 from sqlalchemy.orm import Session
 
+from shared.database.models import Course
+from shared.database.repositories import CourseRepository, LessonRepository
+from shared.logging import get_logger
+
 from services.scraper.core.scrapers.course_scraper import Course as CourseSchema
 from services.scraper.core.scrapers.lesson_scraper import Lesson as LessonSchema
 from services.scraper.core.scrapers.openfing_scraper import OpenFingScraper
 from services.scraper.schemas import SyncResult, SyncStats
-from shared.database.models import Course
-from shared.database.repositories import CourseRepository, LessonRepository
-from shared.logging import get_logger
 
 logger = get_logger(__name__)
 

@@ -2,8 +2,6 @@ from collections.abc import Iterable
 
 from sqlalchemy.orm import Session
 
-from services.generator.core.llm_service import LLMService
-from services.generator.schemas import Chat, ChatResult, RetrievedChunk, SearchContext, Source, SourceTimestamp
 from shared.database.models.rag.conversations.message import Message
 from shared.database.repositories import (
     ConversationRepository,
@@ -13,6 +11,9 @@ from shared.database.repositories import (
     VectorRepository,
 )
 from shared.logging import get_logger
+
+from services.generator.core.llm_service import LLMService
+from services.generator.schemas import Chat, ChatResult, RetrievedChunk, SearchContext, Source, SourceTimestamp
 
 logger = get_logger(__name__)
 

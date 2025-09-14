@@ -2,10 +2,11 @@ from typing import Self
 
 from pydantic import BaseModel
 
-from services.transcriber.schemas import TranscriptionFileResult
 from shared.api.v1.schemas import ApiListResponse, ApiResponse
 from shared.database.models import Transcription as TranscriptionModel
 from shared.enums.whisper import WhisperModelSize
+
+from services.transcriber.schemas import TranscriptionFileResult
 
 
 class Transcriber(BaseModel):

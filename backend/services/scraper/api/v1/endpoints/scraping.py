@@ -1,8 +1,9 @@
 from fastapi import HTTPException, status
 
-from services.scraper.api.v1.schemas import Sync, SyncResponse
 from shared.api.router import AuthRouters
 from shared.database.service_dependencies import ScrapingServiceDep
+
+from services.scraper.api.v1.schemas import Sync, SyncResponse
 
 routers = AuthRouters.create()
 
