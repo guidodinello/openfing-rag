@@ -4,6 +4,7 @@ import { SourceCitations } from "./source-citations";
 import type { AssistantMessage as AssistantMessageType } from "@/types/message";
 import { formatToLocalTime } from "@/utils/dates";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { RichText } from "./rich-text";
 
 interface AssistantMessageProps {
     readonly message: AssistantMessageType;
@@ -20,11 +21,7 @@ export const AssistantMessage = ({ message }: AssistantMessageProps) => {
 
             <div className="flex-1 max-w-[80vw] md:max-w-[70vh]">
                 <div className="bg-muted rounded-2xl rounded-tl-md px-4 py-3 relative">
-                    <div className="prose prose-sm dark:prose-invert max-w-none">
-                        <p className="text-sm leading-relaxed m-0">
-                            {message.content}
-                        </p>
-                    </div>
+                    <RichText content={message.content} variant="assistant" />
 
                     <Button
                         variant="ghost"
