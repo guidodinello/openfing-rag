@@ -1,3 +1,3 @@
 export const floatToPercentage = (value: number) => {
-    return Math.round(value * 100);
+    return parseFloat((value * 100).toFixed(1));
 };
