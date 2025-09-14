@@ -1,7 +1,6 @@
 from collections.abc import Iterable
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, trim_messages
-from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 
 from shared.config import get_settings
 from shared.database.models.rag.conversations.message import Message, MessageRole
@@ -15,21 +14,8 @@ settings = get_settings()
 
 
 class LLMService:
-    def __init__(self):
-        self.llm = ChatHuggingFace(
-            llm=HuggingFaceEndpoint(
-                repo_id=settings.HUGGINGFACE.MODEL,
-                # endpoint_url=f"https://api-inference.huggingface.co/models/{settings.HUGGINGFACE.MODEL}",
-                ##
-                huggingfacehub_api_token=settings.HUGGINGFACE.API_KEY,
-                max_new_tokens=2048,
-                top_k=10,
-                typical_p=0.95,
-                temperature=0.1,
-                top_p=0.9,
-                repetition_penalty=1.05,
-            ),
-        )
+    def __init__(self, llm) -> None:
+        self.llm = llm
 
         self.prompt = get_chat_template()
 
