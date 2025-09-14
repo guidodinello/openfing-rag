@@ -1,10 +1,11 @@
 from fastapi import Request, status
 
-from services.generator.api.v1.schemas import ChatAnswer, ChatAnswerResponse, ChatQuery
-from services.generator.schemas import SearchContext
 from shared.api.router import AuthRouters
 from shared.auth.authenticated_user import MaybeAuthedUser
 from shared.database.service_dependencies import ChatServiceDep
+
+from services.generator.api.v1.schemas import ChatAnswer, ChatAnswerResponse, ChatQuery
+from services.generator.schemas import SearchContext
 
 routers = AuthRouters.create()
 

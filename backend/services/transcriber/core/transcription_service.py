@@ -2,6 +2,13 @@ from dataclasses import dataclass
 
 from sqlalchemy.orm import Session
 
+from shared.config import get_settings
+from shared.database.repositories import LessonRepository, TranscriptionRepository, VectorRepository
+from shared.enums import WhisperModelLanguage, WhisperModelSize
+from shared.file_utils import TranscriptionFileUtils
+from shared.logging import get_logger
+from shared.utils import megabytes_to_bytes, normalize_json
+
 from services.transcriber.core import TranscriberProtocol
 from services.transcriber.schemas import (
     Chunk,
@@ -13,12 +20,6 @@ from services.transcriber.schemas import (
     TranscriptionListResult,
     TranscriptionResult,
 )
-from shared.config import get_settings
-from shared.database.repositories import LessonRepository, TranscriptionRepository, VectorRepository
-from shared.enums import WhisperModelLanguage, WhisperModelSize
-from shared.file_utils import TranscriptionFileUtils
-from shared.logging import get_logger
-from shared.utils import megabytes_to_bytes, normalize_json
 
 logger = get_logger(__name__)
 settings = get_settings()

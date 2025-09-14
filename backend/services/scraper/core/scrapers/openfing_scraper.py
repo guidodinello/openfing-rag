@@ -1,9 +1,10 @@
 from dataclasses import dataclass
 
-from services.scraper.core.scrapers.course_scraper import Course, CourseScraper
-from services.scraper.core.scrapers.lesson_scraper import Lesson, LessonScraper
 from shared.http.client import HTTPClient
 from shared.logging import get_logger
+
+from services.scraper.core.scrapers.course_scraper import Course, CourseScraper
+from services.scraper.core.scrapers.lesson_scraper import Lesson, LessonScraper
 
 logger = get_logger(__name__)
 

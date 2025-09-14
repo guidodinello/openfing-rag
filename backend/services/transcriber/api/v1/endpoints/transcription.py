@@ -1,9 +1,10 @@
 from fastapi import status
 
-from services.transcriber.api.v1.schemas import TranscribeRequest
 from shared.api.router import AuthRouters
 from shared.database.api.v1.schemas import TranscriptionFile, TranscriptionFileResponse
 from shared.database.service_dependencies import TranscriptionServiceDep
+
+from services.transcriber.api.v1.schemas import TranscribeRequest
 
 routers = AuthRouters.create()
 

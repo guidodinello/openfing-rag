@@ -1,13 +1,14 @@
 from fastapi import APIRouter, FastAPI
 
-from services.generator.api.router import generator_router
-from services.scraper.api.router import scraper_router
-from services.transcriber.api.router import transcriber_router
 from shared.api.v1.endpoints import auth, health
 from shared.config import get_settings
 from shared.database.api.router import crud_router
 from shared.exceptions import setup_exception_handlers
 from shared.middlewares import setup_middlewares
+
+from services.generator.api.router import generator_router
+from services.scraper.api.router import scraper_router
+from services.transcriber.api.router import transcriber_router
 
 settings = get_settings()
 

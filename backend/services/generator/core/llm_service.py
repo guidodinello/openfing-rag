@@ -4,10 +4,11 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, trim
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 
-from services.generator.schemas import LLMAnswer, LLMAnswerResult, Source
 from shared.config import get_settings
 from shared.database.models.rag.conversations.message import Message, MessageRole
 from shared.logging import get_logger
+
+from services.generator.schemas import LLMAnswer, LLMAnswerResult, Source
 
 logger = get_logger(__name__)
 settings = get_settings()

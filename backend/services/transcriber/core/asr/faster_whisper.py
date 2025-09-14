@@ -13,6 +13,7 @@ from shared.logging import get_logger
 logger = get_logger(__name__)
 settings = get_settings()
 
+
 class FasterWhisperTranscriber:
     _models_cache: dict[str, WhisperModel] = {}
 

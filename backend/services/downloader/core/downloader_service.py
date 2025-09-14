@@ -4,11 +4,12 @@ from pathlib import Path
 import yt_dlp
 from sqlalchemy.orm import Session
 
-from services.downloader.schemas import DownloadResult, DownloadStats
 from shared.config import get_settings
 from shared.database.models import Lesson
 from shared.database.repositories import CourseRepository, LessonRepository
 from shared.logging import get_logger
+
+from services.downloader.schemas import DownloadResult, DownloadStats
 
 logger = get_logger(__name__)
 settings = get_settings()

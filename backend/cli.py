@@ -4,13 +4,14 @@ from rich.panel import Panel
 from rich.table import Table
 
 from api import app as api_app
+from shared.auth.cli import app as auth_app
+from shared.config import get_settings
+from shared.decorators.cli_error_handlers import handle_cli_errors
+
 from services.downloader.cli import app as downloader_app
 from services.generator.cli import app as generator_app
 from services.scraper.cli import app as scraper_app
 from services.transcriber.cli import app as transcriber_app
-from shared.auth.cli import app as auth_app
-from shared.config import get_settings
-from shared.decorators.cli_error_handlers import handle_cli_errors
 
 settings = get_settings()
 
