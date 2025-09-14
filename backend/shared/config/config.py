@@ -2,9 +2,21 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, EmailStr, Field, HttpUrl, PostgresDsn, field_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    DirectoryPath,
+    EmailStr,
+    Field,
+    HttpUrl,
+    PostgresDsn,
+    SecretStr,
+    field_validator,
+    model_validator,
+)
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from shared.enums import LLMProvider
 from shared.utils import detect_device
 
 
@@ -35,6 +47,52 @@ class DatabaseSettings(BaseModel):
     @property
     def URL(self) -> PostgresDsn:
         return f"postgresql+psycopg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.DB}"
+
+
+class PromptsSettings(BaseModel):
+    BASE_DIR: DirectoryPath = Field(
+        default=Path("./default_prompts"),
+        description="Base directory for prompt template files",
+    )
+    GENERATOR_TEMPLATE: str = Field(
+        default="educational_assistant",
+        description="Filename for the generator prompt template",
+    )
+    TRANSCRIBER_TEMPLATE: str = Field(
+        default="educational_transcription",
+        description="Filename for the transcriber prompt template",
+    )
+
+
+class OllamaSettings(BaseModel):
+    model_config = ConfigDict(alias_generator=lambda field_name: field_name.lower(), populate_by_name=True)
+
+    BASE_URL: HttpUrl = Field(examples=["http://localhost:11434"], description="Ollama API URL")
+    MODEL: str = Field(examples=["qwen2.5:0.5b"], description="Ollama model identifier")
+
+
+class HuggingFaceSettings(BaseModel):
+    model_config = ConfigDict(alias_generator=lambda field_name: field_name.lower(), populate_by_name=True)
+
+    API_KEY: SecretStr = Field(description="Huggingface API key")
+    MODEL: str = Field(
+        examples=["mistralai/Mistral-7B-Instruct-v0.3"],
+        description="Huggingface LLM used for chat completion",
+    )
+
+
+class LLMSettings(BaseModel):
+    PROVIDER: LLMProvider = Field(default=LLMProvider.HUGGINGFACE, description="LLM provider to use")
+    OLLAMA: OllamaSettings | None = Field(default=None)
+    HUGGINGFACE: HuggingFaceSettings | None = Field(default=None)
+
+    @model_validator(mode="after")
+    def validate_provider_config(self):
+        if self.PROVIDER == LLMProvider.OLLAMA and self.OLLAMA is None:
+            raise ValueError(f"OLLAMA settings must be provided when PROVIDER is {LLMProvider.OLLAMA}")
+        if self.PROVIDER == LLMProvider.HUGGINGFACE and self.HUGGINGFACE is None:
+            raise ValueError(f"HUGGINGFACE settings must be provided when PROVIDER is {LLMProvider.HUGGINGFACE}")
+        return self
 
 
 class DownloaderSettings(BaseModel):
@@ -143,14 +201,6 @@ class ServerSettings(BaseModel):
     )
 
 
-class HuggingFaceSettings(BaseModel):
-    API_KEY: str = Field(default="NOT_SET", description="Huggingface API key")
-    MODEL: str = Field(
-        default="mistralai/Mistral-7B-Instruct-v0.3",
-        description="Huggingface LLM used for chat completion",
-    )
-
-
 class LangsmithSettings(BaseModel):
     API_KEY: str = Field(default="NOT_SET", description="LangSmith API key")
     TRACING: bool = Field(
@@ -194,14 +244,16 @@ class Settings(BaseSettings):
 
     WHISPER: WhisperSettings = Field(default_factory=WhisperSettings)
     EMBEDDINGS: EmbeddingsSettings = Field(default_factory=EmbeddingsSettings)
+    LLM: LLMSettings = Field(default_factory=LLMSettings)
 
     PREFECT: PrefectSettings = Field(default_factory=PrefectSettings)
-    HUGGINGFACE: HuggingFaceSettings = Field(default_factory=HuggingFaceSettings)
     LANGSMITH: LangsmithSettings = Field(default_factory=LangsmithSettings)
 
     DOWNLOADER: DownloaderSettings = Field(default_factory=DownloaderSettings)
     TRANSCRIBER: TranscriberSettings = Field(default_factory=TranscriberSettings)
     SCRAPER: ScraperSettings = Field(default_factory=ScraperSettings)
+
+    PROMPTS: PromptsSettings = Field(default_factory=PromptsSettings)
 
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent
 
