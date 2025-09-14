@@ -70,7 +70,6 @@ class SourceResponse(BaseModel):
         ## TODO: move this logic to service
         chunk = source.chunk
 
-        print("METADATA", chunk.chunk_metadata)
         timestamp = SourceTimestamp(
             start=chunk.chunk_metadata.get("start_time"),
             end=chunk.chunk_metadata.get("end_time"),
