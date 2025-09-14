@@ -199,8 +199,7 @@ def list_course_codes(
 
         match format.lower():
             case "space":
-                output = " ".join(course.code for course in courses)
-                console.print(output, highlight=False)
+                console.print(" ".join(course.code for course in courses), highlight=False)
 
             case "table":
                 table = Table(title=f"📚 Course Codes ({len(courses)} total)")
@@ -233,6 +232,11 @@ def list_course_codes(
 @handle_cli_errors
 @app.command("transcription-ids")
 def transcription_ids(
+    format: str = typer.Option(
+        "space",
+        help="Output format: 'space', 'table'",
+        case_sensitive=False,
+    ),
     limit: int | None = typer.Option(
         None,
         help="Limit the amount of values returned",
@@ -240,11 +244,45 @@ def transcription_ids(
 ) -> None:
     with get_db_session() as db:
         transcriptions = get_transcription_repository(db).get_all(limit=limit)
+
         if not transcriptions:
             console.print("❌ No transcriptions found in database", style="red")
             raise typer.Exit(1)
 
-        console.print(" ".join(str(tr.id) for tr in transcriptions), highlight=False)
+        match format.lower():
+            case "space":
+                console.print(" ".join(str(tr.id) for tr in transcriptions), highlight=False)
+
+            case "table":
+                table = Table(title=f"📚 Transcriptions ({len(transcriptions)} total)")
+                table.add_column("ID", style="cyan")
+                table.add_column("Language", style="green")
+                table.add_column("ASR Model", style="magenta")
+                table.add_column("Vectorized", style="dim")
+
+                unset_value = "not_set"
+
+                for tr in transcriptions:
+                    table.add_row(
+                        str(tr.id),
+                        tr.transcription_metadata.get("language", unset_value),
+                        (
+                            f"{tr.transcription_metadata.get('transcriber_identifier', unset_value)}"
+                            " "
+                            f"{tr.transcription_metadata.get('transcriber_model_size', unset_value)}"
+                        ),
+                        str(tr.transcription_metadata.get("vectorized_at", unset_value)),
+                    )
+
+                console.print(table)
+
+            case _:
+                console.print(f"❌ Unknown format: {format}", style="red")
+                console.print(
+                    "Available formats: space, table",
+                    style="yellow",
+                )
+                raise typer.Exit(1)
 
 
 if __name__ == "__main__":
