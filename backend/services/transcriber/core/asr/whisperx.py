@@ -9,6 +9,7 @@ import whisperx
 from shared.config import get_settings
 from shared.enums import WhisperModelLanguage, WhisperModelSize
 from shared.logging import get_logger
+from shared.prompts import get_transcription_prompt
 
 logger = get_logger(__name__)
 settings = get_settings()
@@ -129,14 +130,7 @@ class WhisperXTranscriber:
     @classmethod
     def _get_educational_prompt(cls) -> str:
         """Get domain-specific prompt for better accuracy with educational content."""
-        return (
-            "Esta es una clase de la Facultad de Ingeniería de la Universidad de la República (UDELAR), Uruguay. "
-            "El contenido incluye terminología técnica de ingeniería, conceptos académicos, algoritmos, "
-            "programación, matemáticas, física y ciencias de la computación. "
-            "Se utilizan términos técnicos en español rioplatense y ocasionalmente en inglés. "
-            "Pueden mencionarse tecnologías, frameworks, lenguajes de programación, "
-            "conceptos de inteligencia artificial, machine learning, estructuras de datos y algoritmos."
-        )
+        return get_transcription_prompt()
 
     @classmethod
     def _model_custom_config(cls) -> dict[str, Any]:

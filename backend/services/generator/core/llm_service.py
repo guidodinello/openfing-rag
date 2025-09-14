@@ -1,12 +1,12 @@
 from collections.abc import Iterable
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, trim_messages
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 
 from shared.config import get_settings
 from shared.database.models.rag.conversations.message import Message, MessageRole
 from shared.logging import get_logger
+from shared.prompts import get_chat_template
 
 from services.generator.schemas import LLMAnswer, LLMAnswerResult, Source
 
@@ -31,37 +31,7 @@ class LLMService:
             ),
         )
 
-        self.prompt = ChatPromptTemplate.from_messages(
-            [
-                SystemMessage(
-                    content="""Eres un asistente educativo especializado en responder preguntas sobre contenido académico.
-Tu objetivo es ser útil y educativo, proporcionando respuestas claras y naturales.
-
-INSTRUCCIONES:
-1. PRIORIZA el contexto proporcionado de las clases cuando esté disponible y sea relevante
-2. Si el contexto no contiene información completa pero tienes conocimiento general relevante, combina ambos de manera fluida y natural
-3. Usa el historial para mantener continuidad en la conversación
-4. NUNCA copies literalmente el formato del contexto (ej: 'Fragmento 1:', 'Contenido:')
-5. Integra la información de manera natural y conversacional
-6. Si mencionas información de clases específicas, hazlo de forma natural: 'En la clase de [materia] se explica que...'
-
-ESTILO DE RESPUESTA:
-- Respuestas conversacionales y naturales, como si fueras un profesor explicando
-- Evita estructuras artificiales como listas numeradas del contexto
-- Integra ejemplos y explicaciones de forma fluida
-- Mantén un tono educativo pero amigable
-- Responde siempre en español
-
-EJEMPLO MALO:
-'Fragmento 1: En la clase X se explica... Fragmento 2: Otra clase menciona...'
-
-EJEMPLO BUENO:
-'El algoritmo de ordenamiento burbuja es un método simple que funciona comparando elementos adyacentes... Como se explica en las clases de programación, el proceso se repite hasta que no hay más intercambios...'""",  # noqa: E501
-                ),
-                MessagesPlaceholder(variable_name="chat_history", optional=True),
-                ("human", "Información de las clases:\n{context}\n\nPregunta: {query}"),
-            ],
-        )
+        self.prompt = get_chat_template()
 
         self.chain = self.prompt | self.llm
         self.history_trimmer = trim_messages(strategy="last", max_tokens=4000, token_counter=len)
