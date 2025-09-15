@@ -94,3 +94,18 @@ def detect_device(device: str) -> Devices:
         return Devices.MPS
     else:
         return Devices.CPU
+
+
+def available_whisper_models() -> str:
+    try:
+        from faster_whisper import available_models
+    except ImportError:
+        try:
+            from whisper import available_models
+        except ImportError as e2:
+            raise ImportError(
+                "Neither 'faster-whisper' nor 'whisper' libraries are installed. "
+                "Please install one of them to use whisper models.",
+            ) from e2
+
+    return available_models()
