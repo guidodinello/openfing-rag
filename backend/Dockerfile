@@ -10,7 +10,7 @@ WORKDIR /app
 # Install system dependencies in builder stage
 RUN apt-get update && apt-get install -y \
     libpq-dev=15.* \
-    postgresql-client=15.* \
+    postgresql-client-15=15.* \
     ffmpeg=7:5.* \
     curl=7.* \
     ca-certificates \
@@ -38,7 +38,7 @@ FROM python:3.12-slim-bookworm AS production
 # Install runtime system dependencies
 RUN apt-get update && apt-get install -y \
     libpq5=15.* \
-    postgresql-client=15.* \
+    postgresql-client-15=15.* \
     ffmpeg=7:5.* \
     curl=7.* \
     ca-certificates \
