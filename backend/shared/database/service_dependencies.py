@@ -27,7 +27,8 @@ from services.generator.core.llm_service import LLMService
 from services.scraper import ScrapingService
 from services.scraper.core.scrapers import OpenFingScraper
 from services.transcriber import TranscriptionService
-from services.transcriber.core import FasterWhisperTranscriber, TranscriberProtocol
+from services.transcriber.core import TranscriberProtocol
+from services.transcriber.core.asr.faster_whisper import FasterWhisperTranscriber
 from services.transcriber.core.transcription_service import DatabaseDependencies
 
 settings = get_settings()
