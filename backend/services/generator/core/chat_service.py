@@ -2,7 +2,8 @@ from collections.abc import Iterable
 
 from sqlalchemy.orm import Session
 
-from shared.database.models.rag.conversations.message import Message
+from shared.config import get_settings
+from shared.database.models import Message
 from shared.database.repositories import (
     ConversationRepository,
     CourseRepository,
@@ -16,6 +17,7 @@ from services.generator.core.llm_service import LLMService
 from services.generator.schemas import Chat, ChatResult, RetrievedChunk, SearchContext, Source, SourceTimestamp
 
 logger = get_logger(__name__)
+settings = get_settings()
 
 
 class ChatService:
@@ -58,7 +60,7 @@ class ChatService:
             )
 
             skip_retrieval = self._is_follow_up_question(search_context.query, bool(history))
-            if skip_retrieval:
+            if not settings.NEVER_SKIP_RETRIEVAL and skip_retrieval:
                 sources = []
                 logger.info(f"Follow-up detected, skipping retrieval: {search_context.query}")
             else:
