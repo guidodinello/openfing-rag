@@ -1486,7 +1486,6 @@ dependencies = [
     { name = "langchain-postgres" },
     { name = "langchain-text-splitters" },
     { name = "nvidia-cudnn-cu11" },
-    { name = "openai-whisper" },
     { name = "passlib", extra = ["bcrypt"] },
     { name = "prefect" },
     { name = "psycopg" },
@@ -1508,6 +1507,9 @@ dependencies = [
 [package.optional-dependencies]
 ollama = [
     { name = "langchain-ollama" },
+]
+openai = [
+    { name = "openai-whisper" },
 ]
 
 [package.dev-dependencies]
@@ -1538,7 +1540,7 @@ requires-dist = [
     { name = "langchain-postgres", specifier = ">=0.0.14" },
     { name = "langchain-text-splitters", specifier = ">=0.3.8" },
     { name = "nvidia-cudnn-cu11", specifier = ">=8.6.0,<9.0.0" },
-    { name = "openai-whisper", specifier = ">=20240930" },
+    { name = "openai-whisper", marker = "extra == 'openai'", specifier = ">=20240930" },
     { name = "passlib", extras = ["bcrypt"], specifier = ">=1.7.4" },
     { name = "prefect", specifier = ">=3.4.1" },
     { name = "psycopg", specifier = ">=3.1.18" },
@@ -1556,7 +1558,7 @@ requires-dist = [
     { name = "uvicorn", specifier = ">=0.34.0" },
     { name = "yt-dlp", specifier = ">=2024.3.10" },
 ]
-provides-extras = ["ollama"]
+provides-extras = ["openai", "ollama"]
 
 [package.metadata.requires-dev]
 dev = [
