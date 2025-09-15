@@ -1,6 +1,3 @@
-from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
-from langchain_ollama import ChatOllama
-
 from shared.config import get_settings
 from shared.enums import LLMProvider
 
@@ -12,8 +9,12 @@ class LLMFactory:
     def create(provider: LLMProvider):
         match provider:
             case LLMProvider.OLLAMA:
+                from langchain_ollama import ChatOllama
+
                 return ChatOllama(base_url=str(settings.LLM.OLLAMA.BASE_URL), model=settings.LLM.OLLAMA.MODEL)
             case LLMProvider.HUGGINGFACE:
+                from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
+
                 return ChatHuggingFace(
                     llm=HuggingFaceEndpoint(
                         repo_id=settings.LLM.HUGGINGFACE.MODEL,
