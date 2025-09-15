@@ -41,6 +41,4 @@ RUN chown -R nginx:nginx /usr/share/nginx/html && \
     mkdir -p /var/cache/nginx && \
     chown -R nginx:nginx /var/cache/nginx
 
-USER nginx
-
 CMD ["nginx", "-g", "daemon off;"]
