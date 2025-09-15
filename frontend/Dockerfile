@@ -1,6 +1,6 @@
 FROM node:22-alpine AS base
 
-RUN npm install -g pnpm@9
+RUN npm install -g pnpm@latest-10
 
 WORKDIR /app
 
@@ -29,7 +29,7 @@ RUN --mount=type=cache,target=/app/node_modules/.cache \
 
 FROM nginx:1.29-alpine AS production
 
-# Copy nginx configuration to the correct location
+# Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built application from builder stage
@@ -41,8 +41,6 @@ RUN chown -R nginx:nginx /usr/share/nginx/html && \
     mkdir -p /var/cache/nginx && \
     chown -R nginx:nginx /var/cache/nginx
 
-# Switch to nginx user for security
 USER nginx
-
 
 CMD ["nginx", "-g", "daemon off;"]
