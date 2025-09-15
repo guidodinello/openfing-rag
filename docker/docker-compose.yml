@@ -40,8 +40,6 @@ services:
         restart: unless-stopped
         env_file:
             - ../.env
-        environment:
-            - PYTHONUNBUFFERED=1
         volumes:
             - ../logs:${LOG__DIR}
             - ../audios:${DOWNLOADER__OUTPUT_DIR}
@@ -161,6 +159,11 @@ services:
             target: production
         env_file:
             - ../.env
+        volumes:
+            - ../logs:${LOG__DIR}
+            - ../audios:${DOWNLOADER__OUTPUT_DIR}
+            - ../transcriptions:${TRANSCRIBER__OUTPUT_DIR}
+            - ../models_cache:${EMBEDDINGS__CACHE_DIR}
         depends_on:
             database:
                 condition: service_healthy
