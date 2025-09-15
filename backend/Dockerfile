@@ -30,7 +30,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Copy source code in a separate layer
 COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked --no-dev
+    uv sync --locked --no-dev --extra ollama
 
 # Final stage - minimal runtime image
 FROM python:3.12-slim-bookworm AS production
