@@ -9,8 +9,6 @@ class WhisperModelSize(StrEnum):
     large = "large"
     turbo = "turbo"
 
-    # All possible models: print(whisper.available_models())
-
 
 class WhisperModelLanguage(StrEnum):
     spanish = "es"

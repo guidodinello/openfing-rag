@@ -19,7 +19,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from shared.enums import LLMProvider
 from shared.enums.devices import Devices
-from shared.utils import detect_device
+from shared.enums.whisper import WhisperModelSize
+from shared.utils import available_whisper_models, detect_device
 
 
 class LoggingSettings(BaseModel):
@@ -148,7 +149,7 @@ class EmbeddingsSettings(BaseModel):
 
 
 class WhisperSettings(BaseModel):
-    MODEL: str = Field(default="tiny", description="Whisper model name")
+    MODEL: WhisperModelSize = Field(default=WhisperModelSize.tiny, description="Whisper model name")
     CACHE_DIR: DirectoryPath | None = Field(
         default=Path("./default_models_cache"),
         description="Model cache directory",
@@ -161,13 +162,11 @@ class WhisperSettings(BaseModel):
     @field_validator("MODEL", mode="after")
     @classmethod
     def validate_model(cls, v: str) -> str:
-        import whisper
-
-        available_models = whisper.available_models()
-        if v not in available_models:
+        models = available_whisper_models()
+        if v not in models:
             raise ValueError(
-                f"WHISPER_MODEL should be one of {', '.join(sorted(available_models))}\
-            if its there and still fails please add it to our WhisperModelSize enum",
+                f"WHISPER_MODEL should be one of {', '.join(sorted(models))}"
+                f" if its there and still fails please add it to our WhisperModelSize enum",
             )
         return v
 
