@@ -13,6 +13,7 @@ from shared.database.repositories import (
 )
 from shared.logging import get_logger
 
+from services.generator.core.ephemeral_conversation import EphemeralConversationHandler
 from services.generator.core.llm_service import LLMService
 from services.generator.schemas import Chat, ChatResult, RetrievedChunk, SearchContext, Source, SourceTimestamp
 
@@ -41,88 +42,132 @@ class ChatService:
         self.message_repo = message_repo
         self.llm_service = llm_service
 
-    def process_message(
+        self.ephemeral_conversation_handler = EphemeralConversationHandler()
+
+    async def process_message(
+        self,
+        search_context: SearchContext,
+        session_id: str,
+        user_id: int | None = None,
+        conversation_id: int | None = None,
+    ) -> ChatResult:
+        """
+        Process a chat message using RAG pipeline with optional conversation memory.
+        Handles both authenticated (database) and anonymous (session cache) conversations.
+        """
+        try:
+            if user_id is not None:
+                return await self._process_authenticated_message(search_context, user_id, conversation_id)
+            else:
+                return await self._process_anonymous_message(search_context, session_id)
+        except Exception as e:
+            if user_id:
+                self.db.rollback()
+            logger.error(f"Error processing chat message: {e}", exc_info=True)
+            raise
+
+    async def _process_authenticated_message(
         self,
         search_context: SearchContext,
         user_id: int,
         conversation_id: int | None = None,
     ) -> ChatResult:
-        """
-        Process a chat message using RAG pipeline with optional conversation memory.
-        """
-        try:
-            conversation = self._get_or_create_conversation(user_id, conversation_id)
-            history = self._get_conversation_history(conversation.id)
+        """Process message for authenticated users with database persistence."""
+        conversation = self._get_or_create_conversation(user_id, conversation_id)
+        history = self._get_conversation_history(conversation.id)
 
-            _ = self.message_repo.add_user_message(
-                conversation_id=conversation.id,
-                content=search_context.query,
-            )
+        _ = self.message_repo.add_user_message(
+            conversation_id=conversation.id,
+            content=search_context.query,
+        )
 
-            skip_retrieval = self._is_follow_up_question(search_context.query, bool(history))
-            if not settings.NEVER_SKIP_RETRIEVAL and skip_retrieval:
-                sources = []
-                logger.info(f"Follow-up detected, skipping retrieval: {search_context.query}")
-            else:
-                chunks = self._retrieve_relevant_chunks(search_context)
-                sources = self._format_sources(chunks)
-                logger.info(f"New question, retrieved {len(sources)} sources")
+        skip_retrieval = self._is_follow_up_question(search_context.query, bool(history))
+        if not settings.NEVER_SKIP_RETRIEVAL and skip_retrieval:
+            sources = []
+            logger.info(f"Follow-up detected, skipping retrieval: {search_context.query}")
+        else:
+            chunks = self._retrieve_relevant_chunks(search_context)
+            sources = self._format_sources(chunks)
+            logger.info(f"New question, retrieved {len(sources)} sources")
 
-            llm_result = self.llm_service.generate_answer(
-                sources=sources,
-                query=search_context.query,
-                conversation_history=history,
-            )
-            if not llm_result.success:
-                self.db.rollback()
-                logger.warning(f"LLM generation failed, rolling back transaction: {llm_result.message}")
-                return ChatResult.failure_result(message=f"LLM generation failed: {llm_result.message}")
-
-            assistant_message = self.message_repo.add_assistant_message(
-                conversation_id=conversation.id,
-                content=llm_result.item.answer,
-                sources=[
-                    {
-                        "chunk_id": source.id,
-                        "confidence_score": source.confidence,
-                    }
-                    for source in sources
-                ],
-            )
-
-            self.db.commit()
-
-            return ChatResult.success_result(
-                message="Successfully generated response message",
-                item=Chat(
-                    id=assistant_message.id,
-                    answer=llm_result.item,
-                    sources=sources,
-                    # conversation_id=conversation.id,
-                    # message_id=assistant_message.id,
-                ),
-            )
-
-        except Exception as e:
+        llm_result = self.llm_service.generate_answer(
+            sources=sources,
+            query=search_context.query,
+            conversation_history=history,
+        )
+        if not llm_result.success:
             self.db.rollback()
-            logger.error(f"Error processing chat message: {e}")
-            raise
+            logger.warning(f"LLM generation failed, rolling back transaction: {llm_result.message}")
+            return ChatResult.failure_result(message=f"LLM generation failed: {llm_result.message}")
 
-    def get_conversation_messages(self, user_id: int, conversation_id: int) -> list[dict]:
-        """Get formatted conversation history for a user."""
-        conversation = self.conversation_repo.get_conversation_with_messages(conversation_id, user_id)
-        if not conversation:
-            return []
+        assistant_message = self.message_repo.add_assistant_message(
+            conversation_id=conversation.id,
+            content=llm_result.item.answer,
+            sources=[
+                {
+                    "chunk_id": source.id,
+                    "confidence_score": source.confidence,
+                }
+                for source in sources
+            ],
+        )
 
-        ## TODO: define a Message Schema
-        return [
-            {
-                "role": msg.role,
-                "content": msg.content,
-                "timestamp": msg.created_at.isoformat(),
-            }
-            for msg in conversation.messages
-        ]
+        self.db.commit()
+
+        return ChatResult.success_result(
+            message="Successfully generated response message",
+            item=Chat(
+                id=assistant_message.id,
+                answer=llm_result.item,
+                sources=sources,
+            ),
+        )
+
+    async def _process_anonymous_message(
+        self,
+        search_context: SearchContext,
+        session_id: str,
+    ) -> ChatResult:
+        """Process message for anonymous users using session cache."""
+        # Use async-safe method to get history
+        history = await self.ephemeral_conversation_handler.get_session_history(session_id)
+
+        skip_retrieval = self._is_follow_up_question(search_context.query, bool(history))
+        if not settings.NEVER_SKIP_RETRIEVAL and skip_retrieval:
+            sources = []
+            logger.info(f"Anonymous follow-up detected, skipping retrieval: {search_context.query}")
+        else:
+            chunks = self._retrieve_relevant_chunks(search_context)
+            sources = self._format_sources(chunks)
+            logger.info(f"Anonymous new question, retrieved {len(sources)} sources")
+
+        llm_result = self.llm_service.generate_answer(
+            sources=sources,
+            query=search_context.query,
+            conversation_history=history,
+        )
+
+        if not llm_result.success:
+            logger.warning(f"LLM generation failed for anonymous user: {llm_result.message}")
+            return ChatResult.failure_result(message=f"LLM generation failed: {llm_result.message}")
+
+        await self.ephemeral_conversation_handler.update_session_history(
+            session_id=session_id,
+            user_message=search_context.query,
+            assistant_message=llm_result.item.answer,
+        )
+
+        return ChatResult.success_result(
+            message="Successfully generated response message",
+            item=Chat(
+                id=self.ephemeral_conversation_handler.generate_anonymous_message_id(
+                    search_context.query,
+                    llm_result.item.answer,
+                ),
+                answer=llm_result.item,
+                sources=sources,
+            ),
+        )
 
     def _get_or_create_conversation(self, user_id: int, conversation_id: int | None):
         """Get existing conversation or create a new one."""
@@ -181,37 +226,10 @@ class ChatService:
         return sources
 
     def _is_follow_up_question(self, query: str, has_history: bool) -> bool:
-        """
-        Simple heuristic to detect follow-up questions.
-        """
+        """Simple heuristic to detect follow-up questions."""
         if not has_history:
             return False
-
-        query_lower = query.lower().strip()
-
-        # Rule 1: Very short questions
         if len(query.split()) <= 3:
-            return True
-
-        # Rule 2: Contains follow-up indicators
-        if any(
-            indicator in query_lower
-            for indicator in [
-                "qué significa",
-                "a qué te refieres",
-                "puedes explicar",
-                "explica",
-                "cómo es",
-                "por qué",
-                "cuál es",
-                "más detalles",
-                "ejemplo",
-                "diferencia",
-                "parecido",
-                "similar",
-                "igual",
-            ]
-        ):
             return True
 
         return False

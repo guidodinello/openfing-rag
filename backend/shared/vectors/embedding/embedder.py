@@ -1,4 +1,5 @@
 import importlib.metadata
+import threading
 import time
 from typing import Any
 
@@ -14,6 +15,7 @@ settings = get_settings()
 
 class Embedder:
     _models_cache: dict[str, Embeddings] = {}
+    _cache_lock = threading.RLock()
 
     def __init__(
         self,
@@ -29,20 +31,21 @@ class Embedder:
     def _get_embeddings_model(cls, model_name: str) -> Embeddings:
         cache_key = f"{model_name}_{settings.EMBEDDINGS.DEVICE}"
 
-        if cache_key not in cls._models_cache:
-            cache_folder = settings.EMBEDDINGS.CACHE_DIR
-            if cache_folder:
-                cache_folder.mkdir(exist_ok=True, parents=True)
+        with cls._cache_lock:
+            if cache_key not in cls._models_cache:
+                cache_folder = settings.EMBEDDINGS.CACHE_DIR
+                if cache_folder:
+                    cache_folder.mkdir(exist_ok=True, parents=True)
 
-            logger.debug(
-                f"Loading Embeddings {model_name=} on {settings.EMBEDDINGS.DEVICE}",
-            )
-            cls._models_cache[cache_key] = langchain_huggingface.HuggingFaceEmbeddings(
-                model_name=model_name,
-                model_kwargs={"device": settings.EMBEDDINGS.DEVICE},
-                cache_folder=str(cache_folder),
-                encode_kwargs=cls._model_custom_config(),
-            )
+                logger.debug(
+                    f"Loading Embeddings {model_name=} on {settings.EMBEDDINGS.DEVICE}",
+                )
+                cls._models_cache[cache_key] = langchain_huggingface.HuggingFaceEmbeddings(
+                    model_name=model_name,
+                    model_kwargs={"device": settings.EMBEDDINGS.DEVICE},
+                    cache_folder=str(cache_folder),
+                    encode_kwargs=cls._model_custom_config(),
+                )
 
         return cls._models_cache[cache_key]
 

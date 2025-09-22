@@ -12,7 +12,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { apiKeySchema, type ApiKeyForm } from "./types";
-import { useApiKey } from "@/hooks/use-api-key";
+import { useApiKeyStore } from "@/stores/api-key-store";
 
 interface ApiKeyFormProps {
     onSubmit: (data: ApiKeyForm) => void;
@@ -20,7 +20,7 @@ interface ApiKeyFormProps {
 }
 
 export const EditApiKey = ({ onSubmit, onCancel }: ApiKeyFormProps) => {
-    const { apiKey } = useApiKey();
+    const apiKey = useApiKeyStore((state) => state.apiKey);
 
     const form = useForm<ApiKeyForm>({
         resolver: zodResolver(apiKeySchema),
