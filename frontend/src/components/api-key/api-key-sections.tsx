@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useApiKey } from "@/hooks/use-api-key";
+import { useApiKeyStore } from "@/stores/api-key-store";
 import type { ApiKeyForm } from "./types";
 import { ApiKeyDisplay } from "./api-key-display";
 import { EditApiKey } from "./edit-api-key";
 
 export const ApiKeySection = () => {
-    const { apiKey, updateApiKey, deleteApiKey } = useApiKey();
+    const apiKey = useApiKeyStore((state) => state.apiKey);
+    const setApiKey = useApiKeyStore((state) => state.setApiKey);
+    const clearApiKey = useApiKeyStore((state) => state.clearApiKey);
     const [isEditing, setIsEditing] = useState(false);
 
     const handleSave = (data: ApiKeyForm) => {
-        updateApiKey(data.apiKey);
+        setApiKey(data.apiKey);
         setIsEditing(false);
     };
 
     const handleDelete = () => {
-        deleteApiKey();
+        clearApiKey();
         setIsEditing(false);
     };
 
