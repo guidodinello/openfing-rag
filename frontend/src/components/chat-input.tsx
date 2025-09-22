@@ -1,6 +1,6 @@
 import type React from "react";
 
-import { useState, useRef, useEffect, forwardRef } from "react";
+import { useRef } from "react";
 import { LuSend } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,6 +8,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
+import { useAutoResize } from "@/hooks/use-auto-resize";
 
 const messageSchema = z.object({
     message: z
@@ -17,26 +18,26 @@ const messageSchema = z.object({
         .max(1000, "El mensaje es demasiado largo"),
 });
 
-type MessageForm = z.infer<typeof messageSchema>;
+type Message = z.infer<typeof messageSchema>;
+type MessageForm = Message;
 
 interface ChatInputProps {
     readonly onSendMessage: (message: string) => void;
     readonly disabled?: boolean;
 }
 
-const ForwardedTextarea = forwardRef<
-    HTMLTextAreaElement,
-    React.ComponentProps<typeof Textarea>
->(({ ...props }, ref) => {
+const ForwardedTextarea = ({
+    ref,
+    ...props
+}: React.ComponentProps<typeof Textarea> & {
+    ref?: React.Ref<HTMLTextAreaElement>;
+}) => {
     return <Textarea ref={ref} {...props} />;
-});
-
-ForwardedTextarea.displayName = "ForwardedTextarea";
+};
 
 // TODO: use shadcn form
 export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const [charCount, setCharCount] = useState(0);
 
     const {
         control,
@@ -52,18 +53,11 @@ export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
 
     const message = watch("message");
 
-    useEffect(() => {
-        setCharCount(message?.length || 0);
-    }, [message]);
-
-    // Auto-resize textarea
-    useEffect(() => {
-        const textarea = textareaRef.current;
-        if (textarea) {
-            textarea.style.height = "auto";
-            textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`;
-        }
-    }, [message]);
+    useAutoResize({
+        ref: textareaRef,
+        trigger: message,
+        maxHeight: 120,
+    });
 
     const onSubmit = (data: MessageForm) => {
         const msg = data.message.trim();
@@ -105,7 +99,7 @@ export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
                         type="submit"
                         size="icon"
                         className="size-8"
-                        disabled={disabled || !isValid}
+                        disabled={disabled ?? !isValid}
                         title="Enviar mensaje"
                     >
                         <LuSend className="size-4" />
@@ -127,10 +121,18 @@ export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
                     )}
                 </div>
 
-                <span className={cn(charCount > 900 && "text-orange-500")}>
-                    {charCount}/1000
-                </span>
+                <CharCounter message={message} />
             </div>
         </form>
+    );
+};
+
+const CharCounter = ({ message }: Message) => {
+    const charCount = message?.length ?? 0;
+
+    return (
+        <span className={cn(charCount > 900 && "text-orange-500")}>
+            {charCount}/1000
+        </span>
     );
 };

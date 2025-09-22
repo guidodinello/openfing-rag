@@ -9,6 +9,7 @@ import { WelcomeScreen } from "./components/welcome-screen";
 import { HttpStatusCode, isAxiosError } from "axios";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AnonymousChat } from "./components/anonymous-chat";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -55,6 +56,7 @@ const App = () => (
                                 path="/conversation/:id"
                                 element={<ChatInterface />}
                             />
+                            <Route path="/chat" element={<AnonymousChat />} />
                             <Route path="*" element={<WelcomeScreen />} />
                         </Routes>
                     </Layout>

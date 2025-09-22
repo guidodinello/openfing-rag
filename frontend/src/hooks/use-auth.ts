@@ -7,7 +7,7 @@ import { isValidationError } from "@/utils/errors";
 import { type ValidationErrorResponse } from "@/types/api";
 
 export const useLogin = () => {
-    const { setTokens } = useAuthStore();
+    const setTokens = useAuthStore((state) => state.setTokens);
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -35,7 +35,7 @@ export const useLogin = () => {
 };
 
 export const useRegister = () => {
-    const { setTokens } = useAuthStore();
+    const setTokens = useAuthStore((state) => state.setTokens);
     const queryClient = useQueryClient();
 
     return useMutation({

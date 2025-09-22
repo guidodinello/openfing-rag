@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState, useCallback } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useRef } from "react";
+import { useNavigate } from "react-router";
 import { ChatHeader } from "./chat-header";
 import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
@@ -9,50 +9,12 @@ import { useConversationQuery } from "@/hooks/use-conversation";
 import { LoadingMessage } from "./loading-message";
 import { useConversationIdParam } from "@/hooks/use-conversation-id-param";
 import { useScrollToBottom } from "@/hooks/use-scroll";
-
-interface LocationState {
-    initialMessage?: string;
-}
-
-const useInitialMessage = () => {
-    const location = useLocation();
-    const [processed, setProcessed] = useState(false);
-
-    const initialMessage = (location.state as LocationState)?.initialMessage;
-
-    const markAsProcessed = useCallback(() => {
-        setProcessed(true);
-        // Clean up the state
-        if (location.state?.initialMessage) {
-            const newState = { ...location.state };
-            delete newState.initialMessage;
-            window.history.replaceState(newState, "");
-        }
-    }, [location.state]);
-
-    const reset = useCallback(() => {
-        setProcessed(false);
-    }, []);
-
-    return {
-        initialMessage,
-        isProcessed: processed,
-        markAsProcessed,
-        reset,
-    };
-};
+import { useInitialMessage } from "@/hooks/use-initial-message";
 
 export const ChatInterface = () => {
     const { id } = useConversationIdParam();
     const navigate = useNavigate();
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
-    const {
-        initialMessage,
-        isProcessed: isInitialMessageProcessed,
-        markAsProcessed: markInitialMessageAsProcessed,
-        reset: resetInitialMessage,
-    } = useInitialMessage();
 
     const {
         data: conversation,
@@ -65,45 +27,20 @@ export const ChatInterface = () => {
 
     useScrollToBottom(messagesEndRef, [messages.length, isLoading]);
 
-    const handleSendMessage = useCallback(
-        (content: string) => {
-            if (isLoading) return;
-            sendMessage(content);
-        },
-        [sendMessage, isLoading],
-    );
+    const handleSendMessage = (content: string) => {
+        if (isLoading) return;
+        sendMessage(content);
+    };
 
-    // Handle initial message from navigation state
-    useEffect(() => {
-        const shouldProcessInitialMessage =
-            initialMessage &&
-            !isInitialMessageProcessed &&
-            conversation &&
-            messages.length === 0 &&
+    useInitialMessage({
+        onMessage: handleSendMessage,
+        enabled:
             !isLoading &&
             !isLoadingConversation &&
-            !isLoadingMessages;
-
-        if (shouldProcessInitialMessage) {
-            markInitialMessageAsProcessed();
-            handleSendMessage(initialMessage);
-        }
-    }, [
-        initialMessage,
-        isInitialMessageProcessed,
-        conversation,
-        messages.length,
-        isLoading,
-        isLoadingConversation,
-        isLoadingMessages,
-        handleSendMessage,
-        markInitialMessageAsProcessed,
-    ]);
-
-    // Reset initial message state when conversation changes
-    useEffect(() => {
-        resetInitialMessage();
-    }, [id, resetInitialMessage]);
+            !isLoadingMessages &&
+            messages.length === 0 &&
+            !!conversation,
+    });
 
     if (isLoadingConversation) {
         return (

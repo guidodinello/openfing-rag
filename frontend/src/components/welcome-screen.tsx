@@ -1,6 +1,7 @@
 import { LuBookOpen } from "react-icons/lu";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCallback } from "react";
+import { useNavigate } from "react-router";
 import {
     EXAMPLE_QUESTIONS,
     type ExampleQuestion,
@@ -8,25 +9,46 @@ import {
 import { useConversationCreation } from "@/hooks/use-conversation";
 import { ChatInput } from "./chat-input";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/auth-store";
 
 export const WelcomeScreen = () => {
+    const navigate = useNavigate();
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const { createNewConversation, isCreating } = useConversationCreation();
 
-    const handleExampleClick = (question: string) =>
-        createNewConversation(question);
+    const handleExampleClick = useCallback(
+        (question: string) => {
+            if (isAuthenticated) {
+                createNewConversation(question);
+            } else {
+                navigate("/chat", {
+                    state: { initialMessage: question },
+                    replace: true,
+                });
+            }
+        },
+        [isAuthenticated, createNewConversation, navigate],
+    );
 
     const handleSendMessage = useCallback(
         (message: string) => {
             if (isCreating) return;
-            createNewConversation(message);
+
+            if (isAuthenticated) {
+                createNewConversation(message);
+            } else {
+                navigate("/chat", {
+                    state: { initialMessage: message },
+                    replace: true,
+                });
+            }
         },
-        [createNewConversation, isCreating],
+        [isAuthenticated, createNewConversation, navigate, isCreating],
     );
 
     return (
         <div className="flex flex-col min-h-[calc(100vh-73px)]">
             <div className="flex-1 flex flex-col items-center justify-center p-4">
-                {/* <FilterOptions /> */}
                 <div className="text-center mb-8">
                     <div className="size-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                         <LuBookOpen className="size-8 text-white" />

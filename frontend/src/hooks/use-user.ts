@@ -4,7 +4,8 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useQuery } from "@tanstack/react-query";
 
 export const useUserProfileQuery = () => {
-    const { isAuthenticated } = useAuthStore();
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
     return useQuery({
         queryKey: ["users", "me"],
         queryFn: getUserProfileData,

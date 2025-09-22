@@ -162,7 +162,9 @@ const CodeBlock: LLMOutputComponent = ({ blockMatch }) => {
     }
 
     return (
-        <div className="rounded overflow-hidden my-2">{parseHtml(html)}</div>
+        <div className="rounded overflow-hidden my-2 [&_pre]:p-4 [&_pre]:overflow-x-auto">
+            {parseHtml(html)}
+        </div>
     );
 };
 
