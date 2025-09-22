@@ -1,6 +1,5 @@
 import { MESSAGE_ROLES } from "@/constants/message-roles";
 import z from "zod";
-import { timestampSchema } from "./timestamps";
 import { sourceSchema } from "./message";
 
 export type Optimistic<T> = T & {
