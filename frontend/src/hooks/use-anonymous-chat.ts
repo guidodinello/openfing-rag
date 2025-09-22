@@ -27,10 +27,6 @@ export const useAnonymousChat = () => {
             // Server can update the session ID
             const serverSessionId = response.headers?.["x-session-id"];
             if (serverSessionId && serverSessionId !== sessionId) {
-                console.log(
-                    "[AnonymousChat] Server updated session ID:",
-                    serverSessionId,
-                );
                 setSessionId(serverSessionId);
             }
 
@@ -65,7 +61,7 @@ export const useAnonymousChat = () => {
 
     return {
         data: messages,
-        error: mutation.error,
+        error: mutation.error?.message,
         isPending:
             messages.length > 0 &&
             messages[messages.length - 1].role === MESSAGE_ROLES.USER,

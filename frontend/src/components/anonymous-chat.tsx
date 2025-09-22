@@ -59,9 +59,7 @@ export const AnonymousChat = () => {
                         <ChatMessages
                             messages={messages}
                             isLoading={isPending}
-                            // error={
-                            //     error?.message ?? "Failed to send the message"
-                            // }
+                            error={error}
                         />
                     )}
                     <div ref={messagesEndRef} />
