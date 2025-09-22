@@ -193,7 +193,7 @@ https://github.com/SYSTRAN/faster-whisper/issues/516
 VPS compose commands
 
 ```
-# Rebuild when code change
+# Rebuild when code changes
 docker compose --env-file ../.env build
 
 # Recreate when env vars are updated
@@ -202,10 +202,13 @@ docker compose --env-file ../.env up -d --force-recreate
 # Both together
 docker compose --env-file ../.env up -d --build --force-recreate backend
 
-# If for whatever reason you need a clean build
+# Deploy
+docker compose --env-file ../.env up -d --build
+
+# Clean build
 docker compose --env-file=../.env build --no-cache backend
 
-# Run a specific profile, for instance, migrations
+# Run migrations profile
 docker compose --env-file=../.env --profile migration up -d
 
 # Run commands
