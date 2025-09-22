@@ -5,6 +5,9 @@ from typing import Any
 from fastapi import Request, Response
 
 from shared.enums import CustomHeaders
+from shared.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 def get_client_ip(request: Request) -> str:
@@ -43,6 +46,18 @@ def build_auth_context(request: Request) -> dict[str, Any]:
 def hash_sensitive_data(data: str) -> str:
     """Create a safe, loggable hash"""
     return hashlib.sha256(data.encode()).hexdigest()[:16]
+
+
+def safe_int_parse(val: str) -> int | None:
+    """Safely parse string to integer, returning None for invalid values."""
+    if val is None:
+        return None
+
+    try:
+        return int(val)
+    except (TypeError, ValueError):
+        logger.warning(f"Invalid integer format: '{val}' - returning None")
+        return None
 
 
 CallNext = Callable[[Request], Awaitable[Response]]
