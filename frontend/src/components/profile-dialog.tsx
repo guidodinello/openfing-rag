@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/tooltip";
 
 export const ProfileDialog = () => {
-    const { isAuthenticated } = useAuthStore();
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
     const { data: user, isLoading, error } = useUserProfileQuery();
     const logoutMutation = useLogout();
     const [showAuthDialog, setShowAuthDialog] = useState(false);
