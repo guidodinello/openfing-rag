@@ -44,8 +44,8 @@ class DatabaseSettings(BaseModel):
         default="chunks",
         description="Vector Store collection name",
     )
-    POOL_SIZE: int = Field(default=5, description="")
-    MAX_OVERFLOW: int = Field(default=10, description="")
+    POOL_SIZE: int = Field(default=10, description="")
+    MAX_OVERFLOW: int = Field(default=20, description="")
 
     @property
     def URL(self) -> PostgresDsn:

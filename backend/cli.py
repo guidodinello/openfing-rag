@@ -8,6 +8,7 @@ from shared.auth.cli import app as auth_app
 from shared.config import get_settings
 from shared.decorators.cli_error_handlers import handle_cli_errors
 
+from services.analytics.cli import app as analytics_app
 from services.downloader.cli import app as downloader_app
 from services.generator.cli import app as generator_app
 from services.scraper.cli import app as scraper_app
@@ -34,6 +35,7 @@ app.add_typer(
 )
 app.add_typer(scraper_app, name="scraper", help="🕷️  Web scraping services")
 app.add_typer(auth_app, name="secrets", help="🔐 Security and secrets management")
+app.add_typer(analytics_app, name="analytics", help="📊 Database Analytics")
 
 
 @app.command()
