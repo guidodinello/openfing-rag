@@ -1,4 +1,5 @@
 import hashlib
+from typing import override
 
 from sqlalchemy import func, select
 
@@ -53,6 +54,7 @@ class UserFactory(BaseFactory[User]):
                 return unique_username
             counter += 1
 
+    @override
     def get_default_attributes(self) -> dict:
         """Generate default attributes for a new user."""
         return {

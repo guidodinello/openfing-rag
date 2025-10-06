@@ -1,3 +1,5 @@
+from typing import override
+
 from shared.database.factories import BaseFactory
 from shared.database.models import Transcription
 from shared.enums import WhisperModelLanguage, WhisperModelSize
@@ -7,6 +9,7 @@ class TranscriptionFactory(BaseFactory[Transcription]):
     def __init__(self, db):
         super().__init__(model=Transcription, db=db)
 
+    @override
     def get_default_attributes(self):
         model_size = self.faker.random_element(elements=list(WhisperModelSize))
         language = self.faker.random_element(elements=list(WhisperModelLanguage))
