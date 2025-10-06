@@ -45,7 +45,7 @@ def get_transcriber() -> TranscriberProtocol:
 
 
 def get_llm_service() -> LLMService:
-    return LLMService(LLMFactory.create(settings.LLM.PROVIDER))
+    return LLMService(llm=LLMFactory.create(settings.LLM.PROVIDER))
 
 
 def get_openfing_scraper(http_client: HttpClientDep) -> OpenFingScraper:
@@ -68,7 +68,6 @@ def get_transcription_service(
     transcriber: TranscriberDep,
     db: DatabaseSession,
 ) -> TranscriptionService:
-    """Get transcription service with all dependencies injected."""
     return TranscriptionService(
         transcriber=transcriber,
         database=DatabaseDependencies(
@@ -86,7 +85,6 @@ def get_scraping_service(
     scraper: OpenFingScraperDep,
     db: DatabaseSession,
 ) -> ScrapingService:
-    """Get scraping service with all dependencies injected."""
     return ScrapingService(
         db=db,
         course_repo=course_repo,
@@ -104,7 +102,6 @@ def get_chat_service(
     llm_service: LLMServiceDep,
     db: DatabaseSession,
 ) -> ChatService:
-    """Get chat service with all dependencies injected."""
     return ChatService(
         db=db,
         vector_repo=vector_repo,
@@ -131,7 +128,6 @@ ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]
 
 
 def create_transcription_service(db: Session | None = None) -> TranscriptionService:
-    """Create transcription service with manual dependency injection."""
     deps = None
     if db is not None:
         transcription_repo = TranscriptionRepository(db)
@@ -149,8 +145,6 @@ def create_transcription_service(db: Session | None = None) -> TranscriptionServ
 
 
 def create_downloader_service(db: Session) -> DownloaderService:
-    """Create downloader service with manual dependency injection."""
-
     return DownloaderService(
         db=db,
         course_repo=CourseRepository(db),
@@ -159,8 +153,6 @@ def create_downloader_service(db: Session) -> DownloaderService:
 
 
 def create_scraping_service(db: Session) -> ScrapingService:
-    """Create scraping service with manual dependency injection."""
-
     return ScrapingService(
         db=db,
         course_repo=CourseRepository(db),
@@ -170,8 +162,6 @@ def create_scraping_service(db: Session) -> ScrapingService:
 
 
 def create_chat_service(db: Session) -> ChatService:
-    """Create chat service with manual dependency injection."""
-
     return ChatService(
         db=db,
         vector_repo=VectorRepository(db, get_chunker(), get_embedder(), TranscriptionRepository(db)),

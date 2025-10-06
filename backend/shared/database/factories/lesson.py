@@ -1,3 +1,5 @@
+from typing import override
+
 from sqlalchemy import func, select
 
 from shared.database.factories.base import BaseFactory
@@ -19,6 +21,7 @@ class LessonFactory(BaseFactory[Lesson]):
         ).scalar()
         return max_number + 1
 
+    @override
     def get_default_attributes(self) -> dict:
         """
         Generate default attributes for a new lesson.
@@ -45,27 +48,3 @@ class LessonFactory(BaseFactory[Lesson]):
                 "created_by": __name__,
             },
         }
-
-    def create(self, **kwargs) -> Lesson:
-        """
-        Create a lesson with the given attributes.
-        Allows specifying a course_id while maintaining number uniqueness.
-        """
-        if "course_id" in kwargs:
-            self._course_id = kwargs["course_id"]
-
-        if "number" not in kwargs and self._course_id:
-            # Only auto-generate number if not provided
-            kwargs["number"] = self.get_next_number(self._course_id)
-
-        return super().create(**kwargs)
-
-    def create_batch(self, count: int, **kwargs) -> list[Lesson]:
-        """
-        Create multiple lessons with sequential numbers.
-        All lessons will belong to the same course if course_id is specified.
-        """
-        if "course_id" in kwargs:
-            self._course_id = kwargs["course_id"]
-
-        return super().create_batch(count, **kwargs)

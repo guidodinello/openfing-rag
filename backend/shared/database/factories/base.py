@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from typing import Any, Generic, TypeVar
 
 from faker import Faker
@@ -6,7 +7,7 @@ from sqlalchemy.orm import Session
 ModelType = TypeVar("ModelType")
 
 
-class BaseFactory(Generic[ModelType]):
+class BaseFactory(ABC, Generic[ModelType]):
     def __init__(self, model: type[ModelType], db: Session):
         self.model = model
         self.db = db
@@ -33,6 +34,7 @@ class BaseFactory(Generic[ModelType]):
         """Build multiple instances without saving."""
         return [self.build(**kwargs) for _ in range(count)]
 
+    @abstractmethod
     def get_default_attributes(self) -> dict[str, Any]:
         """Override this method to provide default attributes."""
-        raise NotImplementedError
+        ...
