@@ -10,6 +10,9 @@ import { HttpStatusCode, isAxiosError } from "axios";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AnonymousChat } from "./components/anonymous-chat";
+import { useRefreshToken } from "@/hooks/use-refresh-token";
+import { ParamGuard } from "./components/route-gards/param-guard";
+import { useConversationIdParam } from "./hooks/use-conversation-id-param";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -39,8 +42,27 @@ const queryClient = new QueryClient({
     },
 });
 
-const App = () => (
-    <QueryClientProvider client={queryClient}>
+const Router = () => (
+    <Routes>
+        <Route
+            path="/conversation/:id"
+            element={
+                <ParamGuard useParam={useConversationIdParam}>
+                    {(conversationId) => (
+                        <ChatInterface conversationId={conversationId} />
+                    )}
+                </ParamGuard>
+            }
+        />
+        <Route path="/chat" element={<AnonymousChat />} />
+        <Route path="*" element={<WelcomeScreen />} />
+    </Routes>
+);
+
+const AppContent = () => {
+    useRefreshToken();
+
+    return (
         <ThemeProvider
             attribute="class"
             defaultTheme="light"
@@ -51,18 +73,17 @@ const App = () => (
                 <SidebarProvider>
                     <Toaster position="top-center" />
                     <Layout>
-                        <Routes>
-                            <Route
-                                path="/conversation/:id"
-                                element={<ChatInterface />}
-                            />
-                            <Route path="/chat" element={<AnonymousChat />} />
-                            <Route path="*" element={<WelcomeScreen />} />
-                        </Routes>
+                        <Router />
                     </Layout>
                 </SidebarProvider>
             </TooltipProvider>
         </ThemeProvider>
+    );
+};
+
+const App = () => (
+    <QueryClientProvider client={queryClient}>
+        <AppContent />
     </QueryClientProvider>
 );
 
