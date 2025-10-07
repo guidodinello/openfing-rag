@@ -55,13 +55,13 @@ export const RegisterDialog = ({
     const passwordStrength = getPasswordStrength(password || "");
 
     const onSubmit = (data: RegisterCredentials) => {
-        registerMutation.mutate(data);
+        registerMutation.mutate(data, {
+            onSuccess: () => {
+                form.reset();
+                onOpenChange(false);
+            },
+        });
     };
-
-    if (registerMutation.isSuccess) {
-        form.reset();
-        onOpenChange(false);
-    }
 
     const isLoading = registerMutation.isPending || form.formState.isSubmitting;
 
