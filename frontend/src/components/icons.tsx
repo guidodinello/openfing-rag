@@ -26,6 +26,9 @@ import {
     LuClock,
     LuTrendingUp,
     LuExternalLink,
+    LuSparkles,
+    LuCircle,
+    LuChevronRight,
 } from "react-icons/lu";
 
 export const Icon = {
@@ -56,4 +59,7 @@ export const Icon = {
     Clock: LuClock,
     TrendingUp: LuTrendingUp,
     ExternalLink: LuExternalLink,
+    Sparkles: LuSparkles,
+    ChevronRight: LuChevronRight,
+    Circle: LuCircle,
 } as const;
