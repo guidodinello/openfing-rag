@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LuCheck, LuX } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -63,7 +63,7 @@ export const EditApiKey = ({ onSubmit, onCancel }: ApiKeyFormProps) => {
                         onClick={onCancel}
                         className="flex-1"
                     >
-                        <LuX className="size-3 mr-1" />
+                        <Icon.X className="size-3 mr-1" />
                         Cancelar
                     </Button>
                     <Button
@@ -72,7 +72,7 @@ export const EditApiKey = ({ onSubmit, onCancel }: ApiKeyFormProps) => {
                         disabled={!form.formState.isValid}
                         className="flex-1"
                     >
-                        <LuCheck className="size-3 mr-1" />
+                        <Icon.Check className="size-3 mr-1" />
                         Guardar
                     </Button>
                 </div>

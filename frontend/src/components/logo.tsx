@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { LuGraduationCap } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 
 interface LogoProps {
     title: string;
@@ -11,7 +11,7 @@ export const Logo = ({ title, description, onClick }: LogoProps) => {
     return (
         <div className="flex items-center gap-2">
             <div className="flex items-center justify-center size-8 bg-blue-600 rounded-lg shrink-0">
-                <LuGraduationCap
+                <Icon.GraduationCap
                     className={cn(
                         "size-5 text-white",
                         onClick && "cursor-pointer",

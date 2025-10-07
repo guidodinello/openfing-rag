@@ -1,4 +1,4 @@
-import { LuCopy, LuCheck } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { formatToLocalTime } from "@/utils/dates";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
@@ -25,9 +25,9 @@ export const UserMessage = ({ message }: UserMessageProps) => {
                         onClick={handleCopy}
                     >
                         {copied ? (
-                            <LuCheck className="size-3 text-green-600" />
+                            <Icon.Check className="size-3 text-green-600" />
                         ) : (
-                            <LuCopy className="size-3" />
+                            <Icon.Copy className="size-3" />
                         )}
                     </Button>
                 </div>

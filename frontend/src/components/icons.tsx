@@ -20,6 +20,12 @@ import {
     LuSun,
     LuMessageSquare,
     LuBookOpen,
+    LuPlus,
+    LuEllipsis,
+    LuTrash2,
+    LuClock,
+    LuTrendingUp,
+    LuExternalLink,
 } from "react-icons/lu";
 
 export const Icon = {
@@ -44,6 +50,10 @@ export const Icon = {
     Sun: LuSun,
     MessageSquare: LuMessageSquare,
     BookOpen: LuBookOpen,
+    Plus: LuPlus,
+    Ellipsis: LuEllipsis,
+    Trash: LuTrash2,
+    Clock: LuClock,
+    TrendingUp: LuTrendingUp,
+    ExternalLink: LuExternalLink,
 } as const;
-
-export type IconName = keyof typeof Icon;

@@ -1,4 +1,4 @@
-import { LuCopy, LuCheck, LuBot } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { SourceCitations } from "./source-citations";
 import type { AssistantMessage as AssistantMessageType } from "@/types/message";
@@ -16,7 +16,7 @@ export const AssistantMessage = ({ message }: AssistantMessageProps) => {
     return (
         <div className="flex gap-3 group flex-col md:flex-row">
             <div className="flex-shrink-0 size-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mt-1">
-                <LuBot className="size-4 text-green-600 dark:text-green-400" />
+                <Icon.Bot className="size-4 text-green-600 dark:text-green-400" />
             </div>
 
             <div className="flex-1 max-w-[80vw] md:max-w-[70vh]">
@@ -30,9 +30,9 @@ export const AssistantMessage = ({ message }: AssistantMessageProps) => {
                         onClick={handleCopy}
                     >
                         {copied ? (
-                            <LuCheck className="size-3 text-green-600" />
+                            <Icon.Check className="size-3 text-green-600" />
                         ) : (
-                            <LuCopy className="size-3" />
+                            <Icon.Copy className="size-3" />
                         )}
                     </Button>
                 </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LuEye, LuEyeOff } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -39,9 +39,9 @@ export const PasswordInput = ({
                 aria-label={showPassword ? "Hide password" : "Show password"}
             >
                 {showPassword ? (
-                    <LuEyeOff className="size-4" />
+                    <Icon.EyeOff className="size-4" />
                 ) : (
-                    <LuEye className="size-4" />
+                    <Icon.Eye className="size-4" />
                 )}
             </Button>
         </div>
