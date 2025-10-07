@@ -44,14 +44,19 @@ export const LoginDialog = ({
     });
 
     const onSubmit = (data: LoginCredentials) => {
-        loginMutation.mutate(data);
+        loginMutation.mutate(
+            {
+                credentials: data,
+                rememberMe: true,
+            },
+            {
+                onSuccess: () => {
+                    form.reset();
+                    onOpenChange(false);
+                },
+            },
+        );
     };
-
-    if (loginMutation.isSuccess) {
-        form.reset();
-        onOpenChange(false);
-    }
-
     const isLoading = loginMutation.isPending || form.formState.isSubmitting;
 
     return (

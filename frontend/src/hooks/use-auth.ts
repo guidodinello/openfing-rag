@@ -2,20 +2,26 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { login, logout, register } from "@/api/auth";
-import type { RegisterCredentials } from "@/types/auth";
+import type { RegisterCredentials, LoginCredentials } from "@/types/auth";
 import { isValidationError } from "@/utils/errors";
 import { type ValidationErrorResponse } from "@/types/api";
+import { useNavigate } from "react-router";
+
+interface LoginParams {
+    credentials: LoginCredentials;
+    rememberMe?: boolean;
+}
 
 export const useLogin = () => {
-    const setTokens = useAuthStore((state) => state.setTokens);
+    const setAccessToken = useAuthStore((state) => state.setAccessToken);
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: login,
-        onSuccess: (data) => {
-            setTokens(data.access_token, data.refresh_token!);
+        mutationFn: ({ credentials }: LoginParams) => login(credentials),
+        onSuccess: (data, variables) => {
+            setAccessToken(data.access_token, variables.rememberMe);
             void queryClient.invalidateQueries({ queryKey: ["user"] });
-            toast.success(`Welcome back!`);
+            toast.success("Welcome back!");
         },
         onError: (error) => {
             console.error("Login error:", error);
@@ -26,7 +32,6 @@ export const useLogin = () => {
             }
 
             const response = error.response?.data as ValidationErrorResponse;
-
             toast.error(
                 response.message ?? response.detail ?? "Unexpected error",
             );
@@ -35,26 +40,17 @@ export const useLogin = () => {
 };
 
 export const useRegister = () => {
-    const setTokens = useAuthStore((state) => state.setTokens);
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async (
             registerData: Omit<RegisterCredentials, "confirmPassword">,
         ) => {
-            const user = await register(registerData);
-
-            const loginData = await login({
-                username: registerData.username,
-                password: registerData.password,
-            });
-
-            return { user, tokens: loginData };
+            return await register(registerData);
         },
-        onSuccess: ({ user, tokens }) => {
-            setTokens(tokens.access_token, tokens.refresh_token!);
+        onSuccess: (data) => {
             void queryClient.invalidateQueries({ queryKey: ["user"] });
-            toast.success(`Welcome ${user.username}!`);
+            toast.success(`Welcome ${data.username}!`);
         },
         onError: (error) => {
             console.error("Register error:", error);
@@ -65,7 +61,6 @@ export const useRegister = () => {
             }
 
             const response = error.response?.data as ValidationErrorResponse;
-
             toast.error(
                 response.message ?? response.detail ?? "Unexpected error",
             );
@@ -75,16 +70,13 @@ export const useRegister = () => {
 
 export const useLogout = () => {
     const queryClient = useQueryClient();
-
+    const navigate = useNavigate();
     return useMutation({
         mutationFn: logout,
-        onSuccess: () => {
+        onError: (error) => console.error("Logout error:", error),
+        onSettled: () => {
             queryClient.clear();
-            toast.success("Successfully logged out!");
-        },
-        onError: (error) => {
-            queryClient.clear();
-            console.error("Logout error:", error);
+            void navigate("/");
             toast.success("Successfully logged out!");
         },
     });

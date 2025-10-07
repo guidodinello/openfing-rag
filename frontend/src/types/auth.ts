@@ -2,9 +2,8 @@ import { z } from "zod";
 
 const jwtTokenSchema = z.jwt({ alg: "HS256" });
 
-const bearerTokenResponseSchema = z.object({
+const tokenResponseSchema = z.object({
     access_token: jwtTokenSchema,
-    refresh_token: jwtTokenSchema.optional(),
     token_type: z.literal("bearer"),
 });
 
@@ -50,7 +49,11 @@ export const registerCredentialsSchema = z
     });
 
 export type JwtToken = z.infer<typeof jwtTokenSchema>;
-export type BearerTokenResponse = z.infer<typeof bearerTokenResponseSchema>;
+export type TokenResponse = z.infer<typeof tokenResponseSchema>;
 export type RegisterResponse = z.infer<typeof registerResponseSchema>;
 export type LoginCredentials = z.infer<typeof loginCredentialsSchema>;
 export type RegisterCredentials = z.infer<typeof registerCredentialsSchema>;
+
+// Deprecated - keeping for backward compatibility during migration
+/** @deprecated Use TokenResponse instead */
+export type BearerTokenResponse = TokenResponse;

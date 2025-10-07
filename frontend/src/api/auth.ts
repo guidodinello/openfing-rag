@@ -1,11 +1,10 @@
 import { useAuthStore } from "@/stores/auth-store";
-import { publicApiClient } from "./axios";
+import { publicApiClient, privateApiClient } from "./axios";
 import type {
-    JwtToken,
-    BearerTokenResponse,
-    RegisterResponse,
     LoginCredentials,
     RegisterCredentials,
+    RegisterResponse,
+    TokenResponse,
 } from "@/types/auth";
 import type { ApiResponse } from "@/types/api";
 
@@ -15,8 +14,8 @@ export const login = async ({ username, password }: LoginCredentials) => {
     formData.append("username", username);
     formData.append("password", password);
 
-    const response = await publicApiClient.post<BearerTokenResponse>(
-        "/login",
+    const response = await publicApiClient.post<TokenResponse>(
+        "/auth/login",
         formData,
         {
             headers: {
@@ -32,24 +31,28 @@ export const register = async (
     data: Omit<RegisterCredentials, "confirmPassword">,
 ) => {
     const response = await publicApiClient.post<ApiResponse<RegisterResponse>>(
-        "/register",
+        "/auth/register",
         data,
     );
 
     return response.data.data;
 };
 
-interface RefreshTokenRequest {
-    refresh_token: JwtToken;
-}
-
-export const refreshToken = async (data: RefreshTokenRequest) => {
-    const response = await publicApiClient.post<BearerTokenResponse>(
-        "/refresh",
-        data,
+export const refreshToken = async () => {
+    const response = await publicApiClient.post<TokenResponse>(
+        "/auth/refresh",
+        {},
     );
 
     return response.data;
 };
 
-export const logout = async () => useAuthStore.getState().clearAuth();
+export const logout = async () => {
+    try {
+        await privateApiClient.post("/auth/logout", {});
+    } catch (error) {
+        console.error("Logout error:", error);
+    } finally {
+        useAuthStore.getState().clearAuth();
+    }
+};
