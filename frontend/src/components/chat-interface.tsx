@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { ChatHeader } from "./chat-header";
 import { ChatMessages } from "./chat-messages";
@@ -7,12 +7,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChat } from "@/hooks/use-chat";
 import { useConversationQuery } from "@/hooks/use-conversation";
 import { LoadingMessage } from "./loading-message";
-import { useConversationIdParam } from "@/hooks/use-conversation-id-param";
 import { useScrollToBottom } from "@/hooks/use-scroll";
 import { useInitialMessage } from "@/hooks/use-initial-message";
 
-export const ChatInterface = () => {
-    const { id } = useConversationIdParam();
+interface Props {
+    conversationId: number;
+}
+
+export const ChatInterface = ({ conversationId: id }: Props) => {
     const navigate = useNavigate();
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -42,7 +44,13 @@ export const ChatInterface = () => {
             !!conversation,
     });
 
-    if (isLoadingConversation) {
+    useEffect(() => {
+        if (conversationError && !isLoadingConversation) {
+            void navigate("/", { replace: true });
+        }
+    }, [conversationError, isLoadingConversation, navigate]);
+
+    if (isLoadingConversation || conversationError || !conversation) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
                 <LoadingMessage />
@@ -51,11 +59,6 @@ export const ChatInterface = () => {
                 </p>
             </div>
         );
-    }
-
-    if (conversationError || !conversation) {
-        navigate("/");
-        return null;
     }
 
     return (
