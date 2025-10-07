@@ -1,11 +1,4 @@
 import {
-    LuMessageSquare,
-    LuPlus,
-    LuTrash2,
-    LuEllipsis,
-    LuPencil,
-} from "react-icons/lu";
-import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
@@ -36,6 +29,7 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 import { RenameConversationDialog } from "./rename-conversation-dialog";
 import { formatDate } from "@/utils/dates";
+import { Icon } from "./icons";
 
 interface RenameDialogState {
     open: boolean;
@@ -52,7 +46,7 @@ export const AppSidebar = () => {
     });
     const { setOpenMobile } = useSidebar();
 
-    const handleNewChat = () => navigate("/conversation/new");
+    const handleNewChat = () => void navigate("/conversation/new");
 
     const handleSelectConversation = (conversationId: Conversation["id"]) => {
         void navigate(`/conversation/${conversationId}`);
@@ -76,7 +70,7 @@ export const AppSidebar = () => {
                         className="w-full justify-start gap-2"
                         variant="outline"
                     >
-                        <LuPlus className="size-4" />
+                        <Icon.Plus className="size-4" />
                         Nueva conversación
                     </Button>
                 </SidebarHeader>
@@ -152,7 +146,7 @@ const ConversationSidebarItem = ({
                     onClick={() => onSelect(conversation.id)}
                     className="flex-1 justify-start h-auto py-1"
                 >
-                    <LuMessageSquare className="size-4 shrink-0" />
+                    <Icon.MessageSquare className="size-4 shrink-0" />
                     <div className="flex-1 min-w-0">
                         <div className="truncate font-medium">
                             {conversation.title}
@@ -169,7 +163,7 @@ const ConversationSidebarItem = ({
                             variant="ghost"
                             className="w-8 h-full shrink-0 justify-center"
                         >
-                            <LuEllipsis className="size-4" />
+                            <Icon.Ellipsis className="size-4" />
                             <span className="sr-only">
                                 Opciones de conversación
                             </span>
@@ -179,7 +173,7 @@ const ConversationSidebarItem = ({
                         <DropdownMenuItem
                             onClick={() => onRename(conversation)}
                         >
-                            <LuPencil className="size-4 mr-1" />
+                            <Icon.Pencil className="size-4 mr-1" />
                             Renombrar
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
@@ -187,7 +181,7 @@ const ConversationSidebarItem = ({
                             onClick={() => onDelete(conversation.id)}
                             className="text-red-600 focus:text-red-600"
                         >
-                            <LuTrash2 className="size-4 mr-1" />
+                            <Icon.Trash className="size-4 mr-1" />
                             Eliminar
                         </DropdownMenuItem>
                     </DropdownMenuContent>

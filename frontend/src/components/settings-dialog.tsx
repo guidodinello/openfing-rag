@@ -1,4 +1,4 @@
-import { LuKey, LuSettings } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -14,14 +14,14 @@ export const SettingsDialog = () => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
-                    <LuSettings className="size-4" />
+                    <Icon.Settings className="size-4" />
                     <span className="sr-only">Configuración</span>
                 </Button>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="w-80">
                 <DropdownMenuLabel className="flex items-center gap-2">
-                    <LuKey className="size-4" />
+                    <Icon.Key className="size-4" />
                     Configuración
                 </DropdownMenuLabel>
 

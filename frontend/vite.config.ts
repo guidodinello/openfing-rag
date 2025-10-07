@@ -1,11 +1,16 @@
-import { defineConfig } from "vite";
+import { defineConfig, type PluginOption } from "vite";
 import path from "path";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [react(), tailwindcss()],
+    plugins: [
+        react(),
+        tailwindcss(),
+        visualizer({ open: true }) as PluginOption,
+    ],
     envDir: path.resolve(__dirname, "../"),
     resolve: {
         alias: {
