@@ -6,8 +6,8 @@ import axios, {
 } from "axios";
 import { useAuthStore } from "@/stores/auth-store";
 import { toast } from "sonner";
-import { refreshToken } from "./auth";
 import { MINS_5 } from "@/constants/time";
+import { refreshToken } from "./auth";
 
 const handleCommonErrors = (error: AxiosError) => {
     const status = error.response?.status;
@@ -39,6 +39,7 @@ const baseApiConfiguration = {
     baseURL: import.meta.env.VITE_API_URL,
     timeout: MINS_5,
     headers: { "Content-Type": "application/json" },
+    withCredentials: true,
 };
 
 export const publicApiClient = axios.create(baseApiConfiguration);
@@ -46,8 +47,7 @@ export const privateApiClient = axios.create(baseApiConfiguration);
 
 privateApiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-        const { getValidatedAccessToken } = useAuthStore.getState();
-        const token = getValidatedAccessToken();
+        const token = useAuthStore.getState().getValidatedAccessToken();
 
         if (token) {
             config.headers.set("Authorization", `Bearer ${token}`);
@@ -71,6 +71,7 @@ privateApiClient.interceptors.response.use(
         };
         const status = error.response?.status;
 
+        // Handle 401 - Token expired, try to refresh
         if (
             status === HttpStatusCode.Unauthorized &&
             originalRequest &&
@@ -79,22 +80,10 @@ privateApiClient.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                const {
-                    refreshToken: storedRefreshToken,
-                    setTokens,
-                    clearAuth,
-                } = useAuthStore.getState();
+                const { access_token } = await refreshToken();
 
-                if (!storedRefreshToken) {
-                    clearAuth();
-                    return Promise.reject(error);
-                }
+                useAuthStore.getState().setAccessToken(access_token);
 
-                const { access_token, refresh_token } = await refreshToken({
-                    refresh_token: storedRefreshToken,
-                });
-
-                setTokens(access_token, refresh_token || storedRefreshToken);
                 originalRequest.headers.set(
                     "Authorization",
                     `Bearer ${access_token}`,
@@ -125,9 +114,7 @@ publicApiClient.interceptors.response.use(
         const status = error.response?.status;
 
         if (status === HttpStatusCode.Unauthorized) {
-            toast.error(
-                "Authentication failed. Please check your credentials.",
-            );
+            toast.error("Authentication failed. Please log in again.");
         }
 
         handleCommonErrors(error);
