@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
 import jwt
-from fastapi import Depends
+from fastapi import Depends, Response
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 
@@ -40,19 +40,17 @@ class JwtAuthService:
         """Hash a password for storing."""
         return cls.pwd_context.hash(password)
 
-    def login(self, username: str, password: str) -> tuple[User, str, str]:
+    def login(self, username: str, password: str, response: Response) -> tuple[User, str]:
         user = self.user_repo.get_by(username=username)
         if not user or not self.verify_password(password, user.hashed_password):
             raise AuthenticationException.invalid_credentials()
 
-        return (
-            user,
-            self.create_access_token(data={"sub": user.username, "user_id": user.id}),
-            self.create_refresh_token(data={"sub": user.username, "user_id": user.id}),
-        )
+        self._set_refresh_cookie(response, self.create_refresh_token(data={"sub": user.username, "user_id": user.id}))
+
+        return user, self.create_access_token(data={"sub": user.username, "user_id": user.id})
 
     def authenticated_user(self, token: str) -> User:
-        """Extract and validate user from JWT token."""
+        """Extract and validate user from JWT access token."""
         if not token:
             raise AuthenticationException.missing_token()
 
@@ -74,8 +72,11 @@ class JwtAuthService:
 
         return user
 
-    def refresh_access_token(self, refresh_token: str) -> str:
-        """Generate new access token from valid refresh token."""
+    def refresh_access_token(self, refresh_token: str, response: Response) -> str:
+        """
+        Generate new access token from refresh token cookie.
+        Also rotates the refresh token.
+        """
         try:
             payload = jwt.decode(
                 refresh_token,
@@ -94,18 +95,23 @@ class JwtAuthService:
             if not user or user.id != user_id:
                 raise AuthenticationException.invalid_credentials()
 
-            return self.create_access_token(
-                data={"sub": username, "user_id": user_id},
-                expires_delta=timedelta(minutes=settings.JWT.ACCESS_TOKEN_EXPIRE_MINUTES),
-            )
+            # Rotate refresh token
+            self._set_refresh_cookie(response, self.create_refresh_token(data={"sub": username, "user_id": user_id}))
+
+            return self.create_access_token(data={"sub": username, "user_id": user_id})
+
         except jwt.ExpiredSignatureError as e:
             raise AuthenticationException.expired_token() from e
         except jwt.InvalidTokenError as e:
             raise AuthenticationException.invalid_token() from e
 
+    def logout(self, response: Response) -> None:
+        """Clear refresh token cookie on logout."""
+        self._clear_refresh_cookie(response)
+
     @staticmethod
     def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
-        """Create JWT access token."""
+        """Create short-lived JWT access token."""
         expire = (
             datetime.now(timezone.utc) + expires_delta
             if expires_delta
@@ -124,6 +130,7 @@ class JwtAuthService:
 
     @staticmethod
     def create_refresh_token(data: dict) -> str:
+        """Create long-lived JWT refresh token."""
         expire = datetime.now(timezone.utc) + timedelta(days=settings.JWT.REFRESH_TOKEN_EXPIRE_DAYS)
 
         to_encode = data.copy()
@@ -136,7 +143,32 @@ class JwtAuthService:
         )
         return jwt.encode(to_encode, settings.JWT.SECRET_KEY.get_secret_value(), algorithm=settings.JWT.ALGORITHM)
 
+    @staticmethod
+    def _set_refresh_cookie(response: Response, refresh_token: str) -> None:
+        """Set refresh token as secure HTTPOnly cookie."""
+        response.set_cookie(
+            key="refresh_token",
+            path="/api/v1/auth",  # Limit cookie scope to auth endpoints only
+            httponly=True,  # Prevents JavaScript access (XSS protection)
+            samesite="strict",  # CSRF protection
+            secure=settings.APP.ENV == "production",
+            value=refresh_token,
+            max_age=settings.JWT.REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
+        )
+
+    @staticmethod
+    def _clear_refresh_cookie(response: Response) -> None:
+        """Clear refresh token cookie."""
+        response.delete_cookie(
+            key="refresh_token",
+            path="/api/v1/auth",
+            httponly=True,
+            samesite="strict",
+            secure=settings.APP.ENV == "production",
+        )
+
     def register_user(self, email: str, username: str, password: str) -> User:
+        """Register a new user with validation."""
         if self.user_repo.get_by(email=email):
             raise ValidationException(
                 message="Registration failed",
@@ -167,7 +199,7 @@ class JwtAuthService:
 
     @staticmethod
     def _validate_password(password: str) -> list[str]:
-        """Validate password and return list of error messages."""
+        """Validate password strength."""
         validation_rules = [
             (lambda pwd: len(pwd) >= 8, "Password must be at least 8 characters long"),
             (lambda pwd: any(c.isupper() for c in pwd), "Password must contain an uppercase letter"),
@@ -175,8 +207,7 @@ class JwtAuthService:
             (lambda pwd: any(c.isdigit() for c in pwd), "Password must contain a number"),
         ]
 
-        failed_rules = [msg for rule, msg in validation_rules if not rule(password)]
-        return failed_rules
+        return [msg for rule, msg in validation_rules if not rule(password)]
 
 
 def get_jwt_auth_service(user_repo: UserRepositoryDep) -> JwtAuthService:
