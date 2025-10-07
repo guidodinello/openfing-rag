@@ -5,7 +5,7 @@ import { ChatInput } from "./chat-input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useScrollToBottom } from "@/hooks/use-scroll";
 import { useAnonymousChat } from "@/hooks/use-anonymous-chat";
-import { Sparkles } from "lucide-react";
+import { Icon } from "@/components/icons";
 import { useInitialMessage } from "@/hooks/use-initial-message";
 
 export const AnonymousChat = () => {
@@ -42,7 +42,7 @@ export const AnonymousChat = () => {
                     {!hasMessages ? (
                         <div className="flex flex-col items-center justify-center h-full p-8 text-center">
                             <div className="size-16 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900 dark:to-orange-900 rounded-2xl flex items-center justify-center mb-4">
-                                <Sparkles className="size-8 text-amber-600 dark:text-amber-400" />
+                                <Icon.Sparkles className="size-8 text-amber-600 dark:text-amber-400" />
                             </div>
                             <p className="text-muted-foreground max-w-md mb-4">
                                 Tu conversación se mantendrá durante esta sesión

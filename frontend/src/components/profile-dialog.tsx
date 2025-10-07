@@ -1,4 +1,4 @@
-import { LuUser, LuLogIn, LuLogOut, LuLoader } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -38,7 +38,7 @@ export const ProfileDialog = () => {
                             size="icon"
                             onClick={() => setShowAuthDialog(true)}
                         >
-                            <LuLogIn className="size-4" />
+                            <Icon.LogIn className="size-4" />
                             <span className="sr-only">Login</span>
                         </Button>
                     </TooltipTrigger>
@@ -59,7 +59,7 @@ export const ProfileDialog = () => {
     if (isLoading) {
         return (
             <Button variant="ghost" size="icon" disabled>
-                <LuLoader className="size-4 animate-spin" />
+                <Icon.Loader className="size-4 animate-spin" />
                 <span className="sr-only">Loading profile</span>
             </Button>
         );
@@ -74,7 +74,7 @@ export const ProfileDialog = () => {
                         size="icon"
                         className="text-red-500"
                     >
-                        <LuUser className="size-4" />
+                        <Icon.User className="size-4" />
                         <span className="sr-only">Profile (Error)</span>
                     </Button>
                 </DropdownMenuTrigger>
@@ -88,7 +88,7 @@ export const ProfileDialog = () => {
                         onClick={handleLogout}
                         disabled={logoutMutation.isPending}
                     >
-                        <LuLogOut className="size-4 mr-2" />
+                        <Icon.LogOut className="size-4 mr-2" />
                         {logoutMutation.isPending ? "Logging out..." : "Logout"}
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -100,14 +100,14 @@ export const ProfileDialog = () => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
-                    <LuUser className="size-4" />
+                    <Icon.User className="size-4" />
                     <span className="sr-only">Profile</span>
                 </Button>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="w-80">
                 <DropdownMenuLabel className="flex items-center gap-2">
-                    <LuUser className="size-4" />
+                    <Icon.User className="size-4" />
                     Profile
                 </DropdownMenuLabel>
 
@@ -128,7 +128,7 @@ export const ProfileDialog = () => {
                     onClick={handleLogout}
                     disabled={logoutMutation.isPending}
                 >
-                    <LuLogOut className="size-4 mr-2" />
+                    <Icon.LogOut className="size-4 mr-2" />
                     {logoutMutation.isPending ? "Logging out..." : "Logout"}
                 </DropdownMenuItem>
             </DropdownMenuContent>

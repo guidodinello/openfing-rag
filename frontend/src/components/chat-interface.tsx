@@ -54,7 +54,7 @@ export const ChatInterface = () => {
     }
 
     if (conversationError || !conversation) {
-        navigate("/");
+        void navigate("/");
         return null;
     }
 

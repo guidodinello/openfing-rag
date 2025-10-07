@@ -1,4 +1,4 @@
-import { LuCircleAlert, LuRefreshCw } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -10,7 +10,7 @@ interface ErrorMessageProps {
 export const ErrorMessage = ({ error, onRetry }: ErrorMessageProps) => {
     return (
         <Alert variant="destructive" className="max-w-[80%] md:max-w-[70%]">
-            <LuCircleAlert className="h-4 w-4" />
+            <Icon.CircleAlert className="h-4 w-4" />
             <AlertDescription className="flex items-center justify-between">
                 <span>{error}</span>
                 {onRetry && (
@@ -20,7 +20,7 @@ export const ErrorMessage = ({ error, onRetry }: ErrorMessageProps) => {
                         onClick={onRetry}
                         className="ml-2 bg-transparent"
                     >
-                        <LuRefreshCw className="size-3 mr-1" />
+                        <Icon.RefreshCw className="size-3 mr-1" />
                         Reintentar
                     </Button>
                 )}

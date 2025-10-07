@@ -1,10 +1,10 @@
-import { LuBot } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const LoadingMessage = () => (
     <div className="flex gap-3">
         <div className="flex-shrink-0 size-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mt-1">
-            <LuBot className="size-4 text-green-600 dark:text-green-400 animate-pulse" />
+            <Icon.Bot className="size-4 text-green-600 dark:text-green-400 animate-pulse" />
         </div>
 
         <div className="flex-1 max-w-[80%] md:max-w-[70%]">

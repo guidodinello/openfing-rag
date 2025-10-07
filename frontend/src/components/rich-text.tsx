@@ -147,11 +147,25 @@ const MarkdownComponent =
     };
 
 const CodeBlock: LLMOutputComponent = ({ blockMatch }) => {
-    const { html, code } = useCodeBlockToHtml({
-        markdownCodeBlock: blockMatch.output,
-        highlighter,
-        codeToHtmlOptions,
-    });
+    let html: string | undefined;
+    let code: string = "";
+
+    try {
+        const result = useCodeBlockToHtml({
+            markdownCodeBlock: blockMatch.output,
+            highlighter,
+            codeToHtmlOptions,
+        });
+        html = result.html;
+        code = result.code;
+    } catch (error) {
+        if (error instanceof Error && error.message.includes("not found")) {
+            console.warn(error.message, ". Using plaintext fallback");
+        }
+        const match = blockMatch.output.match(/```[\w-]*\n([\s\S]*?)```/);
+        code = match ? match[1].trim() : blockMatch.output;
+        html = undefined;
+    }
 
     if (!html) {
         return (

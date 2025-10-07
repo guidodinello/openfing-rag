@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { LuLoader, LuPencil } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -79,7 +79,7 @@ export const RenameConversationDialog = ({
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
-                        <LuPencil className="size-4" />
+                        <Icon.Pencil className="size-4" />
                         Renombrar conversación
                     </DialogTitle>
                     <DialogDescription>
@@ -130,7 +130,7 @@ export const RenameConversationDialog = ({
                         <Button type="submit" disabled={isLoading}>
                             {isLoading ? (
                                 <>
-                                    <LuLoader className="size-4 mr-2 animate-spin" />
+                                    <Icon.Loader className="size-4 mr-2 animate-spin" />
                                     Guardando...
                                 </>
                             ) : (
