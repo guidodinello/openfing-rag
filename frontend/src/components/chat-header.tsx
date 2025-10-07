@@ -20,7 +20,7 @@ export const ChatHeader = ({ conversationTitle }: ChatHeaderProps) => {
                 <Logo
                     title={conversationTitle ?? "OpenFIng Assistant"}
                     description="Conversación activa"
-                    onClick={() => navigate("/")}
+                    onClick={() => void navigate("/")}
                 />
             </div>
 

@@ -1,7 +1,7 @@
 import type React from "react";
 
 import { useRef } from "react";
-import { LuSend } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm, Controller } from "react-hook-form";
@@ -70,7 +70,7 @@ export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            handleSubmit(onSubmit)();
+            void handleSubmit(onSubmit)();
         }
     };
 
@@ -102,7 +102,7 @@ export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
                         disabled={disabled ?? !isValid}
                         title="Enviar mensaje"
                     >
-                        <LuSend className="size-4" />
+                        <Icon.Send className="size-4" />
                     </Button>
                 </div>
             </div>

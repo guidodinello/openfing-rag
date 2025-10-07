@@ -1,4 +1,4 @@
-import { LuBookOpen } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCallback } from "react";
 import { useNavigate } from "react-router";
@@ -19,9 +19,9 @@ export const WelcomeScreen = () => {
     const handleExampleClick = useCallback(
         (question: string) => {
             if (isAuthenticated) {
-                createNewConversation(question);
+                void createNewConversation(question);
             } else {
-                navigate("/chat", {
+                void navigate("/chat", {
                     state: { initialMessage: question },
                     replace: true,
                 });
@@ -35,9 +35,9 @@ export const WelcomeScreen = () => {
             if (isCreating) return;
 
             if (isAuthenticated) {
-                createNewConversation(message);
+                void createNewConversation(message);
             } else {
-                navigate("/chat", {
+                void navigate("/chat", {
                     state: { initialMessage: message },
                     replace: true,
                 });
@@ -51,7 +51,7 @@ export const WelcomeScreen = () => {
             <div className="flex-1 flex flex-col items-center justify-center p-4">
                 <div className="text-center mb-8">
                     <div className="size-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <LuBookOpen className="size-8 text-white" />
+                        <Icon.BookOpen className="size-8 text-white" />
                     </div>
 
                     <h2 className="text-2xl font-bold mb-2">

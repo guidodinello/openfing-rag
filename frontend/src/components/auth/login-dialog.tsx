@@ -1,4 +1,4 @@
-import { LuLoader } from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -120,7 +120,7 @@ export const LoginDialog = ({
                             >
                                 {isLoading ? (
                                     <>
-                                        <LuLoader className="size-4 mr-2 animate-spin" />
+                                        <Icon.Loader className="size-4 mr-2 animate-spin" />
                                         Signing in...
                                     </>
                                 ) : (

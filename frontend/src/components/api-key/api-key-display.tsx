@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { LuEye, LuEyeOff } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import { maskApiKey } from "./types";
+import { Icon } from "@/components/icons";
 
 interface ApiKeyDisplayProps {
     apiKey: string;
@@ -30,9 +30,9 @@ export const ApiKeyDisplay = ({
                     aria-label={isVisible ? "Ocultar" : "Mostrar"}
                 >
                     {isVisible ? (
-                        <LuEyeOff className="size-3" />
+                        <Icon.EyeOff className="size-3" />
                     ) : (
-                        <LuEye className="size-3" />
+                        <Icon.Eye className="size-3" />
                     )}
                 </Button>
             </div>

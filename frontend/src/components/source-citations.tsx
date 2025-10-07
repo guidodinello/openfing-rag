@@ -1,9 +1,4 @@
-import {
-    LuBookOpen,
-    LuClock,
-    LuExternalLink,
-    LuTrendingUp,
-} from "react-icons/lu";
+import { Icon } from "@/components/icons";
 import { Badge } from "@/components/ui/badge";
 import {
     Tooltip,
@@ -23,7 +18,7 @@ interface SourceCitationsProps {
 export const SourceCitations = ({ sources }: SourceCitationsProps) => (
     <div className="space-y-2">
         <div className="flex items-center gap-1 text-xs font-medium text-muted-foreground">
-            <LuBookOpen className="size-3" />
+            <Icon.BookOpen className="size-3" />
             Fuentes:
         </div>
         <div className="space-y-2">
@@ -68,7 +63,7 @@ const SourceCard = ({ source }: SourceCardProps) => (
                     {source.title}
                 </div>
                 <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-                    <LuClock className="size-3" />
+                    <Icon.Clock className="size-3" />
                     <span>
                         {formatSecondsToTimeWithHours(source.timestamp.start)} -{" "}
                         {formatSecondsToTimeWithHours(source.timestamp.end)}
@@ -84,7 +79,7 @@ const SourceCard = ({ source }: SourceCardProps) => (
                                 variant="secondary"
                                 className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
                             >
-                                <LuTrendingUp className="size-3 mr-1" />
+                                <Icon.TrendingUp className="size-3 mr-1" />
                                 {floatToPercentage(source.confidence)}%
                             </Badge>
                         </div>
@@ -110,7 +105,7 @@ const SourceCard = ({ source }: SourceCardProps) => (
                         </p>
                     </TooltipContent>
                 </Tooltip>
-                <LuExternalLink className="size-4 text-muted-foreground group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" />
+                <Icon.ExternalLink className="size-4 text-muted-foreground group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" />
             </div>
         </div>
     </a>
