@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 
+import sentry_sdk
 from fastapi import APIRouter, FastAPI
 
 from shared.api.v1.endpoints import auth, health
@@ -17,6 +18,15 @@ from services.transcriber.api.router import transcriber_router
 
 settings = get_settings()
 logger = get_logger(__name__)
+
+sentry_sdk.init(
+    dsn=str(settings.SENTRY.DSN),
+    send_default_pii=True,
+    traces_sample_rate=1.0,
+    profile_session_sample_rate=1.0,
+    profile_lifecycle="trace",
+    enable_logs=True,
+)
 
 
 @asynccontextmanager
