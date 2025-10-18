@@ -176,6 +176,13 @@ class WhisperSettings(BaseModel):
         return detect_device(v)
 
 
+class SentrySettings(BaseModel):
+    DSN: HttpUrl | None = Field(
+        default=HttpUrl("http://127.0.0.1"),
+        description="Sentry DSN",
+    )
+
+
 class PrefectSettings(BaseModel):
     API_URL: HttpUrl = Field(
         default=HttpUrl("http://127.0.0.1:4200/api"),
@@ -247,6 +254,7 @@ class Settings(BaseSettings):
     EMBEDDINGS: EmbeddingsSettings = Field(default_factory=EmbeddingsSettings)
     LLM: LLMSettings = Field(default_factory=LLMSettings)
 
+    SENTRY: SentrySettings = Field(default_factory=SentrySettings)
     PREFECT: PrefectSettings = Field(default_factory=PrefectSettings)
     LANGSMITH: LangsmithSettings = Field(default_factory=LangsmithSettings)
 
