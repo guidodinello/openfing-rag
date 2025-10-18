@@ -177,7 +177,7 @@ class WhisperSettings(BaseModel):
 
 
 class SentrySettings(BaseModel):
-    DSN: HttpUrl = Field(
+    DSN: HttpUrl | None = Field(
         default=HttpUrl("http://127.0.0.1"),
         description="Sentry DSN",
     )
