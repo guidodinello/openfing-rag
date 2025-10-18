@@ -8,13 +8,16 @@ import * as Sentry from "@sentry/react";
 
 Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
+    environment: import.meta.env.MODE,
+    release: import.meta.env.VITE_APP_VERSION,
     sendDefaultPii: true,
+    tracesSampleRate: import.meta.env.MODE === "production" ? 0.1 : 1.0,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
 });
 
 createRoot(document.getElementById("root")!, {
-    onUncaughtError: Sentry.reactErrorHandler((error, errorInfo) => {
-        console.warn("Uncaught error", error, errorInfo.componentStack);
-    }),
+    onUncaughtError: Sentry.reactErrorHandler(),
     onCaughtError: Sentry.reactErrorHandler(),
     onRecoverableError: Sentry.reactErrorHandler(),
 }).render(

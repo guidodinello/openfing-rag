@@ -19,7 +19,18 @@ export default defineConfig({
         sentryVitePlugin({
             org: process.env.VITE_SENTRY_ORG,
             project: process.env.VITE_SENTRY_PROJECT,
-            disable: process.env.NODE_ENV !== "production",
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            disable:
+                !process.env.VITE_SENTRY_DSN ||
+                process.env.NODE_ENV === "development",
+
+            release: {
+                name: process.env.VITE_APP_VERSION,
+            },
+
+            sourcemaps: {
+                assets: "./dist/assets/**",
+            },
         }),
     ],
 
@@ -53,7 +64,7 @@ export default defineConfig({
     },
 
     build: {
-        sourcemap: process.env.NODE_ENV === "development",
+        sourcemap: true,
 
         rollupOptions: {
             output: {
