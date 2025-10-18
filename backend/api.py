@@ -8,6 +8,7 @@ from shared.database.api.router import crud_router
 from shared.database.repository_dependencies import get_embedder
 from shared.database.session import engine
 from shared.exceptions import setup_exception_handlers
+from shared.integrations.sentry import init_sentry
 from shared.logging import get_logger
 from shared.middlewares import setup_middlewares
 
@@ -23,6 +24,9 @@ logger = get_logger(__name__)
 async def lifespan(app: FastAPI):
     """Application lifespan: preload models on startup."""
     logger.info("Application startup")
+
+    init_sentry()
+
     try:
         _ = get_embedder().model  # pre load embeddings model to cache
         logger.debug("Models preloaded successfully")
@@ -33,6 +37,7 @@ async def lifespan(app: FastAPI):
     yield
 
     logger.info("Application shutdown")
+
     try:
         engine.dispose()  # dispose database connection pool
         logger.debug("Database pool disposed successfully")
