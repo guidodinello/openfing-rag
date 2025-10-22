@@ -1,4 +1,4 @@
-from .users import User, UserResponse
+from .users import User, UserResponse, ListUsersResponse
 from .messages import Message
 from .courses import Course, CourseResponse
 from .lessons import Lesson, ListLessonsResponse
@@ -31,6 +31,7 @@ __all__ = [
     "Course",
     "User",
     "UserResponse",
+    "ListUsersResponse",
     "Conversation",
     "ConversationResponse",
     "ListConversationsResponse",
