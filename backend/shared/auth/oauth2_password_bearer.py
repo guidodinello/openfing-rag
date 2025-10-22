@@ -17,7 +17,7 @@ from shared.logging import get_logger
 settings = get_settings()
 get_logger("passlib").setLevel(stdLogging.ERROR)
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"v1{settings.JWT.TOKEN_URL}", auto_error=False)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"v1/auth{settings.JWT.TOKEN_URL}", auto_error=False)
 
 BearerToken = Annotated[str, Depends(oauth2_scheme)]
 
