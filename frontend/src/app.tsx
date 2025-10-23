@@ -11,7 +11,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AnonymousChat } from "./components/anonymous-chat";
 import { useRefreshToken } from "@/hooks/use-refresh-token";
-import { ParamGuard } from "./components/route-gards/param-guard";
+import { ParamGuard } from "./components/route-guards/param-guard";
 import { useConversationIdParam } from "./hooks/use-conversation-id-param";
 
 const queryClient = new QueryClient({
