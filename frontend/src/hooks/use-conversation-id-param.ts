@@ -1,12 +1,26 @@
 import { useParams } from "react-router";
+import z from "zod";
 
-export const useConversationIdParam = (): number | null => {
-    const { id } = useParams();
+const conversationIdParamSchema = z.object({
+    id: z.string().transform((val) => {
+        const num = Number(val);
+        if (Number.isNaN(num) || num <= 0) {
+            throw new Error("Invalid conversation ID");
+        }
+        return num;
+    }),
+});
 
-    if (!id) return null;
+export type ConversationIdParam = {
+    conversationId: number;
+};
 
-    const parsed = parseInt(id, 10);
-    if (isNaN(parsed) || parsed <= 0) return null;
+export const useConversationIdParam = (): ConversationIdParam | null => {
+    const params = useParams<{ conversationId: string }>();
 
-    return parsed;
+    const result = conversationIdParamSchema.safeParse(params);
+    if (!result.success) {
+        return null;
+    }
+    return { conversationId: result.data.id };
 };

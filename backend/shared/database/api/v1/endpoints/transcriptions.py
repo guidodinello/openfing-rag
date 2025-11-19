@@ -11,7 +11,7 @@ from shared.enums import WhisperModelSize
 routers = AuthRouters.create()
 
 
-@routers.mixed.api_key_or_jwt_read.get(
+@routers.public.get(
     "/courses/{course_code}/lessons/{lesson_number}",
     status_code=status.HTTP_200_OK,
     summary="Get transcription",

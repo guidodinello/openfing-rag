@@ -10,7 +10,7 @@ interface ErrorMessageProps {
 export const ErrorMessage = ({ error, onRetry }: ErrorMessageProps) => {
     return (
         <Alert variant="destructive" className="max-w-[80%] md:max-w-[70%]">
-            <Icon.CircleAlert className="h-4 w-4" />
+            <Icon.CircleAlert className="size-4" />
             <AlertDescription className="flex items-center justify-between">
                 <span>{error}</span>
                 {onRetry && (

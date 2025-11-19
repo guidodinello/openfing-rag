@@ -29,6 +29,12 @@ import {
     LuSparkles,
     LuCircle,
     LuChevronRight,
+    LuArrowLeft,
+    LuDownload,
+    LuShare2,
+    LuMenu,
+    LuSearch,
+    LuBadgeInfo,
 } from "react-icons/lu";
 
 export const Icon = {
@@ -62,4 +68,13 @@ export const Icon = {
     Sparkles: LuSparkles,
     ChevronRight: LuChevronRight,
     Circle: LuCircle,
+    ArrowLeft: LuArrowLeft,
+    Download: LuDownload,
+    Share: LuShare2,
+    Menu: LuMenu,
+    Search: LuSearch,
+    Info: LuBadgeInfo,
 } as const;
+
+export type IconName = keyof typeof Icon;
+export type IconComponent = (typeof Icon)[IconName];

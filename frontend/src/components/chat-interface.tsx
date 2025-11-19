@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
+import { isAxiosError } from "axios";
 import { ChatHeader } from "./chat-header";
 import { ChatMessages } from "./chat-messages";
 import { ChatInput } from "./chat-input";
@@ -7,14 +8,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChat } from "@/hooks/use-chat";
 import { useConversationQuery } from "@/hooks/use-conversation";
 import { LoadingMessage } from "./loading-message";
+import { ErrorMessage } from "./error-message";
 import { useScrollToBottom } from "@/hooks/use-scroll";
 import { useInitialMessage } from "@/hooks/use-initial-message";
+import type { ConversationIdParam } from "@/hooks/use-conversation-id-param";
 
-interface Props {
-    conversationId: number;
-}
-
-export const ChatInterface = ({ conversationId: id }: Props) => {
+export const ChatInterface = ({ conversationId: id }: ConversationIdParam) => {
     const navigate = useNavigate();
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -22,6 +21,7 @@ export const ChatInterface = ({ conversationId: id }: Props) => {
         data: conversation,
         isLoading: isLoadingConversation,
         error: conversationError,
+        refetch: refetchConversation,
     } = useConversationQuery(id);
 
     const { messages, sendMessage, isLoading, error, isLoadingMessages } =
@@ -46,16 +46,46 @@ export const ChatInterface = ({ conversationId: id }: Props) => {
 
     useEffect(() => {
         if (conversationError && !isLoadingConversation) {
-            void navigate("/", { replace: true });
+            if (isAxiosError(conversationError)) {
+                const status = conversationError.response?.status;
+                if (status === 404 || status === 401 || status === 403) {
+                    void navigate("/", { replace: true });
+                }
+            }
         }
     }, [conversationError, isLoadingConversation, navigate]);
 
-    if (isLoadingConversation || conversationError || !conversation) {
+    if (isLoadingConversation) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
                 <LoadingMessage />
                 <p className="text-muted-foreground mt-4">
                     Cargando conversación...
+                </p>
+            </div>
+        );
+    }
+
+    if (conversationError) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
+                <ErrorMessage
+                    error={
+                        conversationError instanceof Error
+                            ? conversationError.message
+                            : "Error al cargar la conversación"
+                    }
+                    onRetry={() => refetchConversation()}
+                />
+            </div>
+        );
+    }
+
+    if (!conversation) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
+                <p className="text-muted-foreground">
+                    Conversación no encontrada
                 </p>
             </div>
         );

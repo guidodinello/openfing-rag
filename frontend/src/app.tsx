@@ -3,16 +3,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "./components/theme-provider";
 import { MINS_5, SECONDS_2, SECONDS_30 } from "./constants/time";
 import { SidebarProvider } from "./components/ui/sidebar";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import { Layout } from "./components/layout";
 import { WelcomeScreen } from "./components/welcome-screen";
 import { HttpStatusCode, isAxiosError } from "axios";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AnonymousChat } from "./components/anonymous-chat";
+import { AnonymousChat } from "@/components/anonymous-chat";
 import { useRefreshToken } from "@/hooks/use-refresh-token";
-import { ParamGuard } from "./components/route-guards/param-guard";
+import { ParamGuard } from "@/components/route-guards/param-guard";
 import { useConversationIdParam } from "./hooks/use-conversation-id-param";
+import { TranscriptionPage } from "@/components/transcriptions/page";
+import { useTranscriptionParams } from "./hooks/use-transcription-params";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -48,14 +50,29 @@ const Router = () => (
             path="/conversation/:id"
             element={
                 <ParamGuard useParam={useConversationIdParam}>
-                    {(conversationId) => (
-                        <ChatInterface conversationId={conversationId} />
+                    {(params) => (
+                        <ChatInterface conversationId={params.conversationId} />
+                    )}
+                </ParamGuard>
+            }
+        />
+        <Route
+            path="/transcription/:courseCode/lesson/:lessonNumber/:modelSize?"
+            element={
+                <ParamGuard useParam={useTranscriptionParams}>
+                    {(params) => (
+                        <TranscriptionPage
+                            courseCode={params.courseCode}
+                            lessonNumber={params.lessonNumber}
+                            modelSize={params.modelSize}
+                        />
                     )}
                 </ParamGuard>
             }
         />
         <Route path="/chat" element={<AnonymousChat />} />
-        <Route path="*" element={<WelcomeScreen />} />
+        <Route path="/" element={<WelcomeScreen />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
 );
 

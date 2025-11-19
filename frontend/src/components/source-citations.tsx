@@ -110,3 +110,12 @@ const SourceCard = ({ source }: SourceCardProps) => (
         </div>
     </a>
 );
+
+const generateTranscriptionUrl = (courseCode: string, lessonNumber: number) => {
+    return `/transcription/${courseCode}/lesson/${lessonNumber}`;
+};
+
+// TODO: necesitaria cambiar la response del source!!
+const SourceCardToTranscription = ({ source }: SourceCardProps) => (
+    <Link to={generateTranscriptionUrl(source.url, source.timestamp)}></Link>
+);
