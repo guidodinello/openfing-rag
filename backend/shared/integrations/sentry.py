@@ -26,8 +26,8 @@ def init_sentry():
             environment=settings.APP.ENV,
             release=f"{settings.APP.NAME}@{settings.APP.VERSION}",
             integrations=[
-                StarletteIntegration(transaction_style="endpoint"),
-                FastApiIntegration(transaction_style="endpoint"),
+                StarletteIntegration(transaction_style="url"),
+                FastApiIntegration(transaction_style="url"),
                 SqlalchemyIntegration(),
                 LoggingIntegration(level=logging.INFO, event_level=logging.ERROR),
             ],
