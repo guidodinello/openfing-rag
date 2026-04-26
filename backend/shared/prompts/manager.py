@@ -34,6 +34,12 @@ def get_chat_template() -> ChatPromptTemplate:
     )
 
 
+def get_context_templates() -> dict:
+    """Get context formatting templates for the generator."""
+    config = load_prompt(settings.PROMPTS.GENERATOR_TEMPLATE)
+    return config["context_templates"]
+
+
 def get_transcription_prompt() -> str:
     """Get transcription prompt for ASR services."""
     return load_prompt(settings.PROMPTS.TRANSCRIBER_TEMPLATE)["transcription_prompt"]
