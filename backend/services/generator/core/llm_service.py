@@ -5,7 +5,7 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, trim
 from shared.config import get_settings
 from shared.database.models.rag.conversations.message import Message, MessageRole
 from shared.logging import get_logger
-from shared.prompts import get_chat_template
+from shared.prompts import get_chat_template, get_context_templates
 
 from services.generator.schemas import LLMAnswer, LLMAnswerResult, Source
 
@@ -18,6 +18,7 @@ class LLMService:
         self.llm = llm
 
         self.prompt = get_chat_template()
+        self._ctx = get_context_templates()
 
         self.chain = self.prompt | self.llm
         self.history_trimmer = trim_messages(strategy="last", max_tokens=4000, token_counter=len)
@@ -57,23 +58,14 @@ class LLMService:
 
     def _format_context(self, sources: Iterable[Source]) -> str:
         if not sources:
-            return "No hay información específica disponible en las clases."
+            return self._ctx["no_context"]
 
         context_parts = []
-        # Group sources by class/title to avoid repetition
-        sources_by_title: dict[str, list[str]] = {}
         for source in sources:
-            title = source.title
-            if title not in sources_by_title:
-                sources_by_title[title] = []
-            sources_by_title[title].append(source.content)
-
-        for title, contents in sources_by_title.items():
-            if title and title.strip():
-                class_info = f"En la clase '{title}' se menciona: {' '.join(contents)}"
+            if source.title and source.title.strip():
+                class_info = self._ctx["with_title"].format(title=source.title, content=source.content)
             else:
-                class_info = f"Se explica en clase: {' '.join(contents)}"
-
+                class_info = self._ctx["without_title"].format(content=source.content)
             context_parts.append(class_info)
 
         return "\n\n".join(context_parts)
