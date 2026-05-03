@@ -3,8 +3,8 @@ import { timestampSchema } from "./timestamps";
 import { MESSAGE_ROLES } from "@/constants/message-roles";
 
 const sourceTimestampSchema = z.object({
-    start: z.number().int(),
-    end: z.number().int(),
+    start: z.number(),
+    end: z.number(),
 });
 
 export const sourceSchema = z.object({

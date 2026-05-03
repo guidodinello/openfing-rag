@@ -55,8 +55,8 @@ class LLMAnswerResult(Result[LLMAnswer]): ...
 
 @dataclass(frozen=True, slots=True)
 class SourceTimestamp:
-    start: int
-    end: int
+    start: float | None
+    end: float | None
 
 
 @dataclass(frozen=True, slots=True)
