@@ -215,8 +215,8 @@ class ChatService:
                     content=chunk.content,
                     confidence=chunk.score,
                     timestamp=SourceTimestamp(
-                        start=chunk.metadata.get("start_pos"),
-                        end=chunk.metadata.get("end_pos"),
+                        start=chunk.metadata.get("start_time"),
+                        end=chunk.metadata.get("end_time"),
                     ),
                     url=lesson.video_url,
                 ),
