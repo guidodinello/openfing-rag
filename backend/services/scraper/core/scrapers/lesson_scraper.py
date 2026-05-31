@@ -39,13 +39,13 @@ class LessonScraper:
         ]
 
     def _get_lessons_tags(self, soup: BeautifulSoup) -> list[Tag]:
-        return soup.find_all("a", class_="class-list__item")
+        return soup.find_all("a", class_="clase-enlace")
 
     def _get_lesson_number(self, soup: BeautifulSoup) -> int:
-        return int(soup.find("span", class_="class-list__item-number").text.strip())
+        return int(soup.find("span", class_="clase-numero").text.strip())
 
     def _get_lesson_title(self, soup: BeautifulSoup) -> str:
-        return soup.find("div", class_="class-list__item-name").text.strip()
+        return soup.find("div", class_="clase-titulo").text.strip()
 
     def _get_html(self, url: str) -> BeautifulSoup | None:
         try:
