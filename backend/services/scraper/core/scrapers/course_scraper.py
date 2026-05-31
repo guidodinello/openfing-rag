@@ -69,11 +69,11 @@ class CourseScraper:
     def _get_subcourses_tags(self, soup: BeautifulSoup) -> list[Tag]:
         return soup.find_all(
             "a",
-            class_="related-links__item",
+            class_="curso-enlace",
         )
 
     def _get_courses_urls(self, soup: BeautifulSoup) -> list[str]:
-        course_items = soup.find_all("a", class_="name course")
+        course_items = soup.find_all("a", class_="enlace-curso")
         urls = [course.get("href", "") for course in course_items]
         return urls
 

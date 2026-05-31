@@ -242,8 +242,9 @@ class TranscriptionService:
         try:
             chunk_results: list[Chunk] = []
             skipped_count = 0
+            BATCH_SIZE = 50
 
-            for id in transcription_ids:
+            for i, id in enumerate(transcription_ids):
                 if self.repos.transcription_repo.is_vectorized(id):
                     logger.info(f"Transcription {id} is already vectorized, skipping")
                     continue
@@ -263,6 +264,10 @@ class TranscriptionService:
                 vector_ids = self.repos.vector_repo.upsert_transcription(id)
                 logger.info(f"Created {len(vector_ids)} vector chunks")
                 chunk_results.extend(Chunk(v_id) for v_id in vector_ids)
+
+                if (i + 1) % BATCH_SIZE == 0:
+                    self.repos.db.commit()
+                    logger.info(f"Committed batch at transcription {i + 1}/{len(transcription_ids)}")
 
             self.repos.db.commit()
 
