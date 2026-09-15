@@ -246,12 +246,14 @@ class VectorRepository:
         )
 
         results = []
-        for doc, score in docs_with_scores:
+        for doc, distance in docs_with_scores:
             results.append(
                 {
                     "id": doc.id,
                     "content": doc.page_content,
-                    "score": float(score),
+                    # Raw cosine distance from pgvector (0=identical, 2=opposite);
+                    # lower is more relevant. Converted to similarity for display in the frontend.
+                    "score": float(distance),
                     "metadata": doc.metadata,
                 },
             )
