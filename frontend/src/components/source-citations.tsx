@@ -6,7 +6,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { floatToPercentage } from "@/utils/numbers";
+import { cosineDistanceToSimilarity, floatToPercentage } from "@/utils/numbers";
 import { formatSecondsToTimeWithHours } from "@/utils/dates";
 import type { Source, SourceTimestamp } from "@/types/message";
 import { Link } from "react-router";
@@ -43,70 +43,94 @@ const generateVideoUrl = (url: string, timestamp: SourceTimestamp) => {
     return timestampedUrl.toString();
 };
 
-const SourceCard = ({ source }: SourceCardProps) => (
-    <a
-        href={generateVideoUrl(source.url, source.timestamp)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-            "block w-full p-3 text-left rounded-md border transition-all duration-200",
-            "hover:bg-green-50 dark:hover:bg-green-950",
-            "border-green-200 dark:border-green-800",
-            "bg-transparent hover:border-green-300 dark:hover:border-green-700",
-            "focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2",
-            "group",
-        )}
-    >
-        <div className="flex items-center justify-between w-full">
-            <div className="flex-1 min-w-0">
-                <div className="font-medium text-sm truncate group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors">
-                    {source.title}
-                </div>
-                <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-                    <Icon.Clock className="size-3" />
-                    <span>
-                        {formatSecondsToTimeWithHours(source.timestamp.start)} -{" "}
-                        {formatSecondsToTimeWithHours(source.timestamp.end)}
-                    </span>
-                </div>
-            </div>
+type ConfidenceLevel = "high" | "medium" | "low";
 
-            <div className="flex items-center gap-2 ml-2">
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <div className="flex items-center gap-1">
-                            <Badge
-                                variant="secondary"
-                                className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
-                            >
-                                <Icon.TrendingUp className="size-3 mr-1" />
-                                {floatToPercentage(source.confidence)}%
-                            </Badge>
-                        </div>
-                    </TooltipTrigger>
-                    <TooltipContent
-                        sideOffset={8}
-                        side="top"
-                        className="max-w-xs bg-green-300 text-green-900 dark:bg-green-900 dark:text-green-300"
-                    >
-                        <p className="text-sm">
-                            La{" "}
-                            <Link
-                                to="https://en.wikipedia.org/wiki/Cosine_similarity"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="underline hover:text-foreground"
-                            >
-                                puntuación de similitud
-                            </Link>{" "}
-                            esta basada en la distancia coseno entre vectores.
-                            Por lo que valores más bajos indican mayor
-                            similitud.
-                        </p>
-                    </TooltipContent>
-                </Tooltip>
-                <Icon.ExternalLink className="size-4 text-muted-foreground group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" />
+const getConfidenceLevel = (similarity: number): ConfidenceLevel => {
+    const percentage = floatToPercentage(similarity);
+    if (percentage > 75) return "high";
+    if (percentage > 60) return "medium";
+    return "low";
+};
+
+const confidenceBadgeStyles: Record<ConfidenceLevel, string> = {
+    high: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
+    medium: "bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300",
+    low: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300",
+};
+
+const SourceCard = ({ source }: SourceCardProps) => {
+    // source.confidence is the raw cosine distance from pgvector (lower = more relevant).
+    const similarity = cosineDistanceToSimilarity(source.confidence);
+    const badgeStyle = confidenceBadgeStyles[getConfidenceLevel(similarity)];
+
+    return (
+        <a
+            href={generateVideoUrl(source.url, source.timestamp)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(
+                "block w-full p-3 text-left rounded-md border transition-all duration-200",
+                "hover:bg-blue-50 dark:hover:bg-blue-950",
+                "border-blue-200 dark:border-blue-800",
+                "bg-transparent hover:border-blue-300 dark:hover:border-blue-700",
+                "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+                "group/source",
+            )}
+        >
+            <div className="flex items-center justify-between w-full">
+                <div className="flex-1 min-w-0">
+                    <div className="font-medium text-sm truncate group-hover/source:text-blue-700 dark:group-hover/source:text-blue-300 transition-colors">
+                        {source.title}
+                    </div>
+                    <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                        <Icon.Clock className="size-3" />
+                        <span>
+                            {formatSecondsToTimeWithHours(
+                                source.timestamp.start,
+                            )}{" "}
+                            -{" "}
+                            {formatSecondsToTimeWithHours(source.timestamp.end)}
+                        </span>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 ml-2">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <div className="flex items-center gap-1">
+                                <Badge
+                                    variant="secondary"
+                                    className={badgeStyle}
+                                >
+                                    <Icon.TrendingUp className="size-3 mr-1" />
+                                    {floatToPercentage(similarity)}%
+                                </Badge>
+                            </div>
+                        </TooltipTrigger>
+                        <TooltipContent
+                            sideOffset={8}
+                            side="top"
+                            className="max-w-xs"
+                        >
+                            <p className="text-sm">
+                                La{" "}
+                                <Link
+                                    to="https://en.wikipedia.org/wiki/Cosine_similarity"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="underline hover:text-foreground"
+                                >
+                                    puntuación de similitud
+                                </Link>{" "}
+                                esta basada en la distancia coseno entre
+                                vectores. Por lo que valores más altos indican
+                                mayor similitud.
+                            </p>
+                        </TooltipContent>
+                    </Tooltip>
+                    <Icon.ExternalLink className="size-4 text-muted-foreground group-hover/source:text-blue-600 dark:group-hover/source:text-blue-400 transition-colors" />
+                </div>
             </div>
-        </div>
-    </a>
-);
+        </a>
+    );
+};

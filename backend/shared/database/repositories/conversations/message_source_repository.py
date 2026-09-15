@@ -28,7 +28,7 @@ class MessageSourceRepository(BaseRepository[MessageSource]):
         return message_sources
 
     def get_message_sources(self, message_id: int) -> list[MessageSource]:
-        """Get all sources for a specific message ordered by source_order."""
+        """Get all sources for a specific message, most relevant (lowest distance) first."""
         query = (
             select(self.model).where(self.model.message_id == message_id).order_by(self.model.confidence_score.asc())
         )

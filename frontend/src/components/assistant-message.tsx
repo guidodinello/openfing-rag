@@ -19,7 +19,7 @@ export const AssistantMessage = ({ message }: AssistantMessageProps) => {
                 <Icon.Bot className="size-4 text-green-600 dark:text-green-400" />
             </div>
 
-            <div className="flex-1 max-w-[80vw] md:max-w-[70vh]">
+            <div className="flex-1 max-w-[80%] md:max-w-[70%]">
                 <div className="bg-muted rounded-2xl rounded-tl-md px-4 py-3 relative">
                     <RichText content={message.content} variant="assistant" />
 
