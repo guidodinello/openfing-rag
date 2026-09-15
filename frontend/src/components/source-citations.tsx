@@ -45,10 +45,12 @@ const generateVideoUrl = (url: string, timestamp: SourceTimestamp) => {
 
 type ConfidenceLevel = "high" | "medium" | "low";
 
+// Mirrors the original distance-based cutoffs (>20% distance = worst match, >15% = medium),
+// converted to similarity (1 - distance): distance 20% -> similarity 80%, distance 15% -> similarity 85%.
 const getConfidenceLevel = (similarity: number): ConfidenceLevel => {
     const percentage = floatToPercentage(similarity);
-    if (percentage > 75) return "high";
-    if (percentage > 60) return "medium";
+    if (percentage >= 85) return "high";
+    if (percentage >= 80) return "medium";
     return "low";
 };
 
